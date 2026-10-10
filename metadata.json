@@ -1,0 +1,7 @@
+{
+  "name": "Path to WWII — Scacchiere Globale",
+  "description": "Mappa geopolitica e strategica interattiva 1936-1940 con toponomastica storica dinamica, confini d'epoca, colonie e sfere d'influenza globali.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

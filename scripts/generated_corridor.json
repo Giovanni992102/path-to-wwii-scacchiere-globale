@@ -1,0 +1,156 @@
+{
+  "type": "Feature",
+  "properties": {
+    "NAME": "Polish Corridor",
+    "NUTS_NAME": "Województwo Pomorskie — Gdynia e Corridoio Polacco (Puck / Hel)",
+    "NAME_ENGL": "Polish Corridor (Gdynia)",
+    "CNTR_NAME": "Polonia",
+    "CNTR_ID": "POL_CORRIDOR",
+    "CNTR_CODE": "POL",
+    "ADMIN": "Województwo Pomorskie",
+    "SOVEREIGNT": "Poland",
+    "CAPITAL": "Gdynia",
+    "HISTORICAL_NOTE": "Corridoio di Danzica (Polski Korytarz) — Territorio attribuito alla Polonia dal Trattato di Versailles (1919) per garantire l'accesso sovrano al Mar Baltico. Negli anni Venti e Trenta la Polonia costruisce il grande porto commerciale e militare di Gdynia. Il rifiuto polacco di cedere il corridoio e Danzica fu il pretesto di Hitler per l'invasione del 1° settembre 1939."
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          18.82,
+          54.6
+        ],
+        [
+          18.78,
+          54.61
+        ],
+        [
+          18.5,
+          54.72
+        ],
+        [
+          18.42,
+          54.72
+        ],
+        [
+          18.54,
+          54.63
+        ],
+        [
+          18.57,
+          54.58
+        ],
+        [
+          18.55,
+          54.52
+        ],
+        [
+          18.56,
+          54.49
+        ],
+        [
+          18.555,
+          54.462
+        ],
+        [
+          18.5,
+          54.42
+        ],
+        [
+          18.42,
+          54.38
+        ],
+        [
+          18.35,
+          54.32
+        ],
+        [
+          18.38,
+          54.25
+        ],
+        [
+          18.45,
+          54.18
+        ],
+        [
+          18.62,
+          54.12
+        ],
+        [
+          18.78,
+          54.08
+        ],
+        [
+          18.45,
+          54.05
+        ],
+        [
+          18.15,
+          53.95
+        ],
+        [
+          17.9,
+          54.05
+        ],
+        [
+          17.75,
+          54.2
+        ],
+        [
+          17.6,
+          54.35
+        ],
+        [
+          17.65,
+          54.48
+        ],
+        [
+          17.75,
+          54.6
+        ],
+        [
+          17.85,
+          54.68
+        ],
+        [
+          18,
+          54.75
+        ],
+        [
+          18.15,
+          54.8
+        ],
+        [
+          18.25,
+          54.82
+        ],
+        [
+          18.33,
+          54.83
+        ],
+        [
+          18.42,
+          54.78
+        ],
+        [
+          18.55,
+          54.75
+        ],
+        [
+          18.7,
+          54.65
+        ],
+        [
+          18.78,
+          54.615
+        ],
+        [
+          18.82,
+          54.6
+        ]
+      ]
+    ]
+  },
+  "__layer": "prov",
+  "__kind": "POLISH_CORRIDOR"
+}

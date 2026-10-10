@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATH TO WWII — Scacchiere Globale 1936-1940</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: radial-gradient(circle at center, #141c26 0%, #0a0d12 100%);
+      color: #e5e7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(217, 119, 6, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(217, 119, 6, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 650px;
+      padding: 40px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 8px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(217, 119, 6, 0.15);
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fbbf24;
+      background: rgba(217, 119, 6, 0.15);
+      border: 1px solid rgba(217, 119, 6, 0.4);
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #f3f4f6;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+    .status-box {
+      margin-bottom: 30px;
+      padding: 12px 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
+    }
+    .btn-enter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 18px 32px;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #0b0f17;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(217, 119, 6, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn-enter:hover {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      box-shadow: 0 6px 28px rgba(217, 119, 6, 0.6);
+      transform: translateY(-2px);
+    }
+    .btn-enter:active {
+      transform: translateY(1px);
+    }
+    .footnote {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .footnote a {
+      color: #d97706;
+      text-decoration: none;
+    }
+    .footnote a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-overlay"></div>
+  <div class="container">
+    <div class="badge">SISTEMA DI COMANDO OPERATIVO</div>
+    <h1>PATH TO WWII</h1>
+    <div class="subtitle">SCACCHIERE GLOBALE &bull; 1936 — 1940</div>
+
+    <div class="status-box">
+      <div class="dot"></div>
+      <span id="status-text">Server di produzione verificato: http://localhost:3000</span>
+    </div>
+
+    <a href="http://localhost:3000/" id="btn-enter" class="btn-enter">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+      ENTRA NELL'APPLICAZIONE
+    </a>
+
+    <div class="footnote">
+      In caso di problemi, avvia <a href="#" onclick="alert('Esegui il file Avvia_Scacchiere_Globale.bat sul Desktop o nella cartella del progetto'); return false;">Avvia_Scacchiere_Globale.bat</a>
+    </div>
+  </div>
+
+  <script>
+    // Se il server risponde, opzionale auto-redirect immediato dopo 1.5 secondi
+    fetch('http://localhost:3000/index.html', { method: 'HEAD', mode: 'no-cors' })
+      .then(() => {
+        document.getElementById('status-text').textContent = 'Server attivo e pronto su porta 3000';
+      })
+      .catch(() => {
+        document.getElementById('status-text').textContent = 'Verifica connessione in corso... Clicca sul pulsante sottostante';
+      });
+  </script>
+</body>
+</html>
