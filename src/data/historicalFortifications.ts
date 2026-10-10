@@ -220,7 +220,7 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     name: 'Gibilterra',
     historicalName: 'Fortezza Navale di Gibilterra (The Rock)',
     nation: 'Regno Unito',
-    coords: [-5.35, 36.14],
+    coords: [-5.353, 36.133],
     type: 'fortress_chokepoint',
     theater: 'Mediterranean',
     description: 'Chokepoint strategico fondamentale: controlla l\'accesso tra Oceano Atlantico e Mediterraneo.',

@@ -67,8 +67,8 @@ const HISTORICAL_CITIES: {
   { id: 'taranto', name: 'Taranto', historicalNames: { default: 'Taranto (Mar Piccolo — Base Flotta)' }, coords: [17.23, 40.47], isCapital: false, ownerKey: 'ITA' },
   { id: 'napoli', name: 'Napoli', historicalNames: { default: 'Napoli (Porto d\'Imbarco Oltremare)' }, coords: [14.27, 40.85], isCapital: false, ownerKey: 'ITA' },
   { id: 'trieste', name: 'Trieste', historicalNames: { default: 'Trieste (Adriatico / Cantieri S. Marco)' }, coords: [13.78, 45.65], isCapital: false, ownerKey: 'ITA' },
-  { id: 'san_marino', name: 'San Marino', historicalNames: { default: 'Città di San Marino (Titano)' }, coords: [12.45, 43.93], isCapital: true, ownerKey: 'SMR' },
-  { id: 'vaticano', name: 'Città del Vaticano', historicalNames: { default: 'Città del Vaticano (San Pietro)' }, coords: [12.45, 41.90], isCapital: true, ownerKey: 'VAT' },
+  { id: 'san_marino', name: 'San Marino', historicalNames: { default: 'Città di San Marino (Titano)' }, coords: [12.446, 43.933], isCapital: true, ownerKey: 'SMR' },
+  { id: 'vaticano', name: 'Città del Vaticano', historicalNames: { default: 'Città del Vaticano (San Pietro)' }, coords: [12.4534, 41.9033], isCapital: true, ownerKey: 'VAT' },
 
   // Centri Francesi e Linee Difensive
   { id: 'marseille', name: 'Marseille', historicalNames: { default: 'Marseille (Grand Port de l\'Empire)' }, coords: [5.37, 43.30], isCapital: false, ownerKey: 'FRA' },
@@ -81,7 +81,7 @@ const HISTORICAL_CITIES: {
   // Roccaforti Britanniche
   { id: 'portsmouth', name: 'Portsmouth', historicalNames: { default: 'Portsmouth (Royal Navy Dockyard)' }, coords: [-1.09, 50.80], isCapital: false, ownerKey: 'UK' },
   { id: 'scapa_flow', name: 'Scapa Flow', historicalNames: { default: 'Scapa Flow (Home Fleet Anchorage)' }, coords: [-3.05, 58.89], isCapital: false, ownerKey: 'UK' },
-  { id: 'gibraltar', name: 'Gibraltar', historicalNames: { default: 'Gibraltar (The Rock / Stretto)' }, coords: [-5.35, 36.14], isCapital: true, ownerKey: 'GIB' },
+  { id: 'gibraltar', name: 'Gibraltar', historicalNames: { default: 'Gibraltar (The Rock / Stretto)' }, coords: [-5.352, 36.134], isCapital: true, ownerKey: 'GIB' },
   { id: 'valletta', name: 'Valletta', historicalNames: { default: 'Valletta (Fortezza di Malta)' }, coords: [14.51, 35.90], isCapital: false, ownerKey: 'UK' },
 
   // Polonia e Balcani

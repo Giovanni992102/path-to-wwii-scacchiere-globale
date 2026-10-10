@@ -2702,15 +2702,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return makeResult('GER', 'Königsberg in Preußen', 'Hauptstadt der Provinz Ostpreußen');
   }
 
-  // San Marino
+  // San Marino (SMR) - Enclave sovrana neutrale
   const isSanMarino =
+    ft.id === 'SMR_HIST' ||
+    ft.__kind === 'SAN_MARINO' ||
     cntr === 'SM' ||
     cntr === 'SMR' ||
-    nid.startsWith('SM') ||
-    nid.startsWith('SMR') ||
-    nrm.includes('san marino') ||
-    nrm.includes('titano') ||
-    (c[0] >= 12.35 && c[0] <= 12.55 && c[1] >= 43.85 && c[1] <= 44.02);
+    nid === 'SM' ||
+    nid === 'SMR' ||
+    nid === 'SMR_HIST' ||
+    nrm === 'san marino' ||
+    nrm === 'repubblica di san marino' ||
+    nrm === 'serenissima repubblica di san marino';
 
   if (isSanMarino) {
     return makeResult(
@@ -2720,17 +2723,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
   }
 
-  // Città del Vaticano
+  // Città del Vaticano (VAT) - Enclave sovrana papale
   const isVatican =
+    ft.id === 'VAT_HIST' ||
+    ft.__kind === 'VATICAN_CITY' ||
     cntr === 'VA' ||
     cntr === 'VAT' ||
-    nid.startsWith('VA') ||
-    nid.startsWith('VAT') ||
-    nrm.includes('vatican') ||
-    nrm.includes('santa sede') ||
-    nrm.includes('holy see') ||
-    nrm.includes('vaticano') ||
-    (c[0] >= 12.44 && c[0] <= 12.46 && c[1] >= 41.89 && c[1] <= 41.92);
+    nid === 'VA' ||
+    nid === 'VAT' ||
+    nid === 'VAT_HIST' ||
+    nrm === 'vatican' ||
+    nrm === 'vatican city' ||
+    nrm === 'citta del vaticano' ||
+    nrm === 'stato della citta del vaticano' ||
+    nrm === 'santa sede' ||
+    nrm === 'holy see';
 
   if (isVatican) {
     return makeResult(
@@ -2742,15 +2749,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
   }
 
-  // Gibilterra
+  // Gibilterra (GIB) - Colonia della Corona Britannica
   const isGibraltar =
+    ft.id === 'GIB_HIST' ||
+    ft.__kind === 'GIBRALTAR_COLONY' ||
     cntr === 'GI' ||
     cntr === 'GIB' ||
-    nid.startsWith('GI') ||
-    nid.startsWith('GIB') ||
-    nrm.includes('gibraltar') ||
-    nrm.includes('gibilterra') ||
-    (c[0] >= -5.38 && c[0] <= -5.32 && c[1] >= 36.10 && c[1] <= 36.16);
+    nid === 'GI' ||
+    nid === 'GIB' ||
+    nid === 'GIB_HIST' ||
+    nrm === 'gibraltar' ||
+    nrm === 'gibilterra' ||
+    nrm === 'gibraltar crown colony';
 
   if (isGibraltar) {
     return makeResult(

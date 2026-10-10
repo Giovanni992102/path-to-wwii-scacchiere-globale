@@ -1238,6 +1238,12 @@ export default function App() {
           const vat5 = resolveFeature(VATICAN_CITY_FEATURE, 5);
           const gib = resolveFeature(GIBRALTAR_COLONY_FEATURE, 0);
 
+          // Verifica anti-inglobamento: le province confinanti NON devono essere toccate
+          const rimini = resolveFeature({ properties: { NUTS_ID: 'ITH59', CNTR_CODE: 'IT', NAME_LATN: 'Rimini' }, __cent: [12.43, 43.96] }, 0);
+          const pesaro = resolveFeature({ properties: { NUTS_ID: 'ITI31', CNTR_CODE: 'IT', NAME_LATN: 'Pesaro e Urbino' }, __cent: [12.68, 43.70] }, 0);
+          const roma = resolveFeature({ properties: { NUTS_ID: 'ITI43', CNTR_CODE: 'IT', NAME_LATN: 'Roma' }, __cent: [12.51, 41.85] }, 0);
+          const cadiz = resolveFeature({ properties: { NUTS_ID: 'ES612', CNTR_CODE: 'ES', NAME_LATN: 'Cádiz' }, __cent: [-5.9, 36.5] }, 0);
+
           return (
             smr.o === 'SMR' &&
             smr.fac === 'Neutrale' &&
@@ -1249,7 +1255,11 @@ export default function App() {
             (vat5.adminEntity || '').includes('Pio XII') &&
             gib.o === 'GIB' &&
             gib.fac === 'Alleati' &&
-            gib.name.includes('Gibraltar')
+            gib.name.includes('Gibraltar') &&
+            rimini.o === 'ITA' &&
+            pesaro.o === 'ITA' &&
+            roma.o === 'ITA' &&
+            (cadiz.o === 'SPR' || cadiz.o === 'SPA')
           );
         },
       },
