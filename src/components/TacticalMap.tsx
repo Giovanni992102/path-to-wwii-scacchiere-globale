@@ -68,7 +68,7 @@ const HISTORICAL_CITIES: {
   { id: 'napoli', name: 'Napoli', historicalNames: { default: 'Napoli (Porto d\'Imbarco Oltremare)' }, coords: [14.27, 40.85], isCapital: false, ownerKey: 'ITA' },
   { id: 'trieste', name: 'Trieste', historicalNames: { default: 'Trieste (Adriatico / Cantieri S. Marco)' }, coords: [13.78, 45.65], isCapital: false, ownerKey: 'ITA' },
   { id: 'san_marino', name: 'San Marino', historicalNames: { default: 'Città di San Marino (Titano)' }, coords: [12.4617, 43.9406], isCapital: true, ownerKey: 'SMR' },
-  { id: 'vaticano', name: 'Città del Vaticano', historicalNames: { default: 'Città del Vaticano (San Pietro)' }, coords: [12.4534, 41.9033], isCapital: true, ownerKey: 'VAT' },
+  { id: 'vaticano', name: 'Città del Vaticano', historicalNames: { default: 'Città del Vaticano (San Pietro)' }, coords: [12.4507, 41.9041], isCapital: true, ownerKey: 'VAT' },
 
   // Centri Francesi e Linee Difensive
   { id: 'marseille', name: 'Marseille', historicalNames: { default: 'Marseille (Grand Port de l\'Empire)' }, coords: [5.37, 43.30], isCapital: false, ownerKey: 'FRA' },
