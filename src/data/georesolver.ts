@@ -57,6 +57,12 @@ export const ITNAMES: Record<string, string> = {
   ES: 'España',
   PT: 'Portugal',
   LI: 'Liechtenstein',
+  SM: 'Serenissima Repubblica di San Marino',
+  SMR: 'Serenissima Repubblica di San Marino',
+  VA: 'Stato della Città del Vaticano',
+  VAT: 'Stato della Città del Vaticano',
+  GI: 'Gibilterra (Colonia della Corona Britannica)',
+  GIB: 'Gibilterra (Colonia della Corona Britannica)',
   CN: 'Zhonghua Minguo',
   MN: 'Mongol Ard Uls',
   BR: 'Brasil',
@@ -2694,6 +2700,64 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
   if (ft.__kind === 'KALININGRAD') {
     return makeResult('GER', 'Königsberg in Preußen', 'Hauptstadt der Provinz Ostpreußen');
+  }
+
+  // San Marino
+  const isSanMarino =
+    cntr === 'SM' ||
+    cntr === 'SMR' ||
+    nid.startsWith('SM') ||
+    nid.startsWith('SMR') ||
+    nrm.includes('san marino') ||
+    nrm.includes('titano') ||
+    (c[0] >= 12.35 && c[0] <= 12.55 && c[1] >= 43.85 && c[1] <= 44.02);
+
+  if (isSanMarino) {
+    return makeResult(
+      'SMR',
+      'Serenissima Repubblica di San Marino',
+      'Serenissima Repubblica di San Marino (Stato Neutrale)'
+    );
+  }
+
+  // Città del Vaticano
+  const isVatican =
+    cntr === 'VA' ||
+    cntr === 'VAT' ||
+    nid.startsWith('VA') ||
+    nid.startsWith('VAT') ||
+    nrm.includes('vatican') ||
+    nrm.includes('santa sede') ||
+    nrm.includes('holy see') ||
+    nrm.includes('vaticano') ||
+    (c[0] >= 12.44 && c[0] <= 12.46 && c[1] >= 41.89 && c[1] <= 41.92);
+
+  if (isVatican) {
+    return makeResult(
+      'VAT',
+      'Stato della Città del Vaticano',
+      s < 4
+        ? 'Stato della Città del Vaticano (Papa Pio XI - Neutralità)'
+        : 'Stato della Città del Vaticano (Papa Pio XII - Neutralità)'
+    );
+  }
+
+  // Gibilterra
+  const isGibraltar =
+    cntr === 'GI' ||
+    cntr === 'GIB' ||
+    nid.startsWith('GI') ||
+    nid.startsWith('GIB') ||
+    nrm.includes('gibraltar') ||
+    nrm.includes('gibilterra') ||
+    (c[0] >= -5.38 && c[0] <= -5.32 && c[1] >= 36.10 && c[1] <= 36.16);
+
+  if (isGibraltar) {
+    return makeResult(
+      'GIB',
+      'Gibraltar (Crown Colony)',
+      'Gibraltar — Fortezza Navale Britannica (Force H)'
+    );
   }
 
   // Isola di Man (Isle of Man)

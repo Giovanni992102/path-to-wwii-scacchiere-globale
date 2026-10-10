@@ -7823,6 +7823,36 @@ export function getExtendedToponym(
     }
   }
 
+  if (owner === 'SMR' || owner === 'SM' || owner === 'SAN_MARINO') {
+    if (normKey.includes('san_marino') || normKey.includes('titano') || id.includes('SMR') || id.includes('SM')) {
+      return {
+        name: 'Serenissima Repubblica di San Marino',
+        adminTitle: 'Repubblica di San Marino (Stato Neutrale)',
+        note: 'Capitani Reggenti — Rigorosa neutralità e rifugio di oltre 100.000 profughi durante il passaggio del fronte.',
+      };
+    }
+  }
+
+  if (owner === 'VAT' || owner === 'VA' || owner === 'VATICAN' || owner === 'VATICANO') {
+    if (normKey.includes('vatican') || normKey.includes('santa_sede') || normKey.includes('holy_see') || normKey.includes('vaticano') || id.includes('VAT') || id.includes('VA')) {
+      return {
+        name: 'Stato della Città del Vaticano',
+        adminTitle: 'Neutralità e Sovranità Papale (Patti Lateranensi 1929)',
+        note: (yearStep !== undefined && yearStep < 4) ? 'Papa Pio XI (Achille Ratti, 1922-1939)' : 'Papa Pio XII (Eugenio Pacelli, 1939-1958)',
+      };
+    }
+  }
+
+  if (owner === 'GIB' || owner === 'GI' || owner === 'GIBRALTAR') {
+    if (normKey.includes('gibraltar') || normKey.includes('gibilterra') || id.includes('GIB') || id.includes('GI')) {
+      return {
+        name: 'Gibraltar (Crown Colony and Fortress)',
+        adminTitle: 'Gibilterra — Fortezza Aeronavale della Corona Britannica',
+        note: 'Governatore britannico e base strategica della Force H a guardia dello Stretto.',
+      };
+    }
+  }
+
   // 3. Fallback con formattazione pulita
   return { name: rawName };
 }

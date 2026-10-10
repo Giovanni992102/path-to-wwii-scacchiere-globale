@@ -46,6 +46,9 @@ import { BRA_FLAG_DATA_URL } from './flags/braFlag';
 import { PRU_FLAG_DATA_URL } from './flags/pruFlag';
 import { MON_FLAG_DATA_URL } from './flags/monFlag';
 import { SLO_FLAG_DATA_URL } from './flags/sloFlag';
+import { SMR_FLAG_DATA_URL } from './flags/smrFlag';
+import { VAT_FLAG_DATA_URL } from './flags/vatFlag';
+import { GIB_FLAG_DATA_URL } from './flags/gibFlag';
 
 /**
  * Historical Flags (1936-1940)
@@ -58,6 +61,27 @@ function svgWrap(content: string, vb = '0 0 600 400'): string {
 }
 
 export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
+  // SERENISSIMA REPUBBLICA DI SAN MARINO — Bandiera ufficiale fornita dall'utente (1024x768)
+  SMR: () =>
+    svgWrap(
+      `<image href="${SMR_FLAG_DATA_URL}" xlink:href="${SMR_FLAG_DATA_URL}" width="1024" height="768" preserveAspectRatio="none" />`,
+      '0 0 1024 768'
+    ),
+
+  // STATO DELLA CITTÀ DEL VATICANO — Bandiera ufficiale papale fornita dall'utente (1024x1024)
+  VAT: () =>
+    svgWrap(
+      `<image href="${VAT_FLAG_DATA_URL}" xlink:href="${VAT_FLAG_DATA_URL}" width="1024" height="1024" preserveAspectRatio="none" />`,
+      '0 0 1024 1024'
+    ),
+
+  // GIBILTERRA — Bandiera coloniale storica della Corona con stemma fornita dall'utente (1024x512)
+  GIB: () =>
+    svgWrap(
+      `<image href="${GIB_FLAG_DATA_URL}" xlink:href="${GIB_FLAG_DATA_URL}" width="1024" height="512" preserveAspectRatio="none" />`,
+      '0 0 1024 512'
+    ),
+
   // REGNO D'ITALIA (1861-1946) — Bandiera ufficiale fornita dall'utente
   ITA: () =>
     svgWrap(
@@ -842,6 +866,17 @@ HISTORICAL_FLAGS['MONGOLIA'] = HISTORICAL_FLAGS['MON'];
 HISTORICAL_FLAGS['MNG'] = HISTORICAL_FLAGS['MON'];
 HISTORICAL_FLAGS['REPUBBLICA POPOLARE MONGOLA'] = HISTORICAL_FLAGS['MON'];
 HISTORICAL_FLAGS['MONGOLIAN PEOPLE\'S REPUBLIC'] = HISTORICAL_FLAGS['MON'];
+HISTORICAL_FLAGS['SAN_MARINO'] = HISTORICAL_FLAGS['SMR'];
+HISTORICAL_FLAGS['SAN MARINO'] = HISTORICAL_FLAGS['SMR'];
+HISTORICAL_FLAGS['SM'] = HISTORICAL_FLAGS['SMR'];
+HISTORICAL_FLAGS['VATICAN'] = HISTORICAL_FLAGS['VAT'];
+HISTORICAL_FLAGS['VATICANO'] = HISTORICAL_FLAGS['VAT'];
+HISTORICAL_FLAGS['VATICAN_CITY'] = HISTORICAL_FLAGS['VAT'];
+HISTORICAL_FLAGS['HOLY_SEE'] = HISTORICAL_FLAGS['VAT'];
+HISTORICAL_FLAGS['VA'] = HISTORICAL_FLAGS['VAT'];
+HISTORICAL_FLAGS['GIBRALTAR'] = HISTORICAL_FLAGS['GIB'];
+HISTORICAL_FLAGS['GIBILTERRA'] = HISTORICAL_FLAGS['GIB'];
+HISTORICAL_FLAGS['GI'] = HISTORICAL_FLAGS['GIB'];
 
 /**
  * Returns raw SVG string of the historical flag for an owner/nation at a specific timeline step.

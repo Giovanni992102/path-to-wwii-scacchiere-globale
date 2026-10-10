@@ -762,6 +762,30 @@ export const OWNERS: Record<string, OwnerConfig> = {
     leader: 'Edwin Barclay',
     capital: 'Monrovia',
   },
+  SMR: {
+    c: '#5c94b8',
+    f: 'Neutrale',
+    l: () => 'Serenissima Repubblica di San Marino',
+    shortName: 'San Marino',
+    leader: 'Capitani Reggenti (Consiglio Grande e Generale)',
+    capital: 'Città di San Marino',
+  },
+  VAT: {
+    c: '#dfc846',
+    f: 'Neutrale',
+    l: (s) => (s && s >= 3 ? 'Stato della Città del Vaticano (Pio XII)' : 'Stato della Città del Vaticano (Pio XI)'),
+    shortName: 'Vaticano',
+    leader: 'Papa Pio XI (1922-1939) / Papa Pio XII (1939-1958)',
+    capital: 'Città del Vaticano',
+  },
+  GIB: {
+    c: '#b8423f',
+    f: 'Alleati',
+    l: () => 'Gibilterra — Colonia della Corona Britannica (Fortezza del Mediterraneo)',
+    shortName: 'Gibilterra',
+    leader: 'Governatore Gen. Sir Charles Harington / Sir Clive Liddell',
+    capital: 'Gibraltar',
+  },
   NEU: {
     c: '#b5a98d',
     f: 'Neutrale',
@@ -789,6 +813,17 @@ OWNERS['MONGOLIA'] = OWNERS['MON'];
 OWNERS['MNG'] = OWNERS['MON'];
 OWNERS['REPUBBLICA POPOLARE MONGOLA'] = OWNERS['MON'];
 OWNERS['MONGOLIAN PEOPLE\'S REPUBLIC'] = OWNERS['MON'];
+OWNERS['SAN_MARINO'] = OWNERS['SMR'];
+OWNERS['SAN MARINO'] = OWNERS['SMR'];
+OWNERS['SM'] = OWNERS['SMR'];
+OWNERS['VATICAN'] = OWNERS['VAT'];
+OWNERS['VATICANO'] = OWNERS['VAT'];
+OWNERS['VATICAN_CITY'] = OWNERS['VAT'];
+OWNERS['HOLY_SEE'] = OWNERS['VAT'];
+OWNERS['VA'] = OWNERS['VAT'];
+OWNERS['GIBRALTAR'] = OWNERS['GIB'];
+OWNERS['GIBILTERRA'] = OWNERS['GIB'];
+OWNERS['GI'] = OWNERS['GIB'];
 
 export const OWN_FALLBACK: OwnerConfig = {
   c: '#5a5f66',

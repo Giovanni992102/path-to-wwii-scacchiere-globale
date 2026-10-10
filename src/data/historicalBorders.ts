@@ -846,6 +846,152 @@ ZADAR_DALMATIA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
   );
 };
 
+// ----------------------------------------------------------------------------
+// 14. SERENISSIMA REPUBBLICA DI SAN MARINO
+// Monte Titano, Città di San Marino, Borgo Maggiore, Serravalle
+// Microstato sovrano neutrale (coordinate originali general_world_countries_geojson.txt con buffer di visualizzazione Mercatore)
+// ----------------------------------------------------------------------------
+export const SAN_MARINO_FEATURE: any = {
+  type: 'Feature',
+  id: 'SMR_HIST',
+  properties: {
+    NAME: 'San Marino',
+    NUTS_NAME: 'Repubblica di San Marino',
+    NAME_ENGL: 'San Marino',
+    CNTR_NAME: 'San Marino',
+    CNTR_ID: 'SMR',
+    CNTR_CODE: 'SM',
+    ADMIN: 'Repubblica di San Marino',
+    SOVEREIGNT: 'Republic of San Marino',
+    CAPITAL: 'Città di San Marino',
+    HISTORICAL_NOTE:
+      'Antichissima repubblica sovrana incastonata tra Romagna e Marche. Rimase rigorosamente neutrale durante la Seconda Guerra Mondiale sotto la guida dei Capitani Reggenti, accogliendo oltre 100.000 rifugiati durante il passaggio del fronte (Linea Gotica, settembre 1944).',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[
+      [12.390786, 43.824108],
+      [12.313127, 43.853129],
+      [12.276851, 43.908551],
+      [12.302916, 43.970626],
+      [12.342943, 43.999881],
+      [12.369827, 44.019532],
+      [12.452861, 44.0503],
+      [12.527832, 44.059436],
+      [12.546105, 44.034848],
+      [12.554435, 43.991452],
+      [12.549061, 43.946576],
+      [12.53026, 43.920695],
+      [12.527832, 43.917352],
+      [12.521114, 43.911842],
+      [12.517084, 43.905124],
+      [12.5157, 43.896895],
+      [12.517762, 43.889061],
+      [12.471402, 43.832436],
+      [12.390786, 43.824108],
+    ]],
+  },
+  __layer: 'prov',
+  __kind: 'SAN_MARINO',
+  __resolve: (_s: number): ResolvedTerritory => {
+    return makeResult(
+      'SMR',
+      'Repubblica di San Marino',
+      'Serenissima Repubblica di San Marino (Stato Neutrale)'
+    );
+  },
+};
+
+// ----------------------------------------------------------------------------
+// 15. STATO DELLA CITTÀ DEL VATICANO
+// San Pietro, Musei Vaticani, Castel Sant\'Angelo
+// Stato sovrano papale neutrale (Patti Lateranensi 1929, coordinate da general_world_countries_geojson.txt scalate per leggibilità tattica)
+// ----------------------------------------------------------------------------
+export const VATICAN_CITY_FEATURE: any = {
+  type: 'Feature',
+  id: 'VAT_HIST',
+  properties: {
+    NAME: 'Vatican City',
+    NUTS_NAME: 'Stato della Città del Vaticano',
+    NAME_ENGL: 'Vatican City',
+    CNTR_NAME: 'Città del Vaticano',
+    CNTR_ID: 'VAT',
+    CNTR_CODE: 'VA',
+    ADMIN: 'Stato della Città del Vaticano',
+    SOVEREIGNT: 'Holy See / Vatican City',
+    CAPITAL: 'Città del Vaticano',
+    HISTORICAL_NOTE:
+      'Stato sovrano indipendente istituito dai Patti Lateranensi dell\'11 febbraio 1929 tra la Santa Sede e il Regno d\'Italia. Mantenne una rigida neutralità per tutto il conflitto sotto i pontificati di Pio XI (fino a feb 1939) e Pio XII.',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[
+      [12.442393, 41.861761],
+      [12.404323, 41.885521],
+      [12.409093, 41.923591],
+      [12.432853, 41.966431],
+      [12.518533, 41.961661],
+      [12.523213, 41.861761],
+      [12.442393, 41.861761],
+    ]],
+  },
+  __layer: 'prov',
+  __kind: 'VATICAN_CITY',
+  __resolve: (s: number): ResolvedTerritory => {
+    return makeResult(
+      'VAT',
+      'Stato della Città del Vaticano',
+      s < 4
+        ? 'Stato della Città del Vaticano (Papa Pio XI - Neutralità)'
+        : 'Stato della Città del Vaticano (Papa Pio XII - Neutralità)'
+    );
+  },
+};
+
+// ----------------------------------------------------------------------------
+// 16. GIBILTERRA (Gibraltar Crown Colony & Fortress)
+// Rocca di Gibilterra, Punto Europa, Stretto di Gibilterra
+// Piazzaforte britannica (Force H, Royal Navy, base d\'accesso al Mediterraneo)
+// ----------------------------------------------------------------------------
+export const GIBRALTAR_COLONY_FEATURE: any = {
+  type: 'Feature',
+  id: 'GIB_HIST',
+  properties: {
+    NAME: 'Gibraltar',
+    NUTS_NAME: 'Gibraltar (Crown Colony)',
+    NAME_ENGL: 'Gibraltar',
+    CNTR_NAME: 'Gibilterra',
+    CNTR_ID: 'GIB',
+    CNTR_CODE: 'GI',
+    ADMIN: 'Gibraltar',
+    SOVEREIGNT: 'United Kingdom',
+    CAPITAL: 'Gibraltar',
+    HISTORICAL_NOTE:
+      'Colonia della Corona Britannica e fondamentale piazzaforte aeronavale fortificata a controllo dello Stretto di Gibilterra ("The Rock"). Base della Force H della Royal Navy, fu oggetto di incursioni aeree italiane e dell\'Operazione Felix pianificata dall\'Asse.',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[
+      [-5.389548, 36.141382],
+      [-5.311092, 36.14142],
+      [-5.31566, 36.101898],
+      [-5.31224, 36.080964],
+      [-5.32412, 36.03425],
+      [-5.357, 36.065012],
+      [-5.389548, 36.141382],
+    ]],
+  },
+  __layer: 'prov',
+  __kind: 'GIBRALTAR_COLONY',
+  __resolve: (_s: number): ResolvedTerritory => {
+    return makeResult(
+      'GIB',
+      'Gibraltar (Crown Colony)',
+      'Gibraltar — Fortezza Navale Britannica (Force H)'
+    );
+  },
+};
+
 // Exported precision non-NUTS historical features
 export const PRECISION_HISTORICAL_FEATURES: any[] = [
   CARPATHIAN_RUTHENIA_FEATURE,
@@ -863,5 +1009,8 @@ export const PRECISION_HISTORICAL_FEATURES: any[] = [
   LITHUANIA_PALANGA_FEATURE,
   TURKEY_MOUNT_ARARAT_FEATURE,
   FRENCH_GUIANA_FEATURE,
+  SAN_MARINO_FEATURE,
+  VATICAN_CITY_FEATURE,
+  GIBRALTAR_COLONY_FEATURE,
 ];
 

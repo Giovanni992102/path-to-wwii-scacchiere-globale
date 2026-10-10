@@ -30,6 +30,9 @@ import {
   PANAMA_CANAL_ZONE_FEATURE,
   TURKEY_MOUNT_ARARAT_FEATURE,
   FRENCH_GUIANA_FEATURE,
+  SAN_MARINO_FEATURE,
+  VATICAN_CITY_FEATURE,
+  GIBRALTAR_COLONY_FEATURE,
 } from './data/historicalBorders';
 import { KRESY_POWIAT_FEATURES } from './data/kresyPowiats';
 import { USSR_REGIONAL_FEATURES } from './data/ussrRegions';
@@ -1224,6 +1227,29 @@ export default function App() {
             (aland0.note || '').includes('1921') &&
             aland6.o === 'FIN' &&
             aland6.fac === 'Neutrale'
+          );
+        },
+      },
+      {
+        name: 'Integrità Territoriale Microstati: San Marino (SMR Neutrale), Vaticano (VAT Neutrale) e Gibilterra (GIB Alleati)',
+        run: () => {
+          const smr = resolveFeature(SAN_MARINO_FEATURE, 0);
+          const vat0 = resolveFeature(VATICAN_CITY_FEATURE, 0);
+          const vat5 = resolveFeature(VATICAN_CITY_FEATURE, 5);
+          const gib = resolveFeature(GIBRALTAR_COLONY_FEATURE, 0);
+
+          return (
+            smr.o === 'SMR' &&
+            smr.fac === 'Neutrale' &&
+            smr.name.includes('San Marino') &&
+            vat0.o === 'VAT' &&
+            vat0.fac === 'Neutrale' &&
+            (vat0.adminEntity || '').includes('Pio XI') &&
+            vat5.o === 'VAT' &&
+            (vat5.adminEntity || '').includes('Pio XII') &&
+            gib.o === 'GIB' &&
+            gib.fac === 'Alleati' &&
+            gib.name.includes('Gibraltar')
           );
         },
       },
