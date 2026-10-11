@@ -436,6 +436,61 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     ],
     activeSteps: [5, 6],
   },
+
+  // --- REGNO D'ITALIA (Vallo Alpino del Littorio) ---
+  {
+    id: 'vallo_alpino_occidentale',
+    name: 'Vallo Alpino Occidentale (Frontiera delle Alpi)',
+    nation: 'Regno d\'Italia',
+    builder: 'Genio Militare / Regio Esercito Italiano',
+    description:
+      'Imponente sistema difensivo permanente scavato nel granito lungo i 500 km di frontiera alpina con la Francia, dal Piccolo San Bernardo fino a Ventimiglia. Articolato in Centri di Resistenza, capisaldi in caverna e batterie corazzate d\'alta quota. Perno leggendario fu la Batteria dello Chaberton a 3.130 metri (la "Fortezza delle Nubi"), forte di 8 torri corazzate girevoli armate di cannoni da 149/35, che duellò il 21 giugno 1940 contro i mortai pesanti francesi prima dell\'armistizio di Villa Incisa.',
+    type: 'heavy',
+    color: '#556b2f',
+    coordinates: [
+      [6.88, 45.68], // Piccolo San Bernardo / Thuile
+      [6.90, 45.26], // Moncenisio / Malamot / Varisello
+      [6.70, 45.08], // Bardonecchia / Forte Bramafam
+      [6.75, 44.96], // Monte Chaberton (3.130 m) / Claviere
+      [6.73, 44.93], // Colle del Monginevro
+      [6.90, 44.42], // Colle della Maddalena / Larche
+      [7.56, 44.15], // Colle di Tenda
+      [7.52, 43.87], // Val Roia / Olivetta San Michele
+      [7.53, 43.78], // Ventimiglia / Balzi Rossi
+    ],
+    keyForts: [
+      { name: 'Batteria dello Chaberton (3.130 m)', coords: [6.75, 44.96], desc: 'La "Fortezza delle Nubi": la batteria corazzata più alta d\'Europa (8 torri girevoli con cannoni da 149/35) a dominare Briançon e la valle della Durance.' },
+      { name: 'Forte Bramafam e Sbarramento di Bardonecchia', coords: [6.70, 45.08], desc: 'Caposaldo di comando e sbarramento ferroviario della galleria del Frejus e del Colle della Scala.' },
+      { name: 'Sbarramento del Moncenisio', coords: [6.90, 45.26], desc: 'Batterie in caverna del Forte Malamot, Ronce e Varisello a protezione della discesa verso la Val di Susa.' },
+      { name: 'Sbarramento di Ventimiglia e Balzi Rossi', coords: [7.53, 43.78], desc: 'Casematte e fossati anticarro a controllo della costa ligure e della via Aurelia.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'vallo_alpino_orientale',
+    name: 'Vallo Alpino Orientale (Frontiera Giulia e del Carnaro)',
+    nation: 'Regno d\'Italia',
+    builder: 'Genio Militare / Regio Esercito Italiano',
+    description:
+      'Linea difensiva permanente in caverna estesa lungo la frontiera italo-jugoslava dal Passo del Predil e Tarvisio fino a Fiume e al Golfo del Quarnaro. Costituita da opere sotterranee in calcestruzzo armato, cupole d\'acciaio e sbarramenti a protezione delle Grotte di Postumia, del Monte Nevoso e delle valli dell\'Isonzo.',
+    type: 'medium',
+    color: '#4f5d34',
+    coordinates: [
+      [13.62, 46.52], // Tarvisio / Coccau
+      [13.57, 46.42], // Passo del Predil
+      [13.73, 46.18], // Tolmino / Canale d'Isonzo
+      [14.14, 45.93], // Circhina / Hotedršica
+      [14.21, 45.77], // Postumia Grotte / Bivio San Pietro
+      [14.45, 45.58], // Monte Nevoso (Snežnik)
+      [14.44, 45.33], // Fiume (Rijeka) / Abbazia
+    ],
+    keyForts: [
+      { name: 'Sbarramento di Sella Predil', coords: [13.57, 46.42], desc: 'Opere corazzate d\'arresto tra la Val Canale e la conca di Plezzo.' },
+      { name: 'Sbarramento di Postumia', coords: [14.21, 45.77], desc: 'Bunker d\'arresto sulla strada maestra e sulla ferrovia Trieste-Lubiana.' },
+      { name: 'Piazza di Fiume e Monte Calvario', coords: [14.44, 45.33], desc: 'Cintura fortificata a protezione dell\'enclave del Carnaro e del porto mercantile.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
 ];
 
 export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
@@ -603,6 +658,46 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     type: 'major_base',
     theater: 'Indian',
     description: 'Base della Flottiglia del Mar Rosso della Regia Marina a presidio del Corno d\'Africa.',
+  },
+  {
+    id: 'pola_naval',
+    name: 'Pola (Istria)',
+    historicalName: 'Regio Arsenale e Base Navale di Pola (Alto Adriatico)',
+    nation: 'Italia',
+    coords: [13.84, 44.87],
+    type: 'major_base',
+    theater: 'Mediterranean',
+    description: 'Arsenale marittimo, base sommergibili e quartier generale del Comando Militare Marittimo dell\'Alto Adriatico della Regia Marina.',
+  },
+  {
+    id: 'augusta_messina',
+    name: 'Augusta e Messina',
+    historicalName: 'Piazzaforte Navale di Augusta e Messina (Canale di Sicilia)',
+    nation: 'Italia',
+    coords: [15.22, 37.23],
+    type: 'fleet_hq',
+    theater: 'Mediterranean',
+    description: 'Perno strategico della Regia Marina per il controllo dello Stretto di Messina e del Canale di Sicilia sulle rotte dei convogli per la Libia.',
+  },
+  {
+    id: 'leros_aegean',
+    name: 'Lero (Isole Italiane dell\'Egeo)',
+    historicalName: 'Piazzaforte Aeronavale di Lero (Portolago / Egeo)',
+    nation: 'Italia',
+    coords: [26.85, 37.13],
+    type: 'fortress_chokepoint',
+    theater: 'Mediterranean',
+    description: 'La più munita base navale insulare dell\'Egeo, con la rada di Portolago protetta da 24 batterie d\'artiglieria, idroscalo e base sommergibili.',
+  },
+  {
+    id: 'tobruk_naval',
+    name: 'Tobruk (Cirenaica)',
+    historicalName: 'Piazzaforte Militare Marittima di Tobruk (Libia Italiana)',
+    nation: 'Italia',
+    coords: [23.98, 32.08],
+    type: 'major_base',
+    theater: 'Mediterranean',
+    description: 'Base navale avanzata della Regia Marina in Nordafrica, sede dell\'incrociatore San Giorgio impiegato come batteria galleggiante contraerea.',
   },
 
   // Germania

@@ -565,4 +565,30 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Generale Henri Guisan',
     commanderB: 'Adolf Hitler / Benito Mussolini (Asse accerchiante)',
   },
+  {
+    id: 'battaglia_alpi_1940',
+    name: 'Battaglia delle Alpi Occidentali e Presa di Mentone',
+    historicalDate: '10 - 25 giugno 1940',
+    step: 6,
+    theater: 'Europe',
+    coords: [6.75, 44.96], // Monte Chaberton / Monginevro / Mentone
+    belligerents: 'Regio Esercito Italiano (1ª e 4ª Armata) vs Armée des Alpes Francese',
+    result: 'Offensiva italiana attraverso i valichi alpini; occupazione di Mentone prima dell\'Armistizio di Villa Incisa (24 giugno).',
+    significance: 'L\'Italia fascista entra nella Seconda Guerra Mondiale; duello d\'artiglieria d\'alta quota della Batteria dello Chaberton (3.130 m) contro i mortai francesi ed espugnazione della testa di ponte costiera di Mentone.',
+    commanderA: 'Principe di Piemonte Umberto di Savoia / Pietro Badoglio',
+    commanderB: 'Generale René Olry (Armée des Alpes)',
+  },
+  {
+    id: 'punta_stilo_1940',
+    name: 'Battaglia di Punta Stilo (Battaglia di Calabria)',
+    historicalDate: '9 luglio 1940',
+    step: 6,
+    theater: 'Europe',
+    coords: [17.15, 37.85], // Mar Jonio al largo di Punta Stilo / Calabria
+    belligerents: 'Regia Marina Italiana vs Mediterranean Fleet della Royal Navy',
+    result: 'Scontro tattico inconcludente; entrambe le squadre navali completano la scorta e la protezione dei rispettivi convogli mercantili.',
+    significance: 'Il primo grande scontro di squadre navali da battaglia nel Mediterraneo tra le corazzate Giulio Cesare e Conte di Cavour contro la HMS Warspite di Cunningham; battesimo del fuoco per le forze aeronavali nel bacino.',
+    commanderA: 'Ammiraglio d\'Armata Inigo Campioni (Regia Marina)',
+    commanderB: 'Ammiraglio Sir Andrew Cunningham (Royal Navy)',
+  },
 ];
