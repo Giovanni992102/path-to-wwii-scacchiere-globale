@@ -1511,6 +1511,7 @@ export default function App() {
           const ber6 = resolveFeature({ properties: { id: 'DE300', NUTS_ID: 'DE300', CNTR_CODE: 'DE', NAME: 'Berlin' } }, 6);
           const schw0 = resolveFeature({ properties: { id: 'DE264', NUTS_ID: 'DE264', CNTR_CODE: 'DE', NAME: 'Schweinfurt' } }, 0);
           const reg0 = resolveFeature({ properties: { id: 'DE221', NUTS_ID: 'DE221', CNTR_CODE: 'DE', NAME: 'Regensburg' } }, 0);
+          const ess0 = resolveFeature({ properties: { id: 'DE113', NUTS_ID: 'DE113', CNTR_CODE: 'DE', NAME: 'Esslingen' } }, 0);
           return (
             ber0.o === 'GER' &&
             ber0.name.includes('Berlin') &&
@@ -1518,7 +1519,9 @@ export default function App() {
             ber6.o === 'GER' &&
             (ber6.adminEntity || '').includes('Großdeutsches Reich') &&
             schw0.name.includes('Schweinfurt') &&
-            reg0.name.includes('Regensburg')
+            reg0.name.includes('Regensburg') &&
+            (ess0.note || '').includes('Terzo Reich') &&
+            (ess0.note || '').includes('Wilhelm Murr')
           );
         },
       },

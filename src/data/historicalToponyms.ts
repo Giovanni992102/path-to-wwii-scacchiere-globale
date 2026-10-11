@@ -3719,90 +3719,293 @@ export function cleanGermanToponymName(raw: string): string {
 /**
  * Mappatura prefissi NUTS-3 tedeschi (DE11 - DEG0) al Gau storico e Land/Provinz d'epoca.
  */
-export function getGauAndLandByPrefix(id: string, step: number): { gau: string; land: string } {
+export interface GauHistoricalInfo {
+  gau: string;
+  land: string;
+  capital: string;
+  gauleiter: string;
+  role: string;
+}
+
+/**
+ * Mappatura esaustiva prefissi NUTS-3 tedeschi (DE11 - DEG0) al Gau storico, Gauleiter e profilo geostorico del Terzo Reich.
+ */
+export function getGauAndLandByPrefix(id: string, step: number): GauHistoricalInfo {
   const p3 = id.substring(0, 3).toUpperCase();
   const p4 = id.substring(0, 4).toUpperCase();
 
   switch (p4) {
     case 'DE11':
-      return { gau: 'Gau Württemberg-Hohenzollern', land: 'Land Württemberg (Stuttgart)' };
+      return {
+        gau: 'Gau Württemberg-Hohenzollern',
+        land: 'Land Württemberg (Neckarkreis)',
+        capital: 'Stuttgart',
+        gauleiter: 'Wilhelm Murr',
+        role: "Polo mondiale della motoristica e dell'ingegneria di precisione per le forze armate del Terzo Reich (Daimler-Benz Untertürkheim e Sindelfingen, Robert Bosch GmbH, Mahle).",
+      };
     case 'DE12':
-      return { gau: step >= 6 ? 'Gau Baden-Elsass' : 'Gau Baden', land: 'Land Baden (Karlsruhe)' };
+      return {
+        gau: step >= 6 ? 'Gau Baden-Elsass' : 'Gau Baden',
+        land: 'Land Baden (Nordbaden)',
+        capital: 'Karlsruhe',
+        gauleiter: 'Robert Wagner',
+        role: "Settore renano settentrionale fortificato dal Westwall (Linea Sigfrido). Sede di arsenali e officine motoristiche e meccaniche (Daimler-Benz Werk Mannheim, Heinrich Lanz AG trazione).",
+      };
     case 'DE13':
-      return { gau: step >= 6 ? 'Gau Baden-Elsass' : 'Gau Baden', land: 'Land Baden (Freiburg)' };
+      return {
+        gau: step >= 6 ? 'Gau Baden-Elsass' : 'Gau Baden',
+        land: 'Land Baden (Südbaden / Schwarzwald)',
+        capital: 'Freiburg im Breisgau',
+        gauleiter: 'Robert Wagner',
+        role: "Baluardo meridionale del Westwall di fronte alla Linea Maginot francese e al confine svizzero (Weil am Rhein). Fabbriche d'armi Mauser a Oberndorf (fucili d'ordinanza Kar98k).",
+      };
     case 'DE14':
-      return { gau: 'Gau Württemberg-Hohenzollern', land: 'Land Württemberg & Hohenzollern (Tübingen)' };
+      return {
+        gau: 'Gau Württemberg-Hohenzollern',
+        land: 'Land Württemberg & Hohenzollern',
+        capital: 'Tübingen / Stuttgart',
+        gauleiter: 'Wilhelm Murr',
+        role: "Bacino strategico dell'Alta Svevia e del Lago di Costanza; polo d'eccellenza aeronavale a Friedrichshafen (Luftschiffbau Zeppelin, Maybach-Motorenbau per panzer, Dornier Flugzeugwerke, ZF Zahnradfabrik).",
+      };
     case 'DE21':
-      return { gau: 'Gau München-Oberbayern', land: 'Freistaat Bayern (Oberbayern)' };
+      return {
+        gau: 'Gau München-Oberbayern',
+        land: 'Freistaat Bayern (Oberbayern)',
+        capital: 'München ("Hauptstadt der Bewegung")',
+        gauleiter: 'Adolf Wagner',
+        role: "Centro politico ideologico della NSDAP e industria aeronautica BMW (Flugmotorenwerke Allach); rifugio montano del Führer sull'Obersalzberg (Berghof a Berchtesgaden); polo militare di Ingolstadt e truppe alpine a Garmisch.",
+      };
     case 'DE22':
-      return { gau: 'Gau Bayerische Ostmark', land: 'Freistaat Bayern (Niederbayern)' };
+      return {
+        gau: 'Gau Bayerische Ostmark',
+        land: 'Freistaat Bayern (Niederbayern)',
+        capital: 'Bayreuth / Regensburg',
+        gauleiter: 'Fritz Wächtler',
+        role: "Settore danubiano della Bassa Baviera a presidio della frontiera verso l'Austria e i territori boemi; snodo fluviale di Passau sul Danubio e centri logistici e agricoli.",
+      };
     case 'DE23':
-      return { gau: 'Gau Bayerische Ostmark', land: 'Freistaat Bayern (Oberpfalz)' };
+      return {
+        gau: 'Gau Bayerische Ostmark',
+        land: 'Freistaat Bayern (Oberpfalz)',
+        capital: 'Regensburg',
+        gauleiter: 'Fritz Wächtler',
+        role: "Perno della produzione caccia della Luftwaffe (Messerschmitt AG Regensburg: montaggio in serie dei caccia Bf 109); acciaierie dell'Oberpfalz (Maxhütte) e grande poligono militare corazzato di Grafenwöhr.",
+      };
     case 'DE24':
-      return { gau: 'Gau Bayerische Ostmark', land: 'Freistaat Bayern (Oberfranken)' };
+      return {
+        gau: 'Gau Bayerische Ostmark',
+        land: 'Freistaat Bayern (Oberfranken)',
+        capital: 'Bayreuth',
+        gauleiter: 'Fritz Wächtler',
+        role: "Alta Franconia al confine con la Boemia e i Sudeti; sede del Gau della Bayerische Ostmark a Bayreuth (santuario wagneriano del regime), manifattura tecnica e snodi logistici.",
+      };
     case 'DE25':
-      return { gau: 'Gau Franken', land: 'Freistaat Bayern (Mittelfranken)' };
+      return {
+        gau: 'Gau Franken',
+        land: 'Freistaat Bayern (Mittelfranken)',
+        capital: 'Nürnberg ("Stadt der Reichsparteitage")',
+        gauleiter: 'Julius Streicher',
+        role: "Città dei raduni del partito NSDAP (Reichsparteitagsgelände); polo meccanico pesante MAN (motori diesel per sottomarini e panzer da combattimento), industria ottica a Fürth ed Erlangen.",
+      };
     case 'DE26':
-      return { gau: 'Gau Mainfranken', land: 'Freistaat Bayern (Unterfranken)' };
+      return {
+        gau: 'Gau Mainfranken',
+        land: 'Freistaat Bayern (Unterfranken)',
+        capital: 'Würzburg',
+        gauleiter: 'Otto Hellmuth',
+        role: "Epicentro strategico nazionale dei cuscinetti a sfera a Schweinfurt (Kugelfischer, Fichtel & Sachs, VKF), vitale per l'intera industria aerea e meccanica del Reich; snodo sul Meno a Würzburg.",
+      };
     case 'DE27':
-      return { gau: 'Gau Schwaben', land: 'Freistaat Bayern (Schwaben)' };
+      return {
+        gau: 'Gau Schwaben',
+        land: 'Freistaat Bayern (Schwaben)',
+        capital: 'Augsburg',
+        gauleiter: 'Karl Wahl',
+        role: "Culla dell'aviazione da caccia: stabilimenti madre della Messerschmitt AG ad Augusta (progettazione e collaudo dei Bf 109) e fabbriche di motori diesel pesanti MAN per sottomarini da guerra della Kriegsmarine.",
+      };
     case 'DE30':
-      return { gau: 'Gau Berlin', land: 'Reichshauptstadt Berlin' };
+      return {
+        gau: 'Gau Berlin',
+        land: 'Reichshauptstadt Berlin',
+        capital: 'Berlin',
+        gauleiter: 'Joseph Goebbels',
+        role: "Capitale politica e militare suprema del Terzo Reich: Cancelleria del Reich (Neue Reichskanzlei), comando OKW (Bendlerblock) e colossi industriali d'armamento ed elettrotecnica (Siemens, AEG, Borsig, Alkett).",
+      };
     case 'DE40':
-      return { gau: step >= 6 ? 'Gau Mark Brandenburg' : 'Gau Kurmark', land: 'Provinz Brandenburg' };
+      return {
+        gau: step >= 6 ? 'Gau Mark Brandenburg' : 'Gau Kurmark',
+        land: 'Provinz Brandenburg',
+        capital: 'Frankfurt an der Oder / Potsdam',
+        gauleiter: 'Emil Stürtz',
+        role: "Cintura industriale e difensiva di Berlino: stabilimenti aeronautici Arado e Heinkel a Oranienburg, acciaierie di Hennigsdorf e Brandenburg an der Havel, bacini minerari in Lusazia (Cottbus) e fortezze sull'Oder.",
+      };
     case 'DE50':
-      return { gau: 'Gau Weser-Ems', land: 'Freie Hansestadt Bremen' };
+      return {
+        gau: 'Gau Weser-Ems',
+        land: 'Freie Hansestadt Bremen',
+        capital: 'Bremen',
+        gauleiter: 'Carl Röver',
+        role: "Arsenale aeronavale primario sul Weser: cantieri navali AG Weser Deschimag (costruzione di navi da battaglia e U-Boot) e stabilimenti Focke-Wulf Flugzeugbau (caccia Fw 190 e ricognitori oceanici Fw 200 Condor); porto di Wesermünde.",
+      };
     case 'DE60':
-      return { gau: 'Gau Hamburg', land: 'Freie und Hansestadt Hamburg' };
+      return {
+        gau: 'Gau Hamburg',
+        land: 'Freie und Hansestadt Hamburg',
+        capital: 'Hamburg',
+        gauleiter: 'Karl Kaufmann',
+        role: "Massimo porto marittimo del Reich e cantiere navale d'altura Blohm & Voss (costruzione della corazzata Bismarck, incrociatori pesanti e sommergibili); raffinerie e commercio oceanico (Groß-Hamburg-Gesetz 1937).",
+      };
     case 'DE71':
-      return { gau: 'Gau Hessen-Nassau', land: 'Volksstaat Hessen (Darmstadt)' };
+      return {
+        gau: 'Gau Hessen-Nassau',
+        land: 'Volksstaat Hessen (Darmstadt)',
+        capital: 'Frankfurt am Main',
+        gauleiter: 'Jakob Sprenger',
+        role: "Quartier generale e stabilimenti chimici della I.G. Farben a Francoforte (polo chimico Höchst per farmaci ed esplosivi); stabilimenti automobilistici Adam Opel AG a Rüsselsheim (autocarri militari Opel Blitz).",
+      };
     case 'DE72':
-      return { gau: 'Gau Hessen-Nassau', land: 'Volksstaat Hessen (Gießen)' };
+      return {
+        gau: 'Gau Hessen-Nassau',
+        land: 'Volksstaat Hessen (Gießen / Lahn)',
+        capital: 'Frankfurt am Main',
+        gauleiter: 'Jakob Sprenger',
+        role: "Bacino metallurgico e ottico dell'Assia centrale (Ernst Leitz / Leica a Wetzlar), fucine siderurgiche di Buderus e snodo logistico dell'Assia.",
+      };
     case 'DE73':
-      return { gau: 'Gau Kurhessen', land: 'Provinz Hessen-Nassau (Kassel)' };
+      return {
+        gau: 'Gau Kurhessen',
+        land: 'Provinz Hessen-Nassau (Kassel)',
+        capital: 'Kassel',
+        gauleiter: 'Karl Weinrich',
+        role: "Polo dell'industria pesante bellica: stabilimenti Henschel & Sohn a Kassel (produzione carri armati Panzer e locomotive pesanti), officine aeronautiche Gerhard Fieseler (Fi 156 Storch) e munizionamento.",
+      };
     case 'DE80':
       if (id === 'DE80L' || id === 'DE80N') {
-        return { gau: 'Gau Pommern', land: 'Provinz Pommern (Vorpommern)' };
+        return {
+          gau: 'Gau Pommern',
+          land: 'Provinz Pommern (Vorpommern)',
+          capital: 'Stettin',
+          gauleiter: 'Franz Schwede-Coburg',
+          role: "Provincia costiera prussiana baltica: presidio idrovolanti di Swinemünde, cantieri navali Stettiner Oderwerke, accesso all'Ostwall e basi d'addestramento navale.",
+        };
       }
-      return { gau: 'Gau Mecklenburg', land: 'Land Mecklenburg' };
+      return {
+        gau: 'Gau Mecklenburg',
+        land: 'Land Mecklenburg',
+        capital: 'Schwerin',
+        gauleiter: 'Friedrich Hildebrandt',
+        role: "Basi costiere baltiche della Luftwaffe e cantieri navali: stabilimenti aeronautici Ernst Heinkel Flugzeugwerke a Rostock-Marienehe e Warnemünde (primi velivoli a reazione e idrovolanti).",
+      };
     case 'DE91':
-      return { gau: 'Gau Süd-Hannover-Braunschweig', land: 'Land Braunschweig & Hannover' };
     case 'DE92':
-      return { gau: 'Gau Süd-Hannover-Braunschweig', land: 'Provinz Hannover' };
+      return {
+        gau: 'Gau Süd-Hannover-Braunschweig',
+        land: 'Land Braunschweig & Provinz Hannover',
+        capital: 'Hannover',
+        gauleiter: 'Hartmann Lauterbacher / Bernhard Rust',
+        role: "Polo siderurgico e autarchico delle Reichswerke Hermann Göring a Salzgitter; fondazione della città industriale della Volkswagen a Fallersleben/Wolfsburg; stabilimenti Continental gomma e pneumatici ad Hannover.",
+      };
     case 'DE93':
-      return { gau: 'Gau Ost-Hannover', land: 'Provinz Hannover (Lüneburg)' };
+      return {
+        gau: 'Gau Ost-Hannover',
+        land: 'Provinz Hannover (Lüneburg)',
+        capital: 'Lüneburg',
+        gauleiter: 'Otto Telschow',
+        role: "Brughiera di Lüneburg e polo d'addestramento corazzato della Wehrmacht di Bergen-Hohne; porto d'altura e controllo fluviale dell'Elba a Cuxhaven.",
+      };
     case 'DE94':
-      return { gau: 'Gau Weser-Ems', land: 'Land Oldenburg & Provinz Hannover' };
+      return {
+        gau: 'Gau Weser-Ems',
+        land: 'Land Oldenburg & Provinz Hannover',
+        capital: 'Oldenburg',
+        gauleiter: 'Carl Röver',
+        role: "Piazzaforte navale primordiale del Mare del Nord: Arsenale navale della Kriegsmarine a Wilhelmshaven (cantiere Marinewerft, attracco navi da battaglia tascabili come la Graf Spee e corazzata Tirpitz); porto minerario di Emden.",
+      };
     case 'DEA1':
-      return { gau: 'Gau Düsseldorf / Gau Essen', land: 'Rheinprovinz (Ruhrgebiet)' };
+      return {
+        gau: 'Gau Essen / Gau Düsseldorf',
+        land: 'Rheinprovinz (Ruhrgebiet)',
+        capital: 'Essen / Düsseldorf',
+        gauleiter: 'Josef Terboven (Essen) / Friedrich Karl Florian (Düsseldorf)',
+        role: '"La Fucina del Terzo Reich": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a Düsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.',
+      };
     case 'DEA2':
-      return { gau: 'Gau Köln-Aachen', land: 'Rheinprovinz (Köln-Aachen)' };
+      return {
+        gau: 'Gau Köln-Aachen',
+        land: 'Rheinprovinz (Köln-Aachen)',
+        capital: 'Köln',
+        gauleiter: 'Josef Grohé',
+        role: 'Fronte della Renania: baluardo fortificato del Westwall ad Aachen (Aquisgrana) a guardia delle frontiere occidentali; industria pesante lungo il Reno a Colonia (Ford-Werke, Klöckner-Humboldt-Deutz per motori diesel Deutz).',
+      };
     case 'DEA3':
-      return { gau: 'Gau Westfalen-Nord', land: 'Provinz Westfalen (Münster)' };
     case 'DEA4':
-      return { gau: 'Gau Westfalen-Nord', land: 'Provinz Westfalen & Lippe (Detmold)' };
+      return {
+        gau: 'Gau Westfalen-Nord',
+        land: 'Provinz Westfalen & Land Lippe (Münster / Detmold)',
+        capital: 'Münster',
+        gauleiter: 'Alfred Meyer',
+        role: 'Cuore della sintesi autarchica dei carburanti per la Wehrmacht e la Luftwaffe: complessi di idrogenazione Scholven a Bottrop e Gelsenberg a Gelsenkirchen (benzina da carbone con processo Bergius-Pier).',
+      };
     case 'DEA5':
-      return { gau: 'Gau Westfalen-Süd', land: 'Provinz Westfalen (Arnsberg/Dortmund)' };
+      return {
+        gau: 'Gau Westfalen-Süd',
+        land: 'Provinz Westfalen (Arnsberg / Dortmund)',
+        capital: 'Bochum / Dortmund',
+        gauleiter: 'Josef Wagner',
+        role: 'Siderurgia e armature pesanti: acciaierie Hoesch AG a Dortmund, corazzature del Bochumer Verein a Bochum, accumulatori speciali per sottomarini U-Boot VARTA/AFA ad Hagen.',
+      };
     case 'DEB1':
-      return { gau: 'Gau Moselland', land: 'Rheinprovinz (Koblenz)' };
     case 'DEB2':
-      return { gau: 'Gau Moselland', land: 'Rheinprovinz (Trier)' };
+      return {
+        gau: 'Gau Moselland',
+        land: 'Rheinprovinz (Koblenz / Trier)',
+        capital: 'Koblenz',
+        gauleiter: 'Gustav Simon',
+        role: "Settore operativo della Mosella e dell'Eifel rimilitarizzato nel marzo 1936; fortezze e sbarramenti del Westwall (Treviri, Bitburg) a guardia del confine con Francia e Lussemburgo.",
+      };
     case 'DEB3':
-      return { gau: step >= 6 ? 'Gau Westmark' : 'Gau Saarpfalz', land: 'Bayerische Pfalz & Rheinhessen' };
     case 'DEC0':
-      return { gau: step >= 6 ? 'Gau Westmark' : 'Gau Saarpfalz', land: 'Saargebiet (Rückgliederung 1935)' };
+      return {
+        gau: step >= 6 ? 'Gau Westmark' : 'Gau Saarpfalz',
+        land: 'Saargebiet & Bayerische Pfalz',
+        capital: 'Saarbrücken / Neustadt an der Weinstraße',
+        gauleiter: 'Josef Bürckel',
+        role: 'Bacino minerario carbonifero della Saar (riannesso nel 1935 al Reich); settore fortificato di Pirmasens-Zweibrücken del Westwall e colosso chimico I.G. Farben / BASF a Ludwigshafen.',
+      };
     case 'DED2':
-      return { gau: 'Gau Sachsen', land: 'Freistaat Sachsen (Dresden)' };
     case 'DED4':
-      return { gau: 'Gau Sachsen', land: 'Freistaat Sachsen (Chemnitz-Zwickau)' };
     case 'DED5':
-      return { gau: 'Gau Sachsen', land: 'Freistaat Sachsen (Leipzig)' };
+      return {
+        gau: 'Gau Sachsen',
+        land: 'Freistaat Sachsen',
+        capital: 'Dresden',
+        gauleiter: 'Martin Mutschmann',
+        role: "Cuore industriale meccanico sassone: stabilimenti automobilistici Auto Union a Chemnitz e Zwickau (motori corazzati e aeronautici), polo meccanico di Lipsia e Dresda, miniere metallifere dell'Erzgebirge.",
+      };
     case 'DEE0':
-      return { gau: 'Gau Halle-Merseburg / Gau Magdeburg-Anhalt', land: 'Provinz Sachsen & Anhalt' };
+      return {
+        gau: 'Gau Halle-Merseburg / Gau Magdeburg-Anhalt',
+        land: 'Provinz Sachsen & Land Anhalt',
+        capital: 'Dessau / Halle / Magdeburg',
+        gauleiter: 'Rudolf Jordan / Rudolf Hartmann',
+        role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
+      };
     case 'DEF0':
-      return { gau: 'Gau Schleswig-Holstein', land: 'Provinz Schleswig-Holstein' };
+      return {
+        gau: 'Gau Schleswig-Holstein',
+        land: 'Provinz Schleswig-Holstein',
+        capital: 'Kiel',
+        gauleiter: 'Hinrich Lohse',
+        role: 'Quartier generale e piazzaforte navale della Kriegsmarine nel Baltico: arsenali Deutsche Werke Kiel e Germaniawerft (costruzione corazzate e sommergibili U-Boot), scuola navale di Mürwik a Flensburg e canale strategico di Kiel.',
+      };
     case 'DEG0':
-      return { gau: 'Gau Thüringen', land: 'Land Thüringen' };
+      return {
+        gau: 'Gau Thüringen',
+        land: 'Land Thüringen',
+        capital: 'Weimar',
+        gauleiter: 'Fritz Sauckel',
+        role: "Polo mondiale dell'ottica militare Carl Zeiss a Jena (telemetri per corazzate e periscopi U-Boot), armi da fanteria C.G. Haenel (Schmeisser) e Sauer & Sohn a Suhl, motori aeronautici BMW a Eisenach.",
+      };
     default:
       break;
   }
@@ -3810,39 +4013,141 @@ export function getGauAndLandByPrefix(id: string, step: number): { gau: string; 
   // Fallback 3 caratteri
   switch (p3) {
     case 'DE1':
-      return { gau: 'Gau Württemberg-Hohenzollern / Gau Baden', land: 'Südwestdeutschland' };
+      return {
+        gau: 'Gau Württemberg-Hohenzollern / Gau Baden',
+        land: 'Südwestdeutschland',
+        capital: 'Stuttgart / Karlsruhe',
+        gauleiter: 'Murr / Wagner',
+        role: 'Presidio industriale e difensivo del sud-ovest della Germania lungo il Reno e la Foresta Nera.',
+      };
     case 'DE2':
-      return { gau: 'Gau Bayern', land: 'Freistaat Bayern' };
+      return {
+        gau: 'Gau Bayern',
+        land: 'Freistaat Bayern',
+        capital: 'München / Nürnberg',
+        gauleiter: 'Wagner / Streicher / Wächtler',
+        role: 'Regione bavarese del Terzo Reich, industria pesante aeronavale Messerschmitt e MAN, rifugi alpini.',
+      };
     case 'DE3':
-      return { gau: 'Gau Berlin', land: 'Reichshauptstadt Berlin' };
+      return {
+        gau: 'Gau Berlin',
+        land: 'Reichshauptstadt Berlin',
+        capital: 'Berlin',
+        gauleiter: 'Joseph Goebbels',
+        role: 'Capitale e sede centrale di comando politico e militare del Terzo Reich.',
+      };
     case 'DE4':
-      return { gau: 'Gau Mark Brandenburg', land: 'Provinz Brandenburg' };
+      return {
+        gau: 'Gau Mark Brandenburg',
+        land: 'Provinz Brandenburg',
+        capital: 'Potsdam / Frankfurt (Oder)',
+        gauleiter: 'Emil Stürtz',
+        role: 'Cintura industriale e militare prussiana a difesa della capitale.',
+      };
     case 'DE5':
-      return { gau: 'Gau Weser-Ems', land: 'Freie Hansestadt Bremen' };
+      return {
+        gau: 'Gau Weser-Ems',
+        land: 'Freie Hansestadt Bremen',
+        capital: 'Bremen',
+        gauleiter: 'Carl Röver',
+        role: "Cantieri navali d'alto mare Deschimag e industria aeronautica Focke-Wulf.",
+      };
     case 'DE6':
-      return { gau: 'Gau Hamburg', land: 'Freie und Hansestadt Hamburg' };
+      return {
+        gau: 'Gau Hamburg',
+        land: 'Freie und Hansestadt Hamburg',
+        capital: 'Hamburg',
+        gauleiter: 'Karl Kaufmann',
+        role: "Grande porto commerciale ed arsenale navale d'altura Blohm & Voss.",
+      };
     case 'DE7':
-      return { gau: 'Gau Hessen-Nassau / Gau Kurhessen', land: 'Hessen' };
+      return {
+        gau: 'Gau Hessen-Nassau / Gau Kurhessen',
+        land: 'Hessen',
+        capital: 'Frankfurt / Kassel',
+        gauleiter: 'Sprenger / Weinrich',
+        role: "Polo dell'industria chimica I.G. Farben e degli armamenti pesanti corazzati Henschel.",
+      };
     case 'DE8':
-      return { gau: 'Gau Mecklenburg / Gau Pommern', land: 'Mecklenburg-Vorpommern' };
+      return {
+        gau: 'Gau Mecklenburg / Gau Pommern',
+        land: 'Mecklenburg-Vorpommern',
+        capital: 'Schwerin / Stettin',
+        gauleiter: 'Hildebrandt / Schwede-Coburg',
+        role: 'Basi aeree e navali baltiche e stabilimenti aeronautici Heinkel.',
+      };
     case 'DE9':
-      return { gau: 'Gau Süd-Hannover-Braunschweig / Gau Ost-Hannover', land: 'Niedersachsen' };
+      return {
+        gau: 'Gau Süd-Hannover-Braunschweig / Gau Ost-Hannover / Gau Weser-Ems',
+        land: 'Niedersachsen',
+        capital: 'Hannover / Oldenburg',
+        gauleiter: 'Lauterbacher / Telschow / Röver',
+        role: "Acciaierie autarchiche Hermann Göring a Salzgitter, arsenale navale di Wilhelmshaven e poligoni d'addestramento corazzato.",
+      };
     case 'DEA':
-      return { gau: 'Gau Essen / Gau Düsseldorf / Gau Westfalen', land: 'Rheinland-Westfalen' };
+      return {
+        gau: 'Gau Essen / Gau Düsseldorf / Gau Westfalen',
+        land: 'Rheinland-Westfalen',
+        capital: 'Essen / Düsseldorf / Münster / Dortmund',
+        gauleiter: 'Terboven / Florian / Meyer / Wagner',
+        role: 'Cuore minerario, siderurgico ed energetico della Ruhr (Krupp, Thyssen, benzina sintetica Scholven e Gelsenberg).',
+      };
     case 'DEB':
-      return { gau: 'Gau Moselland / Gau Saarpfalz', land: 'Rheinland-Pfalz' };
+      return {
+        gau: 'Gau Moselland / Gau Saarpfalz',
+        land: 'Rheinland-Pfalz',
+        capital: 'Koblenz / Trier / Neustadt',
+        gauleiter: 'Simon / Bürckel',
+        role: 'Settore operativo della Mosella e del Westwall, polo chimico di Ludwigshafen.',
+      };
     case 'DEC':
-      return { gau: step >= 6 ? 'Gau Westmark' : 'Gau Saarpfalz', land: 'Saargebiet' };
+      return {
+        gau: step >= 6 ? 'Gau Westmark' : 'Gau Saarpfalz',
+        land: 'Saargebiet',
+        capital: 'Saarbrücken',
+        gauleiter: 'Josef Bürckel',
+        role: 'Bacino carbonifero e siderurgico della Saar riannesso al Reich.',
+      };
     case 'DED':
-      return { gau: 'Gau Sachsen', land: 'Freistaat Sachsen' };
+      return {
+        gau: 'Gau Sachsen',
+        land: 'Freistaat Sachsen',
+        capital: 'Dresden / Leipzig',
+        gauleiter: 'Martin Mutschmann',
+        role: 'Polo industriale automobilistico Auto Union e meccanico della Sassonia.',
+      };
     case 'DEE':
-      return { gau: 'Gau Halle-Merseburg / Gau Magdeburg-Anhalt', land: 'Provinz Sachsen' };
+      return {
+        gau: 'Gau Halle-Merseburg / Gau Magdeburg-Anhalt',
+        land: 'Provinz Sachsen',
+        capital: 'Dessau / Halle / Magdeburg',
+        gauleiter: 'Jordan / Hartmann',
+        role: 'Capitale chimica (Leuna e Buna) e bombardieri Junkers a Dessau.',
+      };
     case 'DEF':
-      return { gau: 'Gau Schleswig-Holstein', land: 'Provinz Schleswig-Holstein' };
+      return {
+        gau: 'Gau Schleswig-Holstein',
+        land: 'Provinz Schleswig-Holstein',
+        capital: 'Kiel',
+        gauleiter: 'Hinrich Lohse',
+        role: 'Base navale principale della Kriegsmarine nel Baltico e cantieri sommergibili.',
+      };
     case 'DEG':
-      return { gau: 'Gau Thüringen', land: 'Land Thüringen' };
+      return {
+        gau: 'Gau Thüringen',
+        land: 'Land Thüringen',
+        capital: 'Weimar',
+        gauleiter: 'Fritz Sauckel',
+        role: 'Ottica di precisione Carl Zeiss a Jena e armi da fuoco a Suhl.',
+      };
     default:
-      return { gau: 'Deutsches Reich', land: 'Deutsches Reich' };
+      return {
+        gau: 'Deutsches Reich',
+        land: 'Deutsches Reich',
+        capital: 'Berlin',
+        gauleiter: 'Reichsleitung',
+        role: 'Territorio metropolitano del Terzo Reich.',
+      };
   }
 }
 
@@ -4365,11 +4670,16 @@ export function resolveGermanyToponym(
   if (foundCity) {
     const c = foundCity;
     const name = c.dynamicName ? c.dynamicName(step) : c.name;
-    const adminTitle = c.getAdminTitle ? c.getAdminTitle(step) : (c.adminTitle || `${name} (${nationalEntity})`);
+    const adminTitle = c.getAdminTitle
+      ? c.getAdminTitle(step)
+      : (c.adminTitle || `${name} (Terzo Reich — ${nationalEntity})`);
+    const note = c.note
+      ? `${c.note} [Terzo Reich — ${nationalEntity}]`
+      : `Polo strategico del Terzo Reich (${nationalEntity}).`;
     return {
       name,
       adminTitle,
-      note: c.note,
+      note,
     };
   }
 
@@ -4377,10 +4687,11 @@ export function resolveGermanyToponym(
   if (id.startsWith('DE')) {
     const cleanedName = cleanGermanToponymName(rawName) || rawName;
     const gauInfo = getGauAndLandByPrefix(id, step);
+    const regLabel = step === 0 ? 'Deutsches Reich (Terzo Reich)' : 'Großdeutsches Reich (Terzo Reich)';
     return {
       name: cleanedName,
-      adminTitle: `${gauInfo.gau} — ${gauInfo.land} (${nationalEntity})`,
-      note: `Verwaltungsbezirk des Deutschen Reiches im ${gauInfo.gau} (${gauInfo.land}).`,
+      adminTitle: `${gauInfo.gau} — ${gauInfo.land} (${regLabel})`,
+      note: `Distretto territoriale del Terzo Reich (${nationalEntity}) nel ${gauInfo.gau} [Capoluogo: ${gauInfo.capital}, Gauleiter: ${gauInfo.gauleiter}]. ${gauInfo.role}`,
     };
   }
 

@@ -47,6 +47,30 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     const features: SearchResultItem[] = [];
     const seen = new Set<string>();
 
+    const isGermanQuery =
+      q.includes('terzo reich') ||
+      q.includes('third reich') ||
+      q.includes('drittes reich') ||
+      q.includes('reich tedesco') ||
+      q.includes('grossdeutsch') ||
+      q.includes('großdeutsch') ||
+      q.includes('germania') ||
+      q.includes('deutschland') ||
+      q.includes('germany');
+
+    const isItalianQuery =
+      q.includes('italia') ||
+      q.includes('italy') ||
+      q.includes('regno d\'italia') ||
+      q.includes('fascist');
+
+    const isSovietQuery =
+      q.includes('urss') ||
+      q.includes('soviet') ||
+      q.includes('unione sovietica') ||
+      q.includes('sssr') ||
+      q.includes('russia');
+
     // 1. Search in geodetic features
     for (const f of allFeatures) {
       const p = f.properties || {};
@@ -56,34 +80,53 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       const modern = p.NUTS_NAME || p.NAME_ENGL || p.CNTR_NAME || f.__itname || '';
       const hist = res.name || '';
       const nid = String(p.NUTS_ID || p.CNTR_ID || '');
+      const note = res.note || res.historicalContext || '';
+      const admin = res.adminEntity || '';
+      const ownerMeta = getOwnerMeta(res.o);
+      const ownerLabel = ownerMeta.l(currentStep);
+      const ownerShort = ownerMeta.shortName || '';
+      const ownerLeader = ownerMeta.leader || '';
 
       const normModern = normStr(modern);
       const normHist = normStr(hist);
       const normNid = normStr(nid);
+      const normNote = normStr(note);
+      const normAdmin = normStr(admin);
+      const normOwner = normStr(ownerLabel);
+      const normShort = normStr(ownerShort);
+      const normLeader = normStr(ownerLeader);
+
+      const matchesOwnerAlias =
+        (res.o === 'GER' && isGermanQuery) ||
+        (res.o === 'ITA' && isItalianQuery) ||
+        (res.o === 'SOV' && isSovietQuery);
 
       if (
         normModern.includes(q) ||
         normHist.includes(q) ||
         normNid.includes(q) ||
-        (res.note && normStr(res.note).includes(q)) ||
-        (res.adminEntity && normStr(res.adminEntity).includes(q))
+        normNote.includes(q) ||
+        normAdmin.includes(q) ||
+        normOwner.includes(q) ||
+        normShort.includes(q) ||
+        normLeader.includes(q) ||
+        matchesOwnerAlias
       ) {
         const uniqueKey = `${hist}_${modern}_${nid}`;
         if (!seen.has(uniqueKey)) {
           seen.add(uniqueKey);
-          const ownerMeta = getOwnerMeta(res.o);
           features.push({
             id: uniqueKey,
             historicalName: hist || modern,
             modernName: modern,
             ownerKey: res.o,
-            ownerLabel: ownerMeta.l(currentStep),
+            ownerLabel: ownerLabel,
             featureRef: f,
           });
         }
       }
 
-      if (features.length >= 20) break;
+      if (features.length >= 35) break;
     }
 
     // 2. Search in battles
@@ -92,15 +135,43 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       const ns = normStr(b.significance);
       const nr = normStr(b.result);
       const nbel = normStr(b.belligerents);
-      return nb.includes(q) || ns.includes(q) || nr.includes(q) || nbel.includes(q);
+      const nca = normStr(b.commanderA || '');
+      const ncb = normStr(b.commanderB || '');
+      const isGermanBattle =
+        isGermanQuery &&
+        (nbel.includes('reich') ||
+          nbel.includes('tedesc') ||
+          nbel.includes('wehrmacht') ||
+          nbel.includes('germania') ||
+          nca.includes('hitler') ||
+          ncb.includes('hitler'));
+      return (
+        nb.includes(q) ||
+        ns.includes(q) ||
+        nr.includes(q) ||
+        nbel.includes(q) ||
+        nca.includes(q) ||
+        ncb.includes(q) ||
+        isGermanBattle
+      );
     });
 
     // 3. Search in fortifications
     const forts = HISTORICAL_FORTIFICATION_LINES.filter((fline) => {
       const nf = normStr(fline.name);
       const nd = normStr(fline.description);
-      const nk = fline.keyForts.some((k) => normStr(k.name).includes(q));
-      return nf.includes(q) || nd.includes(q) || nk;
+      const nn = normStr(fline.nation);
+      const nbu = normStr(fline.builder);
+      const nk = fline.keyForts.some((k) => normStr(k.name).includes(q) || normStr(k.desc).includes(q));
+      const isGermanFort =
+        isGermanQuery &&
+        (nn.includes('germania') ||
+          nbu.includes('reich') ||
+          nbu.includes('wehrmacht') ||
+          nf.includes('sigfrido') ||
+          nf.includes('ostwall') ||
+          nf.includes('heilsberg'));
+      return nf.includes(q) || nd.includes(q) || nn.includes(q) || nbu.includes(q) || nk || isGermanFort;
     });
 
     // 4. Search in naval bases
@@ -108,7 +179,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       const nn = normStr(base.name);
       const nh = normStr(base.historicalName);
       const nd = normStr(base.description);
-      return nn.includes(q) || nh.includes(q) || nd.includes(q);
+      const nnat = normStr(base.nation);
+      const isGermanBase =
+        isGermanQuery &&
+        (nnat.includes('germania') ||
+          nd.includes('kriegsmarine') ||
+          nh.includes('kriegsmarine') ||
+          nn.includes('kiel') ||
+          nn.includes('helgoland') ||
+          nn.includes('wilhelmshaven') ||
+          nn.includes('gotenhafen') ||
+          nn.includes('swinemunde'));
+      return nn.includes(q) || nh.includes(q) || nd.includes(q) || nnat.includes(q) || isGermanBase;
     });
 
     return { features, battles, forts, naval };

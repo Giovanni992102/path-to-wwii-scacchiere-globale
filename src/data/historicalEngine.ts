@@ -266,15 +266,30 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
       if (dynToponym.adminTitle) {
         resolved.adminEntity = dynToponym.adminTitle;
       }
-      if (dynToponym.note && !resolved.historicalContext) {
+      if (dynToponym.note) {
+        resolved.note = dynToponym.note;
         resolved.historicalContext = dynToponym.note;
       }
     }
-  } else if (feature.__resolve && !resolved.adminEntity && rawBaseName) {
+  } else if (feature.__resolve && rawBaseName) {
     const dynToponym = getExtendedToponym(rawBaseName, resolved.o, nid, cent, step);
-    if (dynToponym && dynToponym.adminTitle) {
-      resolved.adminEntity = dynToponym.adminTitle;
+    if (dynToponym) {
+      if (dynToponym.adminTitle && !resolved.adminEntity) {
+        resolved.adminEntity = dynToponym.adminTitle;
+      }
+      if (dynToponym.note && !resolved.note) {
+        resolved.note = dynToponym.note;
+        resolved.historicalContext = dynToponym.note;
+      }
     }
+  }
+
+  // Ensure note and historicalContext are synced
+  if (!resolved.note && resolved.historicalContext) {
+    resolved.note = resolved.historicalContext;
+  }
+  if (!resolved.historicalContext && resolved.note) {
+    resolved.historicalContext = resolved.note;
   }
 
   // F. Assegnazione fazione coerente

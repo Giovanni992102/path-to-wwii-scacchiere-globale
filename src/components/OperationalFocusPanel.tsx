@@ -161,9 +161,9 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
             </div>
           )}
 
-          {res.note && (
+          {(res.note || res.historicalContext) && (
             <div className="text-[11.5px] text-[#c8b98a] italic leading-snug pt-0.5 border-t border-[#3a3420]/40">
-              {res.note}
+              {res.note || res.historicalContext}
             </div>
           )}
         </div>
