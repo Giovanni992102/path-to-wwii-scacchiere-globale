@@ -48,7 +48,10 @@ export const MapLayerControls: React.FC<MapLayerControlsProps> = ({
   };
 
   return (
-    <div className="absolute left-3.5 bottom-[155px] sm:bottom-[170px] z-30 flex flex-col-reverse items-start gap-1.5 pointer-events-auto">
+    <div
+      style={{ position: 'absolute' }}
+      className="absolute left-3.5 bottom-[155px] sm:bottom-[170px] z-35 flex flex-col-reverse items-start gap-1.5 pointer-events-auto"
+    >
       {/* Floating Toggle Button */}
       <button
         onClick={() => {

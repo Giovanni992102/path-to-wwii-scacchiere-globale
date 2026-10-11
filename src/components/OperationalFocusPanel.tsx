@@ -57,7 +57,8 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
   return (
     <div
       id="focuspanel"
-      className="tactical-panel absolute top-3.5 left-3.5 w-[340px] sm:w-[360px] max-w-[calc(100vw-28px)] z-40 max-h-[calc(100vh-220px)] flex flex-col shadow-2xl animate-in fade-in slide-in-from-left duration-200"
+      style={{ position: 'absolute' }}
+      className="tactical-panel absolute top-3.5 left-3.5 w-[340px] sm:w-[360px] max-w-[calc(100vw-28px)] z-40 max-h-[min(620px,calc(100vh-220px))] flex flex-col shadow-2xl animate-in fade-in slide-in-from-left duration-200 pointer-events-auto"
     >
       {/* Panel Header */}
       <div className="panel-title justify-between">

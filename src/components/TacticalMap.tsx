@@ -886,6 +886,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       {/* Preset Zoom & Strategic Theater Presets */}
       <div
         id="zoomctl"
+        style={{ position: 'absolute' }}
         className="absolute right-3.5 bottom-[160px] sm:bottom-[180px] z-30 flex flex-col gap-1.5 pointer-events-auto"
       >
         <button
