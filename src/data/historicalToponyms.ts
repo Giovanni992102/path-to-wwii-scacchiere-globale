@@ -934,10 +934,29 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
 
   // ================= IMPERO BRITANNICO & DOMINIONS =================
   UK: {
-    london: { historicalName: 'London', adminTitle: 'Capital of the British Empire' },
-    gibraltar: { historicalName: 'Gibraltar', adminTitle: 'Crown Colony and Fortress' },
-    malta: { historicalName: 'Malta (Valletta)', adminTitle: 'Crown Colony and Naval Base' },
-    cyprus: { historicalName: 'Cyprus (Nicosia)', adminTitle: 'Crown Colony of Cyprus' },
+    london: { historicalName: 'London', adminTitle: 'Capital of the British Empire', historicalNote: 'Capitale metropolitana dell\'Impero Britannico, sede di Westminster e del Gabinetto di Guerra.' },
+    edinburgh: { historicalName: 'Edinburgh & Lothian', adminTitle: 'Scottish Capital (Scottish Command)', historicalNote: 'Capitale storica della Scozia e difese costiere dell\'estuario del Forth.' },
+    glasgow: { historicalName: 'Glasgow & Clydeside', adminTitle: 'Clyde Shipyards & Industrial Heartland', historicalNote: 'Cantieri navali John Brown & Co. e polo metallurgico pesante.' },
+    scapa_flow: { historicalName: 'Scapa Flow (Orkney)', adminTitle: 'Home Fleet Primary Anchorage', historicalNote: 'Rada fortificata quartier generale della Home Fleet britannica.' },
+    belfast: { historicalName: 'Belfast & County Antrim', adminTitle: 'Harland & Wolff Shipyards', historicalNote: 'Arsenale navale dell\'Irlanda del Nord costruttore della HMS Belfast.' },
+    londonderry: { historicalName: 'Londonderry (Port of Foyle)', adminTitle: 'Western Approaches Escort Base', historicalNote: 'Base avanzata per le flottiglie di scorta ai convogli atlantici.' },
+    cardiff: { historicalName: 'Cardiff & Glamorgan', adminTitle: 'South Wales Coalfield & Metallurgy', historicalNote: 'Esportatore di carbone navale Admiralty e polo siderurgico.' },
+    swansea: { historicalName: 'Swansea & South Wales', adminTitle: 'Admiralty Coal & Tinplate Mills', historicalNote: 'Porto minerario e laminatoi del Galles meridionale.' },
+    portsmouth: { historicalName: 'Portsmouth', adminTitle: 'HMNB Portsmouth (Major Naval Dockyard)', historicalNote: 'Base principale della flotta da battaglia nella Manica.' },
+    southampton: { historicalName: 'Southampton', adminTitle: 'Transatlantic Terminal & Supermarine Works', historicalNote: 'Stabilimenti aeronautici costruttori del caccia Spitfire.' },
+    plymouth: { historicalName: 'Plymouth & Devonport', adminTitle: 'HMNB Devonport (Western Approaches)', historicalNote: 'Il più esteso arsenale navale britannico in Europa.' },
+    dover: { historicalName: 'Dover (Hellfire Corner)', adminTitle: 'Fortress Dover & Channel Command', historicalNote: 'Centro nevralgico dell\'Operazione Dynamo e della difesa della Manica.' },
+    birmingham: { historicalName: 'Birmingham', adminTitle: 'Industrial Arsenal (BSA & Castle Bromwich)', historicalNote: 'Cuore della produzione di armi leggere e caccia Spitfire.' },
+    coventry: { historicalName: 'Coventry', adminTitle: 'Aero Engines & Ordnance Heartland', historicalNote: 'Polo di motori aeronautici Armstrong Siddeley e veicoli militari.' },
+    manchester: { historicalName: 'Manchester & Salford', adminTitle: 'Avro Aircraft Works & Industrial Basin', historicalNote: 'Stabilimenti A.V. Roe e polo industriale di Trafford Park.' },
+    liverpool: { historicalName: 'Liverpool & Merseyside', adminTitle: 'Western Approaches Terminal', historicalNote: 'Snodo logistico primario per i convogli transatlantici e cantieri Cammell Laird.' },
+    sheffield: { historicalName: 'Sheffield', adminTitle: 'Steel Capital of the Empire & Naval Armor', historicalNote: 'Acciaierie Hadfields e piastre di corazzatura per navi da battaglia.' },
+    leeds: { historicalName: 'Leeds & Bradford', adminTitle: 'Military Textiles & Heavy Engineering', historicalNote: 'Polo tessile per uniformi e ingegneria pesante bellica.' },
+    newcastle: { historicalName: 'Newcastle upon Tyne', adminTitle: 'Swan Hunter & Vickers-Armstrongs Yards', historicalNote: 'Cantieri navali costruttori della HMS King George V.' },
+    bristol: { historicalName: 'Bristol & Avonmouth', adminTitle: 'Bristol Aeroplane Company & Western Docks', historicalNote: 'Stabilimenti aeronautici di Filton (Blenheim e Beaufighter).' },
+    gibraltar: { historicalName: 'Gibraltar (The Rock)', adminTitle: 'Crown Colony & Fortress (Force H)', historicalNote: 'Baluardo strategico all\'imbocco del Mediterraneo e sede della Force H.' },
+    malta: { historicalName: 'Malta (Valletta Grand Harbour)', adminTitle: 'Crown Colony & Naval Fortress', historicalNote: 'Base avanzata della Mediterranean Fleet nel Canale di Sicilia.' },
+    cyprus: { historicalName: 'Cyprus (Nicosia)', adminTitle: 'Crown Colony of Cyprus', historicalNote: 'Colonia della Corona a presidio del Mediterraneo orientale.' },
     palestine: { historicalName: 'British Mandate for Palestine', adminTitle: 'League of Nations Mandate (High Commissioner)' },
     jerusalem: { historicalName: 'Jerusalem (Palestine)', adminTitle: 'Seat of the High Commissioner' },
     haifa: { historicalName: 'Haifa (Palestine)', adminTitle: 'Major Port and Oil Pipeline Terminal' },
@@ -7203,6 +7222,479 @@ export function resolveChinaToponym(
   return null;
 }
 
+export function resolveUKToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. Dipendenze della Corona & Fortezze d'Oltremare Chokepoint
+  if (
+    id.startsWith('IM') ||
+    normKey.includes('isle_of_man') ||
+    normKey.includes('mann') ||
+    normKey.includes('isola_di_man') ||
+    normKey.includes('douglas')
+  ) {
+    return {
+      name: 'Isle of Man (Douglas)',
+      adminTitle: 'Crown Dependency of the Isle of Man',
+      note: 'Dipendenza autonoma della Corona Britannica nel Mare d\'Irlanda, non soggetta alla coscrizione militare ma sede di centri radar e campi d\'internamento per cittadini nemici (Knockaloe, Mooragh).',
+    };
+  }
+
+  if (
+    id.startsWith('GG') ||
+    id.startsWith('JE') ||
+    normKey.includes('jersey') ||
+    normKey.includes('guernsey') ||
+    normKey.includes('channel_islands') ||
+    normKey.includes('isole_del_canale')
+  ) {
+    const isJersey = normKey.includes('jersey') || id.startsWith('JE');
+    const isOccupied = step >= 6;
+    if (isOccupied && owner === 'GER') {
+      return {
+        name: isJersey ? 'Jersey (Deutsche Besetzung)' : 'Guernsey (Deutsche Besetzung)',
+        adminTitle: 'Befehlshaber der Kanalinseln (Festung Kanalinseln)',
+        note: 'Isole della Manica occupate dalla Wehrmacht (giugno-luglio 1940) a seguito della smilitarizzazione britannica; unico territorio della Corona sotto occupazione tedesca, fortificato massicciamente dall\'Organizzazione Todt.',
+      };
+    }
+    return {
+      name: isJersey ? 'Bailiwick of Jersey (Saint Helier)' : 'Bailiwick of Guernsey (Saint Peter Port)',
+      adminTitle: isOccupied
+        ? 'Crown Dependency of the Channel Islands (German Occupation)'
+        : 'Crown Dependency of the Channel Islands',
+      note: 'Isole della Manica di pertinenza della Corona Britannica, smilitarizzate dal gabinetto Churchill nel giugno 1940 e successivamente occupate dalle forze tedesche.',
+    };
+  }
+
+  if (id === 'GIB' || normKey === 'gibraltar' || normKey === 'gibilterra') {
+    return {
+      name: 'Gibraltar (The Rock)',
+      adminTitle: 'Fortress & Naval Base of Gibraltar (Force H)',
+      note: 'Baluardo strategico imperiale all\'imbocco del Mediterraneo e base operativa della Force H (Ammiraglio Sir James Somerville). Nodo insostituibile di controllo dello stretto e delle rotte atlantiche verso Suez.',
+    };
+  }
+
+  if (id.startsWith('MT') || normKey.includes('malta') || normKey.includes('valletta')) {
+    return {
+      name: 'Malta (Valletta Grand Harbour)',
+      adminTitle: 'Crown Colony of Malta (Mediterranean Fortress)',
+      note: 'Isola fortezza e base avanzata della Mediterranean Fleet nel Canale di Sicilia, cardine per le operazioni di contrasto e siluramento dei convogli italo-tedeschi diretti in Libia.',
+    };
+  }
+
+  if (id.startsWith('CY') || normKey.includes('cyprus') || normKey.includes('cipro')) {
+    return {
+      name: 'Cyprus (Nicosia)',
+      adminTitle: 'Crown Colony of Cyprus',
+      note: 'Colonia della Corona britannica nel bacino orientale del Mediterraneo, base aerea e navale ausiliaria a protezione del Canale di Suez e del mandato di Palestina.',
+    };
+  }
+
+  // 2. Scozia (UKM)
+  if (id.startsWith('UKM')) {
+    if (id === 'UKM65' || normKey.includes('orkney') || normKey.includes('scapa_flow')) {
+      return {
+        name: 'Orkney Islands (Scapa Flow)',
+        adminTitle: 'Main Anchorage of the Royal Navy Home Fleet',
+        note: 'Rada naturale fortificata e quartier generale della Home Fleet britannica (Amm. Sir Charles Forbes). Teatro dell\'incursione del sommergibile U-47 di Günther Prien nell\'ottobre 1939 (affondamento della corazzata HMS Royal Oak).',
+      };
+    }
+    if (id === 'UKM66' || normKey.includes('shetland')) {
+      return {
+        name: 'Shetland Islands (Lerwick)',
+        adminTitle: 'Northern Patrol & North Sea Naval Station',
+        note: 'Avamposto settentrionale della Royal Navy a cavallo tra il Mare del Nord e l\'Atlantico artico per il blocco marittimo delle navi corsare tedesche e corridoio marittimo per la resistenza norvegese (Shetland Bus).',
+      };
+    }
+    if (id.startsWith('UKM75') || normKey.includes('edinburgh') || normKey.includes('edimburgo') || normKey.includes('lothian')) {
+      return {
+        name: 'Edinburgh & Lothian (Firth of Forth)',
+        adminTitle: 'Scottish Capital & Forth Coastal Defenses',
+        note: 'Capitale storica della Scozia e fulcro delle difese costiere e contraeree dell\'estuario del Forth a protezione dell\'arsenale navale di Rosyth.',
+      };
+    }
+    if (id.startsWith('UKM72') || normKey.includes('fife') || normKey.includes('rosyth')) {
+      return {
+        name: 'Fife & Rosyth',
+        adminTitle: 'HMNB Rosyth (Firth of Forth Naval Base)',
+        note: 'Grande base navale della Royal Navy con bacini di carenaggio per corazzate; teatro del primo scontro aereo sopra i cieli britannici tra caccia Spitfire e bombardieri He 111 della Luftwaffe (16 ottobre 1939).',
+      };
+    }
+    if (
+      id.startsWith('UKM82') ||
+      id.startsWith('UKM8') ||
+      normKey.includes('glasgow') ||
+      normKey.includes('clyde') ||
+      normKey.includes('renfrew') ||
+      normKey.includes('lanarkshire')
+    ) {
+      return {
+        name: 'Glasgow & Clydeside',
+        adminTitle: 'Clyde Shipyards & Heavy Industries Hub',
+        note: 'Cuore pulsante dell\'industria cantieristica britannica: cantieri navali John Brown & Co. (costruttori dell\'incrociatore da battaglia HMS Hood e dei transatlantici Queen Mary ed Elizabeth) e rifugio profondo per la flotta atlantica.',
+      };
+    }
+    if (id.startsWith('UKM5') || normKey.includes('aberdeen') || normKey.includes('grampian')) {
+      return {
+        name: 'Aberdeen & Grampian',
+        adminTitle: 'North Sea Patrol & Minesweeping Base',
+        note: 'Base della pattuglia del Mare del Nord e flottiglie di dragamine ausiliari della Royal Naval Reserve a presidio delle rotte commerciali orientali.',
+      };
+    }
+    if (id.startsWith('UKM6') || normKey.includes('highland') || normKey.includes('inverness')) {
+      return {
+        name: 'Scottish Highlands (Loch Ewe / Invergordon)',
+        adminTitle: 'Highland Anchorage & Training Area',
+        note: 'Base navale riparata di Loch Ewe impiegata come ancoraggio alternativo per la Home Fleet e punto di raccolta protetto per i convogli oceanici.',
+      };
+    }
+    return {
+      name: `${rawName} (Scotland)`,
+      adminTitle: 'Kingdom of Scotland (Scottish Command)',
+      note: 'Territorio metropolitano scozzese integrato nel comando militare settentrionale della Corona Britannica.',
+    };
+  }
+
+  // 3. Irlanda del Nord (UKN)
+  if (id.startsWith('UKN')) {
+    if (id.startsWith('UKN06') || normKey.includes('belfast') || normKey.includes('antrim')) {
+      return {
+        name: 'Belfast & County Antrim',
+        adminTitle: 'Harland & Wolff Shipyards / Northern Ireland Command',
+        note: 'Capitale dell\'Irlanda del Nord fedele alla Corona (a differenza dell\'Éire rimasta neutrale). Sede dei colossali cantieri Harland & Wolff (costruttori dell\'incrociatore HMS Belfast e di portaerei) e delle fabbriche aeronautiche Short Brothers.',
+      };
+    }
+    if (id.startsWith('UKN10') || normKey.includes('derry') || normKey.includes('londonderry')) {
+      return {
+        name: 'Londonderry (Port of Foyle)',
+        adminTitle: 'Western Approaches Advanced Escort Base',
+        note: 'Porto fluviale strategico sul Lough Foyle trasformato nella base oceanica più avanzata per le fregate, cacciatorpediniere e corvette di scorta ai convogli della Battaglia dell\'Atlantico.',
+      };
+    }
+    return {
+      name: `${rawName} (Northern Ireland)`,
+      adminTitle: 'Province of Northern Ireland (United Kingdom)',
+      note: 'Baluardo strategico britannico nell\'isola d\'Irlanda a controllo del Canale del Nord e degli accessi marittimi occidentali.',
+    };
+  }
+
+  // 4. Galles (UKL)
+  if (id.startsWith('UKL')) {
+    if (
+      id.startsWith('UKL22') ||
+      normKey.includes('cardiff') ||
+      normKey.includes('glamorgan') ||
+      normKey.includes('swansea') ||
+      normKey.includes('newport')
+    ) {
+      return {
+        name: 'Glamorgan (Cardiff & Swansea)',
+        adminTitle: 'South Wales Coalfield & Heavy Metallurgy',
+        note: 'Grande bacino carbonifero esportatore di carbone a vapore d\'alta qualità per le caldaie della Royal Navy (Admiralty Coal) e acciaierie pesanti a Port Talbot e Swansea.',
+      };
+    }
+    if (id.startsWith('UKL1') || normKey.includes('gwynedd') || normKey.includes('clwyd') || normKey.includes('anglesey')) {
+      return {
+        name: 'North Wales (Anglesey & Snowdonia)',
+        adminTitle: 'Western Command (Wales Sector)',
+        note: 'Polo strategico per l\'estrazione dell\'ardesia, bacini idroelettrici e stazioni di rifugio per i depositi d\'arte nazionali di Londra (Manod Quarry).',
+      };
+    }
+    return {
+      name: `${rawName} (Wales)`,
+      adminTitle: 'Principality of Wales (Western Command)',
+      note: 'Territorio del Principato del Galles pienamente mobilitato nel sistema industriale ed energetico bellico britannico.',
+    };
+  }
+
+  // 5. Inghilterra - Londra (UKI)
+  if (id.startsWith('UKI')) {
+    if (id === 'UKI31' || normKey.includes('city_of_london')) {
+      return {
+        name: 'City of London (The City)',
+        adminTitle: 'Financial Heart of the British Empire',
+        note: 'Centro finanziario globale e direzionale dell\'Impero: Banca d\'Inghilterra, Lloyd\'s di Londra e Borsa Valori; bersaglio primario dei bombardamenti aerei tedeschi (Blitz).',
+      };
+    }
+    if (id === 'UKI32' || normKey.includes('westminster')) {
+      return {
+        name: 'Westminster & Whitehall',
+        adminTitle: 'Seat of Government & Imperial War Cabinet',
+        note: 'Centro del potere imperiale: 10 Downing Street, Palazzo di Westminster e le Cabinet War Rooms sotterranee da cui Winston Churchill e il gabinetto di guerra diressero il conflitto.',
+      };
+    }
+    return {
+      name: 'Greater London (Metropolis)',
+      adminTitle: 'Capital of the British Empire',
+      note: 'Capitale metropolitana dell\'Impero con oltre 8,6 milioni di abitanti; fulcro delle telecomunicazioni, dei comandi interforze e dei collegamenti con il Commonwealth.',
+    };
+  }
+
+  // 6. Inghilterra - South East (UKJ)
+  if (id.startsWith('UKJ')) {
+    if (id.startsWith('UKJ4') || normKey.includes('kent') || normKey.includes('dover') || normKey.includes('medway')) {
+      return {
+        name: 'Kent (Fortress Dover & Canterbury)',
+        adminTitle: 'Hellfire Corner / Dover Naval Command',
+        note: 'Prima linea difensiva sulla Manica. Il castello di Dover ospitò il quartier generale del Viceammiraglio Ramsay per l\'Operazione Dynamo (evacuazione di Dunkerque, maggio-giugno 1940); epicentro della Battaglia d\'Inghilterra ("Hellfire Corner").',
+      };
+    }
+    if (id.startsWith('UKJ31') || normKey.includes('portsmouth')) {
+      return {
+        name: 'Portsmouth & South Coast',
+        adminTitle: 'HMNB Portsmouth (Major Naval Dockyard)',
+        note: 'La storica e più importante base della Royal Navy sul Canale della Manica; arsenale principale per il supporto alla flotta da battaglia e imbarco del British Expeditionary Force (BEF).',
+      };
+    }
+    if (id.startsWith('UKJ32') || normKey.includes('southampton')) {
+      return {
+        name: 'Southampton & Solent',
+        adminTitle: 'Transatlantic Liner Docks & Supermarine Works',
+        note: 'Porto principale dei grandi transatlantici e sede degli stabilimenti aeronautici Supermarine a Woolston, dove R.J. Mitchell progettò il leggendario caccia Supermarine Spitfire.',
+      };
+    }
+    if (id.startsWith('UKJ2') || normKey.includes('sussex')) {
+      return {
+        name: 'Sussex (Brighton & Hastings)',
+        adminTitle: 'Fighter Command 11 Group / Chain Home Radar Sector',
+        note: 'Settore costiero chiave per l\'avvistamento preventivo delle incursioni della Luftwaffe grazie alla catena radar Chain Home (stazioni di Pevensey, Rye, Beachy Head).',
+      };
+    }
+    if (id.startsWith('UKJ1') || normKey.includes('surrey') || normKey.includes('berkshire') || normKey.includes('buckinghamshire') || normKey.includes('oxford')) {
+      return {
+        name: `${rawName} (Home Counties)`,
+        adminTitle: 'RAF Bomber Command HQ & Aviation Works',
+        note: 'Cintura strategica circostante Londra: stabilimenti Brooklands (produzione caccia Hawker Hurricane e bombardieri Vickers Wellington) e comando del Bomber Command a High Wycombe.',
+      };
+    }
+    return {
+      name: `${rawName} (South East England)`,
+      adminTitle: 'Home Counties & Coastal Defense Sector',
+      note: 'Regione chiave per il contenimento aereo e costiero a protezione meridionale di Londra.',
+    };
+  }
+
+  // 7. Inghilterra - South West (UKK)
+  if (id.startsWith('UKK')) {
+    if (id.startsWith('UKK41') || normKey.includes('plymouth') || normKey.includes('devonport')) {
+      return {
+        name: 'Plymouth & Devonport',
+        adminTitle: 'HMNB Devonport (Western Approaches Base)',
+        note: 'Il più grande arsenale navale d\'Europa occidentale, quartier generale marittimo per le rotte atlantiche e la protezione dei convogli oceanici contro gli U-Boot tedeschi.',
+      };
+    }
+    if (id.startsWith('UKK3') || normKey.includes('cornwall')) {
+      return {
+        name: 'Cornwall (Falmouth & Truro)',
+        adminTitle: 'Western Approaches Atlantic Outpost',
+        note: 'Avamposto oceanico all\'estremità sud-occidentale della Gran Bretagna (Land\'s End) con la rada naturale di Falmouth usata come approdo protetto dai convogli atlantici.',
+      };
+    }
+    if (id.startsWith('UKK1') || normKey.includes('bristol') || normKey.includes('bath')) {
+      return {
+        name: 'Bristol & Avonmouth',
+        adminTitle: 'Bristol Aeroplane Company & Western Docks',
+        note: 'Grande polo aeronautico britannico (stabilimenti di Filton, produttori dei bombardieri Bristol Blenheim e cacciapesanti Beaufighter) e porto atlantico riparato dai raid.',
+      };
+    }
+    if (id.startsWith('UKK2') || normKey.includes('dorset') || normKey.includes('wiltshire')) {
+      return {
+        name: 'Dorset & Wiltshire',
+        adminTitle: 'Portland Naval Base & Salisbury Plain Garrison',
+        note: 'Base navale di Portland e vasta area militare di Salisbury Plain, centro primario per l\'addestramento dei reparti corazzati e dell\'artiglieria della British Army.',
+      };
+    }
+    return {
+      name: `${rawName} (South West England)`,
+      adminTitle: 'Western Command (South West Sector)',
+      note: 'Settore costiero occidentale a controllo degli approcci marittimi dall\'Oceano Atlantico.',
+    };
+  }
+
+  // 8. Inghilterra - North West (UKD)
+  if (id.startsWith('UKD')) {
+    if (id.startsWith('UKD7') || normKey.includes('liverpool') || normKey.includes('merseyside') || normKey.includes('birkenhead')) {
+      return {
+        name: 'Liverpool & Merseyside',
+        adminTitle: 'Western Approaches Command Terminal',
+        note: 'Terminal vitale di scarico per i convogli transatlantici nord-americani e cantieri navali Cammell Laird a Birkenhead (costruzione della corazzata HMS Prince of Wales e della portaerei Ark Royal).',
+      };
+    }
+    if (id.startsWith('UKD3') || normKey.includes('manchester') || normKey.includes('salford')) {
+      return {
+        name: 'Greater Manchester & Salford',
+        adminTitle: 'Avro Aircraft Works & Trafford Park Industrial Basin',
+        note: 'Polo industriale d\'eccellenza: stabilimenti A.V. Roe (Avro Manchester e Lancaster) e Trafford Park, la più vasta area industriale integrata d\'Europa, convertita alla produzione bellica.',
+      };
+    }
+    if (id.startsWith('UKD4') || id.startsWith('UKD1') || normKey.includes('lancashire') || normKey.includes('cumbria') || normKey.includes('barrow')) {
+      return {
+        name: 'Lancashire & Cumbria (Barrow-in-Furness)',
+        adminTitle: 'Vickers-Armstrongs Submarine Works & Naval Artillery',
+        note: 'Culla dei cantieri sottomarini Vickers-Armstrongs a Barrow-in-Furness (costruzione della maggioranza dei sommergibili della Royal Navy) e fabbriche aeronautiche English Electric a Preston.',
+      };
+    }
+    return {
+      name: `${rawName} (North West England)`,
+      adminTitle: 'North Western Maritime & Industrial Belt',
+      note: 'Distretto industriale e cantieristico essenziale per la sopravvivenza logistica dell\'Impero.',
+    };
+  }
+
+  // 9. Inghilterra - West Midlands (UKG)
+  if (id.startsWith('UKG')) {
+    if (id.startsWith('UKG31') || id.startsWith('UKG32') || normKey.includes('birmingham')) {
+      return {
+        name: 'Birmingham (West Midlands)',
+        adminTitle: 'Industrial Arsenal of the Empire (BSA & Castle Bromwich)',
+        note: 'Epicentro della produzione bellica britannica: Birmingham Small Arms (BSA, fucili e mitragliatrici) e colossale fabbrica ombra di Castle Bromwich per la produzione di massa dello Spitfire.',
+      };
+    }
+    if (id.startsWith('UKG33') || normKey.includes('coventry') || normKey.includes('warwickshire')) {
+      return {
+        name: 'Coventry & Warwickshire',
+        adminTitle: 'Aero Engines & Armoured Vehicle Heartland',
+        note: 'Distretto ad altissima precisione per motori aeronautici (Armstrong Siddeley), veicoli corazzati e macchine utensili (bersaglio della devastante incursione aerea tedesca del novembre 1940).',
+      };
+    }
+    return {
+      name: `${rawName} (West Midlands)`,
+      adminTitle: 'Midlands War Production District',
+      note: 'Distretto manifatturiero pesante per la meccanica di precisione e gli armamenti leggeri.',
+    };
+  }
+
+  // 10. Inghilterra - East Midlands (UKF)
+  if (id.startsWith('UKF')) {
+    if (id.startsWith('UKF11') || normKey.includes('derby') || normKey.includes('derbyshire')) {
+      return {
+        name: 'Derby & Derbyshire',
+        adminTitle: 'Rolls-Royce Aero Engine Headquarters',
+        note: 'Sede centrale degli stabilimenti Rolls-Royce a Derby, progettisti e costruttori del celebre motore V12 Rolls-Royce Merlin a 27 litri, equipaggiamento di Spitfire, Hurricane e Lancaster.',
+      };
+    }
+    if (id.startsWith('UKF3') || normKey.includes('lincolnshire')) {
+      return {
+        name: 'Lincolnshire (Bomber County)',
+        adminTitle: 'RAF Bomber Command Airfield Network',
+        note: 'La contea dei bombardieri ("Bomber County"): densità record di basi aeree della RAF (Scampton, Waddington, Coningsby) per l\'offensiva strategica notturna contro la Germania.',
+      };
+    }
+    if (id.startsWith('UKF1') || id.startsWith('UKF2') || normKey.includes('nottingham') || normKey.includes('leicester') || normKey.includes('northampton')) {
+      return {
+        name: `${rawName} (East Midlands)`,
+        adminTitle: 'East Midlands Industrial & Ordnance Basin',
+        note: 'Distretto integrato per la produzione di calzature militari per le forze armate imperiali, munizionamento pesante della Royal Ordnance Factory e miniere di carbone.',
+      };
+    }
+    return {
+      name: `${rawName} (East Midlands)`,
+      adminTitle: 'East Midlands Industrial & Airfield Belt',
+      note: 'Zona cardine per la produzione industriale di supporto e basi aeree della RAF.',
+    };
+  }
+
+  // 11. Inghilterra - Yorkshire and the Humber (UKE)
+  if (id.startsWith('UKE')) {
+    if (id.startsWith('UKE3') || normKey.includes('sheffield')) {
+      return {
+        name: 'Sheffield & South Yorkshire',
+        adminTitle: 'Steel Capital of the Empire & Naval Armor',
+        note: 'Capitale mondiale degli acciai speciali: fonderie Hadfields e Firth Brown per la fabbricazione di piastre di corazzatura per navi da guerra e proiettili perforanti per la Royal Navy.',
+      };
+    }
+    if (id.startsWith('UKE1') || normKey.includes('hull') || normKey.includes('humber')) {
+      return {
+        name: 'Kingston upon Hull & Humber',
+        adminTitle: 'Humber Port & North Sea Escort Station',
+        note: 'Terzo porto britannico, snodo cruciale per l\'importazione di legname e grano e base per le flottiglie di dragamine e torpediniere costiere nel Mare del Nord.',
+      };
+    }
+    if (id.startsWith('UKE4') || normKey.includes('leeds') || normKey.includes('bradford')) {
+      return {
+        name: 'Leeds & Bradford (West Yorkshire)',
+        adminTitle: 'Wool Textile Heartland & Heavy Engineering',
+        note: 'Fornitore quasi esclusivo di uniformi di lana pettinata per i milioni di soldati del British Army e del Commonwealth britannico, oltre a fabbriche di carri armati e locomotive.',
+      };
+    }
+    if (id.startsWith('UKE2') || normKey.includes('york') || normKey.includes('catterick')) {
+      return {
+        name: 'North Yorkshire (Catterick Garrison)',
+        adminTitle: 'Northern Military Training Depot & Airfields',
+        note: 'Catterick Garrison: il più esteso centro di addestramento militare permanente del Regno Unito, con le basi aeree settentrionali del Fighter Command.',
+      };
+    }
+    return {
+      name: `${rawName} (Yorkshire & Humber)`,
+      adminTitle: 'Northern Industrial Belt',
+      note: 'Grande bacino industriale metallurgico e tessile per il sostentamento dello sforzo bellico.',
+    };
+  }
+
+  // 12. Inghilterra - North East (UKC)
+  if (id.startsWith('UKC')) {
+    if (id.startsWith('UKC2') || normKey.includes('newcastle') || normKey.includes('tyne') || normKey.includes('sunderland')) {
+      return {
+        name: 'Newcastle upon Tyne & Tyneside',
+        adminTitle: 'Swan Hunter & Vickers-Armstrongs Naval Yards',
+        note: 'Celeberrimi cantieri navali del Tyne e Wear: costruzione della corazzata HMS King George V e della portaerei Victorious, cannoni pesanti Vickers e vagoni ferroviari blindati.',
+      };
+    }
+    if (id.startsWith('UKC1') || normKey.includes('tees') || normKey.includes('durham') || normKey.includes('middlesbrough')) {
+      return {
+        name: 'Teesside & County Durham',
+        adminTitle: 'Imperial Chemical Industries (ICI) & Heavy Metallurgy',
+        note: 'Impianti chimici giganti ICI a Billingham (produzione di ammoniaca sintetica, esplosivi e carburante sintetico) e acciaierie Dorman Long.',
+      };
+    }
+    return {
+      name: `${rawName} (North East England)`,
+      adminTitle: 'Heavy Industry & Shipbuilding Belt',
+      note: 'Distretto minerario e cantieristico navale del nord-est inglese.',
+    };
+  }
+
+  // 13. Inghilterra - East of England (UKH)
+  if (id.startsWith('UKH')) {
+    if (normKey.includes('suffolk') || normKey.includes('bawdsey') || normKey.includes('norfolk')) {
+      return {
+        name: `${rawName} (East Anglia)`,
+        adminTitle: 'Chain Home Radar Pioneer & RAF Airfields',
+        note: 'Sede di Bawdsey Manor (Suffolk), dove Sir Robert Watson-Watt sviluppò il primo sistema radar operativo al mondo; costellata da decine di aeroporti per i caccia del Gruppo 12 della RAF.',
+      };
+    }
+    if (normKey.includes('cambridge') || normKey.includes('bedford') || normKey.includes('hertford') || normKey.includes('essex') || normKey.includes('harwich')) {
+      return {
+        name: `${rawName} (East of England)`,
+        adminTitle: 'Eastern Defense & Naval Harwich Sector',
+        note: 'Base navale di Harwich a protezione dei convogli costieri del Mare del Nord e laboratori scientifici universitari convertiti alla ricerca bellica.',
+      };
+    }
+    return {
+      name: `${rawName} (East of England)`,
+      adminTitle: 'RAF Airfields & Eastern Coastal Defenses',
+      note: 'Regione pianeggiante ideale per gli aeroporti della RAF e sbarramenti costieri anti-invasione.',
+    };
+  }
+
+  // Fallback se id è generico o appartenente a UK
+  if (owner === 'UK' || id.startsWith('UK')) {
+    return {
+      name: `${rawName} (United Kingdom)`,
+      adminTitle: 'Territory of the United Kingdom',
+      note: 'Divisione amministrativa metropolitana del Regno Unito di Gran Bretagna e Irlanda del Nord.',
+    };
+  }
+
+  return null;
+}
+
 /**
  * Funzione di ricerca e normalizzazione toponimi con fuzzy matching e lookup NUTS-3/ISO.
  */
@@ -7323,6 +7815,23 @@ export function getExtendedToponym(
   ) {
     const cnTop = resolveChinaToponym(id, rawName, normKey, owner, yearStep);
     if (cnTop) return cnTop;
+  }
+
+  // 0.13 Overrides prioritari per Regno Unito e Territori della Corona (UK / codici UK... / IM / GG / JE / GIB / MT / CY)
+  if (
+    owner === 'UK' ||
+    id.startsWith('UK') ||
+    id.startsWith('IM') ||
+    id.startsWith('GG') ||
+    id.startsWith('JE') ||
+    id === 'GIB' ||
+    id.startsWith('MT') ||
+    id.startsWith('CY') ||
+    normKey.includes('united_kingdom') ||
+    normKey.includes('gran_bretagna')
+  ) {
+    const ukTop = resolveUKToponym(id, rawName, normKey, owner, yearStep);
+    if (ukTop) return ukTop;
   }
 
   // 0.1 Overrides prioritari per macro-entità insulari e codici NUTS specifici

@@ -44,9 +44,14 @@ export const OWNERS: Record<string, OwnerConfig> = {
   UK: {
     c: '#c46e66',
     f: 'Alleati',
-    l: () => 'Impero Britannico / Regno Unito',
+    l: (s) =>
+      s >= 6
+        ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Churchill)'
+        : s >= 1
+        ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Chamberlain)'
+        : 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Baldwin)',
     shortName: 'Gran Bretagna',
-    leader: 'Neville Chamberlain / Winston Churchill',
+    leader: 'S. Baldwin (1936) / N. Chamberlain (1937-40) / W. Churchill (1940)',
     capital: 'Londra',
   },
   CAN: {

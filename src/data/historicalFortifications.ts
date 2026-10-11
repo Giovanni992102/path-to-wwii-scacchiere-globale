@@ -191,6 +191,35 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     ],
     activeSteps: [0, 1, 2, 3, 4, 5, 6],
   },
+  {
+    id: 'ghq_line',
+    name: 'Linea GHQ (General Headquarters Line)',
+    nation: 'Regno Unito',
+    builder: 'Generale Sir Edmund Ironside / War Office',
+    description:
+      'Spina dorsale del dispositivo anti-invasione britannico eretto nell\'estate 1940 dopo la caduta della Francia (Operazione Leone Marino). Lunga centinaia di miglia da Somerset all\'estuario del Tamigi e nello Yorkshire, contava migliaia di casematte (pillbox), fossati anticarro e ponti predisposti per la demolizione.',
+    type: 'field',
+    color: '#3d7848',
+    coordinates: [
+      [-2.95, 51.15], // Somerset Levels / Highbridge
+      [-2.45, 51.25], // Frome / Wiltshire Stop Line
+      [-1.95, 51.35], // Devizes / Kennet and Avon Canal
+      [-1.40, 51.40], // Newbury / Berkshire
+      [-0.95, 51.45], // Reading
+      [-0.72, 51.28], // Aldershot / Farnham
+      [-0.58, 51.23], // Guildford Gap / Hog's Back
+      [-0.20, 51.24], // Reigate / Surrey Hills
+      [0.25, 51.20],  // Edenbridge / Medway Line
+      [0.55, 51.38],  // Rochester / Chatham (Fiume Medway)
+      [0.85, 51.42],  // Isle of Sheppey / Estuario del Tamigi
+    ],
+    keyForts: [
+      { name: 'Sbarramento del Guildford Gap', coords: [-0.58, 51.23], desc: 'Chiusura strategica tra le North Downs per impedire ai panzer l\'avanzata verso Londra.' },
+      { name: 'Linea d\'Arresto del Medway', coords: [0.52, 51.35], desc: 'Bunker e fossati a protezione degli accessi meridionali all\'arsenale di Chatham e a Londra.' },
+      { name: 'Wiltshire Stop Line (Kennet & Avon)', coords: [-1.98, 51.35], desc: 'Linea di pillbox scaglionata lungo il canale navigabile per tagliare fuori il South West.' },
+    ],
+    activeSteps: [6], // Eretta nel giugno 1940
+  },
 ];
 
 export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
@@ -203,7 +232,17 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     coords: [-3.05, 58.91],
     type: 'fleet_hq',
     theater: 'Atlantic',
-    description: 'Quartier generale e base principale della Home Fleet britannica.',
+    description: 'Quartier generale e rada fortificata principale della Home Fleet britannica.',
+  },
+  {
+    id: 'devonport',
+    name: 'Devonport (Plymouth)',
+    historicalName: 'HMNB Devonport (Western Approaches)',
+    nation: 'Regno Unito',
+    coords: [-4.18, 50.38],
+    type: 'fleet_hq',
+    theater: 'Atlantic',
+    description: 'Il più esteso arsenale navale dell\'Europa occidentale; base di comando per le forze di superficie e di scorta nel contrasto agli U-Boot atlantici.',
   },
   {
     id: 'portsmouth',
@@ -216,6 +255,16 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     description: 'Principale arsenale navale e base della Manica della Royal Navy.',
   },
   {
+    id: 'rosyth',
+    name: 'Rosyth (Firth of Forth)',
+    historicalName: 'HMNB Rosyth (Scottish Command)',
+    nation: 'Regno Unito',
+    coords: [-3.43, 56.02],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Base primaria della Royal Navy nel Mare del Nord con bacini di carenaggio per corazzate e portaerei; bersaglio del primo raid aereo tedesco del 1939.',
+  },
+  {
     id: 'gibraltar',
     name: 'Gibilterra',
     historicalName: 'Fortezza Navale di Gibilterra (The Rock)',
@@ -223,7 +272,7 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     coords: [-5.353, 36.133],
     type: 'fortress_chokepoint',
     theater: 'Mediterranean',
-    description: 'Chokepoint strategico fondamentale: controlla l\'accesso tra Oceano Atlantico e Mediterraneo.',
+    description: 'Chokepoint strategico fondamentale: controlla l\'accesso tra Oceano Atlantico e Mediterraneo e sede della Force H.',
   },
   {
     id: 'malta',
@@ -246,6 +295,26 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     description: 'Base della Mediterranean Fleet e guardiana dell\'accesso al Canale di Suez.',
   },
   {
+    id: 'freetown',
+    name: 'Freetown (Sierra Leone)',
+    historicalName: 'Freetown Convoy Staging Base',
+    nation: 'Regno Unito',
+    coords: [-13.23, 8.48],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Rada naturale strategica nell\'Africa occidentale, snodo nevralgico obbligato per il raggruppamento dei convogli Alleati (rotta del Capo di Buona Speranza).',
+  },
+  {
+    id: 'trincomalee',
+    name: 'Trincomalee (Ceylon)',
+    historicalName: 'Trincomalee Royal Naval Dockyard',
+    nation: 'Regno Unito',
+    coords: [81.23, 8.57],
+    type: 'major_base',
+    theater: 'Indian',
+    description: 'Porto naturale d\'altura a Ceylon e quartier generale dell\'East Indies Fleet della Royal Navy nell\'Oceano Indiano.',
+  },
+  {
     id: 'singapore',
     name: 'Singapore',
     historicalName: 'Fortezza Navale di Singapore (Sembawang Naval Base)',
@@ -254,6 +323,16 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     type: 'fortress_chokepoint',
     theater: 'Pacific',
     description: 'La "Gibilterra d\'Oriente": base oceanica imperiale per il controllo degli Stretti di Malacca.',
+  },
+  {
+    id: 'halifax',
+    name: 'Halifax (Canada)',
+    historicalName: 'HMC Dockyard Halifax',
+    nation: 'Regno Unito / Canada',
+    coords: [-63.58, 44.66],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Punto di partenza principale di tutti i convogli HX e SC diretti in Gran Bretagna attraverso il Nord Atlantico.',
   },
 
   // Francia
