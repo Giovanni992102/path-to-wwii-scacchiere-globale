@@ -1475,6 +1475,22 @@ export default function App() {
           );
         },
       },
+      {
+        name: 'Taiwan Sōtokufu (CHN_TAIWAN: JAP/Asse, Sovranità Coloniale Gaichi e Zero-Overlap con Naichi)',
+        run: () => {
+          const tw0 = resolveFeature({ properties: { id: 'CHN_TAIWAN', NUTS_ID: 'CHN_TAIWAN', CNTR_CODE: 'CN_PROV' } }, 0);
+          const tw2 = resolveFeature({ properties: { id: 'CHN_TAIWAN', NUTS_ID: 'CHN_TAIWAN', CNTR_CODE: 'CN_PROV' } }, 2);
+          const tw6 = resolveFeature({ properties: { id: 'CHN_TAIWAN', NUTS_ID: 'CHN_TAIWAN', CNTR_CODE: 'CN_PROV' } }, 6);
+          return (
+            tw0.o === 'JAP' &&
+            tw0.fac === 'Asse' &&
+            tw0.name.includes('Taiwan') &&
+            (tw0.adminEntity || '').includes('Taiwan Sōtokufu') &&
+            tw2.o === 'JAP' &&
+            tw6.o === 'JAP'
+          );
+        },
+      },
     ];
 
     let passed = 0;
@@ -1686,6 +1702,30 @@ export default function App() {
               });
             }
           }
+        } else if (nm === 'Empire of Japan' && f.geometry && f.geometry.type === 'MultiPolygon') {
+          // Geostoricamente, Taiwan / Formosa (Governo Generale di Taiwan — Gaichi) è modellata
+          // in modo autonomo e ad alta definizione tramite CHN_TAIWAN in CHINA_REGIONAL_FEATURES.
+          // Rimuoviamo il poligono di Formosa dal blocco metropolitano Naichi per eliminare l'overlapping.
+          const cleanCoords = f.geometry.coordinates.filter((poly: any) => {
+            const ring = poly[0];
+            let minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
+            for (const pt of ring) {
+              if (pt[0] < minx) minx = pt[0];
+              if (pt[0] > maxx) maxx = pt[0];
+              if (pt[1] < miny) miny = pt[1];
+              if (pt[1] > maxy) maxy = pt[1];
+            }
+            const isTaiwanIsland = minx >= 119.5 && maxx <= 122.5 && miny >= 21.8 && maxy <= 25.5;
+            return !isTaiwanIsland;
+          });
+          hbs.push({
+            ...f,
+            geometry: {
+              ...f.geometry,
+              coordinates: cleanCoords,
+            },
+            __layer: 'hb',
+          });
         } else {
           hbs.push({ ...f, __layer: 'hb' });
         }
