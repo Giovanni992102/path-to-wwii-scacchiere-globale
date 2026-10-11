@@ -1037,6 +1037,78 @@ export const ANDORRA_FEATURE: any = {
   },
 };
 
+// ----------------------------------------------------------------------------
+// 18. PRINCIPATO DEL LIECHTENSTEIN (Fürstentum Liechtenstein)
+// Vaduz, Schaan, Balzers, Triesen, Eschen, Mauren, Triesenberg, Ruggell, Gamprin, Schellenberg, Planken
+// Principato alpino sovrano neutrale in unione doganale e monetaria con la Svizzera (1923)
+// Coordinate autentiche di precisione (general_world_countries_geojson.txt)
+// ----------------------------------------------------------------------------
+export const LIECHTENSTEIN_FEATURE: any = {
+  type: 'Feature',
+  id: 'LIE_HIST',
+  properties: {
+    NAME: 'Liechtenstein',
+    NUTS_ID: 'LI000',
+    NUTS_NAME: 'Fürstentum Liechtenstein',
+    NAME_ENGL: 'Liechtenstein',
+    CNTR_NAME: 'Liechtenstein',
+    CNTR_ID: 'LIE',
+    CNTR_CODE: 'LI',
+    ADMIN: 'Fürstentum Liechtenstein',
+    SOVEREIGNT: 'Principality of Liechtenstein',
+    CAPITAL: 'Vaduz',
+    HISTORICAL_NOTE:
+      'Principato alpino sovrano incastonato tra il Cantone San Gallo (Svizzera) e il Vorarlberg (Austria / Terzo Reich). Retto dal Principe Franz I (fino al 1938) e dal Principe Franz Josef II (dal 1938) con il Capo del Governo Josef Hoop. Mantenne una rigorosa neutralità armata ed una vitale unione doganale e monetaria con la Confederazione Svizzera (trattato del 1923), resistendo con fermezza alle pressioni di annessione filonaziste (Volksdeutsche Bewegung). La bandiera con la corona principesca (Fürstenhut) fu adottata ufficialmente nel 1937 dopo le Olimpiadi del 1936.',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[
+      [9.521155, 47.262801],
+      [9.53025, 47.253654],
+      [9.547096, 47.243035],
+      [9.540378, 47.229108],
+      [9.544823, 47.220323],
+      [9.554331, 47.211615],
+      [9.562909, 47.19774],
+      [9.561876, 47.190609],
+      [9.551954, 47.175571],
+      [9.552057, 47.16689],
+      [9.581823, 47.154901],
+      [9.605594, 47.132266],
+      [9.615723, 47.106764],
+      [9.608798, 47.080771],
+      [9.581203, 47.05687],
+      [9.560636, 47.0524],
+      [9.499554, 47.059351],
+      [9.477023, 47.063898],
+      [9.475886, 47.073226],
+      [9.487565, 47.083949],
+      [9.502861, 47.094698],
+      [9.51237, 47.10803],
+      [9.511853, 47.129372],
+      [9.503481, 47.145392],
+      [9.492629, 47.15981],
+      [9.484981, 47.176346],
+      [9.487358, 47.210014],
+      [9.504618, 47.243732],
+      [9.521155, 47.262801],
+    ]],
+  },
+  __layer: 'prov',
+  __kind: 'LIECHTENSTEIN',
+  __resolve: (s: number): ResolvedTerritory => {
+    return makeResult(
+      'LIE',
+      'Fürstentum Liechtenstein (Vaduz)',
+      s < 2
+        ? 'Fürstentum Liechtenstein — Principe Franz I (Neutrale / Zollunion Schweiz)'
+        : 'Fürstentum Liechtenstein — Principe Franz Josef II (Neutrale / Zollunion Schweiz)',
+      'Neutrale',
+      'Fürstentum Liechtenstein (Souveränes Fürstentum)'
+    );
+  },
+};
+
 
 // Exported precision non-NUTS historical features
 export const PRECISION_HISTORICAL_FEATURES: any[] = [
@@ -1059,5 +1131,6 @@ export const PRECISION_HISTORICAL_FEATURES: any[] = [
   VATICAN_CITY_FEATURE,
   GIBRALTAR_COLONY_FEATURE,
   ANDORRA_FEATURE,
+  LIECHTENSTEIN_FEATURE,
 ];
 

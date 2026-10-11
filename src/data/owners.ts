@@ -804,6 +804,14 @@ export const OWNERS: Record<string, OwnerConfig> = {
     leader: 'Justí Guitart i Vilardebó (Vescovo di Urgell) & Albert Lebrun (Pres. Francia) / Francesc Cairat (Sìndic General)',
     capital: 'Andorra la Vella',
   },
+  LIE: {
+    c: '#1a3c75',
+    f: 'Neutrale',
+    l: (s) => (s && s >= 2 ? 'Fürstentum Liechtenstein (Principe Franz Josef II)' : 'Fürstentum Liechtenstein (Principe Franz I)'),
+    shortName: 'Liechtenstein',
+    leader: 'Principe Franz I (fino al 1938) / Principe Franz Josef II (dal 1938) & Josef Hoop (Regierungschef)',
+    capital: 'Vaduz',
+  },
   NEU: {
     c: '#b5a98d',
     f: 'Neutrale',
@@ -846,6 +854,12 @@ OWNERS['ANDORRA'] = OWNERS['AND'];
 OWNERS['PRINCIPATO D\'ANDORRA'] = OWNERS['AND'];
 OWNERS['PRINCIPAT D\'ANDORRA'] = OWNERS['AND'];
 OWNERS['AD'] = OWNERS['AND'];
+OWNERS['LIE'] = OWNERS['LIE'];
+OWNERS['LIECHTENSTEIN'] = OWNERS['LIE'];
+OWNERS['LI'] = OWNERS['LIE'];
+OWNERS['PRINCIPATO DEL LIECHTENSTEIN'] = OWNERS['LIE'];
+OWNERS['FUERSTENTUM_LIECHTENSTEIN'] = OWNERS['LIE'];
+OWNERS['FÜRSTENTUM LIECHTENSTEIN'] = OWNERS['LIE'];
 
 export const OWN_FALLBACK: OwnerConfig = {
   c: '#5a5f66',

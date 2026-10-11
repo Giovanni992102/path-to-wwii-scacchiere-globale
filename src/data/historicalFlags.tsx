@@ -53,6 +53,7 @@ import { ALB_FLAG_DATA_URL } from './flags/albFlag';
 import { SAU_FLAG_DATA_URL } from './flags/sauFlag';
 import { YEM_FLAG_DATA_URL } from './flags/yemFlag';
 import { AND_FLAG_DATA_URL } from './flags/andFlag';
+import { LIE_FLAG_DATA_URL } from './flags/lieFlag';
 
 /**
  * Historical Flags (1936-1940)
@@ -91,6 +92,13 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
     svgWrap(
       `<image href="${AND_FLAG_DATA_URL}" xlink:href="${AND_FLAG_DATA_URL}" width="1024" height="716" preserveAspectRatio="none" />`,
       '0 0 1024 716'
+    ),
+
+  // PRINCIPATO DEL LIECHTENSTEIN (Fürstentum Liechtenstein) — Bandiera ufficiale con Fürstenhut fornita dall'utente (1024x614)
+  LIE: () =>
+    svgWrap(
+      `<image href="${LIE_FLAG_DATA_URL}" xlink:href="${LIE_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
+      '0 0 1024 614'
     ),
 
   // REGNO D'ITALIA (1861-1946) — Bandiera ufficiale fornita dall'utente
@@ -921,6 +929,12 @@ HISTORICAL_FLAGS['GIBILTERRA'] = HISTORICAL_FLAGS['GIB'];
 HISTORICAL_FLAGS['GI'] = HISTORICAL_FLAGS['GIB'];
 HISTORICAL_FLAGS['ANDORRA'] = HISTORICAL_FLAGS['AND'];
 HISTORICAL_FLAGS['AD'] = HISTORICAL_FLAGS['AND'];
+HISTORICAL_FLAGS['LIE'] = HISTORICAL_FLAGS['LIE'];
+HISTORICAL_FLAGS['LIECHTENSTEIN'] = HISTORICAL_FLAGS['LIE'];
+HISTORICAL_FLAGS['LI'] = HISTORICAL_FLAGS['LIE'];
+HISTORICAL_FLAGS['PRINCIPATO DEL LIECHTENSTEIN'] = HISTORICAL_FLAGS['LIE'];
+HISTORICAL_FLAGS['FUERSTENTUM_LIECHTENSTEIN'] = HISTORICAL_FLAGS['LIE'];
+HISTORICAL_FLAGS['FÜRSTENTUM LIECHTENSTEIN'] = HISTORICAL_FLAGS['LIE'];
 
 /**
  * Returns raw SVG string of the historical flag for an owner/nation at a specific timeline step.

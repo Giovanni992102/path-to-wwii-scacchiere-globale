@@ -59,6 +59,7 @@ export const ITNAMES: Record<string, string> = {
   ES: 'España',
   PT: 'Portugal',
   LI: 'Liechtenstein',
+  LIE: 'Liechtenstein',
   SM: 'Serenissima Repubblica di San Marino',
   SMR: 'Serenissima Repubblica di San Marino',
   VA: 'Stato della Città del Vaticano',
@@ -2813,6 +2814,36 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
   }
 
+  // Liechtenstein (LIE) - Principato sovrano neutrale delle Alpi
+  const isLiechtenstein =
+    ft.id === 'LIE_HIST' ||
+    ft.id === 'LI000' ||
+    ft.__kind === 'LIECHTENSTEIN' ||
+    cntr === 'LI' ||
+    cntr === 'LIE' ||
+    nid === 'LI' ||
+    nid === 'LIE' ||
+    nid === 'LI000' ||
+    nid === 'LIE_HIST' ||
+    nrm === 'liechtenstein' ||
+    nrm === 'fuerstentum liechtenstein' ||
+    nrm === 'fürstentum liechtenstein' ||
+    nrm === 'principato del liechtenstein' ||
+    nrm === 'principality of liechtenstein';
+
+  if (isLiechtenstein) {
+    const topLie = resolveSwissAustrianToponym(nid, rawName, nrm, 'LIE', s);
+    return makeResult(
+      'LIE',
+      topLie?.name || 'Fürstentum Liechtenstein (Vaduz)',
+      topLie?.note || (s < 2
+        ? 'Principato del Liechtenstein — Principe Franz I (Neutrale / Zollunion Schweiz).'
+        : 'Principato del Liechtenstein — Principe Franz Josef II (Neutrale / Zollunion Schweiz).'),
+      'Neutrale',
+      topLie?.adminTitle || 'Fürstentum Liechtenstein (Souveränes Fürstentum)'
+    );
+  }
+
   // Isola di Man (Isle of Man)
   const isMan =
     cntr === 'IM' ||
@@ -4215,14 +4246,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('TUR', getTop('TUR').name || rawName || 'Repubblica di Turchia', 'Repubblica di Turchia');
     }
 
-    case 'LI': {
-      const topLie = resolveSwissAustrianToponym(nid, rawName, nrm, 'SWI', s) || getTop('SWI');
+    case 'LI':
+    case 'LIE': {
+      const topLie = resolveSwissAustrianToponym(nid, rawName, nrm, 'LIE', s);
       return makeResult(
-        'SWI',
-        topLie.name || 'Fürstentum Liechtenstein (Vaduz)',
-        topLie.note || 'Principato del Liechtenstein — Neutralità e unione doganale/monetaria con la Svizzera.',
+        'LIE',
+        topLie?.name || 'Fürstentum Liechtenstein (Vaduz)',
+        topLie?.note || (s < 2
+          ? 'Principato del Liechtenstein — Principe Franz I (Neutrale / Zollunion Schweiz).'
+          : 'Principato del Liechtenstein — Principe Franz Josef II (Neutrale / Zollunion Schweiz).'),
         'Neutrale',
-        topLie.adminTitle || 'Fürstentum Liechtenstein'
+        topLie?.adminTitle || 'Fürstentum Liechtenstein (Souveränes Fürstentum)'
       );
     }
 

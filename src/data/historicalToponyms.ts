@@ -11177,6 +11177,18 @@ export function getExtendedToponym(
     }
   }
 
+  if (owner === 'LIE' || owner === 'LI' || owner === 'LIECHTENSTEIN') {
+    if (normKey.includes('liechtenstein') || normKey.includes('vaduz') || id.includes('LIE') || id.includes('LI')) {
+      return {
+        name: 'Fürstentum Liechtenstein (Vaduz)',
+        adminTitle: (yearStep !== undefined && yearStep < 2)
+          ? 'Fürstentum Liechtenstein — Principe Franz I (Neutrale / Zollunion Schweiz)'
+          : 'Fürstentum Liechtenstein — Principe Franz Josef II (Neutrale / Zollunion Schweiz)',
+        note: 'Principato alpino sovrano neutrale incastonato tra Svizzera e Vorarlberg con capitale Vaduz; retto dal Principe Franz I (fino al 1938) e Franz Josef II (dal 1938) con il Capo del Governo Josef Hoop. Unione doganale e monetaria con la Svizzera dal 1923; bandiera ufficiale con corona principesca (Fürstenhut) adottata nel 1937.',
+      };
+    }
+  }
+
   // 3. Fallback con formattazione pulita
   return { name: rawName };
 }

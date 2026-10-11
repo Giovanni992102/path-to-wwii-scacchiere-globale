@@ -34,6 +34,7 @@ import {
   VATICAN_CITY_FEATURE,
   GIBRALTAR_COLONY_FEATURE,
   ANDORRA_FEATURE,
+  LIECHTENSTEIN_FEATURE,
 } from './data/historicalBorders';
 import { KRESY_POWIAT_FEATURES } from './data/kresyPowiats';
 import { USSR_REGIONAL_FEATURES } from './data/ussrRegions';
@@ -1361,9 +1362,12 @@ export default function App() {
           const bern6 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH021', NAME_LATN: 'Bern' } }, 6);
           const tic6 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH070', NAME_LATN: 'Ticino' } }, 6);
 
-          // 2. Liechtenstein (Step 0 e Step 6: Neutrale in unione con la Svizzera)
+          // 2. Liechtenstein (Souveränes Fürstentum Liechtenstein - Step 0 e Step 6: Neutrale)
           const lie0 = resolveFeature({ properties: { CNTR_CODE: 'LI', NUTS_ID: 'LI000', NAME_LATN: 'Liechtenstein' } }, 0);
           const lie6 = resolveFeature({ properties: { CNTR_CODE: 'LI', NUTS_ID: 'LI000', NAME_LATN: 'Liechtenstein' } }, 6);
+          const lieFeat0 = resolveFeature(LIECHTENSTEIN_FEATURE, 0);
+          const lieFlag = getCountryFlagSvg('LIE');
+          const lieOwner = getOwnerMeta('LIE');
 
           // 3. Austria pre-Anschluss (Step 0: Bundesstaat Österreich, Neutrale, 9 Bundesländer)
           const wien0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT130', NAME_LATN: 'Wien' } }, 0);
@@ -1408,13 +1412,18 @@ export default function App() {
             bern6.fac === 'Neutrale' &&
             tic6.o === 'SWI' &&
             tic6.fac === 'Neutrale' &&
-            // Liechtenstein
-            lie0.o === 'SWI' &&
+            // Liechtenstein (Souveränes Fürstentum Liechtenstein)
+            lie0.o === 'LIE' &&
             lie0.fac === 'Neutrale' &&
             lie0.name.includes('Liechtenstein') &&
             (lie0.adminEntity || '').includes('Liechtenstein') &&
-            lie6.o === 'SWI' &&
+            lie6.o === 'LIE' &&
             lie6.fac === 'Neutrale' &&
+            lieFeat0.o === 'LIE' &&
+            lieFeat0.name.includes('Liechtenstein') &&
+            lieFlag.includes('data:image/png;base64') &&
+            lieOwner.shortName === 'Liechtenstein' &&
+            lieOwner.capital === 'Vaduz' &&
             // Austria Step 0
             wien0.o === 'AUS' &&
             wien0.fac === 'Neutrale' &&
@@ -1579,8 +1588,9 @@ export default function App() {
         // - HR033 (Zadarska): rimpiazzata da Enclave di Zara e Dalmazia Settentrionale (Benkovac / Nin / Pag / Dugi Otok)
         // - FRY10..FRY50 (Dipartimenti d'Oltremare): gestiti come colonie extraeuropee
         // - CZ* (Cechia) & SK* (Slovacchia): rimpiazzate dalla partizione storica chirurgica a 44 distretti (Freytag & Berndt 1938)
+        // - LI000 (Liechtenstein): rimpiazzata dal profilo storico di precisione ad alta definizione (Fürstentum Liechtenstein)
         const nid = f.properties && (f.properties.NUTS_ID || f.properties.NUTS_CODE);
-        if (nid === 'PL633' || nid === 'PL634' || nid === 'LT023' || nid === 'FRY30' || nid === 'HR031' || nid === 'HR033' || nid?.startsWith('FRY') || nid?.startsWith('CZ') || nid?.startsWith('SK')) continue;
+        if (nid === 'PL633' || nid === 'PL634' || nid === 'LT023' || nid === 'FRY30' || nid === 'HR031' || nid === 'HR033' || nid === 'LI000' || f.properties?.CNTR_CODE === 'LI' || nid?.startsWith('FRY') || nid?.startsWith('CZ') || nid?.startsWith('SK')) continue;
 
         // Escludi Pelagosa (Palagruža) da HR035 (Split) e Lagosta (Lastovo) da HR037 (Dubrovnik) in quanto appartenenti all'enclave italiana di Zara
         if (nid === 'HR035' && f.geometry.type === 'MultiPolygon') {
