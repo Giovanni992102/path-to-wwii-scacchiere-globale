@@ -249,6 +249,141 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     ],
     activeSteps: [6], // Eretta nel giugno 1940
   },
+
+  // --- BENELUX (Belgio, Paesi Bassi, Lussemburgo) ---
+  {
+    id: 'eben_emael_pfl',
+    name: 'Posizione Fortificata di Liegi & Fort d\'Eben-Emael (PFL / Canale Alberto)',
+    nation: 'Belgio',
+    builder: 'Genio Militare Belga (Génie Militaire)',
+    description:
+      'Imponente cintura difensiva a sbarramento della valle della Mosa e della congiunzione col Canale Alberto. Il suo perno, il modernissimo Fort d\'Eben-Emael con cupole corazzate rotanti d\'artiglieria e gallerie sotterranee, fu espugnato il 10-11 maggio 1940 dai paracadutisti tedeschi (Sturmabteilung Koch) atterrati con alianti DFS 230 ed equipaggiati con cariche cave, aprendo la via dell\'invasione.',
+    type: 'heavy',
+    color: '#8d77a3',
+    coordinates: [
+      [5.57, 50.64], // Liegi (PFL 1 e 2)
+      [5.68, 50.79], // Fort d'Eben-Emael / Kanne
+      [5.62, 50.93], // Canale Alberto / Lanaken
+      [5.78, 51.05], // Maaseik (Sbarramento della Mosa)
+    ],
+    keyForts: [
+      { name: 'Fort d\'Eben-Emael', coords: [5.674, 50.797], desc: 'La fortezza più moderna d\'Europa, neutralizzata in poche ore con cariche cave dai pionieri aviotrasportati tedeschi.' },
+      { name: 'Fort de Battice', coords: [5.82, 50.65], desc: 'Grande fortezza d\'artiglieria del settore est di Liegi, resistette per dodici giorni sotto pesanti bombardamenti Stuka.' },
+      { name: 'Fort d\'Aubin-Neufchâteau', coords: [5.78, 50.73], desc: 'Opera fortificata a protezione del corridoio tra Liegi e la frontiera olandese.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'kw_stelling',
+    name: 'Linea KW / Linea Dyle (Koningshooikt — Wavre)',
+    nation: 'Belgio / Alleati',
+    builder: 'Esercito Belga & Comando Supremo Alleato (BEF / 1ère Armée)',
+    description:
+      'Spina dorsale della difesa del Belgio centrale e perno della manovra Dyle-Breda del generale Gamelin. Comprendeva centinaia di bunker in cemento armato, fossati anticarro e le caratteristiche barriere mobili d\'acciaio Cointet (elementi Cointet) stese da Koningshooikt (Anversa) attraverso Mechelen, Leuven, Wavre fino a Namur e al varco di Gembloux.',
+    type: 'heavy',
+    color: '#a08db3',
+    coordinates: [
+      [4.53, 51.13], // Koningshooikt (Anversa)
+      [4.48, 51.02], // Mechelen
+      [4.70, 50.88], // Leuven (Settore BEF)
+      [4.61, 50.71], // Wavre
+      [4.69, 50.56], // Gembloux Gap
+      [4.87, 50.46], // Namur (Posizione Fortificata di Namur)
+    ],
+    keyForts: [
+      { name: 'Bastione di Koningshooikt', coords: [4.53, 51.13], desc: 'Cerniera di raccordo tra la linea KW e la Ridotta Nazionale di Anversa.' },
+      { name: 'Settore Dyle di Lovanio (Leuven)', coords: [4.70, 50.88], desc: 'Trinceramento difeso con successo dalla 3ª Divisione di Fanteria britannica di Bernard Montgomery.' },
+      { name: 'Varco di Gembloux (Gembloux Gap)', coords: [4.69, 50.56], desc: 'Pianura non coperta da ostacoli naturali, difesa dai carri Somua francesi contro le Panzer-Divisionen a Hannut.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'grebbelinie',
+    name: 'Grebbelinie (Linea della Grebbe)',
+    nation: 'Paesi Bassi',
+    builder: 'Koninklijke Landmacht (Genio Militare Olandese)',
+    description:
+      'Linea difensiva avanzata olandese imperniata sull\'inondazione controllata delle valli della Grebbe e dell\'Eem tra l\'IJsselmeer e il Reno. Teatro dell\'epica battaglia del colle Grebbeberg (11-13 maggio 1940), dove i fanti olandesi resistettero per tre giorni prima di essere sopraffatti dall\'assalto del reggimento SS Germania.',
+    type: 'medium',
+    color: '#b57f3f',
+    coordinates: [
+      [5.38, 52.25], // Spakenburg / IJsselmeer
+      [5.40, 52.16], // Amersfoort
+      [5.55, 52.05], // Veenendaal
+      [5.58, 51.95], // Grebbeberg / Rhenen (Reno)
+    ],
+    keyForts: [
+      { name: 'Grebbeberg (Rhenen)', coords: [5.58, 51.95], desc: 'Colle fortificato chiave lungo il Basso Reno, perno della resistenza olandese contro le truppe scelte tedesche.' },
+      { name: 'Sbarramento di Amersfoort', coords: [5.40, 52.16], desc: 'Postazioni di casematte e chiuse idrauliche per l\'allagamento a nord della linea.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'waterlinie',
+    name: 'Nieuwe Hollandse Waterlinie (Nuova Linea d\'Acqua d\'Olanda)',
+    nation: 'Paesi Bassi',
+    builder: 'Genio Militare Olandese',
+    description:
+      'Storica linea maestra di difesa concepita per isolare la Vesting Holland (Amsterdam, Rotterdam, Den Haag, Utrecht) trasformandola in un\'isola inaccessibile. Mediante chiuse idrauliche, le campagne venivano inondate con 40-50 cm d\'acqua: troppo poco per navigare con barche, troppo profondo per carri e fanteria.',
+    type: 'heavy',
+    color: '#9e6e33',
+    coordinates: [
+      [5.05, 52.32], // Muiden / Forte Pampus
+      [5.09, 52.20], // Weesp / Vreeland
+      [5.12, 52.09], // Forti di Utrecht
+      [4.95, 51.85], // Gorinchem (Fiume Waal)
+      [4.68, 51.72], // Biesbosch / Moerdijk
+    ],
+    keyForts: [
+      { name: 'Forte Pampus e Muiden', coords: [5.07, 52.33], desc: 'Forte marittimo a protezione dell\'accesso a sud dell\'IJsselmeer e di Amsterdam.' },
+      { name: 'Forti di Utrecht (Vesting Utrecht)', coords: [5.12, 52.09], desc: 'Complesso di 16 opere fortificate anulari a sbarramento della ferrovia e delle strade maestre.' },
+      { name: 'Ponti di Moerdijk', coords: [4.68, 51.72], desc: 'I giganteschi ponti sulla Hollands Diep, presi con un colpo di mano dai paracadutisti tedeschi il 10 maggio 1940.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'afsluitdijk_kornwerderzand',
+    name: 'Stelling Kornwerderzand & Wonsstelling (Afsluitdijk)',
+    nation: 'Paesi Bassi',
+    builder: 'Koninklijke Landmacht / Genio Militare Olandese',
+    description:
+      'Imponenti casematte in calcestruzzo armato con cupole d\'acciaio poste al chilometro 4 della grande diga dell\'Afsluitdijk. Tra il 12 e il 14 maggio 1940, la guarnigione olandese guidata dal capitano Boers respinse con successo tutti gli attacchi della 1ª Divisione di Cavalleria tedesca, infliggendo pesanti perdite e mantenendo inviolata la posizione fino alla resa nazionale.',
+    type: 'heavy',
+    color: '#8b7d6b',
+    coordinates: [
+      [5.43, 53.07], // Wons / Wonsstelling (Testa di ponte in Frisia)
+      [5.33, 53.07], // Kornwerderzand (Casematte principali sulla diga)
+      [5.25, 53.04], // Breezanddijk
+      [5.06, 52.93], // Den Oever (Testata dell\'Olanda Settentrionale)
+    ],
+    keyForts: [
+      { name: 'Casematte di Kornwerderzand', coords: [5.33, 53.07], desc: 'L\'unica fortificazione olandese che resistette vittoriosamente a tutti gli assalti della Wehrmacht nel 1940.' },
+      { name: 'Wonsstelling', coords: [5.43, 53.07], desc: 'Linea campale avanzata a semicerchio posta a difesa della testa di ponte della Frisia.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'schuster_linn',
+    name: 'Schuster-Linn (Linea Schuster del Lussemburgo)',
+    nation: 'Lussemburgo',
+    builder: 'Governo del Granducato di Lussemburgo / Ing. Schuster',
+    description:
+      'Catena di sbarramenti stradali, porte blindate in acciaio scorrevoli e blocchi di cemento allestita lungo i confini con la Germania e la Francia per tutelare la neutralità disarmata del Granducato. All\'alba del 10 maggio 1940 le porte d\'acciaio furono chiuse, ma vennero sfondate o aggirate dai reparti d\'assalto tedeschi e dai sabotatori della divisione Brandenburg.',
+    type: 'field',
+    color: '#a38c92',
+    coordinates: [
+      [6.14, 50.13], // Clervaux / Fiume Our
+      [6.26, 49.91], // Vianden
+      [6.36, 49.80], // Echternach (Fiume Sauer / Sûre)
+      [6.53, 49.68], // Wasserbillig (Confluenza con la Mosella)
+      [6.37, 49.47], // Schengen (Triplice frontiera con Francia e Germania)
+    ],
+    keyForts: [
+      { name: 'Porta Blindata di Wasserbillig', coords: [6.53, 49.68], desc: 'Sbarramento principale sul ponte della Mosella di fronte a Treviri.' },
+      { name: 'Sbarramento di Vianden', coords: [6.26, 49.91], desc: 'Chiusura confinaria della valle dell\'Our contro i blindati leggeri.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
 ];
 
 export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
@@ -534,5 +669,47 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     type: 'fleet_hq',
     theater: 'Pacific',
     description: 'Quartier generale avanzato della Flotta del Pacifico degli Stati Uniti (US Pacific Fleet).',
+  },
+
+  // Paesi Bassi & Belgio (Benelux)
+  {
+    id: 'den_helder',
+    name: 'Den Helder (Willemsoord)',
+    historicalName: 'Rijkswerf Willemsoord — Base Principale della Reale Marina Olandese',
+    nation: 'Paesi Bassi',
+    coords: [4.76, 52.96],
+    type: 'fleet_hq',
+    theater: 'Atlantic',
+    description: 'Quartier generale e arsenale principale della Koninklijke Marine nei Paesi Bassi europei. Sede di cantieri di carenaggio, flottiglie di cacciatorpediniere, torpediniere e sommergibili a guardia dell\'imbocco dell\'IJsselmeer e del Mare del Nord.',
+  },
+  {
+    id: 'vlissingen',
+    name: 'Vlissingen (Flushing)',
+    historicalName: 'Marinebasis Vlissingen & Cantieri De Schelde',
+    nation: 'Paesi Bassi',
+    coords: [3.57, 51.44],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Base navale strategica e stabilimenti della Koninklijke Maatschappij De Schelde alla foce della Schelda Occidentale; chiave di volta per il controllo delle rotte marittime verso Anversa.',
+  },
+  {
+    id: 'rotterdam_hoek',
+    name: 'Rotterdam / Hoek van Holland',
+    historicalName: 'Marinecomplex Rotterdam & Nieuwe Waterweg',
+    nation: 'Paesi Bassi',
+    coords: [4.12, 51.98],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Grande scalo marittimo e base navale ausiliaria all\'imbocco della Nieuwe Waterweg. Nel maggio 1940 i fanti di marina olandesi (Korps Mariniers) vi opposero una leggendaria resistenza ai ponti della Mosa prima del bombardamento della Luftwaffe.',
+  },
+  {
+    id: 'zeebrugge',
+    name: 'Zeebrugge & Oostende',
+    historicalName: 'Base Navale di Zeebrugge / Corps de Marine Belge',
+    nation: 'Belgio',
+    coords: [3.21, 51.33],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Principale scalo costiero del Belgio sul Mare del Nord, base di posamine e pattugliatori costieri del Corps de Marine belga; nodo vitale per l\'evacuazione delle truppe alleate verso Dunkerque e l\'Inghilterra nel maggio 1940.',
   },
 ];

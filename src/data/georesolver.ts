@@ -4,6 +4,7 @@ import {
   resolvePolandToponym,
   resolveJapanToponym,
   resolveChinaToponym,
+  resolveBeneluxToponym,
 } from './historicalToponyms';
 
 export const NUTS_URLS = [
@@ -1598,7 +1599,16 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
     makeResult('BEL', 'Belgique (Territoires d\'outre-mer)', undefined, s >= 6 ? 'Alleati' : 'Neutrale'),
   Denmark: () => makeResult('DEN', 'Danmark (Grønland og besiddelser)'),
   Norway: () => makeResult('NOR', 'Norge (Svalbard og besittelser)'),
-  Luxembourg: () => makeResult('LUX', 'Grand-Duché de Luxembourg'),
+  Luxembourg: (s) =>
+    s < 6
+      ? makeResult('LUX', 'Grand-Duché de Luxembourg', undefined, 'Neutrale', 'Grand-Duché de Luxembourg')
+      : makeResult(
+          'GER',
+          'Luxemburg (CdZ-Gebiet Moselland)',
+          'De-facto-Annexion an das Deutsche Reich (Gau Moselland)',
+          'Asse',
+          'CdZ-Gebiet Luxemburg (Gauleiter Gustav Simon, Gau Moselland)'
+        ),
   Albania: () => makeResult('ALB', 'Mbretëria Shqiptare'),
   Italy: (s) =>
     s < 10
@@ -4023,37 +4033,74 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
 
     case 'BE':
-      return s < 6
-        ? makeResult('BEL', rawName, 'Royaume de Belgique / Koninkrijk België', undefined, 'Royaume de Belgique')
-        : makeResult(
+      if (s >= 6) {
+        if (nid === 'BE336') {
+          const gerTop = getTop('GER');
+          return makeResult(
             'GER',
-            getTop('GER').name || rawName,
-            'Militärverwaltung in Belgien und Nordfrankreich unter General Alexander von Falkenhausen (Sitz Brüssel).',
+            gerTop.name || 'Kreis Eupen-Malmedy (Rheinprovinz / Gau Köln-Aachen)',
+            gerTop.note || 'Eupen-Malmedy e Sankt Vith riannessi direttamente al Deutsches Reich (Führererlass 18 maggio 1940, Gau Köln-Aachen).',
             'Asse',
-            'Militärverwaltung in Belgien und Nordfrankreich'
+            gerTop.adminTitle || 'Deutsches Reich — Rheinprovinz (Gau Köln-Aachen, Kreis Eupen-Malmedy)'
           );
+        }
+        const gerTop = getTop('GER');
+        return makeResult(
+          'GER',
+          gerTop.name || rawName,
+          gerTop.note || 'Militärverwaltung in Belgien und Nordfrankreich unter General Alexander von Falkenhausen (Sitz Brüssel).',
+          'Asse',
+          gerTop.adminTitle || 'Militärverwaltung in Belgien und Nordfrankreich (Alexander von Falkenhausen, Bruxelles)'
+        );
+      }
+      const belTop = getTop('BEL');
+      return makeResult(
+        'BEL',
+        belTop.name || rawName,
+        belTop.note || 'Royaume de Belgique / Koninkrijk België (neutralità armata dal 1936)',
+        'Neutrale',
+        belTop.adminTitle || 'Royaume de Belgique / Koninkrijk België'
+      );
 
     case 'NL':
-      return s < 6
-        ? makeResult('HOL', rawName, 'Koninkrijk der Nederlanden', undefined, 'Koninkrijk der Nederlanden')
-        : makeResult(
-            'GER',
-            getTop('GER').name || rawName,
-            'Reichskommissariat für die besetzten niederländischen Gebiete unter Arthur Seyß-Inquart (Sitz Den Haag).',
-            'Asse',
-            'Reichskommissariat Niederlande (Reichskommissar Arthur Seyß-Inquart)'
-          );
+      if (s >= 6) {
+        const gerTop = getTop('GER');
+        return makeResult(
+          'GER',
+          gerTop.name || rawName,
+          gerTop.note || 'Reichskommissariat für die besetzten niederländischen Gebiete unter Arthur Seyß-Inquart (Sitz Den Haag).',
+          'Asse',
+          gerTop.adminTitle || 'Reichskommissariat für die besetzten niederländischen Gebiete (Arthur Seyß-Inquart, Den Haag)'
+        );
+      }
+      const holTop = getTop('HOL');
+      return makeResult(
+        'HOL',
+        holTop.name || rawName,
+        holTop.note || 'Koninkrijk der Nederlanden (politica di neutralità)',
+        'Neutrale',
+        holTop.adminTitle || 'Koninkrijk der Nederlanden'
+      );
 
     case 'LU':
-      return s < 6
-        ? makeResult('LUX', rawName, 'Grand-Duché de Luxembourg', undefined, 'Grand-Duché de Luxembourg')
-        : makeResult(
-            'GER',
-            'Luxemburg',
-            'Chef der Zivilverwaltung Gustav Simon (Gauleiter des Gaues Moselland) — De-facto-Annexion an das Deutsche Reich.',
-            'Asse',
-            'CdZ-Gebiet Luxemburg (Gau Moselland)'
-          );
+      if (s >= 6) {
+        const gerTop = getTop('GER');
+        return makeResult(
+          'GER',
+          gerTop.name || 'Luxemburg (CdZ-Gebiet Moselland)',
+          gerTop.note || 'Chef der Zivilverwaltung Gustav Simon (Gauleiter des Gaues Moselland) — De-facto-Annexion an das Deutsche Reich.',
+          'Asse',
+          gerTop.adminTitle || 'CdZ-Gebiet Luxemburg (Gauleiter Gustav Simon, Gau Moselland)'
+        );
+      }
+      const luxTop = getTop('LUX');
+      return makeResult(
+        'LUX',
+        luxTop.name || rawName,
+        luxTop.note || 'Grand-Duché de Luxembourg (neutralità disarmata)',
+        'Neutrale',
+        luxTop.adminTitle || 'Grand-Duché de Luxembourg — Gouvernement Dupong-Krier'
+      );
 
     case 'IS':
       return s < 6

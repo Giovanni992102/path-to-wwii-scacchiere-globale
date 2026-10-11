@@ -1275,6 +1275,80 @@ export default function App() {
           );
         },
       },
+      {
+        name: 'Integrità Geostorica Benelux (85 Distretti NUTS-3): Neutralità 1936-39, Campagna 1940, Militärverwaltung Belgien, Reichskommissariat Niederlande, CdZ Luxemburg, Annessione Eupen-Malmedy (BE336)',
+        run: () => {
+          // Pre-1940 (Step 0): Neutralità armata/disarmata di Belgio, Paesi Bassi e Lussemburgo
+          const brux0 = resolveFeature({ properties: { CNTR_CODE: 'BE', NUTS_ID: 'BE100', NAME_LATN: 'Arrondissement de Bruxelles-Capitale' } }, 0);
+          const eupen0 = resolveFeature({ properties: { CNTR_CODE: 'BE', NUTS_ID: 'BE336', NAME_LATN: 'Bezirk Verviers' } }, 0);
+          const liege0 = resolveFeature({ properties: { CNTR_CODE: 'BE', NUTS_ID: 'BE332', NAME_LATN: 'Arrondissement de Liège' } }, 0);
+          const amst0 = resolveFeature({ properties: { CNTR_CODE: 'NL', NUTS_ID: 'NL329', NAME_LATN: 'Groot-Amsterdam' } }, 0);
+          const rott0 = resolveFeature({ properties: { CNTR_CODE: 'NL', NUTS_ID: 'NL33C', NAME_LATN: 'Groot-Rijnmond' } }, 0);
+          const dheld0 = resolveFeature({ properties: { CNTR_CODE: 'NL', NUTS_ID: 'NL321', NAME_LATN: 'Kop van Noord-Holland' } }, 0);
+          const lux0 = resolveFeature({ properties: { CNTR_CODE: 'LU', NUTS_ID: 'LU000', NAME_LATN: 'Luxembourg' } }, 0);
+
+          // Post-1940 (Step 6): Occupazione militare tedesca, Reichskommissariat e Annessione Diretta
+          const brux6 = resolveFeature({ properties: { CNTR_CODE: 'BE', NUTS_ID: 'BE100', NAME_LATN: 'Arrondissement de Bruxelles-Capitale' } }, 6);
+          const eupen6 = resolveFeature({ properties: { CNTR_CODE: 'BE', NUTS_ID: 'BE336', NAME_LATN: 'Bezirk Verviers' } }, 6);
+          const liege6 = resolveFeature({ properties: { CNTR_CODE: 'BE', NUTS_ID: 'BE332', NAME_LATN: 'Arrondissement de Liège' } }, 6);
+          const amst6 = resolveFeature({ properties: { CNTR_CODE: 'NL', NUTS_ID: 'NL329', NAME_LATN: 'Groot-Amsterdam' } }, 6);
+          const rott6 = resolveFeature({ properties: { CNTR_CODE: 'NL', NUTS_ID: 'NL33C', NAME_LATN: 'Groot-Rijnmond' } }, 6);
+          const dheld6 = resolveFeature({ properties: { CNTR_CODE: 'NL', NUTS_ID: 'NL321', NAME_LATN: 'Kop van Noord-Holland' } }, 6);
+          const lux6 = resolveFeature({ properties: { CNTR_CODE: 'LU', NUTS_ID: 'LU000', NAME_LATN: 'Luxembourg' } }, 6);
+
+          return (
+            // Pre-invasione (Step 0)
+            brux0.o === 'BEL' &&
+            brux0.fac === 'Neutrale' &&
+            brux0.name.includes('Bruxelles') &&
+            (brux0.adminEntity || '').includes('Belgique') &&
+            eupen0.o === 'BEL' &&
+            eupen0.fac === 'Neutrale' &&
+            liege0.o === 'BEL' &&
+            liege0.fac === 'Neutrale' &&
+            liege0.name.includes('Liège') &&
+            amst0.o === 'HOL' &&
+            amst0.fac === 'Neutrale' &&
+            amst0.name.includes('Amsterdam') &&
+            rott0.o === 'HOL' &&
+            rott0.fac === 'Neutrale' &&
+            rott0.name.includes('Rotterdam') &&
+            dheld0.o === 'HOL' &&
+            dheld0.name.includes('Den Helder') &&
+            lux0.o === 'LUX' &&
+            lux0.fac === 'Neutrale' &&
+            lux0.name.includes('Luxembourg') &&
+            // Post-invasione (Step 6)
+            brux6.o === 'GER' &&
+            brux6.fac === 'Asse' &&
+            (brux6.adminEntity || '').includes('Militärverwaltung') &&
+            brux6.name.includes('Brüssel') &&
+            // Eupen-Malmedy (BE336): annessione diretta al Reich (Gau Köln-Aachen)
+            eupen6.o === 'GER' &&
+            eupen6.fac === 'Asse' &&
+            (eupen6.adminEntity || '').includes('Köln-Aachen') &&
+            eupen6.name.includes('Kreis Eupen-Malmedy') &&
+            // Liegi: Militärverwaltung
+            liege6.o === 'GER' &&
+            liege6.fac === 'Asse' &&
+            liege6.name.includes('Lüttich') &&
+            // Paesi Bassi: Reichskommissariat Niederlande
+            amst6.o === 'GER' &&
+            amst6.fac === 'Asse' &&
+            (amst6.adminEntity || '').includes('Reichskommissariat') &&
+            (amst6.adminEntity || '').includes('Seyß-Inquart') &&
+            rott6.o === 'GER' &&
+            rott6.fac === 'Asse' &&
+            dheld6.o === 'GER' &&
+            dheld6.fac === 'Asse' &&
+            // Lussemburgo: CdZ-Gebiet Moselland
+            lux6.o === 'GER' &&
+            lux6.fac === 'Asse' &&
+            ((lux6.adminEntity || '').includes('Moselland') || (lux6.adminEntity || '').includes('CdZ-Gebiet')) &&
+            lux6.name.includes('Luxemburg')
+          );
+        },
+      },
     ];
 
     let passed = 0;
