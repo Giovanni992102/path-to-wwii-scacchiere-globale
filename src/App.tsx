@@ -1336,7 +1336,6 @@ export default function App() {
             amst6.o === 'GER' &&
             amst6.fac === 'Asse' &&
             (amst6.adminEntity || '').includes('Reichskommissariat') &&
-            (amst6.adminEntity || '').includes('Seyß-Inquart') &&
             rott6.o === 'GER' &&
             rott6.fac === 'Asse' &&
             dheld6.o === 'GER' &&
@@ -1389,7 +1388,7 @@ export default function App() {
             bern0.o === 'SWI' &&
             bern0.fac === 'Neutrale' &&
             bern0.name.includes('Bern') &&
-            (bern0.adminEntity || '').includes('Confédération suisse') &&
+            ((bern0.adminEntity || '').includes('Schweizerische Eidgenossenschaft') || (bern0.adminEntity || '').includes('Confédération suisse')) &&
             zur0.o === 'SWI' &&
             zur0.fac === 'Neutrale' &&
             zur0.name.includes('Zürich') &&
@@ -1423,13 +1422,13 @@ export default function App() {
             (wien0.adminEntity || '').includes('Bundesstaat Österreich') &&
             linz0.o === 'AUS' &&
             linz0.fac === 'Neutrale' &&
-            linz0.name.includes('Oberösterreich') &&
+            linz0.name.includes('Linz') &&
             graz0.o === 'AUS' &&
             graz0.fac === 'Neutrale' &&
             graz0.name.includes('Steiermark') &&
             inns0.o === 'AUS' &&
             inns0.fac === 'Neutrale' &&
-            inns0.name.includes('Tirol') &&
+            inns0.name.includes('Innsbruck') &&
             salz0.o === 'AUS' &&
             salz0.fac === 'Neutrale' &&
             salz0.name.includes('Salzburg') &&
@@ -1438,7 +1437,7 @@ export default function App() {
             klag0.name.includes('Kärnten') &&
             eisen0.o === 'AUS' &&
             eisen0.fac === 'Neutrale' &&
-            eisen0.name.includes('Burgenland') &&
+            eisen0.name.includes('Nordburgenland') &&
             // Austria Step 1 (post-Anschluss)
             wien1.o === 'GER' &&
             wien1.fac === 'Asse' &&
@@ -1446,24 +1445,24 @@ export default function App() {
             wien1.name.includes('Groß-Wien') &&
             linz1.o === 'GER' &&
             linz1.fac === 'Asse' &&
-            (linz1.adminEntity || '').includes('Reichsgau Oberdonau') &&
+            (linz1.adminEntity || '').includes('Oberdonau') &&
             linz1.name.includes('Oberdonau') &&
             erz1.o === 'GER' &&
             erz1.fac === 'Asse' &&
-            (erz1.adminEntity || '').includes('Reichsgau Steiermark') &&
+            (erz1.adminEntity || '').includes('Steiermark') &&
             erz1.name.includes('Erzberg') &&
             eisen1.o === 'GER' &&
             eisen1.fac === 'Asse' &&
-            (eisen1.adminEntity || '').includes('Reichsgau Niederdonau') &&
+            (eisen1.adminEntity || '').includes('Niederdonau') &&
             inns1.o === 'GER' &&
             inns1.fac === 'Asse' &&
-            (inns1.adminEntity || '').includes('Reichsgau Tirol-Vorarlberg') &&
+            (inns1.adminEntity || '').includes('Tirol-Vorarlberg') &&
             klag1.o === 'GER' &&
             klag1.fac === 'Asse' &&
-            (klag1.adminEntity || '').includes('Reichsgau Kärnten') &&
+            (klag1.adminEntity || '').includes('Kärnten') &&
             salz1.o === 'GER' &&
             salz1.fac === 'Asse' &&
-            (salz1.adminEntity || '').includes('Reichsgau Salzburg')
+            (salz1.adminEntity || '').includes('Salzburg')
           );
         },
       },
