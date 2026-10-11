@@ -33,6 +33,7 @@ import {
   SAN_MARINO_FEATURE,
   VATICAN_CITY_FEATURE,
   GIBRALTAR_COLONY_FEATURE,
+  ANDORRA_FEATURE,
 } from './data/historicalBorders';
 import { KRESY_POWIAT_FEATURES } from './data/kresyPowiats';
 import { USSR_REGIONAL_FEATURES } from './data/ussrRegions';

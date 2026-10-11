@@ -979,6 +979,73 @@ export const GIBRALTAR_COLONY_FEATURE: any = {
   },
 };
 
+// ----------------------------------------------------------------------------
+// 17. PRINCIPATO D'ANDORRA (Principat d'Andorra)
+// Valli di Valira, Andorra la Vella, Escaldes-Engordany, Encamp, Canillo, La Massana, Sant Julià de Lòria, Ordino
+// Coprincipato sovrano neutrale incastonato nei Pirenei orientali tra Francia e Spagna
+// Coordinate autentiche di confine da scripts/world_1938.json
+// ----------------------------------------------------------------------------
+export const ANDORRA_FEATURE: any = {
+  type: 'Feature',
+  id: 'AND_HIST',
+  properties: {
+    NAME: 'Andorra',
+    NUTS_NAME: 'Principato d\'Andorra',
+    NAME_ENGL: 'Principality of Andorra',
+    CNTR_NAME: 'Andorra',
+    CNTR_ID: 'AND',
+    CNTR_CODE: 'AD',
+    ADMIN: 'Principato d\'Andorra',
+    SOVEREIGNT: 'Andorra (Co-Principality)',
+    CAPITAL: 'Andorra la Vella',
+    HISTORICAL_NOTE:
+      'Antico coprincipato parlamentare sovrano incastonato tra i Pirenei catalani e francesi, retto congiuntamente dal Vescovo di Urgell e dal Presidente della Repubblica Francese. Durante la Guerra Civile Spagnola e la Seconda Guerra Mondiale mantenne una rigorosa neutralità; dal 1936 al 1940 un distaccamento di guardie mobili francesi (René Baulard) stazionò nel principato per garantirne l\'ordine e la sicurezza senza alterarne la sovranità. Fu rifugio per civili e via di fuga montuosa clandestina.',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[
+      [1.78172, 42.569962],
+      [1.774722, 42.571106],
+      [1.768055, 42.571106],
+      [1.753889, 42.57],
+      [1.743055, 42.563606],
+      [1.735278, 42.554443],
+      [1.725278, 42.529999],
+      [1.724444, 42.524994],
+      [1.723333, 42.515274],
+      [1.723611, 42.509438],
+      [1.718889, 42.503052],
+      [1.661111, 42.471382],
+      [1.654444, 42.467773],
+      [1.541667, 42.437218],
+      [1.533333, 42.436104],
+      [1.512222, 42.436386],
+      [1.454722, 42.441666],
+      [1.448333, 42.450829],
+      [1.424166, 42.493332],
+      [1.421389, 42.54583],
+      [1.434444, 42.576385],
+      [1.445833, 42.601944],
+      [1.481111, 42.647217],
+      [1.491944, 42.65361],
+      [1.556389, 42.656387],
+      [1.563056, 42.655548],
+      [1.698333, 42.626106],
+      [1.738611, 42.616386],
+      [1.78172, 42.569962]
+    ]],
+  },
+  __layer: 'prov',
+  __kind: 'ANDORRA',
+  __resolve: (_s: number): ResolvedTerritory => {
+    return makeResult(
+      'AND',
+      'Principato d\'Andorra',
+      'Principato d\'Andorra (Coprincipato Sovrano Neutrale)'
+    );
+  },
+};
+
 // Exported precision non-NUTS historical features
 export const PRECISION_HISTORICAL_FEATURES: any[] = [
   CARPATHIAN_RUTHENIA_FEATURE,
@@ -999,5 +1066,6 @@ export const PRECISION_HISTORICAL_FEATURES: any[] = [
   SAN_MARINO_FEATURE,
   VATICAN_CITY_FEATURE,
   GIBRALTAR_COLONY_FEATURE,
+  ANDORRA_FEATURE,
 ];
 

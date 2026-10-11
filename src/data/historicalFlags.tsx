@@ -52,6 +52,7 @@ import { GIB_FLAG_DATA_URL } from './flags/gibFlag';
 import { ALB_FLAG_DATA_URL } from './flags/albFlag';
 import { SAU_FLAG_DATA_URL } from './flags/sauFlag';
 import { YEM_FLAG_DATA_URL } from './flags/yemFlag';
+import { AND_FLAG_DATA_URL } from './flags/andFlag';
 
 /**
  * Historical Flags (1936-1940)
@@ -83,6 +84,13 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
     svgWrap(
       `<image href="${GIB_FLAG_DATA_URL}" xlink:href="${GIB_FLAG_DATA_URL}" width="1024" height="512" preserveAspectRatio="none" />`,
       '0 0 1024 512'
+    ),
+
+  // PRINCIPATO D'ANDORRA — Bandiera ufficiale con stemma storico fornita dall'utente (1024x716)
+  AND: () =>
+    svgWrap(
+      `<image href="${AND_FLAG_DATA_URL}" xlink:href="${AND_FLAG_DATA_URL}" width="1024" height="716" preserveAspectRatio="none" />`,
+      '0 0 1024 716'
     ),
 
   // REGNO D'ITALIA (1861-1946) — Bandiera ufficiale fornita dall'utente
@@ -911,6 +919,8 @@ HISTORICAL_FLAGS['VA'] = HISTORICAL_FLAGS['VAT'];
 HISTORICAL_FLAGS['GIBRALTAR'] = HISTORICAL_FLAGS['GIB'];
 HISTORICAL_FLAGS['GIBILTERRA'] = HISTORICAL_FLAGS['GIB'];
 HISTORICAL_FLAGS['GI'] = HISTORICAL_FLAGS['GIB'];
+HISTORICAL_FLAGS['ANDORRA'] = HISTORICAL_FLAGS['AND'];
+HISTORICAL_FLAGS['AD'] = HISTORICAL_FLAGS['AND'];
 
 /**
  * Returns raw SVG string of the historical flag for an owner/nation at a specific timeline step.

@@ -796,6 +796,14 @@ export const OWNERS: Record<string, OwnerConfig> = {
     leader: 'Governatore Gen. Sir Charles Harington / Sir Clive Liddell',
     capital: 'Gibraltar',
   },
+  AND: {
+    c: '#caa048',
+    f: 'Neutrale',
+    l: () => 'Principato d\'Andorra (Coprincipato Sovrano dei Pirenei)',
+    shortName: 'Andorra',
+    leader: 'Justí Guitart i Vilardebó (Vescovo di Urgell) & Albert Lebrun (Pres. Francia) / Francesc Cairat (Sìndic General)',
+    capital: 'Andorra la Vella',
+  },
   NEU: {
     c: '#b5a98d',
     f: 'Neutrale',
@@ -834,6 +842,10 @@ OWNERS['VA'] = OWNERS['VAT'];
 OWNERS['GIBRALTAR'] = OWNERS['GIB'];
 OWNERS['GIBILTERRA'] = OWNERS['GIB'];
 OWNERS['GI'] = OWNERS['GIB'];
+OWNERS['ANDORRA'] = OWNERS['AND'];
+OWNERS['PRINCIPATO D\'ANDORRA'] = OWNERS['AND'];
+OWNERS['PRINCIPAT D\'ANDORRA'] = OWNERS['AND'];
+OWNERS['AD'] = OWNERS['AND'];
 
 export const OWN_FALLBACK: OwnerConfig = {
   c: '#5a5f66',

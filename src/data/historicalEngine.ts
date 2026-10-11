@@ -90,6 +90,8 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
   LB: { o: 'F_SYR', n: 'Grande Libano' },
   IL: { o: 'UK', n: 'Mandato di Palestina' },
   JO: { o: 'UK', n: 'Transgiordania' },
+  AD: { o: 'AND', n: 'Principato d\'Andorra' },
+  AND: { o: 'AND', n: 'Principato d\'Andorra' },
 };
 
 /**

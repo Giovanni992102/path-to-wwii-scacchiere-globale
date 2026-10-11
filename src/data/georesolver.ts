@@ -2770,6 +2770,28 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
   }
 
+  // Andorra (AND) - Coprincipato sovrano neutrale dei Pirenei
+  const isAndorra =
+    ft.id === 'AND_HIST' ||
+    ft.__kind === 'ANDORRA' ||
+    cntr === 'AD' ||
+    cntr === 'AND' ||
+    nid === 'AD' ||
+    nid === 'AND' ||
+    nid === 'AND_HIST' ||
+    nrm === 'andorra' ||
+    nrm === 'principat d andorra' ||
+    nrm === 'principato d andorra' ||
+    nrm === 'principality of andorra';
+
+  if (isAndorra) {
+    return makeResult(
+      'AND',
+      'Principato d\'Andorra',
+      'Principato d\'Andorra (Coprincipato Sovrano Neutrale)'
+    );
+  }
+
   // Isola di Man (Isle of Man)
   const isMan =
     cntr === 'IM' ||

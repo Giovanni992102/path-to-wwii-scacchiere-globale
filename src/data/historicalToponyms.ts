@@ -7,6 +7,18 @@
 import { ToponymMatch } from '../types';
 
 export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch>> = {
+  // ================= PRINCIPATO D'ANDORRA =================
+  AND: {
+    andorra: { historicalName: 'Andorra la Vella', adminTitle: 'Principat d\'Andorra' },
+    andorra_la_vella: { historicalName: 'Andorra la Vella', adminTitle: 'Principat d\'Andorra' },
+    canillo: { historicalName: 'Canillo', adminTitle: 'Parròquia de Canillo (Andorra)' },
+    encamp: { historicalName: 'Encamp', adminTitle: 'Parròquia d\'Encamp (Andorra)' },
+    ordino: { historicalName: 'Ordino', adminTitle: 'Parròquia d\'Ordino (Andorra)' },
+    la_massana: { historicalName: 'La Massana', adminTitle: 'Parròquia de La Massana (Andorra)' },
+    sant_julia: { historicalName: 'Sant Julià de Lòria', adminTitle: 'Parròquia de Sant Julià de Lòria (Andorra)' },
+    escaldes: { historicalName: 'Escaldes-Engordany', adminTitle: 'Parròquia d\'Escaldes-Engordany (Andorra)' },
+  },
+
   // ================= GERMAN REICH & AMMINISTRAZIONI =================
   GER: {
     // Polonia annessa e Governatorato Generale
@@ -8208,6 +8220,22 @@ export function getExtendedToponym(
     .replace(/_+/g, '_');
 
   const id = String(nid || '');
+
+  // 0. Overrides prioritari per Andorra (AND / codici AD / toponimi andorrani)
+  if (
+    owner === 'AND' ||
+    id === 'AND' ||
+    id === 'AD' ||
+    id === 'AND_HIST' ||
+    normKey.includes('andorra') ||
+    normKey.includes('vella')
+  ) {
+    return {
+      name: 'Principato d\'Andorra',
+      adminTitle: 'Principat d\'Andorra (Coprincipato Sovrano Neutrale)',
+      note: 'Antico coprincipato sovrano neutrale incastonato tra i Pirenei catalani e francesi, retto congiuntamente dal Vescovo di Urgell e dal Presidente della Repubblica Francese. Durante la Guerra Civile Spagnola e la Seconda Guerra Mondiale mantenne una rigorosa neutralità; dal 1936 al 1940 un distaccamento di guardie mobili francesi (René Baulard) stazionò nel principato per garantirne l\'ordine e la sicurezza senza alterarne la sovranità. Fu rifugio per civili e via di fuga montuosa clandestina.',
+    };
+  }
 
   // 0. Overrides prioritari per Spagna (SPR / SPA / codici ES / toponimi spagnoli)
   if (
