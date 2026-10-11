@@ -4275,6 +4275,62 @@ export const GERMANY_CITIES_CATALOG: GermanyCityDef[] = [
     getAdminTitle: (s) => `Gau Thüringen — Provinz Sachsen (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
     note: 'Traditionelle "Waffenstadt": Fertigungszentrum für Handfeuerwaffen, Mauser-Karabiner und Maschinengewehre (Haenel, Sauer & Sohn, Walther, Krieghoff).',
   },
+  {
+    nuts: 'DE264',
+    keys: ['schweinfurt'],
+    name: 'Schweinfurt (Kugellager-Zentrum)',
+    getAdminTitle: (s) => `Gau Mainfranken — Freistaat Bayern (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Weltzentrum der Wälzlager- und Präzisionskugellager-Industrie (Kugelfischer FAG, VKF/SKF, Fichtel & Sachs). Unverzichtbares Nadelöhr für Flugzeugmotoren und Panzer der Wehrmacht.',
+  },
+  {
+    nuts: 'DE221',
+    keys: ['regensburg'],
+    name: 'Regensburg (Messerschmitt GmbH)',
+    getAdminTitle: (s) => `Gau Bayerische Ostmark — Freistaat Bayern (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Produktionsschwerpunkt der Messerschmitt GmbH: Großserienbau des Standard-Jagdflugzeugs Messerschmitt Bf 109.',
+  },
+  {
+    nuts: 'DE242',
+    keys: ['bayreuth'],
+    name: 'Bayreuth (Gauhauptstadt)',
+    getAdminTitle: (s) => `Gau Bayerische Ostmark — Gauhauptstadt (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Gauhauptstadt der Bayerischen Ostmark, Sitz des Gauleiters Fritz Wächtler. Wagner-Festspielstadt unter persönlicher Schirmherrschaft Hitlers.',
+  },
+  {
+    nuts: 'DEA53',
+    keys: ['hagen'],
+    name: 'Hagen (AFA U-Boot-Batterien)',
+    getAdminTitle: (s) => `Gau Westfalen-Süd — Provinz Westfalen (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Stammsitz der Akkumulatoren-Fabrik AG (AFA / VARTA, Familie Quandt): Exklusiver Hersteller der Hochleistungs-Doppelzellenbatterien für die U-Boote der Kriegsmarine.',
+  },
+  {
+    nuts: 'DEA31',
+    keys: ['bottrop'],
+    name: 'Bottrop (Hydrierwerk Scholven)',
+    getAdminTitle: (s) => `Gau Westfalen-Nord — Ruhrgebiet (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Strategisches Großsynthesewerk zur Erzeugung von Flugbenzin aus Steinkohle nach dem Bergius-Pier-Verfahren.',
+  },
+  {
+    nuts: 'DE211',
+    keys: ['ingolstadt'],
+    name: 'Ingolstadt (DKW / Auto Union)',
+    getAdminTitle: (s) => `Gau München-Oberbayern — Freistaat Bayern (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Bayerisches Industrie- und Militärzentrum, Standorte der Heeres-Munitionsanstalten und Werkstätten der Auto Union.',
+  },
+  {
+    nuts: 'DE402',
+    keys: ['cottbus'],
+    name: 'Cottbus (Chóśebuz)',
+    getAdminTitle: (s) => s >= 6 ? 'Gau Mark Brandenburg — Niederlausitz' : 'Gau Kurmark — Provinz Brandenburg',
+    note: 'Knotenpunkt der Niederlausitz mit Braunkohlengruben, Flugplatz der Luftwaffe und Textilmanufakturen.',
+  },
+  {
+    nuts: 'DE933',
+    keys: ['luneburg', 'lueneburg'],
+    name: 'Lüneburg (Gauhauptstadt)',
+    getAdminTitle: (s) => `Gau Ost-Hannover — Provinz Hannover (${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Gauhauptstadt des Gaus Ost-Hannover, Sitz des Gauleiters Otto Telschow. Historische Salz- und Garnisonsstadt.',
+  },
 ];
 
 /**

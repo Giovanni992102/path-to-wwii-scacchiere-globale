@@ -89,6 +89,52 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     activeSteps: [1, 2, 3, 4, 5, 6],
   },
   {
+    id: 'ostwall_line',
+    name: 'Festungsfront Oder-Warthe-Bogen (Ostwall)',
+    nation: 'Germania',
+    builder: 'Wehrmacht / Heeresbauamt (1934-1938)',
+    description:
+      'Imponente linea fortificata tedesca orientale concepita per sbarrare le direttrici d\'invasione verso Berlino tra i fiumi Oder e Warthe. Comprendeva decine di Panzerwerke sotterranei a più livelli collegati da oltre 30 km di gallerie con ferrovia elettrica a scartamento ridotto.',
+    type: 'heavy',
+    color: '#707478',
+    coordinates: [
+      [15.58, 52.88], // Schwerin an der Warthe (Skwierzyna)
+      [15.52, 52.68], // Bentschen (Zbąszyń)
+      [15.48, 52.45], // Meseritz (Międzyrzecz / Pz.W. 717)
+      [15.50, 52.32], // Hochwalde (Kursko / Laghi di Kęszyca)
+      [15.42, 52.18], // Liebenau (Lubrza)
+      [15.40, 52.02], // Züllichau (Sulechów / Fiume Oder)
+    ],
+    keyForts: [
+      { name: 'Panzerwerk 717 (Werkgruppe Scharnhorst)', coords: [15.48, 52.42], desc: 'Complesso corazzato ipogeo a tre piani con cupole d\'acciaio da 200 mm, mitragliatrici binate e lanciafiamme M19.' },
+      { name: 'Burschener Schleife', coords: [15.50, 52.47], desc: 'Sistema idraulico strategico con chiuse mobili e canali allagabili per creare fossati anticarro invalicabili.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'heilsberg_line',
+    name: 'Heilsberg-Dreieck (Triangolo di Heilsberg)',
+    nation: 'Germania',
+    builder: 'Wehrmacht / Wehrkreis I (Ostpreußen, 1932-1937)',
+    description:
+      'Cintura difensiva fortificata in calcestruzzo armato e acciaio costruita nella Prussia Orientale per proteggere Königsberg e la foce del Pregel da avanzate polacche e sovietiche da sud ed est. Oltre 500 casematte e fossati anticarro integrati.',
+    type: 'medium',
+    color: '#7d828a',
+    coordinates: [
+      [19.85, 54.42], // Braunsberg (Braniewo / Frisches Haff)
+      [20.25, 54.28], // Zinten (Kornevo)
+      [20.58, 54.18], // Heilsberg (Lidzbark Warmiński / Fiume Alle)
+      [20.95, 54.22], // Bartenstein (Bartoszyce)
+      [21.32, 54.38], // Gerdauen (Zheleznodorozhny)
+      [21.65, 54.62], // Tapiau (Gvardeysk / Fiume Pregel)
+    ],
+    keyForts: [
+      { name: 'Stützpunkt Heilsberg', coords: [20.58, 54.18], desc: 'Centro d\'arresto dell\'artiglieria pesante alla confluenza delle valli dell\'Alle e del Simser.' },
+      { name: 'Sperrwerk Braunsberg', coords: [19.85, 54.42], desc: 'Sbarramento costiero di bunker e sbarre d\'acciaio a protezione dell\'accesso marittimo alla Laguna della Vistola.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
     id: 'mannerheim_line',
     name: 'Linea Mannerheim (Mannerheim-linja)',
     nation: 'Finlandia',
@@ -720,6 +766,36 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     type: 'major_base',
     theater: 'Baltic',
     description: 'Sbocco del Canale di Kiel e centro di comando per le operazioni nel Mar Baltico.',
+  },
+  {
+    id: 'helgoland',
+    name: 'Helgoland',
+    historicalName: 'Seefestung Helgoland (Nordsee-Stützpunkt)',
+    nation: 'Germania',
+    coords: [7.89, 54.18],
+    type: 'fortress_chokepoint',
+    theater: 'Atlantic',
+    description: 'Piazzalunga insulare fortificata e base sommergibili avanzata nel Mare del Nord (Progetto Hummerschere), dotata di batterie costiere pesanti a protezione dei golfi dell\'Elba e del Weser.',
+  },
+  {
+    id: 'gotenhafen',
+    name: 'Gotenhafen (Gdynia)',
+    historicalName: 'Kriegsmarine-Hauptstützpunkt Gotenhafen (Ostsee)',
+    nation: 'Germania',
+    coords: [18.55, 54.52],
+    type: 'fleet_hq',
+    theater: 'Baltic',
+    description: 'Dopo l\'occupazione della Polonia (settembre 1939), trasformata nel principale ancoraggio e centro addestramento della flotta d\'alto mare della Kriegsmarine (porto base delle corazzate Bismarck e Tirpitz).',
+  },
+  {
+    id: 'swinemunde',
+    name: 'Swinemünde',
+    historicalName: 'Marinestützpunkt Swinemünde (Pommern)',
+    nation: 'Germania',
+    coords: [14.28, 53.91],
+    type: 'major_base',
+    theater: 'Baltic',
+    description: 'Base navale, idroscalo e stazione siluri della Kriegsmarine sull\'isola di Usedom a controllo dell\'accesso alla Laguna di Stettino.',
   },
 
   // URSS
