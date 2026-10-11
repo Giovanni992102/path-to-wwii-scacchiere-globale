@@ -1491,6 +1491,19 @@ export default function App() {
           );
         },
       },
+      {
+        name: 'Governi Collaborazionisti Cinesi (WJ_CHI: Bandiera dei Cinque Colori / Wǔzú gōnghé qí)',
+        run: () => {
+          const flag = getCountryFlagSvg('WJ_CHI');
+          const ownerMeta = getOwnerMeta('WJ_CHI');
+          return (
+            flag.includes('image') &&
+            flag.includes('1024') &&
+            ownerMeta.f === 'Fantoccio' &&
+            ownerMeta.shortName === 'Cina Collaborazionista'
+          );
+        },
+      },
     ];
 
     let passed = 0;

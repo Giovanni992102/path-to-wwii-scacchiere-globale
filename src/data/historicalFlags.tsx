@@ -54,6 +54,7 @@ import { SAU_FLAG_DATA_URL } from './flags/sauFlag';
 import { YEM_FLAG_DATA_URL } from './flags/yemFlag';
 import { AND_FLAG_DATA_URL } from './flags/andFlag';
 import { LIE_FLAG_DATA_URL } from './flags/lieFlag';
+import { WJ_CHI_FLAG_DATA_URL } from './flags/wjChiFlag';
 
 /**
  * Historical Flags (1936-1940)
@@ -242,17 +243,13 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
       '0 0 1024 683'
     ),
 
-  // GOVERNO DI NANCHINO (WANG JINGWEI)
+  // GOVERNI COLLABORAZIONISTI IN CINA (GOVERNO PROVVISORIO DI PECHINO / GOVERNO RIFORMATO DI NANCHINO / WANG JINGWEI)
+  // Bandiera ufficiale dei Cinque Colori / Cinque Razze sotto una sola Unione (Wǔzú gōnghé qí - 五族共和旗)
   WJ_CHI: () =>
-    svgWrap(`
-      <rect width="600" height="400" fill="#fe0000"/>
-      <rect width="300" height="200" fill="#000095"/>
-      <circle cx="150" cy="100" r="40" fill="#ffffff"/>
-      <circle cx="150" cy="100" r="26" fill="#000095"/>
-      <circle cx="150" cy="100" r="22" fill="#ffffff"/>
-      <!-- Fiamma triangolare superiore gialla -->
-      <polygon points="0,0 200,0 120,40" fill="#ffde00" stroke="#997a23" stroke-width="1.5"/>
-    `),
+    svgWrap(
+      `<image href="${WJ_CHI_FLAG_DATA_URL}" xlink:href="${WJ_CHI_FLAG_DATA_URL}" width="1024" height="716" preserveAspectRatio="none" />`,
+      '0 0 1024 716'
+    ),
 
   // SINKIANG / XINJIANG (SHENG SHICAI) — Stella a sei punte dorata su campo rosso (Sei Grandi Politiche)
   XIN: () =>
