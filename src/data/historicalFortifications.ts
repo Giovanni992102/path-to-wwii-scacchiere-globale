@@ -384,6 +384,58 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     ],
     activeSteps: [0, 1, 2, 3, 4, 5, 6],
   },
+
+  // --- SVIZZERA (Schweizer Réduit & Limmatstellung) ---
+  {
+    id: 'reduit_national_ch',
+    name: 'Ridotto Nazionale Svizzero (Schweizer Réduit / Réduit national)',
+    nation: 'Svizzera',
+    builder: 'Generale Henri Guisan / Esercito Svizzero (Armée suisse)',
+    description:
+      'Il grandioso dispositivo di difesa alpino concepito dal Generale Henri Guisan nell\'estate del 1940 per dissuadere l\'invasione congiunta italo-tedesca (Operazione Tannenbaum). Il piano prevedeva di cedere l\'Altopiano (Mittelland) e di concentrare l\'intero esercito e le riserve nelle roccaforti scavate nel granito delle Alpi, imperniate sui tre complessi fortificati del San Gottardo (Festung Gotthard), di Saint-Maurice (Festung Saint-Maurice) e di Sargans (Festung Sargans), tenendo sotto tiro i valichi e le gallerie transalpine già minate.',
+    type: 'heavy',
+    color: '#a83232',
+    coordinates: [
+      [7.00, 46.22], // Saint-Maurice / Bassa valle del Rodano
+      [7.62, 46.40], // Gemmipass / Kandersteg
+      [8.56, 46.55], // San Gottardo (Airolo / Passo del San Gottardo)
+      [8.67, 46.66], // Andermatt / Passo dell'Oberalp
+      [9.10, 46.77], // Disentis / Valle del Reno Anteriore
+      [9.44, 47.05], // Sargans / Valle del Reno
+    ],
+    keyForts: [
+      { name: 'Festung Saint-Maurice', coords: [7.00, 46.22], desc: 'Forti Cindey, Dailly e Savatan: sbarramento della gola del Rodano e cardine occidentale del Ridotto a guardia dell\'accesso al Vallese.' },
+      { name: 'Festung Gotthard', coords: [8.56, 46.55], desc: 'Forti Hospiz, Sasso da Pigna, San Carlo e Gütsch: cuore nevralgico della difesa alpina svizzera con batterie corazzate scavate nella roccia.' },
+      { name: 'Festung Sargans', coords: [9.44, 47.05], desc: 'Forti Magletsch, Schollberg e Kastels: perno orientale del Ridotto a sbarramento della valle del Reno contro le divisioni del Terzo Reich.' },
+      { name: 'Fortezza di Crestawald', coords: [9.42, 46.57], desc: 'Opera fortificata a sbarramento del Passo del San Bernardino verso il Grigioni e il Ticino.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
+  {
+    id: 'limmatstellung_ch',
+    name: 'Linea della Limmat (Limmatstellung)',
+    nation: 'Svizzera',
+    builder: 'Generale Henri Guisan / Esercito Svizzero',
+    description:
+      'Linea difensiva campale e fortificata approntata a partire dall\'autunno 1939 dall\'esercito svizzero lungo il corso dei fiumi Aare e Limmat, del Lago di Zurigo e del Linth per contenere un attacco corazzato tedesco proveniente dal Reno e proteggere i centri industriali della Svizzera settentrionale, prima dell\'arretramento generale nel Ridotto Alpino.',
+    type: 'medium',
+    color: '#8b4513',
+    coordinates: [
+      [8.21, 47.48], // Brugg / confluenza Aare-Limmat
+      [8.31, 47.48], // Baden
+      [8.42, 47.41], // Dietikon
+      [8.54, 47.37], // Zurigo / Lago di Zurigo
+      [8.82, 47.22], // Rapperswil / Diga del lago
+      [9.00, 47.14], // Piana della Linth / Walensee
+      [9.44, 47.05], // Sargans
+    ],
+    keyForts: [
+      { name: 'Sbarramento dell\'Aare a Brugg', coords: [8.21, 47.48], desc: 'Fossati anticarro e casematte d\'arresto alla confluenza dei fiumi Aare, Reuss e Limmat.' },
+      { name: 'Posizione fortificata di Dietikon-Zurigo', coords: [8.42, 47.41], desc: 'Centinaia di bunker in calcestruzzo a protezione della periferia e delle arterie ferroviarie zurighesi.' },
+      { name: 'Sbarramento della Piana della Linth', coords: [8.96, 47.19], desc: 'Casematte e canali allagabili tra il Lago di Zurigo e il Walensee per bloccare l\'avanzata verso le Prealpi.' },
+    ],
+    activeSteps: [5, 6],
+  },
 ];
 
 export const HISTORICAL_NAVAL_BASES: NavalBase[] = [

@@ -5,6 +5,7 @@ import {
   resolveJapanToponym,
   resolveChinaToponym,
   resolveBeneluxToponym,
+  resolveSwissAustrianToponym,
 } from './historicalToponyms';
 
 export const NUTS_URLS = [
@@ -3247,16 +3248,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'AT': {
       if (s < 1) {
-        const topAus = getTop('AUS');
+        const topAus = resolveSwissAustrianToponym(nid, rawName, nrm, 'AUS', s) || getTop('AUS');
         return makeResult(
           'AUS',
           topAus.name || rawName,
           topAus.note || 'Republik Österreich vor dem Anschluss (Bundesstaat Österreich / Ständestaat).',
-          undefined,
+          'Neutrale',
           topAus.adminTitle || 'Bundesstaat Österreich (Ständestaat)'
         );
       }
-      const topGer = getTop('GER');
+      const topGer = resolveSwissAustrianToponym(nid, rawName, nrm, 'GER', s) || getTop('GER');
       return makeResult(
         'GER',
         topGer.name || rawName,
@@ -4180,8 +4181,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IE':
       return makeResult('IRE', rawName, 'Irlanda (Éire) — Neutrale');
 
-    case 'CH':
-      return makeResult('SWI', rawName, 'Confederazione Svizzera');
+    case 'CH': {
+      const topSwi = resolveSwissAustrianToponym(nid, rawName, nrm, 'SWI', s) || getTop('SWI');
+      return makeResult(
+        'SWI',
+        topSwi.name || rawName,
+        topSwi.note || 'Confederazione Svizzera — Neutralità armata permanente (Schweizer Réduit)',
+        'Neutrale',
+        topSwi.adminTitle || 'Confédération suisse / Schweizerische Eidgenossenschaft'
+      );
+    }
 
     case 'PT':
       return makeResult('POR', rawName, 'Portogallo (Estado Novo)');
@@ -4206,8 +4215,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('TUR', getTop('TUR').name || rawName || 'Repubblica di Turchia', 'Repubblica di Turchia');
     }
 
-    case 'LI':
-      return makeResult('SWI', 'Liechtenstein', 'Neutrale (Unione Doganale con la Svizzera)');
+    case 'LI': {
+      const topLie = resolveSwissAustrianToponym(nid, rawName, nrm, 'SWI', s) || getTop('SWI');
+      return makeResult(
+        'SWI',
+        topLie.name || 'Fürstentum Liechtenstein (Vaduz)',
+        topLie.note || 'Principato del Liechtenstein — Neutralità e unione doganale/monetaria con la Svizzera.',
+        'Neutrale',
+        topLie.adminTitle || 'Fürstentum Liechtenstein'
+      );
+    }
 
     // Americhe
     case 'BR':

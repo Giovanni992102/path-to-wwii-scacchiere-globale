@@ -1349,6 +1349,124 @@ export default function App() {
           );
         },
       },
+      {
+        name: 'Integrità Geostorica Svizzera, Austria e Liechtenstein (62 Distretti NUTS-3): Neutralità Armata Elvetica (Schweizer Réduit, San Gottardo, Sargans, Saint-Maurice, Berna, Zurigo, Ginevra, Ticino), Evoluzione Austria (Bundesstaat Österreich 1936-38 -> Ostmark / Alpen- und Donau-Reichsgaue dal marzo 1938: Wien, Niederdonau, Oberdonau, Steiermark Erzberg, Salzburg, Kärnten, Tirol-Vorarlberg), Liechtenstein (Vaduz Neutrale)',
+        run: () => {
+          // 1. Svizzera (Step 0 e Step 6: Confederazione Svizzera, Neutrale, Schweizer Réduit)
+          const bern0 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH021', NAME_LATN: 'Bern' } }, 0);
+          const zur0 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH040', NAME_LATN: 'Zürich' } }, 0);
+          const gen0 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH013', NAME_LATN: 'Genève' } }, 0);
+          const tic0 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH070', NAME_LATN: 'Ticino' } }, 0);
+          const uri0 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH062', NAME_LATN: 'Uri' } }, 0);
+          const val0 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH012', NAME_LATN: 'Valais' } }, 0);
+          const bern6 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH021', NAME_LATN: 'Bern' } }, 6);
+          const tic6 = resolveFeature({ properties: { CNTR_CODE: 'CH', NUTS_ID: 'CH070', NAME_LATN: 'Ticino' } }, 6);
+
+          // 2. Liechtenstein (Step 0 e Step 6: Neutrale in unione con la Svizzera)
+          const lie0 = resolveFeature({ properties: { CNTR_CODE: 'LI', NUTS_ID: 'LI000', NAME_LATN: 'Liechtenstein' } }, 0);
+          const lie6 = resolveFeature({ properties: { CNTR_CODE: 'LI', NUTS_ID: 'LI000', NAME_LATN: 'Liechtenstein' } }, 6);
+
+          // 3. Austria pre-Anschluss (Step 0: Bundesstaat Österreich, Neutrale, 9 Bundesländer)
+          const wien0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT130', NAME_LATN: 'Wien' } }, 0);
+          const linz0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT312', NAME_LATN: 'Linz-Wels' } }, 0);
+          const graz0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT221', NAME_LATN: 'Graz' } }, 0);
+          const inns0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT332', NAME_LATN: 'Innsbruck' } }, 0);
+          const salz0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT323', NAME_LATN: 'Salzburg und Umgebung' } }, 0);
+          const klag0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT211', NAME_LATN: 'Klagenfurt-Villach' } }, 0);
+          const eisen0 = resolveFeature({ properties: { CNTR_CODE: 'AT', NUTS_ID: 'AT112', NAME_LATN: 'Nordburgenland' } }, 0);
+
+          // 4. Austria post-Anschluss (Step 1..6: Ostmark / Alpen- und Donau-Reichsgaue, GER, Asse)
+          const wien1 = resolveFeature({ properties: { NUTS_ID: 'AT130', CNTR_CODE: 'AT', NAME_LATN: 'Wien' } }, 1);
+          const linz1 = resolveFeature({ properties: { NUTS_ID: 'AT312', CNTR_CODE: 'AT', NAME_LATN: 'Linz-Wels' } }, 1);
+          const erz1 = resolveFeature({ properties: { NUTS_ID: 'AT223', CNTR_CODE: 'AT', NAME_LATN: 'Östliche Obersteiermark' } }, 1);
+          const eisen1 = resolveFeature({ properties: { NUTS_ID: 'AT112', CNTR_CODE: 'AT', NAME_LATN: 'Nordburgenland' } }, 1);
+          const inns1 = resolveFeature({ properties: { NUTS_ID: 'AT332', CNTR_CODE: 'AT', NAME_LATN: 'Innsbruck' } }, 1);
+          const klag1 = resolveFeature({ properties: { NUTS_ID: 'AT211', CNTR_CODE: 'AT', NAME_LATN: 'Klagenfurt-Villach' } }, 1);
+          const salz1 = resolveFeature({ properties: { NUTS_ID: 'AT323', CNTR_CODE: 'AT', NAME_LATN: 'Salzburg und Umgebung' } }, 1);
+
+          return (
+            // Svizzera
+            bern0.o === 'SWI' &&
+            bern0.fac === 'Neutrale' &&
+            bern0.name.includes('Bern') &&
+            (bern0.adminEntity || '').includes('Confédération suisse') &&
+            zur0.o === 'SWI' &&
+            zur0.fac === 'Neutrale' &&
+            zur0.name.includes('Zürich') &&
+            gen0.o === 'SWI' &&
+            gen0.fac === 'Neutrale' &&
+            gen0.name.includes('Genève') &&
+            tic0.o === 'SWI' &&
+            tic0.fac === 'Neutrale' &&
+            tic0.name.includes('Ticino') &&
+            uri0.o === 'SWI' &&
+            uri0.fac === 'Neutrale' &&
+            uri0.name.includes('Uri') &&
+            val0.o === 'SWI' &&
+            val0.fac === 'Neutrale' &&
+            val0.name.includes('Valais') &&
+            bern6.o === 'SWI' &&
+            bern6.fac === 'Neutrale' &&
+            tic6.o === 'SWI' &&
+            tic6.fac === 'Neutrale' &&
+            // Liechtenstein
+            lie0.o === 'SWI' &&
+            lie0.fac === 'Neutrale' &&
+            lie0.name.includes('Liechtenstein') &&
+            (lie0.adminEntity || '').includes('Liechtenstein') &&
+            lie6.o === 'SWI' &&
+            lie6.fac === 'Neutrale' &&
+            // Austria Step 0
+            wien0.o === 'AUS' &&
+            wien0.fac === 'Neutrale' &&
+            wien0.name.includes('Wien') &&
+            (wien0.adminEntity || '').includes('Bundesstaat Österreich') &&
+            linz0.o === 'AUS' &&
+            linz0.fac === 'Neutrale' &&
+            linz0.name.includes('Oberösterreich') &&
+            graz0.o === 'AUS' &&
+            graz0.fac === 'Neutrale' &&
+            graz0.name.includes('Steiermark') &&
+            inns0.o === 'AUS' &&
+            inns0.fac === 'Neutrale' &&
+            inns0.name.includes('Tirol') &&
+            salz0.o === 'AUS' &&
+            salz0.fac === 'Neutrale' &&
+            salz0.name.includes('Salzburg') &&
+            klag0.o === 'AUS' &&
+            klag0.fac === 'Neutrale' &&
+            klag0.name.includes('Kärnten') &&
+            eisen0.o === 'AUS' &&
+            eisen0.fac === 'Neutrale' &&
+            eisen0.name.includes('Burgenland') &&
+            // Austria Step 1 (post-Anschluss)
+            wien1.o === 'GER' &&
+            wien1.fac === 'Asse' &&
+            (wien1.adminEntity || '').includes('Reichsgau Wien') &&
+            wien1.name.includes('Groß-Wien') &&
+            linz1.o === 'GER' &&
+            linz1.fac === 'Asse' &&
+            (linz1.adminEntity || '').includes('Reichsgau Oberdonau') &&
+            linz1.name.includes('Oberdonau') &&
+            erz1.o === 'GER' &&
+            erz1.fac === 'Asse' &&
+            (erz1.adminEntity || '').includes('Reichsgau Steiermark') &&
+            erz1.name.includes('Erzberg') &&
+            eisen1.o === 'GER' &&
+            eisen1.fac === 'Asse' &&
+            (eisen1.adminEntity || '').includes('Reichsgau Niederdonau') &&
+            inns1.o === 'GER' &&
+            inns1.fac === 'Asse' &&
+            (inns1.adminEntity || '').includes('Reichsgau Tirol-Vorarlberg') &&
+            klag1.o === 'GER' &&
+            klag1.fac === 'Asse' &&
+            (klag1.adminEntity || '').includes('Reichsgau Kärnten') &&
+            salz1.o === 'GER' &&
+            salz1.fac === 'Asse' &&
+            (salz1.adminEntity || '').includes('Reichsgau Salzburg')
+          );
+        },
+      },
     ];
 
     let passed = 0;

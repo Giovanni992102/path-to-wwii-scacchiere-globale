@@ -539,4 +539,30 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Gen. Waichiro Sonobe',
     commanderB: 'Gen. Li Zongren / Gen. Zhang Zizhong †',
   },
+  {
+    id: 'swiss_air_incidents_1940',
+    name: 'Duelli Aerei del Giura (Fliegertruppe vs Luftwaffe)',
+    historicalDate: '10 maggio - 8 giugno 1940',
+    step: 6,
+    theater: 'Europe',
+    coords: [7.15, 47.36], // Canton Jura / Porrentruy / Delémont
+    belligerents: 'Forze Aeree Svizzere (Fliegertruppe) vs Luftwaffe Tedesca',
+    result: 'I caccia svizzeri Bf 109E abbattono 11 aerei tedeschi violatori dello spazio aereo neutrale; 4 caccia svizzeri abbattuti.',
+    significance: 'Dimostrazione inequivocabile della determinazione elvetica a difendere la neutralità armata. Le furiose minacce di ritorsione di Hermann Göring convinsero poi il Consiglio Federale a circoscrivere le intercettazioni all\'interno dello spazio aereo nazionale.',
+    commanderA: 'Hauptmann Hans Rieser / Esercito Svizzero',
+    commanderB: 'Generalfeldmarschall Hermann Göring (Luftwaffe)',
+  },
+  {
+    id: 'rutli_rapport_1940',
+    name: 'Rapporto del Grütli (Rütlirapport di Henri Guisan)',
+    historicalDate: '25 luglio 1940',
+    step: 6,
+    theater: 'Europe',
+    coords: [8.59, 46.96], // Prato del Grütli / Lago dei Quattro Cantoni, Uri
+    belligerents: 'Confederazione Svizzera (Generale Henri Guisan)',
+    result: 'Raduno storico dei comandanti dell\'Esercito Svizzero per proclamare la resistenza a oltranza e l\'arretramento nel Ridotto Alpino (Schweizer Réduit).',
+    significance: 'Con la Svizzera ormai completamente accerchiata dalle potenze dell\'Asse dopo la caduta della Francia, Guisan galvanizza la nazione rigettando ogni disfattismo e gettando le basi della dottrina che scoraggerà l\'invasione congiunta italo-tedesca (Operazione Tannenbaum).',
+    commanderA: 'Generale Henri Guisan',
+    commanderB: 'Adolf Hitler / Benito Mussolini (Asse accerchiante)',
+  },
 ];

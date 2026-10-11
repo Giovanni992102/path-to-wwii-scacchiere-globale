@@ -9351,6 +9351,1088 @@ export function resolveBeneluxToponym(
 /**
  * Funzione di ricerca e normalizzazione toponimi con fuzzy matching e lookup NUTS-3/ISO.
  */
+export interface SwissAustrianDistrictDef {
+  nuts: string;
+  country: 'CH' | 'AT' | 'LI';
+  name: string;
+  capitalOrChefLieu: string;
+  keys: string[];
+  preAdminTitle: string;
+  preNote: string;
+  postName?: string;
+  postAdminTitle?: string;
+  postNote?: string;
+}
+
+export const SWISS_AUSTRIAN_DISTRICTS_CATALOG: SwissAustrianDistrictDef[] = [
+  {
+    "nuts": "CH011",
+    "country": "CH",
+    "name": "Canton Vaud / Waadt (Lausanne)",
+    "capitalOrChefLieu": "Lausanne",
+    "keys": [
+      "vaud",
+      "waadt",
+      "lausanne",
+      "ch011"
+    ],
+    "preAdminTitle": "Confédération suisse — Canton de Vaud",
+    "preNote": "Cantone francofono affacciato sul Lago Lemano (Lac Léman) e culla del vigneto di Lavaux. Cerniera nord-occidentale della linea fortificata di Saint-Maurice e della difesa delle Prealpi vodesi."
+  },
+  {
+    "nuts": "CH012",
+    "country": "CH",
+    "name": "Canton du Valais / Kanton Wallis (Sion)",
+    "capitalOrChefLieu": "Sion",
+    "keys": [
+      "valais",
+      "wallis",
+      "sion",
+      "sitten",
+      "ch012"
+    ],
+    "preAdminTitle": "Confédération suisse — Canton du Valais / Kanton Wallis",
+    "preNote": "Cantone alpino bilingue lungo l'alta valle del Rodano dominato dalle cime del Cervino e del Monte Rosa. Settore cardine del Ridotto Nazionale (Schweizer Réduit) imperniato sulla formidabile Festung Saint-Maurice (Forti Cindey, Dailly e Savatan)."
+  },
+  {
+    "nuts": "CH013",
+    "country": "CH",
+    "name": "République et Canton de Genève (Genf)",
+    "capitalOrChefLieu": "Genève",
+    "keys": [
+      "geneve",
+      "genf",
+      "ginevra",
+      "geneva",
+      "ch013"
+    ],
+    "preAdminTitle": "Confédération suisse — Canton de Genève",
+    "preNote": "Cantone francofono incastonato tra il Lago Lemano e il territorio francese. Sede del Palazzo delle Nazioni (Società delle Nazioni) e del Comitato Internazionale della Croce Rossa (CICR) guidato da Max Huber."
+  },
+  {
+    "nuts": "CH021",
+    "country": "CH",
+    "name": "Kanton Bern / Canton de Berne (Berna)",
+    "capitalOrChefLieu": "Bern",
+    "keys": [
+      "bern",
+      "berne",
+      "berna",
+      "ch021"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Bundesstadt Bern (Kanton Bern)",
+    "preNote": "Capitale federale della Confederazione Svizzera, sede del Consiglio Federale e del Parlamento (Bundeshaus). Nell'Oberland bernese (Thun, Interlaken, Meiringen) sorgevano i centri di comando sotterranei, gli arsenali e le basi aeree scavate nella roccia del Réduit National."
+  },
+  {
+    "nuts": "CH022",
+    "country": "CH",
+    "name": "Canton de Fribourg / Kanton Freiburg",
+    "capitalOrChefLieu": "Fribourg",
+    "keys": [
+      "fribourg",
+      "freiburg",
+      "ch022"
+    ],
+    "preAdminTitle": "Confédération suisse — Canton de Fribourg / Kanton Freiburg",
+    "preNote": "Cantone bilingue a maggioranza cattolica tra l'Altopiano e le Prealpi friburghesi; prestigiosa sede universitaria cattolica e retrovia delle posizioni difensive delle Alpi occidentali."
+  },
+  {
+    "nuts": "CH023",
+    "country": "CH",
+    "name": "Kanton Solothurn (Soletta)",
+    "capitalOrChefLieu": "Solothurn",
+    "keys": [
+      "solothurn",
+      "soletta",
+      "soleure",
+      "ch023"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Solothurn",
+    "preNote": "Antica residenza degli ambasciatori di Francia lungo il fiume Aare; centro manifatturiero dell'orologeria e meccanica di precisione ai piedi del Giura."
+  },
+  {
+    "nuts": "CH024",
+    "country": "CH",
+    "name": "République et Canton de Neuchâtel (Neuenburg)",
+    "capitalOrChefLieu": "Neuchâtel",
+    "keys": [
+      "neuchatel",
+      "neuenburg",
+      "ch024"
+    ],
+    "preAdminTitle": "Confédération suisse — Canton de Neuchâtel",
+    "preNote": "Cantone francofono sulle rive del lago omonimo; distretto mondiale dell'orologeria industriale di precisione (La Chaux-de-Fonds, Le Locle) e presidio confinaria sui valichi del Giura verso la Francia."
+  },
+  {
+    "nuts": "CH025",
+    "country": "CH",
+    "name": "Canton du Jura (Berner Jura / Giura Bernese)",
+    "capitalOrChefLieu": "Delémont",
+    "keys": [
+      "jura",
+      "delemont",
+      "delsberg",
+      "berner_jura",
+      "ch025"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Berner Jura (Kanton Bern)",
+    "preNote": "Regione montuosa francofona all'epoca facente parte del Canton Berna (Giura bernese); controllava la stretta strategica della Porta di Borgogna (Trouée de Belfort) a ridosso del confine francese."
+  },
+  {
+    "nuts": "CH031",
+    "country": "CH",
+    "name": "Kanton Basel-Stadt (Basilea Città)",
+    "capitalOrChefLieu": "Basel",
+    "keys": [
+      "basel_stadt",
+      "basel",
+      "basilea",
+      "bale",
+      "ch031"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Basel-Stadt",
+    "preNote": "Metropoli portuale sul Reno e fulcro della triplice frontiera Svizzera-Francia-Germania. Sede della Banca dei Regolamenti Internazionali (BRI) e dei colossi chimici Ciba, Sandoz e Geigy; direttamente esposta alle artiglierie tedesche e francesi."
+  },
+  {
+    "nuts": "CH032",
+    "country": "CH",
+    "name": "Kanton Basel-Landschaft (Basilea Campagna)",
+    "capitalOrChefLieu": "Liestal",
+    "keys": [
+      "basel_landschaft",
+      "liestal",
+      "ch032"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Basel-Landschaft",
+    "preNote": "Fascia collinare del Giura tabulare a sud di Basilea; catena di sbarramenti d'arresto dell'Hauenstein munita di bunker e cavalli di frisia contro eventuali sfondamenti tedeschi verso Berna."
+  },
+  {
+    "nuts": "CH033",
+    "country": "CH",
+    "name": "Kanton Aargau (Argovia)",
+    "capitalOrChefLieu": "Aarau",
+    "keys": [
+      "aargau",
+      "argovia",
+      "aarau",
+      "baden_ch",
+      "ch033"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Aargau",
+    "preNote": "Cantone dell'Acqua (Wasserschloss) alla confluenza di Aare, Reuss e Limmat. Sede degli stabilimenti elettromeccanici Brown Boveri (BBC) a Baden e perno occidentale della linea fortificata della Limmat (Limmatstellung)."
+  },
+  {
+    "nuts": "CH040",
+    "country": "CH",
+    "name": "Kanton Zürich (Zurigo)",
+    "capitalOrChefLieu": "Zürich",
+    "keys": [
+      "zurich",
+      "zuerich",
+      "zurigo",
+      "ch040"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Zürich",
+    "preNote": "Capitale economica, finanziaria e industriale della Svizzera. Sede del polo d'armamenti Werkzeugmaschinenfabrik Oerlikon-Bührle (cannoni antiaerei da 20 mm) e perno orientale della Limmatstellung a protezione dell'Altopiano."
+  },
+  {
+    "nuts": "CH051",
+    "country": "CH",
+    "name": "Kanton Glarus (Glarona)",
+    "capitalOrChefLieu": "Glarus",
+    "keys": [
+      "glarus",
+      "glarona",
+      "ch051"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Glarus",
+    "preNote": "Cantone alpino imperniato sulla valle della Linth tra i laghi di Zurigo e Walen; via d'accesso montuosa settentrionale al massiccio del San Gottardo e al nucleo del Ridotto Nazionale."
+  },
+  {
+    "nuts": "CH052",
+    "country": "CH",
+    "name": "Kanton Schaffhausen (Sciaffusa)",
+    "capitalOrChefLieu": "Schaffhausen",
+    "keys": [
+      "schaffhausen",
+      "sciaffusa",
+      "ch052"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Schaffhausen",
+    "preNote": "Unico cantone svizzero quasi interamente situato a nord del Reno, completamente circondato dal territorio tedesco (Baden). Centro siderurgico e meccanico (Georg Fischer) e sede delle celebri Cascate del Reno."
+  },
+  {
+    "nuts": "CH053",
+    "country": "CH",
+    "name": "Kanton Appenzell Ausserrhoden (Herisau)",
+    "capitalOrChefLieu": "Herisau",
+    "keys": [
+      "appenzell_ausserrhoden",
+      "herisau",
+      "ch053"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Appenzell Ausserrhoden",
+    "preNote": "Cantone prealpino protestante di antica tradizione tessile e democratica; sede della storica Landsgemeinde popolare all'aperto."
+  },
+  {
+    "nuts": "CH054",
+    "country": "CH",
+    "name": "Kanton Appenzell Innerrhoden (Appenzello)",
+    "capitalOrChefLieu": "Appenzell",
+    "keys": [
+      "appenzell_innerrhoden",
+      "appenzell",
+      "ch054"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Appenzell Innerrhoden",
+    "preNote": "Cantone alpino cattolico alle pendici del massiccio del Säntis; celebre per l'inalterata tradizione della democrazia diretta della Landsgemeinde."
+  },
+  {
+    "nuts": "CH055",
+    "country": "CH",
+    "name": "Kanton St. Gallen (San Gallo & Sargans)",
+    "capitalOrChefLieu": "St. Gallen",
+    "keys": [
+      "st_gallen",
+      "sankt_gallen",
+      "san_gallo",
+      "sargans",
+      "ch055"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton St. Gallen",
+    "preNote": "Esteso dal Lago di Costanza alla Valle del Reno alpino; sede dell'antica abbazia e soprattutto della Festung Sargans (Forti Magletsch, Schollberg, Furggels), perno difensivo est del Réduit National a guardia dei confini con Austria e Liechtenstein."
+  },
+  {
+    "nuts": "CH056",
+    "country": "CH",
+    "name": "Kanton Graubünden / Chantun Grischun / Cantone dei Grigioni (Chur)",
+    "capitalOrChefLieu": "Chur",
+    "keys": [
+      "graubunden",
+      "graubuenden",
+      "grischun",
+      "grigioni",
+      "chur",
+      "coira",
+      "davos",
+      "engadin",
+      "ch056"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Graubünden / Chantun Grischun",
+    "preNote": "Il più esteso cantone della Svizzera, trilingue (tedesco, romancio, italiano). Presidio dei valichi alpini (Bernina, Spluga, San Bernardino, Julier); settore orientale del Réduit (Sbarramento di Trin) a sbarramento delle valli verso l'Italia e il Tirolo."
+  },
+  {
+    "nuts": "CH057",
+    "country": "CH",
+    "name": "Kanton Thurgau (Turgovia)",
+    "capitalOrChefLieu": "Frauenfeld",
+    "keys": [
+      "thurgau",
+      "turgovia",
+      "frauenfeld",
+      "bodensee",
+      "ch057"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Thurgau",
+    "preNote": "Cantone agricolo e frutticolo affacciato sulla riva meridionale del Lago di Costanza (Bodensee) e del Basso Reno, dirimpetto al Baden e al Württemberg tedeschi."
+  },
+  {
+    "nuts": "CH061",
+    "country": "CH",
+    "name": "Kanton Luzern (Lucerna)",
+    "capitalOrChefLieu": "Luzern",
+    "keys": [
+      "luzern",
+      "lucerna",
+      "ch061"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Luzern",
+    "preNote": "Cantone cattolico sulle rive del Lago dei Quattro Cantoni (Vierwaldstättersee); porta settentrionale verso le Prealpi e il massiccio del San Gottardo."
+  },
+  {
+    "nuts": "CH062",
+    "country": "CH",
+    "name": "Kanton Uri (Massiccio del San Gottardo & Rütli)",
+    "capitalOrChefLieu": "Altdorf",
+    "keys": [
+      "uri",
+      "altdorf",
+      "gotthard",
+      "gottardo",
+      "andermatt",
+      "rutli",
+      "ruetli",
+      "ch062"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Uri",
+    "preNote": "Cantone primitivo del Patto del 1291 e cuore sacro della nazione. Ospita il praticello del Rütli (teatro dello storico Rapporto di Henri Guisan del 25 luglio 1940) e la Festung Gotthard (Andermatt, Hospiz, Gütsch, Schöllenen), fortezza sotterranea centrale del Ridotto Nazionale."
+  },
+  {
+    "nuts": "CH063",
+    "country": "CH",
+    "name": "Kanton Schwyz (Svitto)",
+    "capitalOrChefLieu": "Schwyz",
+    "keys": [
+      "schwyz",
+      "svitto",
+      "ch063"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Schwyz",
+    "preNote": "Cantone eponimo che dà il nome alla Svizzera; custode dell'Archivio federale dei Patti giurati e sbarramento montuoso d'accesso al San Gottardo tra i laghi di Zurigo e Lucerna."
+  },
+  {
+    "nuts": "CH064",
+    "country": "CH",
+    "name": "Kanton Obwalden (Obvaldo)",
+    "capitalOrChefLieu": "Sarnen",
+    "keys": [
+      "obwalden",
+      "obvaldo",
+      "sarnen",
+      "engelberg",
+      "alpnach",
+      "ch064"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Obwalden",
+    "preNote": "Cantone alpino della Svizzera centrale (Sarnen, Engelberg); ospitava la base aerea militare sotterranea e rifugio di comando per lo stato maggiore federale ad Alpnach."
+  },
+  {
+    "nuts": "CH065",
+    "country": "CH",
+    "name": "Kanton Nidwalden (Nidvaldo)",
+    "capitalOrChefLieu": "Stans",
+    "keys": [
+      "nidwalden",
+      "nidvaldo",
+      "stans",
+      "ch065"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Nidwalden",
+    "preNote": "Cantone lacustre ai piedi del monte Bürgenstock sul Lago dei Quattro Cantoni; sede degli stabilimenti aeronautici militari Pilatus Flugzeugwerke a Stans."
+  },
+  {
+    "nuts": "CH066",
+    "country": "CH",
+    "name": "Kanton Zug (Zugo)",
+    "capitalOrChefLieu": "Zug",
+    "keys": [
+      "zug",
+      "zugo",
+      "ch066"
+    ],
+    "preAdminTitle": "Schweizerische Eidgenossenschaft — Kanton Zug",
+    "preNote": "Cantone cerniera tra l'Altopiano zurighese e i cantoni montani primitivi; nodo di traffici commerciali e agricoli attorno al Lago di Zugo."
+  },
+  {
+    "nuts": "CH070",
+    "country": "CH",
+    "name": "Repubblica e Cantone Ticino (Bellinzona & Lugano)",
+    "capitalOrChefLieu": "Bellinzona",
+    "keys": [
+      "ticino",
+      "tessin",
+      "bellinzona",
+      "lugano",
+      "locarno",
+      "chiasso",
+      "ch070"
+    ],
+    "preAdminTitle": "Confederazione Svizzera — Repubblica e Cantone Ticino",
+    "preNote": "Unico cantone interamente di lingua e cultura italiana a sud delle Alpi. Attraversato dalla ferrovia strategica del San Gottardo; sbarramento fortificato della linea Lona a Lodrino e valico internazionale di Chiasso a guardia del confine con l'Italia fascista."
+  },
+  {
+    "nuts": "LI000",
+    "country": "LI",
+    "name": "Fürstentum Liechtenstein (Vaduz)",
+    "capitalOrChefLieu": "Vaduz",
+    "keys": [
+      "liechtenstein",
+      "vaduz",
+      "li000"
+    ],
+    "preAdminTitle": "Fürstentum Liechtenstein — Fürst Franz Josef II.",
+    "preNote": "Principato sovrano alpino retto dal Principe Francesco Giuseppe II (Franz Josef II). Vincolato alla Svizzera da unione doganale e monetaria (1923-24); mantenne una rigorosa neutralità disarmata pur rimanendo completamente circondato dal Terzo Reich dopo l'Anschluss austriaco.",
+    "postName": "Fürstentum Liechtenstein (Neutral / Zollunion Schweiz)",
+    "postAdminTitle": "Fürstentum Liechtenstein (Souveränes Fürstentum)",
+    "postNote": "Principato sovrano alpino neutrale nella valle del Reno; preservò la propria sovranità e indipendenza grazie all'unione doganale e monetaria con la Confederazione Svizzera."
+  },
+  {
+    "nuts": "AT130",
+    "country": "AT",
+    "name": "Bundeshauptstadt Wien (Vienna)",
+    "capitalOrChefLieu": "Wien",
+    "keys": [
+      "wien",
+      "vienna",
+      "at130"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Bundeshauptstadt Wien",
+    "preNote": "Capitale federale dell'Austria (Ständestaat) sotto il cancelliere Kurt Schuschnigg e il presidente Wilhelm Miklas. Cuore politico, culturale e finanziario dell'Europa danubiana.",
+    "postName": "Reichsgau Wien (Groß-Wien)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Wien (Groß-Wien)",
+    "postNote": "ANSCHLUSS (12-13 marzo 1938): Annessa al Terzo Reich ed espansa nell'ottobre 1938 a 26 distretti urbani (Groß-Wien). Amministrata dai Gauleiter Odilo Globocnik (1938-39), Josef Bürckel (1939-40) e Baldur von Schirach (1940-45)."
+  },
+  {
+    "nuts": "AT121",
+    "country": "AT",
+    "name": "Mostviertel-Eisenwurzen (Amstetten)",
+    "capitalOrChefLieu": "Amstetten",
+    "keys": [
+      "mostviertel",
+      "amstetten",
+      "waidhofen",
+      "at121"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Niederösterreich (Mostviertel)",
+    "preNote": "Regione sud-occidentale della Bassa Austria ricca di frutteti e officine di lavorazione del ferro lungo il fiume Ybbs.",
+    "postName": "Reichsgau Niederdonau — Kreis Amstetten (Mostviertel)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau (Sitz Krems an der Donau)",
+    "postNote": "Integrato nel Reichsgau Niederdonau retto dal Gauleiter Dr. Hugo Jury; produzione metallurgica convertita a scopi bellici."
+  },
+  {
+    "nuts": "AT122",
+    "country": "AT",
+    "name": "Niederösterreich-Süd (Wiener Neustadt)",
+    "capitalOrChefLieu": "Wiener Neustadt",
+    "keys": [
+      "wiener_neustadt",
+      "neunkirchen",
+      "at122"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Niederösterreich (Wiener Neustadt)",
+    "preNote": "Polo industriale strategico della Bassa Austria meridionale; sede della storica Accademia Militare Teresiana e delle acciaierie e officine meccaniche.",
+    "postName": "Reichsgau Niederdonau — Wiener Neustadt (WNF / Messerschmitt)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau",
+    "postNote": "Convertito nel massimo polo aeronautico austriaco del Reich: le Wiener Neustädter Flugzeugwerke (WNF) vi producevano centinaia di caccia Messerschmitt Bf 109 al mese."
+  },
+  {
+    "nuts": "AT123",
+    "country": "AT",
+    "name": "Sankt Pölten (St. Pölten)",
+    "capitalOrChefLieu": "Sankt Pölten",
+    "keys": [
+      "sankt_polten",
+      "st_polten",
+      "at123"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Niederösterreich (Sankt Pölten)",
+    "preNote": "Centro episcopale e primario snodo ferroviario sulla linea Vienna-Linz; insediamenti industriali e tessili nella valle della Traisen.",
+    "postName": "Reichsgau Niederdonau — Kreis Sankt Pölten",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau",
+    "postNote": "Snodo di rifornimento e officine ferroviarie militarizzate della Deutsche Reichsbahn nel Reichsgau Niederdonau."
+  },
+  {
+    "nuts": "AT124",
+    "country": "AT",
+    "name": "Waldviertel (Krems an der Donau)",
+    "capitalOrChefLieu": "Krems an der Donau",
+    "keys": [
+      "waldviertel",
+      "krems",
+      "zwettl",
+      "at124"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Niederösterreich (Waldviertel)",
+    "preNote": "Altopiano granitico e boscoso a nord del Danubio al confine con la Boemia; Krems porto fluviale storico e centro vinicolo della Wachau.",
+    "postName": "Reichsgau Niederdonau — Gauhauptstadt Krems an der Donau",
+    "postAdminTitle": "Deutsches Reich — Gauhauptstadt des Reichsgaues Niederdonau",
+    "postNote": "Kreisstadt e designata Gauhauptstadt del Reichsgau Niederdonau, sede del Gauleiter Dr. Hugo Jury; nell'area sorgeva il poligono militare di Döllersheim."
+  },
+  {
+    "nuts": "AT125",
+    "country": "AT",
+    "name": "Weinviertel (Mistelbach & Zistersdorf)",
+    "capitalOrChefLieu": "Mistelbach",
+    "keys": [
+      "weinviertel",
+      "mistelbach",
+      "hollabrunn",
+      "zistersdorf",
+      "at125"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Niederösterreich (Weinviertel)",
+    "preNote": "Regione collinare nord-orientale; nel 1930 a Zistersdorf venne scoperto il primo grande giacimento petrolifero austriaco.",
+    "postName": "Reichsgau Niederdonau — Erdölfeld Zistersdorf (Weinviertel)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau",
+    "postNote": "I pozzi petroliferi di Zistersdorf divennero la principale fonte di petrolio greggio continentale del Terzo Reich, essenziale per lo sforzo bellico motorizzato."
+  },
+  {
+    "nuts": "AT126",
+    "country": "AT",
+    "name": "Wiener Umland/Nordteil (Korneuburg & Marchfeld)",
+    "capitalOrChefLieu": "Korneuburg",
+    "keys": [
+      "korneuburg",
+      "ganserndorf",
+      "marchfeld",
+      "at126"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Niederösterreich (Korneuburg)",
+    "preNote": "Piana agricola del Marchfeld e cantieri fluviali di Korneuburg sul Danubio; storico campo di battaglia imperiale lungo il fiume March.",
+    "postName": "Reichsgau Niederdonau — Schiffswerft Korneuburg",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau",
+    "postNote": "I cantieri navali di Korneuburg vennero requisiti dalla Kriegsmarine per la produzione di chiatte da sbarco (Marinefährprahm) per il Danubio e il Mar Nero."
+  },
+  {
+    "nuts": "AT127",
+    "country": "AT",
+    "name": "Wiener Umland/Südteil (Mödling & Baden)",
+    "capitalOrChefLieu": "Mödling",
+    "keys": [
+      "modling",
+      "moedling",
+      "baden",
+      "at127"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Niederösterreich (Baden/Mödling)",
+    "preNote": "Elegante fascia suburbana termale e vinicola del Wienerwald; Baden sede di rappresentanza e ville storiche aristocratiche.",
+    "postName": "Reichsgau Niederdonau — Mödling & Baden (Wienerwald)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau",
+    "postNote": "Integrato parzialmente nell'area metropolitana della Groß-Wien e nel Reichsgau Niederdonau sotto occupazione nazista."
+  },
+  {
+    "nuts": "AT111",
+    "country": "AT",
+    "name": "Mittelburgenland (Oberpullendorf)",
+    "capitalOrChefLieu": "Oberpullendorf",
+    "keys": [
+      "mittelburgenland",
+      "oberpullendorf",
+      "at111"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Burgenland (Mittelburgenland)",
+    "preNote": "Settore centrale del Burgenland a forte tradizione agricola e con presenza di minoranza croata del Burgenland.",
+    "postName": "Reichsgau Niederdonau — Kreis Oberpullendorf (Burgenland)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau (Ostmarkgesetz 1938)",
+    "postNote": "SOPPRESSIONE DEL BURGENLAND: Con la legge Ostmarkgesetz del 15 ottobre 1938 il Burgenland venne dissolto; il distretto di Oberpullendorf fu annesso al Reichsgau Niederdonau."
+  },
+  {
+    "nuts": "AT112",
+    "country": "AT",
+    "name": "Nordburgenland (Eisenstadt & Neusiedler See)",
+    "capitalOrChefLieu": "Eisenstadt",
+    "keys": [
+      "nordburgenland",
+      "eisenstadt",
+      "neusiedl",
+      "at112"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Landeshauptstadt Eisenstadt (Burgenland)",
+    "preNote": "Capoluogo del Burgenland austriaco (residenza storica dei principi Esterházy e di Haydn) affacciato sul Lago di Neusiedl al confine con l'Ungheria.",
+    "postName": "Reichsgau Niederdonau — Eisenstadt (Ex-Burgenland)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Niederdonau (Ostmarkgesetz 1938)",
+    "postNote": "Burgenland soppresso nell'ottobre 1938: Eisenstadt e il circondario del lago furono smembrati e annessi al Reichsgau Niederdonau."
+  },
+  {
+    "nuts": "AT113",
+    "country": "AT",
+    "name": "Südburgenland (Oberwart & Güssing)",
+    "capitalOrChefLieu": "Oberwart",
+    "keys": [
+      "sudburgenland",
+      "suedburgenland",
+      "oberwart",
+      "gussing",
+      "jennersdorf",
+      "at113"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Burgenland (Südburgenland)",
+    "preNote": "Fascia meridionale del Burgenland al confine con Stiria, Ungheria e Jugoslavia; popolazione mista germanofona, magiara e rom.",
+    "postName": "Reichsgau Steiermark — Kreise Oberwart & Güssing (Ex-Burgenland)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Steiermark (Ostmarkgesetz 1938)",
+    "postNote": "Burgenland soppresso nell'ottobre 1938: la parte meridionale (Oberwart, Güssing, Jennersdorf) venne annessa al Reichsgau Steiermark."
+  },
+  {
+    "nuts": "AT311",
+    "country": "AT",
+    "name": "Innviertel (Braunau am Inn & Ried)",
+    "capitalOrChefLieu": "Braunau am Inn",
+    "keys": [
+      "innviertel",
+      "braunau",
+      "ried",
+      "scharding",
+      "at311"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Oberösterreich (Innviertel)",
+    "preNote": "Regione agricola e fluviale lungo il fiume Inn di fronte alla Baviera; Braunau am Inn città natale di Adolf Hitler.",
+    "postName": "Reichsgau Oberdonau — Kreis Braunau am Inn",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Oberdonau",
+    "postNote": "Distretto natale del Führer elevato a luogo di culto propagandistico dal partito nazista nel Reichsgau Oberdonau."
+  },
+  {
+    "nuts": "AT312",
+    "country": "AT",
+    "name": "Linz-Wels (Linz an der Donau)",
+    "capitalOrChefLieu": "Linz",
+    "keys": [
+      "linz",
+      "wels",
+      "mauthausen",
+      "at312"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Landeshauptstadt Linz (Oberösterreich)",
+    "preNote": "Capoluogo dell'Alta Austria sulle rive del Danubio; importante snodo ferroviario e porto commerciale tra Vienna e la Baviera.",
+    "postName": "Reichsgau Oberdonau — Patenstadt Linz (Hermann-Göring-Werke & KZ Mauthausen)",
+    "postAdminTitle": "Deutsches Reich — Gauhauptstadt des Reichsgaues Oberdonau",
+    "postNote": "Designata Patenstadt des Führers da Hitler; insediato il titanico complesso industriale bellico delle Reichswerke Hermann Göring e il campo di concentramento di Mauthausen (agosto 1938). Gauleiter August Eigruber."
+  },
+  {
+    "nuts": "AT313",
+    "country": "AT",
+    "name": "Mühlviertel (Freistadt & Rohrbach)",
+    "capitalOrChefLieu": "Freistadt",
+    "keys": [
+      "muhlviertel",
+      "muehlviertel",
+      "freistadt",
+      "rohrbach",
+      "at313"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Oberösterreich (Mühlviertel)",
+    "preNote": "Regione collinare e granitica a nord del Danubio estesa fino alla Selva Boema (Böhmerwald) al confine con la Cecoslovacchia.",
+    "postName": "Reichsgau Oberdonau — Mühlviertel",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Oberdonau",
+    "postNote": "Fascia di confine con il Protettorato di Boemia e Moravia e base d'avanzata per le divisioni della Wehrmacht nell'autunno 1938."
+  },
+  {
+    "nuts": "AT314",
+    "country": "AT",
+    "name": "Steyr-Kirchdorf (Steyr)",
+    "capitalOrChefLieu": "Steyr",
+    "keys": [
+      "steyr",
+      "kirchdorf",
+      "at314"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Oberösterreich (Steyr)",
+    "preNote": "Storica città delle armi e fonderie alla confluenza dell'Enns e dello Steyr; colosso industriale della Steyr-Werke AG.",
+    "postName": "Reichsgau Oberdonau — Rüstungszentrum Steyr-Daimler-Puch AG",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Oberdonau",
+    "postNote": "Gli stabilimenti Steyr-Daimler-Puch AG divennero uno dei massimi centri di produzione di armi da fuoco leggere, munizioni, cuscinetti a sfera e autocarri militari della Wehrmacht."
+  },
+  {
+    "nuts": "AT315",
+    "country": "AT",
+    "name": "Traunviertel (Gmunden & Salzkammergut)",
+    "capitalOrChefLieu": "Gmunden",
+    "keys": [
+      "traunviertel",
+      "gmunden",
+      "vocklabruck",
+      "salzkammergut",
+      "at315"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Oberösterreich (Traunviertel)",
+    "preNote": "Regione alpina e lacustre del Salzkammergut (Traunsee, Attersee); ricca di storiche miniere di salgemma e bacini chimici.",
+    "postName": "Reichsgau Oberdonau — Salzkammergut (Traunviertel)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Oberdonau",
+    "postNote": "Bacino industriale e minerario integrato nel Reichsgau Oberdonau; in seguito rifugio di riserve auree e opere d'arte razziate dal regime."
+  },
+  {
+    "nuts": "AT321",
+    "country": "AT",
+    "name": "Lungau (Tamsweg)",
+    "capitalOrChefLieu": "Tamsweg",
+    "keys": [
+      "lungau",
+      "tamsweg",
+      "at321"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Salzburg (Bezirk Tamsweg)",
+    "preNote": "Valle alpina interna protetta dalle vette dei Tauri; distretto agricolo montano e forestale del Salisburghese.",
+    "postName": "Reichsgau Salzburg — Kreis Tamsweg (Lungau)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Salzburg",
+    "postNote": "Integrato nel Reichsgau Salzburg sotto la guida del Gauleiter Friedrich Rainer."
+  },
+  {
+    "nuts": "AT322",
+    "country": "AT",
+    "name": "Pinzgau-Pongau (Zell am See & Gastein)",
+    "capitalOrChefLieu": "Zell am See",
+    "keys": [
+      "pinzgau",
+      "pongau",
+      "zell_am_see",
+      "st_johann",
+      "gastein",
+      "at322"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Salzburg (Pinzgau & Pongau)",
+    "preNote": "Regione alpina dominata dagli Alti Tauri (Großglockner) e dalla valle di Gastein; centri idroelettrici e stazioni climatiche alpine.",
+    "postName": "Reichsgau Salzburg — Pinzgau & Pongau (Hohe Tauern)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Salzburg",
+    "postNote": "Bacino idroelettrico primario (costruzione dei bacini di Kaprun) e nodo ferroviario verso il Tirolo e la Carinzia."
+  },
+  {
+    "nuts": "AT323",
+    "country": "AT",
+    "name": "Salzburg und Umgebung (Salisburgo)",
+    "capitalOrChefLieu": "Salzburg",
+    "keys": [
+      "salzburg",
+      "salisburgo",
+      "flachgau",
+      "at323"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Landeshauptstadt Salzburg",
+    "preNote": "Città principesca vescovile dominata dalla fortezza Hohensalzburg; patria di Mozart e sede del prestigioso Festival di Salisburgo.",
+    "postName": "Reichsgau Salzburg — Gauhauptstadt Salzburg",
+    "postAdminTitle": "Deutsches Reich — Gauhauptstadt des Reichsgaues Salzburg",
+    "postNote": "Capitale del Reichsgau Salzburg (Gauleiter Friedrich Rainer); contigua al complesso montano di Berchtesgaden e Obersalzberg (Kehlsteinhaus) residenza di Hitler al confine bavarese."
+  },
+  {
+    "nuts": "AT221",
+    "country": "AT",
+    "name": "Graz (Steiermark)",
+    "capitalOrChefLieu": "Graz",
+    "keys": [
+      "graz",
+      "at221"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Landeshauptstadt Graz (Steiermark)",
+    "preNote": "Capoluogo della Stiria e seconda città dell'Austria, sede universitaria e centro meccanico e automobilistico (Puch-Werke).",
+    "postName": "Reichsgau Steiermark — Gauhauptstadt Graz (Stadt der Volkserhebung)",
+    "postAdminTitle": "Deutsches Reich — Gauhauptstadt des Reichsgaues Steiermark",
+    "postNote": "Denominata Stadt der Volkserhebung da Hitler per la precocità dei moti nazisti locali nel 1938. Sede del Gauleiter Sigfried Uiberreither e della produzione bellica Steyr-Daimler-Puch."
+  },
+  {
+    "nuts": "AT222",
+    "country": "AT",
+    "name": "Liezen (Ennstal & Ausseerland)",
+    "capitalOrChefLieu": "Liezen",
+    "keys": [
+      "liezen",
+      "ennstal",
+      "ausseerland",
+      "at222"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Steiermark (Bezirk Liezen)",
+    "preNote": "Il più esteso distretto della Stiria, imperniato sulla valle dell'Enns e sulle Alpi dell'Ennstal e dei Tauri.",
+    "postName": "Reichsgau Steiermark — Kreis Liezen (Ennstal)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Steiermark",
+    "postNote": "Integrato nel Reichsgau Steiermark; zona montana di miniere e allevamento alpino."
+  },
+  {
+    "nuts": "AT223",
+    "country": "AT",
+    "name": "Östliche Obersteiermark (Leoben & Erzberg)",
+    "capitalOrChefLieu": "Leoben",
+    "keys": [
+      "leoben",
+      "erzberg",
+      "eisenerz",
+      "bruck_an_der_mur",
+      "at223"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Steiermark (Leoben & Erzberg)",
+    "preNote": "Cuore minerario e siderurgico dell'Austria imperniato sul monte Erzberg (la Montagna di Ferro) a Eisenerz e sulle acciaierie di Donawitz/Leoben.",
+    "postName": "Reichsgau Steiermark — Steirischer Erzberg & Donawitz (Eisenerz)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Steiermark (Erzbergbau)",
+    "postNote": "Il minerale di ferro purissimo dell'Erzberg a cielo aperto fu una delle prede economiche primarie dell'Anschluss per rifornire gli altiforni della Ruhr e del Reich."
+  },
+  {
+    "nuts": "AT224",
+    "country": "AT",
+    "name": "Oststeiermark (Weiz, Hartberg & Fürstenfeld)",
+    "capitalOrChefLieu": "Weiz",
+    "keys": [
+      "oststeiermark",
+      "weiz",
+      "hartberg",
+      "furstenfeld",
+      "at224"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Steiermark (Oststeiermark)",
+    "preNote": "Regione collinare e agricola della Stiria orientale verso il confine ungherese; stabilimenti elettromeccanici a Weiz.",
+    "postName": "Reichsgau Steiermark — Oststeiermark (ELIN Weiz)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Steiermark",
+    "postNote": "Produzione di trasformatori e generatori elettrici della ELIN a Weiz requisita per le esigenze infrastrutturali belliche del Reich."
+  },
+  {
+    "nuts": "AT225",
+    "country": "AT",
+    "name": "West- und Südsteiermark (Leibnitz & Deutschlandsberg)",
+    "capitalOrChefLieu": "Leibnitz",
+    "keys": [
+      "leibnitz",
+      "deutschlandsberg",
+      "sudsteiermark",
+      "at225"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Steiermark (Südsteiermark)",
+    "preNote": "Colline vinicole della Stiria meridionale al confine con il Regno di Jugoslavia (Slovenia); presenza storica di frizioni confinarie post-1919.",
+    "postName": "Reichsgau Steiermark — Südsteiermark (Grenzland)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Steiermark",
+    "postNote": "Zona confinaria di tensione con la Jugoslavia; rampa di lancio della propaganda nazista verso la Bassa Stiria slovena (Untersteiermark)."
+  },
+  {
+    "nuts": "AT226",
+    "country": "AT",
+    "name": "Westliche Obersteiermark (Judenburg & Knittelfeld)",
+    "capitalOrChefLieu": "Judenburg",
+    "keys": [
+      "judenburg",
+      "knittelfeld",
+      "murau",
+      "murtal",
+      "at226"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Steiermark (Murtal)",
+    "preNote": "Bacino industriale e metallurgico della valle del Mur; officine ferroviarie di Knittelfeld e fonderie di Judenburg.",
+    "postName": "Reichsgau Steiermark — Industriekreis Judenburg & Knittelfeld",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Steiermark",
+    "postNote": "Centri industriali pesanti e snodo ferroviario alpino della Stiria occidentale subordinati alle commesse belliche del Reich."
+  },
+  {
+    "nuts": "AT211",
+    "country": "AT",
+    "name": "Klagenfurt-Villach (Kärnten)",
+    "capitalOrChefLieu": "Klagenfurt",
+    "keys": [
+      "klagenfurt",
+      "villach",
+      "villaco",
+      "karnten",
+      "carinzia",
+      "at211"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Landeshauptstadt Klagenfurt (Kärnten)",
+    "preNote": "Capoluogo della Carinzia sul Wörthersee e nodo nodale ferroviario di Villach; cerniera delle comunicazioni alpine verso l'Italia fascista (Tarvisio) e la Jugoslavia.",
+    "postName": "Reichsgau Kärnten — Gauhauptstadt Klagenfurt & Villach",
+    "postAdminTitle": "Deutsches Reich — Gauhauptstadt des Reichsgaues Kärnten",
+    "postNote": "Capitale del Reichsgau Kärnten retto dal Gauleiter Franz Kutschera (poi Friedrich Rainer); corridoio di transito e rifornimento dell'Asse Roma-Berlino."
+  },
+  {
+    "nuts": "AT212",
+    "country": "AT",
+    "name": "Oberkärnten (Spittal an der Drau & Hermagor)",
+    "capitalOrChefLieu": "Spittal an der Drau",
+    "keys": [
+      "spittal",
+      "hermagor",
+      "oberkarnten",
+      "drau",
+      "at212"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Kärnten (Oberkärnten)",
+    "preNote": "Regione alpina della valle della Drava (Drautal) e della Gailtal al confine con le Alpi Carniche italiane.",
+    "postName": "Reichsgau Kärnten — Kreis Spittal an der Drau (Oberkärnten)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Kärnten",
+    "postNote": "Distretto alpino di risorse idroelettriche e legname integrato nel Reichsgau Kärnten."
+  },
+  {
+    "nuts": "AT213",
+    "country": "AT",
+    "name": "Unterkärnten (Wolfsberg & Völkermarkt)",
+    "capitalOrChefLieu": "Wolfsberg",
+    "keys": [
+      "wolfsberg",
+      "volkermarkt",
+      "voelkermarkt",
+      "unterkarnten",
+      "at213"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Kärnten (Lavanttal & Jauntal)",
+    "preNote": "Bacino della Lavanttal e pianura del Jauntal verso il confine jugoslavo; presenza di comunità bilingue carinziana slovena.",
+    "postName": "Reichsgau Kärnten — Kreise Wolfsberg & Völkermarkt",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Kärnten",
+    "postNote": "Area agricola e mineraria della Carinzia orientale sottoposta a dura politica di germanizzazione linguistica da parte del Gauleiter nazista."
+  },
+  {
+    "nuts": "AT331",
+    "country": "AT",
+    "name": "Außerfern (Reutte)",
+    "capitalOrChefLieu": "Reutte",
+    "keys": [
+      "reutte",
+      "ausserfern",
+      "at331"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Tirol (Bezirk Reutte)",
+    "preNote": "Valle alpina del Lech collegata naturalmente alla Baviera tramite il passo di Fern; isolata dal resto del Tirolo durante l'inverno.",
+    "postName": "Reichsgau Tirol-Vorarlberg — Kreis Reutte (Außerfern)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Tirol-Vorarlberg",
+    "postNote": "Integrato nel Reichsgau Tirol-Vorarlberg retto dal Gauleiter Franz Hofer con sede a Innsbruck."
+  },
+  {
+    "nuts": "AT332",
+    "country": "AT",
+    "name": "Innsbruck (Nordtirol)",
+    "capitalOrChefLieu": "Innsbruck",
+    "keys": [
+      "innsbruck",
+      "tirol",
+      "nordtirol",
+      "tirolo",
+      "at332"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Landeshauptstadt Innsbruck (Tirol)",
+    "preNote": "Capoluogo del Tirolo nella valle dell'Inn, perno storico dell'asse del Brennero e snodo ferroviario transalpino tra Germania e Italia.",
+    "postName": "Reichsgau Tirol-Vorarlberg — Gauhauptstadt Innsbruck (Brenner-Achse)",
+    "postAdminTitle": "Deutsches Reich — Gauhauptstadt des Reichsgaues Tirol-Vorarlberg",
+    "postNote": "Sede del Gauleiter Franz Hofer; centro nevralgico della linea ferroviaria del Brennero per i collegamenti militari e i vertici di Hitler e Mussolini."
+  },
+  {
+    "nuts": "AT333",
+    "country": "AT",
+    "name": "Osttirol (Lienz)",
+    "capitalOrChefLieu": "Lienz",
+    "keys": [
+      "lienz",
+      "osttirol",
+      "at333"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Tirol (Bezirk Lienz / Osttirol)",
+    "preNote": "Tirolo Orientale, rimasto separato dal Tirolo del Nord in seguito alla perdita dell'Alto Adige / Südtirol nel Trattato di Saint-Germain (1919).",
+    "postName": "Reichsgau Kärnten — Kreis Lienz (Osttirol)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Kärnten (Anschluss 1938)",
+    "postNote": "Nel 1938 il distretto di Lienz (Osttirol) venne scorporato dal Tirolo e aggregato amministrativamente al Reichsgau Kärnten per ragioni geografiche e logistiche."
+  },
+  {
+    "nuts": "AT334",
+    "country": "AT",
+    "name": "Tiroler Oberland (Imst & Landeck)",
+    "capitalOrChefLieu": "Imst",
+    "keys": [
+      "imst",
+      "landeck",
+      "tiroler_oberland",
+      "arlberg",
+      "at334"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Tirol (Oberland)",
+    "preNote": "Alta valle dell'Inn e valli tributarie (Ötztal, Pitztal); sbarramento del Passo Resia verso l'Italia e traforo dell'Arlberg verso il Vorarlberg.",
+    "postName": "Reichsgau Tirol-Vorarlberg — Kreise Imst & Landeck",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Tirol-Vorarlberg",
+    "postNote": "Passo Resia e collegamenti transalpini alpini militarizzati sotto l'amministrazione nazista del Gauleiter Hofer."
+  },
+  {
+    "nuts": "AT335",
+    "country": "AT",
+    "name": "Tiroler Unterland (Kufstein & Kitzbühel)",
+    "capitalOrChefLieu": "Kufstein",
+    "keys": [
+      "kufstein",
+      "kitzbuhel",
+      "kitzbuehel",
+      "schwaz",
+      "tiroler_unterland",
+      "at335"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Tirol (Unterland / Festung Kufstein)",
+    "preNote": "Bassa valle dell'Inn dominata dalla storica Festung Kufstein a ridosso della frontiera bavarese; valli minerarie di Schwaz e centro alpino di Kitzbühel.",
+    "postName": "Reichsgau Tirol-Vorarlberg — Festung Kufstein & Kitzbühel",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Tirol-Vorarlberg",
+    "postNote": "Porta d'accesso d'invasione delle truppe bavaresi del generale Fedor von Bock durante l'Anschluss del 12 marzo 1938."
+  },
+  {
+    "nuts": "AT341",
+    "country": "AT",
+    "name": "Bludenz-Bregenzer Wald (Bludenz)",
+    "capitalOrChefLieu": "Bludenz",
+    "keys": [
+      "bludenz",
+      "bregenzerwald",
+      "bregenzer_wald",
+      "montafon",
+      "at341"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Land Vorarlberg (Bludenz)",
+    "preNote": "Cantone alpino del Vorarlberg meridionale (Montafon, Klostertal); sbarramento occidentale del passo e ferrovia dell'Arlberg.",
+    "postName": "Reichsgau Tirol-Vorarlberg — Kreis Bludenz (Montafon)",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Tirol-Vorarlberg",
+    "postNote": "Vorarlberg aggregato al Tirolo nel Reichsgau Tirol-Vorarlberg; bacini idroelettrici del Montafon (Illwerke) sfruttati per la rete energetica del Reich."
+  },
+  {
+    "nuts": "AT342",
+    "country": "AT",
+    "name": "Rheintal-Bodenseegebiet (Bregenz & Feldkirch)",
+    "capitalOrChefLieu": "Bregenz",
+    "keys": [
+      "bregenz",
+      "dornbirn",
+      "feldkirch",
+      "rheintal",
+      "at342"
+    ],
+    "preAdminTitle": "Bundesstaat Österreich — Landeshauptstadt Bregenz (Vorarlberg)",
+    "preNote": "Capoluogo del Vorarlberg affacciato sul Bodensee e popolosa valle del Reno alpino al confine con Svizzera e Liechtenstein.",
+    "postName": "Reichsgau Tirol-Vorarlberg — Kreise Bregenz & Feldkirch",
+    "postAdminTitle": "Deutsches Reich — Reichsgau Tirol-Vorarlberg",
+    "postNote": "Fascia confinaria ad alta sorveglianza della Gestapo e guardie di frontiera per impedire fughe di perseguitati e oppositori verso la Svizzera neutrale (caso del capitano di polizia Paul Grüninger a St. Margrethen)."
+  }
+];
+
+/**
+ * Risoluzione toponomastica, istituzionale e temporale dettagliata per Svizzera, Austria e Liechtenstein (1936-1940)
+ */
+export function resolveSwissAustrianToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. Cerca match tra i 62 distretti alpini
+  let found: SwissAustrianDistrictDef | undefined;
+
+  if (id.startsWith('CH') || id.startsWith('AT') || id.startsWith('LI')) {
+    found = SWISS_AUSTRIAN_DISTRICTS_CATALOG.find((d) => d.nuts === id);
+  }
+
+  if (!found) {
+    const normTokens = normKey.split('_').filter(Boolean);
+    for (const d of SWISS_AUSTRIAN_DISTRICTS_CATALOG) {
+      if (d.keys.some((k) => normKey === k || normTokens.includes(k) || (k.length >= 5 && normKey.includes(k)))) {
+        found = d;
+        break;
+      }
+    }
+  }
+
+  if (found) {
+    const d = found;
+    // Austria post-Anschluss (Step >= 1: März 1938 - Juni 1940)
+    if (d.country === 'AT') {
+      if (step >= 1) {
+        return {
+          name: d.postName || d.name,
+          adminTitle: d.postAdminTitle || 'Alpen- und Donau-Reichsgaue (Ostmark — Großdeutsches Reich)',
+          note: d.postNote || 'Territorium der ehemaligen Republik Österreich nach dem Anschluss vom März 1938.',
+        };
+      }
+      // Step 0: Bundesstaat Österreich (Ständestaat 1936-1938)
+      return {
+        name: d.name,
+        adminTitle: d.preAdminTitle,
+        note: d.preNote,
+      };
+    }
+
+    // Liechtenstein: neutralità e unione doganale con la Svizzera
+    if (d.country === 'LI') {
+      return {
+        name: step >= 1 && d.postName ? d.postName : d.name,
+        adminTitle: step >= 1 && d.postAdminTitle ? d.postAdminTitle : d.preAdminTitle,
+        note: step >= 1 && d.postNote ? d.postNote : d.preNote,
+      };
+    }
+
+    // Svizzera: neutralità armata confederale (1936-1940)
+    return {
+      name: d.name,
+      adminTitle: d.preAdminTitle,
+      note: d.preNote,
+    };
+  }
+
+  return null;
+}
+
+
 export function getExtendedToponym(
   rawName: string,
   owner: string,
@@ -9383,6 +10465,25 @@ export function getExtendedToponym(
       adminTitle: 'Principat d\'Andorra (Coprincipato Sovrano Neutrale)',
       note: 'Antico coprincipato sovrano neutrale incastonato tra i Pirenei catalani e francesi, retto congiuntamente dal Vescovo di Urgell e dal Presidente della Repubblica Francese. Durante la Guerra Civile Spagnola e la Seconda Guerra Mondiale mantenne una rigorosa neutralità; dal 1936 al 1940 un distaccamento di guardie mobili francesi (René Baulard) stazionò nel principato per garantirne l\'ordine e la sicurezza senza alterarne la sovranità. Fu rifugio per civili e via di fuga montuosa clandestina.',
     };
+  }
+
+    // 0.04 Overrides prioritari per Svizzera, Austria e Liechtenstein (62 distretti NUTS-3)
+  if (
+    owner === 'SWI' ||
+    owner === 'AUS' ||
+    owner === 'LIE' ||
+    id.startsWith('CH') ||
+    id.startsWith('AT') ||
+    id.startsWith('LI') ||
+    normKey.includes('schweiz') ||
+    normKey.includes('suisse') ||
+    normKey.includes('svizzera') ||
+    normKey.includes('osterreich') ||
+    normKey.includes('austria') ||
+    normKey.includes('liechtenstein')
+  ) {
+    const swiAusTop = resolveSwissAustrianToponym(id, rawName, normKey, owner, yearStep);
+    if (swiAusTop) return swiAusTop;
   }
 
   // 0.05 Overrides prioritari per Benelux (Belgio, Paesi Bassi, Lussemburgo - 85 distretti NUTS-3)
