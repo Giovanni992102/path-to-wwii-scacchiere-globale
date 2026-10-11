@@ -158,12 +158,65 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
   const hoverOverlayRef = useRef<SVGPathElement | null>(null);
   const selectOverlayRef = useRef<SVGPathElement | null>(null);
 
+  // Sync currentStepRef synchronously so D3 event listeners always access the active timeline step
+  const currentStepRef = useRef<number>(currentStep);
+  currentStepRef.current = currentStep;
+
+  // Track active hovered territory node and pointer coordinates for real-time tooltip updates across step transitions
+  const hoveredInfoRef = useRef<{
+    node: SVGPathElement;
+    data: any;
+    clientX: number;
+    clientY: number;
+  } | null>(null);
+
   const W = 1600;
   const H = 900;
 
   const fillFor = useCallback((f: any, s: number) => {
     const r = f.__res ? f.__res[s] : null;
     return r ? getOwnerMeta(r.o).c : '#1c2026';
+  }, []);
+
+  const positionTooltip = useCallback((clientX: number, clientY: number, html: string) => {
+    if (!tooltipRef.current) return;
+    const tt = tooltipRef.current;
+    tt.innerHTML = html;
+    tt.style.display = 'block';
+
+    const pad = 16;
+    const tw = tt.offsetWidth;
+    const th = tt.offsetHeight;
+    let x = clientX + pad;
+    let y = clientY + pad;
+    if (x + tw > window.innerWidth - 8) x = clientX - tw - pad;
+    if (y + th > window.innerHeight - 8) y = clientY - th - pad;
+    tt.style.left = `${x}px`;
+    tt.style.top = `${y}px`;
+  }, []);
+
+  const hideTooltip = useCallback(() => {
+    if (tooltipRef.current) tooltipRef.current.style.display = 'none';
+  }, []);
+
+  const renderTerritoryTooltipHtml = useCallback((d: any, res: any, meta: any, fac: string, step: number) => {
+    const noteText = res.note || res.historicalContext;
+    return `<div class="font-oswald text-[15px] font-semibold text-[#f0e6c8] tracking-[0.5px] border-b border-[#3a3420] pb-1 mb-1 leading-tight flex items-center justify-between gap-3">
+      <span>${res.name || d.__itname || 'Territorio'}</span>
+      <span class="text-[10px] font-mono-tech px-1.5 py-0.2 bg-[#222a30] text-[#c9a557] border border-[#3d4852] rounded">${res.o}</span>
+    </div>
+    ${res.adminEntity ? `<div class="text-[11px] text-[#c9a557] font-mono-tech mb-1 leading-tight tracking-[0.2px]">${res.adminEntity}</div>` : ''}
+    <div class="flex items-center gap-2.5 text-[13px] text-[#cfd3d6] tracking-[0.3px] my-1">
+      <div class="w-6 h-4 rounded-[1px] overflow-hidden border border-[#554d33] shadow-[0_1px_4px_rgba(0,0,0,0.7)] flex-none bg-black/60 flex items-center justify-center">
+        ${getCountryFlagSvg(res.o, step)}
+      </div>
+      <span class="font-medium">${res.o === 'NEU' ? 'Indipendente / Neutrale' : meta.l(step)}</span>
+    </div>
+    <div class="text-[11.5px] text-[#8b9298] tracking-[1px] mt-1 font-oswald flex items-center justify-between">
+      <span>FAZIONE: <b style="color:${FACTION_COLORS[fac] || '#ccc'}">${fac.toUpperCase()}</b></span>
+      ${meta.leader ? `<span class="text-[10.5px] text-[#a0a8b0] font-sans font-normal italic">${meta.leader.split('/')[0].trim()}</span>` : ''}
+    </div>
+    ${noteText ? `<div class="mt-1 text-[11px] text-[#a08c52] italic leading-tight border-t border-[#2a2416] pt-1">${noteText}</div>` : ''}`;
   }, []);
 
   // Initialize Map & Layers
@@ -293,6 +346,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         .attr('stroke-opacity', '0.35')
         .attr('cursor', 'pointer')
         .on('pointerenter', function (event) {
+          hoveredInfoRef.current = null;
           d3.select(this).attr('stroke-width', '1.6').attr('stroke-opacity', '0.85');
           showTooltip(
             event,
@@ -393,6 +447,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         .attr('stroke-opacity', '0.85')
         .attr('cursor', 'pointer')
         .on('pointerenter', function (event) {
+          hoveredInfoRef.current = null;
           d3.select(this).attr('stroke-width', '2').attr('stroke', '#e8c979');
           showTooltip(
             event,
@@ -418,6 +473,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
             .attr('transform', `translate(${pt[0]}, ${pt[1]})`)
             .attr('class', 'fort-node cursor-pointer')
             .on('pointerenter', (event) => {
+              hoveredInfoRef.current = null;
               showTooltip(
                 event,
                 `<div class="font-oswald text-[12px] font-bold text-[#e8c979] uppercase">${kfort.name}</div>
@@ -446,6 +502,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
           .attr('transform', `translate(${pt[0]}, ${pt[1]})`)
           .attr('class', `naval-base naval-base-${base.id} cursor-pointer`)
           .on('pointerenter', (event) => {
+            hoveredInfoRef.current = null;
             showTooltip(
               event,
               `<div class="font-oswald text-[13px] font-bold text-[#5aa0c2] uppercase border-b border-[#3a3420] pb-1 mb-1">
@@ -483,6 +540,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
           .attr('class', `battle-marker battle-step-${battle.step} cursor-pointer`)
           .attr('display', battle.step === currentStep ? 'inline' : 'none')
           .on('pointerenter', (event) => {
+            hoveredInfoRef.current = null;
             showTooltip(
               event,
               `<div class="font-oswald text-[13px] font-bold text-[#f0e6c8] uppercase border-b border-[#3a3420] pb-1 mb-1 flex items-center justify-between">
@@ -537,6 +595,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       if (pt && !isNaN(pt[0]) && !isNaN(pt[1])) {
         const gCity = gCities
           .append('g')
+          .datum(city)
           .attr('transform', `translate(${pt[0]}, ${pt[1]})`)
           .attr('class', 'city-marker pointer-events-none');
 
@@ -593,6 +652,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       if (hoverOverlayRef.current) {
         d3.select(hoverOverlayRef.current).attr('d', null);
       }
+      hoveredInfoRef.current = null;
     }
 
     // Zoom behavior
@@ -636,7 +696,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       }
     });
 
-    function handlePointerEnter(this: any) {
+    function handlePointerEnter(this: any, event: MouseEvent, d: any) {
       if (currentHoveredNode && currentHoveredNode !== this) {
         d3.select(currentHoveredNode).classed('hov', false);
       }
@@ -648,6 +708,29 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       if (dAttr && hoverOverlayRef.current) {
         d3.select(hoverOverlayRef.current).attr('d', dAttr);
       }
+
+      hoveredInfoRef.current = {
+        node: this,
+        data: d,
+        clientX: event.clientX,
+        clientY: event.clientY,
+      };
+
+      const step = currentStepRef.current;
+      const res = d.__res ? d.__res[step] : null;
+      if (!res) {
+        hideTooltip();
+        return;
+      }
+
+      const meta = getOwnerMeta(res.o);
+      const fac = res.fac || meta.f;
+
+      positionTooltip(
+        event.clientX,
+        event.clientY,
+        renderTerritoryTooltipHtml(d, res, meta, fac, step)
+      );
     }
 
     function handlePointerMove(this: any, event: MouseEvent, d: any) {
@@ -665,7 +748,15 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         }
       }
 
-      const res = d.__res ? d.__res[currentStep] : null;
+      hoveredInfoRef.current = {
+        node: this,
+        data: d,
+        clientX: event.clientX,
+        clientY: event.clientY,
+      };
+
+      const step = currentStepRef.current;
+      const res = d.__res ? d.__res[step] : null;
       if (!res) {
         hideTooltip();
         return;
@@ -674,24 +765,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       const meta = getOwnerMeta(res.o);
       const fac = res.fac || meta.f;
 
-      showTooltip(
-        event,
-        `<div class="font-oswald text-[15px] font-semibold text-[#f0e6c8] tracking-[0.5px] border-b border-[#3a3420] pb-1 mb-1 leading-tight flex items-center justify-between gap-3">
-          <span>${res.name || d.__itname || 'Territorio'}</span>
-          <span class="text-[10px] font-mono-tech px-1.5 py-0.2 bg-[#222a30] text-[#c9a557] border border-[#3d4852] rounded">${res.o}</span>
-        </div>
-        ${res.adminEntity ? `<div class="text-[11px] text-[#c9a557] font-mono-tech mb-1 leading-tight tracking-[0.2px]">${res.adminEntity}</div>` : ''}
-        <div class="flex items-center gap-2.5 text-[13px] text-[#cfd3d6] tracking-[0.3px] my-1">
-          <div class="w-6 h-4 rounded-[1px] overflow-hidden border border-[#554d33] shadow-[0_1px_4px_rgba(0,0,0,0.7)] flex-none bg-black/60 flex items-center justify-center">
-            ${getCountryFlagSvg(res.o, currentStep)}
-          </div>
-          <span class="font-medium">${res.o === 'NEU' ? 'Indipendente / Neutrale' : meta.l(currentStep)}</span>
-        </div>
-        <div class="text-[11.5px] text-[#8b9298] tracking-[1px] mt-1 font-oswald flex items-center justify-between">
-          <span>FAZIONE: <b style="color:${FACTION_COLORS[fac] || '#ccc'}">${fac.toUpperCase()}</b></span>
-          ${meta.leader ? `<span class="text-[10.5px] text-[#a0a8b0] font-sans font-normal italic">${meta.leader.split('/')[0].trim()}</span>` : ''}
-        </div>
-        ${res.note ? `<div class="mt-1 text-[11px] text-[#a08c52] italic leading-tight border-t border-[#2a2416] pt-1">${res.note}</div>` : ''}`
+      positionTooltip(
+        event.clientX,
+        event.clientY,
+        renderTerritoryTooltipHtml(d, res, meta, fac, step)
       );
     }
 
@@ -703,6 +780,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
           d3.select(hoverOverlayRef.current).attr('d', null);
         }
       }
+      hoveredInfoRef.current = null;
       hideTooltip();
     }
 
@@ -713,24 +791,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     }
 
     function showTooltip(event: MouseEvent, html: string) {
-      if (!tooltipRef.current) return;
-      const tt = tooltipRef.current;
-      tt.innerHTML = html;
-      tt.style.display = 'block';
-
-      const pad = 16;
-      const tw = tt.offsetWidth;
-      const th = tt.offsetHeight;
-      let x = event.clientX + pad;
-      let y = event.clientY + pad;
-      if (x + tw > window.innerWidth - 8) x = event.clientX - tw - pad;
-      if (y + th > window.innerHeight - 8) y = event.clientY - th - pad;
-      tt.style.left = `${x}px`;
-      tt.style.top = `${y}px`;
-    }
-
-    function hideTooltip() {
-      if (tooltipRef.current) tooltipRef.current.style.display = 'none';
+      positionTooltip(event.clientX, event.clientY, html);
     }
   }, [provFeatures, hbFeatures, cntrFeatures, hbMode]);
 
@@ -759,15 +820,28 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     });
 
     // Update city labels text for current step
-    svg.selectAll<SVGTextElement, any>('.city-marker text').each(function (d, i) {
-      const city = HISTORICAL_CITIES[i];
+    svg.selectAll<SVGGElement, any>('.city-marker').each(function (city) {
       if (city) {
         const stepKey = `step${currentStep}`;
         const cityName = city.historicalNames[stepKey] || city.historicalNames.default || city.name;
-        d3.select(this).text(cityName);
+        d3.select(this).select('text').text(cityName);
       }
     });
-  }, [currentStep, fillFor, layers.battles]);
+
+    // Real-time update: If mouse is currently hovering over a territory, update its tooltip to the new step immediately!
+    if (hoveredInfoRef.current && tooltipRef.current && tooltipRef.current.style.display !== 'none') {
+      const { data, clientX, clientY } = hoveredInfoRef.current;
+      const res = data.__res ? data.__res[currentStep] : null;
+      if (res) {
+        const meta = getOwnerMeta(res.o);
+        const fac = res.fac || meta.f;
+        const html = renderTerritoryTooltipHtml(data, res, meta, fac, currentStep);
+        positionTooltip(clientX, clientY, html);
+      } else {
+        hideTooltip();
+      }
+    }
+  }, [currentStep, fillFor, layers.battles, renderTerritoryTooltipHtml, positionTooltip, hideTooltip]);
 
   // Layer Visibility Updates
   useEffect(() => {
