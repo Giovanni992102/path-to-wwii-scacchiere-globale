@@ -2719,7 +2719,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return makeResult(
       'SMR',
       'Serenissima Repubblica di San Marino',
-      'Serenissima Repubblica di San Marino (Stato Neutrale)'
+      'Serenissima Repubblica di San Marino (Stato Neutrale)',
+      'Neutrale',
+      'Serenissima Repubblica di San Marino'
     );
   }
 
@@ -2745,7 +2747,11 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       'Stato della Città del Vaticano',
       s < 4
         ? 'Stato della Città del Vaticano (Papa Pio XI - Neutralità)'
-        : 'Stato della Città del Vaticano (Papa Pio XII - Neutralità)'
+        : 'Stato della Città del Vaticano (Papa Pio XII - Neutralità)',
+      'Neutrale',
+      s < 4
+        ? 'Stato della Città del Vaticano (Papa Pio XI)'
+        : 'Stato della Città del Vaticano (Papa Pio XII)'
     );
   }
 
@@ -2766,7 +2772,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return makeResult(
       'GIB',
       'Gibraltar (Crown Colony)',
-      'Gibraltar — Fortezza Navale Britannica (Force H)'
+      'Gibraltar — Fortezza Navale Britannica (Force H)',
+      'Alleati',
+      'British Empire — Crown Colony of Gibraltar'
     );
   }
 
@@ -2788,7 +2796,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return makeResult(
       'AND',
       'Principato d\'Andorra',
-      'Principato d\'Andorra (Coprincipato Sovrano Neutrale)'
+      'Principato d\'Andorra (Coprincipato Sovrano Neutrale)',
+      'Neutrale',
+      "Principat d'Andorra (Coprincipato Sovrano Neutrale)"
     );
   }
 

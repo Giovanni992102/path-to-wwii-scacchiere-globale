@@ -530,7 +530,7 @@ export default function App() {
           resolveHB({ properties: { NAME: 'Madagascar' } }, 6).o === 'VIC_MAD',
       },
       {
-        name: 'Integrità Bandiere Autentiche (Mengjiang, PCC/Cina Sovietica, Xinjiang, Indocina, Grecia, Filippine, Tannu Tuva, Liberia)',
+        name: 'Integrità Bandiere Autentiche (Mengjiang, PCC/Cina Sovietica, Xinjiang, Indocina, Grecia, Filippine, Tannu Tuva, Liberia, Andorra, San Marino, Vaticano, Gibilterra, Albania, Arabia Saudita, Yemen)',
         run: () =>
           getCountryFlagSvg('MEJ').includes('data:image/png;base64') &&
           getCountryFlagSvg('CCP_CHI').includes('data:image/png;base64') &&
@@ -543,7 +543,14 @@ export default function App() {
           getCountryFlagSvg('TUV').includes('data:image/png;base64') &&
           getCountryFlagSvg('TANNU_TUVA').includes('data:image/png;base64') &&
           getCountryFlagSvg('LBR').includes('data:image/png;base64') &&
-          getCountryFlagSvg('LIBERIA').includes('data:image/png;base64'),
+          getCountryFlagSvg('LIBERIA').includes('data:image/png;base64') &&
+          getCountryFlagSvg('AND').includes('data:image/png;base64') &&
+          getCountryFlagSvg('SMR').includes('data:image/png;base64') &&
+          getCountryFlagSvg('VAT').includes('data:image/png;base64') &&
+          getCountryFlagSvg('GIB').includes('data:image/png;base64') &&
+          getCountryFlagSvg('ALB').includes('data:image/png;base64') &&
+          getCountryFlagSvg('SAU').includes('data:image/png;base64') &&
+          getCountryFlagSvg('YEM').includes('data:image/png;base64'),
       },
       {
         name: 'Evoluzione Guerra Civile Spagnola: SPR vs SPA (Fronte, Baleari, Protettorato del Rif, Ceuta, Melilla, Tangeri)',
@@ -1232,12 +1239,13 @@ export default function App() {
         },
       },
       {
-        name: 'Integrità Territoriale Microstati: San Marino (SMR Neutrale), Vaticano (VAT Neutrale) e Gibilterra (GIB Alleati)',
+        name: 'Integrità Territoriale Microstati: San Marino (SMR Neutrale), Vaticano (VAT Neutrale), Gibilterra (GIB Alleati) e Andorra (AND Neutrale)',
         run: () => {
           const smr = resolveFeature(SAN_MARINO_FEATURE, 0);
           const vat0 = resolveFeature(VATICAN_CITY_FEATURE, 0);
           const vat5 = resolveFeature(VATICAN_CITY_FEATURE, 5);
           const gib = resolveFeature(GIBRALTAR_COLONY_FEATURE, 0);
+          const and0 = resolveFeature(ANDORRA_FEATURE, 0);
 
           // Verifica anti-inglobamento: le province confinanti NON devono essere toccate
           const rimini = resolveFeature({ properties: { NUTS_ID: 'ITH59', CNTR_CODE: 'IT', NAME_LATN: 'Rimini' }, __cent: [12.43, 43.96] }, 0);
@@ -1257,6 +1265,9 @@ export default function App() {
             gib.o === 'GIB' &&
             gib.fac === 'Alleati' &&
             gib.name.includes('Gibraltar') &&
+            and0.o === 'AND' &&
+            and0.fac === 'Neutrale' &&
+            and0.name.includes('Andorra') &&
             rimini.o === 'ITA' &&
             pesaro.o === 'ITA' &&
             roma.o === 'ITA' &&

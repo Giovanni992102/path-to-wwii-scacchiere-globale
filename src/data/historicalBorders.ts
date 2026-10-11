@@ -884,14 +884,16 @@ export const SAN_MARINO_FEATURE: any = {
     return makeResult(
       'SMR',
       'Repubblica di San Marino',
-      'Serenissima Repubblica di San Marino (Stato Neutrale)'
+      'Serenissima Repubblica di San Marino (Stato Neutrale)',
+      'Neutrale',
+      'Serenissima Repubblica di San Marino'
     );
   },
 };
 
 // ----------------------------------------------------------------------------
 // 15. STATO DELLA CITTÀ DEL VATICANO
-// San Pietro, Musei Vaticani, Castel Sant\'Angelo
+// San Pietro, Musei Vaticani, Castel Sant'Angelo
 // Stato sovrano papale neutrale (Patti Lateranensi 1929, enclave chirurgica sui colli vaticani)
 // ----------------------------------------------------------------------------
 export const VATICAN_CITY_FEATURE: any = {
@@ -929,7 +931,11 @@ export const VATICAN_CITY_FEATURE: any = {
       'Stato della Città del Vaticano',
       s < 4
         ? 'Stato della Città del Vaticano (Papa Pio XI - Neutralità)'
-        : 'Stato della Città del Vaticano (Papa Pio XII - Neutralità)'
+        : 'Stato della Città del Vaticano (Papa Pio XII - Neutralità)',
+      'Neutrale',
+      s < 4
+        ? 'Stato della Città del Vaticano (Papa Pio XI)'
+        : 'Stato della Città del Vaticano (Papa Pio XII)'
     );
   },
 };
@@ -937,7 +943,7 @@ export const VATICAN_CITY_FEATURE: any = {
 // ----------------------------------------------------------------------------
 // 16. GIBILTERRA (Gibraltar Crown Colony & Fortress)
 // Rocca di Gibilterra, Punto Europa, Stretto di Gibilterra
-// Piazzaforte britannica (Force H, Royal Navy, base d\'accesso al Mediterraneo)
+// Piazzaforte britannica (Force H, Royal Navy, base d'accesso al Mediterraneo)
 // Coordinate autentiche da general_world_countries_geojson.txt
 // ----------------------------------------------------------------------------
 export const GIBRALTAR_COLONY_FEATURE: any = {
@@ -974,7 +980,9 @@ export const GIBRALTAR_COLONY_FEATURE: any = {
     return makeResult(
       'GIB',
       'Gibraltar (Crown Colony)',
-      'Gibraltar — Fortezza Navale Britannica (Force H)'
+      'Gibraltar — Fortezza Navale Britannica (Force H)',
+      'Alleati',
+      'British Empire — Crown Colony of Gibraltar'
     );
   },
 };
@@ -1022,10 +1030,13 @@ export const ANDORRA_FEATURE: any = {
     return makeResult(
       'AND',
       'Principato d\'Andorra',
-      'Principato d\'Andorra (Coprincipato Sovrano Neutrale)'
+      'Principato d\'Andorra (Coprincipato Sovrano Neutrale)',
+      'Neutrale',
+      "Principat d'Andorra (Coprincipato Sovrano Neutrale)"
     );
   },
 };
+
 
 // Exported precision non-NUTS historical features
 export const PRECISION_HISTORICAL_FEATURES: any[] = [
