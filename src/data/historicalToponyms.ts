@@ -219,77 +219,110 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
 
   // ================= UNIONE SOVIETICA (SOV) =================
   SOV: {
-    saint_petersburg: { historicalName: 'Leningrad', adminTitle: 'Leningradskaya oblast (RSFSR)' },
-    peterburg: { historicalName: 'Leningrad', adminTitle: 'Leningradskaya oblast (RSFSR)' },
-    volgograd: { historicalName: 'Stalingrad', adminTitle: 'Stalingradskaya oblast (RSFSR)' },
-    yekaterinburg: { historicalName: 'Sverdlovsk', adminTitle: 'Sverdlovskaya oblast (RSFSR)' },
-    sverdlovsk: { historicalName: 'Sverdlovsk', adminTitle: 'Sverdlovskaya oblast (RSFSR)' },
-    samara: { historicalName: 'Kuybyshev', adminTitle: 'Kuybyshevskaya oblast (RSFSR)' },
-    nizhny_novgorod: { historicalName: 'Gorkiy', adminTitle: 'Gorkovskaya oblast (RSFSR)' },
-    tver: { historicalName: 'Kalinin', adminTitle: 'Kalininskaya oblast (RSFSR)' },
-    pskov: { historicalName: 'Pskov', adminTitle: 'Leningradskaya oblast (Pskovskiy okrug)' },
-    novgorod: { historicalName: 'Novgorod', adminTitle: 'Leningradskaya oblast (Novgorodskiy rayon)' },
-    luga: { historicalName: 'Luga', adminTitle: 'Leningradskaya oblast (Luzhskiy rayon)' },
-    gatchina: { historicalName: 'Krasnogvardeysk', adminTitle: 'Leningradskaya oblast' },
-    kingisepp: { historicalName: 'Kingisepp', adminTitle: 'Leningradskaya oblast' },
-    slantsy: { historicalName: 'Slantsy', adminTitle: 'Leningradskaya oblast' },
-    tosno: { historicalName: 'Tosno', adminTitle: 'Leningradskaya oblast' },
-    perm: { historicalName: 'Molotov', adminTitle: 'Molotovskaya oblast (RSFSR)' },
-    luhansk: { historicalName: 'Voroshilovgrad', adminTitle: 'Voroshilovgradskaya oblast (Ukrainskaya SSR)' },
-    donetsk: { historicalName: 'Stalino', adminTitle: 'Stalinskaya oblast (Ukrainskaya SSR)' },
-    vladikavkaz: { historicalName: 'Ordzhonikidze', adminTitle: 'Severo-Osetinskaya ASSR (RSFSR)' },
-    vyatka: { historicalName: 'Kirov', adminTitle: 'Kirovskaya oblast (RSFSR)' },
-    tbilisi: { historicalName: 'Tbilisi', adminTitle: 'Gruzinskaya SSR' },
+    moscow: { historicalName: 'Moskva (Kreml)', adminTitle: 'Stolitsa SSSR i RSFSR (Moskovskaya oblast)', historicalNote: 'Centro nevralgico del potere sovietico, sede del Cremlino, del Sovnarkom e del Segretario Generale Iosif Stalin; immenso distretto per la produzione bellica.' },
+    moskva: { historicalName: 'Moskva (Kreml)', adminTitle: 'Stolitsa SSSR i RSFSR (Moskovskaya oblast)', historicalNote: 'Centro nevralgico del potere sovietico, sede del Cremlino, del Sovnarkom e del Segretario Generale Iosif Stalin.' },
+    saint_petersburg: { historicalName: 'Leningrad (Sankt-Peterburg)', adminTitle: 'Leningradskaya oblast (RSFSR)', historicalNote: 'Seconda capitale dell\'URSS e culla della Rivoluzione d\'Ottobre; colosso industriale militare (Officine Kirov, carri pesanti KV-1, cantieri navali del Baltico).' },
+    peterburg: { historicalName: 'Leningrad (Sankt-Peterburg)', adminTitle: 'Leningradskaya oblast (RSFSR)', historicalNote: 'Seconda capitale dell\'URSS e colosso dell\'industria pesante bellica.' },
+    leningrad: { historicalName: 'Leningrad', adminTitle: 'Leningradskaya oblast (Vtoraya Stolitsa SSSR)', historicalNote: 'Seconda capitale dell\'URSS, Officine Kirov e cantieri navali del Baltico.' },
+    volgograd: { historicalName: 'Stalingrad (Volga)', adminTitle: 'Stalingradskaya oblast (RSFSR)', historicalNote: 'Polo industriale sul basso Volga: Fabbrica di Trattori (STZ, carri T-34), acciaierie Ottobre Rosso e officine Barrikady.' },
+    stalingrad: { historicalName: 'Stalingrad (Volga)', adminTitle: 'Stalingradskaya oblast (RSFSR)', historicalNote: 'Polo industriale sul basso Volga: Fabbrica di Trattori (STZ, carri T-34), acciaierie Ottobre Rosso e officine Barrikady.' },
+    yekaterinburg: { historicalName: 'Sverdlovsk (Uralmash)', adminTitle: 'Sverdlovskaya oblast (RSFSR)', historicalNote: 'Capitale industriale degli Urali: colosso metallurgico Uralmash, cannoni e scafi corazzati d\'artiglieria pesante.' },
+    sverdlovsk: { historicalName: 'Sverdlovsk (Uralmash)', adminTitle: 'Sverdlovskaya oblast (RSFSR)', historicalNote: 'Capitale industriale degli Urali: colosso metallurgico Uralmash, cannoni e scafi corazzati d\'artiglieria pesante.' },
+    samara: { historicalName: 'Kuybyshev (Samara)', adminTitle: 'Kuybyshevskaya oblast (RSFSR)', historicalNote: 'Capitale alternativa di evacuazione designata per il governo sovietico, polo aeronautico e snodo fluviale sul Volga.' },
+    kuybyshev: { historicalName: 'Kuybyshev (Samara)', adminTitle: 'Kuybyshevskaya oblast (RSFSR)', historicalNote: 'Capitale alternativa di evacuazione designata per il governo sovietico, polo aeronautico e snodo fluviale sul Volga.' },
+    nizhny_novgorod: { historicalName: 'Gorkiy (Nizhny Novgorod)', adminTitle: 'Gorkovskaya oblast (RSFSR)', historicalNote: 'Sede del complesso automobilistico GAZ (autocarri e blindati), cannoni ZiS e cantieri navali Krasnoye Sormovo.' },
+    gorkiy: { historicalName: 'Gorkiy (Nizhny Novgorod)', adminTitle: 'Gorkovskaya oblast (RSFSR)', historicalNote: 'Sede del complesso automobilistico GAZ (autocarri e blindati), cannoni ZiS e cantieri navali Krasnoye Sormovo.' },
+    tver: { historicalName: 'Kalinin (Tver)', adminTitle: 'Kalininskaya oblast (RSFSR)', historicalNote: 'Nodo ferroviario e industriale sulla direttrice strategica Mosca-Leningrado.' },
+    kalinin: { historicalName: 'Kalinin (Tver)', adminTitle: 'Kalininskaya oblast (RSFSR)', historicalNote: 'Nodo ferroviario e industriale sulla direttrice strategica Mosca-Leningrado.' },
+    tula: { historicalName: 'Tula (Arsenal)', adminTitle: 'Tulskaya oblast (RSFSR)', historicalNote: 'Capitale delle armi da fuoco della Russia: Fabbrica d\'Armi di Tula, fucili Mosin-Nagant e pistole Tokarev TT-33.' },
+    smolensk: { historicalName: 'Smolensk (Dnepr)', adminTitle: 'Smolenskaya oblast (RSFSR)', historicalNote: 'Baluardo a presidio del varco occidentale verso Mosca sul fiume Dnepr e sede del Distretto Militare Occidentale.' },
+    voronezh: { historicalName: 'Voronezh', adminTitle: 'Voronezhskaya oblast (RSFSR)', historicalNote: 'Polo aeronautico No. 18 (culla dell\'aereo d\'attacco al suolo Il-2 Šturmovik) e motoristica pesante.' },
+    kursk: { historicalName: 'Kursk & Orel', adminTitle: 'Kurskaya oblast (RSFSR)', historicalNote: 'Epicentro dell\'Anomalia Magnetica di Kursk (KMA), il più ricco bacino ferrifero del pianeta.' },
+    pskov: { historicalName: 'Pskov', adminTitle: 'Leningradskaya oblast (Pskovskiy UR)', historicalNote: 'Pilastro settentrionale del Distretto Fortificato di Pskov lungo la Linea Stalin.' },
+    novgorod: { historicalName: 'Novgorod', adminTitle: 'Leningradskaya oblast (Novgorodskiy rayon)', historicalNote: 'Storico centro sul fiume Volkhov e snodo delle comunicazioni tra Mosca e Leningrado.' },
+    luga: { historicalName: 'Luga', adminTitle: 'Leningradskaya oblast (Luzhskiy rayon)', historicalNote: 'Settore chiave a sud di Leningrado lungo il fiume Luga.' },
+    gatchina: { historicalName: 'Krasnogvardeysk', adminTitle: 'Leningradskaya oblast', historicalNote: 'Città satellite meridionale di Leningrado ribattezzata Krasnogvardeysk (1929-1944).' },
+    kingisepp: { historicalName: 'Kingisepp', adminTitle: 'Leningradskaya oblast', historicalNote: 'Piazzaforte confinaria sovietica affacciata sul confine con l\'Estonia.' },
+    slantsy: { historicalName: 'Slantsy', adminTitle: 'Leningradskaya oblast', historicalNote: 'Bacino estrattivo degli scisti bituminosi della regione di Leningrado.' },
+    tosno: { historicalName: 'Tosno', adminTitle: 'Leningradskaya oblast', historicalNote: 'Snodo ferroviario strategico della linea Mosca-Leningrado.' },
+    perm: { historicalName: 'Molotov (Perm)', adminTitle: 'Molotovskaya oblast (RSFSR)', historicalNote: 'Ribattezzata Molotov nel 1940; polo chimico e motori aeronautici Švecov No. 19.' },
+    chelyabinsk: { historicalName: 'Chelyabinsk (ChTZ)', adminTitle: 'Chelyabinskaya oblast (Kombinat Tankograd)', historicalNote: 'Sede della Fabbrica di Trattori di Čeljabinsk (ChTZ), polo pilota che diventerà il complesso "Tankograd" (carri pesanti KV).' },
+    magnitogorsk: { historicalName: 'Magnitogorsk', adminTitle: 'Magnitogorskiy Metallurgicheskiy Kombinat (MMK)', historicalNote: 'Il più imponente combinato siderurgico del mondo; fornì l\'acciaio per la metà dei carri e proiettili sovietici.' },
+    kazan: { historicalName: 'Kazan (Tatarskaya ASSR)', adminTitle: 'Tatarskaya ASSR (RSFSR)', historicalNote: 'Capitale della RSSA Tatara; fabbriche aeronautiche No. 124 (bombardieri Pe-8 e Pe-2) e polverifici.' },
+    ufa: { historicalName: 'Ufa (Bashkirskaya ASSR)', adminTitle: 'Bashkirskaya ASSR (Vtoroy Baku)', historicalNote: 'Capitale della Baschiria e cuore del bacino petrolifero Volga-Urali ("Seconda Baku").' },
+    kronshtadt: { historicalName: 'Kronshtadt (Kotlin)', adminTitle: 'Glavnaya Baza Baltiyskogo Flota', historicalNote: 'Fortezza navale insulare a sbarramento della Baia della Neva; quartier generale della Flotta del Baltico.' },
+    murmansk: { historicalName: 'Murmansk & Polyarnyy', adminTitle: 'Glavnaya Baza Severnogo Flota (Murmanskaya oblast)', historicalNote: 'Unico porto artico libero dai ghiacci tutto l\'anno grazie alla Corrente del Golfo; base centrale della Flotta del Nord.' },
+    arkhangelsk: { historicalName: 'Arkhangelsk (Severnaya Dvina)', adminTitle: 'Arkhangelskaya oblast (Severnyy Morskiy Put)', historicalNote: 'Porto sul Mar Bianco, centro dell\'industria forestale e testa di ponte della Rotta Marittima del Nord.' },
+    vladivostok: { historicalName: 'Vladivostok (Zolotoy Rog)', adminTitle: 'Glavnaya Baza Tikhookeanskogo Flota', historicalNote: 'Capolinea della ferrovia Transiberiana e quartier generale della Flotta del Pacifico sovietica.' },
+    kiev: { historicalName: 'Kiev (Ukrainskaya SSR)', adminTitle: 'Stolitsa Ukrainskoy SSR (Kiyevskiy UR)', historicalNote: 'Capitale della RSS Ucraina dal 1934 e perno del Distretto Fortificato di Kiev (KiUR) lungo la Linea Stalin.' },
+    kharkov: { historicalName: 'Kharkov', adminTitle: 'KhPZ Zavod No. 183 (Malyshev)', historicalNote: 'Polo centrale dell\'ingegneria meccanica sovietica: culla dello sviluppo del carro armato medio T-34 (Koškin e Morozov).' },
+    minsk: { historicalName: 'Minsk (Belorusskaya SSR)', adminTitle: 'Stolitsa Belorusskoy SSR (Minskiy UR)', historicalNote: 'Capitale della RSS Bielorussa e perno del Distretto Militare Speciale Occidentale lungo la Linea Stalin.' },
+    dnepropetrovsk: { historicalName: 'Dnepropetrovsk', adminTitle: 'Dnepropetrovskaya oblast (Ukrainskaya SSR)', historicalNote: 'Polo metallurgico monumentale alimentato dalla centrale idroelettrica DneproGES.' },
+    zaporozhye: { historicalName: 'Zaporozhye (DneproGES)', adminTitle: 'Zaporozhskaya oblast (Ukrainskaya SSR)', historicalNote: 'Sito della diga idroelettrica DneproGES, la più grande d\'Europa, e del combinato di acciai speciali Zaporozhstal.' },
+    odessa: { historicalName: 'Odessa (Chernomorskaya Baza)', adminTitle: 'Odesskaya oblast (Ukrainskaya SSR)', historicalNote: 'Porto principale sul Mar Nero per l\'esportazione del grano e base ausiliaria della Flotta del Mar Nero.' },
+    sevastopol: { historicalName: 'Sevastopol (Krymskaya ASSR)', adminTitle: 'Glavnaya Baza Chernomorskogo Flota (RSFSR)', historicalNote: 'Quartier generale e piazzaforte navale della Flotta del Mar Nero protetta dalle batterie costiere corazzate Maksim Gor\'kij.' },
+    krivoy_rog: { historicalName: 'Krivoy Rog (Kryvbas)', adminTitle: 'Dnepropetrovskaya oblast (Krivorozhstal)', historicalNote: 'Il più ricco bacino ferrifero dell\'URSS; combinato minerario a cielo aperto integrato col Donbass.' },
+    luhansk: { historicalName: 'Voroshilovgrad (Lugansk)', adminTitle: 'Voroshilovgradskaya oblast (Ukrainskaya SSR)', historicalNote: 'Ribattezzata nel 1935 in onore di Kliment Vorošilov; Fabbrica di Locomotive d\'Ottobre.' },
+    donetsk: { historicalName: 'Stalino (Donetsk)', adminTitle: 'Stalinskaya oblast (Ukrainskaya SSR)', historicalNote: 'Capitale del bacino carbonifero del Donbass: carbone coke e altiforni siderurgici.' },
+    rostov: { historicalName: 'Rostov-na-Donu', adminTitle: 'Rostovskaya oblast (Vorota Kavkaza)', historicalNote: 'La "Porta del Caucaso" sul fiume Don e sede della colossale fabbrica di macchine agricole Rostselmash.' },
+    grozny: { historicalName: 'Grozny (Severnyy Kavkaz)', adminTitle: 'Checheno-Ingushskaya ASSR (Grozneft)', historicalNote: 'Secondo bacino petrolifero strategico della Russia sovietica con raffinerie collegate da oleodotto a Tuapse.' },
+    baku: { historicalName: 'Baku (Neftyanoy Tsentr)', adminTitle: 'Stolitsa Azerbaydzhanskoy SSR', historicalNote: 'I campi petroliferi di Baku estraevano oltre il 70% del greggio dell\'intera URSS; bersaglio dell\'Operazione Pike (1940).' },
+    tbilisi: { historicalName: 'Tbilisi (Gruzinskaya SSR)', adminTitle: 'Stolitsa Gruzinskoy SSR', historicalNote: 'Capitale storica della Georgia e perno amministrativo e culturale della Transcaucasia.' },
+    yerevan: { historicalName: 'Yerevan (Armyanskaya SSR)', adminTitle: 'Stolitsa Armyanskoy SSR', historicalNote: 'Capitale della RSS Armena ai piedi del Monte Ararat, polo chimico sintetico ed estrattivo del rame.' },
+    tashkent: { historicalName: 'Tashkent (Uzbekskaya SSR)', adminTitle: 'Stolitsa Uzbekskoy SSR', historicalNote: 'Capitale della RSS Uzbeka e quartier generale del Distretto Militare dell\'Asia Centrale; polo del cotone strategico.' },
+    alma_ata: { historicalName: 'Alma-Ata (Kazakhskaya SSR)', adminTitle: 'Stolitsa Kazakhskoy SSR', historicalNote: 'Capitale della RSS Kazaka (elevata a repubblica dell\'Unione nel 1936), ricca di giacimenti di carbone e rame.' },
+    vladikavkaz: { historicalName: 'Ordzhonikidze', adminTitle: 'Severo-Osetinskaya ASSR (RSFSR)', historicalNote: 'Capoluogo dell\'Ossezia Settentrionale lungo la Strada Militare Georgiana.' },
+    vyatka: { historicalName: 'Kirov', adminTitle: 'Kirovskaya oblast (RSFSR)', historicalNote: 'Ribattezzata nel 1934 in onore di Sergej Kirov; polo manifatturiero e ferroviario.' },
 
     // Kresy orientali annesse (1939)
-    lviv: { historicalName: 'Lvov', adminTitle: 'Lvovskaya oblast (Ukrainskaya SSR)' },
-    lwow: { historicalName: 'Lvov', adminTitle: 'Lvovskaya oblast (Ukrainskaya SSR)' },
-    vilnius: { historicalName: 'Vilnyus', adminTitle: 'Litovskaya SSR' },
-    wilno: { historicalName: 'Vilnyus', adminTitle: 'Litovskaya SSR' },
-    brest: { historicalName: 'Brest', adminTitle: 'Brestskaya oblast (Belorusskaya SSR)' },
-    bresckaja: { historicalName: 'Brest', adminTitle: 'Brestskaya oblast (Belorusskaya SSR)' },
-    grodno: { historicalName: 'Grodno', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)' },
-    hrodna: { historicalName: 'Grodno', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)' },
-    volkovysk: { historicalName: 'Volkovysk', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)' },
-    vawkavysk: { historicalName: 'Volkovysk', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)' },
-    druskininkai: { historicalName: 'Druskininkai', adminTitle: 'Belorusskaya SSR / Litovskaya SSR' },
-    lida: { historicalName: 'Lida', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)' },
-    slonim: { historicalName: 'Slonim', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)' },
-    nowogrodek: { historicalName: 'Novogrudok', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)' },
-    navahrudak: { historicalName: 'Novogrudok', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)' },
-    molodechno: { historicalName: 'Molodechno', adminTitle: 'Vileyskaya oblast (Belorusskaya SSR)' },
-    braslav: { historicalName: 'Braslav', adminTitle: 'Vileyskaya oblast (Belorusskaya SSR)' },
-    ternopil: { historicalName: 'Ternopol', adminTitle: 'Ternopolskaya oblast (Ukrainskaya SSR)' },
-    stanislav: { historicalName: 'Stanislav', adminTitle: 'Stanislavskaya oblast (Ukrainskaya SSR)' },
-    ivano_frankivsk: { historicalName: 'Stanislav', adminTitle: 'Stanislavskaya oblast (Ukrainskaya SSR)' },
-    rivne: { historicalName: 'Rovno', adminTitle: 'Rovnenskaya oblast (Ukrainskaya SSR)' },
-    lutsk: { historicalName: 'Lutsk', adminTitle: 'Volynskaya oblast (Ukrainskaya SSR)' },
-    pinsk: { historicalName: 'Pinsk', adminTitle: 'Pinskaya oblast (Belorusskaya SSR)' },
-    baranovichi: { historicalName: 'Baranovichi', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)' },
-    drohobych: { historicalName: 'Drogobych', adminTitle: 'Drogobychskaya oblast (Ukrainskaya SSR)' },
-    boryslav: { historicalName: 'Borislav', adminTitle: 'Drogobychskaya oblast (Ukrainskaya SSR)' },
+    lviv: { historicalName: 'Lvov (Lviv)', adminTitle: 'Lvovskaya oblast (Ukrainskaya SSR)', historicalNote: 'Storica capitale della Galizia orientale annessa all\'URSS nel settembre 1939.' },
+    lwow: { historicalName: 'Lvov (Lviv)', adminTitle: 'Lvovskaya oblast (Ukrainskaya SSR)', historicalNote: 'Storica capitale della Galizia orientale annessa all\'URSS nel settembre 1939.' },
+    vilnius: { historicalName: 'Vilnyus', adminTitle: 'Litovskaya SSR', historicalNote: 'Capitale della RSS Lituana (incorporata nel 1940).' },
+    wilno: { historicalName: 'Vilnyus', adminTitle: 'Litovskaya SSR', historicalNote: 'Capitale della RSS Lituana (incorporata nel 1940).' },
+    brest: { historicalName: 'Brest (Brest-Litovsk)', adminTitle: 'Brestskaya oblast (Belorusskaya SSR)', historicalNote: 'Fortezza di Brest e sito della parata congiunta tedesco-sovietica del 22 settembre 1939.' },
+    bresckaja: { historicalName: 'Brest (Brest-Litovsk)', adminTitle: 'Brestskaya oblast (Belorusskaya SSR)', historicalNote: 'Fortezza di Brest e caposaldo fortificato sulla Linea Molotov.' },
+    grodno: { historicalName: 'Grodno', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)', historicalNote: 'Nodo ferroviario e fortificato sul fiume Nemunas incorporato nella RSS Bielorussa.' },
+    hrodna: { historicalName: 'Grodno', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)', historicalNote: 'Nodo ferroviario e fortificato incorporato nella RSS Bielorussa.' },
+    volkovysk: { historicalName: 'Volkovysk', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)', historicalNote: 'Distretto della Bielorussia occidentale annesso nel 1939.' },
+    vawkavysk: { historicalName: 'Volkovysk', adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)', historicalNote: 'Distretto della Bielorussia occidentale annesso nel 1939.' },
+    druskininkai: { historicalName: 'Druskininkai', adminTitle: 'Belorusskaya SSR / Litovskaya SSR', historicalNote: 'Area termale contesa al confine tra Bielorussia e Lituania.' },
+    lida: { historicalName: 'Lida', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)', historicalNote: 'Snodo ferroviario strategico annesso alla RSS Bielorussa.' },
+    slonim: { historicalName: 'Slonim', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)', historicalNote: 'Città storica annessa alla RSS Bielorussa nel 1939.' },
+    nowogrodek: { historicalName: 'Novogrudok', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)', historicalNote: 'Centro storico incorporato nella RSS Bielorussa.' },
+    navahrudak: { historicalName: 'Novogrudok', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)', historicalNote: 'Centro storico incorporato nella RSS Bielorussa.' },
+    molodechno: { historicalName: 'Molodechno', adminTitle: 'Vileyskaya oblast (Belorusskaya SSR)', historicalNote: 'Nodo ferroviario della Bielorussia nord-occidentale.' },
+    braslav: { historicalName: 'Braslav', adminTitle: 'Vileyskaya oblast (Belorusskaya SSR)', historicalNote: 'Regione dei laghi annessa alla RSS Bielorussa nel 1939.' },
+    ternopil: { historicalName: 'Ternopol', adminTitle: 'Ternopolskaya oblast (Ukrainskaya SSR)', historicalNote: 'Capoluogo della Podolia occidentale annesso alla RSS Ucraina nel 1939.' },
+    stanislav: { historicalName: 'Stanislav (Ivano-Frankivsk)', adminTitle: 'Stanislavskaya oblast (Ukrainskaya SSR)', historicalNote: 'Capoluogo della Galizia pedemontana annesso alla RSS Ucraina nel 1939.' },
+    ivano_frankivsk: { historicalName: 'Stanislav', adminTitle: 'Stanislavskaya oblast (Ukrainskaya SSR)', historicalNote: 'Capoluogo annesso alla RSS Ucraina nel 1939.' },
+    rivne: { historicalName: 'Rovno', adminTitle: 'Rovnenskaya oblast (Ukrainskaya SSR)', historicalNote: 'Centro principale della Volinia orientale annesso nel 1939.' },
+    lutsk: { historicalName: 'Lutsk', adminTitle: 'Volynskaya oblast (Ukrainskaya SSR)', historicalNote: 'Capoluogo della Volinia occidentale annesso alla RSS Ucraina nel 1939.' },
+    pinsk: { historicalName: 'Pinsk (Polessye)', adminTitle: 'Pinskaya oblast (Belorusskaya SSR)', historicalNote: 'Cuore delle paludi del Pryp\'jat\' e base della Flottiglia Fluviale di Pinsk.' },
+    baranovichi: { historicalName: 'Baranovichi', adminTitle: 'Baranovitskaya oblast (Belorusskaya SSR)', historicalNote: 'Nodo ferroviario primario tra Varsavia, Mosca e Vilnius.' },
+    drohobych: { historicalName: 'Drogobych (Borislav)', adminTitle: 'Drogobychskaya oblast (Ukrainskaya SSR)', historicalNote: 'Giacimenti petroliferi dei Carpazi annessi alla RSS Ucraina nel 1939.' },
+    boryslav: { historicalName: 'Borislav', adminTitle: 'Drogobychskaya oblast (Ukrainskaya SSR)', historicalNote: 'Bacino estrattivo di petrolio e ozocerite della Galizia.' },
 
     // Bessarabia & Bucovina Settentrionale (1940)
-    chisinau: { historicalName: 'Kishinev', adminTitle: 'Moldavskaya SSR' },
-    moldova: { historicalName: 'Kishinev (Bessarabiya)', adminTitle: 'Moldavskaya SSR' },
-    chernivtsi: { historicalName: 'Chernovtsy', adminTitle: 'Chernovitskaya oblast (Ukrainskaya SSR)' },
-    cernauti: { historicalName: 'Chernovtsy', adminTitle: 'Chernovitskaya oblast (Ukrainskaya SSR)' },
-    cetatea_alba: { historicalName: 'Akkerman', adminTitle: 'Akkermanskaya oblast (Ukrainskaya SSR)' },
-    izmail: { historicalName: 'Izmail', adminTitle: 'Akkermanskaya oblast (Ukrainskaya SSR)' },
-    balti: { historicalName: 'Beltsy', adminTitle: 'Moldavskaya SSR' },
+    chisinau: { historicalName: 'Kishinev', adminTitle: 'Moldavskaya SSR', historicalNote: 'Capitale della RSS Moldava istituita nell\'agosto 1940.' },
+    moldova: { historicalName: 'Kishinev (Bessarabiya)', adminTitle: 'Moldavskaya SSR', historicalNote: 'Bessarabia annessa all\'URSS a seguito dell\'ultimatum del giugno 1940.' },
+    chernivtsi: { historicalName: 'Chernovtsy', adminTitle: 'Chernovitskaya oblast (Ukrainskaya SSR)', historicalNote: 'Bucovina settentrionale annessa all\'URSS nel giugno 1940.' },
+    cernauti: { historicalName: 'Chernovtsy', adminTitle: 'Chernovitskaya oblast (Ukrainskaya SSR)', historicalNote: 'Capoluogo della Bucovina annesso alla RSS Ucraina.' },
+    cetatea_alba: { historicalName: 'Akkerman (Bilhorod-Dnistrovskyi)', adminTitle: 'Akkermanskaya oblast (Ukrainskaya SSR)', historicalNote: 'Fortezza storica alla foce del Dnestr incorporata nell\'URSS nel 1940.' },
+    izmail: { historicalName: 'Izmail (Danubio)', adminTitle: 'Akkermanskaya oblast (Ukrainskaya SSR)', historicalNote: 'Porto fortificato sul Delta del Danubio e base della Flottiglia del Danubio.' },
+    balti: { historicalName: 'Beltsy', adminTitle: 'Moldavskaya SSR', historicalNote: 'Importante centro agricolo e manifatturiero della Moldavia settentrionale.' },
 
     // Stati Baltici annessi (1940)
-    tallinn: { historicalName: 'Tallin', adminTitle: 'Estonskaya SSR' },
-    riga: { historicalName: 'Riga', adminTitle: 'Latviyskaya SSR' },
-    kaunas: { historicalName: 'Kaunas', adminTitle: 'Litovskaya SSR' },
-    klaipeda_sov: { historicalName: 'Klaypeda', adminTitle: 'Litovskaya SSR' },
+    tallinn: { historicalName: 'Tallin (Estonskaya SSR)', adminTitle: 'Stolitsa Estonskoy SSR', historicalNote: 'Capitale dell\'Estonia sovietica e base avanzata della Flotta del Baltico.' },
+    riga: { historicalName: 'Riga (Latviyskaya SSR)', adminTitle: 'Stolitsa Latviyskoy SSR', historicalNote: 'Capitale della Lettonia sovietica e grande porto alla foce della Daugava.' },
+    kaunas: { historicalName: 'Kaunas (Litovskaya SSR)', adminTitle: 'Litovskaya SSR', historicalNote: 'Capitale provvisoria della Lituania fino all\'incorporazione nell\'URSS (estate 1940).' },
+    klaipeda_sov: { historicalName: 'Klaypeda', adminTitle: 'Litovskaya SSR', historicalNote: 'Porto di Memel/Klaipeda rivendicato dalla Lituania sovietica.' },
 
     // Finlandia: Carelia & Petsamo (1940)
-    karelia: { historicalName: 'Vyborg', adminTitle: 'Karelo-Finskaya SSR' },
-    viipuri: { historicalName: 'Vyborg', adminTitle: 'Karelo-Finskaya SSR' },
-    petsamo: { historicalName: 'Pechenga', adminTitle: 'Murmanskaya oblast (RSFSR)' },
-    sortavala: { historicalName: 'Sortavala', adminTitle: 'Karelo-Finskaya SSR' },
-    petrozavodsk: { historicalName: 'Petrozavodsk', adminTitle: 'Stolitsa Karelo-Finskoy SSR' },
+    karelia: { historicalName: 'Vyborg & Karelo-Finskaya SSR', adminTitle: 'Karelo-Finskaya SSR', historicalNote: 'Territori ceduti dalla Finlandia all\'URSS con il Trattato di Mosca (marzo 1940).' },
+    viipuri: { historicalName: 'Vyborg (Viipuri)', adminTitle: 'Karelo-Finskaya SSR', historicalNote: 'Seconda città della Finlandia, annessa all\'URSS nel marzo 1940.' },
+    petsamo: { historicalName: 'Pechenga (Petsamo)', adminTitle: 'Murmanskaya oblast (RSFSR)', historicalNote: 'Corridoio artico con ricche miniere di nichel strategico.' },
+    sortavala: { historicalName: 'Sortavala (Lago Ladoga)', adminTitle: 'Karelo-Finskaya SSR', historicalNote: 'Porto settentrionale sul Lago Ladoga annesso all\'URSS nel 1940.' },
+    petrozavodsk: { historicalName: 'Petrozavodsk', adminTitle: 'Stolitsa Karelo-Finskoy SSR', historicalNote: 'Capitale della Repubblica Karelo-Finlandese (12ª Repubblica dell\'URSS) sul Lago Onega.' },
   },
 
   // ================= REPUBBLICA DI POLONIA (POL) =================
@@ -7695,6 +7728,466 @@ export function resolveUKToponym(
   return null;
 }
 
+export function resolveUSSRToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. Mosca e Centro RSFSR
+  if (normKey.includes('moscow') || normKey.includes('moskva') || normKey.includes('moscow_city') || normKey === 'ru_mow') {
+    return {
+      name: 'Moskva (Kreml)',
+      adminTitle: 'Stolitsa SSSR i RSFSR (Moskovskaya oblast)',
+      note: 'Centro nevralgico del potere sovietico, sede del Cremlino, del Consiglio dei Commissari del Popolo (Sovnarkom) e del Segretario Generale del PCUS(b) Iosif Stalin; immenso distretto per la produzione bellica (fabbriche automobilistiche ZiS, aeronautiche MiG e Yak).',
+    };
+  }
+  if (normKey.includes('tula')) {
+    return {
+      name: 'Tula (Arsenal)',
+      adminTitle: 'Tulskaya oblast (RSFSR)',
+      note: 'Storica capitale delle armi da fuoco e munizioni della Russia (Fabbrica d\'Armi di Tula, fucili Mosin-Nagant, pistole Tokarev TT-33 e mitragliatrici Maxim).',
+    };
+  }
+  if (normKey.includes('kalinin') || normKey.includes('tver')) {
+    return {
+      name: 'Kalinin (Tver)',
+      adminTitle: 'Kalininskaya oblast (RSFSR)',
+      note: 'Città ribattezzata nel 1931 in onore del capo formale dello Stato sovietico Michail Kalinin; nodo industriale e ferroviario strategico sulla direttrice Mosca-Leningrado.',
+    };
+  }
+  if (normKey.includes('smolensk')) {
+    return {
+      name: 'Smolensk (Dnepr)',
+      adminTitle: 'Smolenskaya oblast (RSFSR)',
+      note: 'Storico bastione a guardia della direttrice d\'accesso occidentale a Mosca attraverso il varco tra la Dvina e il Dnepr; sede del Distretto Militare Bielorusso.',
+    };
+  }
+  if (normKey.includes('voronezh')) {
+    return {
+      name: 'Voronezh',
+      adminTitle: 'Voronezhskaya oblast (RSFSR)',
+      note: 'Polo centrale dell\'industria aeronautica sovietica (Fabbrica Statale No. 18, culla del velivolo corazzato d\'attacco al suolo Ilyushin Il-2 Šturmovik) e motoristica.',
+    };
+  }
+  if (normKey.includes('kursk') || normKey.includes('orel')) {
+    return {
+      name: 'Kursk & Orel',
+      adminTitle: 'Kurskaya oblast (RSFSR)',
+      note: 'Epicentro dell\'Anomalia Magnetica di Kursk (KMA), il più vasto bacino di minerale di ferro del pianeta, e snodo ferroviario nevralgico delle "Terre Nere".',
+    };
+  }
+  if (normKey.includes('yaroslavl')) {
+    return {
+      name: 'Yaroslavl',
+      adminTitle: 'Yaroslavskaya oblast (RSFSR)',
+      note: 'Polo dell\'industria pesante automobilistica (autocarri YaAZ), gomma sintetica e raffinerie sul Volga.',
+    };
+  }
+  if (normKey.includes('ivanovo')) {
+    return {
+      name: 'Ivanovo',
+      adminTitle: 'Ivanovskaya oblast (RSFSR)',
+      note: 'La capitale tessile della Russia sovietica, fornitrice primaria di panni e tessuti per le uniformi di milioni di soldati dell\'Armata Rossa.',
+    };
+  }
+
+  // 2. Leningrado, Baltico e Nord Artico
+  if (
+    normKey.includes('leningrad') ||
+    normKey.includes('saint_petersburg') ||
+    normKey.includes('peterburg') ||
+    normKey.includes('petrograd')
+  ) {
+    return {
+      name: 'Leningrad (Sankt-Peterburg)',
+      adminTitle: 'Leningradskaya oblast (Vtoraya Stolitsa SSSR)',
+      note: 'Seconda capitale dell\'URSS e culla della Rivoluzione d\'Ottobre; colosso industriale e militare d\'eccellenza: Officine Kirov (carri pesanti KV-1), Cantieri Navali del Baltico e officine ottiche LOMO.',
+    };
+  }
+  if (normKey.includes('kronstadt') || normKey.includes('kronshtadt')) {
+    return {
+      name: 'Kronshtadt (Kotlin)',
+      adminTitle: 'Glavnaya Baza Krasnoznamennogo Baltiyskogo Flota',
+      note: 'Fortezza navale insulare sull\'isola di Kotlin a sbarramento della Baia della Neva; quartier generale della Flotta del Baltico decorata con l\'Ordine della Bandiera Rossa.',
+    };
+  }
+  if (normKey.includes('murmansk') || normKey.includes('polyarny') || normKey.includes('polyarnyy') || normKey.includes('kola')) {
+    return {
+      name: 'Murmansk & Polyarnyy',
+      adminTitle: 'Glavnaya Baza Severnogo Flota (Murmanskaya oblast)',
+      note: 'Unico porto artico sovietico libero dai ghiacci tutto l\'anno grazie alla Corrente del Golfo; base di comando della Flotta del Nord (istituita nel 1933/1937) e capolinea della ferrovia artica.',
+    };
+  }
+  if (normKey.includes('arkhangelsk') || normKey.includes('archangel')) {
+    return {
+      name: 'Arkhangelsk (Severnaya Dvina)',
+      adminTitle: 'Arkhangelskaya oblast (Severnyy Morskiy Put)',
+      note: 'Grande porto fluviale e marittimo sul Mar Bianco, centro dell\'industria forestale e cantieristica e testa di ponte della Rotta Marittima del Nord artica.',
+    };
+  }
+  if (normKey.includes('pskov')) {
+    return {
+      name: 'Pskov',
+      adminTitle: 'Leningradskaya oblast (Pskovskiy UR)',
+      note: 'Antica città fortificata al confine con Estonia e Lettonia; pilastro settentrionale del Distretto Fortificato di Pskov lungo la Linea Stalin.',
+    };
+  }
+  if (normKey.includes('novgorod')) {
+    return {
+      name: 'Novgorod',
+      adminTitle: 'Leningradskaya oblast (Novgorodskiy rayon)',
+      note: 'Storico centro sul fiume Volkhov e punto di cerniera per le comunicazioni tra Leningrado e Mosca.',
+    };
+  }
+
+  // 3. Volga e Urali (Cuore dell'Industrializzazione dei Piani Quinquennali)
+  if (normKey.includes('stalingrad') || normKey.includes('volgograd') || normKey.includes('tsaritsyn')) {
+    return {
+      name: 'Stalingrad (Volga)',
+      adminTitle: 'Stalingradskaya oblast (RSFSR)',
+      note: 'Centro nevralgico della moderna industria pesante sul basso Volga: Fabbrica di Trattori di Stalingrado (STZ, convertita alla produzione di massa del carro T-34), acciaierie Ottobre Rosso e officine d\'artiglieria Barrikady.',
+    };
+  }
+  if (normKey.includes('gorkiy') || normKey.includes('gorky') || normKey.includes('nizhny_novgorod')) {
+    return {
+      name: 'Gorkiy (Nizhny Novgorod)',
+      adminTitle: 'Gorkovskaya oblast (RSFSR)',
+      note: 'Intitolata a Maksim Gor\'kij nel 1932; sede del colossale complesso automobilistico GAZ (autocarri, blindati leggeri), cannoni d\'artiglieria ZiS e cantieri navali Krasnoye Sormovo (sommergibili).',
+    };
+  }
+  if (normKey.includes('kuybyshev') || normKey.includes('samara')) {
+    return {
+      name: 'Kuybyshev (Samara)',
+      adminTitle: 'Kuybyshevskaya oblast (RSFSR)',
+      note: 'Ribattezzata nel 1935 in onore di Valerian Kujbyšev; snodo nevralgico sull\'ansa del Volga designato come capitale alternativa di evacuazione per il governo sovietico, il corpo diplomatico e le fabbriche aeronautiche.',
+    };
+  }
+  if (normKey.includes('sverdlovsk') || normKey.includes('yekaterinburg')) {
+    return {
+      name: 'Sverdlovsk (Uralmash)',
+      adminTitle: 'Sverdlovskaya oblast (RSFSR)',
+      note: 'Capitale industriale degli Urali: colosso metallurgico Uralmash ("la fabbrica delle fabbriche"), fabbricazione di cannoni, scafi corazzati e macchine utensili giganti.',
+    };
+  }
+  if (normKey.includes('chelyabinsk')) {
+    return {
+      name: 'Chelyabinsk (ChTZ)',
+      adminTitle: 'Chelyabinskaya oblast (Kombinat Tankograd)',
+      note: 'Sede della Fabbrica di Trattori di Čeljabinsk (ChTZ), polo pilota che nel 1941 diventerà il complesso unificato "Tankograd" per la produzione di carri armati pesanti KV e motori diesel V-2.',
+    };
+  }
+  if (normKey.includes('magnitogorsk')) {
+    return {
+      name: 'Magnitogorsk (Magnitnaya Gora)',
+      adminTitle: 'Magnitogorskiy Metallurgicheskiy Kombinat (MMK)',
+      note: 'Il più imponente combinato siderurgico del mondo, edificato alla base della montagna di minerale di ferro puro durante il Primo Piano Quinquennale (1929-1932); fornirà l\'acciaio per la metà dei carri e proiettili sovietici.',
+    };
+  }
+  if (normKey.includes('perm') || normKey.includes('molotov')) {
+    return {
+      name: 'Molotov (Perm)',
+      adminTitle: 'Molotovskaya oblast (RSFSR)',
+      note: 'Ribattezzata Molotov nel 1940 in onore del Primo Ministro Vjačeslav Molotov; polo chimico, polverifici e Fabbrica No. 19 per motori aeronautici Švecov M-25/M-62.',
+    };
+  }
+  if (normKey.includes('kazan')) {
+    return {
+      name: 'Kazan (Tatarskaya ASSR)',
+      adminTitle: 'Tatarskaya ASSR (RSFSR)',
+      note: 'Capitale della Repubblica Autonoma Tatara; polo aeronautico No. 124 (bombardieri quadrimotori pesanti Pe-8 e bimotori Pe-2) e polverifici statali.',
+    };
+  }
+  if (normKey.includes('ufa') || normKey.includes('bashkir')) {
+    return {
+      name: 'Ufa (Bashkirskaya ASSR)',
+      adminTitle: 'Bashkirskaya ASSR (Vtoroy Baku)',
+      note: 'Capitale della Baschiria e cuore dello sviluppo del bacino petrolifero Volga-Urali ("Seconda Baku") avviato negli anni \'30 per affiancare i pozzi caucasici.',
+    };
+  }
+  if (normKey.includes('ulyanovsk') || normKey.includes('simbirsk')) {
+    return {
+      name: 'Ulyanovsk (Simbirsk)',
+      adminTitle: 'Kuybyshevskaya oblast (RSFSR)',
+      note: 'Città natale di Vladimir Lenin (Ul\'janov) e snodo industriale e fluviale sul medio Volga.',
+    };
+  }
+
+  // 4. RSS Ucraina (Ukrainskaya SSR)
+  if (normKey.includes('kiev') || normKey.includes('kyiv')) {
+    return {
+      name: 'Kiev (Ukrainskaya SSR)',
+      adminTitle: 'Stolitsa Ukrainskoy SSR (Kiyevskiy UR)',
+      note: 'Capitale della RSS Ucraina dal 1934 (trasferita da Charkiv), centro politico e culturale sul fiume Dnepr e caposaldo del Distretto Fortificato di Kiev (KiUR) lungo la Linea Stalin.',
+    };
+  }
+  if (normKey.includes('kharkov') || normKey.includes('kharkiv')) {
+    return {
+      name: 'Kharkov (KhPZ Zavod No. 183)',
+      adminTitle: 'Kharkovskaya oblast (Ukrainskaya SSR)',
+      note: 'Gigantesco centro dell\'ingegneria meccanica sovietica: Fabbrica di Locomotive No. 183 (KhPZ) e bureau KB-24, dove Michail Koškin e Aleksandr Morozov progettarono il leggendario carro armato medio T-34.',
+    };
+  }
+  if (normKey.includes('dnepropetrovsk') || normKey.includes('dnipropetrovsk') || normKey.includes('dnipro')) {
+    return {
+      name: 'Dnepropetrovsk (DneproGES Basin)',
+      adminTitle: 'Dnepropetrovskaya oblast (Ukrainskaya SSR)',
+      note: 'Grande polo della metallurgia dell\'acciaio e tubifici speciali, alimentato dall\'energia della colossale centrale idroelettrica DneproGES.',
+    };
+  }
+  if (normKey.includes('zaporizhia') || normKey.includes('zaporozhye')) {
+    return {
+      name: 'Zaporozhye (DneproGES)',
+      adminTitle: 'Zaporozhskaya oblast (Ukrainskaya SSR)',
+      note: 'Sede della monumentale diga idroelettrica sul Dnepr (DneproGES), la più grande d\'Europa inaugurata nel 1932, e del combinato di acciai speciali e alluminio Zaporozhstal.',
+    };
+  }
+  if (normKey.includes('donetsk') || normKey.includes('stalino') || normKey.includes('yuzovka')) {
+    return {
+      name: 'Stalino (Donetsk)',
+      adminTitle: 'Stalinskaya oblast (Donbass)',
+      note: 'Capitale industriale del bacino carbonifero del Donbass: pozzi di carbone coke ad alto rendimento, acciaierie pesanti e industria chimica di base.',
+    };
+  }
+  if (normKey.includes('luhansk') || normKey.includes('voroshilovgrad') || normKey.includes('lugansk')) {
+    return {
+      name: 'Voroshilovgrad (Lugansk)',
+      adminTitle: 'Voroshilovgradskaya oblast (Donbass)',
+      note: 'Ribattezzata nel 1935 in onore del Commissario del Popolo alla Difesa Kliment Vorošilov; sede della monumentale Fabbrica di Locomotive Oktjabr\'skaja Revoljucija.',
+    };
+  }
+  if (normKey.includes('krivoy_rog') || normKey.includes('kryvyi_rih')) {
+    return {
+      name: 'Krivoy Rog (Kryvbas)',
+      adminTitle: 'Dnepropetrovskaya oblast (Krivorozhstal)',
+      note: 'Il più ricco bacino ferrifero dell\'URSS; combinato minerario ed estrattivo a cielo aperto integrato con gli altiforni del Donbass.',
+    };
+  }
+  if (normKey.includes('odessa')) {
+    return {
+      name: 'Odessa (Chernomorskaya Baza)',
+      adminTitle: 'Odesskaya oblast (Ukrainskaya SSR)',
+      note: 'Porto principale sul Mar Nero per l\'esportazione del grano ucraino e base navale ausiliaria per sommergibili e torpediniere della Flotta del Mar Nero.',
+    };
+  }
+  if (normKey.includes('sevastopol') || normKey.includes('sebastopoli') || normKey.includes('crimea') || normKey.includes('krym')) {
+    return {
+      name: 'Sevastopol & Krym',
+      adminTitle: 'Glavnaya Baza Chernomorskogo Flota (Krymskaya ASSR / RSFSR)',
+      note: 'Quartier generale e piazzaforte navale della Flotta del Mar Nero della Marina Sovietica, protetta dalle batterie costiere corazzate Maksim Gor\'kij (Batteria 30 e 35). Territorio della RSFSR fino al 1954.',
+    };
+  }
+  if (normKey.includes('poltava') || normKey.includes('cherkasy') || normKey.includes('sumy') || normKey.includes('chernihiv') || normKey.includes('zhytomyr') || normKey.includes('vinnitsa')) {
+    return {
+      name: `${rawName} (Ukraina)`,
+      adminTitle: 'Ukrainskaya SSR',
+      note: 'Granaio della nazione sovietica e corridoio agricolo e ferroviario strategico verso il confine occidentale.',
+    };
+  }
+
+  // 5. RSS Bielorussa (Belorusskaya SSR)
+  if (normKey.includes('minsk')) {
+    return {
+      name: 'Minsk (Belorusskaya SSR)',
+      adminTitle: 'Stolitsa Belorusskoy SSR (Minskiy UR)',
+      note: 'Capitale della RSS Bielorussa, quartier generale del Distretto Militare Speciale Occidentale e cardine del Distretto Fortificato di Minsk lungo la Linea Stalin.',
+    };
+  }
+  if (normKey.includes('gomel') || normKey.includes('homel') || normKey.includes('mogilev') || normKey.includes('mahilyow') || normKey.includes('vitebsk') || normKey.includes('vitsebsk')) {
+    return {
+      name: `${rawName} (Belorussiya)`,
+      adminTitle: 'Belorusskaya SSR',
+      note: 'Settore orientale della Bielorussia a controllo delle valli del Dnepr e della Sozh sulle direttrici di rifornimento per Mosca.',
+    };
+  }
+
+  // 6. Territori annessi post-1939 (Polonia Orientale / Kresy, Paesi Baltici, Bessarabia, Carelia)
+  if (step >= 5) {
+    if (normKey.includes('lviv') || normKey.includes('lwow')) {
+      return {
+        name: 'Lvov (Lviv)',
+        adminTitle: 'Lvovskaya oblast (Ukrainskaya SSR)',
+        note: 'Storica capitale della Galizia orientale, annessa all\'URSS a seguito della Campagna di Polonia del settembre 1939 e integrata nella RSS Ucraina.',
+      };
+    }
+    if (normKey.includes('brest') || normKey.includes('brzesc')) {
+      return {
+        name: 'Brest (Brest-Litovsk)',
+        adminTitle: 'Brestskaya oblast (Belorusskaya SSR)',
+        note: 'Sito della celebre Fortezza di Brest e teatro della parata congiunta tedesco-sovietica del 22 settembre 1939 (Gen. Guderian e Krivoshein); caposaldo del Distretto Fortificato sulla Linea Molotov.',
+      };
+    }
+    if (normKey.includes('grodno') || normKey.includes('bialystok') || normKey.includes('belostok')) {
+      return {
+        name: normKey.includes('bialystok') ? 'Belostok (Bialystok)' : 'Grodno',
+        adminTitle: 'Belostokskaya oblast (Belorusskaya SSR)',
+        note: 'Provincia industriale tessile e ferroviaria incorporata nella RSS Bielorussa nel 1939 in attuazione del Patto Molotov-Ribbentrop.',
+      };
+    }
+    if (normKey.includes('stanislav') || normKey.includes('ivano_frankivsk') || normKey.includes('ternopol') || normKey.includes('drogobych')) {
+      return {
+        name: `${rawName} (Zapadnaya Ukraina)`,
+        adminTitle: 'Ukrainskaya SSR (Prisoyedineniye 1939)',
+        note: 'Territorio dell\'Ucraina occidentale annesso all\'URSS nell\'autunno 1939 con i giacimenti petroliferi di Boryslav e Drohobych.',
+      };
+    }
+  }
+
+  if (step >= 6) {
+    if (normKey.includes('tallinn') || normKey.includes('reval') || normKey.includes('estonia') || normKey.includes('eesti')) {
+      return {
+        name: 'Tallin (Estonskaya SSR)',
+        adminTitle: 'Stolitsa Estonskoy SSR (SSSR)',
+        note: 'Repubblica Socialista Sovietica Estone costituita nel giugno-luglio 1940 a seguito dell\'ultimatum e occupazione dell\'Armata Rossa; base navale avanzata della Flotta del Baltico.',
+      };
+    }
+    if (normKey.includes('riga') || normKey.includes('latvia') || normKey.includes('latvija')) {
+      return {
+        name: 'Riga (Latviyskaya SSR)',
+        adminTitle: 'Stolitsa Latviyskoy SSR (SSSR)',
+        note: 'Repubblica Socialista Sovietica Lettone proclamata nel giugno-luglio 1940; grande porto industriale alla foce della Daugava incorporato nell\'Unione Sovietica.',
+      };
+    }
+    if (normKey.includes('vilnius') || normKey.includes('kaunas') || normKey.includes('lietuva') || normKey.includes('lithuania')) {
+      return {
+        name: normKey.includes('vilnius') ? 'Vilnyus (Litovskaya SSR)' : 'Kaunas (Litovskaya SSR)',
+        adminTitle: 'Litovskaya SSR (SSSR)',
+        note: 'Repubblica Socialista Sovietica Lituana proclamata nell\'estate 1940; Vilnius, ceduta all\'URSS dalla Polonia nel 1939 e temporaneamente trasferita alla Lituania, diviene capitale repubblicana.',
+      };
+    }
+    if (normKey.includes('chisinau') || normKey.includes('kishinev') || normKey.includes('bessarabia') || normKey.includes('moldav')) {
+      return {
+        name: 'Kishinev (Moldavskaya SSR)',
+        adminTitle: 'Stolitsa Moldavskoy SSR',
+        note: 'RSS Moldava costituita nell\'agosto 1940 unendo la Bessarabia (ceduta dalla Romania sotto ultimatum sovietico) con la preesistente RSSA Moldava.',
+      };
+    }
+    if (normKey.includes('chernivtsi') || normKey.includes('cernauti') || normKey.includes('bukovina')) {
+      return {
+        name: 'Chernovtsy (Severnaya Bukovina)',
+        adminTitle: 'Chernovitskaya oblast (Ukrainskaya SSR)',
+        note: 'Bucovina settentrionale annessa all\'URSS nel giugno 1940 e integrata nella RSS Ucraina.',
+      };
+    }
+    if (normKey.includes('viipuri') || normKey.includes('vyborg') || normKey.includes('sortavala') || normKey.includes('karelo_finsk')) {
+      return {
+        name: 'Vyborg & Karelo-Finskaya SSR',
+        adminTitle: 'Karelo-Finskaya SSR (12ª Respublika SSSR)',
+        note: 'Istmo Careliano e città di Viipuri/Vyborg ceduti dalla Finlandia all\'URSS con il Trattato di pace di Mosca (12 marzo 1940); elevata a 12ª Repubblica dell\'Unione (Karelo-Finskaya SSR sotto Otto Kuusinen).',
+      };
+    }
+  }
+
+  // 7. Caucaso e Transcaucasia (Petrolio e Risorse Strategiche)
+  if (normKey.includes('baku') || normKey.includes('azerbaijan') || normKey.includes('azerbaydzhan')) {
+    return {
+      name: 'Baku (Neftyanoy Tsentr)',
+      adminTitle: 'Stolitsa Azerbaydzhanskoy SSR',
+      note: 'Il pozzo vitale dell\'Unione Sovietica: i campi petroliferi della penisola di Abşeron estraevano oltre il 70% del greggio dell\'intera URSS; bersaglio dei piani segreti di bombardamento anglo-francesi (Operazione Pike, 1940).',
+    };
+  }
+  if (normKey.includes('tbilisi') || normKey.includes('tiflis') || normKey.includes('georgia') || normKey.includes('gruzinsk')) {
+    return {
+      name: 'Tbilisi (Gruzinskaya SSR)',
+      adminTitle: 'Stolitsa Gruzinskoy SSR',
+      note: 'Capitale storica della Georgia, patria natale di Iosif Stalin e del Commissario del Popolo Lavrentij Beria; perno amministrativo e culturale della Transcaucasia.',
+    };
+  }
+  if (normKey.includes('yerevan') || normKey.includes('erevan') || normKey.includes('armenia') || normKey.includes('armyansk')) {
+    return {
+      name: 'Yerevan (Armyanskaya SSR)',
+      adminTitle: 'Stolitsa Armyanskoy SSR',
+      note: 'Capitale della RSS Armena ai piedi del Monte Ararat, polo chimico sintetico (gomma Nairit) ed estrattivo del rame.',
+    };
+  }
+  if (normKey.includes('grozny') || normKey.includes('chechen')) {
+    return {
+      name: 'Grozny (Severnyy Kavkaz)',
+      adminTitle: 'Checheno-Ingushskaya ASSR (Grozneft)',
+      note: 'Secondo bacino petrolifero strategico della Russia sovietica con raffinerie avanzate collegate da oleodotto diretto al porto di Tuapse sul Mar Nero.',
+    };
+  }
+  if (normKey.includes('rostov') || normKey.includes('rostov_on_don')) {
+    return {
+      name: 'Rostov-na-Donu',
+      adminTitle: 'Rostovskaya oblast (Vorota Kavkaza)',
+      note: 'La "Porta del Caucaso" sul fiume Don e sede della gigantesca fabbrica Rostselmash, il più grande costruttore di mietitrebbiatrici e veicoli pesanti dell\'URSS.',
+    };
+  }
+
+  // 8. Asia Centrale e Siberia
+  if (normKey.includes('tashkent') || normKey.includes('uzbek')) {
+    return {
+      name: 'Tashkent (Uzbekskaya SSR)',
+      adminTitle: 'Stolitsa Uzbekskoy SSR (Sredneaziatskiy VO)',
+      note: 'Capitale della RSS Uzbeka e quartier generale del Distretto Militare dell\'Asia Centrale; polo primario per la coltivazione del cotone strategico per esplosivi e divise.',
+    };
+  }
+  if (normKey.includes('almaty') || normKey.includes('alma_ata') || normKey.includes('kazakh')) {
+    return {
+      name: 'Alma-Ata (Kazakhskaya SSR)',
+      adminTitle: 'Stolitsa Kazakhskoy SSR',
+      note: 'Capitale della RSS Kazaka (elevata a Repubblica dell\'Unione con la Costituzione del 1936); immenso territorio ricco di carbone (Karaganda), rame (Balkhash) e piombo.',
+    };
+  }
+  if (normKey.includes('frunze') || normKey.includes('bishkek') || normKey.includes('kirghiz')) {
+    return {
+      name: 'Frunze (Kirgizskaya SSR)',
+      adminTitle: 'Stolitsa Kirgizskoy SSR',
+      note: 'Capitale della RSS Kirghisa intitolata nel 1926 al comandante bolscevico Michail Frunze (elevata a repubblica dell\'Unione nel 1936).',
+    };
+  }
+  if (normKey.includes('stalinabad') || normKey.includes('dushanbe') || normKey.includes('tajik')) {
+    return {
+      name: 'Stalinabad (Tadzhikskaya SSR)',
+      adminTitle: 'Stolitsa Tadzhikskoy SSR',
+      note: 'Capitale della RSS Tagika (ribattezzata Stalinabad dal 1929 al 1961 in onore di Stalin), situata a ridosso delle catene montuose del Pamir.',
+    };
+  }
+  if (normKey.includes('ashgabat') || normKey.includes('turkmen')) {
+    return {
+      name: 'Ashkhabad (Turkmenskaya SSR)',
+      adminTitle: 'Stolitsa Turkmenskoy SSR',
+      note: 'Capitale della RSS Turkmena ai margini del deserto del Karakum e lungo la ferrovia Transcaspiana.',
+    };
+  }
+  if (normKey.includes('novosibirsk') || normKey.includes('kuzbass') || normKey.includes('kemerovo')) {
+    return {
+      name: 'Novosibirsk & Kuzbass',
+      adminTitle: 'Zapadno-Sibirskiy Kray (Kuznetskiy Basseyn)',
+      note: 'Capitale della Siberia occidentale e colossale bacino carbonifero e metallurgico del Kuzbass, creato per alimentare il combinato Ural-Kuznetsk.',
+    };
+  }
+  if (normKey.includes('vladivostok') || normKey.includes('primorsk')) {
+    return {
+      name: 'Vladivostok (Zolotoy Rog)',
+      adminTitle: 'Glavnaya Baza Tikhookeanskogo Flota (Primorskiy Kray)',
+      note: 'Capolinea della ferrovia Transiberiana e quartier generale della Flotta del Pacifico sovietica nella Baia del Corno d\'Oro; baluardo a contrasto dell\'espansionismo nipponico.',
+    };
+  }
+  if (normKey.includes('khabarovsk') || normKey.includes('chabarovsk')) {
+    return {
+      name: 'Khabarovsk (Amur)',
+      adminTitle: 'Khabarovskiy Kray (Dalnevostochnyy Front)',
+      note: 'Centro di comando del Fronte dell\'Estremo Oriente dell\'Armata Rossa sulle rive del fiume Amur al confine con il Manciukuò.',
+    };
+  }
+
+  // Fallback se appartiene a SOV
+  if (owner === 'SOV' || id.startsWith('RU') || id.startsWith('BY') || id.startsWith('UA') || id.startsWith('MD') || id.startsWith('KZ') || id.startsWith('UZ') || id.startsWith('TM') || id.startsWith('TJ') || id.startsWith('KG') || id.startsWith('GE') || id.startsWith('AM') || id.startsWith('AZ')) {
+    return {
+      name: `${rawName} (SSSR)`,
+      adminTitle: 'Territoriya Soyuza Sovetskikh Sotsialisticheskikh Respublik',
+      note: 'Territorio dell\'Unione delle Repubbliche Socialiste Sovietiche sotto la guida del Partito Comunista di Tutta l\'Unione (Bolscevico).',
+    };
+  }
+
+  return null;
+}
+
 /**
  * Funzione di ricerca e normalizzazione toponimi con fuzzy matching e lookup NUTS-3/ISO.
  */
@@ -7832,6 +8325,32 @@ export function getExtendedToponym(
   ) {
     const ukTop = resolveUKToponym(id, rawName, normKey, owner, yearStep);
     if (ukTop) return ukTop;
+  }
+
+  // 0.14 Overrides prioritari per Unione Sovietica (SOV / codici RU, BY, UA, MD, KZ, UZ, TM, TJ, KG, GE, AM, AZ / toponimi sovietici)
+  if (
+    owner === 'SOV' ||
+    id.startsWith('RU') ||
+    id.startsWith('BY') ||
+    id.startsWith('UA') ||
+    id.startsWith('MD') ||
+    id.startsWith('KZ') ||
+    id.startsWith('UZ') ||
+    id.startsWith('TM') ||
+    id.startsWith('TJ') ||
+    id.startsWith('KG') ||
+    id.startsWith('GE') ||
+    id.startsWith('AM') ||
+    id.startsWith('AZ') ||
+    normKey.includes('soviet') ||
+    normKey.includes('russia') ||
+    normKey.includes('moscow') ||
+    normKey.includes('leningrad') ||
+    normKey.includes('stalingrad') ||
+    normKey.includes('sssr')
+  ) {
+    const sovTop = resolveUSSRToponym(id, rawName, normKey, owner, yearStep);
+    if (sovTop) return sovTop;
   }
 
   // 0.1 Overrides prioritari per macro-entità insulari e codici NUTS specifici

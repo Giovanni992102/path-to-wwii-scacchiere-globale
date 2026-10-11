@@ -163,6 +163,35 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     activeSteps: [0, 1, 2, 3, 4, 5, 6],
   },
   {
+    id: 'molotov_line',
+    name: 'Linea Molotov (Liniya Molotova)',
+    nation: 'URSS',
+    builder: 'Generale Dmitrij Karbyšev / Boris Šapošnikov / URSS',
+    description:
+      'Imponente linea di Distretti Fortificati (UR) costruita a partire dalla primavera 1940 lungo la nuova frontiera occidentale sovietica scaturita dal Patto Molotov-Ribbentrop, dal Mar Baltico ai Carpazi (Telšiai, Kaunas, Grodno, Osowiec, Zambrów, Brest-Litovsk, Rawa Ruska, Przemyśl). Dotata di casematte pesanti in cemento armato con cannoni da 76 mm e postazioni anticarro da 45 mm DOT.',
+    type: 'heavy',
+    color: '#a3332e',
+    coordinates: [
+      [21.15, 55.70], // Memel / Klaipeda border (Telšiai UR)
+      [22.25, 55.15], // Tauragė UR
+      [23.90, 54.90], // Kaunas / Alytus UR (fiume Nemunas)
+      [23.85, 53.68], // Grodno UR
+      [22.65, 53.48], // Osowiec UR
+      [22.25, 52.98], // Zambrów UR
+      [23.68, 52.09], // Brest-Litovsk UR (fiume Bug)
+      [23.55, 51.55], // Włodawa UR
+      [24.15, 50.75], // Strumiłowa / Sokal UR
+      [23.60, 50.25], // Rawa Ruska UR
+      [22.78, 49.78], // Przemyśl UR (fiume San)
+    ],
+    keyForts: [
+      { name: 'Distretto Fortificato di Brest (Brest UR)', coords: [23.66, 52.08], desc: 'Bunker pesanti e sbarramenti d\'arresto sulla riva orientale del fiume Bug attorno alla fortezza.' },
+      { name: 'Distretto Fortificato di Przemyśl', coords: [22.77, 49.78], desc: 'Casematte e postazioni d\'artiglieria a protezione del varco tra la Galizia e i Carpazi sul fiume San.' },
+      { name: 'Distretto Fortificato di Osowiec e Grodno', coords: [23.10, 53.55], desc: 'Opere sotterranee e bunker in calcestruzzo a sbarramento della direttrice verso Minsk.' },
+    ],
+    activeSteps: [6], // Iniziata nella primavera 1940
+  },
+  {
     id: 'vallo_alpino',
     name: 'Vallo Alpino del Littorio',
     nation: 'Italia',
@@ -431,6 +460,46 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     type: 'fleet_hq',
     theater: 'Mediterranean',
     description: 'Quartier generale e porto principale della Flotta del Mar Nero sovietica.',
+  },
+  {
+    id: 'polyarny',
+    name: 'Poljarnyj / Murmansk',
+    historicalName: 'Glavnaya Baza Severnogo Flota (Polyarnyy / Kola Bay)',
+    nation: 'URSS',
+    coords: [33.45, 69.20],
+    type: 'fleet_hq',
+    theater: 'Atlantic',
+    description: 'Quartier generale e base principale della Flotta del Nord sovietica istituita nel 1933/1937 nella Baia di Kola; porto artico libero dai ghiacci tutto l\'anno per sommergibili e cacciatorpediniere.',
+  },
+  {
+    id: 'vladivostok',
+    name: 'Vladivostok',
+    historicalName: 'Glavnaya Baza Tikhookeanskogo Flota (Zolotoj Rog)',
+    nation: 'URSS',
+    coords: [131.89, 43.12],
+    type: 'fleet_hq',
+    theater: 'Pacific',
+    description: 'Quartier generale della Flotta del Pacifico sovietica nella Baia del Corno d\'Oro, perno strategico di difesa contro l\'espansionismo della Marina Imperiale Giapponese.',
+  },
+  {
+    id: 'hanko',
+    name: 'Hanko (Gangut)',
+    historicalName: 'Voenno-Morskaya Baza Khanko (Leased Base 1940)',
+    nation: 'URSS',
+    coords: [22.95, 59.83],
+    type: 'fortress_chokepoint',
+    theater: 'Baltic',
+    description: 'Base navale concessa in affitto per 30 anni dalla Finlandia all\'URSS col Trattato di pace di Mosca (marzo 1940); controlla con batterie costiere pesanti l\'accesso al Golfo di Finlandia e a Leningrado.',
+  },
+  {
+    id: 'odessa',
+    name: 'Odessa',
+    historicalName: 'Voenno-Morskaya Baza Odessa',
+    nation: 'URSS',
+    coords: [30.73, 46.48],
+    type: 'major_base',
+    theater: 'Mediterranean',
+    description: 'Grande base navale e porto commerciale sul Mar Nero per l\'esportazione del grano e il rifornimento della flotta.',
   },
 
   // Giappone

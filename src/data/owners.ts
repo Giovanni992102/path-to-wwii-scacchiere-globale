@@ -20,9 +20,14 @@ export const OWNERS: Record<string, OwnerConfig> = {
   SOV: {
     c: '#a33230',
     f: 'Comintern',
-    l: () => 'Unione Sovietica (URSS)',
+    l: (s) =>
+      s >= 6
+        ? 'Unione delle Repubbliche Socialiste Sovietiche (16 Repubbliche dell\'Unione)'
+        : s >= 5
+        ? 'Unione Sovietica (Patto Molotov-Ribbentrop & Espansione a Ovest)'
+        : 'Unione delle Repubbliche Socialiste Sovietiche (URSS / SSSR)',
     shortName: 'URSS',
-    leader: 'Iosif Stalin',
+    leader: 'I.V. Stalin (Segr. Gen.) / V. Molotov (Sovnarkom) / M. Kalinin (Presidium)',
     capital: 'Mosca',
   },
   TUV: {
