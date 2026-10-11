@@ -71,6 +71,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       q.includes('sssr') ||
       q.includes('russia');
 
+    const isFrenchQuery =
+      q.includes('francia') ||
+      q.includes('france') ||
+      q.includes('repubblica francese') ||
+      q.includes('troisieme republique') ||
+      q.includes('stato francese') ||
+      q.includes('etat francais') ||
+      q.includes('vichy') ||
+      q.includes('france libre') ||
+      q.includes('impero coloniale francese') ||
+      q.includes('empire colonial');
+
     // 1. Search in geodetic features
     for (const f of allFeatures) {
       const p = f.properties || {};
@@ -96,10 +108,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       const normShort = normStr(ownerShort);
       const normLeader = normStr(ownerLeader);
 
+      const isFrenchOwner =
+        res.o === 'FRA' ||
+        res.o === 'VIC' ||
+        res.o === 'FFL_AEF' ||
+        res.o.startsWith('F_') ||
+        res.o.startsWith('VIC_');
+
       const matchesOwnerAlias =
         (res.o === 'GER' && isGermanQuery) ||
         (res.o === 'ITA' && isItalianQuery) ||
-        (res.o === 'SOV' && isSovietQuery);
+        (res.o === 'SOV' && isSovietQuery) ||
+        (isFrenchOwner && isFrenchQuery);
 
       if (
         normModern.includes(q) ||
@@ -145,6 +165,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           nbel.includes('germania') ||
           nca.includes('hitler') ||
           ncb.includes('hitler'));
+      const isFrenchBattle =
+        isFrenchQuery &&
+        (nbel.includes('frances') ||
+          nbel.includes('francais') ||
+          nbel.includes('france') ||
+          nbel.includes('vichy') ||
+          nb.includes('sedan') ||
+          nb.includes('dunkerque') ||
+          nb.includes('dakar') ||
+          nb.includes('mers-el-kebir') ||
+          nb.includes('alpi') ||
+          nca.includes('de gaulle') ||
+          ncb.includes('de gaulle') ||
+          nca.includes('petain') ||
+          ncb.includes('petain'));
       return (
         nb.includes(q) ||
         ns.includes(q) ||
@@ -152,7 +187,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         nbel.includes(q) ||
         nca.includes(q) ||
         ncb.includes(q) ||
-        isGermanBattle
+        isGermanBattle ||
+        isFrenchBattle
       );
     });
 
@@ -171,7 +207,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           nf.includes('sigfrido') ||
           nf.includes('ostwall') ||
           nf.includes('heilsberg'));
-      return nf.includes(q) || nd.includes(q) || nn.includes(q) || nbu.includes(q) || nk || isGermanFort;
+      const isFrenchFort =
+        isFrenchQuery &&
+        (nn.includes('francia') ||
+          nn.includes('france') ||
+          nbu.includes('frances') ||
+          nbu.includes('republique') ||
+          nf.includes('maginot'));
+      return nf.includes(q) || nd.includes(q) || nn.includes(q) || nbu.includes(q) || nk || isGermanFort || isFrenchFort;
     });
 
     // 4. Search in naval bases
@@ -190,7 +233,22 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           nn.includes('wilhelmshaven') ||
           nn.includes('gotenhafen') ||
           nn.includes('swinemunde'));
-      return nn.includes(q) || nh.includes(q) || nd.includes(q) || nnat.includes(q) || isGermanBase;
+      const isFrenchBase =
+        isFrenchQuery &&
+        (nnat.includes('francia') ||
+          nnat.includes('france') ||
+          nd.includes('marine nationale') ||
+          nn.includes('brest') ||
+          nn.includes('toulon') ||
+          nn.includes('cherbourg') ||
+          nn.includes('lorient') ||
+          nn.includes('mers-el-kebir') ||
+          nn.includes('bizerte') ||
+          nn.includes('dakar') ||
+          nn.includes('diego-suarez') ||
+          nn.includes('saigon') ||
+          nn.includes('gibuti'));
+      return nn.includes(q) || nh.includes(q) || nd.includes(q) || nnat.includes(q) || isGermanBase || isFrenchBase;
     });
 
     return { features, battles, forts, naval };

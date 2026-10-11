@@ -591,4 +591,18 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Ammiraglio d\'Armata Inigo Campioni (Regia Marina)',
     commanderB: 'Ammiraglio Sir Andrew Cunningham (Royal Navy)',
   },
+  {
+    id: 'dakar_1940',
+    name: 'Battaglia di Dakar (Operazione Menace)',
+    historicalDate: '23-25 settembre 1940',
+    step: 6,
+    theater: 'Africa',
+    coords: [-17.43, 14.67], // Dakar (Senegal / AOF)
+    belligerents: 'Royal Navy & Forze Francesi Libere vs Marina e Batterie Costiere di Vichy (AOF)',
+    result: 'Fallimento del tentativo di sbarco anglo-gollista; la corazzata Richelieu e le batterie costiere respingono la flotta alleata.',
+    significance: 'Pierre Boisson mantiene l\'Africa Occidentale Francese (AOF) fedele al Regime di Vichy; Charles de Gaulle subisce un grave scacco politico ma consolida Brazzaville e l\'AEF come santuario della Francia Libera.',
+    commanderA: 'Generale Charles de Gaulle / Ammiraglio John Cunningham',
+    commanderB: 'Governatore Pierre Boisson / Capitano di vascello Marzin',
+  },
 ];
+

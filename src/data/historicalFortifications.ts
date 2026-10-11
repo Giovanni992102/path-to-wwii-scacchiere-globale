@@ -537,6 +537,35 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     ],
     activeSteps: [0, 1, 2, 3, 4, 5, 6],
   },
+  {
+    id: 'maginot_alpine',
+    name: 'Linea Maginot Alpina (Secteurs Fortifiés des Alpes)',
+    nation: 'Francia',
+    builder: 'Armée des Alpes (Général René Olry) / Repubblica Francese',
+    description:
+      'Complesso fortificato alpino scaglionato tra la Savoia, il Delfinato e le Alpi Marittime fino al Mediterraneo (Mentone). Munito di formidabili opere in caverna (ouvrages), respinse con successo l\'offensiva del Regio Esercito nel giugno 1940.',
+    type: 'heavy',
+    color: '#3f5d8a',
+    coordinates: [
+      [6.95, 45.68], // Bourg-Saint-Maurice / Piccolo San Bernardo
+      [6.72, 45.20], // Modane / Maurienne (Ouvrage Saint-Gobain)
+      [6.63, 44.90], // Briançon / Monginevro / Janus (di fronte allo Chaberton)
+      [6.85, 44.45], // Ubaye / Tournoux / Saint-Ours
+      [7.05, 44.18], // Tinée / Isola
+      [7.28, 43.90], // Vésubie / Gordolon
+      [7.48, 43.88], // Sospel / Bevera (Ouvrage Saint-Roch)
+      [7.44, 43.76], // Mont Agel / Peille
+      [7.51, 43.76], // Roquebrune-Cap-Martin (Ouvrage Cap Martin / Golfo di Mentone)
+    ],
+    keyForts: [
+      { name: 'Ouvrage du Janus (Briançon)', coords: [6.71, 44.93], desc: 'Opera d\'alta quota del settore del Delfinato a 2.540 m; neutralizzò le torri dello Chaberton con mortai d\'assedio Schneider da 280 mm.' },
+      { name: 'Ouvrage Saint-Gobain (Modane)', coords: [6.72, 45.20], desc: 'Grosso sbarramento in caverna a protezione della ferrovia internazionale del Moncenisio/Frejus.' },
+      { name: 'Ouvrage Saint-Roch (Sospel)', coords: [7.45, 43.88], desc: 'Fortezza corazzata a quattro blocchi a controllo del colle di Braus e della valle della Bevera.' },
+      { name: 'Ouvrage de Mont Agel (Peille)', coords: [7.42, 43.77], desc: 'Perno d\'artiglieria pesante del settore Alpi Marittime a 1.140 m a dominare il Principato di Monaco e la costa ligure.' },
+      { name: 'Ouvrage Cap Martin (Menton)', coords: [7.48, 43.75], desc: 'Opera costiera avanzata a Roquebrune-Cap-Martin; bloccò l\'avanzata della divisione Cosseria lungo la litoranea dei Balzi Rossi.' },
+    ],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6],
+  },
 ];
 
 export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
@@ -672,6 +701,86 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     type: 'fleet_hq',
     theater: 'Mediterranean',
     description: 'Cuore della flotta francese nel Mediterraneo e sede delle maggiori corazzate.',
+  },
+  {
+    id: 'cherbourg',
+    name: 'Cherbourg',
+    historicalName: 'Arsenale Navale di Cherbourg (Cotentin / Normandia)',
+    nation: 'Francia',
+    coords: [-1.62, 49.64],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Grande porto militare e arsenale fortificato sulla Manica munito di rada artificiale; base per flottiglie di sommergibili e cacciatorpediniere.',
+  },
+  {
+    id: 'lorient',
+    name: 'Lorient',
+    historicalName: 'Arsenale Navale di Lorient (Bretagna)',
+    nation: 'Francia',
+    coords: [-3.36, 47.74],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Storico arsenale marittimo alla foce dello Scorff e base navale atlantica (successivamente base sottomarina Keroman della Kriegsmarine).',
+  },
+  {
+    id: 'mers_el_kebir',
+    name: 'Mers-el-Kébir',
+    historicalName: 'Base Navale di Mers-el-Kébir (Oran, Algeria)',
+    nation: 'Francia',
+    coords: [-0.69, 35.74],
+    type: 'fleet_hq',
+    theater: 'Mediterranean',
+    description: 'Principale base navale d\'altura francese in Nordafrica, sede della Force de Raid (corazzate Dunkerque, Strasbourg, Bretagne, Provence); teatro dell\'Operazione Catapult britannica il 3 luglio 1940.',
+  },
+  {
+    id: 'bizerte',
+    name: 'Bizerte',
+    historicalName: 'Base Navale e Arsenale di Bizerte (Sidi Abdallah, Tunisia)',
+    nation: 'Francia',
+    coords: [9.87, 37.27],
+    type: 'fortress_chokepoint',
+    theater: 'Mediterranean',
+    description: 'Piazzaforte navale strategica e lago interno fortificato a presidio del Canale di Sicilia e delle comunicazioni marittime tra Mediterraneo occidentale e orientale.',
+  },
+  {
+    id: 'dakar_naval',
+    name: 'Dakar',
+    historicalName: 'Base Navale di Dakar (Sénégal / AOF)',
+    nation: 'Francia',
+    coords: [-17.43, 14.67],
+    type: 'major_base',
+    theater: 'Atlantic',
+    description: 'Grande base navale dell\'Africa Occidentale Francese all\'estremità della penisola di Cap-Vert; ormeggio della corazzata Richelieu e teatro della Battaglia di Dakar (Operazione Menace, settembre 1940).',
+  },
+  {
+    id: 'diego_suarez',
+    name: 'Diego-Suarez',
+    historicalName: 'Base Navale di Diego-Suarez (Antsiranana, Madagascar)',
+    nation: 'Francia',
+    coords: [49.29, -12.27],
+    type: 'major_base',
+    theater: 'Indian',
+    description: 'Una delle più vaste e munite baie naturali del mondo, base strategica della Marine Nationale a guardia delle rotte dell\'Oceano Indiano e del Canale di Mozambico.',
+  },
+  {
+    id: 'saigon_naval',
+    name: 'Saigon',
+    historicalName: 'Arsenale Navale di Saigon (Cocincina / Indocina)',
+    nation: 'Francia',
+    coords: [106.70, 10.77],
+    type: 'major_base',
+    theater: 'Pacific',
+    description: 'Quartier generale delle Forze Navali francesi in Estremo Oriente (FNEO), dotato di bacino di carenaggio galleggiante sul fiume Saigon.',
+  },
+  {
+    id: 'djibouti_naval',
+    name: 'Gibuti',
+    historicalName: 'Base Navale e Porto di Gibuti (Côte Française des Somalis)',
+    nation: 'Francia',
+    coords: [43.14, 11.59],
+    type: 'fortress_chokepoint',
+    theater: 'Indian',
+    description: 'Scalo navale strategico all\'imbocco dello Stretto di Bab-el-Mandeb nel Mar Rosso, testa di ponte coloniale e capolinea della ferrovia per Addis Abeba.',
   },
 
   // Italia
