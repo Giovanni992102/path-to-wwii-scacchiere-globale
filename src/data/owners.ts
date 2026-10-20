@@ -295,8 +295,8 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
   },
   IRQ: {
     id: 'IRQ',
-    c: '#c46e66',
-    f: 'Alleati',
+    c: '#c29b38',
+    f: 'Asse',
     l: (s) => (s >= 8 ? 'Regno dell\'Iraq (Governo di Difesa Nazionale Filo-Asse — Rashid Ali al-Kaylani)' : 'Regno dell\'Iraq (Trattato Anglo-Iraqueno)'),
     shortName: 'Iraq',
     leader: 'Re Ghazi I / Nuri al-Said / Rashid Ali al-Kaylani',
