@@ -85,4 +85,29 @@ export const STEPS: StepInfo[] = [
       americas: 'Gli Alleati acquistano cacciatorpediniere USA in cambio di basi nei Caraibi (Destroyers for Bases).',
     },
   },
+  {
+    d: 'OTT 1940',
+    t: 'Patto Tripartito, Arbitrati Balcanici e Invasione della Grecia',
+    headline: 'Asse Roma-Berlino-Tokyo, Cessione della Transilvania e "Giorno dell\'Oxi"',
+    desc: 'Il 27 settembre Germania, Italia e Giappone firmano a Berlino il Patto Tripartito. Nei Balcani il Secondo Arbitrato di Vienna (30 agosto) assegna la Transilvania Settentrionale all\'Ungheria e il Trattato di Craiova (7 settembre) cede la Dobrugia Meridionale alla Bulgaria; in Romania abdica Re Carlo II e nasce lo Stato Nazionale Legionario del Gen. Ion Antonescu con missione militare tedesca. Il 28 ottobre l\'Italia invade la Grecia dall\'Albania, ma l\'esercito ellenico di Ioannis Metaxas respinge l\'offensiva in Epiro e sul Pindo schierandosi con gli Alleati. In Africa il Regio Esercito conquista la Somalia Britannica e avanza in Egitto fino a Sidi Barrani; in Asia l\'Impero Giapponese occupa il Tonchino settentrionale nell\'Indocina Francese.',
+    theaterEvents: {
+      europe: 'Patto Tripartito (27 set). Battaglia d\'Inghilterra (Adlertag e Blitz su Londra). Secondo Arbitrato di Vienna (Transilvania del Nord a Budapest) e Trattato di Craiova (Cadrilater a Sofia). Stato Nazionale Legionario di Antonescu a Bucarest. Il 28 ottobre ("Giorno dell\'Oxi") l\'Italia attacca la Grecia dall\'Albania ma viene fermata a Kalpaki e sul Pindo.',
+      asia: 'Accordo franco-giapponese di Hanoi (22 settembre): la 5ª Divisione dell\'Esercito Imperiale Giapponese entra nel Tonchino settentrionale (Lạng Sơn, Haiphong) per bloccare i rifornimenti a Chongqing. Nel nord della Cina l\'Ottava Armata della Strada comunista lancia l\'Offensiva dei Cento Reggimenti.',
+      africa: 'Il Regio Esercito (Gen. Nasi) conquista la Somalia Britannica occupando Berbera (agosto 1940). In Nordafrica la 10ª Armata italiana (Maresciallo Graziani) penetra in Egitto attestandosi nei campi trincerati di Sidi Barrani. Fallisce il tentativo anglo-gollista su Dakar (Operazione Menace), mentre la Francia Libera consolida il Gabon.',
+      americas: 'Gli Stati Uniti istituiscono la coscrizione obbligatoria in tempo di pace (Selective Training and Service Act) e rafforzano l\'embargo strategico contro il Giappone.',
+    },
+  },
+  {
+    d: 'APR 1941',
+    t: 'Smembramento dei Balcani, Afrikakorps & Crollo dell\'AOI',
+    headline: 'Caduta di Jugoslavia e Grecia, Rommel a Tobruk, Caduta di Addis Abeba e Golpe in Iraq',
+    desc: 'Prima dell\'attacco all\'URSS, la Wehrmacht e gli alleati dell\'Asse travolgono i Balcani: la Jugoslavia viene invasa e smembrata (nasce lo Stato Indipendente di Croazia di Ante Pavelić; territori spartiti tra Germania, Italia, Ungheria e Bulgaria) e l\'Operazione Marita porta alla caduta della Grecia continentale con l\'ingresso tedesco ad Atene. In Nordafrica sbarca l\'Afrikakorps di Erwin Rommel (Operazione Sonnenblume), che riconquista la Cirenaica e cinge d\'assedio Tobruk, mentre in Africa Orientale Italiana cade Addis Abeba (6 aprile) e rientra il Negus Haile Selassie. In Medio Oriente il colpo di Stato filo-Asse di Rashid Ali al-Kaylani in Iraq apre la guerra anglo-irachena; a Mosca URSS e Giappone firmano il Patto di neutralità (13 aprile).',
+    theaterEvents: {
+      europe: 'Invasione e smembramento della Jugoslavia (Operazione 25, 6-17 aprile): proclamato a Zagabria lo Stato Indipendente di Croazia (NDH) degli Ustascia di Ante Pavelić; l\'Italia annette Lubiana, Fiume/Quarnero, la Dalmazia, il Montenegro e il Kosovo (unito all\'Albania); la Germania occupa la Serbia (Gen. Förster / Aćimović) e la Stiria/Carniola; l\'Ungheria annette Bačka, Međimurje e Prekmurje; la Bulgaria occupa la Macedonia del Vardar e Pirot. Invasione e caduta della Grecia (Operazione Marita): sfondata la Linea Metaxas e aggirate le Termopili, la Wehrmacht entra ad Atene il 27 aprile (governo collaborazionista di Tsolakoglou), mentre Re Giorgio II e le forze alleate ripiegano a Creta.',
+      asia: 'Il 13 aprile a Mosca il ministro degli Esteri nipponico Yōsuke Matsuoka e Vjačeslav Molotov firmano il Patto quinquennale di neutralità e non aggressione sovietico-giapponese, garantendo la frontiera siberiana e mancese. In Iraq (1-2 aprile) il colpo di Stato nazionalista filo-Asse di Rashid Ali al-Kaylani e dei colonnelli del "Quadrato d\'Oro" rovescia il reggente filo-britannico \'Abd al-Ilah, aprendo le ostilità della guerra anglo-irachena intorno alla base RAF di Habbaniya e a Bassora.',
+      africa: 'Operazione Sonnenblume: sbarcato a Tripoli con il Deutsches Afrikakorps (DAK), il Gen. Erwin Rommel lancia il 24 marzo la controffensiva italo-tedesca da El Agheila, riconquistando Bengasi, Derna e Bardia e iniziando il 10 aprile l\'assedio della piazzaforte di Tobruk. Collasso dell\'Africa Orientale Italiana: dopo la caduta di Mogadiscio, Cheren (27 marzo), Asmara e Massaua, il 6 aprile le truppe britanniche entrano ad Addis Abeba restaurando l\'Imperatore Haile Selassie, mentre il Viceré Amedeo d\'Aosta si asserraglia sull\'Amba Alagi.',
+      americas: 'Il Presidente Franklin D. Roosevelt promulga il Lend-Lease Act (Legge Affitti e Prestiti, 11 marzo 1941), trasformando gli USA nell\'"Arsenale delle Democrazie"; gli Stati Uniti pongono la Groenlandia sotto protezione militare (9 aprile) ed estendono le pattuglie navali nell\'Atlantico.',
+    },
+  },
 ];
+

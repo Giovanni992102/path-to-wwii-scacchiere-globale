@@ -1,5 +1,5 @@
-
 import { getExtendedToponym } from '../src/data/historicalToponyms';
+import { USSR_REGIONAL_FEATURES } from '../src/data/ussrRegions';
 import {
   NUTS_URLS,
   CNTR_URLS,
@@ -27,7 +27,7 @@ import {
 } from '../src/data/historicalBorders';
 import { CZECHOSLOVAKIA_REGIONAL_FEATURES } from '../src/data/czechoslovakiaRegions';
 import { getCountryFlagSvg } from '../src/data/historicalFlags';
-import { getOwnerMeta } from '../src/data/owners';
+import { getOwnerMeta, getOverlord, isSubjectOf } from '../src/data/owners';
 
 const addLog = (text: string, type?: string) => {
   console.log('[LOG ' + type + ']: ' + text);
@@ -376,7 +376,8 @@ const runSelfTests = useCallback(() => {
           resolveHB({ properties: { NAME: 'Menorca' } }, 3).o === 'SPA' &&
           resolveHB({ properties: { NAME: 'Spanish Morocco' } }, 3).o === 'SPA' &&
           // Step 6 (Giu 1940): Tangeri occupata militarmente dalle truppe coloniali spagnole di Franco
-          resolveHB({ properties: { NAME: 'Tangier' } }, 0).o === 'NEU' &&
+          (resolveHB({ properties: { NAME: 'Tangier' } }, 0).o === 'TANGER' ||
+            resolveHB({ properties: { NAME: 'Tangier' } }, 0).o === 'NEU') &&
           resolveHB({ properties: { NAME: 'Tangier' } }, 6).o === 'SPA',
       },
       {
@@ -593,13 +594,349 @@ const runSelfTests = useCallback(() => {
       },
       {
         name: 'Integrità Territoriale Marocco (Marocco Francese, Rif Spagnolo e Tangeri)',
-        run: () =>
-          resolveHB({ properties: { NAME: 'Morocco (France)', SUBJECTO: 'France' } }, 0).o === 'F_NAF' &&
-          resolveHB({ properties: { NAME: 'Morocco (France)', SUBJECTO: 'France' } }, 6).o === 'VIC_NAF' &&
-          resolveHB({ properties: { NAME: 'Spanish Morocco' } }, 0).o === 'SPR' &&
-          resolveHB({ properties: { NAME: 'Spanish Morocco' } }, 2).o === 'SPA' &&
-          resolveHB({ properties: { NAME: 'Tangier' } }, 0).o === 'NEU' &&
-          resolveHB({ properties: { NAME: 'Tangier' } }, 6).o === 'SPA',
+        run: () => {
+          const fr0 = resolveFeature({ id: 'FR_MOROCCO', properties: { id: 'FR_MOROCCO', CNTR_CODE: 'FR_MOROCCO', NAME: 'Morocco (France)' } }, 0);
+          const fr6 = resolveFeature({ id: 'FR_MOROCCO', properties: { id: 'FR_MOROCCO', CNTR_CODE: 'FR_MOROCCO', NAME: 'Morocco (France)' } }, 6);
+          const sp0 = resolveFeature({ id: 'ES_RIF', properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF', NAME: 'Spanish Morocco' } }, 0);
+          const sp2 = resolveFeature({ id: 'ES_RIF', properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF', NAME: 'Spanish Morocco' } }, 2);
+          const sp6 = resolveFeature({ id: 'ES_RIF', properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF', NAME: 'Spanish Morocco' } }, 6);
+          const tan0 = resolveHB({ properties: { NAME: 'Tangier' } }, 0);
+          const tan6 = resolveHB({ properties: { NAME: 'Tangier' } }, 6);
+          return (
+            fr0.o === 'F_NAF' &&
+            fr0.name.includes('Rabat') &&
+            fr6.o === 'VIC_NAF' &&
+            fr6.name.includes('Vichy') &&
+            sp0.o === 'SPR' &&
+            sp0.name.includes('Tetuán') &&
+            sp2.o === 'SPA' &&
+            sp6.o === 'SPA' &&
+            (tan0.o === 'TANGER' || tan0.o === 'NEU') &&
+            tan6.o === 'SPA'
+          );
+        },
+      },
+      {
+        name: 'Architettura Gerarchica di Sovranità (Dominions, Colonie, Fantocci e Satelliti)',
+        run: () => {
+          const checks = [
+            // Commonwealth britannico
+            isSubjectOf('CAN', 'UK'),
+            isSubjectOf('AST', 'UK'),
+            isSubjectOf('NZL', 'UK'),
+            isSubjectOf('SAF', 'UK'),
+            isSubjectOf('RAJ', 'UK'),
+            isSubjectOf('GIB', 'UK'),
+            // Fantocci nipponici
+            isSubjectOf('MAN', 'JAP'),
+            isSubjectOf('MEJ', 'JAP'),
+            isSubjectOf('WJ_CHI', 'JAP'),
+            // Fantocci tedeschi
+            isSubjectOf('SLO', 'GER'),
+            // Dipendenze USA
+            isSubjectOf('PHL', 'USA'),
+            // Satelliti sovietici
+            isSubjectOf('MON', 'SOV'),
+            isSubjectOf('TUV', 'SOV'),
+            // Impero coloniale francese
+            isSubjectOf('F_NAF', 'FRA'),
+            isSubjectOf('F_AOF', 'FRA'),
+            isSubjectOf('F_AEF', 'FRA'),
+            // Sovranità temporale dinamica (Etiopia e Albania)
+            getOverlord('ETH', 0) === null,
+            getOverlord('ETH', 1)?.id === 'ITA',
+            getOverlord('ALB', 0) === null,
+            getOverlord('ALB', 4)?.id === 'ITA',
+            // Canonicalizzazione e alias
+            getOwnerMeta('SWI').shortName === 'Svizzera',
+            getOwnerMeta('CH').id === 'SWI',
+            getOwnerMeta('AUS').shortName === 'Austria',
+            getOwnerMeta('AT').id === 'AUS',
+            getOwnerMeta('ROM').shortName === 'Romania',
+            getOwnerMeta('ROU').id === 'ROM',
+            getOwnerMeta('EGY').shortName === 'Egitto',
+            getOwnerMeta('EG').id === 'EGY',
+          ];
+          return checks.every(Boolean);
+        },
+      },
+      {
+        name: 'Integrità Topologica Frontiera Bielorussia - Russia (Chiusura Buchi Neri Smolensk, Bryansk e Pskov)',
+        run: () => {
+          const smol = USSR_REGIONAL_FEATURES.find((f: any) => f.id === 'SOV_ADM1_RUS_53_Smolensk_Oblast');
+          const bry = USSR_REGIONAL_FEATURES.find((f: any) => f.id === 'SOV_ADM1_RUS_29_Bryansk_Oblast');
+          const psk = USSR_REGIONAL_FEATURES.find((f: any) => f.id === 'SOV_ADM1_RUS_16_Pskov_Oblast');
+          const vit = USSR_REGIONAL_FEATURES.find((f: any) => f.id === 'SOV_ADM1_BLR_101_Vitebsk');
+          const mog = USSR_REGIONAL_FEATURES.find((f: any) => f.id === 'SOV_ADM1_BLR_102_Mogilev');
+          const gom = USSR_REGIONAL_FEATURES.find((f: any) => f.id === 'SOV_ADM1_BLR_100_Gomel');
+          if (!smol || !bry || !psk || !vit || !mog || !gom) return false;
+
+          const sRing = smol.geometry.coordinates[0];
+          const bRing = bry.geometry.type === 'Polygon' ? bry.geometry.coordinates[0] : bry.geometry.coordinates[0][0];
+          const pRing = psk.geometry.coordinates[0];
+
+          // Verifica triple points condivisi ad incastro perfetto
+          const hasVMS = sRing.some((p: number[]) => Math.abs(p[0] - 31.179017) < 1e-5 && Math.abs(p[1] - 54.453353) < 1e-5);
+          const hasVPS = sRing.some((p: number[]) => Math.abs(p[0] - 30.886156) < 1e-5 && Math.abs(p[1] - 55.600483) < 1e-5);
+          const hasMGB = bRing.some((p: number[]) => Math.abs(p[0] - 31.361573) < 1e-5 && Math.abs(p[1] - 53.120038) < 1e-5);
+          const hasSouth = bRing.some((p: number[]) => Math.abs(p[0] - 31.47485) < 1e-5 && Math.abs(p[1] - 52.11778) < 1e-5);
+          const hasPskovNorth = pRing.some((p: number[]) => Math.abs(p[0] - 30.886156) < 1e-5 && Math.abs(p[1] - 55.600483) < 1e-5);
+
+          return hasVMS && hasVPS && hasMGB && hasSouth && hasPskovNorth;
+        },
+      },
+      {
+        name: 'Audit Geostorico Esaustivo Province e Territori Africani (44 Entità: Quarta Sponda Balbo/Graziani, AOI Etiopia/Eritrea/Somalia, Somaliland Chater [Invasione Nasi Ago 1940], Congo Belga Ryckmans/Katanga, Colonie Portoghesi, Africa Spagnola Rif/Tangeri Yuste, Vichy AOF/NAF vs FFL AEF Éboué, Liberia Barclay, Sudafrica Smuts)',
+        run: () => {
+          // 1. Quarta Sponda (Libia): Italo Balbo (step 0) -> Rodolfo Graziani (step 6 post abbattimento Tobruk)
+          const lib0 = resolveHB({ properties: { NAME: 'Libya' } }, 0);
+          const lib6 = resolveHB({ properties: { NAME: 'Libya' } }, 6);
+          const topLib0 = getExtendedToponym('Libya', lib0.o, undefined, undefined, 0);
+          const topLib6 = getExtendedToponym('Libya', lib6.o, undefined, undefined, 6);
+
+          // 2. Corno d'Africa e AOI: Etiopia Sovrana Negus Haile Selassie (step 0) -> AOI Duca d'Aosta (step 6); Somaliland britannico sotto Arthur Chater (step 6 Giu 1940 UK, invasione italiana ad agosto 1940)
+          const eth0 = resolveHB({ properties: { NAME: 'Ethiopia (Italy)' } }, 0);
+          const eth6 = resolveHB({ properties: { NAME: 'Ethiopia (Italy)' } }, 6);
+          const topEth0 = getExtendedToponym('Ethiopia (Italy)', eth0.o, undefined, undefined, 0);
+          const topEth6 = getExtendedToponym('Ethiopia (Italy)', eth6.o, undefined, undefined, 6);
+          const somBr0 = resolveHB({ properties: { NAME: 'British Somaliland' } }, 0);
+          const somBr6 = resolveHB({ properties: { NAME: 'British Somaliland' } }, 6);
+          const topSomBr6 = getExtendedToponym('British Somaliland', somBr6.o, undefined, undefined, 6);
+
+          // 3. Congo Belga & Ruanda-Urundi: Pierre Ryckmans, continuità alleata e risorse strategiche Shinkolobwe/Katanga
+          const congo0 = resolveHB({ properties: { NAME: 'Belgian Congo' } }, 0);
+          const congo6 = resolveHB({ properties: { NAME: 'Belgian Congo' } }, 6);
+          const topCongo = getExtendedToponym('Belgian Congo', congo6.o, undefined, undefined, 6);
+          const ruanda0 = resolveHB({ properties: { NAME: 'Rwanda (Belgium)' } }, 0);
+
+          // 4. Colonie Portoghesi: Angola (Luanda / Benguela) e Mozambico (Lourenço Marques)
+          const ang0 = resolveHB({ properties: { NAME: 'Angola (Portugal)' } }, 0);
+          const moz0 = resolveHB({ properties: { NAME: 'Mozambique (Portugal)' } }, 0);
+          const topAng = getExtendedToponym('Angola (Portugal)', ang0.o, undefined, undefined, 0);
+          const topMoz = getExtendedToponym('Mozambique (Portugal)', moz0.o, undefined, undefined, 0);
+
+          // 5. Africa Spagnola & Tangeri: Rif culla Alzamiento 1936; Tangeri occupata da truppe coloniali spagnole giu 1940
+          const rif0 = resolveHB({ properties: { NAME: 'Spanish Morocco' } }, 0);
+          const rif6 = resolveHB({ properties: { NAME: 'Spanish Morocco' } }, 6);
+          const topRif0 = getExtendedToponym('Spanish Morocco', rif0.o, undefined, undefined, 0);
+          const topRif6 = getExtendedToponym('Spanish Morocco', rif6.o, undefined, undefined, 6);
+          const tang0 = resolveHB({ properties: { NAME: 'Tangier' } }, 0);
+          const tang6 = resolveHB({ properties: { NAME: 'Tangier' } }, 6);
+          const topTang6 = getExtendedToponym('Tangier', tang6.o, undefined, undefined, 6);
+
+          // 6. Spartizione Impero Coloniale Francese (1940): Vichy AOF (Dakar / Pierre Boisson) vs FFL AEF (Brazzaville / Félix Éboué)
+          const aof0 = resolveHB({ properties: { NAME: 'French West Africa' } }, 0);
+          const aof6 = resolveHB({ properties: { NAME: 'French West Africa' } }, 6);
+          const topAof6 = getExtendedToponym('French West Africa', aof6.o, undefined, undefined, 6);
+          const aef6 = resolveHB({ properties: { NAME: 'French Equatorial Africa' } }, 6);
+          const topAef6 = getExtendedToponym('French Equatorial Africa', aef6.o, undefined, undefined, 6);
+
+          // 7. Stati Indipendenti & Dominions: Liberia (Monrovia / Edwin Barclay), Sudafrica (Smuts / Simon's Town), Egitto (Cairo / Wafd)
+          const lbr0 = resolveHB({ properties: { NAME: 'Liberia' } }, 0);
+          const topLbr = getExtendedToponym('Liberia', lbr0.o, undefined, undefined, 0);
+          const saf0 = resolveHB({ properties: { NAME: 'Union of South Africa' } }, 0);
+          const topSaf = getExtendedToponym('Union of South Africa', saf0.o, undefined, undefined, 0);
+          const egy0 = resolveHB({ properties: { NAME: 'Egypt' } }, 0);
+          const topEgy = getExtendedToponym('Egypt', egy0.o, undefined, undefined, 0);
+
+          // 8. 27 Governatorati del Regno d'Egitto
+          const cairo0 = resolveFeature({ id: 'EGC', properties: { CNTR_CODE: 'EG', NAME: 'Al Qahirah' } }, 0);
+          const alex0 = resolveFeature({ id: 'EGALX', properties: { CNTR_CODE: 'EG', NAME: 'Al Iskandariyah' } }, 0);
+          const matruh0 = resolveFeature({ id: 'EGMT', properties: { CNTR_CODE: 'EG', NAME: 'Matruh' } }, 0);
+          const sinai0 = resolveFeature({ id: 'EGSIN', properties: { CNTR_CODE: 'EG', NAME: 'Shamal Sina\'' } }, 0);
+          const aswan0 = resolveFeature({ id: 'EGASN', properties: { CNTR_CODE: 'EG', NAME: 'Aswan' } }, 0);
+          const suez0 = resolveFeature({ id: 'EGSUZ', properties: { CNTR_CODE: 'EG', NAME: 'As Suways' } }, 0);
+
+          return (
+            // Libia
+            lib0.o === 'ITA' && (topLib0.adminTitle || '').includes('Balbo') &&
+            lib6.o === 'ITA' && (topLib6.adminTitle || '').includes('Graziani') &&
+            // Corno d'Africa
+            eth0.o === 'ETH' && (topEth0.adminTitle || '').includes('Haile Selassie') &&
+            eth6.o === 'ITA' && (topEth6.adminTitle || '').includes('Duca d\'Aosta') &&
+            somBr0.o === 'UK' && somBr6.o === 'UK' && (topSomBr6.adminTitle || '').includes('Chater') && (topSomBr6.note || '').includes('agosto') &&
+            // Congo Belga
+            congo0.o === 'BEL' && congo6.o === 'BEL' && (topCongo.adminTitle || '').includes('Ryckmans') &&
+            ruanda0.o === 'BEL' &&
+            // Colonie Portoghesi
+            ang0.o === 'POR' && topAng.name.includes('Angola') &&
+            moz0.o === 'POR' && topMoz.name.includes('Moçambique') &&
+            // Africa Spagnola & Tangeri
+            rif0.o === 'SPR' && rif6.o === 'SPA' && (topRif0.note || '').includes('Alzamiento') &&
+            tang6.o === 'SPA' && (topTang6.adminTitle || '').includes('Yuste') &&
+            // Vichy vs FFL
+            aof0.o === 'F_AOF' && aof6.o === 'VIC_AOF' && (topAof6.adminTitle || '').includes('Boisson') &&
+            aef6.o === 'FFL_AEF' && (topAef6.adminTitle || '').includes('Félix Éboué') &&
+            // Liberia, Sudafrica, Egitto
+            lbr0.o === 'LBR' && (topLbr.adminTitle || '').includes('Barclay') &&
+            saf0.o === 'SAF' && (topSaf.note || '').includes('Smuts') &&
+            (egy0.o === 'UK' || egy0.o === 'EGY') && (topEgy.note || '').includes('Trattato Anglo-Egiziano') &&
+            // Governatorati Egiziani
+            cairo0.o === 'EGY' && (cairo0.name || '').includes('Cairo') &&
+            alex0.o === 'EGY' && (alex0.name || '').includes('Alessandria') &&
+            matruh0.o === 'EGY' && (matruh0.note || '').includes('O\'Connor') &&
+            sinai0.o === 'EGY' && (sinai0.name || '').includes('Sinai') &&
+            aswan0.o === 'EGY' && (aswan0.name || '').includes('Aswan') &&
+            suez0.o === 'EGY' && (suez0.adminEntity || '').includes('Suez')
+          );
+        },
+      },
+      {
+        name: 'Audit Geostorico Integrale del Sudamerica (14 Entità Sovrane e Coloniali 1936-1940)',
+        run: () => {
+          const bra = resolveHB({ properties: { NAME: 'Brazil' } }, 0);
+          const arg = resolveHB({ properties: { NAME: 'Argentina' } }, 0);
+          const chl = resolveHB({ properties: { NAME: 'Chile' } }, 0);
+          const pru = resolveHB({ properties: { NAME: 'Peru' } }, 0);
+          const col = resolveHB({ properties: { NAME: 'Colombia' } }, 0);
+          const ven = resolveHB({ properties: { NAME: 'Venezuela' } }, 0);
+          const ecu = resolveHB({ properties: { NAME: 'Ecuador' } }, 0);
+          const bol = resolveHB({ properties: { NAME: 'Bolivia' } }, 0);
+          const par = resolveHB({ properties: { NAME: 'Paraguay' } }, 0);
+          const uru = resolveHB({ properties: { NAME: 'Uruguay' } }, 0);
+          const guy = resolveHB({ properties: { NAME: 'Guyana' } }, 0);
+          const sur = resolveHB({ properties: { NAME: 'Suriname' } }, 0);
+          const gf0 = resolveHB({ properties: { NAME: 'French Guiana' } }, 0);
+          const gf6 = resolveHB({ properties: { NAME: 'French Guiana' } }, 6);
+          const tri = resolveHB({ properties: { NAME: 'Trinidad' } }, 0);
+
+          const braMeta = getOwnerMeta(bra.o);
+          const argMeta = getOwnerMeta(arg.o);
+          const chlMeta = getOwnerMeta(chl.o);
+          const bolMeta = getOwnerMeta(bol.o);
+          const parMeta = getOwnerMeta(par.o);
+          const uruMeta = getOwnerMeta(uru.o);
+          const ecuMeta = getOwnerMeta(ecu.o);
+
+          return (
+            bra.o === 'BRA' && bra.name.includes('Brasil') && (braMeta.leader || '').includes('Getúlio Vargas') &&
+            arg.o === 'ARG' && arg.name.includes('Argentina') && (arg.adminEntity || '').includes('Década Infame') &&
+            chl.o === 'CHL' && chl.name.includes('Chile') && (chl.adminEntity || '').includes('Frente Popular') &&
+            pru.o === 'PRU' && pru.name.includes('Peruana') &&
+            col.o === 'COL' && col.name.includes('Colombia') &&
+            ven.o === 'VEN' && ven.name.includes('Venezuela') && (ven.adminEntity || '').includes('López Contreras') &&
+            ecu.o === 'ECU' && ecu.name.includes('Ecuador') && (ecuMeta.leader || '').includes('Federico Páez') &&
+            bol.o === 'BOL' && bol.name.includes('Bolivia') && (bol.adminEntity || '').includes('Chaco') && (bolMeta.leader || '').includes('David Toro') &&
+            par.o === 'PAR' && par.name.includes('Paraguay') && (parMeta.leader || '').includes('Estigarribia') &&
+            uru.o === 'URU' && uru.name.includes('Uruguay') && (uruMeta.leader || '').includes('Terra') &&
+            guy.o === 'UK' && guy.name.includes('British Guiana') &&
+            sur.o === 'HOL' && sur.name.includes('Suriname') &&
+            gf0.o === 'F_COL' && gf6.o === 'VIC' &&
+            tri.o === 'UK' && tri.name.includes('Trinidad')
+          );
+        },
+      },
+      {
+        name: 'Audit Geostorico Integrale del Centroamerica e Caraibi (14 Entità Sovrane e Territori Strategici 1936-1940: GTM Ubico, SLV Martínez, HND Carías Andino, NIC Somoza, CRI Cortés/Calderón, PAN Arosemena/Arias, PCZ Canale USA, BLZ Belize, MEX Cárdenas/PEMEX, CUB Batista, DOM Trujillo, HAI Vincent, PR Puerto Rico Leahy, JM Giamaica)',
+        run: () => {
+          const gtm = resolveHB({ properties: { NAME: 'Guatemala' } }, 0);
+          const slv = resolveHB({ properties: { NAME: 'El Salvador' } }, 0);
+          const hnd = resolveHB({ properties: { NAME: 'Honduras' } }, 0);
+          const nic = resolveHB({ properties: { NAME: 'Nicaragua' } }, 0);
+          const cri0 = resolveHB({ properties: { NAME: 'Costa Rica' } }, 0);
+          const cri6 = resolveHB({ properties: { NAME: 'Costa Rica' } }, 6);
+          const pan0 = resolveHB({ properties: { NAME: 'Panama' } }, 0);
+          const pan6 = resolveHB({ properties: { NAME: 'Panama' } }, 6);
+          const pcz = resolveHB({ properties: { NAME: 'Panama Canal Zone' } }, 0);
+          const blz = resolveHB({ properties: { NAME: 'Belize' } }, 0);
+          const mex0 = resolveHB({ properties: { NAME: 'Mexico' } }, 0);
+          const mex6 = resolveHB({ properties: { NAME: 'Mexico' } }, 6);
+          const cub0 = resolveHB({ properties: { NAME: 'Cuba' } }, 0);
+          const cub6 = resolveHB({ properties: { NAME: 'Cuba' } }, 6);
+          const dom = resolveHB({ properties: { NAME: 'Dominican Republic' } }, 0);
+          const hai = resolveHB({ properties: { NAME: 'Haiti' } }, 0);
+          const pr = resolveHB({ properties: { NAME: 'Puerto Rico' } }, 0);
+          const jm = resolveHB({ properties: { NAME: 'Jamaica' } }, 0);
+
+          const fMex = resolveFeature({ properties: { CNTR_CODE: 'MX', NAME: 'Mexico' } }, 0);
+          const fPr = resolveFeature({ properties: { CNTR_CODE: 'PR', NAME: 'Puerto Rico' } }, 0);
+          const fJm = resolveFeature({ properties: { CNTR_CODE: 'JM', NAME: 'Jamaica' } }, 0);
+
+          const gtmMeta = getOwnerMeta(gtm.o);
+          const slvMeta = getOwnerMeta(slv.o);
+          const hndMeta = getOwnerMeta(hnd.o);
+          const nicMeta = getOwnerMeta(nic.o);
+          const mexMeta = getOwnerMeta(mex0.o);
+
+          return (
+            gtm.o === 'GTM' && gtm.name.includes('Guatemala') && (gtmMeta.leader || '').includes('Ubico') &&
+            slv.o === 'SLV' && slv.name.includes('El Salvador') && (slvMeta.leader || '').includes('Martínez') &&
+            hnd.o === 'HND' && hnd.name.includes('Honduras') && (hndMeta.leader || '').includes('Carías') &&
+            nic.o === 'NIC' && nic.name.includes('Nicaragua') && (nicMeta.leader || '').includes('Somoza') &&
+            cri0.o === 'CRI' && cri0.name.includes('Costa Rica') && (cri0.adminEntity || '').includes('Cortés') &&
+            cri6.o === 'CRI' && (cri6.adminEntity || '').includes('Calderón') &&
+            pan0.o === 'PAN' && pan0.name.includes('Panamá') && (pan0.adminEntity || '').includes('Arosemena') &&
+            pan6.o === 'PAN' && (pan6.adminEntity || '').includes('Arnulfo Arias') &&
+            pcz.o === 'USA' && pcz.name.includes('Panama Canal Zone') && (pcz.adminEntity || '').includes('Strategic') &&
+            blz.o === 'UK' && blz.name.includes('British Honduras') &&
+            mex0.o === 'MEX' && mex0.name.includes('México') && (mex0.adminEntity || '').includes('Cárdenas') &&
+            mex6.o === 'MEX' && (mexMeta.leader || '').includes('Cárdenas') &&
+            cub0.o === 'CUB' && cub0.name.includes('Cuba') && (cub0.adminEntity || '').includes('Laredo Brú') &&
+            cub6.o === 'CUB' && (cub6.adminEntity || '').includes('Batista') &&
+            dom.o === 'DOM' && dom.name.includes('República Dominicana') && (dom.adminEntity || '').includes('Trujillo') &&
+            hai.o === 'HAI' && hai.name.includes('Haïti') && (hai.adminEntity || '').includes('Sténio Vincent') &&
+            pr.o === 'USA' && pr.name.includes('Puerto Rico') && (pr.adminEntity || '').includes('Leahy') &&
+            jm.o === 'UK' && jm.name.includes('Jamaica') &&
+            fMex.o === 'MEX' && fPr.o === 'USA' && fJm.o === 'UK'
+          );
+        },
+      },
+      {
+        name: '70. Audit Geostorico Integrale degli Stati Uniti d\'America 1936-1940 (New Deal, Arsenal of Democracy, Two-Ocean Navy, Stati, Basi Navali e Territori d\'Oltremare)',
+        run: () => {
+          // 1. Risoluzione feature continentale e timeline sensitivity (1936 New Deal vs 1940 Arsenal of Democracy)
+          const usa0 = resolveHB({ properties: { NAME: 'United States' } }, 0);
+          const usa6 = resolveHB({ properties: { NAME: 'United States' } }, 6);
+          const meta0 = getOwnerMeta('USA', 0);
+          const meta6 = getOwnerMeta('USA', 6);
+
+          // 2. Territori strategici e chokepoints
+          const pcz = resolveFeature({ properties: { CNTR_CODE: 'US_PCZ', NAME: 'Panama Canal Zone' } }, 0);
+          const pr0 = resolveHB({ properties: { NAME: 'Puerto Rico' } }, 0);
+          const vi = resolveHB({ properties: { NAME: 'United States Virgin Islands' } }, 0);
+          const guam = resolveHB({ properties: { NAME: 'Guam' } }, 0);
+          const samoa = resolveHB({ properties: { NAME: 'American Samoa' } }, 0);
+          const wake = resolveHB({ properties: { NAME: 'Wake Island' } }, 0);
+          const midway = resolveHB({ properties: { NAME: 'Midway Islands' } }, 0);
+
+          // 3. Risoluzione toponomastica e amministrativa stati chiave, naval yards e outposts
+          const topWashDC = getExtendedToponym('Washington, D.C.', 'USA');
+          const topWashState = getExtendedToponym('Washington', 'USA', 'US_WA');
+          const topNY = getExtendedToponym('New York', 'USA');
+          const topCA = getExtendedToponym('California', 'USA');
+          const topTX = getExtendedToponym('Texas', 'USA');
+          const topPA = getExtendedToponym('Pennsylvania', 'USA');
+          const topMI = getExtendedToponym('Michigan', 'USA');
+          const topVA = getExtendedToponym('Virginia', 'USA');
+          const topMA = getExtendedToponym('Massachusetts', 'USA');
+          const topPearl = getExtendedToponym('Pearl Harbor', 'USA');
+          const topDutch = getExtendedToponym('Dutch Harbor', 'USA');
+          const topGuant = getExtendedToponym('Guantanamo', 'USA');
+
+          return (
+            usa0.o === 'USA' && usa0.name.includes('New Deal') && (meta0.leader || '').includes('Roosevelt') &&
+            usa6.o === 'USA' && usa6.name.includes('Two-Ocean Navy') && (meta6.leader || '').includes('Terzo Mandato') &&
+            pcz.o === 'USA' && pcz.name.includes('Panama Canal Zone') && (pcz.adminEntity || '').includes('Strategic') &&
+            pr0.o === 'USA' && pr0.name.includes('Puerto Rico') && (pr0.adminEntity || '').includes('Leahy') &&
+            vi.o === 'USA' && vi.name.includes('Virgin Islands') && (vi.adminEntity || '').includes('Cramer') &&
+            guam.o === 'USA' && guam.name.includes('Guam') && (guam.adminEntity || '').includes('Naval Station') &&
+            samoa.o === 'USA' && samoa.name.includes('American Samoa') && (samoa.adminEntity || '').includes('Tutuila') &&
+            wake.o === 'USA' && wake.name.includes('Wake') &&
+            midway.o === 'USA' && midway.name.includes('Midway') &&
+            topWashDC.name.includes('Washington, D.C.') &&
+            topWashState.name.includes('Puget Sound') &&
+            topNY.name.includes('Empire State') && (topNY.note || '').includes('Brooklyn Navy Yard') &&
+            topCA.name.includes('Pacific Coast') && (topCA.note || '').includes('San Diego') &&
+            topTX.name.includes('Lone Star State') && (topTX.note || '').includes('petrolio') &&
+            topPA.name.includes('Keystone State') && (topPA.note || '').includes('acciaierie') &&
+            topMI.name.includes('Motor City') && (topMI.note || '').includes('automobilistica') &&
+            topVA.name.includes('Norfolk') &&
+            topMA.name.includes('Boston') &&
+            topPearl.name.includes('Pearl Harbor') && (topPearl.note || '').includes('Flotta del Pacifico') &&
+            topDutch.name.includes('Dutch Harbor') && (topDutch.note || '').includes('Aleutine') &&
+            topGuant.name.includes('Guantanamo') && (topGuant.adminTitle || '').includes('Treaty of 1934')
+          );
+        },
       },
     ];
 

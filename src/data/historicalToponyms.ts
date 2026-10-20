@@ -5,6 +5,36 @@
  */
 
 import { ToponymMatch } from '../types';
+import {
+  resolveBalkansToponym,
+  BALKAN_DISTRICTS_CATALOG,
+  BalkanDistrictDef,
+} from './balkanDistricts';
+import { EGYPT_DISTRICTS_META } from './egyptProvinces';
+import { ALGERIA_PROVINCES_META } from './algeriaProvinces';
+import { MOROCCO_PROVINCES_META } from './moroccoProvinces';
+import { TUNISIA_PROVINCES_META } from './tunisiaProvinces';
+import { YEMEN_PROVINCES_META } from './yemenProvinces';
+import {
+  SCANDINAVIAN_DISTRICTS_CATALOG,
+  type ScandinavianDistrictDef,
+  resolveScandinavianToponym,
+  populateScandinavianToponyms,
+} from './scandinavianProvinces';
+
+export {
+  resolveBalkansToponym,
+  BALKAN_DISTRICTS_CATALOG,
+  type BalkanDistrictDef,
+  EGYPT_DISTRICTS_META,
+  ALGERIA_PROVINCES_META,
+  MOROCCO_PROVINCES_META,
+  TUNISIA_PROVINCES_META,
+  YEMEN_PROVINCES_META,
+  SCANDINAVIAN_DISTRICTS_CATALOG,
+  type ScandinavianDistrictDef,
+  resolveScandinavianToponym,
+};
 
 export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch>> = {
   // ================= PRINCIPATO D'ANDORRA =================
@@ -339,63 +369,291 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
 
   // ================= REPUBBLICA DI POLONIA (POL) =================
   POL: {
-    warszawa: { historicalName: 'Warszawa', adminTitle: 'Stolica Rzeczypospolitej Polskiej' },
-    krakow: { historicalName: 'Kraków', adminTitle: 'Województwo Krakowskie' },
-    poznan: { historicalName: 'Poznań', adminTitle: 'Województwo Poznańskie' },
-    gdansk: { historicalName: 'Gdynia / Wybrzeże', adminTitle: 'Województwo Pomorskie' },
-    puck: { historicalName: 'Puck (Mierzeja Helska)', adminTitle: 'Województwo Pomorskie' },
-    torun: { historicalName: 'Toruń', adminTitle: 'Stolica Województwa Pomorskiego' },
-    bydgoszcz: { historicalName: 'Bydgoszcz', adminTitle: 'Województwo Pomorskie' },
-    katowice: { historicalName: 'Katowice (Śląsk)', adminTitle: 'Autonomiczne Województwo Śląskie' },
-    cieszyn: { historicalName: 'Cieszyn Zachodni (Zaolzie)', adminTitle: 'Autonomiczne Województwo Śląskie (Zaolzie)' },
-    lviv: { historicalName: 'Lwów (Kresy Wschodnie)', adminTitle: 'Województwo Lwowskie' },
-    lwow: { historicalName: 'Lwów (Semper Fidelis)', adminTitle: 'Województwo Lwowskie' },
-    vilnius: { historicalName: 'Wilno (Kresy Wschodnie)', adminTitle: 'Województwo Wileńskie' },
-    wilno: { historicalName: 'Wilno (Ostra Brama)', adminTitle: 'Województwo Wileńskie' },
-    brest: { historicalName: 'Brześć nad Bugiem', adminTitle: 'Województwo Poleskie' },
-    pinsk: { historicalName: 'Pińsk (Polesie)', adminTitle: 'Województwo Poleskie' },
-    grodno: { historicalName: 'Grodno', adminTitle: 'Województwo Białostockie' },
-    hrodna: { historicalName: 'Grodno', adminTitle: 'Województwo Białostockie' },
-    volkovysk: { historicalName: 'Wołkowysk', adminTitle: 'Województwo Białostockie' },
-    wolkowysk: { historicalName: 'Wołkowysk', adminTitle: 'Województwo Białostockie' },
-    vawkavysk: { historicalName: 'Wołkowysk', adminTitle: 'Województwo Białostockie' },
-    druskininkai: { historicalName: 'Druskieniki', adminTitle: 'Województwo Białostockie' },
-    druskieniki: { historicalName: 'Druskieniki', adminTitle: 'Województwo Białostockie' },
-    swislocz: { historicalName: 'Świsłocz', adminTitle: 'Województwo Białostockie' },
-    braslaw: { historicalName: 'Brasław (Kraina Jezior)', adminTitle: 'Województwo Wileńskie' },
-    dzisna: { historicalName: 'Dzisna', adminTitle: 'Województwo Wileńskie' },
-    molodeczno: { historicalName: 'Mołodeczno', adminTitle: 'Województwo Wileńskie' },
-    glebokie: { historicalName: 'Głębokie', adminTitle: 'Województwo Wileńskie' },
-    troki: { historicalName: 'Troki (Zamek na Wyspie)', adminTitle: 'Województwo Wileńskie' },
-    trakai: { historicalName: 'Troki', adminTitle: 'Województwo Wileńskie' },
-    tarnopol: { historicalName: 'Tarnopol (Podole)', adminTitle: 'Województwo Tarnopolskie' },
-    stanislawow: { historicalName: 'Stanisławów (Pokucie)', adminTitle: 'Województwo Stanisławowskie' },
-    luck: { historicalName: 'Łuck (Wołyń)', adminTitle: 'Województwo Wołyńskie' },
-    rowne: { historicalName: 'Równe (Wołyń)', adminTitle: 'Województwo Wołyńskie' },
-    sarny: { historicalName: 'Sarny (Polesie Wołyńskie)', adminTitle: 'Województwo Wołyńskie' },
-    nowogrodek: { historicalName: 'Nowogródek (Ziemia Nowogródzka)', adminTitle: 'Województwo Nowogródzkie' },
-    baranavichy: { historicalName: 'Baranowicze', adminTitle: 'Województwo Nowogródzkie' },
-    baranowicze: { historicalName: 'Baranowicze', adminTitle: 'Województwo Nowogródzkie' },
-    lida: { historicalName: 'Lida', adminTitle: 'Województwo Nowogródzkie' },
-    slonim: { historicalName: 'Słonim', adminTitle: 'Województwo Nowogródzkie' },
-    drohobych: { historicalName: 'Drohobycz (Zagłębie Naftowe)', adminTitle: 'Województwo Lwowskie' },
-    boryslav: { historicalName: 'Borysław', adminTitle: 'Województwo Lwowskie' },
-    sambir: { historicalName: 'Sambor', adminTitle: 'Województwo Lwowskie' },
-    rawaruska: { historicalName: 'Rawa Ruska', adminTitle: 'Województwo Lwowskie' },
-    rawa_ruska: { historicalName: 'Rawa Ruska', adminTitle: 'Województwo Lwowskie' },
-    brody: { historicalName: 'Brody', adminTitle: 'Województwo Tarnopolskie' },
-    buczacz: { historicalName: 'Buczacz', adminTitle: 'Województwo Tarnopolskie' },
-    kremenets: { historicalName: 'Krzemieniec (Počajiv)', adminTitle: 'Województwo Wołyńskie' },
-    dubno: { historicalName: 'Dubno', adminTitle: 'Województwo Wołyńskie' },
-    kovel: { historicalName: 'Kowel', adminTitle: 'Województwo Wołyńskie' },
-    kolomyya: { historicalName: 'Kołomyja', adminTitle: 'Województwo Stanisławowskie' },
-    stryi: { historicalName: 'Stryj', adminTitle: 'Województwo Stanisławowskie' },
-    chortkiv: { historicalName: 'Czortków', adminTitle: 'Województwo Tarnopolskie' },
-    zaleszczyki: { historicalName: 'Zaleszczyki (Dniestr)', adminTitle: 'Województwo Tarnopolskie' },
-    bialystok: { historicalName: 'Białystok', adminTitle: 'Województwo Białostockie' },
-    lublin: { historicalName: 'Lublin', adminTitle: 'Województwo Lubelskie' },
-    kielce: { historicalName: 'Kielce', adminTitle: 'Województwo Kieleckie' },
-    lodz: { historicalName: 'Łódź', adminTitle: 'Województwo Łódzkie' },
+    warszawa: {
+      historicalName: 'Warszawa (Stolica Polski)',
+      adminTitle: 'Stolica Rzeczypospolitej Polskiej',
+      historicalNote: 'Capitale della Seconda Repubblica di Polonia, sede del Presidente Ignacy Mościcki, del Sejm e del Castello Reale; centro politico, culturale e strategico della nazione, martoriata dall\'assedio della Wehrmacht nel settembre 1939.',
+    },
+    krakow: {
+      historicalName: 'Kraków (Wawel)',
+      adminTitle: 'Województwo Krakowskie',
+      historicalNote: 'Antica capitale reale sul fiume Vistola dominata dalla cattedrale e dal castello del Wawel; sede della prestigiosa Università Jagellonica e perno dell\'Armia Kraków.',
+    },
+    poznan: {
+      historicalName: 'Poznań (Wielkopolska)',
+      adminTitle: 'Województwo Poznańskie',
+      historicalNote: 'Cuore storico della Grande Polonia e culla dello Stato polacco; polo industriale, agricolo e snodo ferroviario di prima grandezza, presidiato dall\'Armia Poznań del gen. Kutrzeba.',
+    },
+    gdansk: {
+      historicalName: 'Gdynia / Wybrzeże',
+      adminTitle: 'Województwo Pomorskie (Gdynia)',
+      historicalNote: 'Il grande porto marittimo polacco sul Mar Baltico costruito dal nulla negli anni \'20 per aggirare la Città Libera di Danzica; quartier generale della marina da guerra (Marynarka Wojenna).',
+    },
+    puck: {
+      historicalName: 'Puck (Mierzeja Helska)',
+      adminTitle: 'Województwo Pomorskie (Rejon Umocniony Hel)',
+      historicalNote: 'Base aeronavale e idroscalo della marina polacca; punto di controllo della penisola fortificata di Hel guidata dal contrammiraglio Józef Unrug, che resistette fino al 2 ottobre 1939.',
+    },
+    torun: {
+      historicalName: 'Toruń',
+      adminTitle: 'Stolica Województwa Pomorskiego',
+      historicalNote: 'Capoluogo amministrativo del Corridoio di Pomerania sulle rive della Vistola, celebre piazzaforte storica e centro di mobilitazione dell\'Armia Pomorze.',
+    },
+    bydgoszcz: {
+      historicalName: 'Bydgoszcz',
+      adminTitle: 'Województwo Pomorskie',
+      historicalNote: 'Grande polo industriale e manifatturiero sul canale Bydgoszcz; teatro della "Domenica di Sangue" (Krwawa niedziela) all\'inizio dell\'invasione tedesca nel settembre 1939.',
+    },
+    katowice: {
+      historicalName: 'Katowice (Śląsk)',
+      adminTitle: 'Autonomiczne Województwo Śląskie',
+      historicalNote: 'Cuore minerario e siderurgico dell\'Alta Slesia polacca, dotato di parlamento autonomo (Sejm Śląski); vitale bacino carbo-siderurgico presidiato dall\'Armia Śląsk.',
+    },
+    cieszyn: {
+      historicalName: 'Cieszyn Zachodni (Zaolzie)',
+      adminTitle: 'Autonomiczne Województwo Śląskie (Zaolzie)',
+      historicalNote: 'Regione transfrontaliera ricca di altiforni e bacini carboniferi di Karviná, riannessa dalla Polonia nell\'ottobre 1938 a seguito della crisi di Monaco.',
+    },
+    lviv: {
+      historicalName: 'Lwów (Semper Fidelis / Kresy)',
+      adminTitle: 'Województwo Lwowskie',
+      historicalNote: 'Metropoli storica della Galizia orientale e capitale culturale dei Kresy; sede dell\'Università Jan Kazimierz e del Politecnico. Nel settembre 1939 respinse la Wehrmacht tedesca prima di arrendersi all\'Armata Rossa il 22 settembre, venendo annessa alla RSS Ucraina.',
+    },
+    lwow: {
+      historicalName: 'Lwów (Semper Fidelis)',
+      adminTitle: 'Województwo Lwowskie',
+      historicalNote: 'Metropoli storica della Galizia orientale e capitale culturale dei Kresy; sede dell\'Università Jan Kazimierz e del Politecnico. Nel settembre 1939 respinse la Wehrmacht tedesca prima di arrendersi all\'Armata Rossa il 22 settembre, venendo annessa alla RSS Ucraina.',
+    },
+    vilnius: {
+      historicalName: 'Wilno (Ostra Brama / Kresy Północne)',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Capitale settentrionale dei Kresy e santuario della Madonna di Ostra Brama; sede dell\'Università Stefan Batory. Occupata dall\'URSS il 19 settembre 1939, fu ceduta alla Lituania il 10 ottobre 1939 prima dell\'annessione totale sovietica del giugno 1940.',
+    },
+    wilno: {
+      historicalName: 'Wilno (Ostra Brama / Kresy Północne)',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Capitale settentrionale dei Kresy e santuario della Madonna di Ostra Brama; sede dell\'Università Stefan Batory. Occupata dall\'URSS il 19 settembre 1939, fu ceduta alla Lituania il 10 ottobre 1939 prima dell\'annessione totale sovietica del giugno 1940.',
+    },
+    brest: {
+      historicalName: 'Brześć nad Bugiem (Twierdza Brześć)',
+      adminTitle: 'Województwo Poleskie',
+      historicalNote: 'Capoluogo del Polesie e colossale fortezza ottocentesca sul Bug. Difesa strenuamente dal gen. Konstanty Plisowski contro il XIX Corpo corazzato di Guderian (14-17 settembre 1939), fu teatro della parata militare congiunta nazi-sovietica il 22 settembre 1939.',
+    },
+    pinsk: {
+      historicalName: 'Pińsk (Polesie / Flotylla Pińska)',
+      adminTitle: 'Województwo Poleskie',
+      historicalNote: 'Capitale del labirinto fluviale delle Paludi del Prypeć e base navale della leggendaria Flottiglia Fluviale della marina polacca (Flotylla Pińska), dotata di monitori corazzati e cannoniere.',
+    },
+    grodno: {
+      historicalName: 'Grodno (Niemen)',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Storica città reale sul fiume Niemen; dal 20 al 22 settembre 1939 soldati polacchi, guardie di frontiera (KOP), boy-scout e civili opposero un\'eroica e disperata resistenza urbana contro i carri armati dell\'Armata Rossa sovietica.',
+    },
+    hrodna: {
+      historicalName: 'Grodno (Niemen)',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Storica città reale sul fiume Niemen; teatro dell\'eroica difesa urbana del settembre 1939 contro i blindati del XV Corpo Corazzato dell\'Armata Rossa.',
+    },
+    volkovysk: {
+      historicalName: 'Wołkowysk',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Importante nodo ferroviario strategico verso Bialystok, Brest e Vilnius; sede del Reggimento di Cavalleria Wołkowysk.',
+    },
+    wolkowysk: {
+      historicalName: 'Wołkowysk',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Importante nodo ferroviario strategico verso Bialystok, Brest e Vilnius; sede del Reggimento di Cavalleria Wołkowysk.',
+    },
+    vawkavysk: {
+      historicalName: 'Wołkowysk',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Importante nodo ferroviario strategico verso Bialystok, Brest e Vilnius; sede del Reggimento di Cavalleria Wołkowysk.',
+    },
+    druskininkai: {
+      historicalName: 'Druskieniki (Niemen)',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Celebre stazione termale sul fiume Niemen, residenza estiva del Maresciallo Józef Piłsudski nel periodo interbellico.',
+    },
+    druskieniki: {
+      historicalName: 'Druskieniki (Niemen)',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Celebre stazione termale sul fiume Niemen, residenza estiva del Maresciallo Józef Piłsudski nel periodo interbellico.',
+    },
+    swislocz: {
+      historicalName: 'Świsłocz (Puszcza Białowieska)',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Porta d\'accesso settentrionale alla foresta primordiale di Białowieża; centro forestale e artigianale del legno.',
+    },
+    braslaw: {
+      historicalName: 'Brasław (Kraina Jezior Brasławskich)',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Regione pittoresca dei grandi laghi morenici al confine con la Lettonia e l\'URSS; presidiata dal Battaglione KOP "Brasław".',
+    },
+    dzisna: {
+      historicalName: 'Dzisna (Dźwina)',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Città di frontiera sulla riva meridionale della Dvina Occidentale (Dźwina), di fronte al territorio sovietico; presidio di confine del KOP.',
+    },
+    molodeczno: {
+      historicalName: 'Mołodeczno (Brama Mińska)',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Snodo ferroviario vitale lungo la direttrice Wilno-Minsk; porta orientale della Wileńszczyzna presidiata dall\'86° Reggimento Fanteria.',
+    },
+    glebokie: {
+      historicalName: 'Głębokie',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Sede del comando del Reggimento KOP "Głębokie", con il convento carmelitano barocco e la guarnigione corazzata di frontiera.',
+    },
+    troki: {
+      historicalName: 'Troki (Zamek na Wyspie)',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Antica capitale dei Granduchi di Lituania col celebre castello insulare sul lago Galvė; centro storico della comunità dei Karaiti.',
+    },
+    trakai: {
+      historicalName: 'Troki (Zamek na Wyspie)',
+      adminTitle: 'Województwo Wileńskie',
+      historicalNote: 'Antica capitale dei Granduchi di Lituania col celebre castello insulare sul lago Galvė; centro storico della comunità dei Karaiti.',
+    },
+    tarnopol: {
+      historicalName: 'Tarnopol (Podole Zachodnie)',
+      adminTitle: 'Województwo Tarnopolskie',
+      historicalNote: 'Capoluogo del Podole polacco sul fiume Seret; forte guarnigione della 12ª Divisione Fanteria e della Brigata di Cavalleria Podolska, a guardia del confine di Riga.',
+    },
+    stanislawow: {
+      historicalName: 'Stanisławów (Pokucie / Karpaty)',
+      adminTitle: 'Województwo Stanisławowskie',
+      historicalNote: 'Capitale del Pokucie ai piedi dei monti Gorgany e Čornohora (Carpazi orientali); nodo strategico della "Testa di ponte rumena" (Przedmoście Rumuńskie) del settembre 1939.',
+    },
+    luck: {
+      historicalName: 'Łuck (Wołyń / Zamek Lubarta)',
+      adminTitle: 'Województwo Wołyńskie',
+      historicalNote: 'Capoluogo della Volinia cinto dalle anse del fiume Styr e dominato dal castello medievale del principe Lubart; centro amministrativo ed episcopale.',
+    },
+    rowne: {
+      historicalName: 'Równe (Wołyń Środkowy)',
+      adminTitle: 'Województwo Wołyńskie',
+      historicalNote: 'Il più grande centro commerciale e snodo ferroviario della Volinia verso Kiev; sede del comando del Settore KOP "Równe" e della guarnigione della 13ª Divisione Fanteria.',
+    },
+    sarny: {
+      historicalName: 'Sarny (Rejon Umocniony Sarny)',
+      adminTitle: 'Województwo Wołyńskie',
+      historicalNote: 'Perno del Settore Fortificato di Sarny eretto lungo il fiume Słucz: oltre 170 bunker corazzati che opposero un\'eroica resistenza alla 60ª Divisione Fucilieri sovietica il 17-20 settembre 1939.',
+    },
+    nowogrodek: {
+      historicalName: 'Nowogródek (Ziemia Nowogródzka)',
+      adminTitle: 'Województwo Nowogródzkie',
+      historicalNote: 'Capoluogo collinare dominato dalle rovine del castello medievale; patria del sommo poeta Adam Mickiewicz e sede della Brigata di Cavalleria Nowogródzka del gen. Anders.',
+    },
+    baranavichy: {
+      historicalName: 'Baranowicze (Węzeł Kolejowy Kresów)',
+      adminTitle: 'Województwo Nowogródzkie',
+      historicalNote: 'Snodo ferroviario strategico e sede della potente stazione radiofonica Polskie Radio Baranowicze (1938); base logistica e di mobilitazione del KOP.',
+    },
+    baranowicze: {
+      historicalName: 'Baranowicze (Węzeł Kolejowy Kresów)',
+      adminTitle: 'Województwo Nowogródzkie',
+      historicalNote: 'Snodo ferroviario strategico e sede della potente stazione radiofonica Polskie Radio Baranowicze (1938); base logistica e di mobilitazione del KOP.',
+    },
+    lida: {
+      historicalName: 'Lida (Zamek Giedymina)',
+      adminTitle: 'Województwo Nowogródzkie',
+      historicalNote: 'Città fortezza trecentesca di Gedimino e aeroporto militare del 5° Reggimento Aereo della marina/aviazione polacca; snodo tra Wilno e la Volinia.',
+    },
+    slonim: {
+      historicalName: 'Słonim (Szczara)',
+      adminTitle: 'Województwo Nowogródzkie',
+      historicalNote: 'Storica città dei principi Ogiński sul fiume Szczara; centro tessile, del legname e piazzaforte del KOP.',
+    },
+    drohobych: {
+      historicalName: 'Drohobycz (Zagłębie Naftowe)',
+      adminTitle: 'Województwo Lwowskie',
+      historicalNote: 'Capitale amministrativa del bacino petrolifero galiziano; città natale di Bruno Schulz, con raffinerie all\'avanguardia ambite dal Terzo Reich e dall\'URSS.',
+    },
+    boryslav: {
+      historicalName: 'Borysław (Polska Kalifornia)',
+      adminTitle: 'Województwo Lwowskie',
+      historicalNote: 'Epicentro dell\'estrazione petrolifera e del gas naturale della Galizia; forniva oltre il 70% dell\'oro nero della Seconda Repubblica di Polonia.',
+    },
+    sambir: {
+      historicalName: 'Sambor (Dniestr Górny)',
+      adminTitle: 'Województwo Lwowskie',
+      historicalNote: 'Antica città fortificata sull\'alto Dnestr; nodo ferroviario verso la Rutenia e i valichi carpatici.',
+    },
+    rawaruska: {
+      historicalName: 'Rawa Ruska (Roztocze)',
+      adminTitle: 'Województwo Lwowskie',
+      historicalNote: 'Grande nodo ferroviario e d\'interscambio al confine tra la Galizia e la regione di Lublino; teatro di aspri scontri nel settembre 1939.',
+    },
+    rawa_ruska: {
+      historicalName: 'Rawa Ruska (Roztocze)',
+      adminTitle: 'Województwo Lwowskie',
+      historicalNote: 'Grande nodo ferroviario e d\'interscambio al confine tra la Galizia e la regione di Lublino; teatro di aspri scontri nel settembre 1939.',
+    },
+    brody: {
+      historicalName: 'Brody (Brama Podolska)',
+      adminTitle: 'Województwo Tarnopolskie',
+      historicalNote: 'Storico emporio commerciale e baluardo di confine sulla linea del Trattato di Riga; base di reggimenti di cavalleria di frontiera.',
+    },
+    buczacz: {
+      historicalName: 'Buczacz (Strypa)',
+      adminTitle: 'Województwo Tarnopolskie',
+      historicalNote: 'Splendida città barocca sul fiume Strypa col celebre municipio rococò di Meretyn e Pinzel; teatro di battaglie storiche tra polacchi, turchi e cosacchi.',
+    },
+    kremenets: {
+      historicalName: 'Krzemieniec (Ateny Wołyńskie)',
+      adminTitle: 'Województwo Wołyńskie',
+      historicalNote: 'Celebre "Atene di Volinia" dominata dal monte della Regina Bona, con lo storico Liceo Krzemieniecki e il convento dei Gesuiti; rifugio temporaneo del Ministero degli Esteri polacco nel settembre 1939.',
+    },
+    dubno: {
+      historicalName: 'Dubno (Zamek Ostrogskich)',
+      adminTitle: 'Województwo Wołyńskie',
+      historicalNote: 'Piazzaforte sull\'Ikva cinta dalle mura del castello dei duchi Ostrogski; snodo militare e depositi logistici della Volinia.',
+    },
+    kovel: {
+      historicalName: 'Kowel (Polesie Wołyńskie)',
+      adminTitle: 'Województwo Wołyńskie',
+      historicalNote: 'Il più importante bivio ferroviario tra Varsavia, Kiev, Brest e Leopoli; quartier generale logistico delle armate orientali polacche.',
+    },
+    kolomyya: {
+      historicalName: 'Kołomyja (Pokucie / Prut)',
+      adminTitle: 'Województwo Stanisławowskie',
+      historicalNote: 'Capitale del folklore e dell\'artigianato huculo sulla riva del Prut; snodo di transito strategico verso il confine romeno di Sniatyn.',
+    },
+    stryi: {
+      historicalName: 'Stryj (Podkarpacie)',
+      adminTitle: 'Województwo Stanisławowskie',
+      historicalNote: 'Perno ferroviario dell\'avamposto carpatico verso il Passo di Užok e la Slovacchia; centro di produzione meccanica e concerie.',
+    },
+    chortkiv: {
+      historicalName: 'Czortków (Podole)',
+      adminTitle: 'Województwo Tarnopolskie',
+      historicalNote: 'Baluardo podolico sul fiume Seret con il castello dei Goluchowski; nel gennaio 1940 fu teatro della prima insurrezione armata antisovietica clandestina in Polonia.',
+    },
+    zaleszczyki: {
+      historicalName: 'Zaleszczyki (Dniestr / Przedmoście Rumuńskie)',
+      adminTitle: 'Województwo Tarnopolskie',
+      historicalNote: 'Celebre stazione climatica e balneare racchiusa nel meandro a canyon del fiume Dnestr al confine con la Romania; via di fuga ed evacuazione del governo polacco, del Presidente Mościcki e del gen. Rydz-Śmigły nel settembre 1939.',
+    },
+    bialystok: {
+      historicalName: 'Białystok (Podlasie)',
+      adminTitle: 'Województwo Białostockie',
+      historicalNote: 'Grande polo tessile ("la Manchester del Nord") con il monumentale palazzo Branicki; occupata dalla Wehrmacht e poi ceduta ai sovietici che ne fecero il capoluogo dell\'oblast di Belostok.',
+    },
+    lublin: {
+      historicalName: 'Lublin (Kozioróg)',
+      adminTitle: 'Województwo Lubelskie',
+      historicalNote: 'Antica capitale dell\'Unione di Polonia-Lituania (1569); sede dell\'Università Cattolica (KUL) e centro di convergenza delle riserve strategiche polacche nel settembre 1939.',
+    },
+    kielce: {
+      historicalName: 'Kielce (Góry Świętokrzyskie)',
+      adminTitle: 'Województwo Kieleckie',
+      historicalNote: 'Capoluogo ai piedi dei Monti Świętokrzyskie; sede delle fabbriche d\'armamenti del Bacino Industriale Centrale (COP - Centralny Okręg Przemysłowy).',
+    },
+    lodz: {
+      historicalName: 'Łódź (Miasto Fabryczne)',
+      adminTitle: 'Województwo Łódzkie',
+      historicalNote: 'La metropoli tessile per eccellenza della Polonia centrale, con colossali opifici in mattoni rossi; annessa direttamente al Reich nel 1939 e ribattezzata Litzmannstadt.',
+    },
   },
 
   // ================= REGNO D'UNGHERIA (HUN) =================
@@ -1323,92 +1581,763 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     iskenderun: { historicalName: 'İskenderun', adminTitle: 'Hatay Devleti' },
   },
 
+  // ================= MESSICO =================
+  MEX: {
+    mexico: {
+      historicalName: 'Estados Unidos Mexicanos (Ciudad de México)',
+      adminTitle: 'Estados Unidos Mexicanos — Presidencia del Gral. Lázaro Cárdenas (1934-1940)',
+      historicalNote: 'Governo progressista cardenista; espropriazione e nazionalizzazione delle compagnie petrolifere straniere il 18 marzo 1938 (nascita di PEMEX), riforma agraria degli ejidos e asilo diplomatico ai rifugiati antifascisti europei.',
+    },
+    ciudad_de_mexico: {
+      historicalName: 'Ciudad de México (Distrito Federal)',
+      adminTitle: 'Capital de los Estados Unidos Mexicanos',
+      historicalNote: 'Sede della presidenza federale al Palacio Nacional; centro nevralgico della diplomazia panamericana e della politica estera fondata sulla Dottrina Estrada.',
+    },
+    distrito_federal: {
+      historicalName: 'Distrito Federal (México, D.F.)',
+      adminTitle: 'Distrito Federal de los Estados Unidos Mexicanos',
+      historicalNote: 'Entità federale ospitante la capitale; a Coyoacán trovò asilo Lev Trockij fino al suo assassinio da parte di un sicario stalinista nell\'agosto 1940.',
+    },
+    veracruz: {
+      historicalName: 'Veracruz (Llave del Golfo)',
+      adminTitle: 'Estado de Veracruz de Ignacio de la Llave',
+      historicalNote: 'Porto commerciale primario del Golfo del Messico e centro dell\'industria estrattiva e raffinazione del greggio (Poza Rica / Minatitlán).',
+    },
+    tampico: {
+      historicalName: 'Tampico (Tamaulipas)',
+      adminTitle: 'Puerto Petrolero de Tamaulipas',
+      historicalNote: 'Grande polo di raffinazione e spedizione petrolifera sul Golfo del Messico, epicentro della contesa sindacale con i consorzi petroliferi anglo-olandesi (El Águila).',
+    },
+    guadalajara: {
+      historicalName: 'Guadalajara (Jalisco)',
+      adminTitle: 'Capital del Estado de Jalisco',
+      historicalNote: 'Metropoli dell\'Occidente messicano, centro agricolo, commerciale e religioso di rilievo storico.',
+    },
+    monterrey: {
+      historicalName: 'Monterrey (Nuevo León)',
+      adminTitle: 'Capital del Estado de Nuevo León',
+      historicalNote: 'Capitale industriale e siderurgica del Nord messicano (Fundidora de Fierro y Acero de Monterrey).',
+    },
+    merida: {
+      historicalName: 'Mérida (Yucatán)',
+      adminTitle: 'Capital del Estado de Yucatán',
+      historicalNote: 'Polo centrale della penisola yucateca, motore mondiale dell\'esportazione di fibra di henequén (sisal) per cordami marittimi.',
+    },
+    puebla: {
+      historicalName: 'Puebla de Zaragoza',
+      adminTitle: 'Capital del Estado de Puebla',
+      historicalNote: 'Polo tessile e manifatturiero dell\'altopiano centrale tra Città del Messico e Veracruz.',
+    },
+    oaxaca: {
+      historicalName: 'Oaxaca de Juárez',
+      adminTitle: 'Capital del Estado de Oaxaca',
+      historicalNote: 'Stato meridionale a forte maggioranza indigena zapoteca e mixteca, ricco di risorse minerarie e forestali.',
+    },
+    chiapas: {
+      historicalName: 'Chiapas (Tuxtla Gutiérrez / San Cristóbal)',
+      adminTitle: 'Estado de Chiapas — Frontera Sur con Guatemala',
+      historicalNote: 'Stato frontaliero meridionale con il Guatemala; terre alte del caffè del Soconusco e giungle della Selva Lacandona.',
+    },
+    sonora: {
+      historicalName: 'Sonora (Hermosillo)',
+      adminTitle: 'Estado de Sonora — Frontera con Estados Unidos',
+      historicalNote: 'Stato nord-occidentale culla della fazione sonora della Rivoluzione Messicana, ricco di miniere di rame (Cananea).',
+    },
+    chihuahua: {
+      historicalName: 'Chihuahua / Ciudad Juárez',
+      adminTitle: 'Estado de Chihuahua',
+      historicalNote: 'Il più esteso stato messicano, grande centro di allevamento e snodo di frontiera primaria verso il Texas (El Paso).',
+    },
+    baja_california: {
+      historicalName: 'Territorio de Baja California (Tijuana / Mexicali)',
+      adminTitle: 'Territorio Norte y Sur de Baja California',
+      historicalNote: 'Penisola strategica del Pacifico nord-occidentale, sotto attenta vigilanza navale congiunta con gli Stati Uniti per la protezione della costa occidentale.',
+    },
+  },
+
   // ================= CENTRO AMERICA & CARAIBI =================
   GTM: {
-    guatemala: { historicalName: 'República de Guatemala', adminTitle: 'Presidencia Jorge Ubico (1931-1944)' },
-    ciudad_de_guatemala: { historicalName: 'Ciudad de Guatemala', adminTitle: 'Capital de la República de Guatemala' },
-    quetzaltenango: { historicalName: 'Quetzaltenango (Los Altos)', adminTitle: 'Departamento de Quetzaltenango' },
-    puerto_barrios: { historicalName: 'Puerto Barrios (Caribe)', adminTitle: 'Terminal Ferroviario IRCA / United Fruit' },
-    escuintla: { historicalName: 'Escuintla', adminTitle: 'Región Pacífica Guatemalteca' },
-    peten: { historicalName: 'El Petén (Selva Maya)', adminTitle: 'Territorio de El Petén' },
+    guatemala: {
+      historicalName: 'República de Guatemala (Ciudad de Guatemala)',
+      adminTitle: 'Presidencia Jorge Ubico (1931-1944)',
+      historicalNote: 'Regime dittatoriale e militarizzato del generale Jorge Ubico; ordine centralizzato, Ley de Vagancia e forte dominio economico delle concessioni della United Fruit Company.',
+    },
+    ciudad_de_guatemala: {
+      historicalName: 'Ciudad de Guatemala (Valle de la Ermita)',
+      adminTitle: 'Capital de la República de Guatemala',
+      historicalNote: 'Sede del governo presidenziale e del Palacio Nacional; centro amministrativo e militare della repubblica centroamericana.',
+    },
+    quetzaltenango: {
+      historicalName: 'Quetzaltenango (Los Altos)',
+      adminTitle: 'Departamento de Quetzaltenango',
+      historicalNote: 'Seconda città della repubblica nelle terre alte occidentali, cuore della cultura maya K\'iche\' e della produzione cafetalera.',
+    },
+    puerto_barrios: {
+      historicalName: 'Puerto Barrios (Caribe)',
+      adminTitle: 'Terminal Ferroviario IRCA / United Fruit',
+      historicalNote: 'Porto principale sul Mar dei Caraibi per l\'esportazione di banane e caffè, capolinea dell\'International Railways of Central America (IRCA).',
+    },
+    escuintla: {
+      historicalName: 'Escuintla (Costa Sur)',
+      adminTitle: 'Región Pacífica Guatemalteca',
+      historicalNote: 'Vasta pianura alluvionale costiera sull\'Oceano Pacifico, dominata da estese piantagioni di canna da zucchero e cotone.',
+    },
+    peten: {
+      historicalName: 'El Petén (Selva Maya)',
+      adminTitle: 'Territorio de El Petén',
+      historicalNote: 'Immensa foresta pluviale settentrionale confinante con Messico e Belize, ricca di siti archeologici maya e riserve di chicle e mogano.',
+    },
   },
   SLV: {
-    el_salvador: { historicalName: 'República de El Salvador', adminTitle: 'Gobierno Maximiliano Hernández Martínez' },
-    san_salvador: { historicalName: 'San Salvador', adminTitle: 'Capital de la República de El Salvador' },
-    santa_ana: { historicalName: 'Santa Ana', adminTitle: 'Zona Cafetalera Occidental' },
-    san_miguel: { historicalName: 'San Miguel', adminTitle: 'Departamento de San Miguel' },
-    acajutla: { historicalName: 'Puerto de Acajutla', adminTitle: 'Puerto Cafetalero del Pacífico' },
+    el_salvador: {
+      historicalName: 'República de El Salvador (San Salvador)',
+      adminTitle: 'Gobierno Maximiliano Hernández Martínez (1931-1944)',
+      historicalNote: 'Regime autoritario del generale Martínez (Martiniato); repressione delle sollevazioni contadine del 1932 (La Matanza) e predominio dell\'oligarchia del caffè.',
+    },
+    san_salvador: {
+      historicalName: 'San Salvador (Valle de las Hamacas)',
+      adminTitle: 'Capital de la República de El Salvador',
+      historicalNote: 'Capitale della repubblica situata ai piedi del vulcano San Salvador, centro finanziario e commerciale del commercio cafetalero.',
+    },
+    santa_ana: {
+      historicalName: 'Santa Ana',
+      adminTitle: 'Zona Cafetalera Occidental',
+      historicalNote: 'Seconda città del paese e fulcro economico delle grandi famiglie proprietarie di piantagioni di caffè arabica (Catorce Familias).',
+    },
+    san_miguel: {
+      historicalName: 'San Miguel (Oriente Salvadoreño)',
+      adminTitle: 'Departamento de San Miguel',
+      historicalNote: 'Principale centro urbano dell\'Oriente salvadoregno, polo agricolo cerealicolo e dell\'allevamento.',
+    },
+    acajutla: {
+      historicalName: 'Puerto de Acajutla (Sonsonate)',
+      adminTitle: 'Puerto Cafetalero del Pacífico',
+      historicalNote: 'Scalo marittimo strategico sul Pacifico collegato per ferrovia a San Salvador per l\'imbarco delle esportazioni di caffè.',
+    },
   },
   HND: {
-    honduras: { historicalName: 'República de Honduras', adminTitle: 'Presidencia Tiburcio Carías Andino (El Cariato)' },
-    tegucigalpa: { historicalName: 'Tegucigalpa (Distrito Central)', adminTitle: 'Capital de la República de Honduras' },
-    san_pedro_sula: { historicalName: 'San Pedro Sula (Valle de Sula)', adminTitle: 'Centro Industrial y Bananero' },
-    la_ceiba: { historicalName: 'La Ceiba (Costa Norte)', adminTitle: 'Puerto Bananero — Standard Fruit Company' },
-    puerto_cortes: { historicalName: 'Puerto Cortés', adminTitle: 'Puerto Caribeño Hondureño' },
-    comayagua: { historicalName: 'Comayagua', adminTitle: 'Región Central Hondureña' },
-    choluteca: { historicalName: 'Choluteca', adminTitle: 'Golfo de Fonseca / Zona Sur' },
-    islas_de_la_bahia: { historicalName: 'Islas de la Bahía (Bay Islands)', adminTitle: 'Departamento Insular de Honduras' },
+    honduras: {
+      historicalName: 'República de Honduras (Tegucigalpa)',
+      adminTitle: 'Presidencia Tiburcio Carías Andino (El Cariato)',
+      historicalNote: 'Dittatura patriarcale del generale Carías Andino; stabilità imposta dopo guerre intestine e controllo monopolistico delle compagnie bananiere statunitensi sulla costa nord.',
+    },
+    tegucigalpa: {
+      historicalName: 'Tegucigalpa (Distrito Central)',
+      adminTitle: 'Capital de la República de Honduras',
+      historicalNote: 'Capitale arroccata tra le valli montuose centrali, sede del potere politico e militare ma storicamente isolata dalle reti ferroviarie.',
+    },
+    san_pedro_sula: {
+      historicalName: 'San Pedro Sula (Valle de Sula)',
+      adminTitle: 'Centro Industrial y Bananero',
+      historicalNote: 'Motore economico e manifatturiero del paese, snodo ferroviario delle immense piantagioni di banane della United Fruit e Standard Fruit.',
+    },
+    la_ceiba: {
+      historicalName: 'La Ceiba (Costa Norte)',
+      adminTitle: 'Puerto Bananero — Standard Fruit Company',
+      historicalNote: 'Quartier generale e porto marittimo della Standard Fruit Company sul Mar dei Caraibi.',
+    },
+    puerto_cortes: {
+      historicalName: 'Puerto Cortés',
+      adminTitle: 'Puerto Caribeño Hondureño',
+      historicalNote: 'Principale porto naturale dell\'Honduras settentrionale affacciato sul Golfo di Honduras.',
+    },
+    comayagua: {
+      historicalName: 'Comayagua',
+      adminTitle: 'Región Central Hondureña',
+      historicalNote: 'Antica capitale coloniale dell\'Honduras, ricca di architetture religiose barocche e centro agricolo vallivo.',
+    },
+    choluteca: {
+      historicalName: 'Choluteca (Zona Sur)',
+      adminTitle: 'Golfo de Fonseca / Zona Sur',
+      historicalNote: 'Polo meridionale honduregno con sbocco sul Golfo di Fonseca, condiviso strategicamente con El Salvador e Nicaragua.',
+    },
+    islas_de_la_bahia: {
+      historicalName: 'Islas de la Bahía (Bay Islands)',
+      adminTitle: 'Departamento Insular de Honduras',
+      historicalNote: 'Arcipelago caraibico (Roatán, Guanaja, Utila) di antica influenza e parlata inglese britannica, integrato nell\'Honduras nel XIX secolo.',
+    },
   },
   NIC: {
-    nicaragua: { historicalName: 'República de Nicaragua', adminTitle: 'Gobierno de Anastasio Somoza García' },
-    managua: { historicalName: 'Managua', adminTitle: 'Capital de la República de Nicaragua' },
-    leon: { historicalName: 'León', adminTitle: 'Centro Liberal Universitario' },
-    granada: { historicalName: 'Granada (Lago Cocibolca)', adminTitle: 'Centro Conservador Histórico' },
-    corinto: { historicalName: 'Puerto de Corinto', adminTitle: 'Puerto Principal del Pacífico' },
-    bluefields: { historicalName: 'Bluefields (Mosquitia)', adminTitle: 'Costa Caribe / Departamento de Zelaya' },
-    puerto_cabezas: { historicalName: 'Puerto Cabezas (Bilwi)', adminTitle: 'Terminal Maderero y Bananero del Caribe' },
-    matagalpa: { historicalName: 'Matagalpa (Tierras Altas)', adminTitle: 'Región Cafetalera del Norte' },
+    nicaragua: {
+      historicalName: 'República de Nicaragua (Managua)',
+      adminTitle: 'Gobierno de Anastasio Somoza García (Guardia Nacional)',
+      historicalNote: 'Inizio dell\'egemonia dinastica della famiglia Somoza; controllo militare ferreo tramite la Guardia Nacional creata dagli USA e allineamento diplomatico con Washington.',
+    },
+    managua: {
+      historicalName: 'Managua (Lago Xolotlán)',
+      adminTitle: 'Capital de la República de Nicaragua',
+      historicalNote: 'Capitale situata sulle rive del Lago Managua; sede del Palazzo Presidenziale sulla Loma de Tiscapa fortificata dalla Guardia Nacional.',
+    },
+    leon: {
+      historicalName: 'León (Primera Capital)',
+      adminTitle: 'Centro Liberal Universitario',
+      historicalNote: 'Città storica e bastione intellettuale del Partito Liberale nicaraguense, custode della tomba del poeta Rubén Darío.',
+    },
+    granada: {
+      historicalName: 'Granada (Lago Cocibolca)',
+      adminTitle: 'Centro Conservador Histórico',
+      historicalNote: 'Città aristocratica e roccaforte del Partito Conservatore sulle sponde del Gran Lago di Nicaragua (Cocibolca).',
+    },
+    corinto: {
+      historicalName: 'Puerto de Corinto (Chinandega)',
+      adminTitle: 'Puerto Principal del Pacífico',
+      historicalNote: 'Terminale portuale e ferroviario per la quasi totalità delle esportazioni di caffè, zucchero e legname sul versante pacifico.',
+    },
+    bluefields: {
+      historicalName: 'Bluefields (Mosquitia)',
+      adminTitle: 'Costa Caribe / Departamento de Zelaya',
+      historicalNote: 'Capitale della costa caraibica e dell\'antica riserva indigena miskita, caratterizzata da cultura afro-caraibica e legami marittimi atlantici.',
+    },
+    puerto_cabezas: {
+      historicalName: 'Puerto Cabezas (Bilwi)',
+      adminTitle: 'Terminal Maderero y Bananero del Caribe',
+      historicalNote: 'Importante scalo atlantico della Mosquitia settentrionale per l\'estrazione e il trasporto di legnami pregiati (pino) e banane.',
+    },
+    matagalpa: {
+      historicalName: 'Matagalpa (Tierras Altas)',
+      adminTitle: 'Región Cafetalera del Norte',
+      historicalNote: 'Regione montuosa settentrionale dedita alla coltivazione intensiva del caffè, teatro storico della guerriglia sandinista negli anni Venti.',
+    },
   },
   CRI: {
-    costa_rica: { historicalName: 'República de Costa Rica', adminTitle: 'Presidencia León Cortés / Rafael Calderón' },
-    san_jose: { historicalName: 'San José', adminTitle: 'Capital de la República de Costa Rica' },
-    alajuela: { historicalName: 'Alajuela (Valle Central)', adminTitle: 'Provincia de Alajuela' },
-    heredia: { historicalName: 'Heredia (Ciudad de las Flores)', adminTitle: 'Zona Cafetalera de Heredia' },
-    cartago: { historicalName: 'Cartago', adminTitle: 'Antigua Capital de Costa Rica' },
-    puerto_limon: { historicalName: 'Puerto Limón (Caribe)', adminTitle: 'Puerto Bananero y Cacaotero del Atlántico' },
-    puntarenas: { historicalName: 'Puntarenas', adminTitle: 'Puerto Principal del Pacífico Costarricense' },
-    guanacaste: { historicalName: 'Guanacaste (Nicoya)', adminTitle: 'Provincia Ganadera de Guanacaste' },
+    costa_rica: {
+      historicalName: 'República de Costa Rica (San José)',
+      adminTitle: 'Presidencia León Cortés (1936-40) / Rafael Calderón (1940)',
+      historicalNote: 'Democrazia costituzionale stabile e civile dell\'America Centrale; riforme istituzionali progressive, elevato tasso di scolarizzazione ed economia fondata su caffè e banane.',
+    },
+    san_jose: {
+      historicalName: 'San José (Valle Central)',
+      adminTitle: 'Capital de la República de Costa Rica',
+      historicalNote: 'Capitale politica e culturale nel fertile Altopiano Centrale, sede del Congresso Costituzionale e del Teatro Nacional.',
+    },
+    alajuela: {
+      historicalName: 'Alajuela (Ciudad de los Mangos)',
+      adminTitle: 'Provincia de Alajuela',
+      historicalNote: 'Provincia centrale dell\'altopiano patria dell\'eroe nazionale Juan Santamaría, grande produttrice di caffè e canna da zucchero.',
+    },
+    heredia: {
+      historicalName: 'Heredia (Ciudad de las Flores)',
+      adminTitle: 'Zona Cafetalera de Heredia',
+      historicalNote: 'Storica provincia cafetalera e polo educativo d\'eccellenza dell\'altopiano costarricense.',
+    },
+    cartago: {
+      historicalName: 'Cartago (Basílica de los Ángeles)',
+      adminTitle: 'Antigua Capital de Costa Rica',
+      historicalNote: 'Prima capitale coloniale alle pendici del vulcano Irazú, cuore religioso del paese con il santuario della Virgen de los Ángeles.',
+    },
+    puerto_limon: {
+      historicalName: 'Puerto Limón (Caribe)',
+      adminTitle: 'Puerto Bananero y Cacaotero del Atlántico',
+      historicalNote: 'Porto principale sull\'Oceano Atlantico, capolinea della ferrovia interoceanica e insediamento di una cospicua comunità afro-caraibica giamaicana.',
+    },
+    puntarenas: {
+      historicalName: 'Puntarenas (Golfo de Nicoya)',
+      adminTitle: 'Puerto Principal del Pacífico Costarricense',
+      historicalNote: 'Penisola e scalo portuale commerciale sul Golfo di Nicoya, porta d\'accesso marittima alle esportazioni verso la California e l\'Asia.',
+    },
+    guanacaste: {
+      historicalName: 'Guanacaste (Liberia / Nicoya)',
+      adminTitle: 'Provincia Ganadera de Guanacaste',
+      historicalNote: 'Vasta provincia nord-occidentale di savane e foreste tropicali secche, dedita al grande allevamento bovino e all\'agricoltura estensiva.',
+    },
   },
   PAN: {
-    panama: { historicalName: 'República de Panamá', adminTitle: 'Presidencia de Juan Demóstenes Arosemena / Arnulfo Arias' },
-    ciudad_de_panama: { historicalName: 'Ciudad de Panamá', adminTitle: 'Capital de la República de Panamá' },
-    colon: { historicalName: 'Colón (Caribe)', adminTitle: 'Ciudad Terminal del Caribe Panameño' },
-    david: { historicalName: 'David (Chiriquí)', adminTitle: 'Provincia de Chiriquí' },
-    bocas_del_toro: { historicalName: 'Bocas del Toro (Almirante)', adminTitle: 'Enclave Bananero del Caribe Occidental' },
-    darien: { historicalName: 'Darién (Frontera con Colombia)', adminTitle: 'Provincia del Darién' },
-    santiago: { historicalName: 'Santiago de Veraguas', adminTitle: 'Provincias Centrales Panameñas' },
+    panama: {
+      historicalName: 'República de Panamá (Ciudad de Panamá)',
+      adminTitle: 'Presidencia de Juan Demóstenes Arosemena / Arnulfo Arias (1940)',
+      historicalNote: 'Repubblica istmica al centro del commercio marittimo mondiale; revisione dei trattati con gli USA (Trattato Hull-Alfaro 1936-39) e ascesa del nazionalismo panameñista di Arnulfo Arias.',
+    },
+    ciudad_de_panama: {
+      historicalName: 'Ciudad de Panamá (Costa del Pacífico)',
+      adminTitle: 'Capital de la República de Panamá',
+      historicalNote: 'Metropoli cosmopolita terminale del Canale sul Pacifico, adiacente al porto e all\'amministrazione statunitense di Balboa.',
+    },
+    colon: {
+      historicalName: 'Colón (Caribe Panameño)',
+      adminTitle: 'Ciudad Terminal del Caribe Panameño',
+      historicalNote: 'Città terminale atlantica della rotta interoceanica adiacente a Cristóbal, porto di transito commerciale strategico.',
+    },
+    david: {
+      historicalName: 'David (Chiriquí)',
+      adminTitle: 'Provincia de Chiriquí',
+      historicalNote: 'Capoluogo della fertile provincia occidentale al confine con la Costa Rica, polo agroalimentare e dell\'allevamento.',
+    },
+    bocas_del_toro: {
+      historicalName: 'Bocas del Toro (Almirante)',
+      adminTitle: 'Enclave Bananero del Caribe Occidental',
+      historicalNote: 'Arcipelago e fascia litoranea dominata dalle estese piantagioni e infrastrutture ferroviarie della United Fruit Company.',
+    },
+    darien: {
+      historicalName: 'Darién (Selva del Darién)',
+      adminTitle: 'Provincia del Darién — Frontera con Colombia',
+      historicalNote: 'Provincia sud-orientale coperta dalla foresta pluviale incontaminata e impenetrabile del "Tapón del Darién" al confine colombiano.',
+    },
+    santiago: {
+      historicalName: 'Santiago de Veraguas',
+      adminTitle: 'Provincias Centrales Panameñas',
+      historicalNote: 'Snodo terrestre e agricolo delle province centrali affacciato su entrambi gli oceani.',
+    },
+    panama_canal_zone: {
+      historicalName: 'Panama Canal Zone (Balboa / Quarry Heights)',
+      adminTitle: 'U.S. Strategic Outpost (Hay-Bunau-Varilla Treaty)',
+      historicalNote: 'Striscia di territorio e acque interoceaniche di 10 miglia presidiata militarmente dalle Forze Armate degli Stati Uniti d\'America.',
+    },
   },
   CUB: {
-    cuba: { historicalName: 'República de Cuba', adminTitle: 'Presidencia Federico Laredo Brú / Jefatura Fulgencio Batista' },
-    la_habana: { historicalName: 'La Habana', adminTitle: 'Capital de la República de Cuba' },
-    santiago_de_cuba: { historicalName: 'Santiago de Cuba (Oriente)', adminTitle: 'Provincia de Oriente' },
-    camaguey: { historicalName: 'Camagüey (Puerto Príncipe)', adminTitle: 'Región Ganadera e Ingenios Azucareros' },
-    santa_clara: { historicalName: 'Santa Clara (Las Villas)', adminTitle: 'Provincia de Las Villas' },
-    matanzas: { historicalName: 'Matanzas (Atenas de Cuba)', adminTitle: 'Provincia de Matanzas' },
-    pinar_del_rio: { historicalName: 'Pinar del Río (Vuelta Abajo)', adminTitle: 'Zona Tabacalera de Occidente' },
-    cienfuegos: { historicalName: 'Cienfuegos (Bahía de Jagua)', adminTitle: 'Puerto Azucarero del Sur' },
-    holguin: { historicalName: 'Holguín', adminTitle: 'Norte de Oriente' },
-    isla_de_pinos: { historicalName: 'Isla de Pinos (Isla de la Juventud)', adminTitle: 'Presidio Modelo de Cuba' },
+    cuba: {
+      historicalName: 'República de Cuba (La Habana)',
+      adminTitle: 'Presidencia Federico Laredo Brú / Jefatura Fulgencio Batista',
+      historicalNote: 'Repubblica caraibica legata all\'economia zuccheriera statunitense; promulgazione della progressista Costituzione del 1940 ed elezione del colonnello Fulgencio Batista.',
+    },
+    la_habana: {
+      historicalName: 'La Habana (Bahía de La Habana)',
+      adminTitle: 'Capital de la República de Cuba',
+      historicalNote: 'Grande metropoli portuale delle Antille, centro commerciale e turistico sorvegliato dalla storica fortezza del Morro.',
+    },
+    santiago_de_cuba: {
+      historicalName: 'Santiago de Cuba (Oriente)',
+      adminTitle: 'Provincia de Oriente',
+      historicalNote: 'Capoluogo della montuosa provincia orientale ai piedi della Sierra Maestra, culla delle lotte d\'indipendenza e distretto minerario di manganese e rame.',
+    },
+    camaguey: {
+      historicalName: 'Camagüey (Puerto Príncipe)',
+      adminTitle: 'Región Ganadera e Ingenios Azucareros',
+      historicalNote: 'Vasta pianura centrale cubana caratterizzata da grandi pascoli per l\'allevamento e imponenti zuccherifici (ingenios).',
+    },
+    santa_clara: {
+      historicalName: 'Santa Clara (Las Villas)',
+      adminTitle: 'Provincia de Las Villas',
+      historicalNote: 'Importante snodo stradale e ferroviario al centro dell\'isola, polo agricolo di tabacco e canna da zucchero.',
+    },
+    matanzas: {
+      historicalName: 'Matanzas (Atenas de Cuba)',
+      adminTitle: 'Provincia de Matanzas',
+      historicalNote: 'Città costiera e baia zuccheriera a est dell\'Avana, celebre per la sua vivace vita letteraria e culturale.',
+    },
+    pinar_del_rio: {
+      historicalName: 'Pinar del Río (Vuelta Abajo)',
+      adminTitle: 'Zona Tabacalera de Occidente',
+      historicalNote: 'Provincia occidentale celebre a livello mondiale nella valle di Viñales per le piantagioni di tabacco nero da sigaro di Vuelta Abajo.',
+    },
+    cienfuegos: {
+      historicalName: 'Cienfuegos (Bahía de Jagua)',
+      adminTitle: 'Puerto Azucarero del Sur',
+      historicalNote: 'Elegante porto marittimo neoclassico sulla costa caraibica meridionale di Cuba.',
+    },
+    holguin: {
+      historicalName: 'Holguín (Oriente Norte)',
+      adminTitle: 'Norte de Oriente',
+      historicalNote: 'Centro commerciale e agricolo del nord-est cubano, con importanti riserve minerarie di nichel (Nicaro).',
+    },
+    isla_de_pinos: {
+      historicalName: 'Isla de Pinos (Nueva Gerona)',
+      adminTitle: 'Presidio Modelo de Cuba',
+      historicalNote: 'Grande isola a sud di Cuba sede del gigantesco carcere panottico del "Presidio Modelo" fatto edificare da Gerardo Machado.',
+    },
   },
   DOM: {
-    dominican_republic: { historicalName: 'República Dominicana (Era de Trujillo)', adminTitle: 'Dictadura del Generalísimo Rafael L. Trujillo' },
-    republica_dominicana: { historicalName: 'República Dominicana (Era de Trujillo)', adminTitle: 'Dictadura del Generalísimo Rafael L. Trujillo' },
-    ciudad_trujillo: { historicalName: 'Ciudad Trujillo (Santo Domingo)', adminTitle: 'Capital de la República Dominicana (1936-1961)' },
-    santo_domingo: { historicalName: 'Ciudad Trujillo (Santo Domingo)', adminTitle: 'Renombrada Ciudad Trujillo en 1936' },
-    santiago_de_los_caballeros: { historicalName: 'Santiago de los Caballeros', adminTitle: 'Región del Cibao' },
-    san_pedro_de_macoris: { historicalName: 'San Pedro de Macorís', adminTitle: 'Costa Este Azucarera' },
-    puerto_plata: { historicalName: 'Puerto Plata', adminTitle: 'Costa Atlántica Dominicana' },
-    barahona: { historicalName: 'Barahona', adminTitle: 'Región Suroeste Dominicana' },
-    la_vega: { historicalName: 'La Vega Real (Cibao)', adminTitle: 'Provincia de La Vega' },
+    dominican_republic: {
+      historicalName: 'República Dominicana (Ciudad Trujillo)',
+      adminTitle: 'Dictadura del Generalísimo Rafael L. Trujillo',
+      historicalNote: 'Dittatura personale dispotica di Trujillo ("El Benefactor"); modernizzazione infrastrutturale unita a feroce terrore politico, massacro del Perejil nel 1937 e Trattato Trujillo-Hull del 1940.',
+    },
+    republica_dominicana: {
+      historicalName: 'República Dominicana (Ciudad Trujillo)',
+      adminTitle: 'Dictadura del Generalísimo Rafael L. Trujillo',
+      historicalNote: 'Regime trujillista dominante sulla porzione orientale di Hispaniola; rigido nazionalismo antiaitiano e culto della personalità.',
+    },
+    ciudad_trujillo: {
+      historicalName: 'Ciudad Trujillo (Santo Domingo)',
+      adminTitle: 'Capital de la República Dominicana (1936-1961)',
+      historicalNote: 'Denominazione imposta dal 1936 al 1961 alla più antica città europea delle Americhe in ossequio al dittatore Rafael Leónidas Trujillo.',
+    },
+    santo_domingo: {
+      historicalName: 'Ciudad Trujillo (Santo Domingo)',
+      adminTitle: 'Renombrada Ciudad Trujillo en 1936',
+      historicalNote: 'Capitale della repubblica caraibica affacciata sul Mar dei Caraibi alla foce del fiume Ozama.',
+    },
+    santiago_de_los_caballeros: {
+      historicalName: 'Santiago de los Caballeros (El Cibao)',
+      adminTitle: 'Región del Cibao',
+      historicalNote: 'Seconda città del paese e fulcro della fertile vallata del Cibao, cuore della produzione di tabacco, caffè e cacao.',
+    },
+    san_pedro_de_macoris: {
+      historicalName: 'San Pedro de Macorís',
+      adminTitle: 'Costa Este Azucarera',
+      historicalNote: 'Capitale dell\'industria zuccheriera dominicana sulla costa sud-orientale, trainata da manodopera immigrata antillana (cocolos).',
+    },
+    puerto_plata: {
+      historicalName: 'Puerto Plata (Costa Norte)',
+      adminTitle: 'Costa Atlántica Dominicana',
+      historicalNote: 'Scalo marittimo atlantico settentrionale protetto dalla fortezza coloniale di San Felipe.',
+    },
+    barahona: {
+      historicalName: 'Barahona (Bahía de Neiba)',
+      adminTitle: 'Región Suroeste Dominicana',
+      historicalNote: 'Porto e polo agricolo del sud-ovest domenicano, area di canna da zucchero e accesso alla penisola di Pedernales.',
+    },
+    la_vega: {
+      historicalName: 'La Vega Real (Cibao)',
+      adminTitle: 'Provincia de La Vega',
+      historicalNote: 'Provincia agricola storica al centro della valle del Cibao.',
+    },
   },
   HAI: {
-    haiti: { historicalName: 'République d\'Haïti', adminTitle: 'Présidence Sténio Vincent (1930-1941)' },
-    port_au_prince: { historicalName: 'Port-au-Prince', adminTitle: 'Capitale de la République d\'Haïti' },
-    cap_haitien: { historicalName: 'Cap-Haïtien (Le Cap)', adminTitle: 'Département du Nord' },
-    les_cayes: { historicalName: 'Les Cayes (Aux Cayes)', adminTitle: 'Département du Sud' },
-    gonaives: { historicalName: 'Les Gonaïves', adminTitle: 'Cité de l\'Indépendance (Artibonite)' },
-    jacmel: { historicalName: 'Jacmel', adminTitle: 'Port Caféier du Sud-Est' },
-    port_de_paix: { historicalName: 'Port-de-Paix', adminTitle: 'Département du Nord-Ouest' },
+    haiti: {
+      historicalName: 'République d\'Haïti (Port-au-Prince)',
+      adminTitle: 'Présidence Sténio Vincent (1930-1941)',
+      historicalNote: 'Repubblica caraibica francofona; fine dell\'occupazione militare dei Marines USA nel 1934, grave crisi finanziaria e trauma del massacro di migliaia di braccianti haitiani al confine dominicano nel 1937.',
+    },
+    port_au_prince: {
+      historicalName: 'Port-au-Prince (Golfe de la Gonâve)',
+      adminTitle: 'Capitale de la République d\'Haïti',
+      historicalNote: 'Sede del governo presidenziale al Palais National; principale porto commerciale e polo della borghesia mulatta.',
+    },
+    cap_haitien: {
+      historicalName: 'Cap-Haïtien (Le Cap)',
+      adminTitle: 'Département du Nord',
+      historicalNote: 'Storica capitale coloniale del nord haitiano, vicina alla monumentale Citadelle Laferrière e al palazzo Sans-Souci di Henri Christophe.',
+    },
+    les_cayes: {
+      historicalName: 'Les Cayes (Aux Cayes)',
+      adminTitle: 'Département du Sud',
+      historicalNote: 'Porto principale della penisola meridionale di Tiburon, centro esportatore di caffè, vetiver e cacao.',
+    },
+    gonaives: {
+      historicalName: 'Les Gonaïves',
+      adminTitle: 'Cité de l\'Indépendance (Artibonite)',
+      historicalNote: 'Città simbolo dove Jean-Jacques Dessalines proclamò l\'indipendenza di Haiti nel 1804; sbocco commerciale della fertile valle dell\'Artibonite.',
+    },
+    jacmel: {
+      historicalName: 'Jacmel (Côte Sud)',
+      adminTitle: 'Port Caféier du Sud-Est',
+      historicalNote: 'Cittadina portuale costiera meridionale rinomata per l\'esportazione del caffè e le architetture prefabbricate in ghisa.',
+    },
+    port_de_paix: {
+      historicalName: 'Port-de-Paix',
+      adminTitle: 'Département du Nord-Ouest',
+      historicalNote: 'Scalo marittimo settentrionale dirimpetto all\'isola di Tortuga (Île de la Tortue).',
+    },
+  },
+
+
+  // ================= STATI UNITI D'AMERICA (USA) =================
+  USA: {
+    united_states: {
+      historicalName: 'Stati Uniti d\'America',
+      adminTitle: 'United States of America — Pres. Franklin D. Roosevelt (New Deal)',
+      historicalNote: 'Repubblica presidenziale federale composta da 48 Stati e territori d\'oltremare; presidenza democratica di Franklin D. Roosevelt. Anni caratterizzati dalle riforme economico-sociali del New Deal, dalla Dottrina del Buon Vicinato nelle Americhe e dalla progressiva transizione dall\'isolazionismo al riarmo navale e industriale (Two-Ocean Navy Act del 1940 e legge Cash and Carry).',
+    },
+    united_states_of_america: {
+      historicalName: 'United States of America',
+      adminTitle: 'Federal Republic of the United States of America',
+      historicalNote: 'Repubblica federale con capitale Washington, D.C.; motore industriale e finanziario mondiale impegnato nella mobilitazione produttiva dell\'Arsenale della Democrazia.',
+    },
+    stati_uniti: {
+      historicalName: 'Stati Uniti d\'America',
+      adminTitle: 'Presidenza Franklin Delano Roosevelt',
+      historicalNote: 'Unione federale nordamericana al centro delle relazioni diplomatiche ed economiche panamericane ed emisferiche.',
+    },
+    washington_dc: {
+      historicalName: 'Washington, D.C. (District of Columbia)',
+      adminTitle: 'Federal Capital of the United States of America',
+      historicalNote: 'Capitale federale sulle rive del fiume Potomac; sede della Casa Bianca, del Campidoglio e dei dipartimenti militari della Guerra e della Marina.',
+    },
+    district_of_columbia: {
+      historicalName: 'District of Columbia (Washington)',
+      adminTitle: 'Federal Capital District of the United States',
+      historicalNote: 'Distretto federale autonomo istituito dalla Costituzione per ospitare la sede permanente del governo degli Stati Uniti.',
+    },
+    washington: {
+      historicalName: 'Washington, D.C.',
+      adminTitle: 'Federal Capital of the United States',
+      historicalNote: 'Sede della presidenza di Franklin D. Roosevelt e dei vertici delle forze armate statunitensi.',
+    },
+    new_york: {
+      historicalName: 'New York (Empire State — New York City)',
+      adminTitle: 'State of New York (Gov. Herbert H. Lehman)',
+      historicalNote: 'Stato più popoloso dell\'Unione e capitale finanziaria mondiale (Wall Street); sede del Brooklyn Navy Yard (New York Naval Shipyard) per la costruzione di corazzate e portaerei, e del porto commerciale oceanico primario.',
+    },
+    california: {
+      historicalName: 'California (Pacific Coast — San Diego & San Francisco)',
+      adminTitle: 'State of California (Gov. Frank Merriam / Culbert Olson)',
+      historicalNote: 'Stato cerniera del Pacifico; base navale di San Diego per la Flotta del Pacifico, cantieri navali di Mare Island e Hunters Point a San Francisco, colossi dell\'industria aeronautica militare (Douglas a Santa Monica, Lockheed a Burbank, North American, Consolidated).',
+    },
+    texas: {
+      historicalName: 'Texas (Lone Star State — Houston & Permian Basin)',
+      adminTitle: 'State of Texas (Gov. James V. Allred / W. Lee O\'Daniel)',
+      historicalNote: 'Primo produttore mondiale di petrolio (bacino dell\'East Texas e Permian Basin) e polo di raffinazione a Houston e Beaumont; centro dei grandi comandi dell\'Esercito a Fort Sam Houston e dell\'addestramento aeronautico a Randolph Field.',
+    },
+    pennsylvania: {
+      historicalName: 'Pennsylvania (Keystone State — Pittsburgh & Philadelphia)',
+      adminTitle: 'Commonwealth of Pennsylvania (Gov. George H. Earle / Arthur H. James)',
+      historicalNote: 'Cuore della siderurgia mondiale con le acciaierie di Pittsburgh (U.S. Steel, Bethlehem Steel, Jones & Laughlin), miniere carbonifere degli Appalachi e Philadelphia Naval Shipyard a League Island.',
+    },
+    michigan: {
+      historicalName: 'Michigan (Detroit — Motor City)',
+      adminTitle: 'State of Michigan (Gov. Frank Murphy / Luren Dickinson)',
+      historicalNote: 'Capitale mondiale dell\'industria automobilistica (Ford, General Motors, Chrysler); polo metalmeccanico che a partire dal 1940 converte le proprie linee nella produzione di massa di motori aerei, carri armati e bombardieri per gli Alleati.',
+    },
+    illinois: {
+      historicalName: 'Illinois (Prairie State — Chicago)',
+      adminTitle: 'State of Illinois (Gov. Henry Horner)',
+      historicalNote: 'Metropoli di Chicago snodo ferroviario continentale primario, borsa merci e cerealicola mondiale (Chicago Board of Trade), macelli Union Stock Yards e polo manifatturiero e siderurgico dei Grandi Laghi.',
+    },
+    ohio: {
+      historicalName: 'Ohio (Buckeye State — Cleveland, Cincinnati & Akron)',
+      adminTitle: 'State of Ohio (Gov. Martin L. Davey / John W. Bricker)',
+      historicalNote: 'Polo industriale dei Grandi Laghi; Akron capitale mondiale della gomma e pneumatici (Goodyear, Firestone), Cleveland gigante siderurgico e Wright Field a Dayton laboratorio sperimentale dell\'US Army Air Corps.',
+    },
+    virginia: {
+      historicalName: 'Virginia (Old Dominion — Hampton Roads & Norfolk)',
+      adminTitle: 'Commonwealth of Virginia (Gov. James H. Price)',
+      historicalNote: 'Bicchiere della potenza navale atlantica con la base navale di Norfolk (Naval Station Norfolk a Hampton Roads) e i cantieri navali Newport News Shipbuilding specializzati nelle grandi portaerei di linea.',
+    },
+    massachusetts: {
+      historicalName: 'Massachusetts (Bay State — Boston)',
+      adminTitle: 'Commonwealth of Massachusetts (Gov. Leverett Saltonstall)',
+      historicalNote: 'Polo storico, scientifico e cantieristico del New England; Boston Navy Yard a Charlestown, cantieri navali Bethlehem Fore River a Quincy, laboratori del MIT impegnati nella ricerca del radar e delle tecnologie belliche avanzate.',
+    },
+    washington_state: {
+      historicalName: 'Washington (Evergreen State — Seattle & Puget Sound)',
+      adminTitle: 'State of Washington (Gov. Clarence D. Martin)',
+      historicalNote: 'Porta del Pacifico nord-occidentale; stabilimenti Boeing a Seattle per i bombardieri B-17 Flying Fortress e Puget Sound Naval Shipyard a Bremerton per la manutenzione e costruzione di corazzate.',
+    },
+    florida: {
+      historicalName: 'Florida (Sunshine State — Pensacola & Key West)',
+      adminTitle: 'State of Florida (Gov. Fred P. Cone)',
+      historicalNote: 'Naval Air Station Pensacola culla dell\'aviazione navale statunitense, base sottomarini di Key West a presidio dello Stretto di Florida e snodo per le rotte aeronavali caraibiche.',
+    },
+    georgia: {
+      historicalName: 'Georgia (Empire State of the South — Atlanta & Savannah)',
+      adminTitle: 'State of Georgia (Gov. Eurith D. Rivers)',
+      historicalNote: 'Snodo logistico ferroviario e militare del Sud ad Atlanta (Fort McPherson) e cantieri navali mercantili a Savannah e Brunswick.',
+    },
+    louisiana: {
+      historicalName: 'Louisiana (Pelican State — New Orleans)',
+      adminTitle: 'State of Louisiana (Gov. Richard W. Leche / Earl K. Long)',
+      historicalNote: 'Grande porto fluviale e oceanico alla foce del Mississippi a New Orleans; cantieri navali Higgins Industries per lo sviluppo e produzione dei rivoluzionari mezzi da sbarco (LCVP Higgins Boat).',
+    },
+    indiana: {
+      historicalName: 'Indiana (Hoosier State — Gary & Indianapolis)',
+      adminTitle: 'State of Indiana (Gov. M. Clifford Townsend)',
+      historicalNote: 'Imponenti acciaierie Gary Works della U.S. Steel sulle rive del Lago Michigan e industrie meccaniche e motoristiche di precisione di Indianapolis.',
+    },
+    wisconsin: {
+      historicalName: 'Wisconsin (Badger State — Milwaukee & Manitowoc)',
+      adminTitle: 'State of Wisconsin (Gov. Philip La Follette / Julius P. Heil)',
+      historicalNote: 'Cantieri navali di Manitowoc sul Lago Michigan per la costruzione di sommergibili per la marina e industrie metalmeccaniche di Milwaukee.',
+    },
+    minnesota: {
+      historicalName: 'Minnesota (North Star State — Mesabi Iron Range & Duluth)',
+      adminTitle: 'State of Minnesota (Gov. Elmer Benson / Harold Stassen)',
+      historicalNote: 'Miniere di minerale di ferro a cielo aperto della Mesabi Range nel nord e porto di Duluth sul Lago Superiore, essenziali per alimentare le acciaierie dell\'intera nazione.',
+    },
+    missouri: {
+      historicalName: 'Missouri (Show Me State — St. Louis & Kansas City)',
+      adminTitle: 'State of Missouri (Gov. Guy B. Park / Lloyd C. Stark)',
+      historicalNote: 'Porta d\'accesso al West, crocevia fluviale e ferroviario continentale tra Mississippi e Missouri e nascenti stabilimenti aeronautici McDonnell a St. Louis.',
+    },
+    connecticut: {
+      historicalName: 'Connecticut (Constitution State — Groton & Hartford)',
+      adminTitle: 'State of Connecticut (Gov. Wilbur L. Cross / Raymond E. Baldwin)',
+      historicalNote: 'Groton capitale mondiale della costruzione sottomarina (Electric Boat Company / General Dynamics) e fabbriche di armamenti leggeri e motori Pratt & Whitney e Colt ad Hartford.',
+    },
+    new_jersey: {
+      historicalName: 'New Jersey (Garden State — Camden & Newark)',
+      adminTitle: 'State of New Jersey (Gov. Harold G. Hoffman / A. Harry Moore)',
+      historicalNote: 'Cantieri navali della New York Shipbuilding Corporation a Camden sul fiume Delaware per incrociatori e portaerei, e polo chimico ed elettronico di Newark.',
+    },
+    maryland: {
+      historicalName: 'Maryland (Old Line State — Baltimore & Annapolis)',
+      adminTitle: 'State of Maryland (Gov. Harry Nice / Herbert O\'Conor)',
+      historicalNote: 'Porto industriale e cantieri Bethlehem Steel di Sparrows Point a Baltimora e sede della prestigiosa United States Naval Academy ad Annapolis.',
+    },
+    rhode_island: {
+      historicalName: 'Rhode Island (Ocean State — Newport)',
+      adminTitle: 'State of Rhode Island (Gov. Robert E. Quinn / William H. Vanderbilt III)',
+      historicalNote: 'Sede della Naval Station Newport, del Naval War College e della stazione siluri U.S. Naval Torpedo Station di Goat Island.',
+    },
+    delaware: {
+      historicalName: 'Delaware (First State — Wilmington)',
+      adminTitle: 'State of Delaware (Gov. C. Douglass Buck / Richard McMullen)',
+      historicalNote: 'Wilmington capitale mondiale della chimica industriale e polveri da sparo (E.I. du Pont de Nemours and Company).',
+    },
+    alabama: {
+      historicalName: 'Alabama (Heart of Dixie — Birmingham & Mobile)',
+      adminTitle: 'State of Alabama (Gov. Bibb Graves / Frank M. Dixon)',
+      historicalNote: 'Polo metallurgico e siderurgico di Birmingham ("Pittsburgh del Sud") e porto commerciale e cantieristico di Mobile sul Golfo del Messico.',
+    },
+    tennessee: {
+      historicalName: 'Tennessee (Volunteer State — TVA & Nashville)',
+      adminTitle: 'State of Tennessee (Gov. Gordon Browning / Prentice Cooper)',
+      historicalNote: 'Bacino idroelettrico della Tennessee Valley Authority (TVA), monumentale piano pubblico del New Deal che fornirà l\'energia per l\'elettrochimica e la futura produzione nucleare.',
+    },
+    kentucky: {
+      historicalName: 'Kentucky (Bluegrass State — Fort Knox & Louisville)',
+      adminTitle: 'Commonwealth of Kentucky (Gov. Happy Chandler / Keen Johnson)',
+      historicalNote: 'Sede del deposito aureo federale di Fort Knox (United States Bullion Depository) inaugurato nel 1936 per custodire le riserve auree della nazione.',
+    },
+    colorado: {
+      historicalName: 'Colorado (Centennial State — Denver & Climax)',
+      adminTitle: 'State of Colorado (Gov. Edwin C. Johnson / Teller Ammons / Ralph Carr)',
+      historicalNote: 'Polo montano delle Montagne Rocciose; miniere di molibdeno di Climax strategiche per le leghe d\'acciaio per corazze e canne d\'artiglieria.',
+    },
+    kansas: {
+      historicalName: 'Kansas (Sunflower State — Wichita)',
+      adminTitle: 'State of Kansas (Gov. Alf Landon / Walter A. Huxman / Payne Ratner)',
+      historicalNote: 'Granaio della nazione e capitale dell\'aviazione a Wichita con gli stabilimenti Stearman/Boeing (addestratore Kaydet), Cessna e Beechcraft.',
+    },
+    utah: {
+      historicalName: 'Utah (Beehive State — Salt Lake City & Bingham)',
+      adminTitle: 'State of Utah (Gov. Henry H. Blood)',
+      historicalNote: 'Miniere di rame a cielo aperto di Bingham Canyon (Kennecott Copper), il più grande scavo minerario della Terra e snodo transcontinentale ferroviario.',
+    },
+    arizona: {
+      historicalName: 'Arizona (Grand Canyon State — Bisbee & Phoenix)',
+      adminTitle: 'State of Arizona (Gov. Benjamin B. Moeur / Rawghlie C. Stanford / Robert T. Jones)',
+      historicalNote: 'Giacimenti di rame di Bisbee, Morenci e Jerome, risorsa strategica metallurgica per munizioni e cavi elettrici della marina e dell\'esercito.',
+    },
+    new_mexico: {
+      historicalName: 'New Mexico (Land of Enchantment — Albuquerque)',
+      adminTitle: 'State of New Mexico (Gov. Clyde Tingley / John E. Miles)',
+      historicalNote: 'Vasti altipiani e deserti con ricche miniere di potassio a Carlsbad e poligoni militari federali.',
+    },
+    nevada: {
+      historicalName: 'Nevada (Silver State — Boulder Dam & Las Vegas)',
+      adminTitle: 'State of Nevada (Gov. Richard Kirman Sr. / Edward P. Carville)',
+      historicalNote: 'Diga di Hoover (Boulder Dam) inaugurata nel 1936 sul fiume Colorado, colosso ingegneristico fornitore di energia idroelettrica a basso costo per la California del Sud.',
+    },
+    montana: {
+      historicalName: 'Montana (Treasure State — Butte & Anaconda)',
+      adminTitle: 'State of Montana (Gov. Elmer Holt / Roy E. Ayers)',
+      historicalNote: 'Miniere di rame di Butte della Anaconda Copper Mining Company ("la collina più ricca della Terra"), fonderie di Anaconda e legnami del nord.',
+    },
+    oregon: {
+      historicalName: 'Oregon (Beaver State — Portland & Columbia River)',
+      adminTitle: 'State of Oregon (Gov. Charles H. Martin / Charles A. Sprague)',
+      historicalNote: 'Porto fluviale di Portland sul fiume Columbia, ricche foreste per legname da costruzione e bacino idroelettrico della Diga di Bonneville (1937).',
+    },
+    iowa: {
+      historicalName: 'Iowa (Hawkeye State — Des Moines)',
+      adminTitle: 'State of Iowa (Gov. Clyde L. Herring / Nelson G. Kraschel / George A. Wilson)',
+      historicalNote: 'Cuore della Corn Belt agricola statunitense, primatista nella produzione di mais, soia e foraggio per l\'alimentazione nazionale.',
+    },
+    oklahoma: {
+      historicalName: 'Oklahoma (Sooner State — Tulsa & Oklahoma City)',
+      adminTitle: 'State of Oklahoma (Gov. E.W. Marland / Leon C. Phillips)',
+      historicalNote: 'Tulsa "Capitale mondiale del petrolio" e bacini di estrazione idrocarburica dell\'Oklahoma centrale.',
+    },
+    arkansas: {
+      historicalName: 'Arkansas (Natural State — Little Rock & Bauxite)',
+      adminTitle: 'State of Arkansas (Gov. J. Marion Futrell / Carl E. Bailey)',
+      historicalNote: 'Miniere di bauxite della Contea di Saline (Bauxite / Benton), quasi l\'intera produzione nazionale di minerale per l\'alluminio aeronautico bellico.',
+    },
+    nebraska: {
+      historicalName: 'Nebraska (Cornhusker State — Omaha)',
+      adminTitle: 'State of Nebraska (Gov. Robert L. Cochran)',
+      historicalNote: 'Omaha quartier generale delle ferrovie transcontinentali Union Pacific e grande centro di lavorazione carni e cereali delle Grandi Pianure.',
+    },
+    north_carolina: {
+      historicalName: 'North Carolina (Tar Heel State — Charlotte & Fort Bragg)',
+      adminTitle: 'State of North Carolina (Gov. J.C.B. Ehringhaus / Clyde R. Hoey)',
+      historicalNote: 'Polo tessile e del tabacco; base militare e campo d\'addestramento per artiglieria e paracadutisti di Fort Bragg.',
+    },
+    south_carolina: {
+      historicalName: 'South Carolina (Palmetto State — Charleston)',
+      adminTitle: 'State of South Carolina (Gov. Ibra C. Blackwood / Olin D. Johnston / Burnet R. Maybank)',
+      historicalNote: 'Charleston Navy Yard polo di riparazione e costruzione navale per cacciatorpediniere e naviglio d\'appoggio della marina.',
+    },
+    maine: {
+      historicalName: 'Maine (Pine Tree State — Bath Iron Works)',
+      adminTitle: 'State of Maine (Gov. Louis J. Brann / Lewis O. Barrows)',
+      historicalNote: 'Cantieri navali Bath Iron Works specializzati nella costruzione di cacciatorpediniere veloci della U.S. Navy sulle rive del fiume Kennebec.',
+    },
+    hawaii: {
+      historicalName: 'Territory of Hawaii (Pearl Harbor / Oahu)',
+      adminTitle: 'Territory of Hawaii — U.S. Pacific Fleet Headquarters (Gov. Joseph Poindexter)',
+      historicalNote: 'Territorio incorporato degli Stati Uniti nel Pacifico centrale (capitale Honolulu). Nel maggio 1940 la United States Fleet viene formalmente trasferita in via permanente a Pearl Harbor (Oahu) come deterrente strategico contro l\'espansionismo dell\'Impero Giapponese. Presidiata da basi aeree (Hickam Field, Wheeler Field, Kaneohe Bay) e dalla guarnigione dell\'esercito a Schofield Barracks.',
+    },
+    pearl_harbor: {
+      historicalName: 'Pearl Harbor Naval Base (Oahu, Hawaii)',
+      adminTitle: 'U.S. Pacific Fleet Operating Base & Drydocks',
+      historicalNote: 'Principale base aeronavale della marina statunitense nel Pacifico; bacini di carenaggio, depositi di carburante di Red Hill e ancoraggi per corazzate e portaerei a Battleship Row.',
+    },
+    honolulu: {
+      historicalName: 'Honolulu (Oahu, Territory of Hawaii)',
+      adminTitle: 'Capital of the Territory of Hawaii',
+      historicalNote: 'Capitale e porto commerciale delle Isole Hawaii, centro amministrativo e snodo marittimo e postale transpacifico.',
+    },
+    alaska: {
+      historicalName: 'Territory of Alaska (Dutch Harbor / Aleutine)',
+      adminTitle: 'Territory of Alaska — North Pacific Defense Outpost (Gov. Ernest Gruening)',
+      historicalNote: 'Vasto territorio incorporato affacciato sul Mare di Bering e sullo Stretto di Bering dirimpetto alla Siberia sovietica. Snodo strategico fondamentale dell\'emisfero settentrionale; negli anni 1939-1940 vengono avviati i lavori per la base navale e aeronavale di Dutch Harbor (isola di Unalaska) e gli aeroporti militari di Ladd Field e Fort Richardson per il pattugliamento delle rotte del Pacifico settentrionale.',
+    },
+    dutch_harbor: {
+      historicalName: 'Dutch Harbor Naval Operating Base (Aleutian Islands)',
+      adminTitle: 'U.S. Navy & Army Air Station — Unalaska Island',
+      historicalNote: 'Base aeronavale avanzata della marina e dell\'esercito nelle Isole Aleutine a guardia dell\'accesso settentrionale al Mare di Bering.',
+    },
+    puerto_rico: {
+      historicalName: 'Puerto Rico (Unincorporated U.S. Territory — San Juan)',
+      adminTitle: 'Territory of Puerto Rico — U.S. Caribbean Gibraltar (Gov. Blanton Winship / Adm. William D. Leahy)',
+      historicalNote: 'Territorio insulare non incorporato nelle Grandi Antille con capoluogo San Juan. Negli anni 1936-1939 teatro di forti tensioni nazionaliste guidate da Pedro Albizu Campos (Massacro di Ponce del 1937); nel 1939 Franklin D. Roosevelt nomina governatore l\'ammiraglio William D. Leahy per trasformare l\'isola in una formidabile base aeronavale fortificata ("la Gibilterra dei Caraibi" — Naval Air Station San Juan e base aerea di Borinquen) a guardia delle rotte d\'accesso al Canale di Panama.',
+    },
+    united_states_virgin_islands: {
+      historicalName: 'United States Virgin Islands (Charlotte Amalie)',
+      adminTitle: 'Territory of the Virgin Islands of the United States (Gov. Lawrence W. Cramer)',
+      historicalNote: 'Arcipelago caraibico acquistato nel 1917 dalla Danimarca (ex Indie Occidentali Danesi) per scongiurare l\'installazione di basi sottomarine tedesche. Base navale sussidiaria per idrovolanti e sommergibili a Saint Thomas a protezione del Canale di Panama e del Canale di Anegada.',
+    },
+    virgin_islands: {
+      historicalName: 'United States Virgin Islands (St. Thomas / St. Croix)',
+      adminTitle: 'Territory of the Virgin Islands of the United States',
+      historicalNote: 'Territorio insulare non incorporato statunitense a est di Puerto Rico, presidio navale della marina americana nelle Piccole Antille.',
+    },
+    guam: {
+      historicalName: 'Island of Guam (Apra Harbor — U.S. Navy)',
+      adminTitle: 'Guam Naval Station — Marianas Outpost (Gov. James T. Alexander / George J. McMillin)',
+      historicalNote: 'Territorio insulare non incorporato in Micronesia (Arcipelago delle Marianne), acquisito nel 1898 dopo la guerra ispano-americana. Amministrato direttamente dalla U.S. Navy con capoluogo Agaña e base navale ad Apra Harbor; completamente circondato dalle isole del Mandato Giapponese del Pacifico (Nan\'yō Guntō: Saipan, Rota, Tinian), isolato a oltre 3.000 miglia dalle Hawaii e privo di difese pesanti a causa delle limitazioni del Trattato Navale di Washington.',
+    },
+    wake_island: {
+      historicalName: 'Wake Island (U.S. Navy & Pan American Clipper)',
+      adminTitle: 'Wake Island — U.S. Unorganized Territory & Naval Aviation Outpost',
+      historicalNote: 'Atollo corallino isolato nel Pacifico settentrionale amministrato dalla U.S. Navy. Nel 1935 la Pan American Airways vi costruì una base idrovolanti e un albergo per la celebre rotta passeggeri e postale transpacifica San Francisco-Honolulu-Manila con i giganteschi idrovolanti Martin M-130 e Boeing 314 "China Clipper". Nel 1940 iniziano i lavori militari per la base aerea e sottomarina della marina.',
+    },
+    wake: {
+      historicalName: 'Wake Island (U.S. Navy)',
+      adminTitle: 'U.S. Naval Aviation Outpost',
+      historicalNote: 'Atollo strategico e scalo di volo a metà strada tra le Hawaii e Guam.',
+    },
+    midway_islands: {
+      historicalName: 'Midway Atoll (Sand & Eastern Islands)',
+      adminTitle: 'Midway Islands Naval Air Station (U.S. Navy / 14th Naval District)',
+      historicalNote: 'Atollo del Pacifico centrale a circa un terzo della distanza tra Honolulu e Tokyo, amministrato dalla marina statunitense. Scalo per i clipper aerei della Pan Am e stazione della Commercial Pacific Cable Company; dal 1939 convertito in piazzaforte aeronavale fortificata della U.S. Navy.',
+    },
+    midway: {
+      historicalName: 'Midway Atoll (U.S. Navy)',
+      adminTitle: 'Midway Islands Naval Air Station',
+      historicalNote: 'Atollo fortificato e base di idrovolanti e sommergibili a nord-ovest delle Hawaii.',
+    },
+    american_samoa: {
+      historicalName: 'American Samoa (Pago Pago / Tutuila)',
+      adminTitle: 'U.S. Naval Station Tutuila — South Pacific Coaling Depot (Gov. Edward W. Hanson)',
+      historicalNote: 'Territorio non incorporato della Polinesia meridionale (isole di Tutuila, Aunu\'u, Manu\'a e Rose Atoll), amministrato come stazione navale della U.S. Navy dal 1900. Il profondo porto naturale di Pago Pago costituisce una base di rifornimento strategica per le rotte navali verso l\'Australia e la Nuova Zelanda.',
+    },
+    pago_pago: {
+      historicalName: 'Pago Pago (Tutuila, American Samoa)',
+      adminTitle: 'U.S. Naval Station Tutuila',
+      historicalNote: 'Profondo fiordo e ancoraggio navale protetto per il naviglio da guerra statunitense nel Pacifico meridionale.',
+    },
+    panama_canal_zone: {
+      historicalName: 'Panama Canal Zone (Balboa Heights / Quarry Heights — USA)',
+      adminTitle: 'Panama Canal Zone — U.S. Strategic Military Outpost (Governor Clarence S. Ridley / Glen E. Edgerton)',
+      historicalNote: 'Fascia territoriale e idroviaria strategica di 553 miglia quadrate controllata in perpetuità dagli Stati Uniti d\'America in virtù del Trattato Hay-Bunau-Varilla del 1903. Chokepoint marittimo vitale della sicurezza emisferica e globale per il passaggio rapido delle flotte tra Atlantico e Pacifico (Two-Ocean Navy); difesa da massicce fortificazioni costiere, chiuse protette (Miraflores, Pedro Miguel, Gatun) e basi aeronavali (Albrook Field, Howard Field, Coco Solo).',
+    },
+    guantanamo: {
+      historicalName: 'Guantanamo Bay Naval Base (U.S. Navy — Cuba)',
+      adminTitle: 'U.S. Naval Operating Base Guantanamo Bay (Treaty of 1934)',
+      historicalNote: 'Base navale permanente di 116 km² affittata in perpetuità dagli Stati Uniti sulla baia di Guantánamo nel sud-est di Cuba in virtù del trattato cubano-statunitense del 1903 (confermato dal trattato del 1934). Base navale operativa primaria per il controllo del Paso de los Vientos (Windward Passage) tra Cuba e Haiti e la sorveglianza delle rotte dei Caraibi.',
+    },
   },
 
   // ================= ARABIA SAUDITA & PENISOLA ARABICA =================
@@ -1782,6 +2711,9 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     canarias: { historicalName: 'Islas Canarias (Tenerife / Las Palmas)', adminTitle: 'Comandancia Militar de Canarias' },
   },
 };
+
+// Integrazione automatica toponomastica storica scandinava
+populateScandinavianToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -3710,8 +4642,17 @@ export function resolveFranceToponym(
     }
   }
 
-  // Fallback per entità nazionale 'France' / 'Francia'
-  if (normKey.includes('france') || normKey.includes('french') || normKey.includes('vichy')) {
+  // Fallback per entità nazionale 'France' / 'Francia' (metropolitana)
+  const isNationalFrance =
+    normKey === 'france' ||
+    normKey === 'la_france' ||
+    normKey === 'republique_francaise' ||
+    normKey === 'french_republic' ||
+    normKey === 'francia' ||
+    normKey === 'france_metropolitaine' ||
+    ((owner === 'FRA' || owner === 'VIC') && !id && (normKey === 'france' || normKey === 'vichy'));
+
+  if (isNationalFrance) {
     if (step < 6) {
       return {
         name: 'France',
@@ -3729,7 +4670,1884 @@ export function resolveFranceToponym(
     return {
       name: 'France occupée',
       adminTitle: 'Zone occupée — Militärbefehlshaber in Frankreich (Paris)',
-      note: 'Territoire métropolitain français sous occupation militaire allemande après l\'armistice de juin 1940.',
+      note: 'Territoire métropolitain français sous occupation militaire allemande après l\'armistice du 22 juin 1940.',
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Risoluzione toponomastica, istituzionale e temporale dettagliata per l'Impero Coloniale Francese (1936-1940)
+ */
+export function resolveFrenchColonialToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+  const isVichyStep = step >= 6;
+
+  // Protezione contro collisioni con altri stati sovrani (URSS, Germania, Polonia, Paesi Nordici, ecc.)
+  if (
+    owner === 'SOV' ||
+    owner === 'GER' ||
+    owner === 'POL' ||
+    owner === 'FIN' ||
+    owner === 'SWE' ||
+    owner === 'NOR' ||
+    owner === 'SPR' ||
+    owner === 'SPA' ||
+    owner === 'ITA' ||
+    owner === 'UK' ||
+    owner === 'BEL' ||
+    owner === 'TUR' ||
+    id.startsWith('SOV_') ||
+    id.startsWith('RUS_')
+  ) {
+    if (!normKey.includes('france') && !normKey.includes('french')) {
+      return null;
+    }
+  }
+
+  // 1. DÉPARTEMENTS FRANÇAIS D'ALGÉRIE (Alger, Oran, Constantine, Territoires du Sud)
+  if (
+    !normKey.includes('oranienbaum') &&
+    (owner === 'FRA' ||
+      owner === 'VIC' ||
+      owner === 'F_NAF' ||
+      owner === 'VIC_NAF' ||
+      id.startsWith('DZ') ||
+      normKey.includes('alger')) &&
+    (normKey.includes('alger') ||
+      (normKey.includes('oran') && !normKey.includes('oranienbaum')) ||
+      normKey.includes('constantin') ||
+      normKey.includes('sidi_bel') ||
+      normKey.includes('blida') ||
+      normKey.includes('territoires_du_sud') ||
+      (owner === 'F_NAF' && normKey.includes('algeria')) ||
+      (owner === 'VIC_NAF' && normKey.includes('algeria')))
+  ) {
+    if (normKey.includes('oran') && !normKey.includes('oranienbaum')) {
+      return {
+        name: isVichyStep ? 'Oran (Vichy)' : 'Oran',
+        adminTitle: isVichyStep ? "Département d'Oran (Vichy)" : "Département d'Oran (Préfecture)",
+        note: isVichyStep
+          ? "Grand port commercial et base militaire sous autorité de Vichy ; baie voisine de Mers-el-Kébir théâtre de l'attaque britannique du 3 juillet 1940."
+          : "Grand port commercial et base militaire à forte population européenne d'origine espagnole et française.",
+      };
+    }
+    if (normKey.includes('constantin')) {
+      return {
+        name: isVichyStep ? 'Constantine (Vichy)' : 'Constantine',
+        adminTitle: isVichyStep ? "Département de Constantine (Vichy)" : "Département de Constantine (Préfecture)",
+        note: isVichyStep
+          ? "Administration préfectorale d'Algérie orientale fidèle au Maréchal Pétain."
+          : "Cité séculaire des gorges du Rhummel, centre névralgique de l'Est algérien.",
+      };
+    }
+    if (normKey.includes('sidi_bel')) {
+      return {
+        name: isVichyStep ? 'Sidi Bel Abbès (Vichy)' : 'Sidi Bel Abbès',
+        adminTitle: isVichyStep ? "Dépôt Central de la Légion Étrangère (Vichy)" : "Maison Mère de la Légion Étrangère (1er RE)",
+        note: isVichyStep
+          ? "Légion étrangère repliée sous contrôle de l'Armée d'Afrique de Vichy."
+          : "Quartier Viénot et berceau historique de la Légion Étrangère.",
+      };
+    }
+    return isVichyStep
+      ? {
+          name: "Départements Français d'Algérie (Vichy)",
+          adminTitle: "Gouvernement Général de l'Algérie (Yves Châtel / Maxime Weygand — Vichy)",
+          note: "Maintenus sous l'autorité du régime de Vichy avec application stricte des lois du statut des juifs jusqu'au débarquement allié de novembre 1942 (Opération Torch).",
+        }
+      : {
+          name: "Départements Français d'Algérie",
+          adminTitle: "Gouvernement Général de l'Algérie (Alger)",
+          note: "Territoire constitutionnellement intégré à la République française, divisé en départements d'Alger, d'Oran, de Constantine et les Territoires du Sud sahariens. Gouverneur Général Georges Le Beau.",
+        };
+  }
+
+  // 2. PROTECTORAT FRANÇAIS DU MAROC (Rabat, Casablanca, Fès, Marrakech)
+  if (
+    (normKey.includes('morocco') || normKey.includes('maroc') || normKey.includes('rabat') || normKey.includes('casablanca') || normKey.includes('marrakech')) &&
+    !normKey.includes('spanish') && !normKey.includes('espana') && owner !== 'SPR' && owner !== 'SPA'
+  ) {
+    if (normKey.includes('casablanca')) {
+      return {
+        name: isVichyStep ? 'Casablanca (Maroc — Vichy)' : 'Casablanca',
+        adminTitle: isVichyStep ? "Base Navale Atlantique de Vichy" : "Grand Port de l'Atlantique & Poumon Économique",
+        note: isVichyStep
+          ? "Base de stationnement du puissant cuirassé Jean Bart inachevé, évacué de Saint-Nazaire en juin 1940."
+          : "Plus grand port moderne du Maghreb et grand centre industriel atlantique.",
+      };
+    }
+    return isVichyStep
+      ? {
+          name: "Protectorat du Maroc (Vichy)",
+          adminTitle: "Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)",
+          note: "Le Résident Général Charles Noguès renonce à la dissidence après l'armistice de juin 1940 et maintient le protectorat dans l'obéissance à Vichy jusqu'à Torch.",
+        }
+      : {
+          name: "Protectorat Français du Maroc",
+          adminTitle: "Résidence Générale de la République Française (Rabat)",
+          note: "Protectorat établi par le traité de Fès (1912). Souveraineté chérifienne sous le Sultan Sidi Mohammed ben Youssef et le Résident Général Charles Noguès.",
+        };
+  }
+
+  // 3. PROTECTORAT FRANÇAIS DE TUNISIE (Tunis, Bizerte, Sfax)
+  if (
+    normKey.includes('tunis') ||
+    normKey.includes('bizerte') ||
+    normKey.includes('sfax') ||
+    normKey.includes('sousse') ||
+    normKey.includes('gabes')
+  ) {
+    if (normKey.includes('bizerte')) {
+      return {
+        name: isVichyStep ? 'Bizerte (Vichy)' : 'Bizerte',
+        adminTitle: isVichyStep ? "Base Navale Stratégique sous Contrôle d'Armistice" : "Base Navale Stratégique & Arsenal de Sidi Abdallah",
+        note: isVichyStep
+          ? "Arsenal et base navale démobilisés sous le contrôle de la Commission d'armistice italienne (CIAF)."
+          : "Base navale majeure de la Marine Nationale verrouillant le détroit siculo-tunisien.",
+      };
+    }
+    return isVichyStep
+      ? {
+          name: "Protectorat de Tunisie (Vichy)",
+          adminTitle: "Résidence Générale de France en Tunisie (Amiral Jean-Pierre Esteva — Vichy)",
+          note: "L'amiral Esteva prend ses fonctions en juillet 1940 et applique la politique de collaboration de Vichy sous la surveillance de la Commission d'armistice italienne.",
+        }
+      : {
+          name: "Protectorat Français de Tunisie",
+          adminTitle: "Résidence Générale de la République Française (Tunis)",
+          note: "Protectorat établi par les traités du Bardo (1881) et de La Marsa (1883). Dynastie husseinite sous Ahmed II Bey. Base navale stratégique de Bizerte.",
+        };
+  }
+
+  // 4. TOGO FRANÇAIS (Mandat SDN)
+  if (normKey.includes('togo') || normKey.includes('lome')) {
+    return isVichyStep
+      ? {
+          name: "Togo Français (AOF — Vichy)",
+          adminTitle: "Territoire sous Mandat (Vichy — Gouverneur Léonce Jore)",
+          note: "Mandat de la Société des Nations sous surveillance britannique depuis la Côte-de-l'Or voisine, maintenu temporairement sous l'autorité de Vichy.",
+        }
+      : {
+          name: "Togo Français",
+          adminTitle: "Territoire sous Mandat de la Société des Nations (Lomé)",
+          note: "Ancienne colonie allemande administrée par la France sous mandat B de la Société des Nations, rattachée administrativement au gouverneur général de l'AOF.",
+        };
+  }
+
+  // 5. AFRIQUE-OCCIDENTALE FRANÇAISE (AOF)
+  if (
+    normKey.includes('french_west_africa') ||
+    normKey.includes('west_africa') ||
+    normKey.includes('senegal') ||
+    normKey.includes('dakar') ||
+    normKey.includes('mauritani') ||
+    normKey.includes('soudan') ||
+    (normKey.includes('mali') && !normKey.includes('somali')) ||
+    normKey.includes('bamako') ||
+    (normKey.includes('niger') && !normKey.includes('nigeria')) ||
+    normKey.includes('niamey') ||
+    normKey.includes('haute_volta') ||
+    normKey.includes('burkina') ||
+    normKey.includes('ouagadougou') ||
+    normKey.includes('cote_d_ivoire') ||
+    normKey.includes('ivory_coast') ||
+    normKey.includes('abidjan') ||
+    (normKey.includes('guinee') && !normKey.includes('portuguese') && !normKey.includes('spanish') && !normKey.includes('papua')) ||
+    (normKey.includes('guinea') && !normKey.includes('bissau') && !normKey.includes('portuguese') && !normKey.includes('spanish') && !normKey.includes('equatorial') && !normKey.includes('new_guinea') && !normKey.includes('papua')) ||
+    normKey.includes('dahomey') ||
+    normKey.includes('benin') ||
+    normKey.includes('porto_novo') ||
+    owner === 'F_AOF' ||
+    owner === 'VIC_AOF'
+  ) {
+    if (normKey.includes('dakar')) {
+      return {
+        name: isVichyStep ? 'Dakar (Sénégal / AOF — Vichy)' : 'Dakar (Sénégal / AOF)',
+        adminTitle: isVichyStep ? "Haut-Commissariat de Pierre Boisson pour l'Afrique Noire (Vichy)" : "Gouvernement Général de l'AOF (Dakar)",
+        note: isVichyStep
+          ? "Pierre Boisson repousse l'assaut anglo-gaulliste de l'opération Menace (23-25 sept. 1940) avec le cuirassé Richelieu et garde l'AOF sous l'autorité de Vichy."
+          : "Capitale fédérale de l'Afrique Occidentale Française, grand port stratégique et escale maritime impériale.",
+      };
+    }
+    return isVichyStep
+      ? {
+          name: "Afrique-Occidentale Française (AOF — Vichy)",
+          adminTitle: "Haut-Commissariat de Pierre Boisson pour l'Afrique Noire (Dakar — Vichy)",
+          note: "Fédération maintenue sous l'autorité du gouverneur général Pierre Boisson, resté fidèle au maréchal Pétain et opposé aux Forces françaises libres.",
+        }
+      : {
+          name: "Afrique-Occidentale Française (AOF)",
+          adminTitle: "Gouvernement Général de l'AOF (Dakar — Jules Marcel de Coppet)",
+          note: "Fédération coloniale regroupant le Sénégal, la Mauritanie, le Soudan français, la Guinée, la Côte d'Ivoire, le Dahomey et le Niger. Grand port de Dakar et foyer des Tirailleurs sénégalais.",
+        };
+  }
+
+  // 6. CAMEROUN FRANÇAIS (Mandat SDN)
+  if (
+    (normKey.includes('cameroon') || normKey.includes('cameroun') || normKey.includes('douala') || normKey.includes('yaounde')) &&
+    owner !== 'UK'
+  ) {
+    return isVichyStep
+      ? {
+          name: "Cameroun Français (France Libre)",
+          adminTitle: "Colonel Philippe Leclerc (Ralliement du 27 août 1940)",
+          note: "Philippe Leclerc débarque à Douala dans la nuit du 26 au 27 août 1940 et rallie l'ensemble du territoire camerounais sans effusion de sang à la France Libre.",
+        }
+      : {
+          name: "Cameroun Français",
+          adminTitle: "Territoire sous Mandat de la Société des Nations (Yaoundé / Douala)",
+          note: "Mandat de la Société des Nations confié à la France, riche en cultures de cacao, café et bananes. Port principal de Douala.",
+        };
+  }
+
+  // 7. TCHAD (AEF)
+  if (
+    normKey.includes('tchad') ||
+    (normKey.includes('chad') && !normKey.includes('richard')) ||
+    normKey.includes('fort_lamy') ||
+    normKey.includes('largeau')
+  ) {
+    return isVichyStep
+      ? {
+          name: "Tchad (Premier Territoire Rallié à la France Libre)",
+          adminTitle: "Gouverneur Général Félix Éboué (Ralliement du 26 août 1940)",
+          note: "Félix Éboué et le colonel Marchand proclament le ralliement du Tchad, offrant à la France Libre sa première assise territoriale souveraine et la base de départ de la Colonne Leclerc.",
+        }
+      : {
+          name: "Colonie du Tchad (AEF)",
+          adminTitle: "Gouvernement du Territoire du Tchad (Gouverneur Félix Éboué — Fort-Lamy)",
+          note: "Territoire sahélo-saharien stratégique aux portes du désert libyen et du lac Tchad sous la direction clairvoyante de Félix Éboué.",
+        };
+  }
+
+  // 8. AFRIQUE-ÉQUATORIALE FRANÇAISE (AEF: Moyen-Congo, Oubangui-Chari, Gabon)
+  if (
+    normKey.includes('french_equatorial_africa') ||
+    normKey.includes('equatorial_africa') ||
+    normKey.includes('brazzaville') ||
+    normKey.includes('moyen_congo') ||
+    (normKey.includes('congo') && (normKey.includes('france') || owner === 'F_AEF' || owner === 'FFL_AEF')) ||
+    normKey.includes('oubangui') ||
+    normKey.includes('bangui') ||
+    normKey.includes('centrafrique') ||
+    normKey.includes('gabon') ||
+    normKey.includes('libreville') ||
+    ((owner === 'F_AEF' || owner === 'FFL_AEF' || owner === 'VIC_AEF') &&
+      !normKey.includes('caledon') &&
+      !normKey.includes('hebrid') &&
+      !normKey.includes('polynesi') &&
+      !normKey.includes('tahiti') &&
+      !normKey.includes('inde') &&
+      !normKey.includes('indi') &&
+      !normKey.includes('pondicher') &&
+      !normKey.includes('wallis') &&
+      !normKey.includes('guyane') &&
+      !normKey.includes('martinique') &&
+      !normKey.includes('guadel'))
+  ) {
+    if (normKey.includes('gabon') || normKey.includes('libreville')) {
+      if (owner === 'VIC_AEF' || (step === 6 && owner !== 'FFL_AEF')) {
+        return {
+          name: "Colonie du Gabon (Vichy — Libreville)",
+          adminTitle: "Gouverneur Georges Masson (Régime de Vichy — Libreville)",
+          note: "Le gouverneur Georges Masson refuse le ralliement de l'AEF et maintient le Gabon sous l'autorité du maréchal Pétain et de Vichy, soutenu par l'aviso Bougainville.",
+        };
+      }
+      return isVichyStep || step >= 7
+        ? {
+            name: "Gabon (France Libre — Libreville)",
+            adminTitle: "Colonie du Gabon (Forces Françaises Libres — De Gaulle / Leclerc)",
+            note: "Campagne du Gabon (octobre-novembre 1940) : les Forces Françaises Libres de Leclerc et Koenig rallient le Gabon, parachevant l'unité territoriale de la France Libre en Afrique équatoriale.",
+          }
+        : {
+            name: "Colonie du Gabon (AEF — Libreville)",
+            adminTitle: "Gouvernement de la Colonie du Gabon (Libreville)",
+            note: "Colonie côtière de l'AEF sur l'estuaire du Komo et le golfe de Guinée, chef-lieu Libreville et port de Port-Gentil.",
+          };
+    }
+    if (normKey.includes('brazzaville')) {
+      return isVichyStep
+        ? {
+            name: "Brazzaville (Capitale de la France Libre)",
+            adminTitle: "Capitale de l'Empire de la France Libre (Manifeste de Brazzaville)",
+            note: "Le 27 octobre 1940, le général de Gaulle crée à Brazzaville le Conseil de défense de l'Empire. Brazzaville devient la capitale officielle de la France combattante.",
+          }
+        : {
+            name: "Brazzaville (Moyen-Congo / AEF)",
+            adminTitle: "Capitale de l'Afrique Équatoriale Française (AEF)",
+            note: "Siège du Gouvernement Général de l'AEF sur la rive droite du Stanley Pool (fleuve Congo) et terminus du chemin de fer Congo-Océan.",
+          };
+    }
+    return isVichyStep
+      ? {
+          name: "Afrique Française Libre (AEF — Brazzaville)",
+          adminTitle: "Capitale de la France Libre (Félix Éboué & Edgard de Larminat — Brazzaville)",
+          note: "L'Afrique-Équatoriale française se rallie massivement à la France Libre en août 1940 sous l'impulsion de Félix Éboué et d'Edgard de Larminat, constituant le sanctuaire territorial de De Gaulle.",
+        }
+      : {
+          name: "Afrique-Équatoriale Française (AEF)",
+          adminTitle: "Gouvernement Général de l'AEF (Brazzaville)",
+          note: "Fédération de colonies équatoriales comprenant le Moyen-Congo, le Gabon, l'Oubangui-Chari et le Tchad. Capitale Brazzaville et port océanique de Pointe-Noire.",
+        };
+  }
+
+  // 9. COCHINCHINE
+  if (normKey.includes('cochin') || normKey.includes('saigon')) {
+    return isVichyStep
+      ? {
+          name: "Cochinchine (Vichy — Saïgon)",
+          adminTitle: "Gouvernement de la Cochinchine (Vichy — Saïgon)",
+          note: "Territoire sous le contrôle de l'administration de Vichy de l'amiral Decoux, préservé temporairement des combats directs avant le déploiement japonais.",
+        }
+      : {
+          name: "Cochinchine (Colonie Française — Saïgon)",
+          adminTitle: "Gouvernement de la Cochinchine (Saïgon)",
+          note: "Seule possession d'Indochine jouissant du statut de colonie française directe, grand grenier à riz du delta du Mékong et plantations d'hévéa. Saïgon, perle de l'Extrême-Orient.",
+        };
+  }
+
+  // 10. CAMBODGE
+  if (normKey.includes('cambod') || normKey.includes('phnom_penh')) {
+    return isVichyStep
+      ? {
+          name: "Protectorat du Cambodge (Vichy)",
+          adminTitle: "Résidence Supérieure de France au Cambodge (Vichy — Phnom Penh)",
+          note: "Sous administration de Vichy, menacé sur sa frontière occidentale par les revendications territoriales et l'offensive armée de la Thaïlande de Phibun Songkhram.",
+        }
+      : {
+          name: "Protectorat Français du Cambodge",
+          adminTitle: "Résidence Supérieure au Cambodge (Phnom Penh)",
+          note: "Royaume khmer sous le roi Sisowath Monivong et protectorat français. Capitale royale Phnom Penh et temples millénaires d'Angkor.",
+        };
+  }
+
+  // 11. LAOS
+  if (normKey.includes('laos') || normKey.includes('vientiane') || normKey.includes('luang_prabang')) {
+    return isVichyStep
+      ? {
+          name: "Protectorat du Laos (Vichy)",
+          adminTitle: "Résidence Supérieure de France au Laos (Vichy — Vientiane)",
+          note: "Poste frontière sur le Mékong face aux incursions et revendications territoriales thaïlandaises sous l'administration de Vichy.",
+        }
+      : {
+          name: "Protectorat Français du Laos",
+          adminTitle: "Résidence Supérieure au Laos (Vientiane)",
+          note: "Royaume de Luang Prabang et principautés laotiennes sous le roi Sisavang Vong le long du haut cours du Mékong.",
+        };
+  }
+
+  // 12. UNION INDOCHINOISE (Indochine française générale / Tonkin / Annam)
+  if (
+    normKey.includes('indo_china') ||
+    normKey.includes('indochin') ||
+    normKey.includes('vietnam') ||
+    normKey.includes('tonkin') ||
+    normKey.includes('annam') ||
+    normKey.includes('hanoi') ||
+    normKey.includes('haiphong') ||
+    normKey.includes('hue') ||
+    normKey.includes('tourane') ||
+    normKey.includes('lang_son') ||
+    owner === 'F_IND' ||
+    owner === 'VIC_IND'
+  ) {
+    return isVichyStep
+      ? {
+          name: "Indochine Française (Vichy / Présence Japonaise)",
+          adminTitle: "Gouvernement Général de l'Amiral Jean Decoux (Vichy — Hanoï)",
+          note: "Sous la pression militaire de Tokyo, Decoux signe l'accord de septembre 1940 autorisant le stationnement de troupes japonaises au Tonkin tout en maintenant la souveraineté française.",
+        }
+      : {
+          name: "Union Indochinoise (Indochine Française)",
+          adminTitle: "Gouvernement Général de l'Indochine (Hanoï)",
+          note: "Fédération coloniale comprenant la colonie de Cochinchine et les protectorats du Tonkin, d'Annam, du Cambodge et du Laos. Siège fédéral à Hanoï.",
+        };
+  }
+
+  // 13. KOUANG-TCHÉOU-WAN (Chine)
+  if (normKey.includes('kouang_tcheou') || normKey.includes('fort_bayard') || normKey.includes('guangzhouwan')) {
+    return isVichyStep
+      ? {
+          name: "Territoire de Kouang-Tchéou-Wan (Vichy)",
+          adminTitle: "Territoire Français à Bail (Vichy — Fort-Bayard)",
+          note: "Enclave sous contrôle de l'administration de Vichy en mer de Chine méridionale.",
+        }
+      : {
+          name: "Territoire de Kouang-Tchéou-Wan (Chine)",
+          adminTitle: "Territoire à Bail Français (Fort-Bayard)",
+          note: "Territoire côtier en baie de Zhanjiang cédé à bail par la Chine en 1898, rattaché administrativement à l'Indochine.",
+        };
+  }
+
+  // 14. MADAGASCAR ET DÉPENDANCES
+  if (
+    normKey.includes('madagascar') ||
+    normKey.includes('tananarive') ||
+    normKey.includes('antananarivo') ||
+    normKey.includes('diego_suarez') ||
+    normKey.includes('tamatave') ||
+    normKey.includes('majunga') ||
+    normKey.includes('comor') ||
+    owner === 'F_MAD' ||
+    owner === 'VIC_MAD'
+  ) {
+    return isVichyStep
+      ? {
+          name: "Madagascar (Vichy)",
+          adminTitle: "Gouvernement Général d'Armand Annet (Vichy — Tananarive)",
+          note: "Le gouverneur Armand Annet refuse tout ralliement à De Gaulle et maintient Madagascar sous strict contrôle de Vichy jusqu'à l'attaque britannique de 1942 (Opération Ironclad).",
+        }
+      : {
+          name: "Colonie de Madagascar et Dépendances",
+          adminTitle: "Gouvernement Général de Madagascar (Tananarive)",
+          note: "Grande île de l'océan Indien et dépendances (archipel des Comores, île Sainte-Marie). Capitale administrative Tananarive et puissante base navale de Diego-Suarez.",
+        };
+  }
+
+  // 15. SYRIE ET LIBAN (Mandat du Levant)
+  if (
+    (normKey.includes('syria') ||
+      normKey.includes('syrie') ||
+      normKey.includes('damas') ||
+      normKey.includes('alep') ||
+      normKey.includes('lebanon') ||
+      normKey.includes('liban') ||
+      normKey.includes('beyrouth') ||
+      normKey.includes('latakia') ||
+      normKey.includes('jebel_druze') ||
+      owner === 'F_SYR' ||
+      owner === 'VIC_SYR') &&
+    owner !== 'TUR'
+  ) {
+    if (normKey.includes('liban') || normKey.includes('lebanon') || normKey.includes('beyrouth')) {
+      return isVichyStep
+        ? {
+            name: "Grand Liban (Vichy — Beyrouth)",
+            adminTitle: "Quartier Général du Général Henri Dentz (Vichy — Beyrouth)",
+            note: "Port militaire et siège du commandement vichyste des forces du Levant, placé sous blocus maritime par la Royal Navy.",
+          }
+        : {
+            name: "Grand Liban (République Libanaise)",
+            adminTitle: "État du Grand Liban sous Mandat Français (Beyrouth)",
+            note: "République parlementaire multiconfessionnelle présidée par Émile Éddé sous mandat français de la Société des Nations.",
+          };
+    }
+    return isVichyStep
+      ? {
+          name: "Mandat de Syrie (Vichy)",
+          adminTitle: "Haut-Commissaire Général Henri Dentz (Vichy — Damas)",
+          note: "Le général Henri Dentz assure le commandement au nom de Vichy, préparant la défense du Levant contre les forces alliées britanniques et françaises libres.",
+        }
+      : {
+          name: "Mandat Français en Syrie et au Liban",
+          adminTitle: "Haut-Commissariat de la République Française au Levant (Beyrouth / Damas)",
+          note: "Mandat A de la Société des Nations confié à la France en 1920. Haut-Commissaire Gabriel Puaux.",
+        };
+  }
+
+  // 16. CÔTE FRANÇAISE DES SOMALIS (Djibouti)
+  if (
+    normKey.includes('somaliland') ||
+    normKey.includes('djibouti') ||
+    normKey.includes('obock') ||
+    owner === 'F_SOM' ||
+    owner === 'VIC_SOM'
+  ) {
+    if (owner === 'ITA' || owner === 'UK') return null;
+    return isVichyStep
+      ? {
+          name: "Côte Française des Somalis (Djibouti — Vichy)",
+          adminTitle: "Administration de Pierre Nouailhetas (Régime de Vichy — Djibouti)",
+          note: "Pierre Nouailhetas instaure un régime pétainiste rigoureux et résiste pendant plus de deux ans au blocus naval britannique total.",
+        }
+      : {
+          name: "Côte Française des Somalis (Djibouti)",
+          adminTitle: "Colonie de Djibouti (Gouverneur Hubert Deschamps)",
+          note: "Territoire stratégique à l'entrée de la mer Rouge (Bab-el-Mandeb) et débouché ferroviaire unique de l'Empire éthiopien.",
+        };
+  }
+
+  // 17. MARTINIQUE
+  if (normKey.includes('martinique') || normKey.includes('fort_de_france')) {
+    return isVichyStep
+      ? {
+          name: "Martinique (Fort-de-France — Vichy)",
+          adminTitle: "Administration Coloniale de l'État Français (Fort-de-France, Amiral Robert)",
+          note: "Quartier général de l'amiral Robert ; le porte-avions Béarn et les réserves d'or de la Banque de France y restent sous surveillance américaine.",
+        }
+      : {
+          name: "Martinique (Fort-de-France)",
+          adminTitle: "Haut-Commissariat aux Antilles (Amiral Georges Robert)",
+          note: "Siège de l'amiral Robert ; le porte-avions Béarn et le croiseur Émile Bertin y immobilisent 286 tonnes d'or de la Banque de France.",
+        };
+  }
+
+  // 18. GUADELOUPE
+  if (normKey.includes('guadeloupe') || normKey.includes('basse_terre') || normKey.includes('pointe_a_pitre')) {
+    return isVichyStep
+      ? {
+          name: "Guadeloupe (Basse-Terre — Vichy)",
+          adminTitle: "Administration Coloniale de l'État Français (Haut-commissariat aux Antilles, Amiral Robert)",
+          note: "Placée sous l'autorité du haut-commissaire de Vichy aux Antilles, l'amiral Robert, sous étroite surveillance maritime américaine.",
+        }
+      : {
+          name: "Guadeloupe (Basse-Terre / Pointe-à-Pitre)",
+          adminTitle: "Colonie de la Guadeloupe (Antilles Françaises)",
+          note: "Archipel des Petites Antilles comprenant Basse-Terre, Grande-Terre, Marie-Galante, Les Saintes et dépendances.",
+        };
+  }
+
+  // 19. SAINT-MARTIN & SAINT-BARTHÉLEMY
+  if (
+    normKey.includes('saint_martin') ||
+    normKey.includes('st_martin') ||
+    normKey.includes('saint_barthelemy') ||
+    normKey.includes('st_barthelemy')
+  ) {
+    if (normKey.includes('barthelemy')) {
+      return isVichyStep
+        ? {
+            name: "Saint-Barthélemy (Antilles — Vichy)",
+            adminTitle: "Administration Coloniale des Antilles de Vichy (Amiral Robert)",
+            note: "Île des Petites Antilles sous l'autorité du haut-commissariat de l'amiral Robert à Fort-de-France.",
+          }
+        : {
+            name: "Saint-Barthélemy (Dépendance de la Guadeloupe)",
+            adminTitle: "Antilles Françaises (Colonie de la Guadeloupe)",
+            note: "Île des Petites Antilles rattachée administrativement à la colonie de la Guadeloupe.",
+          };
+    }
+    return isVichyStep
+      ? {
+          name: "Saint-Martin (Antilles — Vichy)",
+          adminTitle: "Administration Coloniale des Antilles de Vichy (Amiral Robert)",
+          note: "Partie française de l'île de Saint-Martin sous l'autorité du haut-commissariat de l'amiral Robert à Fort-de-France.",
+        }
+      : {
+          name: "Saint-Martin (Dépendance de la Guadeloupe)",
+          adminTitle: "Antilles Françaises (Colonie de la Guadeloupe)",
+          note: "Partie française des Petites Antilles rattachée administrativement à la colonie de la Guadeloupe.",
+        };
+  }
+
+  // 20. GUYANE FRANÇAISE
+  if (normKey.includes('guyane') || normKey.includes('french_guiana') || normKey.includes('cayenne')) {
+    return isVichyStep
+      ? {
+          name: "Guyane Française (Vichy — Cayenne)",
+          adminTitle: "Colonie de la Guyane Française (Gouverneur René Veber — Vichy)",
+          note: "Colonie rattachée à l'administration de Vichy sous la supervision de l'amiral Robert jusqu'au ralliement à la France combattante en 1943.",
+        }
+      : {
+          name: "Guyane Française (Cayenne)",
+          adminTitle: "Colonie de la Guyane Française (Gouverneur René Veber)",
+          note: "Territoire colonial équatorial en Amérique du Sud, richesses forestières, orpaillage et bagne de Cayenne.",
+        };
+  }
+
+  // 21. NOUVELLE-CALÉDONIE
+  if (normKey.includes('caledon') || normKey.includes('noumea')) {
+    if (step >= 7 || owner === 'FFL_AEF' || owner === 'FFL') {
+      return {
+        name: "Nouvelle-Calédonie (France Libre — Nouméa)",
+        adminTitle: "Ralliée à la France Libre (19 septembre 1940 — Henri Sautot)",
+        note: "Henri Sautot mène le ralliement de la Nouvelle-Calédonie à de Gaulle ; premier producteur mondial de nickel stratégique et base alliée majeure dans le Pacifique.",
+      };
+    }
+    if (step === 6 || owner === 'VIC') {
+      return {
+        name: "Nouvelle-Calédonie (Nouméa — Administration de Vichy)",
+        adminTitle: "Colonie sous Contrôle d'Armistice (Gouverneur Denis — Vichy)",
+        note: "Le gouverneur Denis tente de maintenir l'archipel sous l'obéissance de Vichy avant son renversement pacifique par la population et Henri Sautot.",
+      };
+    }
+    return {
+      name: "Nouvelle-Calédonie (Nouméa)",
+      adminTitle: "Colonie de la Nouvelle-Calédonie et Dépendances (Nouméa)",
+      note: "Archipel mélanésien d'Océanie sous administration française, producteur mondial stratégique de minerai de nickel.",
+    };
+  }
+
+  // 22. NOUVELLES-HÉBRIDES (Condominium)
+  if (normKey.includes('hebrid') || normKey.includes('port_vila')) {
+    if (step >= 7 || owner === 'FFL_AEF' || owner === 'FFL') {
+      return {
+        name: "Nouvelles-Hébrides (Premier Ralliement à la France Libre)",
+        adminTitle: "Condominium Rallié à la France Libre (20 juillet 1940 — Henri Sautot)",
+        note: "Premier territoire français au monde à se rallier à la France Libre (20 juillet 1940) sous l'impulsion décisive du commissaire résident Henri Sautot.",
+      };
+    }
+    if (step === 6) {
+      return {
+        name: "Nouvelles-Hébrides (Condominium Franco-Britannique — Armistice)",
+        adminTitle: "Condominium des Nouvelles-Hébrides (Port-Vila)",
+        note: "Archipel océanien gouverné conjointement par la France et le Royaume-Uni à la veille du ralliement historique du 20 juillet 1940.",
+      };
+    }
+    return {
+      name: "Nouvelles-Hébrides (Condominium Franco-Britannique)",
+      adminTitle: "Condominium des Nouvelles-Hébrides (Port-Vila)",
+      note: "Archipel océanien gouverné conjointement par la France et le Royaume-Uni (résident commissaire Henri Sautot).",
+    };
+  }
+
+  // 23. WALLIS-ET-FUTUNA
+  if (normKey.includes('wallis') || normKey.includes('futuna')) {
+    return isVichyStep
+      ? {
+          name: "Wallis-et-Futuna (Vichy)",
+          adminTitle: "Protectorat de Wallis-et-Futuna (Vichy — Résident Vrignaud)",
+          note: "L'archipel est maintenu sous tutelle de Vichy jusqu'à son ralliement par la France Libre en mai 1942.",
+        }
+      : {
+          name: "Protectorat des Îles Wallis et Futuna",
+          adminTitle: "Protectorat Français de Wallis-et-Futuna (Mata-Utu)",
+          note: "Royaumes coutumiers polynésiens d'Uvea, Sigave et Alo sous protectorat français rattaché à la Nouvelle-Calédonie.",
+        };
+  }
+
+  // 24. ÉTABLISSEMENTS FRANÇAIS DE L'OCÉANIE (Tahiti / Polynésie)
+  if (normKey.includes('tahiti') || normKey.includes('papeete') || normKey.includes('polynesi')) {
+    if (step >= 7 || owner === 'FFL_AEF' || owner === 'FFL') {
+      return {
+        name: "Établissements Français de l'Océanie (France Libre — Tahiti)",
+        adminTitle: "Ralliés à la France Libre par Plébiscite (2 septembre 1940)",
+        note: "Par un plébiscite populaire écrasant (5.564 voix contre 18), la Polynésie se rallie à la France Libre, formant le vaillant Bataillon du Pacifique.",
+      };
+    }
+    if (step === 6 || owner === 'VIC') {
+      return {
+        name: "Établissements Français de l'Océanie (Tahiti — Administration coloniale)",
+        adminTitle: "Administration Coloniale d'Océanie (Papeete)",
+        note: "Archipels polynésiens dans l'attente du plébiscite populaire de ralliement à De Gaulle de septembre 1940.",
+      };
+    }
+    return {
+      name: "Établissements Français de l'Océanie (Tahiti / Papeete)",
+      adminTitle: "Colonie des Établissements Français de l'Océanie (Papeete)",
+      note: "Archipels de la Société, des Tuamotu, des Gambier, des Marquises et des Australes. Chef-lieu Papeete.",
+    };
+  }
+
+  // 25. ÉTABLISSEMENTS FRANÇAIS DANS L'INDE (Pondichéry)
+  if (
+    normKey.includes('inde_franc') ||
+    normKey.includes('french_indi') ||
+    normKey.includes('pondicher') ||
+    normKey.includes('chandernagor') ||
+    normKey.includes('karikal') ||
+    normKey.includes('mahe') ||
+    normKey.includes('yanaon')
+  ) {
+    if (step >= 7 || owner === 'FFL_AEF' || owner === 'FFL') {
+      return {
+        name: "Établissements Français dans l'Inde (France Libre)",
+        adminTitle: "Ralliés à la France Libre (9 septembre 1940 — Louis Bonvin)",
+        note: "Le gouverneur Louis Bonvin proclame le ralliement officiel des comptoirs à la France Libre de De Gaulle le 9 septembre 1940.",
+      };
+    }
+    if (step === 6 || owner === 'VIC') {
+      return {
+        name: "Établissements Français dans l'Inde (Pondichéry — Armistice)",
+        adminTitle: "Comptoirs Français de l'Inde (Gouverneur Louis Bonvin)",
+        note: "Comptoirs souverains enclavés dans les Indes britanniques à la veille de leur adhésion à la France Libre.",
+      };
+    }
+    return {
+      name: "Établissements Français dans l'Inde (Pondichéry)",
+      adminTitle: "Comptoirs Français de l'Inde (Gouverneur Louis Bonvin)",
+      note: "Cinq comptoirs souverains enclavés dans les Indes britanniques (Pondichéry, Chandernagor, Karikal, Mahé, Yanaon).",
+    };
+  }
+
+  // 26. SAINT-PIERRE-ET-MIQUELON
+  if (normKey.includes('st_pierre') || normKey.includes('saint_pierre') || normKey.includes('miquelon')) {
+    return isVichyStep
+      ? {
+          name: "Saint-Pierre-et-Miquelon (Vichy)",
+          adminTitle: "Administration de Gilbert de Bournat (Régime de Vichy)",
+          note: "L'administrateur de Bournat maintient l'archipel fidèle à Vichy jusqu'au ralliement par l'amiral Muselier en décembre 1941.",
+        }
+      : {
+          name: "Saint-Pierre-et-Miquelon",
+          adminTitle: "Territoire Français des Îles Saint-Pierre-et-Miquelon",
+          note: "Archipel nord-atlantique au large de Terre-Neuve, administré par Gilbert de Bournat.",
+        };
+  }
+
+  return null;
+}
+
+/**
+ * Risoluzione toponomastica, istituzionale, militare e temporale dettagliata per l'Africa (1936-1940).
+ * Copre esaustivamente a livello di singole province e territori: Quarta Sponda (Libia),
+ * AOI (Etiopia, Eritrea, Somalia), AOF, AEF, Congo Belga, Colonie Portoghesi, Africa Britannica,
+ * Sudafrica e Dominions, Possedimenti Spagnoli (Rif, Sahara, Guinea, Tangeri) e Liberia.
+ */
+export function resolveAfricanToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // Protezione rigorosa contro entità chiaramente non africane (sovietiche, nordiche, esteuropee)
+  if (
+    owner === 'SOV' ||
+    owner === 'GER' ||
+    owner === 'POL' ||
+    owner === 'FIN' ||
+    owner === 'SWE' ||
+    owner === 'NOR' ||
+    owner === 'EST' ||
+    owner === 'LAT' ||
+    owner === 'LIT' ||
+    id.startsWith('SOV_') ||
+    id.startsWith('RUS_') ||
+    id.startsWith('FIN_') ||
+    id.startsWith('EST_') ||
+    id.startsWith('LVA_') ||
+    id.startsWith('LTU_') ||
+    id.startsWith('POL_')
+  ) {
+    return null;
+  }
+
+  // 0. ALGERIA FRANCESE (58 Wilayas / Dipartimenti e Territori del Sud 1936-1940)
+  const cleanDzId = id ? id.replace(/^DZ_/, 'DZ').toUpperCase() : '';
+  if (cleanDzId && (ALGERIA_PROVINCES_META as any)[cleanDzId]) {
+    const dz = (ALGERIA_PROVINCES_META as any)[cleanDzId];
+    return {
+      name: dz.historicalName,
+      adminTitle: dz.adminTitle,
+      note: dz.note,
+    };
+  }
+
+  // 0. MAROCCO FRANCESE (9 Regioni e Territori 1936-1940)
+  const cleanMaId = id ? id.replace(/^MA_/, 'MA').toUpperCase() : '';
+  if (cleanMaId && (MOROCCO_PROVINCES_META as any)[cleanMaId]) {
+    const ma = (MOROCCO_PROVINCES_META as any)[cleanMaId];
+    return {
+      name: ma.historicalName,
+      adminTitle: ma.adminTitle,
+      note: ma.note,
+    };
+  }
+
+  // 0. TUNISIA FRANCESE (24 Governatorati e Territori del Sud 1936-1940)
+  const cleanTnId = id ? id.replace(/^TN_/, 'TN').toUpperCase() : '';
+  if (cleanTnId && (TUNISIA_PROVINCES_META as any)[cleanTnId]) {
+    const tn = (TUNISIA_PROVINCES_META as any)[cleanTnId];
+    return {
+      name: tn.historicalName,
+      adminTitle: tn.adminTitle,
+      note: tn.note,
+    };
+  }
+
+  // 0. REGNO D'EGITTO (27 Governatorati e Mudiriyat 1936-1941: Cairo, Alessandria, Canale di Suez, Delta, Oasi e Frontiere)
+  const cleanEgId = id ? id.replace(/^EG_/, 'EG').toUpperCase() : '';
+  if (cleanEgId === 'EGMT' && step === 7) {
+    return {
+      name: 'Sidi Barrani e Marmarica Egiziana (Avanzata della 10ª Armata Italiana)',
+      adminTitle: "Zona d'Operazioni della 10ª Armata Italiana in Egitto (Maresciallo Rodolfo Graziani — Sidi Barrani)",
+      note: 'Nel settembre 1940 la 10ª Armata italiana (Maresciallo Rodolfo Graziani) oltrepassa il confine libico-egiziano occupando Sollum, il Passo di Halfaya e Sidi Barrani, dove erige una catena di campi trincerati fortificati (Nibeiwa, Tummar, Maktila) di fronte alla Western Desert Force britannica attestata a Mersa Matruh.',
+    };
+  }
+  if (cleanEgId === 'EGMT' && step >= 8) {
+    return {
+      name: 'Matruh, Sidi Barrani e Fronte di Sollum / Passo di Halfaya (Western Desert Force)',
+      adminTitle: "Regno d'Egitto / British Western Desert Force (Mersa Matruh — Frontiera di Sollum / Halfaya)",
+      note: "Dopo aver travolto la 10ª Armata italiana nell'Operazione Compass (dicembre 1940 - febbraio 1941), le forze imperiali britanniche sono state respinte dalla controffensiva lampo dell'Afrikakorps di Erwin Rommel fino alla frontiera egiziana (11 aprile 1941), dove il fronte si stabilizza lungo la scarpata di Sollum, Forte Capuzzo e il Passo di Halfaya mentre Tobruk resiste assediata.",
+    };
+  }
+  if (cleanEgId && EGYPT_DISTRICTS_META[cleanEgId]) {
+    const eg = EGYPT_DISTRICTS_META[cleanEgId];
+    return {
+      name: eg.historicalName,
+      adminTitle: eg.adminTitle,
+      note: eg.note,
+    };
+  }
+
+  if (
+    !normKey.includes('sudan') &&
+    (cleanEgId.startsWith('EG') ||
+      owner === 'EGY' ||
+      normKey.includes('egypt') ||
+      normKey.includes('egitto') ||
+    normKey.includes('cairo') ||
+    normKey.includes('qahirah') ||
+    normKey.includes('alexandria') ||
+    normKey.includes('alessandria') ||
+    normKey.includes('iskandariyah') ||
+    normKey.includes('matruh') ||
+    normKey.includes('marmarica') ||
+    normKey.includes('aswan') ||
+    normKey.includes('assuan') ||
+    normKey.includes('suez') ||
+    normKey.includes('suways') ||
+    normKey.includes('port_said') ||
+    normKey.includes('bur_said') ||
+    normKey.includes('ismailia') ||
+    normKey.includes('sinai') ||
+    normKey.includes('luxor') ||
+    normKey.includes('qena') ||
+    normKey.includes('asyut') ||
+    normKey.includes('sohag') ||
+    normKey.includes('suhaj') ||
+    normKey.includes('minya') ||
+    normKey.includes('fayyum') ||
+    normKey.includes('faiyum') ||
+    normKey.includes('beni_suef') ||
+    normKey.includes('bani_suwayf') ||
+    normKey.includes('giza') ||
+    normKey.includes('jizah') ||
+    normKey.includes('qalyubia') ||
+    normKey.includes('qalyubiyah') ||
+    normKey.includes('menoufia') ||
+    normKey.includes('minufiyah') ||
+    normKey.includes('gharbia') ||
+    normKey.includes('gharbiyah') ||
+    normKey.includes('beheira') ||
+    normKey.includes('buhayrah') ||
+    normKey.includes('kafr') ||
+    normKey.includes('damietta') ||
+    normKey.includes('dumyat') ||
+    normKey.includes('daqahlia') ||
+    normKey.includes('daqahliyah') ||
+    normKey.includes('sharqia') ||
+    normKey.includes('sharqiyah') ||
+    normKey.includes('red_sea') ||
+    normKey.includes('mar_rosso') ||
+    normKey.includes('bahr_al_ahmar') ||
+    normKey.includes('new_valley') ||
+    normKey.includes('nuova_valle') ||
+    normKey.includes('wadi_al_jadid'))
+  ) {
+    if (normKey.includes('cairo') || normKey.includes('qahirah') || cleanEgId === 'EGC') {
+      const eg = EGYPT_DISTRICTS_META['EGC'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('alexandria') || normKey.includes('alessandria') || normKey.includes('iskandariyah') || cleanEgId === 'EGALX') {
+      const eg = EGYPT_DISTRICTS_META['EGALX'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('matruh') || normKey.includes('marmarica') || cleanEgId === 'EGMT') {
+      const eg = EGYPT_DISTRICTS_META['EGMT'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('aswan') || normKey.includes('assuan') || cleanEgId === 'EGASN') {
+      const eg = EGYPT_DISTRICTS_META['EGASN'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('suez') || normKey.includes('suways') || cleanEgId === 'EGSUZ') {
+      const eg = EGYPT_DISTRICTS_META['EGSUZ'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('port_said') || normKey.includes('bur_said') || cleanEgId === 'EGPTS') {
+      const eg = EGYPT_DISTRICTS_META['EGPTS'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('ismailia') || cleanEgId === 'EGIS') {
+      const eg = EGYPT_DISTRICTS_META['EGIS'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('sinai') || cleanEgId === 'EGSIN' || cleanEgId === 'EGJS') {
+      const isSouth = normKey.includes('south') || normKey.includes('meridionale') || normKey.includes('janub') || cleanEgId === 'EGJS';
+      const eg = isSouth ? EGYPT_DISTRICTS_META['EGJS'] : EGYPT_DISTRICTS_META['EGSIN'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('red_sea') || normKey.includes('mar_rosso') || normKey.includes('bahr_al_ahmar') || cleanEgId === 'EGBA') {
+      const eg = EGYPT_DISTRICTS_META['EGBA'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('new_valley') || normKey.includes('nuova_valle') || normKey.includes('wadi_al_jadid') || normKey.includes('kharga') || cleanEgId === 'EGWAD') {
+      const eg = EGYPT_DISTRICTS_META['EGWAD'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('luxor') || normKey.includes('uqsur') || cleanEgId === 'EGLX') {
+      const eg = EGYPT_DISTRICTS_META['EGLX'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('qena') || normKey.includes('qina') || cleanEgId === 'EGKN') {
+      const eg = EGYPT_DISTRICTS_META['EGKN'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('asyut') || normKey.includes('asiut') || cleanEgId === 'EGAST') {
+      const eg = EGYPT_DISTRICTS_META['EGAST'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('sohag') || normKey.includes('suhaj') || cleanEgId === 'EGSHG') {
+      const eg = EGYPT_DISTRICTS_META['EGSHG'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('minya') || normKey.includes('menia') || cleanEgId === 'EGMN') {
+      const eg = EGYPT_DISTRICTS_META['EGMN'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('fayyum') || normKey.includes('faiyum') || cleanEgId === 'EGFYM') {
+      const eg = EGYPT_DISTRICTS_META['EGFYM'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('beni_suef') || normKey.includes('bani_suwayf') || cleanEgId === 'EGBNS') {
+      const eg = EGYPT_DISTRICTS_META['EGBNS'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('giza') || normKey.includes('jizah') || cleanEgId === 'EGGZ') {
+      const eg = EGYPT_DISTRICTS_META['EGGZ'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('qalyubia') || normKey.includes('qalyubiyah') || cleanEgId === 'EGKB') {
+      const eg = EGYPT_DISTRICTS_META['EGKB'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('menoufia') || normKey.includes('minufiyah') || cleanEgId === 'EGMNF') {
+      const eg = EGYPT_DISTRICTS_META['EGMNF'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('gharbia') || normKey.includes('gharbiyah') || cleanEgId === 'EGGH') {
+      const eg = EGYPT_DISTRICTS_META['EGGH'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('beheira') || normKey.includes('buhayrah') || cleanEgId === 'EGBH') {
+      const eg = EGYPT_DISTRICTS_META['EGBH'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('kafr') || cleanEgId === 'EGKFS') {
+      const eg = EGYPT_DISTRICTS_META['EGKFS'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('damietta') || normKey.includes('dumyat') || cleanEgId === 'EGDT') {
+      const eg = EGYPT_DISTRICTS_META['EGDT'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('daqahlia') || normKey.includes('daqahliyah') || cleanEgId === 'EGDK') {
+      const eg = EGYPT_DISTRICTS_META['EGDK'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    if (normKey.includes('sharqia') || normKey.includes('sharqiyah') || cleanEgId === 'EGSHR') {
+      const eg = EGYPT_DISTRICTS_META['EGSHR'];
+      return { name: eg.historicalName, adminTitle: eg.adminTitle, note: eg.note };
+    }
+    return {
+      name: "Kingdom of Egypt (British Military Sphere — Cairo)",
+      adminTitle: "Kingdom of Egypt (Anglo-Egyptian Treaty of 1936)",
+      note: "Monarchia costituzionale guidata da Re Faruq I, formalmente indipendente ma vincolata dal Trattato Anglo-Egiziano del 1936 che autorizzava la Gran Bretagna a mantenere guarnigioni permanenti a difesa del Canale di Suez, la base navale di Alessandria e il controllo del Cairo per la difesa strategica imperiale.",
+    };
+  }
+
+  // 1. QUARTA SPONDA & LIBIA ITALIANA (22 Province e Circondari 1936-1941: Tripoli, Bengasi, Derna, Misurata, Tobruk, Fezzan, Cufra, ecc.)
+  if (
+    id.startsWith('LY') ||
+    normKey.includes('libya') ||
+    normKey.includes('libia') ||
+    normKey.includes('tripoli') ||
+    normKey.includes('benghazi') ||
+    normKey.includes('bengasi') ||
+    normKey.includes('derna') ||
+    normKey.includes('misrata') ||
+    normKey.includes('misurata') ||
+    normKey.includes('tobruk') ||
+    normKey.includes('bardia') ||
+    normKey.includes('fezzan') ||
+    normKey.includes('cyrenaica') ||
+    normKey.includes('cirenaica') ||
+    normKey.includes('tripolitania') ||
+    normKey.includes('nalut') ||
+    normKey.includes('zuara') ||
+    normKey.includes('nuqat') ||
+    normKey.includes('kufra') ||
+    normKey.includes('cufra') ||
+    normKey.includes('murzuq') ||
+    normKey.includes('murzuch') ||
+    normKey.includes('butnan') ||
+    normKey.includes('wahat') ||
+    normKey.includes('oases') ||
+    normKey.includes('shati') ||
+    normKey.includes('sciati') ||
+    normKey.includes('ghat') ||
+    normKey.includes('surt') ||
+    normKey.includes('sirte') ||
+    normKey.includes('marqab') ||
+    normKey.includes('homs') ||
+    normKey.includes('zawiyah') ||
+    normKey.includes('zawia') ||
+    normKey.includes('akhdar') ||
+    normKey.includes('marj') ||
+    normKey.includes('barce') ||
+    normKey.includes('jifarah') ||
+    normKey.includes('jifara') ||
+    normKey.includes('gefara') ||
+    normKey.includes('gharbi') ||
+    normKey.includes('nefusa') ||
+    normKey.includes('jufrah') ||
+    normKey.includes('jufra') ||
+    normKey.includes('giofra') ||
+    normKey.includes('sabha') ||
+    normKey.includes('sebha') ||
+    normKey.includes('hayaa') ||
+    normKey.includes('agial') ||
+    normKey.includes('ubari')
+  ) {
+    // Exact ID matching for the 22 Libyan districts
+    if (id === 'LYTB') {
+      if (step >= 8) {
+        return {
+          name: 'Tripoli (Sbarco del Deutsches Afrikakorps — Operazione Sonnenblume)',
+          adminTitle: "Regno d'Italia — Comando Superiore FF.AA. Africa Settentrionale (Gen. Italo Gariboldi & Gen. Erwin Rommel)",
+          note: "OPERAZIONE SONNENBLUME (febbraio-aprile 1941): Nel porto di Tripoli sbarcano i reparti corazzati del Deutsches Afrikakorps (5ª Divisione Leggera e 15ª Divisione Panzer) guidati dal generale Erwin Rommel, affiancati dalle divisioni italiane Ariete, Trento e Brescia. Il generale Italo Gariboldi subentra a Rodolfo Graziani quale Governatore Generale e Comandante Superiore in Africa Settentrionale.",
+        };
+      }
+      return {
+        name: 'Tripoli (Tripolitania Italiana)',
+        adminTitle: step >= 6
+          ? "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo Rodolfo Graziani)"
+          : "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo dell'Aria Italo Balbo)",
+        note: "Capoluogo della Tripolitania e sede del Governatore Generale della Libia. Con il R.D.L. 9 gennaio 1939 n. 70, la provincia fu formalmente annessa al territorio metropolitano nazionale italiano (Quarta Sponda); capolinea occidentale della litoranea Via Balbia e aeroscalo di Castel Benito.",
+      };
+    }
+    if (id === 'LYBA') {
+      if (step >= 8) {
+        return {
+          name: 'Bengasi (Riconquista Italo-Tedesca — Controffensiva di Rommel)',
+          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Piazzaforte di Bengasi (Riconquistata il 4 aprile 1941)",
+          note: "Occupata dagli australiani di Wavell il 6 febbraio 1941 dopo l'Operazione Compass, Bengasi viene riconquistata il 4 aprile 1941 dalle colonne corazzate di Erwin Rommel e del Regio Esercito scattate da El Agheila il 24 marzo, riaprendo il porto avanzato della Cirenaica per i rifornimenti dell'Asse.",
+        };
+      }
+      return {
+        name: 'Bengasi (Cirenaica Italiana)',
+        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Bengasi (Quarta Sponda)",
+        note: "Capoluogo storico della Cirenaica e porto strategico sul Golfo della Sirte; incorporata nel territorio metropolitano del Regno d'Italia nel 1939. Base aerea di Berka e piazzaforte dell'Armata della Libia a presidio della costa orientale.",
+      };
+    }
+    if (id === 'LYDR' || normKey.includes('derna')) {
+      if (step >= 8) {
+        return {
+          name: "Derna e Mechili (Riconquista dell'Asse — Cattura dei Comandi Britannici)",
+          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Commissariato di Derna (Riconquistata il 7-8 aprile 1941)",
+          note: "Attraverso un'audace manovra a tenaglia sulle piste desertiche interne del Gebel fino a Mechili e Derna (7-8 aprile 1941), le forze italo-tedesche di Rommel e della Divisione Corazzata Ariete travolgono la 2ª Divisione Corazzata britannica catturando i generali Richard O'Connor e Philip Neame.",
+        };
+      }
+      return {
+        name: 'Derna (Cirenaica Orientale)',
+        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Derna (Quarta Sponda)",
+        note: "Porto costiero e capoluogo della Cirenaica nord-orientale lungo la Via Balbia, base navale secondaria e perno logistico per le operazioni verso il confine egiziano.",
+      };
+    }
+    if (id === 'LYMI' || normKey.includes('misrata') || normKey.includes('misurata')) {
+      return {
+        name: 'Misurata (Tripolitania Orientale)',
+        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Misurata (Quarta Sponda)",
+        note: "Commissariato costiero della Libia metropolitana tra la Tripolitania e la Sirtica; polo dei villaggi agricoli di colonizzazione demografica fascista (Crispi e Gioda) e porto d'appoggio mercantile.",
+      };
+    }
+    if (id === 'LYBU' || normKey.includes('tobruk') || normKey.includes('butnan') || normKey.includes('bardia')) {
+      if (step >= 8) {
+        return {
+          name: 'Tobruk (Assedio Italo-Tedesco della Piazzaforte) & Bardia',
+          adminTitle: "Fronte d'Assedio di Tobruk (DAK Gen. Erwin Rommel & Regio Esercito vs 9ª Divisione Australiana Gen. Leslie Morshead)",
+          note: "ASSEDIO DI TOBRUK (dal 10-11 aprile 1941): Mentre Bardia e Sollum cadono in mano all'Asse, la piazzaforte costiera di Tobruk resta tenacemente difesa dai 'Ratti di Tobruk' della 9ª Divisione australiana del generale Leslie Morshead, riforniti via mare dalla Royal Navy. Gli assalti corazzati di Rommel del 14 aprile (Battaglia di Pasqua) e del 30 aprile (Quota 209 / Ras el-Medauar) vengono respinti, dando inizio a un assedio di 241 giorni che blocca l'avanzata dell'Asse verso Alessandria.",
+        };
+      }
+      return {
+        name: 'Tobruch e Bardia (Piazzaforte di Tobruk)',
+        adminTitle: "Regno d'Italia — Comando Piazza Marittima di Tobruk / Settore Difensivo di Bardia",
+        note: "Piazzaforte marittima fortificata della Regia Marina e del Regio Esercito con opere d'arresto a ridosso del confine egiziano (Ridotta Capuzzo, Bardia, Ridotta Maddalena). Teatro dell'abbattimento per fuoco amico del Governatore Generale Italo Balbo il 28 giugno 1940.",
+      };
+    }
+    if (id === 'LYKF' || normKey.includes('kufra') || normKey.includes('cufra')) {
+      if (step >= 8) {
+        return {
+          name: 'Cufra (Oasi di Cufra — Conquistata dalla Colonna Leclerc / Francia Libera)',
+          adminTitle: "Forces Françaises Libres — Colonna del Colonnello Philippe Leclerc (Giuramento di Cufra, 1-2 marzo 1941)",
+          note: "Partita da Fort-Lamy nel Ciad, la colonna motorizzata delle Forze Francesi Libere guidata dal colonnello Philippe Leclerc de Hauteclocque espugna il Forte El Tag nell'oasi di Cufra il 1° marzo 1941. Il 2 marzo Leclerc pronuncia il celebre 'Giuramento di Cufra' (Serment de Koufra), giurando di non deporre le armi finché il tricolore francese non sventolerà sulla cattedrale di Strasburgo.",
+        };
+      }
+      return {
+        name: 'Cufra (Oasi di Cufra / El Tag)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Settore Sahariano di Cufra)",
+        note: "Vasto comprensorio desertico sahariano comprendente l'oasi di Cufra, il santuario senussita espugnato nel 1931, Forte El Tag e aeroscalo per le rotte transahariane verso l'AOI.",
+      };
+    }
+    if (id === 'LYMQ' || normKey.includes('murzuq') || normKey.includes('murzuch')) {
+      return {
+        name: 'Murzuch (Fezzan Meridionale)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Circondario del Fezzan Meridionale — Murzuch)",
+        note: "Antica capitale carovaniera del Fezzan meridionale; piazzaforte sahariana del Regio Esercito a sbarramento delle piste verso il massiccio del Tibesti e il confine con l'Africa Equatoriale Francese (Ciad).",
+      };
+    }
+    if (id === 'LYSB' || normKey.includes('sabha') || normKey.includes('sebha')) {
+      return {
+        name: 'Sebha (Forte Elena — Capoluogo del Fezzan)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Militare del Fezzan — Forte Elena)",
+        note: "Cuore politico e militare del Fezzan centrale dominato dal Forte Elena; perno operativo delle truppe mehariste cammellate e delle camionette sahariane armate.",
+      };
+    }
+    if (id === 'LYWS' || normKey.includes('shati') || normKey.includes('sciati') || normKey.includes('brak')) {
+      return {
+        name: 'Uadi Sciati (Oasi di Brak)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Presidio Sahariano di Brak)",
+        note: "Valle di oasi fossili nel nord del Fezzan con centro a Brak; fondamentale cerniera di approvvigionamento carovaniero tra la Tripolitania interna e Sebha.",
+      };
+    }
+    if (id === 'LYWD' || normKey.includes('hayaa') || normKey.includes('agial') || normKey.includes('ubari')) {
+      return {
+        name: 'Uadi el-Agial (Ubari e Valle dei Garamanti)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Presidio Sahariano di Ubari)",
+        note: "Valle storica dei Garamanti (antica capitale Germa / Garama) nel Fezzan occidentale; presidio sahariano di Ubari lungo la carovaniera che unisce Sebha all'oasi di Ghat al confine con l'Algeria.",
+      };
+    }
+    if (id === 'LYGT' || normKey.includes('ghat')) {
+      return {
+        name: 'Ghat (Sahara Sud-Occidentale / Tassili)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Presidio di Frontiera di Ghat)",
+        note: "Oasi fortezza all'estremità sud-occidentale della Libia, al triplice confine con Algeria (F_NAF) e Niger (F_AOF); presidiata dalla Compagnia Sahariana di Ghat nel Forte Saraceno a controllo delle rotte del Tassili n'Ajjer.",
+      };
+    }
+    if (id === 'LYJU' || normKey.includes('jufrah') || normKey.includes('jufra') || normKey.includes('giofra') || normKey.includes('hon') || normKey.includes('socna') || normKey.includes('uaddan')) {
+      return {
+        name: 'Giofra (Hon, Socna e Uaddan)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Superiore Sahariano — Hon)",
+        note: "Oasi strategiche della Giofra nel cuore della Libia; capoluogo a Hon e sede del Quartier Generale del Comando Militare del Territorio del Sud; campo d'aviazione del deserto per le Compagnie Sahariane.",
+      };
+    }
+    if (id === 'LYSR' || normKey.includes('surt') || normKey.includes('sirte') || normKey.includes('fileni') || normKey.includes('nofilia') || normKey.includes('agheila')) {
+      if (step >= 8) {
+        return {
+          name: 'Sirte ed El Agheila (Trampolino della Controffensiva di Rommel)',
+          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Stretta di El Agheila e Arco dei Fileni",
+          note: "Il 24 marzo 1941 dalla stretta di El Agheila e dall'Arco dei Fileni il generale Erwin Rommel lancia la prima fulminea offensiva italo-tedesca riconquistando Mersa El Brega, Agedabia e l'intera Cirenaica in meno di due settimane.",
+        };
+      }
+      return {
+        name: 'Sirte (Sirtica e Arco dei Fileni)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Misurata (Circondario della Sirtica)",
+        note: "Snodo costiero lungo il Golfo della Sirte, cerniera tra Tripolitania e Cirenaica attraversata dalla Via Balbia; a Ras Lanuf sorgeva l'Arco dei Fileni (1937) al confine storico delle due regioni; basi di Nofilia ed El Agheila.",
+      };
+    }
+    if (id === 'LYWA' || normKey.includes('oases') || normKey.includes('wahat') || normKey.includes('gialo') || normKey.includes('augila') || normKey.includes('giarabub')) {
+      if (step >= 8) {
+        return {
+          name: 'Al Wahat — Giarabub (Eroica Resistenza del Magg. Castagna) e Gialo',
+          adminTitle: "Regno d'Italia — Settore Sahariano di Gialo e Sacca di Giarabub (Dicembre 1940 – 21 Marzo 1941)",
+          note: "L'oasi fortificata di Giarabub, completamente isolata nel deserto per oltre tre mesi dopo il crollo della 10ª Armata, fu difesa fino all'ultima cartuccia dal presidio italiano del maggiore Salvatore Castagna contro la 6ª Divisione australiana fino all'assalto finale del 21 marzo 1941.",
+        };
+      }
+      return {
+        name: 'Al Wahat (Oasi di Gialo, Augila e Giarabub)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud / Cirenaica (Oasi di Gialo e Giarabub)",
+        note: "Arcipelago di oasi sahariane nel deserto cirenaico comprendente Gialo, Augila, Marada e la città santa di Giarabub; sede della confraternita senussita e della piazzaforte di Giarabub presidiata dal Regio Esercito.",
+      };
+    }
+    if (id === 'LYJA' || normKey.includes('akhdar') || normKey.includes('cirene') || normKey.includes('cyrene') || normKey.includes('apollonia')) {
+      return {
+        name: 'Gebel el-Achdar (Cirene / Beda Littoria)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Derna (Circondario del Gebel — Cirene)",
+        note: "Altopiano fertile della Cirenaica settentrionale (Montagna Verde); culla archeologica di Cirene e Apollonia; sede di intensi insediamenti agricoli dell'Ente di Colonizzazione ('Beda Littoria', 'Luigi Razza', 'D'Annunzio').",
+      };
+    }
+    if (id === 'LYMJ' || normKey.includes('marj') || normKey.includes('barce')) {
+      return {
+        name: 'Barce (Al Marj — Piana di Barce)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Bengasi (Circondario di Barce)",
+        note: "Conca cerealicola della Cirenaica occidentale servita dalla ferrovia per Bengasi; sede del villaggio coloniale 'Maddalena' e perno difensivo montano tra Bengasi e il Gebel.",
+      };
+    }
+    if (id === 'LYMB' || normKey.includes('marqab') || normKey.includes('homs') || normKey.includes('leptis') || normKey.includes('tarhuna') || normKey.includes('cussabat')) {
+      return {
+        name: 'Homs e Leptis Magna (Tripolitania Settentrionale)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Homs)",
+        note: "Provincia litoranea della Tripolitania settentrionale comprendente il porto di Homs, le grandiose rovine di Leptis Magna riscoperte dall'archeologia italiana e i villaggi olivicoli di Tarhuna e Cussabat.",
+      };
+    }
+    if (id === 'LYZA' || normKey.includes('zawiyah') || normKey.includes('zawia') || normKey.includes('sabratha') || normKey.includes('sorman')) {
+      return {
+        name: 'Zawiya e Sabratha (Tripolitania Costiera)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Zawiya)",
+        note: "Distretto agricolo e costiero a ovest di Tripoli comprendente le oasi di Zawiya, Sorman e gli scavi romani di Sabratha; attraversato dalla litoranea verso Zuara e sede del villaggio rurale 'Oliveti'.",
+      };
+    }
+    if (id === 'LYNQ' || normKey.includes('nuqat') || normKey.includes('zuara') || normKey.includes('zuwarah') || normKey.includes('pisida')) {
+      return {
+        name: 'Zuara e Frontiera Tunisina (Pisida)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Frontiera di Zuara)",
+        note: "Distretto costiero della Tripolitania all'estremo confine con la Tunisia francese (Ligne Mareth); comprende il porto berbero di Zuara, la laguna di Farwa, il caposaldo di Pisida e il capolinea della ferrovia per Tripoli.",
+      };
+    }
+    if (id === 'LYNL' || normKey.includes('nalut') || normKey.includes('cabao') || normKey.includes('giado')) {
+      return {
+        name: 'Nalut e Gebel Nefusa Occidentale (Cabao / Giado)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Nalut)",
+        note: "Bastione montano fortificato all'estremità occidentale del Gebel Nefusa a ridosso del confine tunisino; borgo berbero arroccato con il celebre Qasr fortificato; presidio di frontiera e nodo delle piste verso Gadames.",
+      };
+    }
+    if (id === 'LYJG' || normKey.includes('gharbi') || normKey.includes('garian') || normKey.includes('nefusa') || normKey.includes('iefren') || normKey.includes('mizda')) {
+      return {
+        name: 'Gebel Nefusa (Garian, Mizda e Iefren)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Garian)",
+        note: "Altopiano della Tripolitania interna con capoluogo a Garian (abitazioni trogloditiche); distretto delle coltivazioni olivicole, comando militare d'altura e via d'accesso alle oasi di Mizda e dell'Uadi Sofeggin.",
+      };
+    }
+    if (id === 'LYJI' || normKey.includes('jifarah') || normKey.includes('jifara') || normKey.includes('gefara') || normKey.includes('azizia')) {
+      return {
+        name: 'Piana della Gefara (El-Azizia / Suani Ben Adem)',
+        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario della Gefara)",
+        note: "Piana alluvionale suburbana immediatamente a sud di Tripoli; polo agricolo delle concessioni rurali e sede di El-Azizia (nota per i record mondiali di temperatura); snodo viario e ferroviario verso l'interno.",
+      };
+    }
+    if (normKey.includes('tripoli') || normKey.includes('tripolitania')) {
+      if (step >= 8) {
+        return {
+          name: 'Tripoli (Sbarco del Deutsches Afrikakorps — Operazione Sonnenblume)',
+          adminTitle: "Regno d'Italia — Comando Superiore FF.AA. Africa Settentrionale (Gen. Italo Gariboldi & Gen. Erwin Rommel)",
+          note: "OPERAZIONE SONNENBLUME (febbraio-aprile 1941): Nel porto di Tripoli sbarcano i reparti corazzati del Deutsches Afrikakorps guidati dal generale Erwin Rommel, avviando la riconquista della Cirenaica e l'assedio di Tobruk.",
+        };
+      }
+      return {
+        name: 'Tripoli (Tripolitania Italiana)',
+        adminTitle: step >= 6
+          ? "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo Rodolfo Graziani)"
+          : "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo dell'Aria Italo Balbo)",
+        note: "Capoluogo della Tripolitania e sede del Governatore Generale della Libia. Con il R.D.L. 9 gennaio 1939 n. 70, la provincia fu formalmente annessa al territorio metropolitano nazionale italiano (Quarta Sponda); capolinea occidentale della litoranea Via Balbia e aeroscalo di Castel Benito.",
+      };
+    }
+    if (normKey.includes('benghazi') || normKey.includes('bengasi') || normKey.includes('cyrenaica') || normKey.includes('cirenaica')) {
+      if (step >= 8) {
+        return {
+          name: 'Bengasi (Riconquista Italo-Tedesca — Controffensiva di Rommel)',
+          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Piazzaforte di Bengasi (Riconquistata il 4 aprile 1941)",
+          note: "Riconquistata il 4 aprile 1941 dalle colonne corazzate del generale Erwin Rommel e del Regio Esercito durante la fulminea controffensiva in Cirenaica.",
+        };
+      }
+      return {
+        name: 'Bengasi (Cirenaica Italiana)',
+        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Bengasi (Quarta Sponda)",
+        note: "Capoluogo storico della Cirenaica e porto strategico sul Golfo della Sirte; incorporata nel territorio metropolitano del Regno d'Italia nel 1939. Base aerea di Berka e piazzaforte dell'Armata della Libia a presidio della costa orientale.",
+      };
+    }
+    if (normKey.includes('fezzan')) {
+      return {
+        name: 'Territorio Militare del Sud (Fezzan / Sahara Libico)',
+        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Militare Sahariano, Hon / Cufra)",
+        note: "Vasto comprensorio desertico sahariano comprendente il Fezzan e le oasi di Murzuch, Sebha, Hon, Ghat e Cufra. Presidiato dalle Compagnie Sahariane per il pattugliamento delle piste transahariane verso il Ciad e il Niger.",
+      };
+    }
+    return {
+      name: step >= 8 ? 'Libia Italiana (Controffensiva dell\'Afrikakorps & Assedio di Tobruk)' : 'Libia Italiana (Quarta Sponda)',
+      adminTitle: step >= 8
+        ? "Regno d'Italia — Governo Generale della Libia (Gen. Italo Gariboldi & DAK Gen. Erwin Rommel)"
+        : step >= 6
+          ? "Regno d'Italia — Governo Generale della Libia (Maresciallo Rodolfo Graziani)"
+          : "Regno d'Italia — Governo Generale della Libia (Maresciallo dell'Aria Italo Balbo)",
+      note: step >= 8
+        ? "In seguito allo sbarco a Tripoli del Deutsches Afrikakorps di Erwin Rommel (Operazione Sonnenblume, febbraio-marzo 1941), le forze dell'Asse riconquistano l'intera Cirenaica e stringono d'assedio la guarnigione australiana di Tobruk (10 aprile 1941)."
+        : "Possedimento nordafricano unificato nel 1934 sotto Italo Balbo. Con il R.D.L. 9 gennaio 1939 n. 70, le quattro province costiere (Tripoli, Misurata, Bengasi, Derna) vennero incorporate come 19ª regione del territorio metropolitano del Regno d'Italia (Quarta Sponda), mantenendo il Territorio Militare del Sud a regime speciale.",
+    };
+  }
+
+  // 2. AFRICA ORIENTALE ITALIANA (Eritrea, Etiopia, Somalia, AOI)
+  if (normKey.includes('eritrea') && (owner === 'ITA' || owner === 'UK' || !normKey.includes('british'))) {
+    if (step >= 8 || owner === 'UK') {
+      return {
+        name: 'Eritrea (Occupazione Militare Britannica — Caduta di Cheren, Asmara e Massaua)',
+        adminTitle: 'British Military Administration in Eritrea (4ª e 5ª Divisione Indiana — Gen. William Platt)',
+        note: "Al termine della sanguinosa Battaglia di Cheren (5 febbraio – 27 marzo 1941), dove le truppe coloniali e i granatieri italiani del generale Nicolangelo Carnimeo resistettero per 53 giorni contro la 4ª e 5ª Divisione indiana del generale William Platt, le forze britanniche occupano Asmara (1 aprile) e la base navale di Massaua (8 aprile 1941), ponendo l'Eritrea sotto amministrazione militare britannica (OETA).",
+      };
+    }
+    return {
+      name: step >= 1
+        ? "Governo dell'Eritrea (Africa Orientale Italiana — Asmara / Massaua)"
+        : "Colonia Eritrea (Regno d'Italia — Asmara / Massaua)",
+      adminTitle: step >= 1
+        ? "Governo Generale dell'AOI — Governo dell'Eritrea"
+        : "Colonia del Regno d'Italia (Governatore Emilio De Bono / Pietro Badoglio)",
+      note: "Colonia primogenita italiana fondata nel 1890. Capoluogo Asmara ('Piccola Roma') e base navale di Massaua sul Mar Rosso, sede del Comando Navale AOI e della flottiglia della Regia Marina (cacciatorpediniere e sommergibili); base logistica fondamentale per la campagna d'Etiopia del 1935-36.",
+    };
+  }
+
+  if (
+    normKey.includes('ethiopia') ||
+    normKey.includes('etiopia') ||
+    normKey.includes('abyssinia') ||
+    normKey.includes('abissinia') ||
+    normKey.includes('addis_ababa') ||
+    normKey.includes('scioa') ||
+    normKey.includes('amhara') ||
+    normKey.includes('gondar') ||
+    normKey.includes('harar') ||
+    normKey.includes('galla_sidama') ||
+    normKey.includes('jimma')
+  ) {
+    if (step >= 8 || (step >= 1 && owner === 'ETH')) {
+      if (normKey.includes('amhara') || normKey.includes('gondar')) {
+        return {
+          name: 'Amhara e Gondar (Liberazione Etiope & Ridotta Italiana del Gen. Nasi)',
+          adminTitle: "Impero d'Etiopia Restaurato (Gideon Force / Arbegnoch) & Ridotta Italiana di Gondar",
+          note: "Nell'aprile 1941 l'Imperatore Haile Selassie e la Gideon Force di Orde Wingate avanzano attraverso il Gojjam verso Debra Marcos, mentre sull'Amba Alagi (Tigrai meridionale) il Viceré Amedeo di Savoia Duca d'Aosta guida l'ultima eroica resistenza prima dell'assedio finale, e a Gondar il generale Guglielmo Nasi prepara l'ultimo ridotto dell'AOI.",
+        };
+      }
+      if (normKey.includes('galla_sidama') || normKey.includes('jimma')) {
+        return {
+          name: "Galla e Sidama — Gimma (Collasso dell'AOI e Avanzata Britannica da Sud)",
+          adminTitle: "Impero d'Etiopia / Comando Alleato dell'Africa Orientale (Gen. Alan Cunningham)",
+          note: 'Nel sud-ovest etiopico (Gimma, laghi della Rift Valley e fiume Omo) le divisioni residue italiane del generale Pietro Gazzera ripiegano sotto la pressione convergente delle colonne alleate di Cunningham e dei patrioti etiopi.',
+        };
+      }
+      return {
+        name: "Impero d'Etiopia Restaurato (Liberazione di Addis Abeba — 6 Aprile 1941)",
+        adminTitle: "Ye’Ityōṗṗyā Nigūsa Negest Mengist — Negus Haile Selassie I & Gen. Alan Cunningham (OETA)",
+        note: "CADUTA DI ADDIS ABEBA (6 aprile 1941): Dopo aver percorso oltre 2.700 km da Mogadiscio attraverso l'Ogaden, Jijiga, Harar (25 marzo) e Dire Dawa (29 marzo), l'11ª Divisione Africana del generale Alan Cunningham entra ad Addis Abeba il 6 aprile 1941. L'Imperatore Haile Selassie I fa ritorno sul trono salomonico (ingresso solenne il 5 maggio 1941), mentre il Viceré Amedeo di Savoia Duca d'Aosta si trincera con 7.000 uomini sull'Amba Alagi.",
+      };
+    }
+    if (normKey.includes('amhara') || normKey.includes('gondar')) {
+      return {
+        name: "Governo dell'Amhara (AOI — Gondar)",
+        adminTitle: "Africa Orientale Italiana — Governo dell'Amhara",
+        note: "Regione montuosa settentrionale dell'AOI attorno al Lago Tana con capoluogo a Gondar, presidiata contro la guerriglia dei patrioti Arbegnoch.",
+      };
+    }
+    if (normKey.includes('harar')) {
+      return {
+        name: "Governo dell'Harar (AOI — Harar)",
+        adminTitle: "Africa Orientale Italiana — Governo dell'Harar",
+        note: "Provincia orientale dell'altopiano etiope e nodo ferroviario di Dire Dawa sulla linea ferrata strategica Gibuti-Addis Abeba.",
+      };
+    }
+    if (normKey.includes('galla_sidama') || normKey.includes('jimma')) {
+      return {
+        name: "Governo dei Galla e Sidama (AOI — Gimma)",
+        adminTitle: "Africa Orientale Italiana — Governo dei Galla e Sidama",
+        note: "Vasto governo meridionale dell'AOI solcato dai bacini del Nilo Azzurro e dell'Omo, ricco di risorse agricole e forestali.",
+      };
+    }
+    if (normKey.includes('addis_ababa') || normKey.includes('scioa')) {
+      return {
+        name: "Governo dello Scioa (AOI — Addis Abeba)",
+        adminTitle: "Africa Orientale Italiana — Capitale e Sede Vicereale",
+        note: "Capitale dell'Impero dell'AOI e sede del Viceré e Governatore Generale, fulcro politico, militare e amministrativo dell'Africa Orientale.",
+      };
+    }
+    return {
+      name: step === 0
+        ? "Impero d'Etiopia (Ye’Ityōṗṗyā Nigūsa Negest Mengist — Addis Abeba)"
+        : "Africa Orientale Italiana (AOI — Addis Abeba / Scioa)",
+      adminTitle: step === 0
+        ? "Impero Sovrano d'Etiopia (Negus Haile Selassie I)"
+        : (step < 3
+            ? "AOI — Viceré d'Etiopia (Maresciallo Rodolfo Graziani)"
+            : "AOI — Viceré d'Etiopia (Amedeo di Savoia, Duca d'Aosta)"),
+      note: step === 0
+        ? "Antico impero sovrano retto dal Negus Haile Selassie I, impegnato nella resistenza all'invasione coloniale italiana (Guerra d'Etiopia, 1935-1936)."
+        : "Impero proclamato da Benito Mussolini il 9 maggio 1936 dal balcone di Palazzo Venezia, assegnando la corona imperiale al Re Vittorio Emanuele III. Sede del Viceré e Governatore Generale ad Addis Abeba; articolato nei governi di Scioa, Amhara, Harar, Galla e Sidama, Eritrea e Somalia.",
+    };
+  }
+
+  if (
+    (id === 'SO' ||
+      id === 'SOM' ||
+      id === '706' ||
+      normKey === 'somalia' ||
+      normKey.includes('mogadishu') ||
+      normKey.includes('mogadiscio') ||
+      (normKey.includes('somali') && (normKey.includes('ital') || owner === 'ITA'))) &&
+    !normKey.includes('british') &&
+    !normKey.includes('britannic') &&
+    !normKey.includes('french') &&
+    id !== 'UK_SOMALILAND' &&
+    id !== 'BR_SOMALILAND'
+  ) {
+    if (step >= 8 || owner === 'UK') {
+      return {
+        name: 'Somalia Ex-Italiana (Occupazione Militare Britannica — Mogadiscio e Chisimaio)',
+        adminTitle: 'British Military Administration in Somalia (11ª e 12ª Divisione Africana — Gen. Alan Cunningham)',
+        note: "Partite dal Kenya nel gennaio-febbraio 1941, le forze del Commonwealth britannico guidate dal generale Alan Cunningham forzano la linea del fiume Giuba, occupano il porto di Chisimaio (14 febbraio) ed entrano a Mogadiscio il 25 febbraio 1941, ponendo l'intera Somalia italiana sotto amministrazione militare britannica.",
+      };
+    }
+    return {
+      name: step >= 1
+        ? "Governo della Somalia (Africa Orientale Italiana — Mogadiscio)"
+        : "Colonia della Somalia Italiana (Mogadiscio)",
+      adminTitle: step >= 1
+        ? "Governo Generale dell'AOI — Governo della Somalia"
+        : "Colonia del Regno d'Italia (Capoluogo Mogadiscio)",
+      note: "Possedimento italiano sull'Oceano Indiano unificato nel 1908 con l'incorporazione dell'Oltregiuba (Chisimaio) ceduto dalla Gran Bretagna nel 1924; organizzato come Governo della Somalia dell'AOI dal R.D.L. 1 giugno 1936.",
+    };
+  }
+
+  // 3. SOMALIA BRITANNICA (British Somaliland)
+  if (
+    id === 'UK_SOMALILAND' ||
+    id === 'BR_SOMALILAND' ||
+    normKey.includes('british_somaliland') ||
+    normKey.includes('somalia_britannica') ||
+    normKey.includes('berbera') ||
+    (normKey.includes('somaliland') && (owner === 'UK' || (!normKey.includes('italian') && !normKey.includes('french'))))
+  ) {
+    if (step >= 8) {
+      return {
+        name: 'British Somaliland Protectorate (Riconquista Britannica — Operazione Appearance, Berbera)',
+        adminTitle: 'British Military Administration — British Somaliland Protectorate (Gov. Vincent Glenday / Brig. Arthur Chater)',
+        note: "OPERAZIONE APPEARANCE (16 marzo 1941): Una forza anfibia britannica e indiana salpata da Aden sbarca a Berbera riconquistando in pochi giorni l'intero protettorato della Somalia Britannica (occupato dagli italiani nell'agosto 1940) e riaprendo i collegamenti logistici diretti verso Harar e Dire Dawa.",
+      };
+    }
+    if (step === 7 || owner === 'ITA') {
+      return {
+        name: 'Somalia Britannica Occupata (Conquista Italiana — Berbera e Passo di Tug Argan)',
+        adminTitle: 'Africa Orientale Italiana — Territorio Occupato della Somalia Britannica (Gen. Guglielmo Nasi)',
+        note: "Conquistata dalle truppe coloniali e nazionali italiane del generale Guglielmo Nasi tra il 3 e il 19 agosto 1940 dopo lo sfondamento del Passo di Tug Argan e l'evacuazione navale britannica da Berbera; unica campagna vittoriosa dell'Asse contro un possedimento britannico senza supporto tedesco.",
+      };
+    }
+    return {
+      name: "British Somaliland Protectorate (Berbera)",
+      adminTitle: step >= 6
+        ? "British Crown Protectorate (Colonial Office / Governor Arthur Chater — Allerta Bellica)"
+        : "British Crown Protectorate (Berbera)",
+      note: step >= 6
+        ? "Protettorato strategico della Corona britannica a guardia dell'accesso al Golfo di Aden e al Mar Rosso (capoluogo Berbera). A Giugno 1940, a seguito dell'entrata in guerra dell'Italia (10 giugno), il presidio britannico guidato dal tenente colonnello Arthur Chater (Somaliland Camel Corps e King's African Rifles) si trova in stato di massima allerta per la difesa delle rotte imperiali verso l'India. L'invasione italiana guidata dal Generale Guglielmo Nasi scatterà solo il 3 agosto 1940, culminando nella battaglia di Tug Argan e nella caduta di Berbera il 19 agosto."
+        : "Protettorato strategico della Corona britannica a presidio dell'accesso meridionale al Golfo di Aden e al Mar Rosso (capoluogo Berbera).",
+    };
+  }
+
+  // 4. CONGO BELGA & RUANDA-URUNDI
+  if (
+    normKey.includes('belgian_congo') ||
+    normKey.includes('congo_belge') ||
+    (normKey.includes('congo') && (owner === 'BEL' || normKey.includes('kinshasa') || normKey.includes('leopoldville') || normKey.includes('katanga')))
+  ) {
+    return {
+      name: "Congo Belge (Léopoldville / Kinshasa)",
+      adminTitle: "Gouvernement Général du Congo Belge (Gouverneur Général Pierre Ryckmans)",
+      note: "Colossale impero coloniale belga (2,3 milioni di km²) guidato con fermezza dal Governatore Generale Pierre Ryckmans. Cuore minerario del mondo per la produzione di rame, cobalto, stagno, gomma, diamanti industriali e uranio a Shinkolobwe (Katanga). Nel maggio 1940, dopo la resa di re Leopoldo III a Bruxelles, Ryckmans rifiutò la capitolazione e mantenne il Congo saldamente alleato della Gran Bretagna e del governo belga in esilio a Londra, mobilitando la Force Publique.",
+    };
+  }
+
+  if (
+    normKey.includes('ruanda') ||
+    normKey.includes('urundi') ||
+    normKey.includes('rwanda') ||
+    normKey.includes('burundi')
+  ) {
+    return {
+      name: "Ruanda-Urundi (Mandat Belge de la Société des Nations — Usumbura)",
+      adminTitle: "Territoire sous Mandat Belge de la Société des Nations (Usumbura / Kigali)",
+      note: "Ex-possedimento dell'Africa Orientale Tedesca affidato al Belgio in mandato di Classe B nel 1919 e amministrato come vice-governatorato federato al Congo Belga.",
+    };
+  }
+
+  // 5. COLONIE PORTOGHESI IN AFRICA (Angola, Mozambico, Guinea-Bissau, Capo Verde, São Tomé)
+  if (normKey.includes('angola')) {
+    return {
+      name: "África Ocidental Portuguesa (Angola — Luanda)",
+      adminTitle: "Império Colonial Português — Colónia de Angola (Luanda)",
+      note: "Vasta colonia portoghese sull'Atlantico meridionale; ferrovia transcontinentale di Benguela (sbocco fondamentale per l'esportazione del rame e cobalto del Katanga), diamanti della Diamang nel Lunda, caffè e cotone sotto il regime dell'Estado Novo di Salazar.",
+    };
+  }
+
+  if (normKey.includes('mozambique') || normKey.includes('mocambique')) {
+    return {
+      name: "África Oriental Portuguesa (Moçambique — Lourenço Marques / Maputo)",
+      adminTitle: "Império Colonial Português — Colónia de Moçambique",
+      note: "Colonia portoghese sull'Oceano Indiano con capitale Lourenço Marques e grande porto di Beira, sbocco marittimo fondamentale per le esportazioni della Rhodesia britannica e delle miniere del Transvaal sudafricano.",
+    };
+  }
+
+  if (
+    normKey.includes('guinea_bissau') ||
+    normKey.includes('portuguese_guinea') ||
+    normKey.includes('guine_portuguesa') ||
+    normKey.includes('bissau')
+  ) {
+    return {
+      name: "Guiné Portuguesa (Colónia da Guiné — Bissau)",
+      adminTitle: "Império Colonial Português — Colónia da Guiné (Bissau)",
+      note: "Colonia costiera portoghese in Africa occidentale incastonata tra Senegal e Guinea francese (capoluogo Bissau, porti di Bolama e Cacheu), centro di commercio dell'arachide e dell'olio di palma retto dall'Estado Novo di Salazar.",
+    };
+  }
+
+  if (normKey.includes('cape_verde') || normKey.includes('cabo_verde')) {
+    return {
+      name: "Província de Cabo Verde (Praia / Mindelo)",
+      adminTitle: "Império Colonial Português — Colónia de Cabo Verde",
+      note: "Arcipelago atlantico strategico; porto carbonifero di Porto Grande a Mindelo (São Vicente) e stazione di cavi telegrafici transoceanici.",
+    };
+  }
+
+  if (normKey.includes('sao_tome')) {
+    return {
+      name: "Província de São Tomé e Príncipe (São Tomé)",
+      adminTitle: "Império Colonial Português — Colónia de São Tomé e Príncipe",
+      note: "Arcipelago equatoriale nel Golfo di Guinea, piantagioni coloniali di cacao e caffè.",
+    };
+  }
+
+  // 5.5 PROTETTORATO FRANCESE DEL MAROCCO (Maroc Français — Rabat, Casablanca, Fès, Marrakech, Meknès, Oujda, Agadir)
+  // Territorio imperiale alawide (circa il 90% del Marocco geografico), nettamente distinto dal Protettorato Spagnolo del Marocco (Rif) a nord
+  if (
+    (normKey.includes('morocco') ||
+     normKey.includes('maroc') ||
+     normKey.includes('marocco') ||
+     normKey.includes('rabat') ||
+     normKey.includes('casablanca') ||
+     normKey.includes('marrakech') ||
+     normKey.includes('fez') ||
+     normKey.includes('fes') ||
+     normKey.includes('meknes') ||
+     normKey.includes('oujda') ||
+     normKey.includes('agadir') ||
+     normKey.includes('souss') ||
+     normKey.includes('cherifien')) &&
+    !normKey.includes('spanish') &&
+    !normKey.includes('espanol') &&
+    !normKey.includes('spagnolo') &&
+    !normKey.includes('rif') &&
+    !normKey.includes('tetuan') &&
+    !normKey.includes('tetouan') &&
+    !normKey.includes('larache') &&
+    !normKey.includes('xauen') &&
+    !normKey.includes('chefchaouen') &&
+    !normKey.includes('alhucemas') &&
+    !normKey.includes('nador') &&
+    owner !== 'SPR' &&
+    owner !== 'SPA'
+  ) {
+    if (normKey.includes('casablanca')) {
+      return {
+        name: step >= 6 ? 'Casablanca (Maroc — Base Navale Vichy)' : 'Casablanca (Grand Port Atlantique du Maroc)',
+        adminTitle: step >= 6
+          ? "Protectorat du Maroc — Base Navale Atlantique de Vichy"
+          : "Protectorat Français du Maroc — Grand Port de l'Atlantique & Poumon Économique",
+        note: step >= 6
+          ? "Metropoli atlantica e base navale di rifugio della corazzata Jean Bart (fuggita in extremis e incompleta dai cantieri di Saint-Nazaire il 19 giugno 1940); teatro del futuro scontro navale con la US Navy durante l'Operazione Torch (novembre 1942)."
+          : "Principale porto commerciale e centro industriale ed economico del protettorato francese, collegato alla rete ferroviaria atlantica e alle linee minerarie dell'Office Chérifien des Phosphates.",
+      };
+    }
+    if (normKey.includes('rabat')) {
+      return {
+        name: step >= 6 ? 'Rabat (Résidence Générale — Vichy)' : 'Rabat (Capitale Administrative du Protectorat)',
+        adminTitle: step >= 6
+          ? "Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)"
+          : "Résidence Générale de la République Française au Maroc (Général Charles Noguès)",
+        note: "Capitale amministrativa del protettorato francese e sede della Résidence Générale nonché della corte imperiale del Sultano alawide Sidi Mohammed ben Youssef (futuro Re Mohammed V).",
+      };
+    }
+    if (normKey.includes('fes') || normKey.includes('fez')) {
+      return {
+        name: 'Fès (Capitale Spirituelle et Historique du Maroc)',
+        adminTitle: 'Région Civile et Militaire de Fès (Empire Chérifien / Protectorat Français)',
+        note: 'Antica capitale imperiale e centro spirituale del Marocco con la storica moschea e università al-Qarawiyyin; sede della firma del Trattato di Fez del 30 marzo 1912 che istituì il protettorato francese.',
+      };
+    }
+    if (normKey.includes('marrakech')) {
+      return {
+        name: 'Marrakech (Capitale du Sud Marocain)',
+        adminTitle: 'Région Militaire de Marrakech (Pacha Thami El Glaoui / Protectorat Français)',
+        note: "Grande città imperiale alle pendici dell'Alto Atlante; polo politico e militare del Marocco meridionale controllato dall'influente Pacha Thami El Glaoui, alleato dell'amministrazione coloniale francese.",
+      };
+    }
+    return {
+      name: step >= 6
+        ? 'Protectorat du Maroc (Maroc Français — Vichy)'
+        : 'Protectorat Français du Maroc (Maroc Français — Rabat)',
+      adminTitle: step >= 6
+        ? "Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)"
+        : "Résidence Générale de la République Française (Général Charles Noguès / Sultan Sidi Mohammed)",
+      note: step >= 6
+        ? "Protettorato francese (esteso sul 90% del territorio marocchino, distinto dal Rif spagnolo a nord). Il Résident Général Charles Noguès, comandante in capo del teatro dell'Africa del Nord, rifiutò di passare alla dissidenza con De Gaulle dopo l'armistizio del 22 giugno 1940 e mantenne il Marocco fedele al regime di Vichy sotto la sorveglianza delle commissioni d'armistizio tedesca e italiana, ospitando a Casablanca la corazzata Jean Bart fino allo sbarco alleato di Torch nel novembre 1942."
+        : "Istituito con il Trattato di Fez del 30 marzo 1912 sotto sovranità imperiale alawide del Sultano Sidi Mohammed ben Youssef e tutela della Repubblica Francese (Résidence Générale a Rabat guidata dal generale Charles Noguès). Comprende la quasi totalità del territorio marocchino con le grandi città imperiali (Fès, Marrakech, Meknès), la capitale amministrativa Rabat, la metropoli industriale atlantica di Casablanca, la ferrovia dei fosfati e le divisioni coloniali dei Tirailleurs Marocains, Spahis e Goumiers dell'Armée d'Afrique.",
+    };
+  }
+
+  // 5.6 DÉPARTEMENTS FRANÇAIS D'ALGÉRIE (Alger, Oran, Constantine, Territoires du Sud)
+  if (
+    !normKey.includes('oranienbaum') &&
+    (id.startsWith('DZ') ||
+      owner === 'FRA' ||
+      owner === 'VIC' ||
+      owner === 'F_NAF' ||
+      owner === 'VIC_NAF' ||
+      normKey.includes('alger') ||
+      normKey.includes('mers_el_kebir')) &&
+    (normKey.includes('algeria') ||
+      normKey.includes('algerie') ||
+      normKey.includes('algiers') ||
+      (normKey.includes('oran') && !normKey.includes('oranienbaum')) ||
+      normKey.includes('constantine') ||
+      id.startsWith('DZ'))
+  ) {
+    if (normKey.includes('oran') && !normKey.includes('oranienbaum')) {
+      return {
+        name: step >= 6 ? 'Oran (Mers-el-Kébir — Base Navale Vichy)' : 'Oran (Département d\'Oran — Mers-el-Kébir)',
+        adminTitle: step >= 6
+          ? "Base Navale de Mers-el-Kébir / Préfecture d'Oran (Vichy)"
+          : "Département d'Oran (République Française) — Base Navale de Mers-el-Kébir",
+        note: step >= 6
+          ? "Grande rada e base navale fortificata della Marine Nationale. Il 3 luglio 1940 la Royal Navy britannica (Force H dell'ammiraglio Somerville) scatenò l'Operazione Catapult affondando la corazzata Bretagne e danneggiando la Dunkerque e la Provence per impedire che la flotta cadesse in mano tedesca, causando 1.297 marinai francesi caduti."
+          : "Dipartimento costiero occidentale dell'Algeria francese dotato della moderna base navale militare di Mers-el-Kébir e di un popoloso centro commerciale ed europeo.",
+      };
+    }
+    return {
+      name: step >= 6
+        ? 'Départements Français d\'Algérie (Alger, Oran, Constantine — Vichy)'
+        : 'Départements Français d\'Algérie (Alger, Oran, Constantine)',
+      adminTitle: step >= 6
+        ? "Gouvernement Général de l'Algérie (Yves Châtel / Maxime Weygand — Vichy)"
+        : "Gouvernement Général de l'Algérie (Gouverneur Général Georges Le Beau — Alger)",
+      note: step >= 6
+        ? "Territorio metropolitano d'oltremare rimasto sotto il regime di Vichy dopo l'armistizio di Compiègne. Sotto il Governatore Yves Châtel e poi il Delegato Generale Maxime Weygand, vi vennero applicate rigidamente le leggi del governo di Vichy e l'abrogazione del decreto Crémieux fino all'Operazione Torch."
+        : "Territorio metropolitano d'oltremare formalmente annesso alla Repubblica Francese e suddiviso nei tre dipartimenti di Alger (capitale Algeri), Oran e Constantine, oltre ai Territoires du Sud sahariani (XIX Corpo d'Armata). Popolazione di coloni europei (Pieds-Noirs) e truppe coloniali Zouaves, Tirailleurs Algériens e Chasseurs d'Afrique.",
+    };
+  }
+
+  // 5.7 PROTETTORATO FRANCESE DI TUNISIA (Tunis, Bizerte, Sfax, Ligne Mareth)
+  if (
+    normKey.includes('tunisia') ||
+    normKey.includes('tunisie') ||
+    normKey.includes('bizerte') ||
+    normKey.includes('sfax') ||
+    normKey.includes('mareth')
+  ) {
+    if (normKey.includes('bizerte')) {
+      return {
+        name: step >= 6 ? 'Bizerte (Base Navale sous Contrôle d\'Armistice — Vichy)' : 'Bizerte (Base Navale Stratégique & Arsenal de Sidi Abdallah)',
+        adminTitle: step >= 6
+          ? "Marine Nationale à Bizerte (Commission d'Armistice Italienne CIAF)"
+          : "Base Navale Majeure de la Marine Nationale dans le Détroit de Sicile",
+        note: step >= 6
+          ? "Arsenale e rada navale strategica sottoposta alla sorveglianza della Commissione Italiana d'Armistizio con la Francia (CIAF)."
+          : "Piazzaforte e arsenale di Sidi Abdallah a presidio del canale di Sicilia di fronte alle coste italiane e a Pantelleria.",
+      };
+    }
+    return {
+      name: step >= 6
+        ? 'Protectorat de Tunisie (Vichy — Tunis)'
+        : 'Protectorat Français de Tunisie (Tunis)',
+      adminTitle: step >= 6
+        ? "Résidence Générale de France en Tunisie (Amiral Jean-Pierre Esteva — Vichy)"
+        : "Résidence Générale de la République Française (Armand Guillon / Eirik Labonne — Tunis)",
+      note: step >= 6
+        ? "Protettorato francese sotto l'amministrazione dell'ammiraglio Jean-Pierre Esteva, fedele al maresciallo Pétain, sotto il controllo diretto della Commissione d'armistizio italiana (CIAF) e a ridosso del confine con la Libia italiana."
+        : "Protettorato francese istituito con il Trattato del Bardo (1881) sotto la dinastia husseinite del Bey di Tunisi (Ahmad II Bey) e la guida del Résident Général. A sud, la Ligne Mareth fortificata presidiava il confine contro la Libia italiana.",
+    };
+  }
+
+  // 5.8 AFRICA OCCIDENTALE FRANCESE (AOF — Dakar, Sénégal, Mauritanie, Soudan, Guinée, Côte d'Ivoire, Niger, Dahomey)
+  if (
+    normKey.includes('french_west_africa') ||
+    normKey.includes('afrique_occidentale_francaise') ||
+    normKey.includes('aof') ||
+    normKey.includes('dakar') ||
+    (normKey.includes('senegal') && !normKey.includes('british')) ||
+    normKey.includes('mauritania') ||
+    normKey.includes('soudan_francais') ||
+    (normKey.includes('ivory_coast') && !normKey.includes('gold_coast')) ||
+    normKey.includes('dahomey') ||
+    normKey.includes('haute_volta')
+  ) {
+    return {
+      name: step >= 6
+        ? 'Afrique-Occidentale Française (AOF — Vichy / Dakar)'
+        : 'Afrique-Occidentale Française (AOF — Dakar)',
+      adminTitle: step >= 6
+        ? "Haut-Commissariat de Pierre Boisson pour l'Afrique Noire (Dakar — Vichy)"
+        : "Gouvernement Général de l'AOF (Dakar — Jules Marcel de Coppet)",
+      note: step >= 6
+        ? "Fédération maintenue sous l'autorité du gouverneur général Pierre Boisson, farouchement fidèle à Vichy. Base navale strategica di Dakar, teatro della vittoriosa difesa nel settembre 1940 contro l'attacco navale anglo-gollista (Operazione Menace)."
+        : "Vasta federazione coloniale francese estesa dal Sahara all'Atlantico equatoriale (capitale Dakar), centro nevralgico della presenza coloniale della Terza Repubblica in Africa subsahariana.",
+    };
+  }
+
+  // 5.9 AFRICA EQUATORIALE FRANCESE & CAMERUN (AEF — Brazzaville, Tchad, Oubangui-Chari, Gabon, Moyen-Congo, Cameroun)
+  if (
+    normKey.includes('french_equatorial_africa') ||
+    normKey.includes('afrique_equatoriale_francaise') ||
+    normKey.includes('aef') ||
+    normKey.includes('brazzaville') ||
+    normKey.includes('tchad') ||
+    normKey.includes('chad') ||
+    normKey.includes('cameroun') ||
+    normKey.includes('french_cameroon') ||
+    normKey.includes('oubangui') ||
+    (normKey.includes('congo') && (owner === 'F_AEF' || owner === 'FFL_AEF')) ||
+    (normKey.includes('gabon') && (owner === 'F_AEF' || owner === 'FFL_AEF' || owner === 'VIC_AEF'))
+  ) {
+    if (normKey.includes('gabon')) {
+      if (owner === 'VIC_AEF' || (step === 6 && owner !== 'FFL_AEF')) {
+        return {
+          name: 'Colonie du Gabon (Vichy — Libreville)',
+          adminTitle: "Gouverneur Georges Masson (Régime de Vichy — Libreville)",
+          note: "Il governatore Georges Masson rifiuta il ralliement all'AEF e mantiene il Gabon fedele al regime di Vichy fino alla campagna militare condotta da Leclerc e Koenig.",
+        };
+      }
+      return {
+        name: step >= 7
+          ? 'Gabon (France Libre — Libreville)'
+          : 'Colonie du Gabon (AEF — Libreville)',
+        adminTitle: step >= 7
+          ? "Colonie du Gabon (Forces Françaises Libres — De Gaulle / Leclerc)"
+          : "Gouvernement de la Colonie du Gabon (Libreville)",
+        note: step >= 7
+          ? "Campagna del Gabon (ottobre-novembre 1940): le Forze Francesi Libere di Leclerc e Koenig occupano Libreville e Port-Gentil, parachebrando l'unità territoriale dell'Africa Francese Libera."
+          : "Colonia costiera dell'AEF affacciata sul golfo di Guinea (capoluogo Libreville e porto di Port-Gentil).",
+      };
+    }
+    return {
+      name: step >= 6
+        ? 'Afrique Française Libre (AEF — Brazzaville / Tchad / Cameroun)'
+        : 'Afrique-Équatoriale Française (AEF — Brazzaville)',
+      adminTitle: step >= 6
+        ? "Capitale de la France Libre (Félix Éboué & Edgard de Larminat — Brazzaville)"
+        : "Gouvernement Général de l'AEF (Brazzaville)",
+      note: step >= 6
+        ? "Nell'agosto 1940 il governatore del Ciad Félix Éboué e il colonnello Leclerc compiono lo storico ralliement dell'AEF e del Camerun al generale De Gaulle; Brazzaville diviene la capitale ufficiale dell'Impero della Francia Libera, fornendo la base territoriale sovrana e le truppe coloniali per la riscossa alleata in Africa."
+        : "Federazione coloniale francese dell'Africa equatoriale (capoluogo Brazzaville, affacciata sul fiume Congo di fronte a Léopoldville), comprendente Ciad, Ubanghi-Sciari, Medio Congo e Gabon, con il mandato di tutela sul Camerun.",
+    };
+  }
+
+  // 5.10 MADAGASCAR & SOMALIA FRANCESE (Gibuti)
+  if (normKey.includes('madagascar')) {
+    return {
+      name: step >= 6 ? 'Colonie de Madagascar (Vichy — Antananarivo)' : 'Colonie de Madagascar (Antananarivo)',
+      adminTitle: step >= 6
+        ? "Gouvernement Général de Madagascar (Armand Annet — Vichy)"
+        : "Gouvernement Général de Madagascar (Antananarivo)",
+      note: step >= 6
+        ? "Grande isola dell'Oceano Indiano rimasta sotto il controllo di Vichy, sede della base navale fortificata di Diego Suarez (futuro teatro dell'Operazione Ironclad britannica del 1942)."
+        : "Colonia francese nell'Oceano Indiano con capoluogo Antananarivo e grande base navale strategica a Diego Suarez (Antsiranana).",
+    };
+  }
+
+  if (normKey.includes('french_somaliland') || normKey.includes('cote_francaise_des_somalis') || normKey.includes('djibouti') || normKey.includes('gibuti')) {
+    return {
+      name: step >= 6 ? 'Côte Française des Somalis (Vichy — Djibouti)' : 'Côte Française des Somalis (Djibouti)',
+      adminTitle: step >= 6
+        ? "Commandement de Djibouti (Général Paul Legentilhomme / Vichy)"
+        : "Colonie de la Côte Française des Somalis (Djibouti)",
+      note: step >= 6
+        ? "Enclave strategica francese all'imbocco del Mar Rosso completamente circondata dall'Africa Orientale Italiana (AOI); rimasta leale a Vichy nonostante l'iniziale tentativo di dissidenza del generale Legentilhomme."
+        : "Colonia francese sul Golfo di Tagiura e capolinea della vitale ferrovia franco-etiope verso Addis Abeba, nodo navale e mercantile cruciale per l'accesso al Mar Rosso.",
+    };
+  }
+
+  // 6. POSSEDIMENTI SPAGNOLI IN AFRICA
+  // 6.1 PROTETTORATO SPAGNOLO DEL MAROCCO (Zona del Rif, Yebala, Lucus, Xauen y Kert — Tetuán)
+  // Striscia settentrionale costiera e montuosa, nettamente distinta dal Protettorato Francese del Marocco a sud
+  if (
+    normKey.includes('spanish_morocco') ||
+    normKey.includes('marruecos_espanol') ||
+    normKey.includes('marocco_spagnolo') ||
+    (normKey.includes('rif') && !normKey.includes('tariff')) ||
+    normKey.includes('tetuan') ||
+    normKey.includes('tetouan') ||
+    normKey.includes('larache') ||
+    normKey.includes('xauen') ||
+    normKey.includes('chefchaouen') ||
+    normKey.includes('alhucemas') ||
+    normKey.includes('nador') ||
+    normKey.includes('yebala') ||
+    normKey.includes('lucus') ||
+    normKey.includes('kert')
+  ) {
+    return {
+      name: "Protectorado Español de Marruecos (Zona del Rif — Tetuán)",
+      adminTitle: step === 0
+        ? "Segunda República Española — Alta Comisaría de España en Marruecos (Tetuán)"
+        : "Bando Nacional / Estado Español — Alta Comisaría de España en Marruecos (Tetuán)",
+      note: "Striscia costiera e montuosa settentrionale del Marocco (capitale Tetuán, suddivisa nei territori di Lucus, Yebala, Xauen, Rif e Kert), assegnata alla Spagna con il Trattato di Madrid del 1912 e distinta dal vasto protettorato francese. Nel luglio 1936 fu la culla dell'Alzamiento militare contro la Repubblica guidato dal generale Francisco Franco, quartier generale dell'Ejército de África e dei Regulares Indígenas che passarono lo Stretto verso la penisola iberica.",
+    };
+  }
+
+  if (normKey.includes('ceuta')) {
+    return {
+      name: "Ceuta (Plaza de Soberanía Española)",
+      adminTitle: step === 0
+        ? "Segunda República Española — Plaza de Soberanía"
+        : "Estado Español — Plaza de Soberanía (Base del Ejército de África)",
+      note: "Città autonoma fortificata sullo Stretto di Gibilterra, perno navale e militare d'eccellenza sin dalla sovranità iberica del 1580.",
+    };
+  }
+
+  if (normKey.includes('melilla')) {
+    return {
+      name: "Melilla (Plaza de Soberanía Española)",
+      adminTitle: step === 0
+        ? "Segunda República Española — Plaza de Soberanía"
+        : "Estado Español — Cuna del Alzamiento del 17 de Julio de 1936",
+      note: "Città fortificata sulla costa orientale del Rif dove il colonnello Seguí proclamò il primo atto della sollevazione militare nazionalista il 17 luglio 1936.",
+    };
+  }
+
+  if (normKey.includes('tangier') || normKey.includes('tanger') || id === 'TANGER') {
+    return {
+      name: step >= 6
+        ? "Tánger (Zona Ocupada Militarmente por España)"
+        : "Zone Internationale de Tanger / Zona Internacional de Tánger",
+      adminTitle: step >= 6
+        ? "Ocupación Militar Española (Coronel Antonio Yuste — 14 de junio de 1940)"
+        : "Administration Internationale de Tanger (Statut International de 1923)",
+      note: step >= 6
+        ? "Il 14 giugno 1940, in coincidenza con l'ingresso tedesco a Parigi, le truppe spagnole di Franco provenienti dal Rif invasero la zona internazionale smantellandone gli organi neutrali e annettendola di fatto al protettorato fino al 1945."
+        : "Città e territorio a statuto speciale internazionale neutralizzato dal 1923, governato congiuntamente da Francia, Spagna, Regno Unito, Italia, Belgio, Paesi Bassi e Portogallo.",
+    };
+  }
+
+  if (normKey.includes('ifni')) {
+    return {
+      name: "Territorio de Ifni (Sidi Ifni)",
+      adminTitle: step === 0
+        ? "Segunda República Española — Territorio de Ifni"
+        : "Estado Español — Gobierno Político-Militar de Ifni",
+      note: "Enclave costiera spagnola nel sud-ovest marocchino occupata militarmente nel 1934 dal colonnello Osvaldo Capaz, base d'appoggio per la sorveglianza delle rotte verso le Canarie.",
+    };
+  }
+
+  if (
+    normKey.includes('rio_de_oro') ||
+    normKey.includes('spanish_sahara') ||
+    normKey.includes('sahara_espanol')
+  ) {
+    return {
+      name: "Sáhara Español (Río de Oro y Saguia el-Hamra — Villa Cisneros)",
+      adminTitle: step === 0
+        ? "Segunda República Española — África Occidental Española"
+        : "Estado Español — África Occidental Española (Villa Cisneros / Cabo Juby)",
+      note: "Possedimento coloniale sahariano spagnolo articolato in Saguia el-Hamra al nord e Río de Oro al sud (capitale Villa Cisneros, odierna Dakhla, e forte di Cabo Juby). Scalo aeropostale atlantico (Aéropostale di Saint-Exupéry).",
+    };
+  }
+
+  if (
+    normKey.includes('equatorial_guinea') ||
+    normKey.includes('spanish_guinea') ||
+    normKey.includes('guinea_espanola') ||
+    normKey.includes('fernando_po') ||
+    normKey.includes('rio_muni')
+  ) {
+    return {
+      name: "Guinea Española (Territorios Españoles del Golfo de Guinea — Santa Isabel)",
+      adminTitle: step === 0
+        ? "Segunda República Española — Gobierno General de Guinea"
+        : "Estado Español — Territorios Españoles del Golfo de Guinea",
+      note: "Colonia spagnola nel Golfo di Guinea composta dall'isola di Fernando Poo (capoluogo Santa Isabel, odierna Malabo) e dal territorio continentale del Río Muni (Bata), produttrice di cacao e legnami tropicali.",
+    };
+  }
+
+  // 7. LIBERIA
+  if (normKey.includes('liberia') || normKey.includes('monrovia')) {
+    return {
+      name: "Republic of Liberia (Monrovia)",
+      adminTitle: "Independent Republic of Liberia (President Edwin Barclay)",
+      note: "Repubblica indipendente fondata nel 1847 da coloni afroamericani rimpatriati. Legata da stretti vincoli finanziari e strategici con gli Stati Uniti (Firestone Rubber Concession a Harbel, la più vasta piantagione di gomma naturale alleata) e sede di una fondamentale base di transito aereo per i velivoli statunitensi diretti in Europa e Medio Oriente.",
     };
   }
 
@@ -6796,6 +9614,11 @@ export function resolvePolandToponym(
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
 
+  // 0. I powiats dei Kresy Wschodnie (PL_KRESY_) sono gestiti dal loro handler dedicato ad altissima fedeltà
+  if (id.startsWith('PL_KRESY_')) {
+    return null;
+  }
+
   // 1. Danzica (PL633)
   if (
     id === 'PL633' ||
@@ -6815,6 +9638,27 @@ export function resolvePolandToponym(
       name: 'Danzig (Reichsgau Danzig-Westpreußen)',
       adminTitle: 'Deutsches Reich — Reichsgau Danzig-Westpreußen (Gauleiter Albert Forster)',
       note: 'Annessa al Terzo Reich il 1 settembre 1939 per proclama di Albert Forster come capitale del Reichsgau Danzig-Westpreußen.',
+    };
+  }
+
+  // 1b. Corridoio Polacco / Gdynia (PL_HIST_CORRIDOR)
+  if (
+    id === 'PL_HIST_CORRIDOR' ||
+    normKey === 'polish_corridor' ||
+    normKey.includes('corridor') ||
+    normKey.includes('korytarz')
+  ) {
+    if (step < 5) {
+      return {
+        name: 'Województwo Pomorskie (Gdynia / Hel)',
+        adminTitle: 'Rzeczpospolita Polska — Województwo Pomorskie (Gdynia, Puck, Hel)',
+        note: 'Corridoio Polacco (Polski Korytarz) — Accesso sovrano della Polonia al Mar Baltico con il porto strategico di Gdynia e la penisola di Hel.',
+      };
+    }
+    return {
+      name: 'Gotenhafen (Reichsgau Danzig-Westpreußen)',
+      adminTitle: 'Deutsches Reich — Reichsgau Danzig-Westpreußen (Gotenhafen / Gdynia)',
+      note: 'Occupazione e annessione tedesca della costa polacca; ribattezzata Gotenhafen e incorporata nel Reichsgau Danzig-Westpreußen.',
     };
   }
 
@@ -6891,6 +9735,10 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['tokyo', 'tokio', 'edo', 'tokyo_fu', 'kanto', 'jp_tokyo', '392'],
     adminTitle: 'Dai Nippon Teikoku — Tōkyō-fu (Kōkyo / Daihonei)',
     note: "Capitale dell'Impero Giapponese, residenza dell'Imperatore Shōwa (Hirohito) e sede del Gran Quartier Generale Imperiale (Daihonei).",
+    dynamicNote: (s: number) =>
+      s >= 8
+        ? "Capitale dell'Impero Giapponese e sede del Gran Quartier Generale Imperiale (Daihonei). Il 13 aprile 1941 il Ministro degli Esteri Yōsuke Matsuoka firma a Mosca il Patto quinquennale di neutralità sovietico-giapponese, mettendo in sicurezza il fronte settentrionale mancese e consentendo a Tokyo di concentrare la pianificazione strategica sull'espansione verso il Sud-Est asiatico e il Pacifico (Nanshin-ron)."
+        : "Capitale dell'Impero Giapponese, residenza dell'Imperatore Shōwa (Hirohito) e sede del Gran Quartier Generale Imperiale (Daihonei).",
   },
   {
     id: 'JP_KANSAI',
@@ -7685,6 +10533,1203 @@ export function resolveChinaToponym(
   return null;
 }
 
+export function resolveBritishColonialToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+  const n = normKey || '';
+  const nid = (id || '').toUpperCase();
+
+  // 1. Dominions del Commonwealth Britannico
+  // Canada
+  if (
+    owner === 'CAN' ||
+    nid === 'CA' ||
+    nid === 'CAN' ||
+    nid === '124' ||
+    n.includes('canada')
+  ) {
+    return {
+      name: 'Dominion of Canada (Ottawa)',
+      adminTitle: 'Dominion of the British Commonwealth',
+      note: 'Dominion autonomo sotto lo Statuto di Westminster (1931), guidato dal Primo Ministro W.L. Mackenzie King. Entrò formalmente in guerra il 10 settembre 1939 dopo autonoma approvazione parlamentare a Ottawa, fornendo all\'Impero grano, scorte belliche, la scorta dei convogli atlantici della Royal Canadian Navy e il massiccio programma di addestramento aeronautico del Commonwealth (BCATP).',
+    };
+  }
+
+  // Terranova (Newfoundland)
+  if (
+    nid === 'NF' ||
+    nid === 'NFD' ||
+    n.includes('newfoundland') ||
+    n.includes('terranova')
+  ) {
+    return {
+      name: 'Dominion of Newfoundland (St. John\'s)',
+      adminTitle: 'Dominion of Newfoundland (Commission of Government)',
+      note: 'Dominion con autogoverno sospeso dal 1934 a causa della crisi finanziaria della Grande Depressione, retto da una Commissione di Governo nominata da Londra. Base navale e aerea insostituibile per la protezione delle rotte convogli nell\'Atlantico settentrionale (Gander, St. John\'s).',
+    };
+  }
+
+  // Australia
+  if (
+    owner === 'AST' ||
+    nid === 'AU' ||
+    nid === 'AST' ||
+    nid === 'AUS' ||
+    nid === '036' ||
+    n.includes('australia')
+  ) {
+    return {
+      name: 'Commonwealth of Australia (Canberra)',
+      adminTitle: 'Dominion of the British Commonwealth',
+      note: 'Federazione autonoma del Commonwealth britannico (Primo Ministro Robert Menzies). Entrata in guerra a fianco della Gran Bretagna il 3 settembre 1939, mobilitò la Second Australian Imperial Force (AIF) e la Royal Australian Air Force (RAAF), impegnate in Nord Africa, Grecia, Medio Oriente e a Singapore.',
+    };
+  }
+
+  // Nuova Zelanda (New Zealand)
+  if (
+    (owner === 'NZL' && !n.includes('samoa') && !n.includes('niue')) ||
+    nid === 'NZ' ||
+    nid === 'NZL' ||
+    nid === '554' ||
+    n.includes('new_zealand') ||
+    n.includes('nuova_zelanda')
+  ) {
+    return {
+      name: 'Dominion of New Zealand (Wellington)',
+      adminTitle: 'Dominion of the British Commonwealth',
+      note: 'Dominion del Pacifico meridionale guidato dal Primo Ministro Michael Joseph Savage ("Where Britain goes, we go"). Schierò la 2ª Divisione di fanteria neozelandese in Medio Oriente e nel Mediterraneo, mentre la Royal New Zealand Navy partecipò alla caccia alla corazzata tascabile Graf Spee nel 1939 (HMS Achilles).',
+    };
+  }
+
+  // Unione Sudafricana (Union of South Africa)
+  if (
+    (owner === 'SAF' && !n.includes('south_west_africa') && !n.includes('south-west_africa') && !n.includes('namibia') && !n.includes('suidwes')) ||
+    nid === 'ZA' ||
+    nid === 'SAF' ||
+    nid === 'ZAF' ||
+    nid === '710' ||
+    n.includes('union_of_south_africa') ||
+    (n.includes('south_africa') && !n.includes('south_west')) ||
+    (n.includes('sudafrica') && !n.includes('sudovest'))
+  ) {
+    return {
+      name: 'Union of South Africa / Unie van Suid-Afrika (Pretoria / Cape Town)',
+      adminTitle: 'Dominion of the British Commonwealth',
+      note: 'Dominion bilingue anglo-afrikaner. Nel settembre 1939, in seguito alle dimissioni del neutralista J.B.M. Hertzog, il generale Jan Smuts assunse la guida del governo e dichiarò guerra il 6 settembre. La South African Union Defence Force (UDF) fu decisiva nella liberazione dell\'Africa Orientale Italiana (1940-1941).',
+    };
+  }
+
+  // Walvis Bay (Exclave sudafricana)
+  if (
+    n.includes('walvis_bay') ||
+    n.includes('walbis_bay')
+  ) {
+    return {
+      name: 'Walvis Bay (Exclave of the Union of South Africa)',
+      adminTitle: 'Port and Settlement of Walvis Bay (South Africa)',
+      note: 'Enclave costiera strategica d\'altura annessa alla Colonia del Capo nel 1884 e amministrata dall\'Unione Sudafricana, fondamentale per il rifornimento marittimo nell\'Atlantico meridionale.',
+    };
+  }
+
+  // Africa del Sud-Ovest (South West Africa / Mandato SAF)
+  if (
+    nid === 'NA' ||
+    nid === 'NAM' ||
+    nid === '516' ||
+    n.includes('south_west_africa') ||
+    n.includes('south-west_africa') ||
+    n.includes('namibia') ||
+    n.includes('suidwes')
+  ) {
+    return {
+      name: 'Suidwes-Afrika / South West Africa (Windhoek)',
+      adminTitle: 'League of Nations Mandate (Union of South Africa)',
+      note: 'Ex-Africa Tedesca del Sud-Ovest (Deutsch-Südwestafrika), affidata in mandato di Classe C della Società delle Nazioni all\'Unione Sudafricana nel 1919.',
+    };
+  }
+
+  // 2. Impero Indiano (British Raj) & Oceano Indiano
+  // British Raj / India
+  if (
+    owner === 'RAJ' ||
+    nid === 'IN' ||
+    nid === 'IND' ||
+    nid === 'RAJ' ||
+    nid === '356' ||
+    n.includes('british_raj') ||
+    n.includes('india') ||
+    n.includes('hindustan')
+  ) {
+    return {
+      name: 'British Raj (Imperial Crown of India / Hindūstān — New Delhi)',
+      adminTitle: 'Empire of India (British Crown / Viceroyalty)',
+      note: 'Il Gioiello della Corona dell\'Impero Britannico retto dal Viceré Lord Linlithgow. Nel settembre 1939 la Gran Bretagna dichiarò la guerra a nome dell\'India senza consultare i leader nazionalisti, scatenando le dimissioni dei governi provinciali del Congresso Nazionale Indiano (Gandhi, Nehru). Mobilitò la British Indian Army, la più grande armata interamente volontaria della storia con oltre 2,5 milioni di uomini.',
+    };
+  }
+
+  // Ceylon (Sri Lanka)
+  if (
+    nid === 'LK' ||
+    nid === 'LKA' ||
+    nid === '144' ||
+    n.includes('ceylon') ||
+    n.includes('sri_lanka')
+  ) {
+    return {
+      name: 'Ceylon (Crown Colony of Ceylon — Colombo)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona britannica dal 1802. Centro di produzione primaria di caucciù/gomma naturale vitale per le nazioni alleate e quartier generale navale della Eastern Fleet britannica (basi di Colombo e Trincomalee).',
+    };
+  }
+
+  // Birmania Britannica (British Burma)
+  if (
+    nid === 'MM' ||
+    nid === 'MMR' ||
+    nid === '104' ||
+    n.includes('burma') ||
+    n.includes('birmania') ||
+    n.includes('myanmar')
+  ) {
+    if (step === 0) {
+      return {
+        name: 'Burma (Province of the Indian Empire — Rangoon)',
+        adminTitle: 'Province of the Indian Empire',
+        note: 'Provincia dell\'Impero Anglo-Indiano fino al 1° aprile 1937, data in cui il Government of Burma Act 1935 la separò da Nuova Delhi erigendola a colonia della Corona autonoma.',
+      };
+    }
+    return {
+      name: 'British Burma (Crown Colony of Burma — Rangoon)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona autonoma dal 1° aprile 1937. Capolinea meridionale della celebre Burma Road (Strada della Birmania) aperta nel 1938 per rifornire la Repubblica di Cina nazionalista contro l\'invasione nipponica; ricca di giacimenti di petrolio (BOC a Yenangyaung), piombo, tungsteno e riso.',
+    };
+  }
+
+  // Isole Maldive (Maldive Islands)
+  if (
+    nid === 'MV' ||
+    nid === 'MDV' ||
+    nid === '462' ||
+    n.includes('maldive') ||
+    n.includes('maldives')
+  ) {
+    return {
+      name: 'Sultanate of the Maldive Islands (British Protected State)',
+      adminTitle: 'British Protected State (Ceylon Dependency)',
+      note: 'Sultanato islamico protetto dalla Gran Bretagna sotto giurisdizione del Governatore di Ceylon (Sultano Hassan Nooraddeen II), avamposto per le rotte navali dell\'Oceano Indiano centrale.',
+    };
+  }
+
+  // Mauritius
+  if (
+    nid === 'MU' ||
+    nid === 'MUS' ||
+    nid === '480' ||
+    n.includes('mauritius')
+  ) {
+    return {
+      name: 'Mauritius & Dependencies (Crown Colony — Port Louis)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona nell\'Oceano Indiano, snodo telegrafico vitale e stazione di rifornimento per i convogli che doppiando il Capo di Buona Speranza risalivano verso il Medio Oriente e l\'India.',
+    };
+  }
+
+  // Seychelles
+  if (
+    nid === 'SC' ||
+    nid === 'SYC' ||
+    nid === '690' ||
+    n.includes('seychelles')
+  ) {
+    return {
+      name: 'Seychelles (Crown Colony — Victoria)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona nell\'Oceano Indiano occidentale, stazione idrovolanti e avamposto d\'avvistamento a presidio delle rotte tra Mombasa e Bombay.',
+    };
+  }
+
+  // 3. Sud-Est Asiatico & Estremo Oriente
+  // British Malaya
+  if (
+    nid === 'MY' ||
+    nid === 'MYS' ||
+    nid === '458' ||
+    n.includes('malaya') ||
+    n.includes('malese') ||
+    n.includes('malaysia')
+  ) {
+    return {
+      name: 'British Malaya (Federated & Unfederated Malay States — Kuala Lumpur)',
+      adminTitle: 'British Protected States & Crown Colonies',
+      note: 'Complesso coloniale costituito da Stati Malesi Federati (Perak, Selangor, Negeri Sembilan, Pahang) e Non Federati (Johor, Kedah, Kelantan, Perlis, Terengganu). Primo produttore mondiale di gomma naturale (40%) e stagno (60%), cardini dell\'economia imperiale e delle riserve valutarie di dollari.',
+    };
+  }
+
+  // Straits Settlements / Singapore
+  if (
+    nid === 'SG' ||
+    nid === 'SGP' ||
+    nid === '702' ||
+    n.includes('singapore') ||
+    n.includes('straits_settlements')
+  ) {
+    return {
+      name: 'Straits Settlements (Singapore, Penang & Malacca)',
+      adminTitle: 'British Crown Colony — Singapore Naval Base',
+      note: 'Colonia della Corona e perno della "Singapore Strategy" per la difesa dell\'Impero in Estremo Oriente. Sede della grandiosa base navale di Sembawang (inaugurata nel 1938) con il bacino galleggiante King George VI.',
+    };
+  }
+
+  // Brunei
+  if (
+    nid === 'BN' ||
+    nid === 'BRN' ||
+    nid === '096' ||
+    n.includes('brunei')
+  ) {
+    return {
+      name: 'State of Brunei (British Protected State — Bandar Brunei)',
+      adminTitle: 'British Protected State',
+      note: 'Sultanato protetto britannico guidato dal Sultano Ahmad Tajuddin, sede dei floridi giacimenti petroliferi di Seria scoperti nel 1929 dalla British Malayan Petroleum Co. (Shell).',
+    };
+  }
+
+  // North Borneo / Sabah
+  if (
+    n.includes('north_borneo') ||
+    n.includes('borneo_del_nord') ||
+    n.includes('sabah')
+  ) {
+    return {
+      name: 'British North Borneo (Chartered Company — Sandakan)',
+      adminTitle: 'British Protectorate (North Borneo Chartered Company)',
+      note: 'Protettorato amministrato dalla British North Borneo Chartered Company sotto statuto reale della Corona, esportatore di caucciù e legname tropicale.',
+    };
+  }
+
+  // Sarawak
+  if (n.includes('sarawak')) {
+    return {
+      name: 'Kingdom of Sarawak (White Rajahs — Kuching)',
+      adminTitle: 'British Protected State (Brooke Dynasty)',
+      note: 'Stato protetto retto dal terzo "Rajah Bianco" Charles Vyner Brooke, dotato di giacimenti e raffinerie petrolifere strategiche a Miri e Lutong.',
+    };
+  }
+
+  // Hong Kong
+  if (
+    nid === 'HK' ||
+    nid === 'HKG' ||
+    nid === '344' ||
+    n.includes('hong_kong') ||
+    n.includes('hongkong')
+  ) {
+    return {
+      name: 'Crown Colony of Hong Kong (Victoria)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona britannica (Isola di Hong Kong, Kowloon e Nuovi Territori in concessione di 99 anni). Avamposto commerciale e navale strategico in Cina, isolato e accerchiato dalle truppe giapponesi dopo la presa di Canton nell\'ottobre 1938.',
+    };
+  }
+
+  // 4. Medio Oriente & Vicino Oriente
+  // Mandato di Palestina (British Mandate for Palestine)
+  if (
+    nid === 'PS' ||
+    nid === 'PSE' ||
+    nid === 'IL' ||
+    nid === 'ISR' ||
+    nid === '275' ||
+    nid === '376' ||
+    n.includes('palestine') ||
+    n.includes('palestina') ||
+    n.includes('israel') ||
+    n.includes('gerusalemme') ||
+    n.includes('jerusalem')
+  ) {
+    return {
+      name: 'British Mandate for Palestine (Jerusalem)',
+      adminTitle: 'League of Nations Class A Mandate',
+      note: 'Mandato di Classe A della Società delle Nazioni assegnato al Regno Unito. Teatro della Grande Rivolta Araba (1936-1939) repressa dalle forze britanniche e della pubblicazione del Libro Bianco del 1939 di Malcolm MacDonald. Porto terminale a Haifa per l\'oleodotto trans-iracheno di greggio Kirkuk-Haifa.',
+    };
+  }
+
+  // Transgiordania (Transjordan)
+  if (
+    nid === 'JO' ||
+    nid === 'JOR' ||
+    nid === '400' ||
+    n.includes('transjordan') ||
+    n.includes('transgiordania') ||
+    n.includes('jordan') ||
+    n.includes('giordania')
+  ) {
+    return {
+      name: 'Emirate of Transjordan (Amman)',
+      adminTitle: 'British Protected Emirate / League of Nations Mandate',
+      note: 'Emirato autonomo hashemita governato dall\'Emiro Abdullah I ibn Hussein con la celebre Arab Legion (Legione Araba) comandata dal brigadiere generale britannico John Bagot Glubb ("Glubb Pasha"), forza d\'élite disciplinata del Medio Oriente.',
+    };
+  }
+
+  // Iraq (Mesopotamia)
+  if (
+    owner === 'IRQ' ||
+    nid === 'IQ' ||
+    nid === 'IRQ' ||
+    nid === '368' ||
+    n.includes('iraq') ||
+    n.includes('mesopotam')
+  ) {
+    if (step >= 8) {
+      return {
+        name: "Regno dell'Iraq (Colpo di Stato Filo-Asse di Rashid Ali al-Kaylani — Baghdad & Habbaniya)",
+        adminTitle: "Regno dell'Iraq — Governo di Difesa Nazionale (PM Rashid Ali al-Kaylani & 'Quadrato d'Oro')",
+        note: "COLPO DI STATO NAZIONALISTA E GUERRA ANGLO-IRACHENA (aprile 1941): Il 1°-2 aprile 1941 l'ex Primo Ministro Rashid Ali al-Kaylani, appoggiato dai quattro colonnelli nazionalisti del 'Quadrato d'Oro' (Salah al-Din al-Sabbagh) e dal Gran Mufti Amin al-Husseini, rovescia il reggente filo-britannico 'Abd al-Ilah, istituisce un Governo di Difesa Nazionale filo-Asse e invia truppe e artiglieria ad assediare la base aerea britannica di RAF Habbaniya, mentre Londra fa sbarcare a Bassora la 10ª Divisione di Fanteria indiana (Operazione Sabine).",
+      };
+    }
+    return {
+      name: 'Kingdom of Iraq (Hashemite Monarchy — Baghdad)',
+      adminTitle: 'Independent Kingdom under British Treaty Alliance',
+      note: 'Regno hashemita governato dal reggente ‘Abd al-Ilah (per conto del giovane Re Faisal II), formalmente sovrano ma vincolato dal Trattato Anglo-Irakeno del 1930 che garantiva al Regno Unito basi militari della RAF (Habbaniya e Shaibah), il transito militare e il monopolio sui pozzi petroliferi dell\'Iraq Petroleum Company (Kirkuk e Mosul).',
+    };
+  }
+
+  // Kuwait
+  if (
+    nid === 'KW' ||
+    nid === 'KWT' ||
+    nid === '414' ||
+    n.includes('kuwait')
+  ) {
+    return {
+      name: 'State of Kuwait (British Protected State — Al-Kuwait)',
+      adminTitle: 'British Protected State (Al-Sabah Dynasty)',
+      note: 'Sceiccato protetto britannico governato da Sheikh Ahmad Al-Jaber Al-Sabah. Nel 1938 la Kuwait Oil Company scoprì a Burgan uno dei più giganteschi bacini petroliferi del pianeta.',
+    };
+  }
+
+  // Bahrain
+  if (
+    nid === 'BH' ||
+    nid === 'BHR' ||
+    nid === '048' ||
+    n.includes('bahrain')
+  ) {
+    return {
+      name: 'State of Bahrain (British Protected State — Manama)',
+      adminTitle: 'British Protected State (Al-Khalifa Dynasty)',
+      note: 'Protettorato britannico nel Golfo Persico, sede del Political Resident per il Golfo e prima nazione della penisola arabica a produrre ed esportare greggio raffinato (raffineria BAPCO di Sitra).',
+    };
+  }
+
+  // Qatar
+  if (
+    nid === 'QA' ||
+    nid === 'QAT' ||
+    nid === '634' ||
+    n.includes('qatar')
+  ) {
+    return {
+      name: 'State of Qatar (British Protected State — Doha)',
+      adminTitle: 'British Protected State (Al-Thani Dynasty)',
+      note: 'Sceiccato protetto britannico legato dal trattato del 1916 (Sheikh Abdullah bin Jassim Al-Thani). Nel 1939 la Petroleum Development (Qatar) Ltd vi scoprì il primo giacimento petrolifero a Dukhan.',
+    };
+  }
+
+  // Trucial States (Emirati della Tregua)
+  if (
+    nid === 'AE' ||
+    nid === 'ARE' ||
+    nid === '784' ||
+    n.includes('trucial') ||
+    n.includes('costa_dei_pirati') ||
+    n.includes('emirati')
+  ) {
+    return {
+      name: 'Trucial States (British Protected Sheikhdoms — Abu Dhabi, Dubai, etc.)',
+      adminTitle: 'British Protected Sheikhdoms (Trucial Coast)',
+      note: 'Insieme di sette sceiccati della costa del Golfo (Abu Dhabi, Dubai, Sharjah, Ajman, Umm al-Quwain, Ras al-Khaimah, Fujairah) legati a Whitehall da trattati di protezione esclusiva marittima e terrestre.',
+    };
+  }
+
+  // Muscat & Oman
+  if (
+    nid === 'OM' ||
+    nid === 'OMN' ||
+    nid === '512' ||
+    n.includes('muscat') ||
+    n.includes('oman')
+  ) {
+    return {
+      name: 'Sultanate of Muscat and Oman (British Protected State — Muscat)',
+      adminTitle: 'British Protected Sultanate (Al-Busaid Dynasty)',
+      note: 'Sultanato retto dalla dinastia Al-Busaid (Sultano Said bin Taimur), legato al Regno Unito da trattati di amicizia perpetua per la salvaguardia delle rotte del Mar Arabico e dello Stretto di Hormuz.',
+    };
+  }
+
+  // 22 Governatorati dello Yemen (Regno dello Yemen, Protettorato di Aden, Porto di Aden)
+  const cleanYeNid = nid ? nid.replace(/^YE_/, 'YE').toUpperCase() : '';
+  if (cleanYeNid && (YEMEN_PROVINCES_META as any)[cleanYeNid]) {
+    const ye = (YEMEN_PROVINCES_META as any)[cleanYeNid];
+    if (cleanYeNid === 'YEAD') {
+      if (step === 0) {
+        return {
+          name: "Aden (Porto dell'India Britannica — British Raj)",
+          adminTitle: "Chief Commissioner's Province of British India (Port of Aden)",
+          note: ye.note
+        };
+      }
+      return {
+        name: "Colonia di Aden (Crown Colony of Aden)",
+        adminTitle: "British Crown Colony of Aden (Colonial Office)",
+        note: ye.note
+      };
+    }
+    return {
+      name: ye.historicalName,
+      adminTitle: ye.adminTitle,
+      note: ye.note
+    };
+  }
+
+  // Aden generico (perimetro storico o residuo toponomastico)
+  if (n.includes('aden') || nid === '887') {
+    if (step === 0) {
+      return {
+        name: "Aden (Porto dell'India Britannica — British Raj)",
+        adminTitle: "Chief Commissioner's Province (British India)",
+        note: "Amministrato come insediamento sotto il Governo dell'India Britannica (Chief Commissioner) fino al 31 marzo 1937."
+      };
+    }
+    return {
+      name: "Colonia di Aden (Crown Colony of Aden)",
+      adminTitle: "British Crown Colony of Aden (Colonial Office)",
+      note: "Colonia della Corona e porto di bunkeraggio dal 1° aprile 1937."
+    };
+  }
+
+  // Regno dello Yemen generico
+  if (nid === 'YE' || nid === 'YEM' || n.includes('yemen')) {
+    return {
+      name: "Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Sana'a)",
+      adminTitle: "Regno Mutawakkilita dello Yemen (Imam Yahya Muhammad Hamid ed-Din)",
+      note: "Stato sovrano e teocrazia zaidita retta dall'Imam Yahya, con capitale a Sana'a."
+    };
+  }
+
+  // Algeria Francese (58 Wilayas)
+  const cleanDzNid = nid ? nid.replace(/^DZ_/, 'DZ').toUpperCase() : '';
+  if (cleanDzNid && (ALGERIA_PROVINCES_META as any)[cleanDzNid]) {
+    const dz = (ALGERIA_PROVINCES_META as any)[cleanDzNid];
+    return {
+      name: dz.historicalName,
+      adminTitle: dz.adminTitle,
+      note: dz.note,
+    };
+  }
+
+  // Marocco Francese (9 Regioni e Territori)
+  const cleanMaNid = nid ? nid.replace(/^MA_/, 'MA').toUpperCase() : '';
+  if (cleanMaNid && (MOROCCO_PROVINCES_META as any)[cleanMaNid]) {
+    const ma = (MOROCCO_PROVINCES_META as any)[cleanMaNid];
+    return {
+      name: ma.historicalName,
+      adminTitle: ma.adminTitle,
+      note: ma.note,
+    };
+  }
+
+  // Tunisia Francese (24 Governatorati e Territori del Sud)
+  const cleanTnNid = nid ? nid.replace(/^TN_/, 'TN').toUpperCase() : '';
+  if (cleanTnNid && (TUNISIA_PROVINCES_META as any)[cleanTnNid]) {
+    const tn = (TUNISIA_PROVINCES_META as any)[cleanTnNid];
+    return {
+      name: tn.historicalName,
+      adminTitle: tn.adminTitle,
+      note: tn.note,
+    };
+  }
+
+  // Egitto (Regno d'Egitto — Sfera Britannica)
+  const cleanEgNid = nid ? nid.replace(/^EG_/, 'EG').toUpperCase() : '';
+  if (cleanEgNid && EGYPT_DISTRICTS_META[cleanEgNid]) {
+    const eg = EGYPT_DISTRICTS_META[cleanEgNid];
+    return {
+      name: eg.historicalName,
+      adminTitle: eg.adminTitle,
+      note: eg.note,
+    };
+  }
+  if (
+    !n.includes('sudan') &&
+    (owner === 'EGY' ||
+      nid === 'EG' ||
+      nid === 'EGY' ||
+      nid === '818' ||
+      n.includes('egypt') ||
+      n.includes('egitto'))
+  ) {
+    return {
+      name: 'Kingdom of Egypt (British Military Sphere — Cairo)',
+      adminTitle: 'Kingdom of Egypt (Anglo-Egyptian Treaty of 1936)',
+      note: 'Monarchia costituzionale guidata da Re Faruq I, formalmente indipendente ma vincolata dal Trattato Anglo-Egiziano del 1936 che autorizzava la Gran Bretagna a mantenere guarnigioni permanenti a difesa del Canale di Suez, la base navale di Alessandria e il controllo del Cairo per la difesa strategica imperiale.',
+    };
+  }
+
+  // Sudan Anglo-Egiziano (Anglo-Egyptian Sudan)
+  if (
+    nid === 'SD' ||
+    nid === 'SDN' ||
+    nid === 'SS' ||
+    nid === 'SSD' ||
+    nid === '729' ||
+    nid === '736' ||
+    n.includes('sudan')
+  ) {
+    return {
+      name: 'Anglo-Egyptian Sudan (Khartoum)',
+      adminTitle: 'Anglo-Egyptian Condominium (British Governed)',
+      note: 'Condominio anglo-egiziano retto da un Governatore Generale britannico a Khartoum. Anello di congiunzione continentale tra il Mediterraneo e l\'Africa Equatoriale, con la Sudan Defence Force a presidio dei confini con l\'Eritrea e l\'Etiopia italiana.',
+    };
+  }
+
+  // 5. Africa Orientale, Centrale & Australe
+  // Somalia Britannica (British Somaliland)
+  if (
+    n.includes('british_somaliland') ||
+    n.includes('somalia_britannica') ||
+    (n.includes('somaliland') && !n.includes('french') && !n.includes('italian'))
+  ) {
+    if (step >= 6) {
+      return {
+        name: 'British Somaliland Protectorate (Berbera)',
+        adminTitle: 'British Crown Protectorate (Governor Arthur Chater / Somaliland Camel Corps — Allerta Bellica)',
+        note: 'Protettorato della Corona britannica a Berbera sul Golfo di Aden. A Giugno 1940 è saldamente sotto controllo britannico (Governatore Arthur Chater); l\'invasione italiana delle forze dell\'AOI guidate dal Generale Guglielmo Nasi scattò solo successivamente, tra il 3 e il 19 agosto 1940.',
+      };
+    }
+    return {
+      name: 'British Somaliland Protectorate (Berbera)',
+      adminTitle: 'British Protectorate',
+      note: 'Protettorato della Corona britannica con capoluogo Berbera, a presidio del Golfo di Aden e delle comunicazioni marittime del Corno d\'Africa con l\'Oceano Indiano.',
+    };
+  }
+
+  // Kenya
+  if (
+    nid === 'KE' ||
+    nid === 'KEN' ||
+    nid === '404' ||
+    n.includes('kenya')
+  ) {
+    return {
+      name: 'Kenya Colony and Protectorate (Nairobi & Mombasa)',
+      adminTitle: 'British Crown Colony & Protectorate',
+      note: 'Colonia della Corona dell\'interno e protettorato della fascia costiera di Mombasa. Snodo logistico primario per la ferrovia dell\'Uganda e base delle forze imperiali (King\'s African Rifles) schierate contro l\'Africa Orientale Italiana.',
+    };
+  }
+
+  // Uganda
+  if (
+    nid === 'UG' ||
+    nid === 'UGA' ||
+    nid === '800' ||
+    n.includes('uganda')
+  ) {
+    return {
+      name: 'Uganda Protectorate (Entebbe & Buganda)',
+      adminTitle: 'British Protectorate',
+      note: 'Protettorato britannico attorno al Lago Vittoria con capitale a Entebbe, imperniato sull\'accordo del 1900 con il Regno tradizionale del Buganda (Kabaka Daudi Cwa II / Mutesa II) e fornitore di cotone.',
+    };
+  }
+
+  // Tanganica (Tanganyika)
+  if (
+    nid === 'TZ' ||
+    nid === 'TZA' ||
+    nid === '834' ||
+    n.includes('tanganyika') ||
+    n.includes('tanganica') ||
+    n.includes('tanzania')
+  ) {
+    return {
+      name: 'Tanganyika Territory (League of Nations Mandate — Dar es Salaam)',
+      adminTitle: 'League of Nations Class B Mandate',
+      note: 'Ex-Africa Orientale Tedesca (Deutsch-Ostafrika) affidata al Regno Unito in mandato di Classe B nel 1919 (capitale Dar es Salaam). Maggior produttore mondiale di sisal, strategico per il cordame e l\'approvvigionamento navale alleato.',
+    };
+  }
+
+  // Zanzibar
+  if (n.includes('zanzibar')) {
+    return {
+      name: 'Sultanate of Zanzibar (British Protectorate — Stone Town)',
+      adminTitle: 'British Protected State (Al-Busaid Dynasty)',
+      note: 'Sultanato islamico protetto retto dal Sultano Khalifa bin Harub, perno storico del commercio di spezie (chiodi di garofano) e scalo marittimo dell\'Oceano Indiano occidentale.',
+    };
+  }
+
+  // Nyasaland (Malawi)
+  if (
+    nid === 'MW' ||
+    nid === 'MWI' ||
+    nid === '454' ||
+    n.includes('nyasaland') ||
+    n.includes('nyassa') ||
+    n.includes('malawi')
+  ) {
+    return {
+      name: 'Nyasaland Protectorate (Zomba)',
+      adminTitle: 'British Protectorate',
+      note: 'Protettorato britannico esteso lungo la sponda occidentale del Lago Nyasa con capitale Zomba, fornitore di manodopera specializzata per l\'Africa australe e battaglioni d\'élite dei King\'s African Rifles.',
+    };
+  }
+
+  // Rhodesia Settentrionale (Northern Rhodesia / Zambia)
+  if (
+    nid === 'ZM' ||
+    nid === 'ZMB' ||
+    nid === '894' ||
+    n.includes('northern_rhodesia') ||
+    n.includes('rhodesia_settentrionale') ||
+    n.includes('zambia')
+  ) {
+    return {
+      name: 'Northern Rhodesia (Crown Colony — Lusaka)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona britannica dal 1924 con capitale trasferita a Lusaka nel 1935. Il suo ricchissimo bacino minerario del Copperbelt rappresentava la principale riserva di rame dell\'Impero Britannico per le munizioni e l\'industria elettrica.',
+    };
+  }
+
+  // Rhodesia Meridionale (Southern Rhodesia / Zimbabwe)
+  if (
+    nid === 'ZW' ||
+    nid === 'ZWE' ||
+    nid === '716' ||
+    n.includes('southern_rhodesia') ||
+    n.includes('rhodesia_meridionale') ||
+    n.includes('zimbabwe') ||
+    (n.includes('rhodesia') && !n.includes('rhodes '))
+  ) {
+    return {
+      name: 'Southern Rhodesia (Self-Governing Colony — Salisbury)',
+      adminTitle: 'British Self-Governing Colony',
+      note: 'Colonia dotata di autogoverno responsabile dal 1923 per i coloni bianchi guidati dal Primo Ministro Sir Godfrey Huggins. Schierò rapidamente squadroni aerei e truppe terrestri nei teatri d\'operazione in Nord Africa e nel Corno d\'Africa.',
+    };
+  }
+
+  // Bechuanaland (Botswana)
+  if (
+    nid === 'BW' ||
+    nid === 'BWA' ||
+    nid === '072' ||
+    n.includes('bechuanaland') ||
+    n.includes('botswana')
+  ) {
+    return {
+      name: 'Bechuanaland Protectorate (Mafeking)',
+      adminTitle: 'High Commission Territory (British Protectorate)',
+      note: 'Vasto protettorato semidesertico del Kalahari amministrato dall\'Alto Commissario britannico in Sudafrica, con capitale amministrativa situata esternamente a Mafeking (nella Provincia del Capo).',
+    };
+  }
+
+  // Basutoland (Lesotho)
+  if (
+    nid === 'LS' ||
+    nid === 'LSO' ||
+    nid === '426' ||
+    n.includes('basutoland') ||
+    n.includes('lesotho')
+  ) {
+    return {
+      name: 'Basutoland (Crown Colony — Maseru)',
+      adminTitle: 'High Commission Territory (Crown Colony)',
+      note: 'Colonia montuosa della Corona completamente circondata dal territorio sudafricano, governata da un Commissario Residente britannico a Maseru e dall\'autorità tradizionale del Paramount Chief dei Basotho.',
+    };
+  }
+
+  // Swaziland (Eswatini)
+  if (
+    nid === 'SZ' ||
+    nid === 'SWZ' ||
+    nid === '748' ||
+    n.includes('swaziland') ||
+    n.includes('eswatini')
+  ) {
+    return {
+      name: 'Swaziland Protectorate (Mbabane)',
+      adminTitle: 'High Commission Territory (British Protectorate)',
+      note: 'Protettorato dell\'Alto Commissariato britannico retto dal giovane Re (Ngwenyama) Sobhuza II, incastonato tra il Transvaal sudafricano e il Mozambico portoghese.',
+    };
+  }
+
+  // 6. Africa Occidentale & Isole Atlantiche
+  // Nigeria
+  if (
+    nid === 'NG' ||
+    nid === 'NGA' ||
+    nid === '566' ||
+    n.includes('nigeria')
+  ) {
+    return {
+      name: 'Colony and Protectorate of Nigeria (Lagos)',
+      adminTitle: 'British Crown Colony & Protectorate',
+      note: 'Il territorio coloniale più esteso e popoloso della Gran Bretagna in Africa, unificato nel 1914 sotto Sir Frederick Lugard con il modello dell\'Indirect Rule. Fornitore primario di stagno (altopiano di Jos), gomma, carbone e olio di palma; base operativa della Royal West African Frontier Force (RWAFF).',
+    };
+  }
+
+  // Costa d'Oro & Togoland Britannico (Gold Coast / Ghana)
+  if (
+    nid === 'GH' ||
+    nid === 'GHA' ||
+    nid === '288' ||
+    n.includes('gold_coast') ||
+    n.includes('costa_d_oro') ||
+    n.includes('ghana')
+  ) {
+    return {
+      name: 'Gold Coast & British Togoland (Accra)',
+      adminTitle: 'British Crown Colony & League of Nations Mandate',
+      note: 'Colonia della Corona e mandato del Togoland occidentale con capitale Accra. Leader mondiale nell\'esportazione di cacao, dotata di ricche miniere d\'oro (Ashanti) e di bauxite vitale per la produzione d\'alluminio della RAF.',
+    };
+  }
+
+  // Sierra Leone
+  if (
+    nid === 'SL' ||
+    nid === 'SLE' ||
+    nid === '694' ||
+    n.includes('sierra_leone')
+  ) {
+    return {
+      name: 'Sierra Leone Colony and Protectorate (Freetown)',
+      adminTitle: 'British Crown Colony & Protectorate',
+      note: 'Il magnifico porto naturale di Freetown fungeva da fulcro strategico supremo per il raduno e la scorta dei convogli atlantici alleati (rotte Sierra Leone - Regno Unito), oltre a estrarre diamanti e ferro (Marampa).',
+    };
+  }
+
+  // Gambia
+  if (
+    nid === 'GM' ||
+    nid === 'GMB' ||
+    nid === '270' ||
+    n.includes('gambia')
+  ) {
+    return {
+      name: 'Gambia Colony and Protectorate (Bathurst)',
+      adminTitle: 'British Crown Colony & Protectorate',
+      note: 'Stretta enclave fluviale lungo il fiume Gambia e più antica colonia britannica in Africa (capitale Bathurst, odierna Banjul), impiegata per il pattugliamento aereo anti-sommergibile nell\'Atlantico.',
+    };
+  }
+
+  // Camerun Britannico (British Cameroons)
+  if (
+    n.includes('british_cameroon') ||
+    n.includes('camerun_britannico') ||
+    n.includes('cameroons')
+  ) {
+    return {
+      name: 'British Cameroons (Northern & Southern Cameroons — Mandate)',
+      adminTitle: 'League of Nations Class B Mandate',
+      note: 'Mandato di Classe B della Società delle Nazioni confinante con la Nigeria orientale, amministrato congiuntamente dalle autorità britanniche di Lagos.',
+    };
+  }
+
+  // Sant'Elena, Ascensione e Tristan da Cunha
+  if (
+    nid === 'SH' ||
+    nid === 'SHN' ||
+    nid === '654' ||
+    n.includes('saint_helena') ||
+    n.includes('sant_elena') ||
+    n.includes('ascension') ||
+    n.includes('tristan_da_cunha')
+  ) {
+    return {
+      name: 'Saint Helena, Ascension and Tristan da Cunha (Jamestown)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona isolata nell\'Atlantico meridionale. Stazione per cavi telegrafici sottomarini e base aerea di rifornimento strategico (Ascension Island divenne scalo di transito aeronavale transatlantico primario).',
+    };
+  }
+
+  // 7. Americhe, Caraibi & Atlantico Occidentale
+  // Jamaica
+  if (
+    nid === 'JM' ||
+    nid === 'JAM' ||
+    nid === '388' ||
+    n.includes('jamaica') ||
+    n.includes('giamaica')
+  ) {
+    return {
+      name: 'Jamaica & Dependencies (Crown Colony — Kingston)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona britannica dal 1655 con giurisdizione sulle Cayman e Turks e Caicos. Produttrice di zucchero e banane, centro navale di sorveglianza per l\'accesso al Canale di Panama.',
+    };
+  }
+
+  // Trinidad and Tobago
+  if (
+    nid === 'TT' ||
+    nid === 'TTO' ||
+    nid === '780' ||
+    n.includes('trinidad') ||
+    n.includes('tobago')
+  ) {
+    return {
+      name: 'Trinidad and Tobago (Crown Colony — Port of Spain)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona e maggior polo petrolifero dell\'Impero Britannico nell\'emisfero occidentale (giacimenti e raffinerie a Pointe-à-Pierre per benzina avio). Nel 1940 ospitò nuove basi navali e aeree statunitensi con l\'accordo Destroyers for Bases.',
+    };
+  }
+
+  // Guiana Britannica (British Guiana)
+  if (
+    nid === 'GY' ||
+    nid === 'GUY' ||
+    nid === '328' ||
+    n.includes('british_guiana') ||
+    n.includes('guiana_britannica') ||
+    (n.includes('guyana') && !n.includes('french') && !n.includes('dutch'))
+  ) {
+    return {
+      name: 'British Guiana (Crown Colony — Georgetown)',
+      adminTitle: 'British Crown Colony',
+      note: 'Unica colonia britannica nel Sudamerica continentale, confinante con Venezuela e Brasile. Produttrice di bauxite di eccellente qualità chimica (Mackenzie) indispensabile per la fusione dell\'alluminio per gli aerei alleati.',
+    };
+  }
+
+  // Honduras Britannico (British Honduras / Belize)
+  if (
+    nid === 'BZ' ||
+    nid === 'BLZ' ||
+    nid === '084' ||
+    n.includes('british_honduras') ||
+    n.includes('honduras_britannico') ||
+    n.includes('belize')
+  ) {
+    return {
+      name: 'British Honduras (Crown Colony — Belize City)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona sulla costa caraibica dell\'America Centrale, produttrice di legname (mogano) e chicle; al centro di una secolare disputa confinaria con il Guatemala.',
+    };
+  }
+
+  // Bahamas
+  if (
+    nid === 'BS' ||
+    nid === 'BHS' ||
+    nid === '044' ||
+    n.includes('bahamas')
+  ) {
+    return {
+      name: 'Bahamas (Crown Colony — Nassau)',
+      adminTitle: 'British Crown Colony',
+      note: 'Arcipelago atlantico e colonia della Corona britannica; nel 1940 il Duca di Windsor (l\'ex Re Edoardo VIII) vi fu assegnato come Governatore per ragioni di sicurezza e propaganda durante il conflitto.',
+    };
+  }
+
+  // Bermuda
+  if (
+    nid === 'BM' ||
+    nid === 'BMU' ||
+    nid === '060' ||
+    n.includes('bermuda')
+  ) {
+    return {
+      name: 'Bermuda (Somer Isles — Crown Colony — Hamilton)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona e base navale storica dell\'America and West Indies Station della Royal Navy. Centro imperiale di intelligence e censura postale transatlantica (Imperial Censorship a Hamilton).',
+    };
+  }
+
+  // Barbados
+  if (
+    nid === 'BB' ||
+    nid === 'BRB' ||
+    nid === '052' ||
+    n.includes('barbados')
+  ) {
+    return {
+      name: 'Barbados (Crown Colony — Bridgetown)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona nelle Piccole Antille con uno dei parlamenti più antichi dell\'Impero (House of Assembly fondata nel 1639), produttrice di canna da zucchero e rum.',
+    };
+  }
+
+  // Isole Cayman (Cayman Islands)
+  if (
+    nid === 'KY' ||
+    nid === 'CYM' ||
+    nid === '136' ||
+    n.includes('cayman')
+  ) {
+    return {
+      name: 'Cayman Islands (Dependency of Jamaica — George Town)',
+      adminTitle: 'British Crown Colony (Jamaica Dependency)',
+      note: 'Gruppo di isole caraibiche amministrate come dipendenza della colonia della Corona della Giamaica.',
+    };
+  }
+
+  // Turks e Caicos (Turks and Caicos Islands)
+  if (
+    nid === 'TC' ||
+    nid === 'TCA' ||
+    nid === '796' ||
+    n.includes('turks') ||
+    n.includes('caicos')
+  ) {
+    return {
+      name: 'Turks and Caicos Islands (Grand Turk)',
+      adminTitle: 'British Crown Colony (Jamaica Dependency)',
+      note: 'Arcipelago caraibico amministrato dal Governatore della Giamaica attraverso un Commissario residente a Grand Turk, celebre per le saline marine.',
+    };
+  }
+
+  // Leeward Islands (Isole Sottovento Britanniche)
+  if (
+    nid === 'AG' || nid === 'ATG' || nid === '028' || n.includes('antigua') || n.includes('barbuda')
+  ) {
+    return {
+      name: 'Antigua and Barbuda (Leeward Islands Colony — St. John\'s)',
+      adminTitle: 'Federal Colony of the Leeward Islands',
+      note: 'Sede del Governatore della colonia federale delle Isole Sottovento britanniche (Leeward Islands).',
+    };
+  }
+
+  if (
+    nid === 'KN' || nid === 'KNA' || nid === '659' || n.includes('kitts') || n.includes('nevis') || n.includes('christopher')
+  ) {
+    return {
+      name: 'Saint Christopher and Nevis (Leeward Islands — Basseterre)',
+      adminTitle: 'Federal Colony of the Leeward Islands',
+      note: 'Presidenza insulare della colonia federale delle Isole Sottovento britanniche, grande centro di produzione di canna da zucchero.',
+    };
+  }
+
+  if (
+    nid === 'MS' || nid === 'MSR' || nid === '500' || n.includes('montserrat')
+  ) {
+    return {
+      name: 'Montserrat (Leeward Islands Colony — Plymouth)',
+      adminTitle: 'Federal Colony of the Leeward Islands',
+      note: 'Presidenza insulare della colonia federale delle Isole Sottovento britanniche (capitale Plymouth).',
+    };
+  }
+
+  if (
+    nid === 'AI' || nid === 'AIA' || nid === '660' || n.includes('anguilla')
+  ) {
+    return {
+      name: 'Anguilla (Leeward Islands Colony — The Valley)',
+      adminTitle: 'Federal Colony of the Leeward Islands',
+      note: 'Territorio insulare collegato all\'amministrazione di Saint Kitts nelle Isole Sottovento britanniche.',
+    };
+  }
+
+  if (
+    nid === 'VG' || nid === 'VGB' || nid === '092' || n.includes('virgin_islands') || n.includes('vergini_britanniche')
+  ) {
+    return {
+      name: 'British Virgin Islands (Road Town)',
+      adminTitle: 'Federal Colony of the Leeward Islands',
+      note: 'Arcipelago insulare britannico delle Isole Vergini con capoluogo a Road Town (Tortola).',
+    };
+  }
+
+  // Windward Islands (Isole Sopravvento Britanniche)
+  if (
+    nid === 'DM' || nid === 'DMA' || nid === '212' || n.includes('dominica')
+  ) {
+    return {
+      name: 'Dominica (Windward Islands Colony — Roseau)',
+      adminTitle: 'Colony of the Windward Islands',
+      note: 'Isola delle Piccole Antille trasferita nel 1940 dalle Isole Sottovento alla federazione delle Isole Sopravvento britanniche (capitale Roseau).',
+    };
+  }
+
+  if (
+    nid === 'LC' || nid === 'LCA' || nid === '662' || n.includes('lucia')
+  ) {
+    return {
+      name: 'Saint Lucia (Windward Islands Colony — Castries)',
+      adminTitle: 'Colony of the Windward Islands',
+      note: 'Colonia delle Isole Sopravvento con il porto naturale fortificato di Castries, base di rifornimento navale strategica per la Royal Navy.',
+    };
+  }
+
+  if (
+    nid === 'VC' || nid === 'VCT' || nid === '670' || n.includes('vincent') || n.includes('grenadines')
+  ) {
+    return {
+      name: 'Saint Vincent and the Grenadines (Kingstown)',
+      adminTitle: 'Colony of the Windward Islands',
+      note: 'Colonia delle Isole Sopravvento britanniche con capoluogo Kingstown, produttrice di fecola di maranta (arrowroot) e cotone Sea Island.',
+    };
+  }
+
+  if (
+    nid === 'GD' || nid === 'GRD' || nid === '308' || n.includes('grenada')
+  ) {
+    return {
+      name: 'Grenada (Windward Islands Colony — St. George\'s)',
+      adminTitle: 'Colony of the Windward Islands',
+      note: 'Sede del Governatore delle Isole Sopravvento britanniche (St. George\'s), nota come "l\'Isola delle Spezie" per la massiccia esportazione di noce moscata.',
+    };
+  }
+
+  // Falkland (Isole Falkland / Malvinas)
+  if (
+    nid === 'FK' ||
+    nid === 'FLK' ||
+    nid === '238' ||
+    n.includes('falkland') ||
+    n.includes('malvinas')
+  ) {
+    return {
+      name: 'Falkland Islands and Dependencies (Port Stanley)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona e base navale di controllo del passaggio di Capo Horn e dell\'Antartide. Stazione di supporto cruciale per la Royal Navy durante la battaglia di Rio de la Plata nel dicembre 1939.',
+    };
+  }
+
+  // 8. Oceania & Pacifico
+  // Papua & Nuova Guinea
+  if (
+    nid === 'PG' ||
+    nid === 'PNG' ||
+    nid === '598' ||
+    n.includes('papua') ||
+    (n.includes('new_guinea') && !n.includes('dutch')) ||
+    (n.includes('nuova_guinea') && !n.includes('olandese'))
+  ) {
+    return {
+      name: 'Territory of Papua and New Guinea (Port Moresby)',
+      adminTitle: 'Australian External Territory & League of Nations Mandate',
+      note: 'Territorio esterno australiano (Papua britannica al sud) e mandato di Classe C della Società delle Nazioni per l\'ex-Nuova Guinea Tedesca (a nord e isole dell\'arcipelago di Bismarck).',
+    };
+  }
+
+  // Isole Salomone Britanniche (Solomon Islands)
+  if (
+    nid === 'SB' ||
+    nid === 'SLB' ||
+    nid === '090' ||
+    n.includes('solomon') ||
+    n.includes('salomone')
+  ) {
+    return {
+      name: 'British Solomon Islands Protectorate (Tulagi)',
+      adminTitle: 'British Protectorate (Western Pacific High Commission)',
+      note: 'Protettorato britannico in Melanesia con capitale Tulagi, amministrato sotto la giurisdizione della Western Pacific High Commission.',
+    };
+  }
+
+  // Fiji
+  if (
+    nid === 'FJ' ||
+    nid === 'FJI' ||
+    nid === '242' ||
+    n.includes('fiji') ||
+    n.includes('figi')
+  ) {
+    return {
+      name: 'Colony of Fiji (Crown Colony — Suva)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona britannica dal 1874 con capoluogo Suva, sede del Governatore e Alto Commissario per il Pacifico Occidentale. Snodo centrale delle comunicazioni marittime del Pacifico meridionale.',
+    };
+  }
+
+  // Gilbert ed Ellice
+  if (
+    nid === 'KI' ||
+    nid === 'KIR' ||
+    nid === '296' ||
+    nid === 'TV' ||
+    nid === 'TUV' ||
+    nid === '798' ||
+    n.includes('gilbert') ||
+    n.includes('ellice')
+  ) {
+    return {
+      name: 'Gilbert and Ellice Islands Colony (Tarawa / Ocean Island)',
+      adminTitle: 'British Crown Colony',
+      note: 'Colonia della Corona comprendente gli arcipelaghi Gilbert (Kiribati) ed Ellice (Tuvalu) e l\'isola di Banaba (Ocean Island), celebre per le miniere di fosfati.',
+    };
+  }
+
+  // Tonga
+  if (
+    nid === 'TO' ||
+    nid === 'TON' ||
+    nid === '776' ||
+    n.includes('tonga')
+  ) {
+    return {
+      name: 'Kingdom of Tonga (British Protected State — Nuku\'alofa)',
+      adminTitle: 'British Protected State (Tupou Dynasty)',
+      note: 'Regno polinesiano sovrano retto dalla Regina Salote Tupou III, legato alla Gran Bretagna da un trattato di amicizia e protezione del 1900 che manteneva la piena autonomia di autogoverno.',
+    };
+  }
+
+  // Nuove Ebridi (Condominio Franco-Britannico)
+  if (
+    nid === 'VU' ||
+    nid === 'VUT' ||
+    nid === '548' ||
+    n.includes('hebrides') ||
+    n.includes('ebridi') ||
+    n.includes('vanuatu')
+  ) {
+    return {
+      name: 'Nouvelles-Hébrides / New Hebrides (Anglo-French Condominium — Port Vila)',
+      adminTitle: 'Anglo-French Condominium',
+      note: 'Condominio paritario franco-britannico istituito nel 1906 con doppia amministrazione a Port Vila. Nel luglio 1940 divenne il primo territorio francese del Pacifico a dichiararsi leale alla Francia Libera del generale de Gaulle.',
+    };
+  }
+
+  // Samoa Occidentali (Western Samoa / Mandato NZL)
+  if (
+    nid === 'WS' ||
+    nid === 'WSM' ||
+    nid === '882' ||
+    n.includes('samoa')
+  ) {
+    return {
+      name: 'Western Samoa (New Zealand League of Nations Mandate — Apia)',
+      adminTitle: 'League of Nations Mandate (Dominion of New Zealand)',
+      note: 'Ex-Samoa Tedesca affidata in mandato di Classe C della Società delle Nazioni alla Nuova Zelanda nel 1920 con capitale Apia.',
+    };
+  }
+
+  // Niue
+  if (
+    nid === 'NU' ||
+    nid === 'NIU' ||
+    nid === '570' ||
+    n.includes('niue')
+  ) {
+    return {
+      name: 'Niue (Territory of the Dominion of New Zealand — Alofi)',
+      adminTitle: 'Territory of New Zealand',
+      note: 'Territorio insulare polinesiano amministrato dal Dominion della Nuova Zelanda dal 1901.',
+    };
+  }
+
+  // 9. Isole d'altura e avamposti delle Isole Britanniche (British Isles Islands)
+  if (n.includes('british_isles_islands')) {
+    return {
+      name: 'British Isles Offshore Islands (Orkney, Shetland & Hebrides)',
+      adminTitle: 'Territory of the United Kingdom (Naval & Coastal Outposts)',
+      note: 'Isole d\'altura e arcipelaghi costieri britannici (Orcadi con la grande base navale di Scapa Flow, Shetland per il pattugliamento navale del Mare del Nord e le Isole Ebridi).',
+    };
+  }
+
+  return null;
+}
+
 export function resolveUKToponym(
   id: string,
   rawName: string,
@@ -8146,11 +12191,15 @@ export function resolveUKToponym(
     };
   }
 
-  // Fallback se id è generico o appartenente a UK
+  // Check if non-homeland or overseas colonial territory of the Empire
+  const colonial = resolveBritishColonialToponym(id, rawName, normKey, owner, yearStep);
+  if (colonial) return colonial;
+
+  // Fallback se id è generico o appartenente a UK metropolitano
   if (owner === 'UK' || id.startsWith('UK')) {
     return {
       name: `${rawName} (United Kingdom)`,
-      adminTitle: 'Territory of the United Kingdom',
+      adminTitle: 'Metropolitan Division of the United Kingdom',
       note: 'Divisione amministrativa metropolitana del Regno Unito di Gran Bretagna e Irlanda del Nord.',
     };
   }
@@ -8167,12 +12216,20 @@ export function resolveUSSRToponym(
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
 
+  // 0. I powiats dei Kresy Wschodnie (PL_KRESY_) sono gestiti dal loro handler dedicato ad altissima fedeltà
+  if (id.startsWith('PL_KRESY_')) {
+    return null;
+  }
+
   // 1. Mosca e Centro RSFSR
   if (normKey.includes('moscow') || normKey.includes('moskva') || normKey.includes('moscow_city') || normKey === 'ru_mow') {
     return {
       name: 'Moskva (Kreml)',
       adminTitle: 'Stolitsa SSSR i RSFSR (Moskovskaya oblast)',
-      note: 'Centro nevralgico del potere sovietico, sede del Cremlino, del Consiglio dei Commissari del Popolo (Sovnarkom) e del Segretario Generale del PCUS(b) Iosif Stalin; immenso distretto per la produzione bellica (fabbriche automobilistiche ZiS, aeronautiche MiG e Yak).',
+      note:
+        step >= 8
+          ? 'Centro nevralgico del potere sovietico e sede del Cremlino. Il 13 aprile 1941 vi viene firmato il Patto quinquennale di neutralità sovietico-giapponese (Molotov-Matsuoka) alla presenza di Iosif Stalin, che mette in sicurezza il confine siberiano-mancese alla vigilia dell\'attacco tedesco; immenso distretto per la produzione bellica (fabbriche ZiS, MiG e Yak).'
+          : 'Centro nevralgico del potere sovietico, sede del Cremlino, del Consiglio dei Commissari del Popolo (Sovnarkom) e del Segretario Generale del PCUS(b) Iosif Stalin; immenso distretto per la produzione bellica (fabbriche automobilistiche ZiS, aeronautiche MiG e Yak).',
     };
   }
   if (normKey.includes('tula')) {
@@ -10850,6 +14907,458 @@ export function resolveSwissAustrianToponym(
   return null;
 }
 
+export function resolveUSAToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+  const isPost1939 = step >= 4;
+
+  // 1. Livello Nazionale USA — timeline-sensitive
+  const isNationalUSA =
+    normKey === 'united_states' ||
+    normKey === 'united_states_of_america' ||
+    normKey === 'usa' ||
+    normKey === 'us' ||
+    normKey === 'stati_uniti' ||
+    normKey === 'stati_uniti_d_america' ||
+    normKey === 'stati_uniti_damerica' ||
+    id === 'USA' ||
+    id === 'US' ||
+    id === '840';
+
+  if (isNationalUSA) {
+    if (isPost1939) {
+      return {
+        name: 'Stati Uniti d\'America (Arsenal of Democracy & Two-Ocean Navy)',
+        adminTitle: 'United States of America — Pres. Franklin D. Roosevelt (Two-Ocean Navy & Terzo Mandato)',
+        note: 'Di fronte alla caduta della Francia e all\'espansionismo dell\'Asse, gli Stati Uniti avviano una massiccia mobilitazione economico-militare. Il Congresso vara il Two-Ocean Navy Act (luglio 1940, espansione del 70% del tonnellaggio navale), il Selective Training and Service Act (prima leva obbligatoria in tempo di pace) e il Destroyers for Bases Agreement con Londra (settembre 1940). Nel novembre 1940 Roosevelt viene rieletto per uno storico terzo mandato presidenziale, proclamando gli USA "Arsenale della Democrazia".',
+      };
+    }
+    return {
+      name: 'Stati Uniti d\'America (New Deal & Dottrina di Neutralità)',
+      adminTitle: 'United States of America — Pres. Franklin D. Roosevelt (New Deal)',
+      note: 'Repubblica presidenziale federale composta da 48 Stati, il Distretto di Columbia e territori non incorporati. Sotto la presidenza di Franklin D. Roosevelt (trionfalmente rieletto nel 1936), il paese persegue la ripresa economica post-Grande Depressione con i programmi del New Deal (WPA, CCC, TVA, Social Security Act) e una politica estera formalmente isolazionista sancita dai Neutrality Acts (1935-1937), affiancata dalla Dottrina del Buon Vicinato nelle Americhe e dai primi stanziamenti navali difensivi (Vinson Naval Act del 1938).',
+    };
+  }
+
+  // 2. Zona del Canale di Panama (Chokepoint Interoceanico)
+  if (
+    normKey.includes('canal_zone') ||
+    normKey.includes('panama_canal') ||
+    normKey.includes('canale_di_panama') ||
+    id.includes('PCZ') ||
+    id.includes('PZ') ||
+    id === '590' ||
+    normKey === 'balboa_heights' ||
+    normKey === 'quarry_heights'
+  ) {
+    return {
+      name: 'Panama Canal Zone (Balboa Heights / Quarry Heights — USA)',
+      adminTitle: 'Panama Canal Zone — U.S. Strategic Military Outpost (Governor Clarence S. Ridley / Glen E. Edgerton)',
+      note: 'Fascia territoriale e idroviaria strategica di 553 miglia quadrate controllata in perpetuità dagli Stati Uniti d\'America in virtù del Trattato Hay-Bunau-Varilla del 1903. Chokepoint marittimo vitale della sicurezza emisferica e globale per il passaggio rapido delle flotte tra Atlantico e Pacifico (Two-Ocean Navy); difesa da massicce fortificazioni costiere, chiuse protette (Miraflores, Pedro Miguel, Gatun) e basi aeronavali (Albrook Field, Howard Field, Coco Solo).',
+    };
+  }
+
+  // 3. Base Navale di Guantanamo Bay (Cuba)
+  if (normKey.includes('guantanamo')) {
+    return {
+      name: 'Guantanamo Bay Naval Base (U.S. Navy — Cuba)',
+      adminTitle: 'U.S. Naval Operating Base Guantanamo Bay (Treaty of 1934)',
+      note: 'Base navale permanente di 116 km² affittata in perpetuità dagli Stati Uniti sulla baia di Guantánamo nel sud-est di Cuba in virtù del trattato cubano-statunitense del 1903 (confermato dal trattato del 1934). Base navale operativa primaria per il controllo del Paso de los Vientos (Windward Passage) tra Cuba e Haiti e la sorveglianza delle rotte dei Caraibi.',
+    };
+  }
+
+  // 4. Caraibi: Puerto Rico & Isole Vergini Americane
+  if (normKey.includes('puerto_rico') || normKey.includes('porto_rico') || id.includes('PR') || id.includes('PRI') || id === '630') {
+    return {
+      name: 'Puerto Rico (Unincorporated U.S. Territory — San Juan)',
+      adminTitle: 'Territory of Puerto Rico — U.S. Caribbean Gibraltar (Gov. Blanton Winship / Adm. William D. Leahy)',
+      note: 'Territorio insulare non incorporato degli Stati Uniti d\'America nelle Grandi Antille con capoluogo San Juan. Negli anni 1936-1939 teatro di forti tensioni nazionaliste guidate da Pedro Albizu Campos (Massacro di Ponce del 1937); nel 1939 Franklin D. Roosevelt nomina governatore l\'ammiraglio William D. Leahy per trasformare l\'isola in una formidabile base aeronavale fortificata ("la Gibilterra dei Caraibi") a guardia delle rotte marittime per il Canale di Panama.',
+    };
+  }
+
+  if (normKey.includes('virgin_islands') || normKey.includes('isole_vergini') || id.includes('VI') || id.includes('VIR') || id === '850') {
+    return {
+      name: 'United States Virgin Islands (Charlotte Amalie)',
+      adminTitle: 'Territory of the Virgin Islands of the United States (Gov. Lawrence W. Cramer)',
+      note: 'Arcipelago caraibico acquistato nel 1917 dalla Danimarca (Indie Occidentali Danesi) per proteggere gli accessi orientali al Canale di Panama. Territorio non incorporato governato da Lawrence William Cramer con capoluogo Charlotte Amalie sull\'isola di Saint Thomas, sede di una stazione aeronavale del corpo dei Marines (Bourne Field) e base logistica avanzata.',
+    };
+  }
+
+  // 5. Presidi Strategici del Pacifico
+  if (normKey.includes('pearl_harbor')) {
+    return {
+      name: 'Pearl Harbor Naval Base (Oahu, Hawaii)',
+      adminTitle: 'U.S. Pacific Fleet Operating Base & Drydocks',
+      note: 'Principale base aeronavale della marina statunitense nel Pacifico centrale sull\'isola di Oahu; sede dal maggio 1940 del quartier generale della Flotta del Pacifico dell\'ammiraglio James O. Richardson trasferita permanentemente da San Pedro/San Diego per volere di Roosevelt quale deterrente contro l\'espansionismo giapponese.',
+    };
+  }
+
+  if (normKey.includes('hawaii') || normKey.includes('oahu') || normKey.includes('honolulu')) {
+    return {
+      name: 'Territory of Hawaii (Pearl Harbor / Oahu)',
+      adminTitle: 'Territory of Hawaii — U.S. Pacific Fleet Headquarters (Gov. Joseph Poindexter)',
+      note: 'Territorio incorporato degli Stati Uniti nel Pacifico centrale con capoluogo Honolulu; presidio insulare strategico di primissimo ordine ospitante la base navale di Pearl Harbor, i campi d\'aviazione dell\'esercito di Hickam Field e Wheeler Field, e il comando militare di Fort Shafter.',
+    };
+  }
+
+  if (normKey.includes('dutch_harbor') || normKey.includes('unalaska')) {
+    return {
+      name: 'Dutch Harbor Naval Operating Base (Aleutian Islands)',
+      adminTitle: 'U.S. Navy & Army Air Station — Unalaska Island',
+      note: 'Base aeronavale avanzata della marina e dell\'esercito sull\'isola di Unalaska nell\'arcipelago delle Aleutine; perno settentrionale del dispositivo di difesa aeronavale del Pacifico del Nord per la sorveglianza delle rotte artiche verso la Kamčatka e il Giappone.',
+    };
+  }
+
+  if (normKey.includes('alaska') || normKey.includes('aleutian') || normKey.includes('anchorage') || normKey.includes('juneau') || id.includes('AK')) {
+    return {
+      name: 'Territory of Alaska (Dutch Harbor / Aleutine)',
+      adminTitle: 'Territory of Alaska — North Pacific Defense Outpost (Gov. Ernest Gruening)',
+      note: 'Vasto territorio incorporato affacciato sul Mar di Bering e sul Pacifico settentrionale con capoluogo Juneau. Sotto la guida del governatore Ernest Gruening e del generale Simon Bolivar Buckner Jr., negli anni 1939-1940 divenne bastione di difesa artica con la costruzione di basi aeree (Elmendorf Field ad Anchorage, Ladd Field a Fairbanks) e stazioni navali nelle Aleutine.',
+    };
+  }
+
+  if (normKey.includes('guam') || id.includes('GU') || id.includes('GUM') || id === '316') {
+    return {
+      name: 'Island of Guam (Apra Harbor — U.S. Navy)',
+      adminTitle: 'Guam Naval Station — Marianas Outpost (Gov. James T. Alexander / George J. McMillin)',
+      note: 'Territorio insulare non incorporato in Micronesia (Isole Marianne meridionali) sotto amministrazione navale diretta dell\'US Navy con capoluogo Hagåtña. Isolato e circondato dalle isole del Mandato Giapponese del Pacifico meridionale (Nan\'yō), ospitava la stazione navale di Apra Harbor e scalo idrovolanti dei famosi Pan American China Clipper.',
+    };
+  }
+
+  if (normKey.includes('wake')) {
+    return {
+      name: 'Wake Island (U.S. Navy & Pan American Clipper)',
+      adminTitle: 'Wake Island — U.S. Unorganized Territory & Naval Aviation Outpost',
+      note: 'Atollo corallino isolato nel Pacifico settentrionale tra le Hawaii e Guam, annesso nel 1899. Negli anni \'30 trasformato in strategica stazione di rifornimento idrovolanti della Pan American Airways con albergo e officine, prima di essere militarizzato dalla marina nel 1940-1941 come aeroporto avanzato dei Marines.',
+    };
+  }
+
+  if (normKey.includes('midway')) {
+    return {
+      name: 'Midway Atoll (U.S. Navy)',
+      adminTitle: 'Midway Islands Naval Air Station',
+      note: 'Atollo fortificato e base di idrovolanti e sottomarini della marina statunitense a nord-ovest delle Hawaii; anello fondamentale della catena di deterrenza e ricognizione aeronavale nel Pacifico centrale.',
+    };
+  }
+
+  if (normKey.includes('american_samoa') || normKey.includes('samoa') || normKey.includes('pago_pago') || normKey.includes('tutuila') || id.includes('AS') || id.includes('ASM') || id === '016') {
+    return {
+      name: 'American Samoa (Pago Pago / Tutuila)',
+      adminTitle: 'U.S. Naval Station Tutuila — South Pacific Coaling Depot (Gov. Edward W. Hanson)',
+      note: 'Territorio non incorporato della Polinesia meridionale controllato dall\'US Navy; il porto naturale profondo di Pago Pago sull\'isola di Tutuila costituiva un deposito carbonifero e base navale di rifornimento strategico sulle rotte oceaniche tra la California, l\'Australia e la Nuova Zelanda.',
+    };
+  }
+
+  // 6. Distretto Federale di Columbia vs Stato di Washington
+  if (normKey.includes('district_of_columbia') || normKey === 'washington_dc' || normKey === 'dc') {
+    return {
+      name: 'Washington, D.C. (District of Columbia)',
+      adminTitle: 'Federal Capital of the United States of America',
+      note: 'Capitale federale sulle rive del fiume Potomac; sede della Casa Bianca, del Campidoglio e dei dipartimenti militari della Guerra e della Marina.',
+    };
+  }
+
+  if (
+    normKey === 'washington_state' ||
+    id.includes('WA') ||
+    (normKey.includes('washington') && (normKey.includes('state') || normKey.includes('seattle') || normKey.includes('olympia') || normKey.includes('puget')))
+  ) {
+    return {
+      name: 'Washington (Evergreen State — Seattle & Puget Sound)',
+      adminTitle: 'State of Washington (Gov. Clarence D. Martin)',
+      note: 'Porta del Pacifico nord-occidentale; stabilimenti Boeing a Seattle per i bombardieri B-17 Flying Fortress e Puget Sound Naval Shipyard a Bremerton per la manutenzione e costruzione di corazzate.',
+    };
+  }
+
+  // 7. Ricerca granulare nel dizionario storico degli Stati Uniti
+  const usaDict = HISTORICAL_TOPONYM_DICT['USA'];
+  if (usaDict) {
+    if (usaDict[normKey]) {
+      return {
+        name: usaDict[normKey].historicalName,
+        adminTitle: usaDict[normKey].adminTitle,
+        note: usaDict[normKey].historicalNote,
+      };
+    }
+    const sortedKeys = Object.keys(usaDict).sort((a, b) => b.length - a.length);
+    for (const k of sortedKeys) {
+      if (k.length <= 3) continue;
+      if (normKey === k || normKey.includes(k) || (k.length >= 6 && k.includes(normKey))) {
+        return {
+          name: usaDict[k].historicalName,
+          adminTitle: usaDict[k].adminTitle,
+          note: usaDict[k].historicalNote,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Risoluzione toponomastica, istituzionale e geostorica per l'Unione Sovietica (1936-1940),
+ * focalizzata sull'Oblast di Leningrado, Kronštadt, Ingria, Carelia e Russia Nord-Occidentale.
+ */
+export function resolveSovietToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. ORANIENBAUM / KAAROSTA / LOMONOSOV (SOV_NW_RUS_256_Kaarosta_District)
+  if (
+    id === 'SOV_NW_RUS_256_Kaarosta_District' ||
+    normKey.includes('kaarosta') ||
+    normKey.includes('oranienbaum') ||
+    (normKey.includes('lomonosov') && (owner === 'SOV' || id.startsWith('SOV_') || normKey.includes('leningrad')))
+  ) {
+    return {
+      name: "Oranienbaum (Settore Fortificato di Kronštadt — Forti Krasnaja Gorka e Seraja Lošad')",
+      adminTitle: "Oranienbaumskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Distretto costiero meridionale del Golfo di Finlandia a presidio marittimo dell'isola-fortezza di Kronštadt e dell'accesso navale a Leningrado. Nel 1936-1940 sede dei formidabili forti corazzati Krasnaja Gorka (armato con possenti torri binate da 305 mm e batterie ferroviarie pesanti) e Seraja Lošad', caposaldi difensivi della Flotta del Baltico contro penetrazioni navali nemiche. Durante la Grande Guerra Patriottica diverrà la celebre sacca inespugnata della 'Testa di ponte di Oranienbaum' (Oranienbaumskij placdarm), difesa con tenacia dall'8ª Armata sovietica e rifornita via mare durante l'intero assedio di Leningrado. La città fu ribattezzata Lomonosov solo nel 1948 in onore dello scienziato Michail Lomonosov.",
+    };
+  }
+
+  // 2. LENINGRADO / SAN PIETROBURGO (SOV_ADM1_RUS_49_Saint_Petersburg)
+  if (
+    id === 'SOV_ADM1_RUS_49_Saint_Petersburg' ||
+    id === 'SOV_ADM1_RUS_49' ||
+    (normKey.includes('saint_petersburg') && (owner === 'SOV' || id.startsWith('SOV_'))) ||
+    (normKey.includes('leningrad') && !normKey.includes('oblast') && (owner === 'SOV' || id.startsWith('SOV_')))
+  ) {
+    return {
+      name: "Leningrado (Città di Leningrado — Culla della Rivoluzione)",
+      adminTitle: "Leningradskij Gorsovet & Distretto Militare di Leningrado (LVO — RSFSR / URSS)",
+      note: "Seconda metropoli dell'URSS con oltre 3 milioni di abitanti, culla della Rivoluzione bolscevica del 1917, capitale navale della Flotta del Baltico (Bandiera Rossa), colosso dei cantieri navali (Baltijskij Zavod, Cantiere Ždanov) e dell'industria pesante (Stabilimenti Kirov). Sede del Comitato del Partito guidato da Andrej Ždanov e del comando del Distretto Militare di Leningrado affidato al generale Kirill Mereckov.",
+    };
+  }
+
+  // 3. TOSNO / LJUSINA (SOV_NW_RUS_258_Tusina_District)
+  if (
+    id === 'SOV_NW_RUS_258_Tusina_District' ||
+    normKey.includes('tusina') ||
+    normKey.includes('tosno') ||
+    normKey.includes('ljusina')
+  ) {
+    return {
+      name: "Tosno (Corridoio Ferroviario Principale Mosca-Leningrado / Fiume Tosna)",
+      adminTitle: "Tosnenskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Distretto strategico a sud-est di Leningrado lungo il corso del fiume Tosna. Attraversato dall'arteria ferroviaria principale Oktjabr'skaja a doppio binario elettrificato che unisce Mosca a Leningrado, via logistica primaria per il transito delle divisioni dell'Armata Rossa e i rifornimenti industriali.",
+    };
+  }
+
+  // 4. KRASNOGVARDEJSK / GATČINA (SOV_NW_RUS_263_Gatchinsky_District)
+  if (
+    id === 'SOV_NW_RUS_263_Gatchinsky_District' ||
+    normKey.includes('gatchin') ||
+    normKey.includes('gatcina') ||
+    normKey.includes('krasnogvardeysk') ||
+    normKey.includes('krasnogvardejsk')
+  ) {
+    return {
+      name: "Krasnogvardejsk (Gatčina / Distretto Militare e Nodo Ferroviario)",
+      adminTitle: "Krasnogvardejskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Denominata ufficialmente Krasnogvardejsk ('Città della Guardia Rossa') tra il 1929 e il 1944. Primario snodo ferroviario delle linee radiali a sud di Leningrado verso Pskov, Narva e Novgorod, sede di grandi caserme della guarnigione militare dell'Armata Rossa e dell'aeroporto militare di Krasnogvardejsk.",
+    };
+  }
+
+  // 5. KINGISEPP / JAMBURG (SOV_NW_RUS_306_Jaama_District)
+  if (
+    id === 'SOV_NW_RUS_306_Jaama_District' ||
+    normKey.includes('jaama') ||
+    normKey.includes('kingisepp') ||
+    normKey.includes('jamburg')
+  ) {
+    return {
+      name: "Kingisepp (Jamburg / Distretto di Frontiera sul Fiume Luga)",
+      adminTitle: "Kingiseppskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Storica città fortificata zarista di Jamburg, ribattezzata Kingisepp nel 1922 in onore del leader comunista estone Viktor Kingissepp. Distretto di frontiera militare dell'Armata Rossa sul fiume Luga a sbarramento del confine di stato con la Repubblica di Estonia stabilito dal Trattato di Tartu del 1920.",
+    };
+  }
+
+  // 6. SLANCY / BACINO SCISTI BITUMINOSI (SOV_NW_RUS_260_Slantsevsky_District)
+  if (
+    id === 'SOV_NW_RUS_260_Slantsevsky_District' ||
+    normKey.includes('slantsev') ||
+    normKey.includes('slancy') ||
+    normKey.includes('slantse')
+  ) {
+    return {
+      name: "Slancy (Bacino degli Scisti Bituminosi del Narva)",
+      adminTitle: "Slancevskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Distretto industriale ed energetico fondato negli anni Trenta sotto i piani quinquennali sovietici per l'estrazione intensiva e la lavorazione degli scisti bituminosi combustibili lungo il fiume Pljussa, fornendo gas sintetico e combustibile alla centrale di Leningrado.",
+    };
+  }
+
+  // 7. LUGA / LINEA DIFENSIVA FORTIFICATA (SOV_NW_RUS_307_Luzhsky_District)
+  if (
+    id === 'SOV_NW_RUS_307_Luzhsky_District' ||
+    normKey.includes('luzhsky') ||
+    (normKey.includes('luga') && (owner === 'SOV' || id.startsWith('SOV_') || normKey.includes('leningrad')))
+  ) {
+    return {
+      name: "Luga (Linea Difensiva Fortificata di Luga / Lužskij Rubež)",
+      adminTitle: "Lužskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Baluardo meridionale dell'Oblast di Leningrado imperniato sul corso del fiume Luga; importante nodo di comunicazioni stradali e ferroviarie lungo l'asse Pskov-Leningrado, fulcro della futura linea fortificata campale (Lužskij Rubež) che nell'estate 1941 rallentò l'avanzata della 4ª Panzergruppe tedesca.",
+    };
+  }
+
+  // 8. VOLOSOVO / INGRIA SUD-OCCIDENTALE (SOV_NW_RUS_293_Volosovsky_District)
+  if (
+    id === 'SOV_NW_RUS_293_Volosovsky_District' ||
+    normKey.includes('volosovsky') ||
+    normKey.includes('volosovo')
+  ) {
+    return {
+      name: "Volosovo (Altopiano di Ižora / Ingria Sud-Occidentale)",
+      adminTitle: "Volosovskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Distretto agricolo e nodo ferroviario dell'altopiano calcareo di Ižora, situato a metà strada tra Krasnogvardejsk e Kingisepp lungo la linea ferroviaria Vejmarn-Gatčina.",
+    };
+  }
+
+  // 9. VSEVOLOŽSK / INGRIA SETTENTRIONALE (SOV_NW_RUS_271_Vsevolozhsky_District)
+  if (
+    id === 'SOV_NW_RUS_271_Vsevolozhsky_District' ||
+    normKey.includes('vsevolozh') ||
+    normKey.includes('vsevolozsk')
+  ) {
+    return {
+      name: "Vsevoložsk (Ingria Settentrionale / Sponda del Lago Ladoga)",
+      adminTitle: "Vsevoložskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Distretto compreso tra la periferia settentrionale di Leningrado, la riva destra della Neva e la costa sud-occidentale del Lago Ladoga (faro e pontile di Osinovec, futuro terminale costiero della leggendaria 'Strada della Vita').",
+    };
+  }
+
+  // 10. SOSNOVYJ BOR / GOLFO DI KOPOR'E (SOV_NW_RUS_272_Sosnovy_Bor)
+  if (
+    id === 'SOV_NW_RUS_272_Sosnovy_Bor' ||
+    normKey.includes('sosnovy_bor') ||
+    normKey.includes('koporye') ||
+    normKey.includes('kopore')
+  ) {
+    return {
+      name: "Sosnovyj Bor (Golfo di Kopor'e / Baia di Lužskaja)",
+      adminTitle: "Distretto Litoraneo Sud del Golfo di Finlandia — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Fascia costiera sud-occidentale del Golfo di Finlandia comprendente la storica fortezza medievale di Kopor'e, le ampie baie di Kopor'e e Lužskaja e le postazioni di sorveglianza costiera della Flotta del Baltico.",
+    };
+  }
+
+  // 11. KIROVSK E MGA / ŠLISSEL'BURG (SOV_NW_RUS_280_Korotka_District)
+  if (
+    id === 'SOV_NW_RUS_280_Korotka_District' ||
+    normKey.includes('korotka') ||
+    normKey.includes('slisselburg') ||
+    normKey.includes('shlisselburg') ||
+    normKey.includes('kirovsk') ||
+    normKey.includes('mga')
+  ) {
+    return {
+      name: "Kirovsk e Šlissel'burg (Mga / Sbocco della Neva sul Lago Ladoga)",
+      adminTitle: "Kirovskij Rajon & Piazzaforte di Šlissel'burg — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Punto geostrategico di primaria importanza dove il fiume Neva si origina dal Lago Ladoga. Include la secolare fortezza isolana di Šlissel'burg (Orešek), il nodo ferroviario cruciale di Mga (punto di convergenza delle linee per Vologda, Mosca e Murmansk) e la centrale termoelettrica Dubrovskaja.",
+    };
+  }
+
+  // 12. VOLCHOV / CENTRALE VOLCHOVGES (SOV_NW_RUS_286_Olhava_District)
+  if (
+    id === 'SOV_NW_RUS_286_Olhava_District' ||
+    normKey.includes('olhava') ||
+    normKey.includes('volchov') ||
+    normKey.includes('volkhov')
+  ) {
+    return {
+      name: "Volchov (Centrale Idroelettrica VolchovGES e Industria dell'Alluminio)",
+      adminTitle: "Volchovskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Cuore idroelettrico dell'Oblast di Leningrado sul fiume Volchov: sede della prima grande centrale idroelettrica del piano leninista GOELRO (Volchovskaja GES, inaugurata nel 1926) e del primo impianto sovietico per la fusione dell'alluminio metallico.",
+    };
+  }
+
+  // 13. TICHVIN (SOV_NW_RUS_291_Tihvin__District)
+  if (
+    id === 'SOV_NW_RUS_291_Tihvin__District' ||
+    normKey.includes('tihvin') ||
+    normKey.includes('tikhvin')
+  ) {
+    return {
+      name: "Tichvin (Nodo Ferroviario Transcontinentale della Russia Nord-Orientale)",
+      adminTitle: "Tichvinskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Crocevia ferroviario vitale della Russia nord-occidentale che connette Leningrado con Vologda, Jaroslavl', gli Urali e le linee artiche per Arcangelo e Murmansk.",
+    };
+  }
+
+  // 14. KIRIŠI (SOV_NW_RUS_304_Kirishsky_District)
+  if (
+    id === 'SOV_NW_RUS_304_Kirishsky_District' ||
+    normKey.includes('kirish') ||
+    normKey.includes('kirisi')
+  ) {
+    return {
+      name: "Kiriši (Bacino Fluviale del Basso Volchov)",
+      adminTitle: "Kirišskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Distretto fluviale, forestale e ferroviario lungo il corso del fiume Volchov a sud-est di Leningrado, tra Mga e Čudovo.",
+    };
+  }
+
+  // 15. PODPOROŽ'E / ALTO SVIR' (SOV_NW_RUS_267_Koskenala_District)
+  if (
+    id === 'SOV_NW_RUS_267_Koskenala_District' ||
+    normKey.includes('koskenala') ||
+    normKey.includes('podporozh')
+  ) {
+    return {
+      name: "Podporož'e (Koskenala / Centrale Idroelettrica dell'Alto Svir')",
+      adminTitle: "Podporožskij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Distretto sul corso superiore del fiume Svir' (emissario del Lago Onega verso il Lago Ladoga), sede della diga e centrale idroelettrica Verchne-Svirskaja lungo la via d'acqua Mar Baltico-Mar Bianco.",
+    };
+  }
+
+  // 16. LODEJNOE POLE / BASSO SVIR' (SOV_NW_RUS_302_Lotinapelto_District)
+  if (
+    id === 'SOV_NW_RUS_302_Lotinapelto_District' ||
+    normKey.includes('lotinapelto') ||
+    normKey.includes('lodeynoye') ||
+    normKey.includes('lodejnoe')
+  ) {
+    return {
+      name: "Lodejnoe Pole (Fiume Svir' / Centrale Nizhne-Svirskaja)",
+      adminTitle: "Lodejnopol'skij Rajon — Oblast' di Leningrado (RSFSR / URSS)",
+      note: "Storica città cantieristica fluviale fondata da Pietro il Grande sul fiume Svir'; sede della centrale idroelettrica Nizhne-Svirskaja e snodo della ferrovia Murmansk-Leningrado.",
+    };
+  }
+
+  // 17. VYBORG / TERIJOKI (FIN_HIST_259_Vyborgsky_District)
+  if (
+    id === 'FIN_HIST_259_Vyborgsky_District' ||
+    id === 'FIN_HIST_259' ||
+    normKey.includes('viipurin_laani') ||
+    normKey.includes('vyborgsky')
+  ) {
+    if (step >= 6) {
+      return {
+        name: "Vyborg e Terijoki (Istmo Careliano — Annessione Sovietica 1940)",
+        adminTitle: "Vyborgskij Rajon — RSS Carelo-Finlandese (URSS)",
+        note: "Capoluogo dell'istmo careliano e antica Viipuri finlandese, ceduta all'URSS il 12 marzo 1940 a conclusione della Guerra d'Inverno (Trattato di Mosca) con la totale evacuazione della popolazione civile finlandese e incorporata nella neo-costituita Repubblica Socialista Sovietica Carelo-Finlandese.",
+      };
+    }
+    return {
+      name: "Viipurin lääni (Viipuri, Terijoki e Koivisto — Istmo Careliano)",
+      adminTitle: "Viipurin lääni — Suomen tasavalta (Repubblica di Finlandia)",
+      note: "Provincia sovrana della Repubblica di Finlandia comprendente la seconda città del paese (Viipuri / Viborg), il porto fortificato di Koivisto e l'istmo careliano sbarrato dalla Linea Mannerheim a presidio della frontiera stabilita dal Trattato di Tartu del 1920 con l'URSS a soli 32 km da Leningrado.",
+    };
+  }
+
+  return null;
+}
+
 
 export function getExtendedToponym(
   rawName: string,
@@ -10861,6 +15370,9 @@ export function getExtendedToponym(
   if (!rawName) return { name: 'Territorio non assegnato' };
 
   const normKey = rawName
+    .replace(/[łŁ]/g, 'l')
+    .replace(/[øØ]/g, 'o')
+    .replace(/[æÆ]/g, 'ae')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
@@ -10885,7 +15397,101 @@ export function getExtendedToponym(
     };
   }
 
-    // 0.04 Overrides prioritari per Svizzera, Austria e Liechtenstein (62 distretti NUTS-3)
+  // 0.03 Overrides prioritari per le Isole Fær Øer (Færøerne / Føroyar — Danimarca / Occupazione Britannica 1940)
+  if (
+    id === 'FO001' ||
+    id === 'FO_FAROE_HIST' ||
+    id === 'FO' ||
+    id === 'FRO' ||
+    normKey.includes('faroe') ||
+    normKey.includes('faeroe') ||
+    normKey.includes('faeroes') ||
+    normKey.includes('færø') ||
+    normKey.includes('faerø') ||
+    normKey.includes('føroyar') ||
+    normKey.includes('foroyar') ||
+    normKey.includes('torshavn') ||
+    normKey.includes('tórshavn') ||
+    normKey.includes('62_0') ||
+    (centroid && centroid[0] >= -8 && centroid[0] <= -5 && centroid[1] >= 61 && centroid[1] <= 63)
+  ) {
+    const isBritishOcc = owner === 'UK' || (yearStep !== undefined && yearStep >= 6);
+    if (isBritishOcc) {
+      return {
+        name: 'Isole Fær Øer (Occupazione Britannica — Operazione Valentine)',
+        adminTitle: 'Military Administration of the Faroe Islands (British Garrison / Royal Navy Command, Tórshavn) & Løgting',
+        note: 'A seguito dell\'invasione tedesca della Danimarca (aprile 1940), le forze britanniche occuparono preventivamente l\'arcipelago (Operazione Valentine) per negare alla Kriegsmarine basi navali strategiche nel Nord Atlantico. L\'amministrazione civile del Løgting e dell\'amtmand Carl Aage Hilbert fu preservata e l\'Ammiragliato riconobbe ufficialmente la bandiera faroese (Merkið) per la flotta peschereccia.',
+      };
+    }
+    return {
+      name: 'Isole Fær Øer (Færøerne / Føroyar)',
+      adminTitle: 'Færø Amt (Amtmand Carl Aage Hilbert — Tórshavn) / Løgting',
+      note: 'Contea insulare del Regno di Danimarca nell\'Atlantico settentrionale. Governata dall\'amtmand Carl Aage Hilbert con sede a Tórshavn (isola di Streymoy) e assemblea rappresentativa del Løgting, sotto la sovranità costituzionale di re Cristiano X.',
+    };
+  }
+
+  // 0.031 Overrides prioritari per i Paesi Scandinavi (Danimarca, Svezia, Norvegia, Finlandia, Islanda)
+  if (
+    owner === 'DEN' ||
+    owner === 'DK' ||
+    owner === 'SWE' ||
+    owner === 'SE' ||
+    owner === 'NOR' ||
+    owner === 'NO' ||
+    owner === 'FIN' ||
+    owner === 'FI' ||
+    owner === 'ISL' ||
+    owner === 'IS' ||
+    id.startsWith('DK') ||
+    id.startsWith('SE') ||
+    id.startsWith('NO') ||
+    id.startsWith('FI') ||
+    id.startsWith('IS') ||
+    id.startsWith('FIN_HIST_') ||
+    id === 'FO_FAROE_HIST' ||
+    normKey.includes('denmark') ||
+    normKey.includes('danmark') ||
+    normKey.includes('danimarca') ||
+    normKey.includes('sweden') ||
+    normKey.includes('sverige') ||
+    normKey.includes('svezia') ||
+    normKey.includes('norway') ||
+    normKey.includes('norge') ||
+    normKey.includes('norvegia') ||
+    normKey.includes('finland') ||
+    normKey.includes('suomi') ||
+    normKey.includes('finlandia') ||
+    normKey.includes('karelia') ||
+    normKey.includes('carelia') ||
+    normKey.includes('petsamo') ||
+    normKey.includes('salla') ||
+    normKey.includes('iceland') ||
+    normKey.includes('island')
+  ) {
+    const scanTop = resolveScandinavianToponym(id, rawName, normKey, owner, yearStep);
+    if (scanTop) return scanTop;
+  }
+
+  // 0.034 Overrides prioritari per URSS (Oblast di Leningrado, Kronštadt, Ingria, Carelia e Russia Nord-Occidentale)
+  if (
+    owner === 'SOV' ||
+    owner === 'USSR' ||
+    id.startsWith('SOV_') ||
+    id.startsWith('RUS_') ||
+    id.startsWith('FIN_HIST_259') ||
+    normKey.includes('leningrad') ||
+    normKey.includes('leningrado') ||
+    normKey.includes('oranienbaum')
+  ) {
+    const sovTop = resolveSovietToponym(id, rawName, normKey, owner, yearStep);
+    if (sovTop) return sovTop;
+  }
+
+  // 0.035 Overrides prioritari esaustivi per Africa (AOI, Quarta Sponda, AOF, AEF, Congo Belga, Colonie Portoghesi, Africa Britannica, Africa Spagnola, Sudafrica, Liberia, Egitto, Sudan)
+  const afTop = resolveAfricanToponym(id, rawName, normKey, owner, yearStep);
+  if (afTop) return afTop;
+
+  // 0.04 Overrides prioritari per Svizzera, Austria e Liechtenstein (62 distretti NUTS-3)
   if (
     owner === 'SWI' ||
     owner === 'AUS' ||
@@ -10923,6 +15529,71 @@ export function getExtendedToponym(
     if (benTop) return benTop;
   }
 
+  // 0.055 Overrides prioritari per i Balcani (Ungheria, Romania, Bulgaria, Grecia, Albania, Jugoslavia, NDH - 225 distretti NUTS-3)
+  if (
+    owner === 'HUN' ||
+    owner === 'ROM' ||
+    owner === 'BUL' ||
+    owner === 'GRE' ||
+    owner === 'ALB' ||
+    owner === 'YUG' ||
+    owner === 'CRO' ||
+    owner === 'HU' ||
+    owner === 'RO' ||
+    owner === 'BG' ||
+    owner === 'EL' ||
+    owner === 'AL' ||
+    owner === 'RS' ||
+    owner === 'HR' ||
+    owner === 'SI' ||
+    owner === 'BA' ||
+    owner === 'ME' ||
+    owner === 'MK' ||
+    owner === 'XK' ||
+    id.startsWith('HU') ||
+    id.startsWith('RO') ||
+    id.startsWith('BG') ||
+    id.startsWith('EL') ||
+    id.startsWith('AL') ||
+    id.startsWith('RS') ||
+    id.startsWith('HR') ||
+    id.startsWith('SI') ||
+    id.startsWith('BA') ||
+    id.startsWith('ME') ||
+    id.startsWith('MK') ||
+    id.startsWith('XK') ||
+    id.startsWith('YUG') ||
+    id === 'CROATIAN_LITTORAL' ||
+    id === 'ZADAR_DALMATIA' ||
+    id === 'KOSOVO_METOHIJA' ||
+    normKey.includes('magyar') ||
+    normKey.includes('hungar') ||
+    normKey.includes('romani') ||
+    normKey.includes('bulgar') ||
+    normKey.includes('hellas') ||
+    normKey.includes('greec') ||
+    normKey.includes('alban') ||
+    normKey.includes('jugoslav') ||
+    normKey.includes('yugoslav') ||
+    normKey.includes('serbi') ||
+    normKey.includes('croat') ||
+    normKey.includes('sloven') ||
+    normKey.includes('bosn') ||
+    normKey.includes('montenegr') ||
+    normKey.includes('macedon') ||
+    normKey.includes('kosovo') ||
+    normKey.includes('dalmat')
+  ) {
+    const balkTop = resolveBalkansToponym(id, rawName, normKey, owner, yearStep);
+    if (balkTop) {
+      return {
+        name: balkTop.name,
+        adminTitle: balkTop.adminTitle,
+        note: balkTop.note,
+      };
+    }
+  }
+
   // 0. Overrides prioritari per Spagna (SPR / SPA / codici ES / toponimi spagnoli)
   if (
     owner === 'SPR' ||
@@ -10935,7 +15606,58 @@ export function getExtendedToponym(
     if (spTop) return spTop;
   }
 
-  // 0.05 Overrides prioritari per Francia (FRA / VIC / codici FR / toponimi francesi)
+  // 0.048 Overrides prioritari per Colonie e Territori d'Oltremare francesi
+  if (
+    owner.startsWith('F_') ||
+    owner.startsWith('VIC_') ||
+    owner === 'FFL_AEF' ||
+    normKey.includes('alger') ||
+    normKey.includes('morocco') ||
+    normKey.includes('maroc') ||
+    normKey.includes('tunis') ||
+    normKey.includes('aof') ||
+    normKey.includes('aef') ||
+    normKey.includes('indochin') ||
+    normKey.includes('indo_chin') ||
+    normKey.includes('madagascar') ||
+    normKey.includes('syria') ||
+    normKey.includes('syrie') ||
+    normKey.includes('lebanon') ||
+    normKey.includes('liban') ||
+    normKey.includes('somaliland') ||
+    normKey.includes('somali') ||
+    normKey.includes('cambod') ||
+    normKey.includes('laos') ||
+    normKey.includes('cochin') ||
+    normKey.includes('caledon') ||
+    normKey.includes('hebrid') ||
+    normKey.includes('wallis') ||
+    normKey.includes('tahiti') ||
+    normKey.includes('martinique') ||
+    normKey.includes('guadeloupe') ||
+    normKey.includes('saint_martin') ||
+    normKey.includes('st_martin') ||
+    normKey.includes('saint_barthelemy') ||
+    normKey.includes('st_barthelemy') ||
+    normKey.includes('guyane') ||
+    normKey.includes('french_guiana') ||
+    normKey.includes('cameroon') ||
+    normKey.includes('cameroun') ||
+    normKey.includes('togo') ||
+    normKey.includes('congo') ||
+    normKey.includes('chad') ||
+    normKey.includes('tchad') ||
+    normKey.includes('pondicher') ||
+    normKey.includes('saint_pierre') ||
+    normKey.includes('st_pierre') ||
+    normKey.includes('kouang_tcheou') ||
+    (owner === 'VIC' && (normKey.includes('martin') || normKey.includes('guadel') || normKey.includes('barthelemy') || normKey.includes('somali') || normKey.includes('guyane') || normKey.includes('caledon') || normKey.includes('hebrid') || normKey.includes('wallis')))
+  ) {
+    const colFrTop = resolveFrenchColonialToponym(id, rawName, normKey, owner, yearStep);
+    if (colFrTop) return colFrTop;
+  }
+
+  // 0.05 Overrides prioritari per Francia Metropolitana (FRA / VIC / codici FR / toponimi francesi)
   if (
     owner === 'FRA' ||
     owner === 'VIC' ||
@@ -11024,9 +15746,16 @@ export function getExtendedToponym(
     if (cnTop) return cnTop;
   }
 
-  // 0.13 Overrides prioritari per Regno Unito e Territori della Corona (UK / codici UK... / IM / GG / JE / GIB / MT / CY)
+  // 0.13 Overrides prioritari per Regno Unito, Dominions e Territori della Corona (UK, CAN, AST, NZL, SAF, RAJ, EGY, IRQ / codici UK... / IM / GG / JE / GIB / MT / CY)
   if (
     owner === 'UK' ||
+    owner === 'CAN' ||
+    owner === 'AST' ||
+    owner === 'NZL' ||
+    owner === 'SAF' ||
+    owner === 'RAJ' ||
+    owner === 'EGY' ||
+    owner === 'IRQ' ||
     id.startsWith('UK') ||
     id.startsWith('IM') ||
     id.startsWith('GG') ||
@@ -11037,8 +15766,29 @@ export function getExtendedToponym(
     normKey.includes('united_kingdom') ||
     normKey.includes('gran_bretagna')
   ) {
+    const colonialTop = resolveBritishColonialToponym(id, rawName, normKey, owner, yearStep);
+    if (colonialTop) return colonialTop;
+
     const ukTop = resolveUKToponym(id, rawName, normKey, owner, yearStep);
     if (ukTop) return ukTop;
+  }
+
+  // 0.135 Overrides prioritari per Stati Uniti d'America (USA / US / codici US_... / stati e territori statunitensi)
+  if (
+    owner === 'USA' ||
+    owner === 'US' ||
+    id.startsWith('US_') ||
+    id === 'USA' ||
+    id === 'US' ||
+    id === '840' ||
+    normKey.includes('united_states') ||
+    normKey.includes('stati_uniti') ||
+    normKey.includes('pearl_harbor') ||
+    normKey.includes('panama_canal') ||
+    normKey.includes('canal_zone')
+  ) {
+    const usaTop = resolveUSAToponym(id, rawName, normKey, owner, yearStep);
+    if (usaTop) return usaTop;
   }
 
   // 0.14 Overrides prioritari per Unione Sovietica (SOV / codici RU, BY, UA, MD, KZ, UZ, TM, TJ, KG, GE, AM, AZ / toponimi sovietici)
@@ -11083,13 +15833,28 @@ export function getExtendedToponym(
       };
     }
 
-    // Somalia: "Governo della Somalia" solo dopo l'istituzione dell'AOI (1 giugno 1936 / step >= 1)
+    // Somalia: distinzione tra Somalia Britannica occupata (agosto 1940, step >= 7) e Governo della Somalia (Mogadiscio)
     if (
       normKey.includes('somaliland') ||
       normKey.includes('somali') ||
       id.startsWith('SO') ||
-      id.startsWith('SOM')
+      id.startsWith('SOM') ||
+      id === 'UK_SOMALILAND' ||
+      id === 'BR_SOMALILAND'
     ) {
+      if (
+        normKey.includes('british') ||
+        normKey.includes('britannic') ||
+        normKey.includes('berbera') ||
+        id === 'UK_SOMALILAND' ||
+        id === 'BR_SOMALILAND'
+      ) {
+        return {
+          name: 'Somalia Britannica Occupata (Berbera — AOI)',
+          adminTitle: 'Governo Militare della Somalia Britannica (AOI — Gen. Guglielmo Nasi)',
+          note: 'Conquista italiana della Somalia Britannica (3-19 agosto 1940: Battaglia di Tug Argan e presa di Berbera) — Annessa all\'Africa Orientale Italiana.',
+        };
+      }
       const isPostAOI = yearStep === undefined || yearStep >= 1;
       return isPostAOI
         ? {
@@ -11105,7 +15870,96 @@ export function getExtendedToponym(
     }
   }
 
-  // 1. Match diretto dizionario per owner
+  // 1. Gestione granulare prioritaria Powiat Kresy Wschodnie (1921-1939)
+  const isKresyPowiat = id.startsWith('PL_KRESY_') || rawName.toLowerCase().startsWith('powiat ');
+  if (isKresyPowiat) {
+    if (owner === 'POL') {
+      let voiv = 'Kresy Wschodnie';
+      if (normKey.includes('wil') || normKey.includes('trok') || normKey.includes('swiec') || normKey.includes('bras') || normKey.includes('dzis') || normKey.includes('postaw') || normKey.includes('oszmi') || normKey.includes('wilej') || normKey.includes('molodec')) {
+        voiv = 'Wileńskie';
+      } else if (normKey.includes('nowogrod') || normKey.includes('baran') || normKey.includes('stolp') || normKey.includes('niez') || normKey.includes('nesvizh') || normKey.includes('slon') || normKey.includes('szczucz') || normKey.includes('lid')) {
+        voiv = 'Nowogródzkie';
+      } else if (normKey.includes('polesk') || normKey.includes('brzesc') || normKey.includes('pinsk') || normKey.includes('kobryn') || normKey.includes('drohicz') || normKey.includes('kosin') || normKey.includes('kamien') || normKey.includes('stolin') || normKey.includes('luni')) {
+        voiv = 'Poleskie';
+      } else if (normKey.includes('wolyn') || normKey.includes('luck') || normKey.includes('rowne') || normKey.includes('kowel') || normKey.includes('krzemieniec') || normKey.includes('dubn') || normKey.includes('kostop') || normKey.includes('sarn') || normKey.includes('horoch') || normKey.includes('lubom') || normKey.includes('vladimir') || normKey.includes('wlodzim') || normKey.includes('zdolbun')) {
+        voiv = 'Wołyńskie';
+      } else if (normKey.includes('tarnopol') || normKey.includes('czortkow') || normKey.includes('brzez') || normKey.includes('buczac') || normKey.includes('podhaj') || normKey.includes('trembow') || normKey.includes('zborow') || normKey.includes('zbaraz') || normKey.includes('kopycz') || normKey.includes('borszcz') || normKey.includes('skal') || normKey.includes('zlocz') || normKey.includes('zoloch') || normKey.includes('peremysh') || normKey.includes('przemyslany') || normKey.includes('zaleszcz') || normKey.includes('kamion') || normKey.includes('radziech') || normKey.includes('busk')) {
+        voiv = 'Tarnopolskie';
+      } else if (normKey.includes('stanislaw') || normKey.includes('kolomy') || normKey.includes('stryj') || normKey.includes('kalusz') || normKey.includes('horoden') || normKey.includes('sniat') || normKey.includes('nadwor') || normKey.includes('tlumac') || normKey.includes('turk') || normKey.includes('kosow') || normKey.includes('dolin') || normKey.includes('rohat') || normKey.includes('zydacz')) {
+        voiv = 'Stanisławowskie';
+      } else if (normKey.includes('lwow') || normKey.includes('drohob') || normKey.includes('borys') || normKey.includes('sambor') || normKey.includes('zolkiew') || normKey.includes('rawa') || normKey.includes('jawor') || normKey.includes('grodek') || normKey.includes('przemysl') || normKey.includes('jaroslaw') || normKey.includes('lubacz') || normKey.includes('sokal') || normKey.includes('moscisk') || normKey.includes('dobrom') || normKey.includes('rudk') || normKey.includes('bobrk') || normKey.includes('brody')) {
+        voiv = 'Lwowskie';
+      } else if (normKey.includes('bialystok') || normKey.includes('grodno') || normKey.includes('wolkow') || normKey.includes('sokol') || normKey.includes('august') || normKey.includes('suwal') || normKey.includes('lomz') || normKey.includes('bielsk') || normKey.includes('wysokie')) {
+        voiv = 'Białostockie';
+      }
+      return {
+        name: rawName,
+        adminTitle: `Województwo ${voiv} (Rzeczpospolita Polska)`,
+      };
+    }
+
+    if (owner === 'SOV') {
+      const cleanName = rawName.replace(/^Powiat\s+/i, '');
+      const isUkrSector = id.startsWith('PL_KRESY_UKR_');
+      const isLtuSector = id.startsWith('PL_KRESY_LTU_');
+      let ssr = isLtuSector ? 'Litovskaya SSR' : isUkrSector ? 'USSR' : 'BSSR';
+      let oblast = isLtuSector ? 'Vilnyusskaya oblast' : isUkrSector ? 'Lvovskaya oblast' : 'Brestskaya oblast';
+
+      if (normKey.includes('wil') || normKey.includes('trok') || normKey.includes('swiec') || isLtuSector) {
+        oblast = 'Vilnyusskaya oblast';
+        ssr = 'Litovskaya SSR';
+      } else if (normKey.includes('bras') || normKey.includes('dzis') || normKey.includes('postaw') || normKey.includes('oszmi') || normKey.includes('viley') || normKey.includes('molodech') || normKey.includes('wilej')) {
+        oblast = 'Vileyskaya oblast';
+        ssr = 'BSSR';
+      } else if (normKey.includes('nowogrod') || normKey.includes('baran') || normKey.includes('stolp') || normKey.includes('slon') || normKey.includes('lid') || normKey.includes('nesvizh') || normKey.includes('szczucz')) {
+        oblast = 'Baranovitskaya oblast';
+        ssr = 'BSSR';
+      } else if (normKey.includes('pinsk') || normKey.includes('luni') || normKey.includes('stolin') || normKey.includes('drohicz')) {
+        oblast = 'Pinskaya oblast';
+        ssr = 'BSSR';
+      } else if (normKey.includes('brzesc') || normKey.includes('brest') || normKey.includes('kobryn') || normKey.includes('pruzan')) {
+        oblast = 'Brestskaya oblast';
+        ssr = 'BSSR';
+      } else if (normKey.includes('bialystok') || normKey.includes('grodno') || normKey.includes('wolkow') || normKey.includes('sokol') || normKey.includes('lomz') || normKey.includes('bielsk')) {
+        oblast = 'Belostokskaya oblast';
+        ssr = 'BSSR';
+      } else if (normKey.includes('luck') || normKey.includes('kowel') || normKey.includes('horoch') || normKey.includes('lubom') || normKey.includes('vladimir') || normKey.includes('wlodzim')) {
+        oblast = 'Volynskaya oblast';
+        ssr = 'USSR';
+      } else if (normKey.includes('rowne') || normKey.includes('dubn') || normKey.includes('kostop') || normKey.includes('sarn') || normKey.includes('zdolbun')) {
+        oblast = 'Rovnenskaya oblast';
+        ssr = 'USSR';
+      } else if (normKey.includes('tarnopol') || normKey.includes('czortkow') || normKey.includes('brzez') || normKey.includes('buczac') || normKey.includes('podhaj') || normKey.includes('trembow') || normKey.includes('zborow') || normKey.includes('zbaraz') || normKey.includes('kopycz') || normKey.includes('borszcz') || normKey.includes('krzemieniec') || normKey.includes('zaleszcz') || normKey.includes('skal')) {
+        oblast = 'Ternopolskaya oblast';
+        ssr = 'USSR';
+      } else if (normKey.includes('stanislaw') || normKey.includes('kolomy') || normKey.includes('kalusz') || normKey.includes('horoden') || normKey.includes('sniat') || normKey.includes('nadwor') || normKey.includes('tlumac') || normKey.includes('kosow') || normKey.includes('dolin') || normKey.includes('rohat') || normKey.includes('zydacz')) {
+        oblast = 'Stanislavskaya oblast';
+        ssr = 'USSR';
+      } else if (normKey.includes('drohob') || normKey.includes('borys') || normKey.includes('sambor') || normKey.includes('stryj') || normKey.includes('turk')) {
+        oblast = 'Drogobychskaya oblast';
+        ssr = 'USSR';
+      } else if (normKey.includes('lwow') || normKey.includes('zolkiew') || normKey.includes('rawa') || normKey.includes('jawor') || normKey.includes('grodek') || normKey.includes('przemysl') || normKey.includes('sokal') || normKey.includes('lubacz') || normKey.includes('zlocz') || normKey.includes('zoloch') || normKey.includes('peremysh') || normKey.includes('przemyslany') || normKey.includes('brody')) {
+        oblast = 'Lvovskaya oblast';
+        ssr = 'USSR';
+      }
+
+      const ssrTitle = ssr === 'BSSR' ? 'Belorusskaya SSR' : ssr === 'USSR' ? 'Ukrainskaya SSR' : 'Litovskaya SSR';
+      return {
+        name: `${cleanName} rayon / gorod`,
+        adminTitle: `${oblast} (${ssrTitle})`,
+      };
+    }
+
+    if (owner === 'LIT') {
+      const cleanName = rawName.replace(/^Powiat\s+/i, '');
+      return {
+        name: `${cleanName} (Vilniaus kraštas)`,
+        adminTitle: 'Lietuvos Respublika (Vilniaus kraštas)',
+      };
+    }
+  }
+
+  // 2. Match diretto dizionario per owner
   const ownerDict = HISTORICAL_TOPONYM_DICT[owner];
   if (ownerDict) {
     // Exact key
@@ -11149,93 +16003,6 @@ export function getExtendedToponym(
           };
         }
       }
-    }
-  }
-
-  // 2. Gestione granulare Powiat Kresy Wschodnie (1921-1939)
-  const isKresyPowiat = id.startsWith('PL_KRESY_') || rawName.toLowerCase().startsWith('powiat ');
-  if (isKresyPowiat) {
-    if (owner === 'POL') {
-      let voiv = 'Kresy Wschodnie';
-      if (normKey.includes('wil') || normKey.includes('trok') || normKey.includes('swiec') || normKey.includes('bras') || normKey.includes('dzis') || normKey.includes('postaw') || normKey.includes('oszmi')) {
-        voiv = 'Wileńskie';
-      } else if (normKey.includes('nowogrod') || normKey.includes('baran') || normKey.includes('stolp') || normKey.includes('niez') || normKey.includes('slon') || normKey.includes('szczucz') || normKey.includes('lid')) {
-        voiv = 'Nowogródzkie';
-      } else if (normKey.includes('polesk') || normKey.includes('brzesc') || normKey.includes('pinsk') || normKey.includes('kobryn') || normKey.includes('drohicz') || normKey.includes('kosin') || normKey.includes('luni')) {
-        voiv = 'Poleskie';
-      } else if (normKey.includes('wolyn') || normKey.includes('luck') || normKey.includes('rowne') || normKey.includes('kowel') || normKey.includes('krzemieniec') || normKey.includes('dubn') || normKey.includes('kostop') || normKey.includes('sarn') || normKey.includes('horoch') || normKey.includes('lubom')) {
-        voiv = 'Wołyńskie';
-      } else if (normKey.includes('tarnopol') || normKey.includes('czortkow') || normKey.includes('brzez') || normKey.includes('buczac') || normKey.includes('podhaj') || normKey.includes('trembow') || normKey.includes('zborow') || normKey.includes('zbaraz') || normKey.includes('kopycz') || normKey.includes('borszcz') || normKey.includes('skal')) {
-        voiv = 'Tarnopolskie';
-      } else if (normKey.includes('stanislaw') || normKey.includes('kolomy') || normKey.includes('stryj') || normKey.includes('kalusz') || normKey.includes('horoden') || normKey.includes('sniat') || normKey.includes('nadwor') || normKey.includes('tlumac') || normKey.includes('turk') || normKey.includes('kosow') || normKey.includes('dolin') || normKey.includes('rohat')) {
-        voiv = 'Stanisławowskie';
-      } else if (normKey.includes('lwow') || normKey.includes('drohob') || normKey.includes('borys') || normKey.includes('sambor') || normKey.includes('zolkiew') || normKey.includes('rawa') || normKey.includes('jawor') || normKey.includes('grodek') || normKey.includes('przemysl') || normKey.includes('jaroslaw') || normKey.includes('lubacz') || normKey.includes('sokal') || normKey.includes('moscisk') || normKey.includes('dobrom') || normKey.includes('rudk') || normKey.includes('bobrk')) {
-        voiv = 'Lwowskie';
-      } else if (normKey.includes('bialystok') || normKey.includes('grodno') || normKey.includes('wolkow') || normKey.includes('sokol') || normKey.includes('august') || normKey.includes('suwal') || normKey.includes('lomz') || normKey.includes('bielsk') || normKey.includes('wysokie')) {
-        voiv = 'Białostockie';
-      }
-      return {
-        name: rawName,
-        adminTitle: `Województwo ${voiv} (Rzeczpospolita Polska)`,
-      };
-    }
-
-    if (owner === 'SOV') {
-      const cleanName = rawName.replace(/^Powiat\s+/i, '');
-      let oblast = 'Brestskaya';
-      let ssr = 'BSSR';
-
-      if (normKey.includes('wil') || normKey.includes('trok') || normKey.includes('swiec')) {
-        oblast = 'Vilnyusskaya oblast';
-        ssr = 'Litovskaya SSR';
-      } else if (normKey.includes('bras') || normKey.includes('dzis') || normKey.includes('postaw') || normKey.includes('oszmi') || normKey.includes('viley') || normKey.includes('molodech')) {
-        oblast = 'Vileyskaya oblast';
-        ssr = 'BSSR';
-      } else if (normKey.includes('nowogrod') || normKey.includes('baran') || normKey.includes('stolp') || normKey.includes('slon') || normKey.includes('lid') || normKey.includes('nesvizh')) {
-        oblast = 'Baranovitskaya oblast';
-        ssr = 'BSSR';
-      } else if (normKey.includes('pinsk') || normKey.includes('luni') || normKey.includes('stolin') || normKey.includes('drohicz')) {
-        oblast = 'Pinskaya oblast';
-        ssr = 'BSSR';
-      } else if (normKey.includes('brzesc') || normKey.includes('brest') || normKey.includes('kobryn') || normKey.includes('pruzan')) {
-        oblast = 'Brestskaya oblast';
-        ssr = 'BSSR';
-      } else if (normKey.includes('bialystok') || normKey.includes('grodno') || normKey.includes('wolkow') || normKey.includes('sokol') || normKey.includes('lomz') || normKey.includes('bielsk')) {
-        oblast = 'Belostokskaya oblast';
-        ssr = 'BSSR';
-      } else if (normKey.includes('luck') || normKey.includes('kowel') || normKey.includes('horoch') || normKey.includes('lubom') || normKey.includes('vladimir')) {
-        oblast = 'Volynskaya oblast';
-        ssr = 'USSR';
-      } else if (normKey.includes('rowne') || normKey.includes('dubn') || normKey.includes('kostop') || normKey.includes('sarn') || normKey.includes('zdolbun')) {
-        oblast = 'Rovnenskaya oblast';
-        ssr = 'USSR';
-      } else if (normKey.includes('tarnopol') || normKey.includes('czortkow') || normKey.includes('brzez') || normKey.includes('buczac') || normKey.includes('podhaj') || normKey.includes('trembow') || normKey.includes('zborow') || normKey.includes('zbaraz') || normKey.includes('kopycz') || normKey.includes('borszcz') || normKey.includes('krzemieniec')) {
-        oblast = 'Ternopolskaya oblast';
-        ssr = 'USSR';
-      } else if (normKey.includes('stanislaw') || normKey.includes('kolomy') || normKey.includes('kalusz') || normKey.includes('horoden') || normKey.includes('sniat') || normKey.includes('nadwor') || normKey.includes('tlumac') || normKey.includes('kosow') || normKey.includes('dolin') || normKey.includes('rohat')) {
-        oblast = 'Stanislavskaya oblast';
-        ssr = 'USSR';
-      } else if (normKey.includes('drohob') || normKey.includes('borys') || normKey.includes('sambor') || normKey.includes('stryj') || normKey.includes('turk')) {
-        oblast = 'Drogobychskaya oblast';
-        ssr = 'USSR';
-      } else if (normKey.includes('lwow') || normKey.includes('zolkiew') || normKey.includes('rawa') || normKey.includes('jawor') || normKey.includes('grodek') || normKey.includes('przemysl') || normKey.includes('sokal') || normKey.includes('lubacz')) {
-        oblast = 'Lvovskaya oblast';
-        ssr = 'USSR';
-      }
-
-      const ssrTitle = ssr === 'BSSR' ? 'Belorusskaya SSR' : ssr === 'USSR' ? 'Ukrainskaya SSR' : 'Litovskaya SSR';
-      return {
-        name: `${cleanName} rayon / gorod`,
-        adminTitle: `${oblast} (${ssrTitle})`,
-      };
-    }
-
-    if (owner === 'LIT') {
-      const cleanName = rawName.replace(/^Powiat\s+/i, '');
-      return {
-        name: `${cleanName} (Vilniaus kraštas)`,
-        adminTitle: 'Lietuvos Respublika (Vilniaus kraštas)',
-      };
     }
   }
 
@@ -11441,6 +16208,89 @@ export function getExtendedToponym(
     if (id.startsWith('SI')) return { name: rawName, adminTitle: 'Kraljevina Jugoslavija (Dravska banovina)' };
   }
 
+  // 9. Cecoslovacchia (CZE)
+  if (owner === 'CZE') {
+    if (id === 'CZ010' || normKey.includes('praha') || normKey.includes('prag')) {
+      return { name: 'Praha (Praga)', adminTitle: 'Československá republika — Hlavní město Praha' };
+    }
+    if (id === 'CZ064' || normKey.includes('brno') || normKey.includes('bruenn')) {
+      return { name: 'Brno (Brünn)', adminTitle: 'Československá republika — Země Moravskoslezská' };
+    }
+    if (id === 'CZ032' || normKey.includes('plzen') || normKey.includes('pilsen')) {
+      return { name: 'Plzeň (Pilsen)', adminTitle: 'Československá republika — Země Česká' };
+    }
+    if (normKey.includes('ostrava')) {
+      return { name: 'Moravská Ostrava', adminTitle: 'Československá republika — Země Moravskoslezská' };
+    }
+    if (id === 'CZ071' || normKey.includes('olomouc')) {
+      return { name: 'Olomouc (Olmütz)', adminTitle: 'Československá republika — Země Moravskoslezská' };
+    }
+    if (id === 'CZ031' || normKey.includes('budejovice')) {
+      return { name: 'České Budějovice', adminTitle: 'Československá republika — Země Česká' };
+    }
+    if (id === 'CZ052' || normKey.includes('hradec')) {
+      return { name: 'Hradec Králové', adminTitle: 'Československá republika — Země Česká' };
+    }
+    if (id === 'CZ053' || normKey.includes('pardubic')) {
+      return { name: 'Pardubice', adminTitle: 'Československá republika — Země Česká' };
+    }
+    if (id === 'CZ051' || normKey.includes('liberec') || normKey.includes('reichenberg')) {
+      return { name: 'Liberec (Reichenberg)', adminTitle: 'Československá republika — Pohraničí (Sudety)' };
+    }
+    if (id === 'CZ041' || normKey.includes('karlovy_vary') || normKey.includes('karlsbad')) {
+      return { name: 'Karlovy Vary (Karlsbad)', adminTitle: 'Československá republika — Pohraničí (Sudety)' };
+    }
+    if (normKey.includes('cheb') || normKey.includes('eger')) {
+      return { name: 'Cheb (Eger)', adminTitle: 'Československá republika — Pohraničí (Sudety)' };
+    }
+    if (id === 'CZ042' || normKey.includes('usti') || normKey.includes('aussig')) {
+      return { name: 'Ústí nad Labem (Aussig)', adminTitle: 'Československá republika — Pohraničí (Sudety)' };
+    }
+    if (id === 'CZ080' || normKey.includes('opava') || normKey.includes('troppau')) {
+      return { name: 'Opava (Troppau)', adminTitle: 'Československá republika — Země Moravskoslezská' };
+    }
+    if (normKey.includes('tesin') || normKey.includes('cieszyn')) {
+      return { name: 'Český Těšín', adminTitle: 'Československá republika — Slezsko' };
+    }
+    if (id.startsWith('SK01') || normKey.includes('bratislava') || normKey.includes('pressburg') || normKey.includes('pozsony')) {
+      return { name: 'Bratislava (Presburgo)', adminTitle: 'Československá republika — Krajina Slovenská' };
+    }
+    if (normKey.includes('kosice') || normKey.includes('kassa')) {
+      return { name: 'Košice (Kassa)', adminTitle: 'Československá republika — Krajina Slovenská' };
+    }
+    if (normKey.includes('uzhorod') || normKey.includes('ungvar')) {
+      return { name: 'Užhorod (Ungvár)', adminTitle: 'Československá republika — Podkarpatská Rus' };
+    }
+    if (normKey.includes('chust') || normKey.includes('khust')) {
+      return { name: 'Chust (Karpatska Ukrajina)', adminTitle: 'Československá republika — Podkarpatská Rus' };
+    }
+    if (id.startsWith('SK')) {
+      return { name: rawName, adminTitle: 'Československá republika — Krajina Slovenská' };
+    }
+    if (id.startsWith('CZ')) {
+      return { name: rawName, adminTitle: 'Československá republika — Země Česká a Moravskoslezská' };
+    }
+  }
+
+  // 10. Prima Repubblica Slovacca (SLO)
+  if (owner === 'SLO') {
+    if (id.startsWith('SK01') || normKey.includes('bratislava')) {
+      return { name: 'Bratislava (Hlavné mesto)', adminTitle: 'Slovenská republika — Bratislavská župa' };
+    }
+    if (normKey.includes('trnava')) return { name: 'Trnava', adminTitle: 'Slovenská republika — Bratislavská župa' };
+    if (normKey.includes('nitra')) return { name: 'Nitra', adminTitle: 'Slovenská republika — Nitrianska župa' };
+    if (normKey.includes('trencin')) return { name: 'Trenčín', adminTitle: 'Slovenská republika — Trenčianska župa' };
+    if (normKey.includes('zilina')) return { name: 'Žilina', adminTitle: 'Slovenská republika — Trenčianska župa' };
+    if (normKey.includes('banska_bystrica')) return { name: 'Banská Bystrica', adminTitle: 'Slovenská republika — Pohronská župa' };
+    if (normKey.includes('presov')) return { name: 'Prešov', adminTitle: 'Slovenská republika — Šarišsko-zemplínska župa' };
+    if (normKey.includes('ruzomberok')) return { name: 'Ružomberok', adminTitle: 'Slovenská republika — Tatranská župa' };
+    if (normKey.includes('poprad')) return { name: 'Poprad', adminTitle: 'Slovenská republika — Tatranská župa' };
+    if (normKey.includes('zvolen')) return { name: 'Zvolen', adminTitle: 'Slovenská republika — Pohronská župa' };
+    if (id.startsWith('SK')) {
+      return { name: rawName, adminTitle: 'Slovenská republika (Vláda Dr. Jozefa Tisa)' };
+    }
+  }
+
   if (owner === 'FIN') {
     if (
       id === 'FI200' ||
@@ -11605,6 +16455,264 @@ export function getExtendedToponym(
         note: 'Principato alpino sovrano neutrale incastonato tra Svizzera e Vorarlberg con capitale Vaduz; retto dal Principe Franz I (fino al 1938) e Franz Josef II (dal 1938) con il Capo del Governo Josef Hoop. Unione doganale e monetaria con la Svizzera dal 1923; bandiera ufficiale con corona principesca (Fürstenhut) adottata nel 1937.',
       };
     }
+  }
+
+  if (owner === 'BRA' || owner === 'BR' || owner === 'BRAZIL') {
+    return {
+      name: (normKey === 'brazil' || normKey === 'brasil' || normKey.includes('country'))
+        ? 'Estados Unidos do Brasil (Rio de Janeiro)'
+        : `${rawName} (Brasil)`,
+      adminTitle: 'República dos Estados Unidos do Brasil — Regime do Estado Novo (Getúlio Vargas)',
+      note: 'Repubblica federale retta dal presidente Getúlio Vargas; dopo il colpo di stato del novembre 1937 viene promulgata la costituzione autoritaria dell\'Estado Novo. Neutralità diplomatica e cooperazione panamericana ed economica (commercio di caffè, gomma e minerali strategici).',
+    };
+  }
+
+  if (owner === 'ARG' || owner === 'AR' || owner === 'ARGENTINA') {
+    return {
+      name: (normKey === 'argentina' || normKey.includes('country'))
+        ? 'República Argentina (Buenos Aires)'
+        : `${rawName} (Argentina)`,
+      adminTitle: 'República Argentina — Década Infame (Pres. Agustín P. Justo / Roberto M. Ortiz)',
+      note: 'Periodo storico della Década Infame; presidenza di Agustín Pedro Justo (1932-38) e Roberto Marcelino Ortiz (1938-40). Rigorosa neutralità diplomatica accompagnata da un vitale legame commerciale agroalimentare con la Gran Bretagna e sorveglianza militare dell\'Atlantico meridionale.',
+    };
+  }
+
+  if (owner === 'CHL' || owner === 'CL' || owner === 'CHILE') {
+    return {
+      name: (normKey === 'chile' || normKey === 'cile' || normKey.includes('country'))
+        ? 'República de Chile (Santiago)'
+        : `${rawName} (Chile)`,
+      adminTitle: 'República de Chile — Frente Popular (Pres. Pedro Aguirre Cerda)',
+      note: 'Repubblica democratica guidata dal 1938 dal Fronte Popolare (Frente Popular) del presidente Pedro Aguirre Cerda. Rigida neutralità diplomatica ed essenziale controllo geostrategico delle rotte oceaniche dello Stretto di Magellano e di Capo Horn.',
+    };
+  }
+
+  if (owner === 'PRU' || owner === 'PE' || owner === 'PERU') {
+    return {
+      name: (normKey === 'peru' || normKey === 'perù' || normKey.includes('country'))
+        ? 'República Peruana (Lima)'
+        : `${rawName} (Perú)`,
+      adminTitle: 'República Peruana — Pres. Óscar R. Benavides / Manuel Prado Ugarteche',
+      note: 'Regime autoritario e conservatore con capitale Lima; governo del generale Óscar R. Benavides (fino al 1939) e di Manuel Prado Ugarteche (dal 1939). Tensioni di confine latenti e mai sopite con l\'Ecuador per il bacino amazzonico (fiume Marañón e regione di Maynas).',
+    };
+  }
+
+  if (owner === 'COL' || owner === 'CO' || owner === 'COLOMBIA') {
+    return {
+      name: (normKey === 'colombia' || normKey.includes('country'))
+        ? 'República de Colombia (Bogotá)'
+        : `${rawName} (Colombia)`,
+      adminTitle: 'República de Colombia — Pres. Alfonso López Pumarejo / Eduardo Santos',
+      note: 'Repubblica liberale costituzionale; riforme della "Revolución en Marcha" di López Pumarejo e presidenza di Eduardo Santos. Stretta intesa strategica con Washington per la difesa del Canale di Panama e nazionalizzazione delle rotte aeree SCADTA (fondazione di Avianca nel 1940).',
+    };
+  }
+
+  if (owner === 'VEN' || owner === 'VE' || owner === 'VENEZUELA') {
+    return {
+      name: (normKey === 'venezuela' || normKey.includes('country'))
+        ? 'Estados Unidos de Venezuela (Caracas)'
+        : `${rawName} (Venezuela)`,
+      adminTitle: 'Estados Unidos de Venezuela — Pres. Eleazar López Contreras',
+      note: 'Transizione istituzionale post-gomecista guidata dal generale Eleazar López Contreras. Primo esportatore mondiale di petrolio (giacimenti del Lago di Maracaibo raffinati ad Aruba e Curaçao), risorsa energetica strategica fondamentale per gli Alleati.',
+    };
+  }
+
+  if (owner === 'ECU' || owner === 'EC' || owner === 'ECUADOR') {
+    if (normKey.includes('oriente') || id.toLowerCase().includes('oriente') || (rawName && rawName.toLowerCase().includes('oriente'))) {
+      return {
+        name: 'Oriente Amazzònico Conteso (Ecuador / Perù)',
+        adminTitle: 'Provincia del Oriente — Zona Contesa Ecuador-Perù (Maynas y Marañón)',
+        note: 'Vasto bacino fluviale amazzonico dei fiumi Marañón, Pastaza, Napo e Curaray. Territorio rivendicato dall\'Ecuador in base alla Real Cédula del 1563 e conteso dal Perù, sfociato nel conflitto armato del 1941 e nel Protocollo di Rio de Janeiro del 1942.',
+      };
+    }
+    return {
+      name: (normKey === 'ecuador' || normKey.includes('country'))
+        ? 'República del Ecuador (Quito)'
+        : `${rawName} (Ecuador)`,
+      adminTitle: 'República del Ecuador — Pres. Federico Páez / Carlos Arroyo del Río',
+      note: 'Fase di instabilità politica ed economica; contesa confinaria secolare con il Perù sull\'Oriente amazzonico e presidio sovrano delle Isole Galápagos nell\'Oceano Pacifico.',
+    };
+  }
+
+  if (owner === 'BOL' || owner === 'BO' || owner === 'BOLIVIA') {
+    return {
+      name: (normKey === 'bolivia' || normKey.includes('country'))
+        ? 'República de Bolivia (La Paz / Sucre)'
+        : `${rawName} (Bolivia)`,
+      adminTitle: 'República de Bolivia — Socialismo Militare & Trattato di Pace del Chaco 1938',
+      note: 'Difficile dopoguerra del Chaco; governi del "socialismo militare" di David Toro e Germán Busch (nazionalizzazione della Standard Oil nel 1937). Trattato di pace di Buenos Aires del luglio 1938 con il Paraguay; principale fornitore di stagno e tungsteno per gli Alleati.',
+    };
+  }
+
+  if (owner === 'PAR' || owner === 'PY' || owner === 'PARAGUAY') {
+    return {
+      name: (normKey === 'paraguay' || normKey.includes('country'))
+        ? 'República del Paraguay (Asunción)'
+        : `${rawName} (Paraguay)`,
+      adminTitle: 'República del Paraguay — Pres. Rafael Franco / Mar. José Félix Estigarribia',
+      note: 'Uscito vittorioso ma dissanguato dalla Guerra del Chaco; Rivoluzione Febrerista del colonnello Rafael Franco (1936), transizione di Félix Paiva e presidenza del maresciallo José Félix Estigarribia (1939-40, Carta Costituzionale del 1940). Sovranità confermata sul Chaco Boreal nel 1938.',
+    };
+  }
+
+  if (owner === 'URU' || owner === 'UY' || owner === 'URUGUAY') {
+    return {
+      name: (normKey === 'uruguay' || normKey.includes('country'))
+        ? 'República Oriental del Uruguay (Montevideo)'
+        : `${rawName} (Uruguay)`,
+      adminTitle: 'República Oriental del Uruguay — Pres. Gabriel Terra / Gen. Alfredo Baldomir',
+      note: 'Stato sovrano neutrale sulla riva settentrionale del Río de la Plata. Il porto neutrale di Montevideo fu al centro della crisi navale della corazzata tedesca Admiral Graf Spee nel dicembre 1939 dopo la battaglia contro gli incrociatori della Royal Navy.',
+    };
+  }
+
+  if (
+    (owner === 'HOL' || owner === 'NL') &&
+    (normKey.includes('suriname') || normKey.includes('surinam') || normKey.includes('dutch guiana') || id.includes('SR') || id.includes('SUR'))
+  ) {
+    return {
+      name: 'Suriname / Nederlands-Guyana (Paramaribo)',
+      adminTitle: 'Gebiedsdeel Suriname — Kolonie van het Koninkrijk der Nederlanden',
+      note: 'Territorio d\'oltremare olandese nei Caraibi meridionali; centro nevralgico della produzione mondiale di bauxite (miniere di Moengo e Paranam gestite da Alcoa/Suralco), vitale per l\'industria aeronautica bellica alleata.',
+    };
+  }
+
+  // Messico
+  if (owner === 'MEX' || owner === 'MX' || owner === 'MEXICO') {
+    return {
+      name: (normKey === 'mexico' || normKey === 'messico' || normKey.includes('country'))
+        ? 'Estados Unidos Mexicanos (Ciudad de México)'
+        : `${rawName} (México)`,
+      adminTitle: 'Estados Unidos Mexicanos — Presidencia del Gral. Lázaro Cárdenas (1934-1940)',
+      note: 'Repubblica federale sotto la presidenza progressista di Lázaro Cárdenas; periodo caratterizzato dall\'attuazione radicale della riforma agraria (ejidos), dalla nazionalizzazione delle ferrovie e dall\'espropriazione storica delle compagnie petrolifere straniere il 18 marzo 1938 con la fondazione di PEMEX. Asilo a Lev Trockij e a decine di migliaia di rifugiati repubblicani della Guerra Civile Spagnola; rigorosa neutralità diplomatica accompagnata dal supporto ai principi di non-intervento della Dottrina Estrada.',
+    };
+  }
+
+  // Guatemala
+  if (owner === 'GTM' || owner === 'GT' || owner === 'GUATEMALA') {
+    return {
+      name: (normKey === 'guatemala' || normKey.includes('country'))
+        ? 'República de Guatemala (Ciudad de Guatemala)'
+        : `${rawName} (Guatemala)`,
+      adminTitle: 'República de Guatemala — Régimen del Gral. Jorge Ubico (1931-1944)',
+      note: 'Dittatura centralista e paternalista del generale Jorge Ubico Castañeda; ordine pubblico inflessibile, militarizzazione delle scuole e lavoro coatto indigeno attraverso la "Ley contra la Vagancia". Enorme influenza economica della United Fruit Company (UFCO) e dell\'IRCA con monopolio su porti e ferrovie. Storica rivendicazione irredentista sull\'Honduras Britannico (Belize).',
+    };
+  }
+
+  // El Salvador
+  if (owner === 'SLV' || owner === 'SV' || owner === 'EL_SALVADOR' || owner === 'SALVADOR') {
+    return {
+      name: (normKey === 'el salvador' || normKey === 'el_salvador' || normKey === 'salvador' || normKey.includes('country'))
+        ? 'República de El Salvador (San Salvador)'
+        : `${rawName} (El Salvador)`,
+      adminTitle: 'República de El Salvador — Dictadura del Gral. Maximiliano Hernández Martínez (1931-1944)',
+      note: 'Regime autoritario del generale Martínez (il "Martiniato"), instauratosi dopo la sanguinosa repressione dell\'insurrezione contadina indigena del 1932 ("La Matanza"). Forte monopolio economico dell\'oligarchia cafetalera delle "Catorce Familias"; precoce riconoscimento diplomatico del Manchukuo (1934) e della Spagna franchista, temperato dal progressivo allineamento emisferico con Washington.',
+    };
+  }
+
+  // Honduras
+  if (owner === 'HND' || owner === 'HN' || owner === 'HONDURAS') {
+    return {
+      name: (normKey === 'honduras' || normKey.includes('country'))
+        ? 'República de Honduras (Tegucigalpa)'
+        : `${rawName} (Honduras)`,
+      adminTitle: 'República de Honduras — El Cariato (Gral. Tiburcio Carías Andino, 1933-1949)',
+      note: 'Lungo regime conservatore e autoritario del generale Tiburcio Carías Andino ("El Cariato"), caratterizzato dal motto "Paz, Unión y Trabajo" dopo decenni di conflitti civili. Il paese è il cuore della cosiddetta "Banana Republic", la cui fascia costiera caraibica e trasporti ferroviari sono dominati dalla United Fruit Company e dalla Standard Fruit Company; contesa di confine aperta con il Nicaragua per la Mosquitia.',
+    };
+  }
+
+  // Nicaragua
+  if (owner === 'NIC' || owner === 'NI' || owner === 'NICARAGUA') {
+    return {
+      name: (normKey === 'nicaragua' || normKey.includes('country'))
+        ? 'República de Nicaragua (Managua)'
+        : `${rawName} (Nicaragua)`,
+      adminTitle: 'República de Nicaragua — Régimen de Anastasio Somoza García (Guardia Nacional)',
+      note: 'Presidenza del generale Anastasio "Tacho" Somoza García, salito al potere assoluto dopo il golpe del 1936 e la destituzione di Juan Bautista Sacasa. Fondatore della dinastia Somoza e capo supremo della Guardia Nacional, creata sotto l\'occupazione dei Marines USA. Relazioni ferree di subordinazione geostrategica con Washington e diritti esclusivi concessi agli Stati Uniti sul Canale del Nicaragua (Trattato Bryan-Chamorro).',
+    };
+  }
+
+  // Costa Rica
+  if (owner === 'CRI' || owner === 'CR' || owner === 'COSTA_RICA') {
+    return {
+      name: (normKey === 'costa rica' || normKey === 'costa_rica' || normKey.includes('country'))
+        ? 'República de Costa Rica (San José)'
+        : `${rawName} (Costa Rica)`,
+      adminTitle: (yearStep !== undefined && yearStep >= 6)
+        ? 'República de Costa Rica — Pres. Rafael Ángel Calderón Guardia (1940)'
+        : 'República de Costa Rica — Pres. León Cortés Castro (1936-1940)',
+      note: 'Stabile democrazia costituzionale dell\'istmo centroamericano fondata sul suffragio, l\'istruzione primaria universale e una precoce tradizione pacifista civile. Mandato presidenziale di León Cortés Castro fino al maggio 1940, seguito dall\'insediamento riformista di Rafael Ángel Calderón Guardia. Economia imperniata sul caffè dell\'Altiplano Centrale e sulle piantagioni bananiere atlantiche e pacifiche (Golfito/Limón).',
+    };
+  }
+
+  // Panama
+  if (owner === 'PAN' || owner === 'PA' || owner === 'PANAMA') {
+    return {
+      name: (normKey === 'panama' || normKey === 'panamá' || normKey.includes('country'))
+        ? 'República de Panamá (Ciudad de Panamá)'
+        : `${rawName} (Panamá)`,
+      adminTitle: (yearStep !== undefined && yearStep >= 6)
+        ? 'República de Panamá — Pres. Arnulfo Arias Madrid (Doctrina Panameñista)'
+        : 'República de Panamá — Pres. Juan Demóstenes Arosemena (Tratado Hull-Alfaro)',
+      note: 'Stato istmico sovrano territorialmente bisecato dalla Zona del Canale sotto amministrazione militare statunitense. Nel 1936-1939 viene negoziato il Trattato Hull-Alfaro che abroga il diritto unilaterale d\'ingerenza armata USA sancito dal 1903 e riconosce maggiori compensazioni economiche. Nel 1940 sale alla presidenza il nazionalista panameñista Arnulfo Arias Madrid, promotore della dottrina del "panameñismo" e diffidente verso l\'influenza anglosassone.',
+    };
+  }
+
+  // Cuba
+  if (owner === 'CUB' || owner === 'CU' || owner === 'CUBA') {
+    return {
+      name: (normKey === 'cuba' || normKey.includes('country'))
+        ? 'República de Cuba (La Habana)'
+        : `${rawName} (Cuba)`,
+      adminTitle: (yearStep !== undefined && yearStep >= 6)
+        ? 'República de Cuba — Pres. Fulgencio Batista (Constitución Democrática de 1940)'
+        : 'República de Cuba — Pres. Federico Laredo Brú / Jefatura Militar de Fulgencio Batista',
+      note: 'Repubblica caraibica con capitale L\'Avana; presidenza civile di Federico Laredo Brú (1936-1940) con il vero centro del potere imperniato sull\'Esercito guidato dal colonnello Fulgencio Batista, che nel 1940 viene eletto presidente a seguito della promulgazione della progressista Costituzione del 1940. Monocoltura ed esportazione zuccheriera vitale verso gli Stati Uniti (Sugar Act); base navale USA permanente affittata nella baia di Guantánamo.',
+    };
+  }
+
+  // Repubblica Dominicana
+  if (owner === 'DOM' || owner === 'DO' || owner === 'DOMINICAN_REPUBLIC') {
+    return {
+      name: (normKey === 'dominican republic' || normKey === 'dominican_republic' || normKey === 'republica dominicana' || normKey === 'republica_dominicana' || normKey.includes('dominican') || normKey.includes('country'))
+        ? 'República Dominicana (Ciudad Trujillo)'
+        : `${rawName} (República Dominicana)`,
+      adminTitle: 'República Dominicana — Era de Trujillo (Generalísimo Rafael Leónidas Trujillo)',
+      note: 'Dittatura personale dispotica del "Benefactor de la Patria" Generalissimo Rafael Leónidas Trujillo Molina, che rinomina nel 1936 la capitale Santo Domingo in "Ciudad Trujillo". Nell\'ottobre 1937 ordina il massacro etnico e frontaliero di decine di migliaia di lavoratori haitiani lungo il fiume Dajabón (Masacre del Perejil). Nel settembre 1940 firma il Trattato Trujillo-Hull che restituisce al governo dominicano la riscossione diretta delle proprie dogane controllate da agenti USA dal 1905.',
+    };
+  }
+
+  // Haiti
+  if (owner === 'HAI' || owner === 'HT' || owner === 'HTI' || owner === 'HAITI') {
+    return {
+      name: (normKey === 'haiti' || normKey === 'haïti' || normKey.includes('country'))
+        ? 'République d\'Haïti (Port-au-Prince)'
+        : `${rawName} (Haïti)`,
+      adminTitle: 'République d\'Haïti — Présidence Sténio Vincent (1930-1941)',
+      note: 'Repubblica caraibica francofona con capitale Port-au-Prince; presidenza dell\'avvocato e nazionalista Sténio Vincent. Dopo il ritiro delle truppe d\'occupazione dei Marines USA nel 1934, il paese affronta gravissime difficoltà economiche e il trauma nazionale dell\'eccidio di migliaia di propri cittadini per mano dell\'esercito dominicano di Trujillo nel 1937, risolto con una controversa mediazione diplomatica panamericana.',
+    };
+  }
+
+  // Panama Canal Zone (USA)
+  if (
+    (owner === 'USA' || owner === 'US') &&
+    (normKey.includes('canal_zone') || normKey.includes('canal zone') || normKey.includes('panama_canal') || normKey.includes('canale_di_panama') || normKey.includes('canal') || id.includes('PCZ') || id.includes('PZ'))
+  ) {
+    return {
+      name: 'Panama Canal Zone (Balboa Heights / Quarry Heights — USA)',
+      adminTitle: 'Panama Canal Zone — U.S. Strategic Military Outpost (Governor Clarence S. Ridley / Glen E. Edgerton)',
+      note: 'Fascia territoriale e idroviaria strategica di 553 miglia quadrate controllata in perpetuità dagli Stati Uniti d\'America in virtù del Trattato Hay-Bunau-Varilla del 1903. Chokepoint marittimo vitale della sicurezza emisferica e globale per il passaggio rapido delle flotte tra Atlantico e Pacifico (Two-Ocean Navy); difesa da massicce fortificazioni costiere, chiuse protette (Miraflores, Pedro Miguel, Gatun) e basi aeronavali (Albrook Field, Howard Field, Coco Solo).',
+    };
+  }
+
+  // Puerto Rico (USA)
+  if (
+    (owner === 'USA' || owner === 'US') &&
+    (normKey.includes('puerto_rico') || normKey.includes('puerto rico') || normKey.includes('porto_rico') || normKey.includes('porto rico') || normKey.includes('puerto') || id.includes('PR') || id.includes('PRI'))
+  ) {
+    return {
+      name: 'Puerto Rico (Unincorporated U.S. Territory — San Juan)',
+      adminTitle: 'Territory of Puerto Rico — U.S. Caribbean Gibraltar (Gov. Blanton Winship / Adm. William D. Leahy)',
+      note: 'Territorio insulare non incorporato degli Stati Uniti d\'America nelle Grandi Antille con capoluogo San Juan. Negli anni 1936-1939 teatro di forti tensioni nazionaliste guidate da Pedro Albizu Campos (Massacro di Ponce del 1937); nel 1939 Franklin D. Roosevelt nomina governatore l\'ammiraglio William D. Leahy per trasformare l\'isola in una formidabile base aeronavale fortificata ("la Gibilterra dei Caraibi") a guardia delle rotte marittime per il Canale di Panama.',
+    };
   }
 
   // 3. Fallback con formattazione pulita

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Search, X, MapPin, Globe, ArrowRight, Shield, Crosshair, Anchor } from 'lucide-react';
 import { SearchResultItem } from '../types';
-import { getOwnerMeta } from '../data/owners';
+import { getOwnerMeta, getOverlord } from '../data/owners';
 import { normStr } from '../data/georesolver';
 import { HISTORICAL_BATTLES, HistoricalBattle } from '../data/historicalBattles';
 import { HISTORICAL_FORTIFICATION_LINES, FortificationLine, HISTORICAL_NAVAL_BASES, NavalBase } from '../data/historicalFortifications';
@@ -18,6 +18,26 @@ interface SearchModalProps {
   onSelectFortification?: (fort: FortificationLine) => void;
   onSelectNavalBase?: (base: NavalBase) => void;
 }
+
+export const ISLAND_SEARCH_ALIASES: Record<string, string[]> = {
+  MV_MALDIVE: ['maldive', 'maldives', 'male', 'ceylon', 'oceano indiano'],
+  PF_POLYNESIA: ['polinesia', 'polynesia', 'polinesia francese', 'tahiti', 'papeete', 'oceania', 'pacifico', 'societa', 'tuamotu'],
+  US_HAWAII: ['hawaii', 'pearl harbor', 'oahu', 'honolulu', 'pacifico', 'stati uniti'],
+  MU_MAURITIUS: ['mauritius', 'port louis', 'oceano indiano'],
+  SC_SEYCHELLES: ['seychelles', 'victoria', 'mahe', 'oceano indiano'],
+  RE_REUNION: ['reunion', 'la reunion', 'saint denis', 'oceano indiano'],
+  KM_COMOROS: ['comore', 'comoros', 'comores', 'moroni', 'mayotte'],
+  BM_BERMUDA: ['bermuda', 'hamilton', 'atlantico'],
+  FK_FALKLAND: ['falkland', 'malvinas', 'isole falkland', 'islas malvinas', 'port stanley', 'stanley'],
+  SH_HELENA: ["sant'elena", 'sant elena', 'saint helena', 'st helena', 'jamestown', 'ascension'],
+  CV_CAPEVERDE: ['capo verde', 'cabo verde', 'cape verde', 'praia', 'mindelo', 'atlantico'],
+  ST_SAOTOME: ['sao tome', 'san tome', 'sao tome e principe', 'principe', 'golfo di guinea'],
+  GL_GREENLAND: ['groenlandia', 'greenland', 'gronland', 'nuuk', 'godthab', 'artico'],
+  CK_COOK: ['cook', 'isole cook', 'cook islands', 'avarua', 'rarotonga'],
+  NR_NAURU: ['nauru', 'pleasant island', 'fosfati'],
+  TV_ELLICE: ['tuvalu', 'ellice', 'isole ellice', 'funafuti'],
+  KI_GILBERT: ['gilbert', 'isole gilbert', 'kiribati', 'tarawa'],
+};
 
 export const SearchModal: React.FC<SearchModalProps> = ({
   isOpen,
@@ -83,6 +103,144 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       q.includes('impero coloniale francese') ||
       q.includes('empire colonial');
 
+    const isBalkanQuery =
+      q.includes('balcan') ||
+      q.includes('balkan');
+
+    const isYugoslavQuery =
+      q.includes('jugoslav') ||
+      q.includes('yugoslav') ||
+      q.includes('serbi') ||
+      q.includes('croaz') ||
+      q.includes('croat') ||
+      q.includes('sloven') ||
+      q.includes('bosn') ||
+      q.includes('montenegr') ||
+      q.includes('macedon');
+
+    const isHungarianQuery =
+      q.includes('ungheria') ||
+      q.includes('hungar') ||
+      q.includes('magyar') ||
+      q.includes('horthy');
+
+    const isRomanianQuery =
+      q.includes('romania') ||
+      q.includes('romeni') ||
+      q.includes('romeno') ||
+      q.includes('transilvan') ||
+      q.includes('basarab') ||
+      q.includes('craiova');
+
+    const isBulgarianQuery =
+      q.includes('bulgaria') ||
+      q.includes('bulgar') ||
+      q.includes('cadrilater') ||
+      q.includes('dobrug');
+
+    const isGreekQuery =
+      q.includes('grecia') ||
+      q.includes('greec') ||
+      q.includes('greco') ||
+      q.includes('greca') ||
+      q.includes('metaxas') ||
+      q.includes('hellas');
+
+    const isAlbanianQuery =
+      q.includes('albania') ||
+      q.includes('alban') ||
+      q.includes('shqip') ||
+      q.includes('zog');
+
+    const isCzechoslovakQuery =
+      q.includes('cecoslovacc') ||
+      q.includes('czecho') ||
+      q.includes('boemia') ||
+      q.includes('moravia') ||
+      q.includes('slovacc') ||
+      q.includes('sudet') ||
+      q.includes('ruten') ||
+      q.includes('zaolzie') ||
+      q.includes('benes');
+
+    const isPolishQuery =
+      q.includes('polon') ||
+      q.includes('poland') ||
+      q.includes('polska') ||
+      q.includes('kresy') ||
+      q.includes('rzeczpospolita') ||
+      q.includes('volinia') ||
+      q.includes('wolyn') ||
+      q.includes('polesie') ||
+      q.includes('galicja') ||
+      q.includes('galizia');
+
+    const isAfricaQuery =
+      q.includes('africa') ||
+      q.includes('afrique') ||
+      q.includes('maghreb') ||
+      q.includes('sahara') ||
+      q.includes('sahel') ||
+      q.includes('corno d\'africa') ||
+      q.includes('horn of africa') ||
+      q.includes('aoi') ||
+      q.includes('aof') ||
+      q.includes('aef') ||
+      q.includes('congo');
+
+    const isScandinavianQuery =
+      q.includes('scandinav') ||
+      q.includes('nordic') ||
+      q.includes('nordik');
+
+    const isDanishQuery =
+      q.includes('danimarc') ||
+      q.includes('denmark') ||
+      q.includes('danmark') ||
+      q.includes('danes') ||
+      q.includes('danese') ||
+      q.includes('danesi') ||
+      q.includes('copenaghen') ||
+      q.includes('copenhagen') ||
+      q.includes('kobenhavn') ||
+      q.includes('faroe') ||
+      q.includes('groenland');
+
+    const isSwedishQuery =
+      q.includes('svezia') ||
+      q.includes('sweden') ||
+      q.includes('sverige') ||
+      q.includes('svedes') ||
+      q.includes('svedese') ||
+      q.includes('svedesi') ||
+      q.includes('stoccolma') ||
+      q.includes('stockholm');
+
+    const isNorwegianQuery =
+      q.includes('norvegia') ||
+      q.includes('norway') ||
+      q.includes('norge') ||
+      q.includes('norveges') ||
+      q.includes('norvegese') ||
+      q.includes('norvegesi') ||
+      q.includes('oslo') ||
+      q.includes('narvik') ||
+      q.includes('quisling');
+
+    const isFinnishQuery =
+      q.includes('finland') ||
+      q.includes('suomi') ||
+      q.includes('finlandes') ||
+      q.includes('finlandese') ||
+      q.includes('finlandesi') ||
+      q.includes('helsinki') ||
+      q.includes('mannerheim') ||
+      q.includes('karelia') ||
+      q.includes('carelia') ||
+      q.includes('talvisota') ||
+      q.includes('petsamo') ||
+      q.includes('salla');
+
     // 1. Search in geodetic features
     for (const f of allFeatures) {
       const p = f.properties || {};
@@ -108,6 +266,15 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       const normShort = normStr(ownerShort);
       const normLeader = normStr(ownerLeader);
 
+      const overlord = getOverlord(res.o, currentStep);
+      const matchesOverlord = overlord
+        ? normStr(overlord.shortName || '').includes(q) || normStr(overlord.l(currentStep)).includes(q)
+        : false;
+
+      const matchesAlias = ownerMeta.aliases
+        ? ownerMeta.aliases.some((a) => normStr(a).includes(q))
+        : false;
+
       const isFrenchOwner =
         res.o === 'FRA' ||
         res.o === 'VIC' ||
@@ -115,11 +282,107 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         res.o.startsWith('F_') ||
         res.o.startsWith('VIC_');
 
+      const isBalkanOwner =
+        res.o === 'YUG' ||
+        res.o === 'HUN' ||
+        res.o === 'ROM' ||
+        res.o === 'BUL' ||
+        res.o === 'GRE' ||
+        res.o === 'ALB';
+
+      const isCzechoslovakTerritory =
+        res.o === 'CZE' ||
+        res.o === 'SLO' ||
+        String(f.id || '').startsWith('CZE_') ||
+        String(p.NUTS_ID || '').startsWith('CZE_') ||
+        String(p.CNTR_CODE || '') === 'CZ' ||
+        String(p.CNTR_CODE || '') === 'SK';
+
+      const isPolishTerritory =
+        res.o === 'POL' ||
+        String(f.id || '').startsWith('PL_KRESY_') ||
+        String(p.NUTS_ID || '').startsWith('PL') ||
+        String(p.CNTR_CODE || '') === 'PL' ||
+        p.REGION_KIND === 'POLISH_EASTERN_POWIAT';
+
+      const isAfricanTerritory =
+        res.o === 'F_NAF' ||
+        res.o === 'VIC_NAF' ||
+        res.o === 'F_AOF' ||
+        res.o === 'VIC_AOF' ||
+        res.o === 'F_AEF' ||
+        res.o === 'FFL_AEF' ||
+        res.o === 'F_SOM' ||
+        res.o === 'VIC_SOM' ||
+        res.o === 'F_MAD' ||
+        res.o === 'VIC_MAD' ||
+        res.o === 'SAF' ||
+        res.o === 'LBR' ||
+        res.o === 'ETH' ||
+        (res.o === 'ITA' && (normHist.includes('libia') || normHist.includes('tripoli') || normHist.includes('eritrea') || normHist.includes('somalia') || normHist.includes('aoi') || normHist.includes('etiopia') || normHist.includes('amhara') || normHist.includes('harar') || normHist.includes('galla'))) ||
+        (res.o === 'BEL' && (normHist.includes('congo') || normHist.includes('ruanda') || normHist.includes('urundi'))) ||
+        (res.o === 'POR' && (normHist.includes('angola') || normHist.includes('mocambique') || normHist.includes('mozambique') || normHist.includes('guine') || normHist.includes('cabo verde') || normHist.includes('sao tome'))) ||
+        ((res.o === 'SPR' || res.o === 'SPA') && (normHist.includes('sahara') || normHist.includes('rio de oro') || normHist.includes('guinea') || normHist.includes('ifni') || normHist.includes('marruecos') || normHist.includes('rif') || normHist.includes('tanger') || normHist.includes('marocco'))) ||
+        (res.o === 'UK' && (normHist.includes('egypt') || normHist.includes('egitto') || normHist.includes('sudan') || normHist.includes('nigeria') || normHist.includes('gold coast') || normHist.includes('sierra leone') || normHist.includes('gambia') || normHist.includes('kenya') || normHist.includes('uganda') || normHist.includes('tanganyika') || normHist.includes('zanzibar') || normHist.includes('nyasaland') || normHist.includes('rhodesia') || normHist.includes('bechuanaland') || normHist.includes('basutoland') || normHist.includes('swaziland') || normHist.includes('somaliland')));
+
+      const isMoroccoQuery = q.includes('maroc') || q.includes('moroc') || q.includes('marruec');
+      const isMoroccoTerritory =
+        normHist.includes('maroc') ||
+        normHist.includes('morocco') ||
+        normHist.includes('marocco') ||
+        normModern.includes('morocco') ||
+        normModern.includes('maroc');
+
+      const isScandinavianTerritory =
+        res.o === 'DEN' ||
+        res.o === 'SWE' ||
+        res.o === 'NOR' ||
+        res.o === 'FIN' ||
+        res.o === 'ISL' ||
+        String(p.CNTR_CODE || '') === 'DK' ||
+        String(p.CNTR_CODE || '') === 'SE' ||
+        String(p.CNTR_CODE || '') === 'NO' ||
+        String(p.CNTR_CODE || '') === 'FI' ||
+        String(p.CNTR_CODE || '') === 'IS' ||
+        String(f.id || '').startsWith('DK') ||
+        String(f.id || '').startsWith('SE') ||
+        String(f.id || '').startsWith('NO') ||
+        String(f.id || '').startsWith('FI') ||
+        String(f.id || '').startsWith('FIN_HIST_') ||
+        String(p.NUTS_ID || '').startsWith('DK') ||
+        String(p.NUTS_ID || '').startsWith('SE') ||
+        String(p.NUTS_ID || '').startsWith('NO') ||
+        String(p.NUTS_ID || '').startsWith('FI');
+
       const matchesOwnerAlias =
         (res.o === 'GER' && isGermanQuery) ||
         (res.o === 'ITA' && isItalianQuery) ||
         (res.o === 'SOV' && isSovietQuery) ||
-        (isFrenchOwner && isFrenchQuery);
+        (isFrenchOwner && isFrenchQuery) ||
+        (isBalkanOwner && isBalkanQuery) ||
+        (res.o === 'YUG' && isYugoslavQuery) ||
+        (res.o === 'HUN' && isHungarianQuery) ||
+        (res.o === 'ROM' && isRomanianQuery) ||
+        (res.o === 'BUL' && isBulgarianQuery) ||
+        (res.o === 'GRE' && isGreekQuery) ||
+        (res.o === 'ALB' && isAlbanianQuery) ||
+        (isCzechoslovakTerritory && isCzechoslovakQuery) ||
+        (isPolishTerritory && isPolishQuery) ||
+        (isAfricanTerritory && isAfricaQuery) ||
+        (isMoroccoTerritory && isMoroccoQuery) ||
+        (isScandinavianTerritory && isScandinavianQuery) ||
+        ((res.o === 'DEN' || String(p.CNTR_CODE || '') === 'DK') && isDanishQuery) ||
+        ((res.o === 'SWE' || String(p.CNTR_CODE || '') === 'SE') && isSwedishQuery) ||
+        ((res.o === 'NOR' || String(p.CNTR_CODE || '') === 'NO') && isNorwegianQuery) ||
+        ((res.o === 'FIN' || String(p.CNTR_CODE || '') === 'FI' || String(f.id || '').startsWith('FIN_HIST_')) && isFinnishQuery) ||
+        matchesAlias ||
+        matchesOverlord;
+
+      const matchesIslandAlias = Boolean(
+        f.id &&
+        ISLAND_SEARCH_ALIASES[f.id] &&
+        ISLAND_SEARCH_ALIASES[f.id].some((alias) => q.includes(alias) || alias.includes(q))
+      );
 
       if (
         normModern.includes(q) ||
@@ -130,7 +393,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         normOwner.includes(q) ||
         normShort.includes(q) ||
         normLeader.includes(q) ||
-        matchesOwnerAlias
+        matchesOwnerAlias ||
+        matchesIslandAlias
       ) {
         const uniqueKey = `${hist}_${modern}_${nid}`;
         if (!seen.has(uniqueKey)) {
@@ -180,6 +444,45 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           ncb.includes('de gaulle') ||
           nca.includes('petain') ||
           ncb.includes('petain'));
+      const isBalkanBattle =
+        (isBalkanQuery || isYugoslavQuery || isHungarianQuery || isRomanianQuery || isBulgarianQuery || isGreekQuery || isAlbanianQuery) &&
+        (nbel.includes('jugoslav') ||
+          nbel.includes('ungheria') ||
+          nbel.includes('romania') ||
+          nbel.includes('bulgaria') ||
+          nbel.includes('grecia') ||
+          nbel.includes('albania') ||
+          nb.includes('vienna') ||
+          nb.includes('craiova') ||
+          nb.includes('elli') ||
+          nb.includes('ruthenia') ||
+          nb.includes('kárpátalja'));
+      const isPolishBattle =
+        isPolishQuery &&
+        (nbel.includes('polon') ||
+          nbel.includes('polska') ||
+          nbel.includes('kop') ||
+          nb.includes('polonia') ||
+          nb.includes('westerplatte') ||
+          nb.includes('bzura') ||
+          nb.includes('varsavia'));
+      const isScandinavianBattle =
+        (isScandinavianQuery || isDanishQuery || isSwedishQuery || isNorwegianQuery || isFinnishQuery) &&
+        (nbel.includes('norve') ||
+          nbel.includes('danimarc') ||
+          nbel.includes('finland') ||
+          nbel.includes('svezia') ||
+          nb.includes('weserubung') ||
+          nb.includes('narvik') ||
+          nb.includes('drobak') ||
+          nb.includes('hegra') ||
+          nb.includes('inverno') ||
+          nb.includes('suomussalmi') ||
+          nb.includes('raate') ||
+          nb.includes('kollaa') ||
+          nb.includes('taipale') ||
+          nb.includes('viipuri') ||
+          nb.includes('mannerheim'));
       return (
         nb.includes(q) ||
         ns.includes(q) ||
@@ -188,7 +491,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         nca.includes(q) ||
         ncb.includes(q) ||
         isGermanBattle ||
-        isFrenchBattle
+        isFrenchBattle ||
+        isBalkanBattle ||
+        isPolishBattle ||
+        isScandinavianBattle
       );
     });
 
@@ -214,7 +520,36 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           nbu.includes('frances') ||
           nbu.includes('republique') ||
           nf.includes('maginot'));
-      return nf.includes(q) || nd.includes(q) || nn.includes(q) || nbu.includes(q) || nk || isGermanFort || isFrenchFort;
+      const isBalkanFort =
+        (isBalkanQuery || isYugoslavQuery || isHungarianQuery || isRomanianQuery || isBulgarianQuery || isGreekQuery || isAlbanianQuery) &&
+        (nn.includes('jugoslav') ||
+          nn.includes('grecia') ||
+          nn.includes('romania') ||
+          nn.includes('bulgaria') ||
+          nf.includes('rupnik') ||
+          nf.includes('metaxas') ||
+          nf.includes('carol'));
+      const isPolishFort =
+        isPolishQuery &&
+        (nn.includes('polonia') ||
+          nbu.includes('polon') ||
+          nbu.includes('kop') ||
+          nf.includes('sarny') ||
+          nf.includes('brzesc') ||
+          nf.includes('kresy'));
+      const isScandinavianFort =
+        (isScandinavianQuery || isDanishQuery || isSwedishQuery || isNorwegianQuery || isFinnishQuery) &&
+        (nn.includes('norvegia') ||
+          nn.includes('svezia') ||
+          nn.includes('finlandia') ||
+          nn.includes('danimarca') ||
+          nf.includes('mannerheim') ||
+          nf.includes('salpa') ||
+          nf.includes('oscarsborg') ||
+          nf.includes('hegra') ||
+          nf.includes('boden') ||
+          nf.includes('skane'));
+      return nf.includes(q) || nd.includes(q) || nn.includes(q) || nbu.includes(q) || nk || isGermanFort || isFrenchFort || isBalkanFort || isPolishFort || isScandinavianFort;
     });
 
     // 4. Search in naval bases
@@ -248,7 +583,46 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           nn.includes('diego-suarez') ||
           nn.includes('saigon') ||
           nn.includes('gibuti'));
-      return nn.includes(q) || nh.includes(q) || nd.includes(q) || nnat.includes(q) || isGermanBase || isFrenchBase;
+      const isBalkanBase =
+        (isBalkanQuery || isYugoslavQuery || isHungarianQuery || isRomanianQuery || isBulgarianQuery || isGreekQuery || isAlbanianQuery) &&
+        (nnat.includes('jugoslav') ||
+          nnat.includes('grecia') ||
+          nnat.includes('romania') ||
+          nnat.includes('bulgaria') ||
+          nnat.includes('albania') ||
+          nn.includes('kotor') ||
+          nn.includes('cattaro') ||
+          nn.includes('salamis') ||
+          nn.includes('salamina') ||
+          nn.includes('constan') ||
+          nn.includes('costanza') ||
+          nn.includes('sazan') ||
+          nn.includes('saseno') ||
+          nn.includes('sibenik') ||
+          nn.includes('sebenico') ||
+          nn.includes('varna'));
+      const isPolishBase =
+        isPolishQuery &&
+        (nnat.includes('polonia') ||
+          nd.includes('polska') ||
+          nd.includes('pinsk') ||
+          nn.includes('pinsk') ||
+          nn.includes('gdynia'));
+      const isScandinavianBase =
+        (isScandinavianQuery || isDanishQuery || isSwedishQuery || isNorwegianQuery || isFinnishQuery) &&
+        (nnat.includes('svezia') ||
+          nnat.includes('norvegia') ||
+          nnat.includes('danimarca') ||
+          nnat.includes('finlandia') ||
+          nn.includes('karlskrona') ||
+          nn.includes('copenhagen') ||
+          nn.includes('holmen') ||
+          nn.includes('horten') ||
+          nn.includes('narvik') ||
+          nn.includes('bergen') ||
+          nn.includes('helsinki') ||
+          nn.includes('turku'));
+      return nn.includes(q) || nh.includes(q) || nd.includes(q) || nnat.includes(q) || isGermanBase || isFrenchBase || isBalkanBase || isPolishBase || isScandinavianBase;
     });
 
     return { features, battles, forts, naval };

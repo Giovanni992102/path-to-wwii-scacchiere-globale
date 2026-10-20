@@ -1,4 +1,12 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "./components";
+@source "./App.tsx";
+@source "../index.html";
+@source "./data/owners.ts";
+@source "./data/historySteps.ts";
+@source "./data/historicalBattles.ts";
+@source "./data/historicalFortifications.ts";
+@source "./data/historicalToponyms.ts";
 
 :root {
   --gold: #c9a557;
@@ -122,6 +130,27 @@ body {
   stroke: var(--gold-bright) !important;
   stroke-width: 1.8px !important;
   filter: brightness(1.25) drop-shadow(0 0 6px rgba(232, 201, 121, 0.75)) !important;
+}
+
+/* Strategic Oceanic Island Beacons & Halos */
+.island-beacon.sel-beacon .island-beacon-halo {
+  stroke: var(--gold-bright) !important;
+  stroke-width: 1.8px !important;
+  stroke-dasharray: 4 2 !important;
+  r: 6px !important;
+  filter: drop-shadow(0 0 6px rgba(232, 201, 121, 0.85));
+}
+
+.island-beacon.sel-beacon .island-beacon-core {
+  fill: var(--gold-bright) !important;
+  r: 2.4px !important;
+}
+
+.island-beacon:hover .island-beacon-halo {
+  stroke: var(--gold-bright) !important;
+  stroke-width: 1.5px !important;
+  r: 5.5px !important;
+  filter: drop-shadow(0 0 4px rgba(232, 201, 121, 0.7));
 }
 
 .graticule {

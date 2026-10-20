@@ -9,7 +9,7 @@ export interface SeaLane {
   historicalName: string;
   type: 'atlantic_convoy' | 'mediterranean_lifeline' | 'cape_route' | 'pacific_trade' | 'oil_lifeline';
   color: string;
-  coordinates: [number, number][]; // Line coordinates [lon, lat]
+  coordinates: [number, number][] | [number, number][][]; // Line coordinates [lon, lat] or MultiLine segments
   description: string;
 }
 
@@ -99,12 +99,20 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
     type: 'pacific_trade',
     color: '#3d6c96',
     coordinates: [
-      [-122.42, 37.77], // San Francisco
-      [-157.85, 21.30], // Honolulu / Pearl Harbor
-      [-170.00, 18.00], // Rotta dell\'atollo di Midway
-      [144.75, 13.44],  // Isola di Guam
-      [120.98, 14.60],  // Manila (Filippine)
+      // Segmento Pacifico Occidentale: Manila -> Guam -> Antimeridiano (180° E)
+      [
+        [120.98, 14.60], // Manila (Filippine)
+        [144.75, 13.44], // Isola di Guam
+        [180.00, 17.00], // Antimeridiano (180° E)
+      ],
+      // Segmento Pacifico Orientale: Antimeridiano (-180° W) -> Midway -> Pearl Harbor -> San Francisco
+      [
+        [-180.00, 17.00], // Antimeridiano (-180° W)
+        [-170.00, 18.00], // Rotta atollo di Midway
+        [-157.85, 21.30], // Honolulu / Pearl Harbor
+        [-122.42, 37.77], // San Francisco (California)
+      ],
     ],
-    description: 'La linea di comunicazione aeronavale statunitense che collegava la costa occidentale a Pearl Harbor e alle Filippine.',
+    description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor e alle Filippine attraverso l\'Oceano Pacifico.',
   },
 ];

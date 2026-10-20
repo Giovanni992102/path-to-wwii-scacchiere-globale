@@ -19,42 +19,158 @@ import { ResolvedTerritory } from '../types';
 
 // 1. Sudetenland: CZE (Step 0-1) -> GER (Step 2+)
 export function resolveSudetenland(s: number, name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
-  if (s < 2) return makeResult('CZE', name, 'Československá republika (Pohraniční území)');
-  return makeResult('GER', deName || name, 'Reichsgau Sudetenland (Münchner Abkommen, Okt. 1938)', 'Asse');
+  if (s < 2) {
+    return makeResult(
+      'CZE',
+      name,
+      _note ? `${_note} — Československá republika (Pohraniční území fortificato)` : 'Československá republika (Pohraniční území)',
+      undefined,
+      'Československá republika — Sudetendeutsche Gebiete'
+    );
+  }
+  return makeResult(
+    'GER',
+    deName || name,
+    _note ? `${_note} — Reichsgau Sudetenland (Münchner Abkommen, Okt. 1938)` : 'Reichsgau Sudetenland (Münchner Abkommen, Okt. 1938)',
+    'Asse',
+    'Deutsches Reich — Reichsgau Sudetenland'
+  );
 }
 
 // 2. Zaolzie: CZE (Step 0-1) -> POL (Step 2-4) -> GER (Step 5+)
 export function resolveZaolzie(s: number, _name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
-  if (s < 2) return makeResult('CZE', 'Český Těšín (Těšínsko)', 'Slezsko (Československá republika)', undefined, 'Československá republika — Země Moravskoslezská');
-  if (s < 5) return makeResult('POL', 'Zaolzie (Śląsk Cieszyński)', 'Autonomiczne Województwo Śląskie (Rzeczpospolita Polska, paź 1938)', 'Alleati', 'Rzeczpospolita Polska — Autonomiczne Województwo Śląskie');
-  return makeResult('GER', deName, 'Landkreis Teschen (Gau Oberschlesien)', 'Asse', 'Deutsches Reich — Regierungsbezirk Kattowitz');
+  if (s < 2) {
+    return makeResult(
+      'CZE',
+      'Český Těšín (Těšínsko)',
+      _note ? `${_note} — Slezsko (Československá republika)` : 'Slezsko (Československá republika)',
+      undefined,
+      'Československá republika — Země Moravskoslezská'
+    );
+  }
+  if (s < 5) {
+    return makeResult(
+      'POL',
+      'Zaolzie (Śląsk Cieszyński)',
+      _note ? `${_note} — Autonomiczne Województwo Śląskie (Rzeczpospolita Polska)` : 'Autonomiczne Województwo Śląskie (Rzeczpospolita Polska, paź 1938)',
+      'Alleati',
+      'Rzeczpospolita Polska — Autonomiczne Województwo Śląskie'
+    );
+  }
+  return makeResult(
+    'GER',
+    deName || 'Teschen',
+    _note ? `${_note} — Landkreis Teschen (Gau Oberschlesien)` : 'Landkreis Teschen (Gau Oberschlesien)',
+    'Asse',
+    'Deutsches Reich — Regierungsbezirk Kattowitz'
+  );
 }
 
 // 3. Rest-Tschechei (Bohemia & Moravia): CZE (Step 0-2) -> GER Protectorate (Step 3+)
 export function resolveRestTschechei(s: number, name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
-  if (s < 2) return makeResult('CZE', name, 'Československá republika (Země Česká a Moravskoslezská)');
-  if (s === 2) return makeResult('CZE', name, 'Druhá Československá republika (Česko-Slovensko)');
-  return makeResult('GER', deName || name, 'Protektorat Böhmen und Mähren (15. März 1939)', 'Asse');
+  if (s < 2) {
+    return makeResult(
+      'CZE',
+      name,
+      _note ? `${_note} — Československá republika` : 'Československá republika (Země Česká a Moravskoslezská)',
+      undefined,
+      'Československá republika — Země Česká a Moravskoslezská'
+    );
+  }
+  if (s === 2) {
+    return makeResult(
+      'CZE',
+      name,
+      _note ? `${_note} — Druhá Československá republika` : 'Druhá Československá republika (Česko-Slovensko)',
+      undefined,
+      'Druhá Československá republika (Česko-Slovensko)'
+    );
+  }
+  return makeResult(
+    'GER',
+    deName || name,
+    _note ? `${_note} — Protektorat Böhmen und Mähren (15. März 1939)` : 'Protektorat Böhmen und Mähren (15. März 1939)',
+    'Asse',
+    'Deutsches Reich — Protektorat Böhmen und Mähren'
+  );
 }
 
 // 4. Slovakia Core: CZE (Step 0-1) -> Autonomous CZE (Step 2) -> SLO Tiso (Step 3+)
 export function resolveSlovakia(s: number, name: string, _itName: string, _deName: string, _note: string): ResolvedTerritory {
-  if (s < 2) return makeResult('CZE', name, 'Krajina Slovenská (Československá republika)');
-  if (s === 2) return makeResult('CZE', name, 'Autonómna Slovenská krajina (Druhá Československá republika)');
-  return makeResult('SLO', name, 'Slovenská republika (Prezident Dr. Jozef Tiso, marec 1939)', 'Fantoccio');
+  if (s < 2) {
+    return makeResult(
+      'CZE',
+      name,
+      _note ? `${_note} — Krajina Slovenská (Československá republika)` : 'Krajina Slovenská (Československá republika)',
+      undefined,
+      'Československá republika — Krajina Slovenská'
+    );
+  }
+  if (s === 2) {
+    return makeResult(
+      'CZE',
+      name,
+      _note ? `${_note} — Autonómna Slovenská krajina` : 'Autonómna Slovenská krajina (Druhá Československá republika)',
+      undefined,
+      'Česko-Slovenská republika — Autonómna Slovenská krajina'
+    );
+  }
+  return makeResult(
+    'SLO',
+    name,
+    _note ? `${_note} — Slovenská republika (Prezident Dr. Jozef Tiso)` : 'Slovenská republika (Prezident Dr. Jozef Tiso, marec 1939)',
+    'Fantoccio',
+    'Slovenská republika (Vláda Dr. Jozefa Tisa)'
+  );
 }
 
 // 5. Felvidek & South Ruthenia: CZE (Step 0-1) -> HUN (Step 2+)
 export function resolveFelvidek(s: number, name: string, _itName: string, _deName: string, _note: string): ResolvedTerritory {
-  if (s < 2) return makeResult('CZE', name, 'Krajina Slovenská (Československá republika)');
-  return makeResult('HUN', name, 'Felvidék (Magyar Királyság — Első bécsi döntés, 1938)', 'Neutrale');
+  if (s < 2) {
+    return makeResult(
+      'CZE',
+      name,
+      _note ? `${_note} — Československá republika (Južné Slovensko / Podkarpatsko)` : 'Krajina Slovenská (Československá republika)',
+      undefined,
+      'Československá republika — Južné Slovensko / Podkarpatská Rus'
+    );
+  }
+  return makeResult(
+    'HUN',
+    name,
+    _note ? `${_note} — Felvidék (Magyar Királyság — Első bécsi döntés)` : 'Felvidék (Magyar Királyság — Első bécsi döntés, 1938)',
+    'Neutrale',
+    'Magyar Királyság — Visszatért Felvidék / Kárpátalja'
+  );
 }
 
 // 6. Carpatho-Ukraine (North / Chust): CZE (Step 0-1) -> Autonomous Chust (Step 2) -> HUN (Step 3+)
 export function resolveCarpathoUkraine(s: number, _name: string, _itName: string, _deName: string, _note: string): ResolvedTerritory {
-  if (s < 2) return makeResult('CZE', 'Podkarpatská Rus', 'Krajina Podkarpatoruská (Československá republika)');
-  if (s === 2) return makeResult('CZE', 'Karpatska Ukrajina (Chust)', 'Karpatska Ukrajina — Avtonomnyj kraj (Chust)');
-  return makeResult('HUN', 'Kárpátalja', 'Kárpátaljai Kormányzóság (Magyar Királyság, 1939)', 'Neutrale');
+  if (s < 2) {
+    return makeResult(
+      'CZE',
+      'Podkarpatská Rus',
+      _note ? `${_note} — Krajina Podkarpatoruská` : 'Krajina Podkarpatoruská (Československá republika)',
+      undefined,
+      'Československá republika — Podkarpatská Rus'
+    );
+  }
+  if (s === 2) {
+    return makeResult(
+      'CZE',
+      'Karpatska Ukrajina (Chust)',
+      _note ? `${_note} — Karpatska Ukrajina (Chust)` : 'Karpatska Ukrajina — Avtonomnyj kraj (Chust)',
+      undefined,
+      'Česko-Slovenská republika — Karpatska Ukrajina'
+    );
+  }
+  return makeResult(
+    'HUN',
+    'Kárpátalja',
+    _note ? `${_note} — Kárpátaljai Kormányzóság (Magyar Királyság)` : 'Kárpátaljai Kormányzóság (Magyar Királyság, 1939)',
+    'Neutrale',
+    'Magyar Királyság — Kárpátaljai Kormányzóság'
+  );
 }
 
 export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
@@ -1785,7 +1901,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
       NAME_GERM: "Losontz und Rimaszombat",
       ADMIN: "Regno d Ungheria (Primo Arbitrato di Vienna, nov 1938)",
       REGION_KIND: 'FELVIDEK',
-      HISTORICAL_NOTE: "Fascia di confine dell Ipel e della contea di Gemer: LuÄenec (Losonc), RimavskÃ¡ Sobota (Rimaszombat), Å ahy (IpolysÃ¡g), FiÄ¾akovo e TornaÄ¾a. Ceduta all Ungheria il 2 novembre 1938.",
+      HISTORICAL_NOTE: "Fascia di confine dell Ipel e della contea di Gemer: Lucenec (Losonc), Rimavska Sobota (Rimaszombat), Sahy (Ipolysag), Filakovo e Tornala. Ceduta all Ungheria il 2 novembre 1938.",
     },
     geometry: {
       type: 'Polygon',

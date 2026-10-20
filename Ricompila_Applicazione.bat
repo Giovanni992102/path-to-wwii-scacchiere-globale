@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 title Ricompilazione e Avvio - PATH TO WWII
 cd /d "%~dp0"
 

@@ -8,3 +8,5 @@ coverage/
 !.env.example
 scratch/
 scratch_*
+scripts/
+public/data/

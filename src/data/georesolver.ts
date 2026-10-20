@@ -6,6 +6,12 @@ import {
   resolveChinaToponym,
   resolveBeneluxToponym,
   resolveSwissAustrianToponym,
+  resolveBalkansToponym,
+  EGYPT_DISTRICTS_META,
+  ALGERIA_PROVINCES_META,
+  MOROCCO_PROVINCES_META,
+  TUNISIA_PROVINCES_META,
+  YEMEN_PROVINCES_META,
 } from './historicalToponyms';
 
 export const NUTS_URLS = [
@@ -21,6 +27,8 @@ export const HB_URL1 =
   'https://raw.githubusercontent.com/aourednik/historical-basemaps/master/geojson/world_1938.geojson';
 
 export const ITNAMES: Record<string, string> = {
+  EG: "Regno d'Egitto",
+  EGY: "Regno d'Egitto",
   UK: 'United Kingdom',
   EL: 'Ellas',
   IE: 'Éire / Ireland',
@@ -289,8 +297,7 @@ export const UK_COL: Record<string, string> = {
   HKG: 'Crown Colony of Hong Kong',
   GY: 'British Guiana',
   GUY: 'British Guiana',
-  YE: 'Aden Colony and Protectorate',
-  YEM: 'Aden Colony and Protectorate',
+  ADE: 'Aden Colony and Protectorate',
   OM: 'Sultanate of Muscat and Oman',
   OMN: 'Sultanate of Muscat and Oman',
   AE: 'Trucial States',
@@ -521,6 +528,9 @@ export const HB_EXCL = new Set([
   'United Kingdom of Great Britain and Ireland',
   'Ireland',
   'Iceland',
+  'Faroe Islands',
+  'Færøerne',
+  'Territorio Insulare [-6.9, 62.0]',
   'Estonia',
   'Latvia',
   'Lithuania',
@@ -559,6 +569,9 @@ export function makeResult(
 
 export function normStr(s: string): string {
   return (s || '')
+    .replace(/[łŁ]/g, 'l')
+    .replace(/[øØ]/g, 'o')
+    .replace(/[æÆ]/g, 'ae')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
@@ -602,6 +615,13 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   Philippines: { o: 'PHL', label: 'Commonwealth of the Philippines' },
   'Commonwealth of the Philippines': { o: 'PHL', label: 'Commonwealth of the Philippines' },
   'Commonwealth delle Filippine': { o: 'PHL', label: 'Commonwealth of the Philippines' },
+  'United States': { o: 'USA', label: 'United States of America' },
+  'United States of America': { o: 'USA', label: 'United States of America' },
+  USA: { o: 'USA', label: 'United States of America' },
+  'Stati Uniti': { o: 'USA', label: 'Stati Uniti d\'America' },
+  'Stati Uniti d\'America': { o: 'USA', label: 'Stati Uniti d\'America' },
+  'Midway Islands': { o: 'USA', label: 'Midway Atoll (U.S. Navy)' },
+  Midway: { o: 'USA', label: 'Midway Atoll (U.S. Navy)' },
   'Puerto Rico': { o: 'USA', label: 'Puerto Rico (Unincorporated U.S. Territory)' },
   Hawaii: { o: 'USA', label: 'Territory of Hawaii (USA)' },
   Alaska: { o: 'USA', label: 'Territory of Alaska (USA)' },
@@ -621,6 +641,11 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   Colombia: { o: 'COL', label: 'República de Colombia' },
   Venezuela: { o: 'VEN', label: 'Estados Unidos de Venezuela' },
   Ecuador: { o: 'ECU', label: 'República del Ecuador' },
+  'Ecuador (Oriente)': { o: 'ECU', label: 'Ecuador (Región del Oriente — Zona Contesa con il Perù)' },
+  'Oriente (Ecuador)': { o: 'ECU', label: 'Ecuador (Región del Oriente — Zona Contesa con il Perù)' },
+  'Oriente': { o: 'ECU', label: 'Ecuador (Región del Oriente — Zona Contesa con il Perù)' },
+  'EC_ORI': { o: 'ECU', label: 'Ecuador (Región del Oriente — Zona Contesa con il Perù)' },
+  'ECU_ORIENTE': { o: 'ECU', label: 'Ecuador (Región del Oriente — Zona Contesa con il Perù)' },
   Bolivia: { o: 'BOL', label: 'República de Bolivia' },
   Paraguay: { o: 'PAR', label: 'República del Paraguay' },
   Uruguay: { o: 'URU', label: 'República Oriental del Uruguay' },
@@ -730,6 +755,11 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   'Trucial States': { o: 'UK', label: 'Trucial States (British Protected States)' },
   Oman: { o: 'UK', label: 'Sultanate of Muscat and Oman (British Protected State)' },
   Yemen: { o: 'YEM', label: 'Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah' },
+  'Kingdom of Yemen': { o: 'YEM', label: 'Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah' },
+  HB_YEMEN: { o: 'YEM', label: 'Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Sana\'a)' },
+  'Aden Colony and Protectorate': { o: 'UK', label: 'British Aden Protectorate & Crown Colony of Aden' },
+  'Aden Protectorate': { o: 'UK', label: 'British Aden Protectorate' },
+  HB_ADEN: { o: 'UK', label: 'British Aden Protectorate & Crown Colony of Aden' },
   Afghanistan: { o: 'AFG', label: 'Da Afghānistān Shāhī Dawlat' },
   Nepal: { o: 'NEP', label: 'Nepal Adhirajya (Shah Rajbansh)' },
   'Kingdom of Nepal': { o: 'NEP', label: 'Nepal Adhirajya' },
@@ -753,6 +783,7 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   Ceylon: { o: 'UK', label: 'Ceylon (Crown Colony)' },
   'British Malaya': { o: 'UK', label: 'British Malaya' },
   Malaya: { o: 'UK', label: 'British Malaya' },
+  Malaysia: { o: 'UK', label: 'British Malaya' },
   'Straits Settlements': { o: 'UK', label: 'Straits Settlements (Singapore/Penang/Malacca)' },
   'Federated Malay States': { o: 'UK', label: 'Federated Malay States' },
   Singapore: { o: 'UK', label: 'Singapore (Crown Colony)' },
@@ -788,7 +819,10 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   'British Iraq': { o: 'UK', label: 'Kingdom of Iraq (British Sphere)' },
   'Iraq (UK)': { o: 'UK', label: 'Kingdom of Iraq (British Sphere)' },
   'Iraq (British)': { o: 'UK', label: 'Kingdom of Iraq (British Sphere)' },
-  Egypt: { o: 'UK', label: 'Kingdom of Egypt (British Sphere of Influence)' },
+  Egypt: { o: 'EGY', label: "Kingdom of Egypt (British Sphere of Influence)" },
+  'Kingdom of Egypt': { o: 'EGY', label: "Kingdom of Egypt (British Sphere of Influence)" },
+  'Regno d\'Egitto': { o: 'EGY', label: "Regno d'Egitto" },
+  HB_EGYPT: { o: 'EGY', label: "Kingdom of Egypt (Cairo)" },
   'Anglo-Egyptian Sudan': { o: 'UK', label: 'Anglo-Egyptian Sudan' },
   Sudan: { o: 'UK', label: 'Anglo-Egyptian Sudan' },
   Kenya: { o: 'UK', label: 'Kenya Colony and Protectorate' },
@@ -809,6 +843,11 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   Zanzibar: { o: 'UK', label: 'Sultanate of Zanzibar (British Protectorate)' },
   Mauritius: { o: 'UK', label: 'Mauritius (Crown Colony)' },
   Seychelles: { o: 'UK', label: 'Seychelles (Crown Colony)' },
+  Maldives: { o: 'UK', label: 'Sultanate of the Maldives (British Protected State)' },
+  'Maldive Islands': { o: 'UK', label: 'Sultanate of the Maldive Islands (British Protected State)' },
+  'Cook Islands': { o: 'NZL', label: 'Cook Islands (New Zealand Dependency)' },
+  Nauru: { o: 'UK', label: 'Nauru (British Empire League of Nations Mandate)' },
+  'Réunion': { o: 'F_MAD', label: 'La Réunion (France)' },
   'British Guiana': { o: 'UK', label: 'British Guiana' },
   Guyana: { o: 'UK', label: 'British Guiana' },
   'British Honduras': { o: 'UK', label: 'British Honduras (Belize)' },
@@ -942,6 +981,7 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   Dodecanese: { o: 'ITA', label: 'Rodi (Isole Italiane dell\'Egeo)' },
   Rhodes: { o: 'ITA', label: 'Rodi (Isole Italiane dell\'Egeo)' },
   'Algeria (France)': { o: 'F_NAF', label: 'Départements français d\'Algérie' },
+  HB_ALGERIA: { o: 'F_NAF', label: 'Départements français d\'Algérie et Territoires du Sud' },
   Algeria: { o: 'F_NAF', label: 'Départements français d\'Algérie' },
   'Morocco (France)': { o: 'F_NAF', label: 'Protectorat français au Maroc' },
   Morocco: { o: 'F_NAF', label: 'Protectorat français au Maroc' },
@@ -975,7 +1015,9 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   'Moyen-Congo': { o: 'F_AEF', label: 'AEF (Moyen-Congo)' },
   'Republic of the Congo': { o: 'F_AEF', label: 'AEF (Moyen-Congo)' },
   'Congo (Brazzaville)': { o: 'F_AEF', label: 'AEF (Moyen-Congo)' },
+  'Congo (France)': { o: 'F_AEF', label: 'AEF (Moyen-Congo)' },
   Gabon: { o: 'F_AEF', label: 'AEF (Gabon)' },
+  'Gabon (France)': { o: 'F_AEF', label: 'AEF (Gabon)' },
   'French Cameroons': { o: 'F_AEF', label: 'Cameroun français (Mandat SDN)' },
   Cameroon: { o: 'F_AEF', label: 'Cameroun français (Mandat SDN)' },
   Cameroun: { o: 'F_AEF', label: 'Cameroun français (Mandat SDN)' },
@@ -1000,11 +1042,15 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   'French Somaliland': { o: 'F_COL', label: 'Côte française des Somalis (Djibouti)' },
   Djibouti: { o: 'F_COL', label: 'Côte française des Somalis (Djibouti)' },
   'New Caledonia': { o: 'F_COL', label: 'Nouvelle-Calédonie (France)' },
+  'Nouvelle-Calédonie': { o: 'F_COL', label: 'Nouvelle-Calédonie (France)' },
+  'Nouvelles-Hébrides': { o: 'F_COL', label: 'Nouvelles-Hébrides (Condominium franco-britannique)' },
   'French Polynesia': { o: 'F_COL', label: 'Établissements français de l\'Océanie' },
+  'Établissements français de l\'Océanie': { o: 'F_COL', label: 'Établissements français de l\'Océanie' },
   Guadeloupe: { o: 'F_COL', label: 'Guadeloupe (France)' },
   Martinique: { o: 'F_COL', label: 'Martinique (France)' },
   'Saint Pierre and Miquelon': { o: 'F_COL', label: 'Saint-Pierre-et-Miquelon (France)' },
   'French India': { o: 'F_COL', label: 'Établissements français dans l\'Inde (Pondichéry)' },
+  'Établissements français dans l\'Inde': { o: 'F_COL', label: 'Établissements français dans l\'Inde (Pondichéry)' },
   Malawi: { o: 'UK', label: 'Nyasaland Protectorate' },
   'Malawi (UK)': { o: 'UK', label: 'Nyasaland Protectorate' },
   'Nyasaland (UK)': { o: 'UK', label: 'Nyasaland Protectorate' },
@@ -1504,6 +1550,86 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
     s < 6
       ? makeResult('FRA', 'France (Territoires d\'outre-mer)')
       : makeResult('VIC', 'État français (Territoires d\'outre-mer)'),
+  'Morocco (France)': (s) =>
+    s < 6
+      ? makeResult(
+          'F_NAF',
+          'Protectorat Français du Maroc (Maroc Français — Rabat / Casablanca)',
+          'Résidence Générale de la République Française au Maroc (Général Charles Noguès)',
+          undefined,
+          'Résidence Générale de la République Française (Rabat)'
+        )
+      : makeResult(
+          'VIC_NAF',
+          'Protectorat du Maroc (Maroc Français — Vichy)',
+          'Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)',
+          'Fantoccio',
+          'Résidence Générale de France au Maroc (Vichy)'
+        ),
+  Morocco: (s) =>
+    s < 6
+      ? makeResult(
+          'F_NAF',
+          'Protectorat Français du Maroc (Maroc Français — Rabat / Casablanca)',
+          'Résidence Générale de la République Française au Maroc (Général Charles Noguès)',
+          undefined,
+          'Résidence Générale de la République Française (Rabat)'
+        )
+      : makeResult(
+          'VIC_NAF',
+          'Protectorat du Maroc (Maroc Français — Vichy)',
+          'Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)',
+          'Fantoccio',
+          'Résidence Générale de France au Maroc (Vichy)'
+        ),
+  'French Morocco': (s) =>
+    s < 6
+      ? makeResult(
+          'F_NAF',
+          'Protectorat Français du Maroc (Maroc Français — Rabat / Casablanca)',
+          'Résidence Générale de la République Française au Maroc (Général Charles Noguès)',
+          undefined,
+          'Résidence Générale de la République Française (Rabat)'
+        )
+      : makeResult(
+          'VIC_NAF',
+          'Protectorat du Maroc (Maroc Français — Vichy)',
+          'Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)',
+          'Fantoccio',
+          'Résidence Générale de France au Maroc (Vichy)'
+        ),
+  'Maroc Français': (s) =>
+    s < 6
+      ? makeResult(
+          'F_NAF',
+          'Protectorat Français du Maroc (Maroc Français — Rabat / Casablanca)',
+          'Résidence Générale de la République Française au Maroc (Général Charles Noguès)',
+          undefined,
+          'Résidence Générale de la République Française (Rabat)'
+        )
+      : makeResult(
+          'VIC_NAF',
+          'Protectorat du Maroc (Maroc Français — Vichy)',
+          'Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)',
+          'Fantoccio',
+          'Résidence Générale de France au Maroc (Vichy)'
+        ),
+  'Protettorato Francese del Marocco': (s) =>
+    s < 6
+      ? makeResult(
+          'F_NAF',
+          'Protectorat Français du Maroc (Maroc Français — Rabat / Casablanca)',
+          'Résidence Générale de la République Française au Maroc (Général Charles Noguès)',
+          undefined,
+          'Résidence Générale de la République Française (Rabat)'
+        )
+      : makeResult(
+          'VIC_NAF',
+          'Protectorat du Maroc (Maroc Français — Vichy)',
+          'Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)',
+          'Fantoccio',
+          'Résidence Générale de France au Maroc (Vichy)'
+        ),
   'Spanish Morocco': (s) =>
     s === 0
       ? makeResult('SPR', 'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)', 'Segunda República Española — Alta Comisaría')
@@ -1542,15 +1668,31 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
       : makeResult('SPA', 'Melilla (Plaza de Soberanía)', 'Bando Nacional — Cuna del Alzamiento del 17 de julio de 1936'),
   Tangier: (s) =>
     s < 6
-      ? makeResult('NEU', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   'International Zone of Tangier': (s) =>
     s < 6
-      ? makeResult('NEU', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
+  'Tangier International Zone': (s) =>
+    s < 6
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
+  'Zona Internacional de Tanger': (s) =>
+    s < 6
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
+  'Zona Internazionale di Tangeri': (s) =>
+    s < 6
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   Tanger: (s) =>
     s < 6
-      ? makeResult('NEU', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
+  Tangeri: (s) =>
+    s < 6
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   Menorca: (s) =>
     s < 3
@@ -1687,6 +1829,7 @@ export function assignUnnamedHB(f: any): string | null {
 }
 
 export function resolveHB(f: any, s: number): ResolvedTerritory {
+  if (!f) return makeResult('NEU', 'Territorio Sconosciuto');
   if (f.__resolve) return f.__resolve(s);
   const P = f.properties || {};
   let rawName = String(P.NAME_LATN || P.NAME || P.NUTS_NAME || P.NAME_ENGL || P.ADMIN || P.SOVEREIGNT || '');
@@ -1716,6 +1859,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
 
   const nid = String(P.NUTS_ID || P.CNTR_CODE || P.ISO_A2 || P.ISO3 || f.id || '');
+  const cleanId = String(f.id || P.id || nid || '').toUpperCase();
   const getTop = (owner: string) => getExtendedToponym(rawName, owner, nid, c, s);
 
   // Isola di Man (Isle of Man)
@@ -1736,10 +1880,12 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     (c[0] >= -5.2 && c[0] <= -4.0 && c[1] >= 53.8 && c[1] <= 54.7);
 
   if (isMan) {
-    const top = getExtendedToponym(name || 'Isle of Man', 'UK');
+    const top = getExtendedToponym(name || 'Isle of Man', 'UK', nid, c, s);
     return makeResult(
       'UK',
       top.name || 'Isle of Man (Douglas)',
+      top.note || 'Dipendenza autonoma della Corona Britannica nel Mare d\'Irlanda.',
+      s >= 4 ? 'Alleati' : 'Neutrale',
       top.adminTitle || 'Crown Dependency of the Isle of Man'
     );
   }
@@ -1761,17 +1907,65 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   if (isChannel) {
     if (s >= 6) {
+      const top = getExtendedToponym('Channel Islands', 'GER', nid, c, s);
       return makeResult(
         'GER',
-        'Kanalinseln (Deutsche Besetzung)',
-        'Militärverwaltung Kanalinseln (giu 1940)'
+        top.name || 'Kanalinseln (Deutsche Besetzung)',
+        top.note || 'Occupazione militare tedesca delle Isole del Canale (giugno/luglio 1940), unici territori britannici occupati dal Terzo Reich.',
+        'Asse',
+        top.adminTitle || 'Befehlshaber der Kanalinseln (Militärverwaltung)'
       );
     }
-    const top = getExtendedToponym(name || 'Channel Islands', 'UK');
+    const top = getExtendedToponym(name || 'Channel Islands', 'UK', nid, c, s);
     return makeResult(
       'UK',
       top.name || (nrm_hb.includes('jersey') ? 'Bailiwick of Jersey (Saint Helier)' : 'Bailiwick of Guernsey (Saint Peter Port)'),
+      top.note || 'Dipendenza della Corona Britannica nelle Isole del Canale.',
+      s >= 4 ? 'Alleati' : 'Neutrale',
       top.adminTitle || 'Crown Dependencies (Channel Islands)'
+    );
+  }
+
+  // Isole Fær Øer (Færøerne / Føroyar — Danimarca -> Occupazione Britannica 1940 Operazione Valentine)
+  const isFaroe =
+    nrm_hb.includes('faroe') ||
+    nrm_hb.includes('faeroe') ||
+    nrm_hb.includes('faeroes') ||
+    nrm_hb.includes('færø') ||
+    nrm_hb.includes('faerø') ||
+    nrm_hb.includes('føroyar') ||
+    nrm_hb.includes('foroyar') ||
+    nrm_hb.includes('torshavn') ||
+    nrm_hb.includes('tórshavn') ||
+    nrm_subj.includes('faroe') ||
+    nrm_subj.includes('faeroe') ||
+    nrm_subj.includes('færø') ||
+    nrm_subj.includes('føroyar') ||
+    P.CNTR_CODE === 'FO' ||
+    P.ISO_A2 === 'FO' ||
+    P.ISO_A3 === 'FRO' ||
+    P.ISO3 === 'FRO' ||
+    P['ISO3166-1-Alpha-2'] === 'FO' ||
+    P['ISO3166-1-Alpha-3'] === 'FRO' ||
+    rawName.includes('[-6.9, 62.0]') ||
+    (c[0] >= -8 && c[0] <= -5 && c[1] >= 61 && c[1] <= 63);
+
+  if (isFaroe) {
+    if (s >= 6) {
+      return makeResult(
+        'UK',
+        'Isole Fær Øer (Occupazione Britannica — Operazione Valentine)',
+        'Occupate militarmente dalle forze britanniche (Royal Navy / Lovat Scouts) il 12-13 aprile 1940 (Operazione Valentine) per negare alla Germania basi navali strategiche nel Nord Atlantico. Mantenuta l\'amministrazione civile del Løgting e dell\'amtmand Carl Aage Hilbert; bandiera Merkið formalmente riconosciuta dall\'Ammiragliato.',
+        'Alleati',
+        'Military Administration of the Faroe Islands (British Garrison / Royal Navy Command, Tórshavn) & Løgting'
+      );
+    }
+    return makeResult(
+      'DEN',
+      'Isole Fær Øer (Færøerne / Føroyar)',
+      'Contea insulare del Regno di Danimarca (Færø Amt). Amministrazione civile guidata dall\'amtmand Carl Aage Hilbert con sede a Tórshavn (Streymoy) e assemblea rappresentativa del Løgting, sotto la sovranità di re Cristiano X.',
+      'Neutrale',
+      'Færø Amt (Amtmand Carl Aage Hilbert — Tórshavn) / Løgting'
     );
   }
 
@@ -2013,7 +2207,16 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
 
   if (isMesopotamia) {
-    const top = getExtendedToponym(name || 'Mesopotamia', 'UK');
+    if (s >= 8) {
+      return makeResult(
+        'IRQ',
+        'Al-Mamlakah al-‘Irāqiyyah (Governo di Difesa Nazionale Filo-Asse — Baghdad)',
+        "Colpo di Stato nazionalista e filo-Asse del 1°-2 aprile 1941 guidato da Rashid Ali al-Kaylani e dai colonnelli del 'Quadrato d'Oro' (Salah al-Din al-Sabbagh); deposizione del reggente filo-britannico 'Abd al-Ilah, sbarco della 10ª Divisione Indiana britannica a Bassora (Operazione Sabine, 18 aprile) e accerchiamento iracheno della base aerea RAF Habbaniya (29-30 aprile) che apre la guerra anglo-irachena.",
+        'Asse',
+        'Al-Mamlakah al-‘Irāqiyyah — Governo di Difesa Nazionale (Rashid Ali al-Kaylani)'
+      );
+    }
+    const top = getExtendedToponym(name || 'Mesopotamia', 'UK', nid, c, s);
     return makeResult(
       'UK',
       top.name || 'Al-Mamlakah al-‘Irāqiyyah (Mesopotamia)',
@@ -2044,9 +2247,18 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Ungheria basemap
   if (name === 'Hungary') {
+    if (s >= 8) {
+      return makeResult(
+        'HUN',
+        'Magyar Királyság (Bácska, Muravidék és Muraköz)',
+        'Adesione al Patto Tripartito (20 novembre 1940) e partecipazione all\'invasione della Jugoslavia (11 aprile 1941) con l\'annessione di Bácska (Délvidék), Prekmurje (Muravidék) e Međimurje (Muraköz).',
+        'Asse',
+        'Magyar Királyság (Kormányzó Horthy Miklós / Bárdossy László)'
+      );
+    }
     return s < 2
       ? makeResult('HUN', 'Magyar Királyság', 'Trianoni határok')
-      : makeResult('HUN', 'Magyar Királyság', 'Bécsi döntések szerinti határok');
+      : makeResult('HUN', 'Magyar Királyság', 'Bécsi döntések szerinti határok', s >= 7 ? 'Asse' : undefined);
   }
 
   // Polonia
@@ -2091,11 +2303,13 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   if (nrm_hb.includes('liberia') || nrm_hb.includes('monrovia')) {
     return makeResult('LBR', getTop('LBR').name || 'Republic of Liberia (Monrovia)', 'Independent African State');
   }
-  if (nrm_hb.includes('egypt')) {
-    return makeResult('UK', 'Kingdom of Egypt (Cairo)', 'British Sphere of Influence (Anglo-Egyptian Treaty 1936)');
+  if ((nrm_hb.includes('egypt') || nrm_hb.includes('egitto')) && !nrm_hb.includes('sudan')) {
+    const top = getExtendedToponym(name, 'EGY', nid, c, s);
+    return makeResult('EGY', top.name || 'Kingdom of Egypt (British Military Sphere — Cairo)', top.note || (s >= 1 ? "Regno d'Egitto (Trattato Anglo-Egiziano del 1936)" : "Regno d'Egitto (Occupazione/Influenza Britannica)"), 'Alleati', top.adminTitle || 'Kingdom of Egypt (Anglo-Egyptian Treaty of 1936)');
   }
   if (nrm_hb.includes('sudan') && !nrm_hb.includes('french')) {
-    return makeResult('UK', 'Anglo-Egyptian Sudan (Khartoum)', 'Anglo-Egyptian Condominium');
+    const top = getExtendedToponym(name, 'UK', nid, c, s);
+    return makeResult('UK', top.name || 'Anglo-Egyptian Sudan (Khartoum)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Anglo-Egyptian Condominium (British Governed)');
   }
   if (
     nrm_hb.includes('kenya') ||
@@ -2110,8 +2324,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('zimbabwe') ||
     (nrm_hb.includes('rhodesia') && !nrm_hb.includes('rhodes '))
   ) {
-    const top = getExtendedToponym(name, 'UK');
-    return makeResult('UK', top.name, top.adminTitle || 'British Empire in Africa');
+    const top = getExtendedToponym(name, 'UK', nid, c, s);
+    return makeResult('UK', top.name, top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'British Empire in Africa');
   }
   if (
     nrm_hb.includes('bechuanaland') ||
@@ -2121,8 +2335,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('swaziland') ||
     nrm_hb.includes('eswatini')
   ) {
-    const top = getExtendedToponym(name, 'UK');
-    return makeResult('UK', top.name, 'British Protectorate');
+    const top = getExtendedToponym(name, 'UK', nid, c, s);
+    return makeResult('UK', top.name, top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'British Protectorate');
   }
   if (
     nrm_hb.includes('gold coast') ||
@@ -2132,18 +2346,45 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('gambia') ||
     nrm_hb.includes('british cameroon')
   ) {
-    const top = getExtendedToponym(name, 'UK');
-    return makeResult('UK', top.name, 'British Crown Colony');
+    const top = getExtendedToponym(name, 'UK', nid, c, s);
+    return makeResult('UK', top.name, top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'British Crown Colony');
   }
-  if (nrm_hb.includes('british somaliland')) {
-    return makeResult('UK', 'British Somaliland (Berbera)', 'Somaliland Protectorate');
+  if (nrm_hb.includes('british somaliland') || nrm_hb.includes('somalia britannica')) {
+    if (s === 7) {
+      const top = getExtendedToponym(name || 'British Somaliland', 'ITA', nid, c, s);
+      return makeResult(
+        'ITA',
+        top.name || 'Somalia Britannica Occupata (Berbera — AOI)',
+        top.note || 'Conquista italiana della Somalia Britannica (3-19 agosto 1940: Battaglia di Tug Argan e presa di Berbera da parte delle truppe del Gen. Guglielmo Nasi). Territorio annesso all\'Africa Orientale Italiana.',
+        'Asse',
+        top.adminTitle || 'Governo Militare della Somalia Britannica (AOI — Gen. Guglielmo Nasi)'
+      );
+    }
+    if (s >= 8) {
+      return makeResult(
+        'UK',
+        'British Somaliland Protectorate (Berbera — Liberata con l\'Operazione Appearance)',
+        'Operazione Appearance (16 marzo 1941): sbarco anfibio di forze britanniche e indiane a Berbera supportate dalla Royal Navy; riconquista rapida della Somalia Britannica occupata dagli italiani nell\'agosto 1940 e reinsediamento del Governatore Militare Brig. Arthur Chater.',
+        'Alleati',
+        'British Military Administration of Somaliland (Governor Brig. Arthur Chater — Berbera)'
+      );
+    }
+    const top = getExtendedToponym(name, 'UK', nid, c, s);
+    return makeResult(
+      'UK',
+      top.name || 'British Somaliland Protectorate (Berbera)',
+      top.note,
+      s >= 4 ? 'Alleati' : 'Neutrale',
+      top.adminTitle || 'British Crown Protectorate'
+    );
   }
   if (
     nrm_hb.includes('south west africa') ||
     nrm_hb.includes('south-west africa') ||
     nrm_hb.includes('namibia')
   ) {
-    return makeResult('SAF', 'Suidwes-Afrika / South West Africa (Windhoek)', 'League of Nations Mandate (Union of South Africa)');
+    const top = getExtendedToponym(name, 'SAF', nid, c, s);
+    return makeResult('SAF', top.name || 'Suidwes-Afrika / South West Africa (Windhoek)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'League of Nations Mandate (Union of South Africa)');
   }
 
   // Colonie Belga & Portoghesi in Africa
@@ -2210,18 +2451,21 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     (nrm_hb.includes('niger') && !nrm_hb.includes('nigeria'))
   ) {
     if (s >= 6) {
-      const top = getExtendedToponym(name, 'VIC_AOF');
+      const top = getExtendedToponym(name, 'VIC_AOF', nid, c, s);
       return makeResult(
         'VIC_AOF',
         top.name || 'Afrique-Occidentale française (AOF — Vichy)',
-        top.adminTitle || 'Haut-commissariat de l\'Afrique française (Pierre Boisson — Vichy)',
-        'Fantoccio'
+        top.note || 'Haut-commissariat de l\'Afrique française sous Vichy',
+        'Fantoccio',
+        top.adminTitle || 'Haut-commissariat de l\'Afrique française (Pierre Boisson — Vichy)'
       );
     }
-    const top = getExtendedToponym(name, 'F_AOF');
+    const top = getExtendedToponym(name, 'F_AOF', nid, c, s);
     return makeResult(
       'F_AOF',
       top.name || 'Afrique-Occidentale française (AOF)',
+      top.note || 'Gouvernement général de l\'AOF à Dakar',
+      undefined,
       top.adminTitle || 'Gouvernement général de l\'AOF'
     );
   }
@@ -2243,33 +2487,86 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     (nrm_hb.includes('congo') && (nrm_hb.includes('brazzaville') || subj === 'France')) ||
     (nrm_hb.includes('gabon') && !nrm_hb.includes('gabriel'))
   ) {
+    if (nrm_hb.includes('gabon') && !nrm_hb.includes('gabriel')) {
+      if (s === 6) {
+        const top = getExtendedToponym(name, 'VIC_AEF', nid, c, s);
+        return makeResult(
+          'VIC_AEF',
+          top.name || 'Colonie du Gabon (Vichy — Libreville)',
+          top.note || 'Le Gabon reste fidèle au régime de Vichy sous le gouverneur Georges Masson jusqu\'à la campagne du Gabon menée par Leclerc et Koenig.',
+          'Fantoccio',
+          top.adminTitle || 'Colonie du Gabon (Vichy — Libreville)'
+        );
+      }
+      if (s >= 7) {
+        const top = getExtendedToponym(name, 'FFL_AEF', nid, c, s);
+        return makeResult(
+          'FFL_AEF',
+          top.name || 'Gabon (France Libre — Libreville)',
+          top.note || 'Campagne du Gabon (octobre-novembre 1940) : les Forces Françaises Libres de Leclerc et Koenig rallient le Gabon, parachevant l\'unité de l\'Afrique Française Libre.',
+          'Alleati',
+          top.adminTitle || 'Colonie du Gabon (France Libre — De Gaulle / Leclerc)'
+        );
+      }
+    }
     if (s >= 6) {
-      const top = getExtendedToponym(name, 'FFL_AEF');
+      const top = getExtendedToponym(name, 'FFL_AEF', nid, c, s);
       return makeResult(
         'FFL_AEF',
         top.name || 'Afrique équatoriale française (France Libre — De Gaulle / Éboué)',
-        top.adminTitle || 'Afrique française libre — Félix Éboué & De Gaulle (Brazzaville)',
-        'Alleati'
+        top.note || (s >= 7 ? 'Brazzaville capitale officielle de la France combattante (Conseil de défense de l\'Empire)' : 'Brazzaville capitale de la France combattante — Ralliement de l\'AEF'),
+        'Alleati',
+        top.adminTitle || 'Afrique française libre — Félix Éboué & De Gaulle (Brazzaville)'
       );
     }
-    const top = getExtendedToponym(name, 'F_AEF');
+    const top = getExtendedToponym(name, 'F_AEF', nid, c, s);
     return makeResult(
       'F_AEF',
       top.name || 'Afrique-Équatoriale française (AEF)',
+      top.note || 'Gouvernement général de l\'AEF à Brazzaville',
+      undefined,
       top.adminTitle || 'Gouvernement général de l\'AEF'
     );
   }
 
   // Italia in Africa & Etiopia
   if (nrm_hb.includes('ethiopia') || nrm_hb.includes('abyssinia')) {
-    return s === 0
-      ? makeResult('ETH', 'Mängəśtä Ityop’p’ya (Addis Ababa)', 'Yä-Ityop’ya Qəññ Gəzat Torənnät')
-      : makeResult('ITA', 'Africa Orientale Italiana (AOI — Etiopia)', 'Impero proclamato il 9 maggio 1936');
+    if (s === 0) {
+      return makeResult('ETH', 'Mängəśtä Ityop’p’ya (Addis Ababa)', 'Yä-Ityop’ya Qəññ Gəzat Torənnät');
+    }
+    if (s >= 8) {
+      return makeResult(
+        'ETH',
+        "Impero d'Etiopia Restaurato (Addis Abeba — Liberazione Alleata & Amba Alagi)",
+        "Collasso dell'Africa Orientale Italiana: il 6 aprile 1941 le truppe del Commonwealth (Gen. Alan Cunningham) liberano Addis Abeba, aprendo la strada al ritorno trionfale sul trono del Negus Haile Selassie I (5 maggio 1941) con la Gideon Force di Orde Wingate e i patrioti Arbegnoch; le residue truppe italiane del Viceré Amedeo di Savoia Duca d'Aosta resistono sull'Amba Alagi e a Gondar (Gen. Guglielmo Nasi).",
+        'Alleati',
+        "Ye’Ityōṗṗyā Nigūsa Negest Mengist (Negus Haile Selassie I — Liberazione Alleata)"
+      );
+    }
+    return makeResult('ITA', 'Africa Orientale Italiana (AOI — Etiopia)', 'Impero proclamato il 9 maggio 1936');
   }
   if (nrm_hb.includes('libya') || nrm_hb.includes('cyrenaica') || nrm_hb.includes('tripolitania')) {
+    if (s >= 8) {
+      return makeResult(
+        'ITA',
+        'Libia Italiana (Controffensiva dell\'Afrikakorps & Assedio di Tobruk)',
+        'Operazione Sonnenblume (febbraio-aprile 1941): sbarco a Tripoli del Deutsches Afrikakorps del Gen. Erwin Rommel; fulminea controffensiva italo-tedesca (24 marzo - aprile 1941) che riconquista El Agheila, Bengasi, Derna e Bardia, stringendo d\'assedio dal 10 aprile la piazzaforte di Tobruk e attestandosi sul confine egiziano di Sollum-Halfaya.',
+        'Asse',
+        'Comando Superiore Forze Armate Africa Settentrionale (Gen. Italo Gariboldi) & Deutsches Afrikakorps (Gen. Erwin Rommel)'
+      );
+    }
     return makeResult('ITA', 'Libia Italiana (Quarta Sponda)', 'Governo Generale della Libia');
   }
   if (nrm_hb.includes('eritrea')) {
+    if (s >= 8) {
+      return makeResult(
+        'UK',
+        'Eritrea (Occupazione Militare Alleata — Cheren, Asmara e Massaua)',
+        'Campagna dell\'Africa Orientale (marzo-aprile 1941): dopo i 53 giorni della sanguinosa battaglia di Cheren (caduta il 27 marzo), la 4ª e 5ª Divisione Indiana del Gen. William Platt occupano Asmara (1° aprile) e la base navale di Massaua (8 aprile), ponendo fine al dominio coloniale italiano in Eritrea.',
+        'Alleati',
+        'Occupied Enemy Territory Administration (OETA — British Military Administration of Eritrea, Asmara)'
+      );
+    }
     return makeResult('ITA', 'Colonia Eritrea (Asmara)', 'Africa Orientale Italiana');
   }
   if (nrm_hb.includes('dodecanese') || (nrm_hb.includes('rhodes') && !nrm_hb.includes('rhodesia'))) {
@@ -2281,6 +2578,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       : makeResult('ITA', 'Regno d\'Albania', 'Unione Personale con la Corona d\'Italia (aprile 1939)');
   }
   if (nrm_hb.includes('somali') && (nrm_hb.includes('ital') || subj === 'Italy' || name.includes('(Italy)'))) {
+    if (s >= 8) {
+      return makeResult(
+        'UK',
+        'Somalia (Occupazione Militare Alleata — Mogadiscio e Giuba)',
+        'Offensiva alleata dal Kenya (febbraio 1941): l\'11ª e 12ª Divisione Africana e la 1ª Divisione Sudafricana del Gen. Alan Cunningham forzano la linea del fiume Giuba ed entrano a Mogadiscio il 25 febbraio 1941, instaurando l\'amministrazione militare britannica sulla Somalia Italiana.',
+        'Alleati',
+        'Occupied Enemy Territory Administration (OETA — British Military Administration of Somalia, Mogadishu)'
+      );
+    }
     const isPostAOI = s >= 1;
     return isPostAOI
       ? makeResult(
@@ -2362,10 +2668,16 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       ? makeResult('SPR', 'Sáhara Español (Río de Oro)', 'Segunda República Española')
       : makeResult('SPA', 'Sáhara Español (Río de Oro)', 'Bando Nacional (Franco)');
   }
-  if (nrm_hb.includes('spanish guinea') || nrm_hb.includes('sp. guinea') || nrm_hb.includes('guinea espanola')) {
+  if (
+    nrm_hb.includes('spanish guinea') ||
+    nrm_hb.includes('sp. guinea') ||
+    nrm_hb.includes('guinea espanola') ||
+    nrm_hb.includes('equatorial guinea') ||
+    (nrm_hb.includes('guinea') && (subj === 'Spain' || subj === 'España'))
+  ) {
     return s === 0
-      ? makeResult('SPR', 'Guinea Española (Santa Isabel)', 'Segunda República Española')
-      : makeResult('SPA', 'Guinea Española (Santa Isabel)', 'Bando Nacional (Franco)');
+      ? makeResult('SPR', 'Guinea Española (Santa Isabel / Fernando Poo y Río Muni)', 'Segunda República Española — Territorios Españoles del Golfo de Guinea')
+      : makeResult('SPA', 'Guinea Española (Santa Isabel / Fernando Poo y Río Muni)', 'Bando Nacional / Estado Español — Territorios Españoles del Golfo de Guinea');
   }
   if (nrm_hb.includes('ifni')) {
     return s === 0
@@ -2377,9 +2689,9 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       ? makeResult('SPR', 'Islas Canarias (Tenerife / Las Palmas)', 'Segunda República Española')
       : makeResult('SPA', 'Islas Canarias (Tenerife / Las Palmas)', 'Bando Nacional (Franco)');
   }
-  if (nrm_hb.includes('tangier') || nrm_hb.includes('tanger') || nrm_hb.includes('tangeri')) {
+  if (nid === 'TANGER' || nrm_hb.includes('tangier') || nrm_hb.includes('tanger') || nrm_hb.includes('tangeri')) {
     return s < 6
-      ? makeResult('NEU', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
+      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)');
   }
   if (nrm_hb.includes('menorca') || nrm_hb.includes('minorca') || nrm_hb.includes('mahon')) {
@@ -2410,13 +2722,36 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
 
   // Medio Oriente
-  if (nrm_hb.includes('yemen')) {
-    return makeResult('YEM', 'Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Sana\'a)', 'Dawlat al-Yaman al-Mustaqillah');
+  if (cleanId === 'HB_YEMEN' || (nrm_hb.includes('yemen') && !nrm_hb.includes('aden') && !nrm_hb.includes('uk'))) {
+    const top = getTop('YEM');
+    return makeResult(
+      'YEM',
+      top.name || 'Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Sana\'a)',
+      top.note || 'Dawlat al-Yaman al-Mustaqillah (Imam Yahya Muhammad Hamid ed-Din)',
+      'Neutrale',
+      top.adminTitle || 'Regno Mutawakkilita dello Yemen (Imamato Zaidita)'
+    );
   }
-  if (nrm_hb.includes('aden')) {
-    return makeResult('UK', 'Aden Colony and Protectorate', 'British Strategic Outpost in the Red Sea');
+  if (cleanId === 'HB_ADEN' || nrm_hb.includes('aden') || nrm_hb.includes('yemen (uk)')) {
+    const top = getTop('UK');
+    return makeResult(
+      'UK',
+      top.name || 'Aden Colony and Protectorate',
+      top.note || 'British Strategic Outpost in the Red Sea (WAP, EAP & Crown Colony of Aden)',
+      s >= 4 ? 'Alleati' : 'Neutrale',
+      top.adminTitle || 'British Aden Protectorate & Colony'
+    );
   }
   if (nrm_hb.includes('iraq')) {
+    if (s >= 8) {
+      return makeResult(
+        'IRQ',
+        'Al-Mamlakah al-‘Irāqiyyah (Governo di Difesa Nazionale Filo-Asse — Baghdad)',
+        "Colpo di Stato nazionalista e filo-Asse del 1°-2 aprile 1941 guidato da Rashid Ali al-Kaylani e dai colonnelli del 'Quadrato d'Oro' (Salah al-Din al-Sabbagh); deposizione del reggente filo-britannico 'Abd al-Ilah, sbarco della 10ª Divisione Indiana britannica a Bassora (Operazione Sabine, 18 aprile) e accerchiamento iracheno della base aerea RAF Habbaniya (29-30 aprile) che apre la guerra anglo-irachena.",
+        'Asse',
+        'Al-Mamlakah al-‘Irāqiyyah — Governo di Difesa Nazionale (Rashid Ali al-Kaylani)'
+      );
+    }
     return makeResult('UK', 'Kingdom of Iraq (Baghdad)', 'British Sphere of Influence (Anglo-Iraqi Treaty of 1930)');
   }
   if (nrm_hb.includes('transjordan')) {
@@ -2426,14 +2761,16 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('UK', 'British Mandate for Palestine (Jerusalem)', 'League of Nations Mandate');
   }
   if (nrm_hb.includes('syria')) {
+    const top = getTop(s < 6 ? 'F_SYR' : 'VIC_SYR');
     return s < 6
-      ? makeResult('F_SYR', 'Mandat français en Syrie (Damas)', 'Haut-Commissariat au Levant')
-      : makeResult('F_SYR', 'Syrie (Mandat français — Vichy)', 'Administration de Vichy', 'Fantoccio');
+      ? makeResult('F_SYR', top.name || 'Mandat français en Syrie (Damas)', top.note || 'Mandat A de la Société des Nations confié à la France', undefined, top.adminTitle || 'Haut-Commissariat de la République Française au Levant (Beyrouth / Damas)')
+      : makeResult('VIC_SYR', top.name || 'Syrie (Mandat français — Vichy)', top.note || 'Mandat sous administration du gouvernement de Vichy', 'Fantoccio', top.adminTitle || 'Haut-Commissaire Général Henri Dentz (Vichy — Damas)');
   }
   if (nrm_hb.includes('lebanon')) {
+    const top = getTop(s < 6 ? 'F_SYR' : 'VIC_SYR');
     return s < 6
-      ? makeResult('F_SYR', 'Grand Liban (Mandat français — Beyrouth)', 'Haut-Commissariat au Levant')
-      : makeResult('F_SYR', 'Grand Liban (Mandat français — Vichy)', 'Administration de Vichy', 'Fantoccio');
+      ? makeResult('F_SYR', top.name || 'Grand Liban (Mandat français — Beyrouth)', top.note || 'État du Grand Liban sous mandat français', undefined, top.adminTitle || 'État du Grand Liban sous Mandat Français (Beyrouth)')
+      : makeResult('VIC_SYR', top.name || 'Grand Liban (Mandat français — Vichy)', top.note || 'République libanaise sous administration de Vichy', 'Fantoccio', top.adminTitle || 'Quartier Général du Général Henri Dentz (Vichy — Beyrouth)');
   }
   if (
     nrm_hb.includes('saudi') ||
@@ -2507,6 +2844,69 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('drava') ||
     nrm_hb.includes('sava')
   ) {
+    if (s >= 8) {
+      if (nrm_hb.includes('kosovo') || nrm_hb.includes('kosova') || nrm_hb.includes('metohija')) {
+        return makeResult(
+          'ITA',
+          'Kosovë e Metohi (Prishtinë / Prizren — Grande Albania)',
+          'Territorio del Kosovo e della Metochia occupato dalle forze dell\'Asse nell\'aprile 1941 e annesso alla "Grande Albania" sotto la Corona d\'Italia.',
+          'Asse',
+          'Mbretnija Shqiptare (Unione Imperiale con il Regno d\'Italia)'
+        );
+      }
+      if (nrm_hb.includes('montenegro') || nrm_hb.includes('crna gora') || nrm_hb.includes('zeta')) {
+        return makeResult(
+          'ITA',
+          'Governatorato del Montenegro e Provincia di Cattaro (Cettigne)',
+          'Occupazione italiana del Montenegro (aprile 1941): annessione delle Bocche di Cattaro al Governatorato della Dalmazia e istituzione del Governatorato del Montenegro a Cettigne.',
+          'Asse',
+          'Regno d\'Italia — Governatorato del Montenegro (Alto Commissario Serafino Mazzolini)'
+        );
+      }
+      if (nrm_hb.includes('macedonia') || nrm_hb.includes('makedonija') || nrm_hb.includes('vardar')) {
+        return makeResult(
+          'BUL',
+          'Makedonija (Skopje / Bitola — Occupazione e Annessione Bulgara)',
+          'Invasione e smembramento della Jugoslavia (aprile 1941): la 5ª Armata bulgara occupa la Macedonia del Vardar (Skopje, Bitola, Veles, Prilep, Ohrid), annessa al Regno di Bulgaria di Re Boris III (eccetto Tetovo, Gostivar, Debar e Struga annesse alla Grande Albania italiana).',
+          'Asse',
+          'Tsarstvo Balgariya — Skopska i Bitolska oblast'
+        );
+      }
+      if (nrm_hb.includes('vojvodina')) {
+        return makeResult(
+          'HUN',
+          'Bácska (Délvidék — Újvidék / Szabadka)',
+          'Occupazione e annessione ungherese della Bácska (aprile 1941) da parte della 3ª Armata ungherese; il Banato resta sotto amministrazione militare tedesca affidata alla minoranza Volksdeutsche.',
+          'Asse',
+          'Magyar Királyság — Délvidék (Bács-Bodrog vármegye)'
+        );
+      }
+      if (
+        nrm_hb.includes('croatia') ||
+        nrm_hb.includes('hrvatska') ||
+        nrm_hb.includes('bosnia') ||
+        nrm_hb.includes('herzegovina') ||
+        nrm_hb.includes('hercegovina') ||
+        nrm_hb.includes('vrbas') ||
+        nrm_hb.includes('drina') ||
+        nrm_hb.includes('sava')
+      ) {
+        return makeResult(
+          'CRO',
+          'Nezavisna Država Hrvatska — NDH (Zagreb / Sarajevo / Banja Luka)',
+          'Stato Indipendente di Croazia (NDH) proclamato a Zagabria il 10 aprile 1941 da Slavko Kvaternik e guidato dal Poglavnik Ante Pavelić (movimento Ustascia), comprendente Croazia, Slavonia, Sirmia e l\'intera Bosnia ed Erzegovina, ripartito lungo la Linea di Vienna tra zona d\'influenza militare tedesca e italiana.',
+          'Fantoccio',
+          'Nezavisna Država Hrvatska (Stato Indipendente di Croazia — Poglavnik Ante Pavelić)'
+        );
+      }
+      return makeResult(
+        'GER',
+        'Gebiet des Militärbefehlshabers in Serbien (Beograd)',
+        'Operazione 25 (6-17 aprile 1941): invasione, bombardamento di Belgrado (Operazione Castigo) e capitolazione del Regno di Jugoslavia; la Serbia centrale e il Banato sono posti sotto amministrazione militare diretta della Wehrmacht (Gen. Helmuth Förster / Governo dei Commissari di Milan Aćimović).',
+        'Asse',
+        'Gebiet des Militärbefehlshabers in Serbien (Beograd)'
+      );
+    }
     const top = getExtendedToponym(name, 'YUG');
     return makeResult(
       'YUG',
@@ -2558,7 +2958,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
 
   if (ov) {
-    const top = getExtendedToponym(name, ov.o, undefined, undefined, s);
+    const top = getExtendedToponym(name, ov.o, nid, c, s);
     if (ov.o === 'FRA') {
       return s < 6
         ? makeResult('FRA', top.name, top.note, undefined, top.adminTitle || 'Troisième République française')
@@ -2567,13 +2967,49 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     if (ov.o.startsWith('F_')) {
       if (s >= 6) {
         if (ov.o === 'F_AEF') {
-          const fflTop = getExtendedToponym(name, 'FFL_AEF');
+          if (name.toLowerCase().includes('gabon')) {
+            if (s === 6) {
+              const vicTop = getExtendedToponym(name, 'VIC_AEF', nid, c, s);
+              return makeResult(
+                'VIC_AEF',
+                vicTop.name || 'Colonie du Gabon (Vichy — Libreville)',
+                vicTop.note || 'Le Gabon reste fidèle au régime de Vichy sous le gouverneur Georges Masson jusqu\'à la campagne du Gabon menée par Leclerc et Koenig.',
+                'Fantoccio',
+                vicTop.adminTitle || 'Colonie du Gabon (Vichy — Libreville)'
+              );
+            }
+          }
+          const fflTop = getExtendedToponym(name, 'FFL_AEF', nid, c, s);
           return makeResult(
             'FFL_AEF',
             fflTop.name || top.name,
-            fflTop.adminTitle || 'Afrique française libre — Félix Éboué & De Gaulle (Brazzaville)',
-            'Alleati'
+            fflTop.note || top.note || 'Afrique française libre ralliée sous Félix Éboué',
+            'Alleati',
+            fflTop.adminTitle || 'Afrique française libre — Félix Éboué & De Gaulle (Brazzaville)'
           );
+        }
+
+        // Ralliement de l'Empire (Océanie & Inde) à la France Libre à partir de Step 7 (OTT 1940)
+        if (ov.o === 'F_COL') {
+          const nrmCol = name.toLowerCase();
+          const isRallied =
+            nrmCol.includes('hebrid') ||
+            nrmCol.includes('caledon') ||
+            nrmCol.includes('polynesi') ||
+            nrmCol.includes('tahiti') ||
+            nrmCol.includes('french india') ||
+            nrmCol.includes('inde') ||
+            nrmCol.includes('pondicher');
+          if (isRallied && s >= 7) {
+            const fflTop = getExtendedToponym(name, 'FFL_AEF', nid, c, s);
+            return makeResult(
+              'FFL_AEF',
+              fflTop.name || top.name,
+              fflTop.note || 'Territoire d\'outre-mer rallié à la France Libre du Général de Gaulle en 1940',
+              'Alleati',
+              fflTop.adminTitle || 'France Libre — Conseil de défense de l\'Empire'
+            );
+          }
         }
         const vicKey =
           ov.o === 'F_NAF'
@@ -2589,15 +3025,25 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             : ov.o === 'F_IND'
             ? 'VIC_IND'
             : 'VIC';
-        const vicTop = getExtendedToponym(name, vicKey);
+        const vicTop = getExtendedToponym(name, vicKey, nid, c, s);
+        if (vicKey === 'VIC_IND' && s >= 7) {
+          return makeResult(
+            'VIC_IND',
+            vicTop.name || top.name || 'Indochine française (Hanoï — Stazionamento Militare Giapponese nel Tonchino)',
+            'Accordo franco-giapponese di Hanoi (22 settembre 1940): dopo gli scontri di Lạng Sơn e lo sbarco a Haiphong, la 5ª Divisione dell\'Esercito Imperiale Giapponese presidia le basi aeree e ferroviarie del Tonchino settentrionale per bloccare i rifornimenti a Chongqing, sotto l\'amministrazione Vichy dell\'Ammiraglio Jean Decoux.',
+            'Fantoccio',
+            'Gouvernement Général de l\'Indochine (Amiral Jean Decoux — Vichy / Stazionamento Imperiale Giapponese nel Tonchino)'
+          );
+        }
         return makeResult(
           vicKey,
           vicTop.name || top.name,
-          vicTop.adminTitle || 'Administration coloniale de Vichy',
-          'Fantoccio'
+          vicTop.note || top.note || 'Administration coloniale sous tutelle de Vichy',
+          'Fantoccio',
+          vicTop.adminTitle || 'Administration coloniale de Vichy'
         );
       }
-      return makeResult(ov.o, top.name, top.adminTitle);
+      return makeResult(ov.o, top.name, top.note, undefined, top.adminTitle);
     }
     if (ov.o === 'BEL' || ov.o === 'HOL') {
       return makeResult(ov.o, top.name, top.adminTitle, s >= 6 ? 'Alleati' : 'Neutrale');
@@ -2671,13 +3117,714 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.adminTitle || 'Kashag (Bod)'
       );
     }
+    if (ov.o === 'UK') {
+      return makeResult(
+        'UK',
+        top.name,
+        top.note || 'Territorio d\'oltremare della Corona Britannica',
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        top.adminTitle || 'British Empire'
+      );
+    }
+    if (ov.o === 'AST' || ov.o === 'CAN' || ov.o === 'NZL' || ov.o === 'SAF' || ov.o === 'RAJ') {
+      return makeResult(
+        ov.o,
+        top.name,
+        top.note || 'Dominion britannico o impero associato',
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        top.adminTitle || 'British Commonwealth of Nations'
+      );
+    }
+    if (ov.o === 'USA') {
+      return makeResult(
+        'USA',
+        top.name,
+        top.note || 'Stati Uniti d\'America',
+        'Alleati',
+        top.adminTitle || 'United States of America'
+      );
+    }
+    if (ov.o === 'GRE') {
+      if (s >= 8) {
+        if (nrm_hb.includes('crete') || nrm_hb.includes('kriti') || nrm_hb.includes('chania') || nrm_hb.includes('heraklion') || (c && c[1] > 0 && c[1] < 35.7)) {
+          return makeResult(
+            'GRE',
+            'Kriti — Roccaforte Alleata e Sede del Governo Greco (Chania / Heraklion)',
+            'Dopo la caduta della Grecia continentale (Operazione Marita, aprile 1941), Re Giorgio II e il Primo Ministro Emmanouil Tsouderos si trasferiscono a La Canea (Creta), difesa dalla guarnigione greca e dalla Creforce del Commonwealth (Magg. Gen. Bernard Freyberg).',
+            'Alleati',
+            'Vasileion tis Ellados — Governo Reale di Re Giorgio II a Creta & Creforce Alleata'
+          );
+        }
+        return makeResult(
+          'ITA',
+          'Elliniki Politeia (Occupazione Tripartita dell\'Asse — Atene)',
+          'Operazione Marita (6-30 aprile 1941): sfondamento della Linea Metaxas, ingresso della Wehrmacht a Salonicco (9 aprile) e ad Atene (27 aprile), insediamento del governo collaborazionista del Gen. Georgios Tsolakoglou e spartizione della Grecia continentale in zone d\'occupazione tedesca, italiana (11ª Armata) e bulgara.',
+          'Asse',
+          'Occupazione Militare dell\'Asse in Grecia (Governo Collaborazionista Georgios Tsolakoglou)'
+        );
+      }
+      return makeResult(
+        'GRE',
+        top.name,
+        top.note || (s >= 7 ? 'Regno di Grecia — Belligerante Alleato ("Giorno dell\'Oxi", 28 ottobre 1940)' : 'Regno di Grecia (Regime del 4 Agosto)'),
+        s >= 7 ? 'Alleati' : 'Neutrale',
+        top.adminTitle || 'Vasileion tis Ellados'
+      );
+    }
+    if (ov.o === 'BUL') {
+      return makeResult(
+        'BUL',
+        top.name,
+        top.note || (s >= 8 ? 'Adesione al Patto Tripartito (1° marzo 1941) e occupazione della Macedonia del Vardar e della Tracia Occidentale (Belomorie).' : 'Tsarstvo Balgariya (Tsar Boris III)'),
+        s >= 8 ? 'Asse' : 'Neutrale',
+        top.adminTitle || 'Tsarstvo Balgariya'
+      );
+    }
+    if (ov.o === 'HUN') {
+      return makeResult(
+        'HUN',
+        top.name,
+        top.note || 'Magyar Királyság',
+        s >= 7 ? 'Asse' : undefined,
+        top.adminTitle || 'Magyar Királyság'
+      );
+    }
+    if (ov.o === 'ROM') {
+      return makeResult(
+        'ROM',
+        top.name,
+        top.note || (s >= 7 ? 'Stato Nazionale Legionario (Gen. Ion Antonescu — Missione Militare Tedesca)' : 'Regatul României'),
+        s >= 7 ? 'Asse' : 'Neutrale',
+        top.adminTitle || (s >= 7 ? 'Statul Național-Legionar (Regatul României)' : 'Regatul României')
+      );
+    }
     return makeResult(ov.o, top.name, top.note || top.adminTitle, undefined, top.adminTitle);
   }
 
   return makeResult('NEU', name || 'Territorio non organizzato');
 }
 
+export function resolveEstonianProvince(
+  s: number,
+  nid: string,
+  p: any,
+  rawName: string
+): ResolvedTerritory {
+  const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
+  const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
+
+  // 1. Põhja-Eesti / Harjumaa (Tallinn, Paldiski)
+  if (nid === 'EE001' || nrm.includes('pohja') || nrm.includes('harju') || nrm.includes('tallinn')) {
+    if (s < 6) {
+      return makeResult(
+        'EST',
+        'Põhja-Eesti — Harjumaa (Tallinn)',
+        'Eesti Vabariik — Capitale Tallinn (sede del Parlamento Riigikogu e della collina governativa di Toompea), porto commerciale sul Golfo di Finlandia e base navale strategica di Paldiski.',
+        'Neutrale',
+        'Eesti Vabariik — Riigihoidja / President Konstantin Päts'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Tallinn ja Harjumaa — Estonskaya SSR',
+      'Estonskaya SSR — Occupazione militare sovietica il 17 giugno 1940 a seguito dell\'ultimatum di Molotov; instaurazione del regime fantoccio di Johannes Vares e annessione all\'URSS il 6 agosto 1940.',
+      'Comintern',
+      'SSSR — Estonskaya SSR (Baltiyskiy Flot)'
+    );
+  }
+
+  // 2. Lääne-Eesti e Arcipelago (Saaremaa, Hiiumaa, Pärnu, Haapsalu)
+  if (
+    nid === 'EE004' ||
+    nrm.includes('laane') ||
+    nrm.includes('saare') ||
+    nrm.includes('hiiu') ||
+    nrm.includes('parnu') ||
+    nrm.includes('haapsalu')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'EST',
+        'Lääne-Eesti ja Saared (Pärnu, Saaremaa, Hiiumaa)',
+        'Eesti Vabariik — Arcipelago baltico (isole di Saaremaa/Ösel e Hiiumaa/Dagö) e litorale occidentale (Haapsalu, Pärnu). Con il Patto di Mutua Assistenza del 28 settembre 1939, l\'URSS ottiene basi aeronavali per 25.000 truppe sovietiche.',
+        'Neutrale',
+        'Eesti Vabariik — Lääne ja Saare Maakonnad'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Lääne-Eesti — Estonskaya SSR (Saaremaa i Khiuma)',
+      'Estonskaya SSR — Settore difensivo costiero della Flotta sovietica del Baltico a presidio dell\'imboccatura del Golfo di Riga e della penisola fortificata di Sõrve.',
+      'Comintern',
+      'SSSR — Estonskaya SSR (Basi Navali del Baltico)'
+    );
+  }
+
+  // 3. Kesk-Eesti (Järvamaa, Paide, Tapa, Rapla, Jõgeva)
+  if (
+    nid === 'EE009' ||
+    nrm.includes('kesk') ||
+    nrm.includes('jarva') ||
+    nrm.includes('jogeva') ||
+    nrm.includes('rapla') ||
+    nrm.includes('paide') ||
+    nrm.includes('tapa')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'EST',
+        'Kesk-Eesti — Järvamaa (Paide / Tapa)',
+        'Eesti Vabariik — Cuore agricolo dell\'Estonia centrale (Paide, Türi) e nevralgico snodo ferroviario di Tapa con linee di raccordo per Tallinn, Narva e Tartu.',
+        'Neutrale',
+        'Eesti Vabariik — Kesk-Eesti Maakonnad'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Kesk-Eesti — Estonskaya SSR (Paide)',
+      'Estonskaya SSR — Annessione sovietica dell\'Estonia centrale; controllo dei nodi ferroviari interni e riorganizzazione agricola sotto le direttive del Soviet Supremo.',
+      'Comintern',
+      'SSSR — Estonskaya SSR (Eesti NSV)'
+    );
+  }
+
+  // 4. Kirde-Eesti / Virumaa (Narva, Rakvere, Kohtla-Järve)
+  if (
+    nid === 'EE00A' ||
+    nrm.includes('kirde') ||
+    nrm.includes('viru') ||
+    nrm.includes('narva') ||
+    nrm.includes('kohtla') ||
+    nrm.includes('rakvere')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'EST',
+        'Kirde-Eesti — Virumaa (Narva / Kohtla-Järve)',
+        'Eesti Vabariik — Fortezza confinaria sul fiume Narva lungo la frontiera stabilita dal Trattato di Tartu (1920) e strategico bacino minerario di scisti bituminosi (põlevkivi) di Kohtla-Järve e Jõhvi.',
+        'Neutrale',
+        'Eesti Vabariik — Viru Maakond'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Kirde-Eesti — Estonskaya SSR (Narvskiy rayon)',
+      'Estonskaya SSR — Integrazione economica nel sistema industriale sovietico della produzione di combustibili fossili da scisto e controllo militare della frontiera del Narva.',
+      'Comintern',
+      'SSSR — Estonskaya SSR (Eesti NSV)'
+    );
+  }
+
+  // 5. Lõuna-Eesti / Tartumaa (Tartu, Valga, Võru, Viljandi, Petserimaa)
+  if (
+    nid === 'EE008' ||
+    nrm.includes('louna') ||
+    nrm.includes('tartu') ||
+    nrm.includes('valga') ||
+    nrm.includes('voru') ||
+    nrm.includes('viljandi') ||
+    nrm.includes('petseri')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'EST',
+        'Lõuna-Eesti — Tartumaa ja Petserimaa (Tartu / Valga)',
+        'Eesti Vabariik — Tartu (storica capitale culturale e accademica con l\'università fondata nel 1632), Valga (nodo ferroviario di confine con la Lettonia) e distretto confinaio di Petserimaa (Pechory, monastero ortodosso delle Grotte del 1473 integrato nel 1920).',
+        'Neutrale',
+        'Eesti Vabariik — Lõuna-Eesti Maakonnad'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Lõuna-Eesti — Estonskaya SSR (Tartu / Pechory)',
+      'Estonskaya SSR — Annessione sovietica dell\'Estonia meridionale (il distretto confinaio di Petserimaa/Pechory verrà successivamente annesso alla RSFSR russa nel 1944).',
+      'Comintern',
+      'SSSR — Estonskaya SSR (Eesti NSV)'
+    );
+  }
+
+  // Fallback generale Estonia
+  if (s < 6) {
+    return makeResult(
+      'EST',
+      `Eesti Vabariik (${histName || 'Eesti'})`,
+      'Eesti Vabariik — Stato sovrano neutrale baltico sotto la presidenza di Konstantin Päts.',
+      'Neutrale',
+      'Eesti Vabariik'
+    );
+  }
+  return makeResult(
+    'SOV',
+    `${histName || 'Eesti'} — Estonskaya SSR`,
+    'Estonskaya SSR — Repubblica Socialista Sovietica Estone annessa all\'URSS il 6 agosto 1940.',
+    'Comintern',
+    'SSSR — Estonskaya SSR'
+  );
+}
+
+export function resolveLatvianProvince(
+  s: number,
+  nid: string,
+  p: any,
+  rawName: string
+): ResolvedTerritory {
+  const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
+  const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
+
+  // 1. Rīga capitale
+  if (nid === 'LV006' || nid === 'LV001' || nrm === 'riga' || rawName === 'Rīga' || rawName === 'Riga') {
+    if (s < 6) {
+      return makeResult(
+        'LAT',
+        'Rīga (Latvijas Galvaspilsēta)',
+        'Latvijas Republika — Capitale della Lettonia, porto marittimo sull\'estuario del Daugava e centro politico del regime autoritario di Kārlis Ulmanis (Vadonis).',
+        'Neutrale',
+        'Latvijas Republika — Valsts Prezidents Kārlis Ulmanis'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Riga (Latviyskaya SSR)',
+      'Latviyskaya SSR — Truppe sovietiche dell\'Armata Rossa occupano Riga il 17 giugno 1940; instaurazione del governo fantoccio di Augusts Kirhenšteins e annessione all\'URSS il 5 agosto 1940.',
+      'Comintern',
+      'SSSR — Latviyskaya SSR (Latvijas PSR)'
+    );
+  }
+
+  // 2. Pierīga (Jūrmala, Ogre, Sigulda, Tukums)
+  if (
+    nid === 'LV007' ||
+    nrm.includes('pieriga') ||
+    nrm.includes('jurmala') ||
+    nrm.includes('ogre') ||
+    nrm.includes('sigulda')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LAT',
+        'Pierīga (Jūrmala, Ogre, Sigulda)',
+        'Latvijas Republika — Cintura costiera e metropolitana della capitale: stazioni balneari del Golfo di Riga (Jūrmala), valle del Gauja (Sigulda) e polo industriale di Ogre.',
+        'Neutrale',
+        'Latvijas Republika — Rīgas apriņķis'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Pierīga — Latviyskaya SSR',
+      'Latviyskaya SSR — Fascia difensiva e nodi di trasporto intorno a Riga presidiati dalle truppe d\'occupazione dell\'Armata Rossa.',
+      'Comintern',
+      'SSSR — Latviyskaya SSR (Latvijas PSR)'
+    );
+  }
+
+  // 3. Kurzeme / Curlandia (Liepāja, Ventspils, Kuldīga)
+  if (
+    nid === 'LV003' ||
+    nrm.includes('kurzeme') ||
+    nrm.includes('liepaja') ||
+    nrm.includes('ventspils') ||
+    nrm.includes('kuldiga')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LAT',
+        'Kurzeme (Liepāja, Ventspils, Kuldīga)',
+        'Latvijas Republika — Regione costiera di Curlandia con i porti d\'alto mare di Liepāja (Libau, base navale non geliva) e Ventspils (Windau). Con il patto del 5 ottobre 1939, l\'URSS ottiene basi navali e aeree per 30.000 militari sovietici.',
+        'Neutrale',
+        'Latvijas Republika — Kurzemes apgabals'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Kurzeme — Latviyskaya SSR (Liepaya / Ventspils)',
+      'Latviyskaya SSR — Grandi basi aeronavali sovietiche di Liepāja e Ventspils sul Mar Baltico poste sotto il comando della Flotta del Baltico dell\'URSS.',
+      'Comintern',
+      'SSSR — Latviyskaya SSR (Flotta del Baltico)'
+    );
+  }
+
+  // 4. Latgale / Letgallia (Daugavpils, Rēzekne, Abrene)
+  if (
+    nid === 'LV005' ||
+    nrm.includes('latgale') ||
+    nrm.includes('daugavpils') ||
+    nrm.includes('rezekne') ||
+    nrm.includes('abrene')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LAT',
+        'Latgale (Daugavpils, Rēzekne, Abrene)',
+        'Latvijas Republika — Provincia orientale di Letgallia: fortezza storica di Daugavpils (Dvinsk) sul Daugava, Rēzekne e distretto confinaio di Abrene (Jaunlatgale/Pytalovo) stabilito dal Trattato di Riga del 1920 con la Russia sovietica.',
+        'Neutrale',
+        'Latvijas Republika — Latgales apgabals'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Latgale — Latviyskaya SSR (Daugavpils / Dvinsk)',
+      'Latviyskaya SSR — Settore di penetrazione delle colonne corazzate sovietiche il 17 giugno 1940; il distretto di Abrene verrà scorporato e ceduto alla RSFSR russa nel 1944.',
+      'Comintern',
+      'SSSR — Latviyskaya SSR (Latvijas PSR)'
+    );
+  }
+
+  // 5. Vidzeme / Livonia (Valmiera, Cēsis, Madona, Alūksne)
+  if (
+    nid === 'LV008' ||
+    nrm.includes('vidzeme') ||
+    nrm.includes('valmiera') ||
+    nrm.includes('cesis') ||
+    nrm.includes('madona')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LAT',
+        'Vidzeme (Valmiera, Cēsis, Madona)',
+        'Latvijas Republika — Livonia centrale: Valmiera, Cēsis (luogo della storica battaglia del 1919 che spezzò il dominio tedesco-baltico della Landeswehr) e Alūksne.',
+        'Neutrale',
+        'Latvijas Republika — Vidzemes apgabals'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Vidzeme — Latviyskaya SSR',
+      'Latviyskaya SSR — Annessione sovietica della Livonia lettone; collettivizzazione e controllo militare dei corridoi tra Riga e Pskov.',
+      'Comintern',
+      'SSSR — Latviyskaya SSR (Latvijas PSR)'
+    );
+  }
+
+  // 6. Zemgale / Semigallia (Jelgava, Bauska, Jēkabpils)
+  if (
+    nid === 'LV009' ||
+    nrm.includes('zemgale') ||
+    nrm.includes('jelgava') ||
+    nrm.includes('bauska') ||
+    nrm.includes('jekabpils')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LAT',
+        'Zemgale (Jelgava, Bauska, Jēkabpils)',
+        'Latvijas Republika — Pianure meridionali di Semigallia sul fiume Lielupe: Jelgava (Mitau, storica capitale ducale con il Palazzo di Rastrelli), Bauska e Jēkabpils sul Daugava.',
+        'Neutrale',
+        'Latvijas Republika — Zemgales apgabals'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Zemgale — Latviyskaya SSR (Yelgava / Bauska)',
+      'Latviyskaya SSR — Occupazione sovietica e nazionalizzazione delle grandi industrie agricole di Semigallia lungo la direttrice tra Riga e Šiauliai.',
+      'Comintern',
+      'SSSR — Latviyskaya SSR (Latvijas PSR)'
+    );
+  }
+
+  // Fallback generale Lettonia
+  if (s < 6) {
+    return makeResult(
+      'LAT',
+      `Latvijas Republika (${histName || 'Latvija'})`,
+      'Latvijas Republika — Repubblica neutrale di Lettonia sotto la guida di Kārlis Ulmanis.',
+      'Neutrale',
+      'Latvijas Republika'
+    );
+  }
+  return makeResult(
+    'SOV',
+    `${histName || 'Latvija'} — Latviyskaya SSR`,
+    'Latviyskaya SSR — Repubblica Socialista Sovietica Lettone annessa all\'URSS il 5 agosto 1940.',
+    'Comintern',
+    'SSSR — Latviyskaya SSR'
+  );
+}
+
+export function resolveLithuanianProvince(
+  s: number,
+  nid: string,
+  p: any,
+  rawName: string
+): ResolvedTerritory {
+  const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
+  const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
+
+  // 1. Memel Territory / Klaipėdos kraštas (LT023 o enclave)
+  if (
+    nid === 'LT023' ||
+    nid === 'MEMEL' ||
+    nrm.includes('memel') ||
+    nrm.includes('klaipedos krastas')
+  ) {
+    if (s < 3) {
+      return makeResult(
+        'LIT',
+        'Klaipėdos kraštas (Memel)',
+        'Lietuvos Respublika — Regione autonoma di Klaipėda sotto sovranità lituana (Convenzione di Klaipėda del 1924); unico sbocco marittimo commerciale d\'alto mare della Lituania.',
+        'Neutrale',
+        'Lietuvos Respublika — Autonominis Klaipėdos kraštas'
+      );
+    }
+    return makeResult(
+      'GER',
+      'Memelland (Regierungsbezirk Gumbinnen)',
+      'Deutsches Reich — Cessione forzata a seguito dell\'ultimatum di Ribbentrop del 20-22 marzo 1939; annessa al Terzo Reich e incorporata nella provincia della Prussia Orientale.',
+      'Asse',
+      'Deutsches Reich — Gau Ostpreußen'
+    );
+  }
+
+  // 2. Vilniaus apskritis / Wilno (LT011)
+  if (
+    nid === 'LT011' ||
+    nrm.includes('vilniaus') ||
+    nrm.includes('vilnius') ||
+    nrm.includes('wilno') ||
+    nrm.includes('wilenskie')
+  ) {
+    if (s < 5) {
+      return makeResult(
+        'POL',
+        'Województwo Wileńskie (Wilno)',
+        'Rzeczpospolita Polska — Kresy Północno-Wschodnie: capoluogo Wilno con l\'Università Stefan Batory e la cappella della Madonna di Ostra Brama, rivendicato dalla Lituania come capitale storica.',
+        'Alleati',
+        'Rzeczpospolita Polska — Województwo Wileńskie'
+      );
+    }
+    if (s === 5) {
+      return makeResult(
+        'LIT',
+        'Vilniaus kraštas (Vilnius)',
+        'Lietuvos Respublika — Trattato di mutua assistenza sovietico-lituano del 10 ottobre 1939: l\'URSS restituisce Vilnius e la sua regione (6.909 km²) alla Lituania in cambio dello stanziamento di 20.000 militari dell\'Armata Rossa ("Vilnius — mūsų, o mes — rusų").',
+        'Neutrale',
+        'Lietuvos Respublika — Vilniaus apskritis'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Vilnius (Lietuvos TSR)',
+      'SSSR — Vilnius proclamata capitale della Repubblica Socialista Sovietica Lituana (Lietuvos TSR), incorporata nell\'URSS il 3 agosto 1940 a seguito dell\'invasione di giugno.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 3. Kauno apskritis — Laikinoji sostinė (LT022)
+  if (nid === 'LT022' || nrm.includes('kaun')) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Kauno apskritis — Laikinoji sostinė (Kaunas)',
+        'Lietuvos Respublika — Kaunas capitale provvisoria (Laikinoji sostinė) dello Stato lituano dal 1920 al 1939. Sede del Presidente Antanas Smetona, del governo e delle legazioni diplomatiche straniere (tra cui il console giapponese Chiune Sugihara).',
+        'Neutrale',
+        'Lietuvos Respublika — Prezidentas Antanas Smetona'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Kaunas (Lietuvos TSR)',
+      'SSSR — Occupazione delle divisioni corazzate sovietiche il 15 giugno 1940; il presidente Smetona fugge in Germania attraverso Kybartai. Instaurazione del governo fantoccio di Justas Paleckis.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 4. Alytaus apskritis (LT021)
+  if (nid === 'LT021' || nrm.includes('alyt')) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Alytaus apskritis (Alytus / Druskininkai)',
+        'Lietuvos Respublika — Distretto meridionale sul fiume Nemunas, centro di guarnigione; dall\'ottobre 1939 ospita una delle quattro basi militari sovietiche pattuite con Mosca.',
+        'Neutrale',
+        'Lietuvos Respublika — Alytaus apskritis'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Alytus (Lietuvos TSR)',
+      'SSSR — Guarnigione e base strategica sovietica a ridosso della frontiera di Suwałki e della Prussia Orientale.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 5. Marijampolės apskritis / Suvalkija (LT024)
+  if (
+    nid === 'LT024' ||
+    nrm.includes('marijampol') ||
+    nrm.includes('suvalk') ||
+    nrm.includes('kybart') ||
+    nrm.includes('vilkavisk')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Marijampolės apskritis (Marijampolė / Kybartai)',
+        'Lietuvos Respublika — Regione sud-occidentale di Suvalkija lungo il confine con la Prussia Orientale tedesca. La dogana ferroviaria di Kybartai/Eydtkuhnen costituisce il principale varco con l\'Europa occidentale (utilizzato da Smetona per riparare in Germania il 15 giugno 1940).',
+        'Neutrale',
+        'Lietuvos Respublika — Suvalkija'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Marijampolė — Kapsukas (Lietuvos TSR)',
+      'SSSR — Striscia di confine lituano-tedesca annessa all\'URSS (la Germania rinunciò alle rivendicazioni territoriali con l\'accordo segreto di Mosca del 10 gennaio 1941 dietro indennizzo sovietico di 7,5 milioni di dollari d\'oro).',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 6. Panevėžio apskritis (LT025)
+  if (nid === 'LT025' || nrm.includes('panevez') || nrm.includes('birzai')) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Panevėžio apskritis (Panevėžys / Biržai)',
+        'Lietuvos Respublika — Cuore economico dell\'Aukštaitija: polo industriale della lavorazione del lino, mulini e snodo ferroviario verso Šiauliai e Daugavpils.',
+        'Neutrale',
+        'Lietuvos Respublika — Aukštaitija'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Panevėžys (Lietuvos TSR)',
+      'SSSR — Integrazione nell\'economia pianificata sovietica; nazionalizzazione delle fabbriche tessili e dei complessi molitori panevėžiani.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 7. Šiaulių apskritis (LT026)
+  if (nid === 'LT026' || nrm.includes('siaul') || nrm.includes('radvilisk')) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Šiaulių apskritis (Šiauliai / Radviliškis)',
+        'Lietuvos Respublika — Quarta città della Lituania, snodo ferroviario di Radviliškis, polo industriale conciario e aeroporto militare di Zokniai (sede dei reparti da caccia dell\'aviazione lituana).',
+        'Neutrale',
+        'Lietuvos Respublika — Šiaulių apskritis'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Šiauliai (Lietuvos TSR)',
+      'SSSR — L\'aeroporto militare di Zokniai viene convertito in una primaria base aerea strategica della VVS sovietica.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 8. Tauragės apskritis (LT027)
+  if (nid === 'LT027' || nrm.includes('taurag') || nrm.includes('jurbark')) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Tauragės apskritis (Tauragė / Jurbarkas)',
+        'Lietuvos Respublika — Distretto di frontiera sul Nemunas dirimpetto al Memelland e alla Prussia Orientale; snodo stradale e porto fluviale di Jurbarkas.',
+        'Neutrale',
+        'Lietuvos Respublika — Žemaitija Pietinis'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Tauragė (Lietuvos TSR)',
+      'SSSR — Frontiera militarizzata sovietica a ridosso del confine tedesco del Reich.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 9. Telšių apskritis — Žemaitija (LT028)
+  if (
+    nid === 'LT028' ||
+    nrm.includes('tels') ||
+    nrm.includes('mazeik') ||
+    nrm.includes('plunge')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Telšių apskritis — Žemaitija (Telšiai / Mažeikiai)',
+        'Lietuvos Respublika — Capitale spirituale e culturale della Samogizia (Žemaitija), sede vescovile e centro identitario samogitico; snodo ferroviario settentrionale di Mažeikiai verso la Lettonia.',
+        'Neutrale',
+        'Lietuvos Respublika — Žemaitija'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Telšiai (Lietuvos TSR)',
+      'SSSR — Occupazione sovietica della Samogizia; instaurazione del controllo politico del NKVD.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 10. Utenos apskritis (LT029)
+  if (nid === 'LT029' || nrm.includes('uten') || nrm.includes('zaras')) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Utenos apskritis (Utena / Zarasai)',
+        'Lietuvos Respublika — Aukštaitija nord-orientale dei laghi e delle foreste, confinante con la Lettonia e la linea di demarcazione con la Polonia.',
+        'Neutrale',
+        'Lietuvos Respublika — Rytų Aukštaitija'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Utena (Lietuvos TSR)',
+      'SSSR — Annessione sovietica della regione lacustre dell\'Aukštaitija orientale.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 11. Palanga ir Kretinga (LT_HIST_PALANGA)
+  if (
+    nid === 'LT_HIST_PALANGA' ||
+    nrm.includes('palanga') ||
+    nrm.includes('kreting')
+  ) {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Palanga ir Kretinga',
+        'Lietuvos Respublika — Costa baltica storicamente lituana (Palanga, Kretinga, Skuodas). Accesso marittimo sovrano della Repubblica di Lituania prima e dopo la perdita del Memelland.',
+        'Neutrale',
+        'Lietuvos Respublika — Klaipėdos apskritis (Nord)'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Palanga (Litovskaya SSR)',
+      'SSSR — Litorale settentrionale lituano occupato dalla Flotta sovietica del Baltico e dalle truppe confinarie del NKVD.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // Fallback generale Lituania
+  if (s < 6) {
+    return makeResult(
+      'LIT',
+      `Lietuvos Respublika (${histName || 'Lietuva'})`,
+      'Lietuvos Respublika — Repubblica indipendente di Lituania (Laikinoji sostinė Kaunas).',
+      'Neutrale',
+      'Lietuvos Respublika'
+    );
+  }
+  return makeResult(
+    'SOV',
+    `${histName || 'Lietuva'} — Lietuvos TSR`,
+    'SSSR — Repubblica Socialista Sovietica Lituana annessa all\'URSS il 3 agosto 1940.',
+    'Comintern',
+    'SSSR — Lietuvos TSR'
+  );
+}
+
 export function resolveFeature(ft: any, s: number): ResolvedTerritory {
+  if (!ft) return makeResult('NEU', 'Territorio Sconosciuto');
   if (ft.__resolve) return ft.__resolve(s);
   const p = ft.properties || {};
   const cntr = String(
@@ -2712,6 +3859,184 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
   if (ft.__kind === 'KALININGRAD') {
     return makeResult('GER', 'Königsberg in Preußen', 'Hauptstadt der Provinz Ostpreußen');
+  }
+
+  // Algérie française (58 Wilayas / Dipartimenti e Territori del Sud 1936-1940)
+  const isAlgeriaProv =
+    p.REGION_KIND === 'ALGERIA_PROVINCE' ||
+    cntr === 'DZ' ||
+    cntr === 'DZA' ||
+    String(ft.id || '').startsWith('DZ') ||
+    nid.startsWith('DZ') ||
+    (ft.id && (ALGERIA_PROVINCES_META as any)?.[ft.id]);
+
+  if (isAlgeriaProv) {
+    const cleanId = String(ft.id || nid || '').replace(/^DZ_/, 'DZ').toUpperCase();
+    const dzMeta = (ALGERIA_PROVINCES_META as any)?.[cleanId];
+    const owner = s >= 6 ? 'VIC_NAF' : 'F_NAF';
+    const top = getTop(owner);
+    const faction = s >= 6 ? 'Fantoccio' : 'Alleati';
+    const defaultAdmin = s >= 6
+      ? 'Algérie française — Régime de Vichy (Yves Châtel / Maxime Weygand)'
+      : 'Algérie française — Gouvernement Général de l\'Algérie (Georges Le Beau)';
+    return makeResult(
+      owner,
+      dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
+      dzMeta?.note || top.note || p.HISTORICAL_NOTE || 'Départements français d\'Algérie et Territoires du Sud',
+      faction,
+      dzMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin
+    );
+  }
+
+  // Protectorat français au Maroc (9 Régions et Territoires 1936-1940)
+  const isMoroccoFranceProv =
+    !['ES_RIF', 'TANGER'].includes(String(ft.id || '')) &&
+    !['ES_RIF', 'TANGER'].includes(String(p.CNTR_ID || '')) &&
+    !['ES_RIF', 'TANGER'].includes(String(nid || '')) &&
+    (
+      p.REGION_KIND === 'MOROCCO_PROVINCE' ||
+      (ft.id && (MOROCCO_PROVINCES_META as any)?.[ft.id]) ||
+      (nid && (MOROCCO_PROVINCES_META as any)?.[nid]) ||
+      ((cntr === 'MA' || cntr === 'MAR') && (String(ft.id || '').startsWith('MA') || nid.startsWith('MA')))
+    );
+
+  if (isMoroccoFranceProv) {
+    const cleanId = String(ft.id || nid || '').replace(/^MA_/, 'MA').toUpperCase();
+    const maMeta = (MOROCCO_PROVINCES_META as any)?.[cleanId];
+    const owner = s >= 6 ? 'VIC_NAF' : 'F_NAF';
+    const top = getTop(owner);
+    const faction = s >= 6 ? 'Fantoccio' : 'Alleati';
+    const defaultAdmin = s >= 6
+      ? 'Protectorat français au Maroc — Régime de Vichy (Général Charles Noguès)'
+      : 'Protectorat français au Maroc — Résidence Générale de la République Française (Général Charles Noguès)';
+    return makeResult(
+      owner,
+      maMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
+      maMeta?.note || top.note || p.HISTORICAL_NOTE || 'Protectorat français au Maroc',
+      faction,
+      maMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin
+    );
+  }
+
+  // Protectorat français de Tunisie (24 Gouvernorats et Territoires du Sud 1936-1940)
+  const isTunisiaProv =
+    p.REGION_KIND === 'TUNISIA_PROVINCE' ||
+    (ft.id && (TUNISIA_PROVINCES_META as any)?.[ft.id]) ||
+    (nid && (TUNISIA_PROVINCES_META as any)?.[nid]) ||
+    ((cntr === 'TN' || cntr === 'TUN') && (String(ft.id || '').startsWith('TN') || nid.startsWith('TN')));
+
+  if (isTunisiaProv) {
+    const cleanId = String(ft.id || nid || '').replace(/^TN_/, 'TN').toUpperCase();
+    const tnMeta = (TUNISIA_PROVINCES_META as any)?.[cleanId];
+    const owner = s >= 6 ? 'VIC_NAF' : 'F_NAF';
+    const top = getTop(owner);
+    const faction = s >= 6 ? 'Fantoccio' : 'Alleati';
+    const defaultAdmin = s >= 6
+      ? 'Protectorat français de Tunisie — Régime de Vichy (Marcel Peyrouton / Amiral Jean-Pierre Esteva)'
+      : 'Protectorat français de Tunisie — Résidence Générale de la République Française (Armand Guillon / Eirik Labonne)';
+    return makeResult(
+      owner,
+      tnMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
+      tnMeta?.note || top.note || p.HISTORICAL_NOTE || 'Protectorat français de Tunisie',
+      faction,
+      tnMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin
+    );
+  }
+
+  // Regno d'Egitto (27 Governatorati e Mudiriyat 1936-1940)
+  const isEgypt =
+    cntr === 'EG' ||
+    cntr === 'EGY' ||
+    p.SOVEREIGN === 'EGY' ||
+    p.REGION_KIND === 'EGYPT_PROVINCE' ||
+    nid.startsWith('EG') ||
+    String(ft.id || '').startsWith('EG') ||
+    nrm === 'egypt' ||
+    nrm === 'egitto' ||
+    nrm === 'regno d egitto' ||
+    nrm === 'kingdom of egypt';
+
+  if (isEgypt) {
+    const cleanId = String(ft.id || nid || '').replace(/^EG_/, 'EG').toUpperCase();
+    const egMeta = (EGYPT_DISTRICTS_META as any)?.[cleanId];
+    const egTop = getTop('EGY');
+    if (cleanId === 'EGMT' && s === 7) {
+      return makeResult(
+        'EGY',
+        'Muḥāfaẓat al-Ṣaḥrāʾ al-Gharbiyyah (Mersa Matruh — Fronte di Sidi Barrani)',
+        'Operazione E (9-16 settembre 1940): la 10ª Armata italiana del Maresciallo Rodolfo Graziani varca il confine libico-egiziano, occupa Sollum e il Passo di Halfaya e si attesta nei campi trincerati di Sidi Barrani, Maktila e Tummar, fronteggiata a Mersa Matruh dalla Western Desert Force britannica (Gen. Richard O\'Connor).',
+        'Alleati',
+        'Western Desert Governorate — Frontline of Sidi Barrani & Mersa Matruh (British Middle East Command)'
+      );
+    }
+    if (cleanId === 'EGMT' && s >= 8) {
+      return makeResult(
+        'EGY',
+        'Muḥāfaẓat al-Ṣaḥrāʾ al-Gharbiyyah (Mersa Matruh — Fronte di Sollum e Passo di Halfaya)',
+        'Operazione Sonnenblume (marzo-aprile 1941): dopo aver riconquistato la Cirenaica ed aggirato la piazzaforte assediata di Tobruk, le colonne corazzate del Deutsches Afrikakorps (Gen. Erwin Rommel) raggiungono il confine egiziano occupando Sollum, Forte Capuzzo e il Passo di Halfaya (13-26 aprile 1941), dove si attesta il fronte contro la Western Desert Force britannica.',
+        'Alleati',
+        'Western Desert Governorate — Frontline of Sollum & Halfaya Pass (British Middle East Command)'
+      );
+    }
+    return makeResult(
+      'EGY',
+      egMeta?.historicalName || egTop.name || p.HISTORICAL_NAME || rawName,
+      egMeta?.note || egTop.note || p.HISTORICAL_NOTE || (s >= 1 ? "Regno d'Egitto (Trattato Anglo-Egiziano del 1936)" : "Regno d'Egitto (Occupazione/Influenza Britannica)"),
+      'Alleati',
+      egMeta?.adminTitle || egTop.adminTitle || p.ADMIN_TITLE || "Regno d'Egitto (Re Faruq I / Mustafa al-Nahhas)"
+    );
+  }
+
+  // Yemen, Protettorato di Aden e Porto del Raj (22 Governatorati 1936-1941)
+  const isYemenProv =
+    p.REGION_KIND === 'YEMEN_PROVINCE' ||
+    (ft.id && (YEMEN_PROVINCES_META as any)?.[ft.id]) ||
+    (nid && (YEMEN_PROVINCES_META as any)?.[nid]) ||
+    ((cntr === 'YE' || cntr === 'YEM') && (String(ft.id || '').startsWith('YE') || nid.startsWith('YE')));
+
+  if (isYemenProv) {
+    const cleanId = String(ft.id || nid || '').replace(/^YE_/, 'YE').toUpperCase();
+    const yeMeta = (YEMEN_PROVINCES_META as any)?.[cleanId];
+
+    // Caso 1: Porto e Insediamento di Aden (YEAD) - Porto del Raj (1936) vs Colonia della Corona (1938-1941)
+    if (cleanId === 'YEAD' || yeMeta?.entityKind === 'ADEN_PORT') {
+      if (s === 0) {
+        return makeResult(
+          'RAJ',
+          yeMeta?.historicalName || "Aden (Porto dell'India Britannica — British Raj)",
+          yeMeta?.note || "Amministrato come Chief Commissioner's Province dell'India Britannica sotto il Viceré di Nuova Delhi.",
+          'Alleati',
+          "Chief Commissioner's Province of British India (Port of Aden — British Raj)"
+        );
+      }
+      return makeResult(
+        'UK',
+        yeMeta?.historicalName || 'Colonia di Aden (Crown Colony of Aden)',
+        yeMeta?.note || 'Colonia della Corona britannica autonoma dal 1° aprile 1937 sotto il Colonial Office di Londra.',
+        'Alleati',
+        'British Crown Colony of Aden (Colonial Office)'
+      );
+    }
+
+    // Caso 2: Protettorato di Aden (7 Governatorati)
+    if (yeMeta?.entityKind === 'ADEN_PROTECTORATE') {
+      return makeResult(
+        'UK',
+        yeMeta?.historicalName || p.HISTORICAL_NAME || rawName,
+        yeMeta?.note || p.HISTORICAL_NOTE || 'Protettorato britannico di Aden',
+        'Alleati',
+        yeMeta?.adminTitle || p.ADMIN_TITLE || 'British Aden Protectorate'
+      );
+    }
+
+    // Caso 3: Regno Mutawakkilita dello Yemen (14 Governatorati)
+    return makeResult(
+      'YEM',
+      yeMeta?.historicalName || p.HISTORICAL_NAME || rawName,
+      yeMeta?.note || p.HISTORICAL_NOTE || 'Regno Mutawakkilita dello Yemen (Imam Yahya)',
+      'Neutrale',
+      yeMeta?.adminTitle || p.ADMIN_TITLE || 'Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah'
+    );
   }
 
   // San Marino (SMR) - Enclave sovrana neutrale
@@ -2861,10 +4186,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     (c[0] >= -5.2 && c[0] <= -4.0 && c[1] >= 53.8 && c[1] <= 54.7);
 
   if (isMan) {
+    const top = getTop('UK');
     return makeResult(
       'UK',
-      getTop('UK').name || 'Crown Dependency of the Isle of Man (Douglas)',
-      'Crown Dependency of the Isle of Man'
+      top.name || 'Crown Dependency of the Isle of Man (Douglas)',
+      top.note || 'Dipendenza autonoma della Corona Britannica nel Mare d\'Irlanda.',
+      s >= 4 ? 'Alleati' : 'Neutrale',
+      top.adminTitle || 'Crown Dependency of the Isle of Man'
     );
   }
 
@@ -2888,16 +4216,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
   if (isChannel) {
     if (s >= 6) {
+      const gerTop = getTop('GER');
       return makeResult(
         'GER',
-        'Kanalinseln (Deutsche Besetzung)',
-        'Militärverwaltung Kanalinseln (1940)'
+        gerTop.name || 'Kanalinseln (Deutsche Besetzung)',
+        gerTop.note || 'Occupazione militare tedesca delle Isole del Canale (giugno/luglio 1940), unici territori britannici occupati dal Terzo Reich.',
+        'Asse',
+        gerTop.adminTitle || 'Befehlshaber der Kanalinseln (Militärverwaltung)'
       );
     }
+    const ukTop = getTop('UK');
     return makeResult(
       'UK',
-      getTop('UK').name || (nrm.includes('jersey') ? 'Bailiwick of Jersey (Saint Helier)' : 'Bailiwick of Guernsey (Saint Peter Port)'),
-      'British Crown Dependency (Channel Islands)'
+      ukTop.name || (nrm.includes('jersey') ? 'Bailiwick of Jersey (Saint Helier)' : 'Bailiwick of Guernsey (Saint Peter Port)'),
+      ukTop.note || 'Dipendenza della Corona Britannica nelle Isole del Canale.',
+      s >= 4 ? 'Alleati' : 'Neutrale',
+      ukTop.adminTitle || 'British Crown Dependency (Channel Islands)'
     );
   }
 
@@ -2979,9 +4313,11 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const adminTitle = p.ADMIN_TITLE || 'Tyva Arat Respublika (Tuvan People\'s Republic)';
         return makeResult('TUV', histName, adminTitle, 'Comintern');
       }
-      const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
-      const adminTitle = p.ADMIN_TITLE || 'SSSR (Solyuz Sovetskikh Sotsialisticheskikh Respublik)';
-      return makeResult('SOV', histName, adminTitle, 'Comintern');
+      const top = getTop('SOV');
+      const histName = top?.name || p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      const adminTitle = top?.adminTitle || p.ADMIN_TITLE || 'SSSR (Soyuz Sovetskikh Sotsialisticheskikh Respublik)';
+      const note = top?.note || p.ADMIN_TITLE || 'Territorio dell\'Unione Sovietica (Piani Quinquennali e industrializzazione)';
+      return makeResult('SOV', histName, note, 'Comintern', adminTitle);
     }
 
     case 'FI_HIST':
@@ -3151,17 +4487,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'POL':
     case 'PL': {
       // Granular Kresy Powiats (Eastern Poland, 1921-1939)
       if (nid.startsWith('PL_KRESY_') || p.REGION_KIND === 'POLISH_EASTERN_POWIAT') {
         const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
         const voiv = p.VOIVODESHIP || 'Kresy Wschodnie';
         const ssr = p.SOV_SSR || 'URSS';
+        const modern = p.MODERN_ADMIN ? ` [Oggi: ${p.MODERN_ADMIN}]` : '';
         if (s < 5) {
           return makeResult(
             'POL',
             histName,
-            `Województwo ${voiv} (Rzeczpospolita Polska — Kresy Wschodnie)`,
+            `Territorio storico dei Kresy Wschodnie (Confine del Trattato di Riga del 1921). Amministrato sotto il Województwo ${voiv}, presidiato dal Corpo di Difesa della Frontiera (KOP).${modern}`,
             'Alleati',
             `Rzeczpospolita Polska — Województwo ${voiv}`
           );
@@ -3171,7 +4509,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             return makeResult(
               'LIT',
               `${histName} (Vilniaus kraštas)`,
-              'Lietuvos Respublika (1939 m. spalio 10 d. sutartis)',
+              'Trattato di mutua assistenza sovietico-lituano del 10 ottobre 1939: l\'URSS trasferisce Vilnius e il circondario alla Repubblica di Lituania in cambio dello stanziamento di 20.000 soldati dell\'Armata Rossa.',
               undefined,
               'Lietuvos Respublika — Vilniaus kraštas'
             );
@@ -3179,7 +4517,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           return makeResult(
             'SOV',
             `${histName} — Lietuvos TSR`,
-            'SSSR (Lietuvos TSR — 1940 m. birželis)',
+            'Occupazione e annessione della Lituania all\'Unione Sovietica (giugno-agosto 1940) come Repubblica Socialista Sovietica Lituana (Lietuvos TSR).',
             'Comintern',
             'SSSR — Lietuvos TSR'
           );
@@ -3187,14 +4525,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           'SOV',
           `${histName} — ${ssr}`,
-          'Prisoyedineniye k SSSR (17 sentyabrya 1939)',
+          `Invasione sovietica del 17 settembre 1939 ("Pugnalata alla schiena" in esecuzione del Patto Molotov-Ribbentrop); annessione forzata e incorporazione nella ${ssr}.${modern}`,
           'Comintern',
           `SSSR — ${ssr}`
         );
       }
 
-      // Danzica (PL633)
-      if (nid === 'PL633') {
+      // Danzica (PL633 o DANZIG)
+      if (nid === 'PL633' || nid === 'DANZIG' || nid === 'FREE_CITY_OF_DANZIG') {
         if (s < 5) {
           const top = resolvePolandToponym(nid, rawName, nrm, 'DANZIG', s);
           return makeResult(
@@ -3212,6 +4550,29 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             top?.note || 'Annessione di Danzica al Reich (1 settembre 1939).',
             'Asse',
             top?.adminTitle || 'Deutsches Reich — Reichsgau Danzig-Westpreußen'
+          );
+        }
+      }
+
+      // Corridoio Polacco / Gdynia (PL_HIST_CORRIDOR)
+      if (nid === 'PL_HIST_CORRIDOR' || rawName.includes('Polish Corridor') || nrm.includes('korytarz')) {
+        if (s < 5) {
+          const top = resolvePolandToponym(nid, rawName, nrm, 'POL', s);
+          return makeResult(
+            'POL',
+            top?.name || 'Województwo Pomorskie (Gdynia / Hel)',
+            top?.note || 'Corridoio Polacco (Polski Korytarz) — Accesso sovrano della Polonia al Mar Baltico con il porto strategico di Gdynia e la penisola di Hel.',
+            'Alleati',
+            top?.adminTitle || 'Rzeczpospolita Polska — Województwo Pomorskie (Gdynia, Puck, Hel)'
+          );
+        } else {
+          const top = resolvePolandToponym(nid, rawName, nrm, 'GER', s);
+          return makeResult(
+            'GER',
+            top?.name || 'Gotenhafen (Reichsgau Danzig-Westpreußen)',
+            top?.note || 'Occupazione e annessione tedesca della costa polacca; ribattezzata Gotenhafen e incorporata nel Reichsgau Danzig-Westpreußen.',
+            'Asse',
+            top?.adminTitle || 'Deutsches Reich — Reichsgau Danzig-Westpreußen (Gotenhafen / Gdynia)'
           );
         }
       }
@@ -3353,12 +4714,50 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'HU': {
-      const top = getTop('HUN');
-      return makeResult('HUN', top.name, 'Magyar Királyság (Horthy Miklós)');
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'HUN', s);
+      const top = bTop || getTop('HUN');
+      return makeResult(
+        'HUN',
+        top.name,
+        s >= 8
+          ? `${bTop?.note || 'Magyar Királyság (Horthy Miklós)'} — L'11 aprile 1941 la 3ª Armata ungherese (Gen. Elemér Gorondy-Novák) partecipa all'invasione della Jugoslavia dopo il suicidio del Primo Ministro Pál Teleki, occupando la Bácska, il triangolo di Baranya, il Muraköz e il Muravidék (Délvidék).`
+          : bTop?.note || 'Magyar Királyság (Horthy Miklós)',
+        s >= 7 ? 'Asse' : undefined,
+        bTop?.adminTitle || 'Magyar Királyság'
+      );
     }
 
-    case 'RO':
-      return makeResult('ROM', getTop('ROM').name, 'Regatul României');
+    case 'RO': {
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'ROM', s);
+      const roOwner = bTop?.owner || 'ROM';
+      const top = bTop || getTop(roOwner);
+      if (roOwner === 'HUN') {
+        return makeResult(
+          'HUN',
+          top.name,
+          bTop?.note || 'Észak-Erdély — Magyar Királyság (Secondo Arbitrato di Vienna, 30 agosto 1940)',
+          'Asse',
+          bTop?.adminTitle || 'Magyar Királyság — Észak-Erdély'
+        );
+      }
+      if (s >= 7) {
+        return makeResult(
+          'ROM',
+          top.name,
+          (bTop?.note ? `${bTop.note} — ` : '') +
+            'Stato Nazionale Legionario (abdicazione di Carlo II il 6 settembre 1940; governo del Conducător Gen. Ion Antonescu e Guardia di Ferro; ingresso della Missione Militare Tedesca il 12 ottobre 1940 a presidio dei campi petroliferi).',
+          'Asse',
+          'Statul Național-Legionar (Regatul României — Conducător Ion Antonescu)'
+        );
+      }
+      return makeResult(
+        'ROM',
+        top.name,
+        bTop?.note || 'Regatul României',
+        'Neutrale',
+        bTop?.adminTitle || 'Regatul României'
+      );
+    }
 
     case 'MD': {
       return s < 6
@@ -3387,58 +4786,37 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (isCadrilater) {
         const isSilistra = nid.startsWith('BG325') || nrm.includes('silistra') || nrm.includes('durostor');
         if (s <= 6) {
+          const bTop = resolveBalkansToponym(nid, rawName, nrm, 'ROM', s);
           return makeResult(
             'ROM',
-            isSilistra ? 'Județul Durostor (Silistra / Cadrilater)' : 'Județul Caliacra (Bazargic-Dobrich / Balcic)',
-            'Regatul României — Cadrilater (1913-1940)',
-            'Neutrale'
+            bTop?.name || (isSilistra ? 'Județul Durostor (Silistra / Cadrilater)' : 'Județul Caliacra (Bazargic-Dobrich / Balcic)'),
+            bTop?.note || 'Regatul României — Cadrilater (1913-1940)',
+            'Neutrale',
+            bTop?.adminTitle || 'Regatul României — Județul Durostor / Caliacra'
           );
         }
       }
-      return makeResult('BUL', getTop('BUL').name, 'Tsarstvo Balgariya (Tsar Boris III)');
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'BUL', s);
+      const top = bTop || getTop('BUL');
+      return makeResult(
+        'BUL',
+        top.name,
+        s >= 8
+          ? `${bTop?.note || 'Tsarstvo Balgariya (Tsar Boris III)'} — Adesione al Patto Tripartito (1° marzo 1941), ingresso della 12ª Armata tedesca (Generalfeldmarschall Wilhelm List) e annessione di fatto della Macedonia del Vardar, di Pirot e della Tracia Occidentale greca (Belomorie) nell'aprile 1941.`
+          : bTop?.note || 'Tsarstvo Balgariya (Tsar Boris III)',
+        s >= 8 ? 'Asse' : undefined,
+        bTop?.adminTitle || 'Tsarstvo Balgariya'
+      );
     }
 
-    case 'LT': {
-      if (nid === 'LT023') {
-        return s < 3
-          ? makeResult('LIT', 'Klaipėdos kraštas (Memel)', 'Lietuvos Respublika (Autonominis Klaipėdos kraštas)')
-          : makeResult('GER', 'Memelland (Reichsgau Ostpreußen)', 'Deutsches Reich (Memel-Übergabe, 22. März 1939)');
-      }
-      if (nid === 'LT011') {
-        if (s < 5) {
-          return makeResult(
-            'POL',
-            'Województwo Wileńskie (Wilno)',
-            'Rzeczpospolita Polska — Kresy Północno-Wschodnie'
-          );
-        }
-        if (s === 5) {
-          return makeResult(
-            'LIT',
-            'Vilniaus apskritis (Vilnius)',
-            'Lietuvos Respublika (1939 m. spalio 10 d. sutartis)'
-          );
-        }
-        return makeResult(
-          'SOV',
-          'Vilnius (Lietuvos TSR)',
-          'SSSR (Lietuvos TSR — 1940 m. birželis)'
-        );
-      }
-      return s < 6
-        ? makeResult('LIT', getTop('LIT').name, 'Lietuvos Respublika (Laikinoji sostinė Kaunas)')
-        : makeResult('SOV', getTop('SOV').name, 'SSSR (Lietuvos TSR — 1940 m. birželis)');
-    }
+    case 'LT':
+      return resolveLithuanianProvince(s, nid, p, rawName);
 
     case 'LV':
-      return s < 6
-        ? makeResult('LAT', getTop('LAT').name, 'Latvijas Republika')
-        : makeResult('SOV', getTop('SOV').name, 'SSSR (Latvijas PSR — 1940. g. jūnijs)');
+      return resolveLatvianProvince(s, nid, p, rawName);
 
     case 'EE':
-      return s < 6
-        ? makeResult('EST', getTop('EST').name, 'Eesti Vabariik')
-        : makeResult('SOV', getTop('SOV').name, 'SSSR (Eesti NSV — juuni 1940)');
+      return resolveEstonianProvince(s, nid, p, rawName);
 
     case 'FI': {
       if (
@@ -3467,7 +4845,11 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('FIN', getTop('FIN').name, 'Suomen tasavalta');
     }
 
-    case 'ES': {
+    case 'ES':
+    case 'ESP':
+    case '724':
+    case 'XES':
+    case 'ES_RIF': {
       // Protettorato Spagnolo del Marocco (Rif, Tetuán, Larache, Alhucemas, Nador)
       if (
         nid === 'ES_RIF' ||
@@ -3582,8 +4964,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('SPA', top.name, top.note, undefined, top.adminTitle);
     }
 
-    case 'RU':
-      return makeResult('SOV', getTop('SOV').name, 'RSFSR — SSSR');
+    case 'RU': {
+      const top = getTop('SOV');
+      return makeResult(
+        'SOV',
+        top?.name || rawName,
+        top?.note || 'Rossiyskaya SFSR — Soyuz Sovetskikh Sotsialisticheskikh Respublik',
+        'Comintern',
+        top?.adminTitle || 'RSFSR (SSSR)'
+      );
+    }
 
     case 'BY':
     case 'UA':
@@ -3591,7 +4981,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'AM':
     case 'AZ':
     case 'KZ':
-      return makeResult('SOV', getTop('SOV').name || ITNAMES[cntr] || 'SSSR', 'Sovetskaya Sotsialisticheskaya Respublika');
+    case 'UZ':
+    case 'TM':
+    case 'TJ':
+    case 'KG': {
+      const top = getTop('SOV');
+      return makeResult(
+        'SOV',
+        top?.name || ITNAMES[cntr] || rawName || 'SSSR',
+        top?.note || 'Sovetskaya Sotsialisticheskaya Respublika',
+        'Comintern',
+        top?.adminTitle || 'Soyuz Sovetskikh Sotsialisticheskikh Respublik'
+      );
+    }
 
     case 'MN':
       return makeResult('MON', 'Bügd Nairamdakh Mongol Ard Uls (Ulaanbaatar)', 'Mongol Ard Uls (Komintern)', 'Comintern');
@@ -3620,32 +5022,104 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
 
+      // Step >= 8 (Aprile 1941): Smembramento della Jugoslavia, nascita dello Stato Indipendente di Croazia (NDH) e annessioni italiane/ungheresi
+      if (s >= 8) {
+        // 2a. Međimurje / Muraköz (HR061: Čakovec) -> Annessione ungherese (11-16 aprile 1941)
+        if (nid === 'HR061' || nrm.includes('medimur') || nrm.includes('cakovec') || nrm.includes('murakoz')) {
+          return makeResult(
+            'HUN',
+            'Muraközi járás — Zala vármegye (Čakovec / Csáktornya)',
+            'Smembramento della Jugoslavia (aprile 1941): la regione transdravana del Međimurje (Muraköz) con capoluogo Čakovec (Csáktornya) viene occupata dall\'esercito ungherese e incorporata nel comitato di Zala del Regno d\'Ungheria.',
+            'Asse',
+            'Magyar Királyság — Zala vármegye (Muraköz)'
+          );
+        }
+
+        // 2b. Litorale Croato / Sušak e Veglia (HR031) -> Annessione italiana alla Provincia del Carnaro (Fiume)
+        if (nid === 'HR031' || nrm.includes('primorsko') || nrm.includes('rijeka') || nrm.includes('fiume') || nrm.includes('susak')) {
+          return makeResult(
+            'ITA',
+            'Provincia del Carnaro — Fiume, Sušak, Castua, Cabar e Veglia',
+            'Trattati di Roma (aprile-maggio 1941): la 2ª Armata italiana (Gen. Vittorio Ambrosio) occupa Sušak, Castua, Čabar, Buccari e l\'isola di Veglia (Krk), annessi al Regno d\'Italia nella Provincia del Carnaro.',
+            'Asse',
+            'Regno d\'Italia — Provincia del Carnaro (Fiume e Sušak)'
+          );
+        }
+
+        // 2c. Dalmazia annessa al Regno d'Italia (HR033 Zara/Benkovac, HR034 Sebenico/Šibenik, HR035 Spalato/Split) -> Governatorato della Dalmazia
+        if (
+          nid === 'HR033' ||
+          nid === 'HR034' ||
+          nid === 'HR035' ||
+          nrm.includes('zadar') ||
+          nrm.includes('zara') ||
+          nrm.includes('sibenik') ||
+          nrm.includes('sebenico') ||
+          nrm.includes('split') ||
+          nrm.includes('spalato') ||
+          nrm.includes('dalmat')
+        ) {
+          const dalmTitle =
+            nid === 'HR033' || nrm.includes('zadar') || nrm.includes('zara')
+              ? 'Governatorato della Dalmazia — Provincia di Zara (Zara, Benkovac, Biograd, Arbe)'
+              : nid === 'HR034' || nrm.includes('sibenik') || nrm.includes('sebenico')
+              ? 'Governatorato della Dalmazia — Provincia di Zara / Sebenico (Sebenico, Tenin/Knin, Scardona)'
+              : 'Governatorato della Dalmazia — Provincia di Spalato (Spalato, Traù, Salona, Curzola)';
+          return makeResult(
+            'ITA',
+            dalmTitle,
+            'Trattati di Roma (aprile-maggio 1941): annessione della Dalmazia costiera e insulare al Regno d\'Italia e istituzione del Governatorato della Dalmazia (Governatore Giuseppe Bastianini, con le Province di Zara, Spalato e Cattaro).',
+            'Asse',
+            'Regno d\'Italia — Governatorato della Dalmazia (Zara / Spalato)'
+          );
+        }
+
+        // 2d. Stato Indipendente di Croazia (Nezavisna Država Hrvatska — NDH: Zagabria, Slavonia, Croazia centrale, Lika/Gospić HR032, Ragusa/Dubrovnik HR037)
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'CRO', s);
+        return makeResult(
+          'CRO',
+          bTop?.name || `${rawName || 'Hrvatska'} (Nezavisna Država Hrvatska — NDH)`,
+          bTop?.note || 'Proclamazione dello Stato Indipendente di Croazia (Nezavisna Država Hrvatska — NDH) a Zagabria il 10 aprile 1941 da parte di Slavko Kvaternik con l\'ingresso delle truppe tedesche; il 15 aprile il Poglavnik Ante Pavelić rientra dall\'Italia e instaura la dittatura totalitaria degli Ustaše.',
+          'Fantoccio',
+          bTop?.adminTitle || 'Nezavisna Država Hrvatska (NDH — Poglavnik Ante Pavelić)'
+        );
+      }
+
       // 2. Primorsko-goranska (Litorale Croato e Gorski Kotar -> Jugoslavia; Fiume, Cherso e Lussino erano enclave/isole italiane)
       if (nid === 'HR031' || nrm.includes('primorsko') || nrm.includes('rijeka') || nrm.includes('fiume')) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
         return makeResult(
           'YUG',
-          s >= 4 ? 'Litorale Croato e Gorski Kotar (Banovina Hrvatska)' : 'Litorale Croato e Gorski Kotar (Savska Banovina)',
-          'Regno di Jugoslavia — Comprensorio di Delnice, Čabar, Vinodol e Veglia (la città di Fiume e le isole di Cherso e Lussino costituivano la Provincia italiana del Carnaro)'
+          bTop?.name || (s >= 4 ? 'Litorale Croato e Gorski Kotar (Banovina Hrvatska)' : 'Litorale Croato e Gorski Kotar (Savska Banovina)'),
+          bTop?.note || 'Regno di Jugoslavia — Comprensorio di Delnice, Čabar, Vinodol e Veglia (la città di Fiume e le isole di Cherso e Lussino costituivano la Provincia italiana del Carnaro)',
+          undefined,
+          bTop?.adminTitle || (s >= 4 ? 'Kraljevina Jugoslavija — Banovina Hrvatska' : 'Kraljevina Jugoslavija — Savska Banovina')
         );
       }
 
       // 3. Zadarska (Dalmazia Settentrionale -> Jugoslavia; la città di Zara con Lagosta e Pelagosa era enclave italiana)
       if (nid === 'HR033' || nrm.includes('zadar') || nrm.includes('zara')) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
         return makeResult(
           'YUG',
-          s >= 4 ? 'Dalmazia Settentrionale (Banovina Hrvatska)' : 'Dalmazia Settentrionale (Primorska Banovina)',
-          'Regno di Jugoslavia — Entroterra zaratino, Benkovac e Ravni Kotari (il comune di Zara e le isole di Lagosta e Pelagosa costituivano la Provincia italiana di Zara)'
+          bTop?.name || (s >= 4 ? 'Dalmazia Settentrionale (Banovina Hrvatska)' : 'Dalmazia Settentrionale (Primorska Banovina)'),
+          bTop?.note || 'Regno di Jugoslavia — Entroterra zaratino, Benkovac e Ravni Kotari (il comune di Zara e le isole di Lagosta e Pelagosa costituivano la Provincia italiana di Zara)',
+          undefined,
+          bTop?.adminTitle || (s >= 4 ? 'Kraljevina Jugoslavija — Banovina Hrvatska' : 'Kraljevina Jugoslavija — Primorska Banovina')
         );
       }
 
       // 4. Resto della Croazia (Regno di Jugoslavia: Savska/Primorska Banovina -> Banovina Hrvatska da agosto 1939)
-      const yTop = getTop('YUG');
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
+      const yTop = bTop || getTop('YUG');
       return makeResult(
         'YUG',
-        (rawName || yTop.name) + (s >= 4 ? ' (Banovina Hrvatska)' : ' (Jugoslavia)'),
-        s >= 4
+        yTop.name || ((rawName || '') + (s >= 4 ? ' (Banovina Hrvatska)' : ' (Jugoslavia)')),
+        bTop?.note || (s >= 4
           ? 'Regno di Jugoslavia — Banovina Hrvatska autonoma (Accordo Cvetković-Maček, 26 ago 1939)'
-          : 'Regno di Jugoslavia (Savska / Primorska Banovina)'
+          : 'Regno di Jugoslavia (Savska / Primorska Banovina)'),
+        undefined,
+        bTop?.adminTitle || (s >= 4 ? 'Kraljevina Jugoslavija — Banovina Hrvatska' : 'Kraljevina Jugoslavija — Savska / Primorska Banovina')
       );
     }
 
@@ -3674,27 +5148,102 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
 
+      // Step >= 8 (Aprile 1941): Tripartizione della Slovenia tra Italia (Provincia di Lubiana), Germania (Untersteiermark / Oberkrain) e Ungheria (Prekmurje)
+      if (s >= 8) {
+        // 3a. Prekmurje / Pomurska (SI031: Murska Sobota / Lendava) -> Ungheria (Muravidék)
+        if (nid === 'SI031' || nrm.includes('pomursk') || nrm.includes('murska') || nrm.includes('prekmur')) {
+          return makeResult(
+            'HUN',
+            'Muravidék — Vas és Zala vármegye (Muraszombat / Murska Sobota)',
+            'Smembramento della Jugoslavia (aprile 1941): l\'Oltremura (Prekmurje / Muravidék) con capoluogo Murska Sobota (Muraszombat) e Lendava (Alsólendva) viene occupata il 16 aprile 1941 dall\'esercito ungherese e riannessa al Regno d\'Ungheria.',
+            'Asse',
+            'Magyar Királyság — Muravidék (Muraszombat)'
+          );
+        }
+
+        // 3b. Provincia Italiana di Lubiana (SI041 Osrednjeslovenska/Ljubljana, SI037 Jugovzhodna/Novo Mesto/Dolenjska, SI038 Primorsko-notranjska/Kočevje)
+        if (
+          nid === 'SI041' ||
+          nid === 'SI037' ||
+          nid === 'SI038' ||
+          nrm.includes('ljubljan') ||
+          nrm.includes('lubiana') ||
+          nrm.includes('osrednje') ||
+          nrm.includes('jugovzhod') ||
+          nrm.includes('dolenjsk') ||
+          nrm.includes('notranjsk') ||
+          nrm.includes('novo mesto') ||
+          nrm.includes('postojn')
+        ) {
+          return makeResult(
+            'ITA',
+            nid === 'SI041' || nrm.includes('ljubljan') || nrm.includes('osrednje')
+              ? 'Provincia di Lubiana (Lubiana / Ljubljana)'
+              : nid === 'SI037' || nrm.includes('jugovzhod') || nrm.includes('novo mesto')
+              ? 'Provincia di Lubiana — Bassa Carniola e Bela Krajina (Novo Mesto / Kočevje)'
+              : 'Provincia di Lubiana e Confine Orientale (Notranjska / Longatico)',
+            'Smembramento della Jugoslavia (11 aprile - 3 maggio 1941): l\'11 aprile 1941 la 2ª Armata italiana entra a Lubiana; con il Regio Decreto-Legge 3 maggio 1941 n. 291 la Carniola centrale e meridionale viene annessa al Regno d\'Italia come Provincia autonoma di Lubiana (Alto Commissario Emilio Grazioli).',
+            'Asse',
+            'Regno d\'Italia — Alto Commissariato per la Provincia di Lubiana'
+          );
+        }
+
+        // 3c. Stiria Inferiore e Alta Carniola (SI032 Podravska/Maribor, SI033 Koroška, SI034 Savinjska/Celje, SI035 Zasavska, SI036 Posavska, SI042 Gorenjska/Kranj) -> Germania
+        const isGorenjska = nid === 'SI042' || nrm.includes('gorenjsk') || nrm.includes('kranj') || nrm.includes('bled');
+        return makeResult(
+          'GER',
+          isGorenjska
+            ? 'CdZ-Gebiet Kärnten und Krain — Oberkrain (Kranj / Krainburg)'
+            : `CdZ-Gebiet Untersteiermark (${rawName || 'Marburg an der Drau / Cilli'})`,
+          'Smembramento della Jugoslavia (aprile 1941): la Stiria Inferiore (Untersteiermark: Maribor/Marburg, Celje/Cilli, Ptuj/Pettau) e l\'Alta Carniola (Oberkrain: Kranj/Krainburg, Bled/Veldes) vengono poste sotto amministrazione civile tedesca (Chefs der Zivilverwaltung Siegfried Uiberreither e Friedrich Rainer) in vista dell\'annessione al Grande Reich.',
+          'Asse',
+          isGorenjska
+            ? 'Großdeutsches Reich — CdZ-Gebiet Kärnten und Krain (Gauleiter Friedrich Rainer)'
+            : 'Großdeutsches Reich — CdZ-Gebiet Untersteiermark (Gauleiter Siegfried Uiberreither)'
+        );
+      }
+
       // 3. Primorsko-notranjska (Carniola Interna / Notranjska -> Jugoslavia con confine di frontiera a Postumia)
       if (nid === 'SI038' || nrm.includes('notranjska') || nrm.includes('postojna') || nrm.includes('postumia')) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
         return makeResult(
           'YUG',
-          'Carniola Interna e Notranjska (Dravska Banovina)',
-          'Regno di Jugoslavia — Dravska Banovina (la fascia confinaria con le Grotte di Postumia, San Pietro del Carso e Villa del Nevoso era presidiata dal Regno d\'Italia)'
+          bTop?.name || 'Carniola Interna e Notranjska (Dravska Banovina)',
+          bTop?.note || 'Regno di Jugoslavia — Dravska Banovina (la fascia confinaria con le Grotte di Postumia, San Pietro del Carso e Villa del Nevoso era presidiata dal Regno d\'Italia)',
+          undefined,
+          bTop?.adminTitle || 'Kraljevina Jugoslavija — Dravska Banovina'
         );
       }
 
       // 4. Resto della Slovenia (Dravska Banovina - Lubiana, Maribor, Celje, Kranj)
-      const yTop = getTop('YUG');
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
+      const yTop = bTop || getTop('YUG');
       return makeResult(
         'YUG',
-        (rawName || yTop.name) + ' (Dravska Banovina)',
-        'Regno di Jugoslavia — Dravska Banovina (Capoluogo Lubiana / Ljubljana)'
+        yTop.name || ((rawName || '') + ' (Dravska Banovina)'),
+        bTop?.note || 'Regno di Jugoslavia — Dravska Banovina (Capoluogo Lubiana / Ljubljana)',
+        undefined,
+        bTop?.adminTitle || 'Kraljevina Jugoslavija — Dravska Banovina'
       );
     }
 
     case 'BA':
     case 'BIH':
     case 'BOS': {
+      if (s >= 8) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'CRO', s);
+        return makeResult(
+          'CRO',
+          bTop?.name || 'Bosna i Hercegovina (Nezavisna Država Hrvatska — NDH: Sarajevo, Banja Luka, Mostar)',
+          bTop?.note || 'Smembramento della Jugoslavia (aprile 1941): l\'intera Bosnia ed Erzegovina fino al fiume Drina viene incorporata nello Stato Indipendente di Croazia (NDH) di Ante Pavelić e suddivisa in Grandi Župe (Vrhbosna/Sarajevo, Sana i Luka/Banja Luka, Hum/Mostar) lungo la linea di demarcazione italo-tedesca di Vienna.',
+          'Fantoccio',
+          bTop?.adminTitle || 'Nezavisna Država Hrvatska (NDH — Velike župe u Bosni i Hercegovini)'
+        );
+      }
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
+      if (bTop) {
+        return makeResult('YUG', bTop.name, bTop.note, undefined, bTop.adminTitle);
+      }
       if (nid === 'BABIH' || nrm.includes('federac')) {
         return makeResult(
           'YUG',
@@ -3703,21 +5252,27 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             : 'Bosnia ed Erzegovina Centrale e Occidentale (Sarajevo / Drinska Banovina)',
           s >= 4
             ? 'Regno di Jugoslavia — Comprensorio di Sarajevo e Mostar (Banovina Hrvatska autonoma e Drinska Banovina)'
-            : 'Regno di Jugoslavia (Banovina della Drina e Primorska Banovina)'
+            : 'Regno di Jugoslavia (Banovina della Drina e Primorska Banovina)',
+          undefined,
+          s >= 4 ? 'Kraljevina Jugoslavija — Banovina Hrvatska / Drinska Banovina' : 'Kraljevina Jugoslavija — Drinska Banovina'
         );
       }
       if (nid === 'BASRP' || nrm.includes('srpska')) {
         return makeResult(
           'YUG',
           'Repubblica Serba di Bosnia (Banja Luka e Trebinje)',
-          'Regno di Jugoslavia — Vrbaska Banovina (Banja Luka) e Zetska Banovina (Trebinje)'
+          'Regno di Jugoslavia — Vrbaska Banovina (Banja Luka) e Zetska Banovina (Trebinje)',
+          undefined,
+          'Kraljevina Jugoslavija — Vrbaska i Zetska Banovina'
         );
       }
       if (nid === 'BABRC' || nrm.includes('brcko')) {
         return makeResult(
           'YUG',
           'Distretto di Brčko (Posavina)',
-          'Regno di Jugoslavia — Corridoio strategico fluviale della Posavina (Brčko)'
+          'Regno di Jugoslavia — Corridoio strategico fluviale della Posavina (Brčko)',
+          undefined,
+          'Kraljevina Jugoslavija — Posavina'
         );
       }
       const yTop = getTop('YUG');
@@ -3726,20 +5281,165 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'RS':
     case 'SRB': {
-      const yTop = getTop('YUG');
-      return makeResult('YUG', yTop.name || rawName, 'Regno di Jugoslavia (Dunavska / Moravska / Drinska Banovina / Beograd)');
+      if (s >= 8) {
+        // 1. Sirmia / Srem (RS127: Sremska Mitrovica, Zemun, Ruma) -> NDH (Croazia)
+        if (nid === 'RS127' || nrm.includes('srem') || nrm.includes('syrmi') || nrm.includes('zemun')) {
+          return makeResult(
+            'CRO',
+            'Velika župa Vuka — Srijem (Vukovar / Sremska Mitrovica / Zemun — NDH)',
+            'Smembramento della Jugoslavia (aprile 1941): l\'intera Sirmia orientale (Srijem/Syrmien) fino a Zemun (Semlin), alle porte di Belgrado alla confluenza tra Sava e Danubio, viene incorporata nello Stato Indipendente di Croazia (NDH).',
+            'Fantoccio',
+            'Nezavisna Država Hrvatska (NDH — Velika župa Vuka)'
+          );
+        }
+
+        // 2. Bačka / Bácska (RS121 Zapadnobačka/Sombor, RS123 Južnobačka/Novi Sad/Újvidék, RS125 Severnobačka/Subotica/Szabadka) -> Ungheria
+        if (
+          nid === 'RS121' ||
+          nid === 'RS123' ||
+          nid === 'RS125' ||
+          nrm.includes('backa') ||
+          nrm.includes('novi sad') ||
+          nrm.includes('subotic') ||
+          nrm.includes('sombor')
+        ) {
+          return makeResult(
+            'HUN',
+            nid === 'RS125' || nrm.includes('subotic')
+              ? 'Bács-Bodrog vármegye — Szabadka (Subotica / Bácska)'
+              : nid === 'RS121' || nrm.includes('sombor')
+              ? 'Bács-Bodrog vármegye — Zombor (Sombor / Bácska)'
+              : 'Bács-Bodrog vármegye — Újvidék (Novi Sad / Délvidék)',
+            'Smembramento della Jugoslavia (11 aprile 1941): la 3ª Armata ungherese occupa la Bačka (Bácska: Újvidék/Novi Sad, Szabadka/Subotica, Zombor/Sombor) tra il Danubio e il Tibisco, reintegrandola nel Regno d\'Ungheria.',
+            'Asse',
+            'Magyar Királyság — Bács-Bodrog vármegye (Délvidék)'
+          );
+        }
+
+        // 3. Pirot e Vranje / Pomoravlje meridionale (RS226 Pirotska, RS228 Pčinjska/Bosilegrad/Surdulica) -> Bulgaria
+        if (
+          nid === 'RS226' ||
+          nid === 'RS228' ||
+          nrm.includes('pirot') ||
+          nrm.includes('pcinj') ||
+          nrm.includes('vranje') ||
+          nrm.includes('bosilegrad')
+        ) {
+          return makeResult(
+            'BUL',
+            nid === 'RS226' || nrm.includes('pirot')
+              ? 'Pirotska околия (Pirot / Caribrod — Tsarstvo Balgariya)'
+              : 'Vranya i Bosilegrad (Pčinjska — Tsarstvo Balgariya)',
+            'Smembramento della Jugoslavia (aprile 1941): i distretti orientali di Pirot, Caribrod (Dimitrovgrad), Bosilegrad, Vranje e Surdulica vengono occupati e annessi di fatto dal Regno di Bulgaria.',
+            'Asse',
+            'Tsarstvo Balgariya — Sofiyska / Skopska oblast'
+          );
+        }
+
+        // 4. Banato (RS122 Srednjobanatska/Zrenjanin, RS124 Južnobanatska/Pančevo, RS126 Severnobanatska/Kikinda) -> Amministrazione Militare Tedesca in Serbia (Autonomia Volksdeutsche)
+        if (nid === 'RS122' || nid === 'RS124' || nid === 'RS126' || nrm.includes('banat') || nrm.includes('pancevo') || nrm.includes('zrenjanin') || nrm.includes('kikinda')) {
+          return makeResult(
+            'GER',
+            `Banat (${rawName || 'Großbetschkerek / Pantschowa'} — Deutsche Volksgruppe)`,
+            'Smembramento della Jugoslavia (aprile 1941): il Banato serbo resta formalmente sotto il Comandante Militare Tedesco in Serbia ma è governato in regime di piena autonomia dalla minoranza tedesca locale (Volksdeutsche sotto Sepp Janko).',
+            'Asse',
+            'Gebiet des Militärbefehlshabers in Serbien — Autonomer Banat'
+          );
+        }
+
+        // 5. Serbia Centrale e Belgrado (RS110 Beograd, RS211..RS218, RS221..RS225, RS227, RS229) -> Occupazione Militare Tedesca in Serbia
+        return makeResult(
+          'GER',
+          nid === 'RS110' || nrm.includes('beograd') || nrm.includes('belgrad')
+            ? 'Beograd (Gebiet des Militärbefehlshabers in Serbien)'
+            : `${rawName || 'Serbien'} (Gebiet des Militärbefehlshabers in Serbien)`,
+          'Operazione 25 e capitolazione jugoslava (6-17 aprile 1941): dopo il bombardamento di Belgrado (Operazione Castigo) e l\'ingresso della 2ª Armata e del 1° Gruppo Corazzato di Kleist il 12 aprile, la Serbia centrale è posta sotto amministrazione militare diretta della Wehrmacht (Gen. Helmuth Förster / Milan Aćimović).',
+          'Asse',
+          'Wehrmacht — Gebiet des Militärbefehlshabers in Serbien (Belgrad)'
+        );
+      }
+
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
+      const yTop = bTop || getTop('YUG');
+      return makeResult(
+        'YUG',
+        yTop.name || rawName,
+        bTop?.note || 'Regno di Jugoslavia (Dunavska / Moravska / Drinska Banovina / Beograd)',
+        undefined,
+        bTop?.adminTitle || 'Kraljevina Jugoslavija'
+      );
     }
 
     case 'ME':
     case 'MNE': {
-      const yTop = getTop('YUG');
-      return makeResult('YUG', yTop.name || rawName, 'Regno di Jugoslavia — Zetska Banovina (Cettigne)');
+      if (s >= 8) {
+        return makeResult(
+          'ITA',
+          'Governatorato del Montenegro e Provincia di Cattaro (Cettigne / Podgorica / Kotor)',
+          'Smembramento della Jugoslavia (aprile 1941): il 17 aprile le truppe italiane occupano Cettigne e le Bocche di Cattaro; queste ultime vengono annesse direttamente al Regno d\'Italia come Provincia di Cattaro (Governatorato della Dalmazia), mentre il Montenegro interno diviene protettorato italiano (Alto Commissario Serafino Mazzolini).',
+          'Asse',
+          'Regno d\'Italia — Governatorato del Montenegro e Provincia di Cattaro'
+        );
+      }
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
+      const yTop = bTop || getTop('YUG');
+      return makeResult(
+        'YUG',
+        yTop.name || rawName,
+        bTop?.note || 'Regno di Jugoslavia — Zetska Banovina (Cettigne)',
+        undefined,
+        bTop?.adminTitle || 'Kraljevina Jugoslavija — Zetska Banovina'
+      );
     }
 
     case 'MK':
     case 'MKD': {
-      const yTop = getTop('YUG');
-      return makeResult('YUG', yTop.name || rawName, 'Regno di Jugoslavia — Vardarska Banovina (Skopje)');
+      if (s >= 8) {
+        // 1. Macedonia occidentale albanofona (MK006 Pološki: Tetovo/Gostivar; MK003 Jugozapaden: Debar/Struga/Kičevo) -> Grande Albania (Italia)
+        if (
+          nid === 'MK006' ||
+          nid === 'MK003' ||
+          nrm.includes('poloski') ||
+          nrm.includes('jugozapad') ||
+          nrm.includes('tetov') ||
+          nrm.includes('gostivar') ||
+          nrm.includes('debar') ||
+          nrm.includes('struga') ||
+          nrm.includes('kicev')
+        ) {
+          return makeResult(
+            'ITA',
+            nid === 'MK006' || nrm.includes('poloski') || nrm.includes('tetov')
+              ? 'Prefettura di Tetovo e Gostivar — Grande Albania (Unione Personale con l\'Italia)'
+              : 'Prefettura di Dibra e Struga (Debar) — Grande Albania (Unione Personale con l\'Italia)',
+            'Smembramento della Jugoslavia (aprile 1941): i distretti occidentali macedoni a maggioranza albanese di Tetovo, Gostivar, Debar (Dibra), Kičevo e Struga vengono annessi al Regno d\'Albania sotto la Corona d\'Italia.',
+            'Asse',
+            'Regno d\'Italia — Regno d\'Albania (Grande Albania)'
+          );
+        }
+
+        // 2. Resto della Macedonia del Vardar (MK008 Skopje, MK001 Veles, MK002 Štip, MK004 Strumica, MK005 Bitola, MK007 Kumanovo) -> Bulgaria
+        return makeResult(
+          'BUL',
+          nid === 'MK008' || nrm.includes('skop')
+            ? 'Skopska oblast (Skopie — Tsarstvo Balgariya)'
+            : nid === 'MK005' || nrm.includes('bitol') || nrm.includes('pelagon')
+            ? 'Bitolska oblast (Bitolya / Monastir — Tsarstvo Balgariya)'
+            : `${rawName || 'Vardarska Makedoniya'} (Skopska / Bitolska oblast — Tsarstvo Balgariya)`,
+          'Smembramento della Jugoslavia (19 aprile 1941): dopo la conquista da parte della 12ª Armata tedesca, la 5ª Armata bulgara entra in Macedonia del Vardar (Skopje, Bitola, Veles, Štip, Kumanovo, Strumica), annessa di fatto al Regno di Bulgaria.',
+          'Asse',
+          'Tsarstvo Balgariya — Skopska i Bitolska oblast'
+        );
+      }
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
+      const yTop = bTop || getTop('YUG');
+      return makeResult(
+        'YUG',
+        yTop.name || rawName,
+        bTop?.note || 'Regno di Jugoslavia — Vardarska Banovina (Skopje)',
+        undefined,
+        bTop?.adminTitle || 'Kraljevina Jugoslavija — Vardarska Banovina'
+      );
     }
 
     case 'XK':
@@ -3749,23 +5449,67 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'KOS':
     case 'YU':
     case 'YUG': {
-      const yTop = getTop('YUG');
-      return makeResult('YUG', yTop.name || ITNAMES[cntr] || rawName, 'Regno di Jugoslavia');
+      if (s >= 8) {
+        if (cntr === 'YU' || cntr === 'YUG') {
+          return makeResult(
+            'GER',
+            'Gebiet des Militärbefehlshabers in Serbien (Belgrad)',
+            'Operazione 25 (6-17 aprile 1941): capitolazione incondizionata del Regno di Jugoslavia e smembramento tra Germania, Italia, Ungheria, Bulgaria e Stato Indipendente di Croazia (NDH).',
+            'Asse',
+            'Wehrmacht — Militärbefehlshaber in Serbien'
+          );
+        }
+        return makeResult(
+          'ITA',
+          'Kosovo e Metohija (Pristina / Prizren / Peć — Grande Albania)',
+          'Smembramento della Jugoslavia (aprile 1941): la maggior parte del Kosovo e della Metohija (Prizren, Peć/Peja, Đakovica/Gjakova, Pristina) viene annessa alla Grande Albania sotto la Corona d\'Italia (mentre il bacino minerario di Trepča/Kosovska Mitrovica resta sotto controllo tedesco).',
+          'Asse',
+          'Regno d\'Italia — Regno d\'Albania (Prefetture di Pristina, Prizren e Peja)'
+        );
+      }
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'YUG', s);
+      const yTop = bTop || getTop('YUG');
+      return makeResult(
+        'YUG',
+        yTop.name || ITNAMES[cntr] || rawName,
+        bTop?.note || 'Regno di Jugoslavia',
+        undefined,
+        bTop?.adminTitle || 'Kraljevina Jugoslavija'
+      );
     }
 
-    case 'AL':
-      return s < 4
-        ? makeResult('ALB', getTop('ALB').name, 'Mbretëria Shqiptare (Mbreti Zog I)')
-        : makeResult('ITA', getTop('ITA').name, 'Regno d\'Albania (Unione Personale sotto la Corona d\'Italia)');
+    case 'AL': {
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, s < 4 ? 'ALB' : 'ITA', s);
+      if (s < 4) {
+        return makeResult(
+          'ALB',
+          bTop?.name || getTop('ALB').name,
+          bTop?.note || 'Mbretëria Shqiptare (Mbreti Zog I)',
+          undefined,
+          bTop?.adminTitle || 'Mbretëria Shqiptare'
+        );
+      } else {
+        const isSouthernFront = nid === 'AL033' || nid === 'AL034' || nid === 'AL036' || nrm.includes('gjirokast') || nrm.includes('korc') || nrm.includes('vlor');
+        const albNote =
+          s === 7 && isSouthernFront
+            ? `${bTop?.note || 'Regno d\'Albania (Unione Personale sotto la Corona d\'Italia)'} — Base operativa del Comando Superiore Truppe Albania (Gen. Sebastiano Visconti Prasca) per l'offensiva del 28 ottobre 1940 verso l'Epiro e il Pindo.`
+            : s >= 8
+            ? `${bTop?.note || 'Regno d\'Albania (Unione Personale sotto la Corona d\'Italia)'} — Nell'aprile 1941, con il crollo della Jugoslavia e della Grecia, le truppe italiane rioccupano Argirocastro e Coriza ed espandono i confini nella "Grande Albania" (includendo Kosovo, Metohija, Dibra, Tetovo e Ulcinj).`
+            : bTop?.note || 'Regno d\'Albania (Unione Personale sotto la Corona d\'Italia)';
+        return makeResult(
+          'ITA',
+          bTop?.name || getTop('ITA').name,
+          albNote,
+          s >= 6 ? 'Asse' : undefined,
+          bTop?.adminTitle || 'Regno d\'Albania'
+        );
+      }
+    }
 
     case 'GR':
     case 'EL': {
-      // Le Cicladi (EL422: Nasso, Andro, Paro, Milo, Santorino, ecc.) sono territorio greco dal 1830.
-      // Solo il Dodecaneso (EL421: Rodi, Coo, Lero, Calino, Scarpanto, Stampalia, Castelrosso) era possedimento italiano (1912-1943).
-      if (nid === 'EL422') {
-        return makeResult('GRE', getTop('GRE').name || rawName, 'Regno di Grecia (Regime del 4 Agosto)');
-      }
-
+      const greFac = s >= 7 ? 'Alleati' : 'Neutrale';
+      // 1. Dodecaneso (EL421: Rodi, Coo, Lero, Calino, Scarpanto, Stampalia, Castelrosso): possedimento italiano dal 1912
       const words = nrm.split(/[\s,–-]+/);
       const isDodecanese =
         nid === 'EL421' ||
@@ -3809,11 +5553,163 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'ITA',
           top.name || 'Rodi (Isole Italiane dell\'Egeo)',
           top.note || 'Regno d\'Italia — Possedimento delle Isole Italiane dell\'Egeo (Trattato di Losanna 1923)',
-          undefined,
+          s >= 6 ? 'Asse' : undefined,
           top.adminTitle || 'Provincia di Rodi'
         );
       }
-      return makeResult('GRE', getTop('GRE').name || rawName, 'Regno di Grecia (Regime del 4 Agosto)');
+
+      // Step >= 8 (Aprile 1941): Operazione Marita — Caduta della Grecia continentale e tripartizione tra Germania, Italia e Bulgaria (mentre Creta resta roccaforte Alleata)
+      if (s >= 8) {
+        // 2a. Isola di Creta (EL431 Irakleio, EL432 Lasithi, EL433 Rethymno, EL434 Chania) -> Regno di Grecia / Alleati (Re Giorgio II ed evacuazione W Force)
+        if (
+          nid.startsWith('EL43') ||
+          nrm.includes('kriti') ||
+          nrm.includes('crete') ||
+          nrm.includes('creta') ||
+          nrm.includes('irakleio') ||
+          nrm.includes('heraklion') ||
+          nrm.includes('chania') ||
+          nrm.includes('canea') ||
+          nrm.includes('rethymn') ||
+          nrm.includes('lasith')
+        ) {
+          const bTop = resolveBalkansToponym(nid, rawName, nrm, 'GRE', s);
+          return makeResult(
+            'GRE',
+            bTop?.name || `${rawName || 'Creta'} (Isola di Creta — Roccaforte Alleata e Sede del Governo Greco)`,
+            'Operazione Marita (aprile 1941): dopo la caduta di Atene (27 aprile) e l\'evacuazione del corpo di spedizione britannico (Operazione Demon), Re Giorgio II, il Primo Ministro Emmanouil Tsouderos e le forze alleate del Gen. Bernard Freyberg (Creforce) trasformano Creta nell\'ultimo baluardo del Regno di Grecia libero prima dell\'Operazione Merkur (maggio 1941).',
+            'Alleati',
+            'Vasileion tis Ellados — Governo Legittimo di Re Giorgio II e Creforce Alleata (Chania / Souda)'
+          );
+        }
+
+        // 2b. Macedonia Orientale e Tracia Occidentale (EL512 Xanthi, EL513 Rodopi/Komotini, EL514 Drama, EL515 Kavala/Thasos, EL526 Serres) -> Annessione Bulgara (Belomorie)
+        if (
+          nid === 'EL512' ||
+          nid === 'EL513' ||
+          nid === 'EL514' ||
+          nid === 'EL515' ||
+          nid === 'EL526' ||
+          nrm.includes('xanth') ||
+          nrm.includes('rodop') ||
+          nrm.includes('komotin') ||
+          nrm.includes('drama') ||
+          nrm.includes('kaval') ||
+          nrm.includes('thasos') ||
+          nrm.includes('serres')
+        ) {
+          return makeResult(
+            'BUL',
+            `${rawName || 'Belomorie'} (Belomorska oblast — Tsarstvo Balgariya: Kavala, Drama, Serres, Xanthi, Komotini)`,
+            'Operazione Marita (aprile 1941): superata la Linea Metaxas dalla 12ª Armata tedesca, il 20 aprile 1941 la 2ª Armata bulgara occupa la Tracia occidentale e la Macedonia orientale greca tra i fiumi Struma e Maritsa (inclusi Kavala, Drama, Serres, Xanthi, Komotini e le isole di Taso e Samotracia), proclamando l\'annessione del Belomorie (sbocco sul Mar Egeo).',
+            'Asse',
+            'Tsarstvo Balgariya — Belomorska oblast (Ksanti / Kavala)'
+          );
+        }
+
+        // 2c. Zone Strategiche di Occupazione Militare Tedesca (EL301..EL307 Atene e Pireo, EL521..EL525, EL527 Salonicco e Macedonia Centrale/Monte Athos, EL533 Florina, EL511 Evros/Zona Cuscinetto Turca, EL411 Lesbo/Lemno, EL413 Chio)
+        if (
+          nid.startsWith('EL30') ||
+          nid === 'EL521' ||
+          nid === 'EL522' ||
+          nid === 'EL523' ||
+          nid === 'EL524' ||
+          nid === 'EL525' ||
+          nid === 'EL527' ||
+          nid === 'EL533' ||
+          nid === 'EL511' ||
+          nid === 'EL411' ||
+          nid === 'EL413' ||
+          nrm.includes('attik') ||
+          nrm.includes('athen') ||
+          nrm.includes('atene') ||
+          nrm.includes('peirai') ||
+          nrm.includes('piraeu') ||
+          nrm.includes('thessalon') ||
+          nrm.includes('salonic') ||
+          nrm.includes('chalkidik') ||
+          nrm.includes('imathi') ||
+          nrm.includes('kilkis') ||
+          nrm.includes('pella') ||
+          nrm.includes('pieria') ||
+          nrm.includes('florin') ||
+          nrm.includes('evros') ||
+          nrm.includes('lesv') ||
+          nrm.includes('limnos') ||
+          nrm.includes('chios')
+        ) {
+          const isAthens = nid.startsWith('EL30') || nrm.includes('attik') || nrm.includes('athen') || nrm.includes('atene') || nrm.includes('peirai');
+          const isSalonika = nid.startsWith('EL52') || nid === 'EL533' || nrm.includes('thessalon') || nrm.includes('salonic');
+          return makeResult(
+            'GER',
+            isAthens
+              ? 'Atene e Pireo — Befehlshaber Südgriechenland & Governo Collaborazionista Tsolakoglou'
+              : isSalonika
+              ? `Salonicco e Macedonia Centrale (${rawName || 'Thessaloniki'} — Befehlshaber Saloniki-Ägäis)`
+              : `${rawName || 'Ägäis / Evros'} (Deutsche Militärverwaltung in Griechenland)`,
+            'Operazione Marita (6-30 aprile 1941): la 12ª Armata tedesca (Generalfeldmarschall Wilhelm List) occupa Salonicco il 9 aprile, sfonda le Termopili (24 aprile) ed entra ad Atene il 27 aprile 1941 issando la bandiera di guerra sull\'Acropoli. La Wehrmacht mantiene il controllo diretto di Atene-Pireo, di Salonicco con la Macedonia centrale, delle isole di Lemno, Lesbo e Chio e della fascia di confine dell\'Evros con la Turchia, insediando ad Atene il governo collaborazionista del Gen. Georgios Tsolakoglou (30 aprile 1941).',
+            'Asse',
+            isAthens
+              ? 'Wehrmacht — Befehlshaber Südgriechenland & Elliniki Politeia (Gen. Georgios Tsolakoglou)'
+              : 'Wehrmacht — Befehlshaber Saloniki-Ägäis (Thessaloniki)'
+          );
+        }
+
+        // 2d. Zona di Occupazione Italiana in Grecia e Isole Ionie (Epiro EL54, Macedonia Occidentale EL531-532, Tessaglia EL61, Isole Ionie EL62, Grecia Centrale EL63-64, Peloponneso EL65, Cicladi EL422, Samo/Icaria EL412)
+        const isIonian = nid.startsWith('EL62') || nrm.includes('kerkyr') || nrm.includes('corfu') || nrm.includes('kefallin') || nrm.includes('zakynth') || nrm.includes('lefkad');
+        return makeResult(
+          'ITA',
+          isIonian
+            ? `Isole Ionie (${rawName || 'Corfù, Cefalonia, Zante e Santa Maura'} — Amministrazione Civile Italiana)`
+            : `${rawName || 'Grecia Continentale'} (Zona d'Occupazione Militare Italiana in Grecia — 11ª Armata)`,
+          isIonian
+            ? 'Operazione Marita (aprile 1941): le Isole Ionie (Corfù, Cefalonia, Zante, Leucade/Santa Maura) vengono occupate dalle forze italiane a fine aprile 1941 e sottoposte ad amministrazione civile separata in vista dell\'annessione al Regno d\'Italia.'
+            : 'Operazione Marita e capitolazione greca (20-30 aprile 1941): in seguito al crollo del fronte greco-albanese e della linea dell\'Aliakmon, l\'Epiro, la Tessaglia, la Grecia centrale (Boezia, Eubea, Etolia-Acarnania), il Peloponneso e le Cicladi passano sotto la Zona d\'Occupazione Militare Italiana presidiata dall\'11ª Armata (Gen. Carlo Geloso).',
+          'Asse',
+          isIonian
+            ? 'Regno d\'Italia — Affari Civili per le Isole Ionie (Corfù)'
+            : 'Regio Esercito — Comando Superiore Forze Armate Grecia (11ª Armata — Gen. Carlo Geloso)'
+        );
+      }
+
+      // Le Cicladi (EL422: Nasso, Andro, Paro, Milo, Santorino, ecc.) sono territorio greco dal 1830.
+      if (nid === 'EL422') {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'GRE', s);
+        return makeResult(
+          'GRE',
+          bTop?.name || getTop('GRE').name || rawName,
+          s >= 7
+            ? `${bTop?.note || 'Regno di Grecia'} — Belligerante Alleato dal 28 ottobre 1940 ("Giorno dell'Oxi").`
+            : bTop?.note || 'Regno di Grecia (Regime del 4 Agosto)',
+          greFac,
+          bTop?.adminTitle || 'Regno di Grecia'
+        );
+      }
+
+      const bTop = resolveBalkansToponym(nid, rawName, nrm, 'GRE', s);
+      const top = bTop || getTop('GRE');
+      const isEpirusOrPindus =
+        nid.startsWith('EL54') ||
+        nid.startsWith('EL53') ||
+        nrm.includes('ioannin') ||
+        nrm.includes('thesprot') ||
+        nrm.includes('kastori') ||
+        nrm.includes('florin') ||
+        nrm.includes('greven') ||
+        nrm.includes('pind');
+      const greNote =
+        s >= 7
+          ? isEpirusOrPindus
+            ? `${bTop?.note || 'Regno di Grecia'} — Fronte greco-italiano (28 ottobre 1940): l'8ª Divisione di Fanteria greca (Gen. Katsimitros) e il Distaccamento del Pindo (Col. Davakis) arrestano l'offensiva italiana sulla linea fortificata di Elaia-Kalamas (Kalpaki) e sulle gole del Pindo.`
+            : `${bTop?.note || 'Regno di Grecia (Regime del 4 Agosto)'} — Il 28 ottobre 1940 ("Giorno dell'Oxi") il Primo Ministro Ioannis Metaxas respinge l'ultimatum italiano; la Grecia entra in guerra al fianco degli Alleati.`
+          : bTop?.note || 'Regno di Grecia (Regime del 4 Agosto)';
+      return makeResult(
+        'GRE',
+        top.name || rawName,
+        greNote,
+        greFac,
+        s >= 7 ? `${bTop?.adminTitle || 'Vasileion tis Ellados'} — Comando Supremo Ellenico (Gen. Alexandros Papagos)` : bTop?.adminTitle || 'Regno di Grecia'
+      );
     }
 
     case 'FR': {
@@ -4042,7 +5938,50 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
-    case 'DK':
+    case 'FO':
+    case 'FRO': {
+      if (s >= 6) {
+        return makeResult(
+          'UK',
+          'Isole Fær Øer (Occupazione Britannica — Operazione Valentine)',
+          'Occupate militarmente dalle forze britanniche (Royal Navy / Lovat Scouts) il 12-13 aprile 1940 (Operazione Valentine) per negare alla Germania basi navali strategiche nel Nord Atlantico. Mantenuta l\'amministrazione civile del Løgting e dell\'amtmand Carl Aage Hilbert; bandiera Merkið formalmente riconosciuta dall\'Ammiragliato.',
+          'Alleati',
+          'Military Administration of the Faroe Islands (British Garrison / Royal Navy Command, Tórshavn) & Løgting'
+        );
+      }
+      return makeResult(
+        'DEN',
+        'Isole Fær Øer (Færøerne / Føroyar)',
+        'Contea insulare del Regno di Danimarca (Færø Amt). Amministrazione civile guidata dall\'amtmand Carl Aage Hilbert con sede a Tórshavn (Streymoy) e assemblea rappresentativa del Løgting, sotto la sovranità di re Cristiano X.',
+        'Neutrale',
+        'Færø Amt (Amtmand Carl Aage Hilbert — Tórshavn) / Løgting'
+      );
+    }
+
+    case 'DK': {
+      const isDkFaroe =
+        nrm.includes('faroe') ||
+        nrm.includes('faeroe') ||
+        nrm.includes('færø') ||
+        nrm.includes('føroyar') ||
+        (c[0] >= -8 && c[0] <= -5 && c[1] >= 61 && c[1] <= 63);
+      if (isDkFaroe) {
+        return s >= 6
+          ? makeResult(
+              'UK',
+              'Isole Fær Øer (Occupazione Britannica — Operazione Valentine)',
+              'Occupate militarmente dalle forze britanniche (Royal Navy / Lovat Scouts) il 12-13 aprile 1940 (Operazione Valentine) per negare alla Germania basi navali strategiche nel Nord Atlantico. Mantenuta l\'amministrazione civile del Løgting e dell\'amtmand Carl Aage Hilbert; bandiera Merkið formalmente riconosciuta dall\'Ammiragliato.',
+              'Alleati',
+              'Military Administration of the Faroe Islands (British Garrison / Royal Navy Command, Tórshavn) & Løgting'
+            )
+          : makeResult(
+              'DEN',
+              'Isole Fær Øer (Færøerne / Føroyar)',
+              'Contea insulare del Regno di Danimarca (Færø Amt). Amministrazione civile guidata dall\'amtmand Carl Aage Hilbert con sede a Tórshavn (Streymoy) e assemblea rappresentativa del Løgting, sotto la sovranità di re Cristiano X.',
+              'Neutrale',
+              'Færø Amt (Amtmand Carl Aage Hilbert — Tórshavn) / Løgting'
+            );
+      }
       return s < 6
         ? makeResult('DEN', rawName, 'Kongeriget Danmark', undefined, 'Kongeriget Danmark')
         : makeResult(
@@ -4052,6 +5991,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Asse',
             'Besetztes Dänemark (Reichsbevollmächtigter Cecil von Renthe-Fink)'
           );
+    }
 
     case 'NO':
       return s < 6
@@ -4294,8 +6234,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('VEN', getTop('VEN').name, 'Stati Uniti del Venezuela');
     case 'EC':
     case 'ECU':
+    case 'EC_ORI':
+    case 'ECU_ORIENTE':
     case '218':
     case 'XEC':
+      if (nid === 'EC_ORI' || nid === 'ECU_ORIENTE' || (ft.properties?.NAME && ft.properties.NAME.includes('Oriente'))) {
+        return makeResult('ECU', getExtendedToponym('Oriente (Ecuador)', 'ECU', nid, c, s).name, 'Región del Oriente (Zona Contesa Ecuador-Perù)');
+      }
       return makeResult('ECU', getTop('ECU').name, 'Repubblica dell\'Ecuador');
     case 'BO':
     case 'BOL':
@@ -4315,36 +6260,43 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'XUY':
       return makeResult('URU', getTop('URU').name, 'Repubblica Orientale dell\'Uruguay');
 
+    // Messico & America del Nord Latina
+    case 'MX':
+    case 'MEX':
+    case '484':
+    case 'XMX':
+      return makeResult('MEX', getTop('MEX').name || 'Estados Unidos Mexicanos', getTop('MEX').note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)', 'Neutrale', getTop('MEX').adminTitle || 'Estados Unidos Mexicanos');
+
     // Centro America & Caraibi
     case 'GT':
     case 'GTM':
     case '320':
     case 'XGT':
-      return makeResult('GTM', getTop('GTM').name || 'Repubblica del Guatemala', 'Presidenza del Gen. Jorge Ubico');
+      return makeResult('GTM', getTop('GTM').name || 'Repubblica del Guatemala', getTop('GTM').note || 'Presidenza del Gen. Jorge Ubico', 'Neutrale', getTop('GTM').adminTitle);
 
     case 'SV':
     case 'SLV':
     case '222':
     case 'XSV':
-      return makeResult('SLV', getTop('SLV').name || 'Repubblica di El Salvador', 'Governo del Gen. Maximiliano Hernández Martínez');
+      return makeResult('SLV', getTop('SLV').name || 'Repubblica di El Salvador', getTop('SLV').note || 'Governo del Gen. Maximiliano Hernández Martínez', 'Neutrale', getTop('SLV').adminTitle);
 
     case 'HN':
     case 'HND':
     case '340':
     case 'XHN':
-      return makeResult('HND', getTop('HND').name || 'Repubblica dell\'Honduras', 'Presidenza del Gen. Tiburcio Carías Andino (El Cariato)');
+      return makeResult('HND', getTop('HND').name || 'Repubblica dell\'Honduras', getTop('HND').note || 'Presidenza del Gen. Tiburcio Carías Andino (El Cariato)', 'Neutrale', getTop('HND').adminTitle);
 
     case 'NI':
     case 'NIC':
     case '558':
     case 'XNI':
-      return makeResult('NIC', getTop('NIC').name || 'Repubblica del Nicaragua', 'Governo del Gen. Anastasio Somoza García');
+      return makeResult('NIC', getTop('NIC').name || 'Repubblica del Nicaragua', getTop('NIC').note || 'Governo del Gen. Anastasio Somoza García', 'Neutrale', getTop('NIC').adminTitle);
 
     case 'CR':
     case 'CRI':
     case '188':
     case 'XCR':
-      return makeResult('CRI', getTop('CRI').name || 'Repubblica di Costa Rica', 'Repubblica Costituzionale di Costa Rica');
+      return makeResult('CRI', getTop('CRI').name || 'Repubblica di Costa Rica', getTop('CRI').note || 'Repubblica Costituzionale di Costa Rica', 'Neutrale', getTop('CRI').adminTitle);
 
     case 'PA':
     case 'PAN':
@@ -4362,9 +6314,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('cristobal') ||
         nrm.includes('quarry');
       if (isCanalZone) {
-        return makeResult('USA', 'Zona del Canale di Panama (USA)', 'Territorio Strategico USA (Trattato Hay-Bunau-Varilla)');
+        const topCanal = getExtendedToponym('Panama Canal Zone', 'USA', nid, c, s);
+        return makeResult('USA', topCanal.name || 'Zona del Canale di Panama (USA)', topCanal.note || 'Territorio Strategico USA (Trattato Hay-Bunau-Varilla)', 'Alleati', topCanal.adminTitle);
       }
-      return makeResult('PAN', getTop('PAN').name || 'Repubblica di Panama', 'Repubblica di Panama');
+      return makeResult('PAN', getTop('PAN').name || 'Repubblica di Panama', getTop('PAN').note || 'Repubblica di Panama', 'Neutrale', getTop('PAN').adminTitle);
     }
 
     case 'CU':
@@ -4374,27 +6327,75 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (nrm.includes('guantanamo')) {
         return makeResult('USA', 'Base Navale USA di Guantánamo', 'Base Navale USA a Cuba');
       }
-      return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', 'Repubblica di Cuba');
+      return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', getTop('CUB').note || 'Repubblica di Cuba', 'Neutrale', getTop('CUB').adminTitle);
     }
 
     case 'DO':
     case 'DOM':
     case '214':
     case 'XDO':
-      return makeResult('DOM', getTop('DOM').name || 'Repubblica Dominicana', 'Dittatura del Generalissimo Trujillo');
+      return makeResult('DOM', getTop('DOM').name || 'Repubblica Dominicana', getTop('DOM').note || 'Dittatura del Generalissimo Trujillo', 'Neutrale', getTop('DOM').adminTitle);
 
     case 'HT':
     case 'HTI':
     case 'HAI':
     case '332':
     case 'XHT':
-      return makeResult('HAI', getTop('HAI').name || 'Repubblica di Haiti', 'Présidence Sténio Vincent');
+      return makeResult('HAI', getTop('HAI').name || 'Repubblica di Haiti', getTop('HAI').note || 'Présidence Sténio Vincent', 'Neutrale', getTop('HAI').adminTitle);
 
     case 'BZ':
     case 'BLZ':
     case '084':
-    case 'XBZ':
-      return makeResult('UK', 'Honduras Britannico (Belize)', 'Colonia della Corona Britannica');
+    case 'XBZ': {
+      const topBz = getExtendedToponym('British Honduras', 'UK', nid, c, s);
+      return makeResult('UK', topBz.name || 'Honduras Britannico (Belize)', topBz.note || 'Colonia della Corona Britannica', s >= 4 ? 'Alleati' : 'Neutrale', topBz.adminTitle);
+    }
+
+    case 'JM':
+    case 'JAM':
+    case '388':
+    case 'XJM': {
+      const topJm = getExtendedToponym('Jamaica', 'UK', nid, c, s);
+      return makeResult('UK', topJm.name || 'Jamaica (Crown Colony)', topJm.note || 'Colonia della Corona Britannica', s >= 4 ? 'Alleati' : 'Neutrale', topJm.adminTitle);
+    }
+
+    case 'PR':
+    case 'PRI':
+    case '630':
+    case 'XPR': {
+      const topPr = getExtendedToponym('Puerto Rico', 'USA', nid, c, s);
+      return makeResult('USA', topPr.name || 'Puerto Rico (USA)', topPr.note || 'Territorio insulare USA nelle Antille', 'Alleati', topPr.adminTitle);
+    }
+
+    // Stati Uniti d'America & Territori d'Oltremare
+    case 'US':
+    case 'USA':
+    case '840':
+    case 'XUS':
+    case 'VI':
+    case 'VIR':
+    case '850':
+    case 'XVI':
+    case 'GU':
+    case 'GUM':
+    case '316':
+    case 'XGU':
+    case 'AS':
+    case 'ASM':
+    case '016':
+    case 'XAS':
+    case 'UM':
+    case 'UMI':
+    case '581': {
+      const usaTop = getTop('USA');
+      return makeResult(
+        'USA',
+        usaTop.name || USA_COL[cntr] || rawName || 'Stati Uniti d\'America',
+        usaTop.note || 'Stati Uniti d\'America',
+        'Alleati',
+        usaTop.adminTitle || 'United States of America'
+      );
+    }
 
     // Medio Oriente & Asia
     case 'IR':
@@ -4528,11 +6529,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IRQ':
     case '368':
     case 'XIQ':
+      if (s >= 8) {
+        const top = getTop('IRQ');
+        return makeResult(
+          'IRQ',
+          top.name || 'Regno dell\'Iraq — Governo di Difesa Nazionale (Rashid Ali al-Kaylani — Baghdad)',
+          top.note || 'Colpo di Stato nazionalista e filo-Asse del 1°-2 aprile 1941 a Baghdad: l\'ex Primo Ministro Rashid Ali al-Kaylani e i quattro colonnelli del "Quadrato d\'Oro" rovesciano il reggente filo-britannico \'Abd al-Ilah, assediando la base RAF di Habbaniya e aprendo la guerra anglo-irachena.',
+          'Asse',
+          top.adminTitle || 'Al-Mamlakah al-\'Irāqiyyah — Governo di Difesa Nazionale (Rashid Ali al-Kaylani)'
+        );
+      }
       return makeResult('UK', 'Regno dell\'Iraq (Mesopotamia Britannica)', 'Sfera d\'Influenza e Mandato Britannico');
     case 'EG':
     case 'EGY':
     case '818':
-      return makeResult('UK', 'Regno d\'Egitto', 'Sfera Britannica (Trattato 1936)');
+      return makeResult('EGY', "Regno d'Egitto", "Sfera Britannica (Trattato Anglo-Egiziano 1936)", 'Alleati', "Regno d'Egitto (Re Faruq I)");
     case 'JO':
     case 'JOR':
     case '400':
@@ -4581,6 +6592,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'XLR':
       return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano');
     case 'ET':
+      if (s >= 8) {
+        const top = getTop('ETH');
+        return makeResult(
+          'ETH',
+          top.name || 'Impero d\'Etiopia Liberato (Addis Abeba — Negus Haile Selassie I)',
+          top.note || 'Collasso dell\'Africa Orientale Italiana (aprile 1941): il 6 aprile 1941 le truppe del Gen. Alan Cunningham entrano ad Addis Abeba, restaurando sul trono il Negus Haile Selassie I (rientrato con la Gideon Force di Orde Wingate), mentre il Viceré Amedeo di Savoia-Aosta ripiega per l\'ultima resistenza sull\'Amba Alagi.',
+          'Alleati',
+          top.adminTitle || 'Ye’Ityōṗṗyā Nigūsa Negest Mengist — Imperatore Haile Selassie I & Occupazione Alleata'
+        );
+      }
       return s === 0
         ? makeResult('ETH', 'Impero d\'Etiopia', 'Guerra d\'Etiopia in corso')
         : makeResult('ITA', 'Africa Orientale Italiana (Etiopia)', 'Annessa al Regno d\'Italia (maggio 1936)');
@@ -4606,6 +6627,78 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         'Guinea Spagnola',
         s === 0 ? 'Fronte Popolare' : 'Bando Nacional'
       );
+
+    case 'MA':
+    case 'MAR':
+    case '504':
+    case 'XMA':
+    case 'FR_MOROCCO': {
+      if (s >= 6) {
+        return makeResult(
+          'VIC_NAF',
+          'Protectorat du Maroc (Maroc Français — Vichy)',
+          'Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)',
+          'Fantoccio',
+          'Résidence Générale de France au Maroc (Vichy)'
+        );
+      }
+      return makeResult(
+        'F_NAF',
+        'Protectorat Français du Maroc (Maroc Français — Rabat / Casablanca)',
+        'Résidence Générale de la République Française au Maroc (Général Charles Noguès)',
+        undefined,
+        'Résidence Générale de la République Française (Rabat)'
+      );
+    }
+
+    case 'TANGER':
+    case 'TANGIER': {
+      if (s >= 6) {
+        return makeResult(
+          'SPA',
+          'Tánger (Zona Ocupada por España)',
+          'Ocupación Militar Española (14 de junio de 1940)'
+        );
+      }
+      return makeResult(
+        'TANGER',
+        'Zone Internationale de Tanger',
+        'Administration Internationale (Statut de 1923)',
+        'Neutrale'
+      );
+    }
+
+    case 'UK_SOMALILAND':
+    case 'BR_SOMALILAND': {
+      if (s === 7) {
+        const top = getExtendedToponym('British Somaliland', 'ITA', nid, c, s);
+        return makeResult(
+          'ITA',
+          top.name || 'Somalia Britannica Occupata (Berbera — AOI)',
+          top.note || 'Conquista italiana della Somalia Britannica (3-19 agosto 1940: Battaglia di Tug Argan e presa di Berbera da parte delle truppe del Gen. Guglielmo Nasi). Territorio annesso all\'Africa Orientale Italiana.',
+          'Asse',
+          top.adminTitle || 'Governo Militare della Somalia Britannica (AOI — Gen. Guglielmo Nasi)'
+        );
+      }
+      if (s >= 8) {
+        const top = getExtendedToponym('British Somaliland', 'UK', nid, c, s);
+        return makeResult(
+          'UK',
+          top.name || 'British Somaliland Protectorate (Berbera — Riconquista Alleata)',
+          'Operazione Appearance (16 marzo 1941): sbarco anfibio anglo-indiano a Berbera e riconquista britannica della Somalia Britannica nel quadro dell\'offensiva generale contro l\'Africa Orientale Italiana.',
+          'Alleati',
+          'British Somaliland Military Administration (Brig. Arthur Chater)'
+        );
+      }
+      const top = getExtendedToponym('British Somaliland', 'UK', nid, c, s);
+      return makeResult(
+        'UK',
+        top.name || 'British Somaliland Protectorate (Berbera)',
+        top.note,
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        top.adminTitle || 'British Crown Protectorate (Governor Arthur Chater)'
+      );
+    }
 
     default: {
       // Isola di Man (Isle of Man) & Isole del Canale (Channel Islands)
@@ -4668,6 +6761,33 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nid.startsWith('KO') ||
         nid.startsWith('KV')
       ) {
+        if (s >= 8) {
+          if (
+            nrm.includes('kosov') ||
+            nrm.includes('kosova') ||
+            nrm.includes('metohij') ||
+            nrm.includes('pristina') ||
+            nrm.includes('prizren') ||
+            nid.startsWith('XK') ||
+            nid.startsWith('KO') ||
+            nid.startsWith('KV')
+          ) {
+            return makeResult(
+              'ITA',
+              'Kosovo e Metohija (Pristina / Prizren / Peć — Grande Albania)',
+              'Smembramento della Jugoslavia (aprile 1941): annessione del Kosovo e della Metohija alla Grande Albania sotto la Corona d\'Italia.',
+              'Asse',
+              'Regno d\'Italia — Regno d\'Albania (Grande Albania)'
+            );
+          }
+          return makeResult(
+            'CRO',
+            getTop('CRO').name || 'Bosna i Hercegovina (Nezavisna Država Hrvatska — NDH)',
+            'Smembramento della Jugoslavia (aprile 1941): incorporazione nello Stato Indipendente di Croazia (NDH) di Ante Pavelić.',
+            'Fantoccio',
+            'Nezavisna Država Hrvatska (NDH — Poglavnik Ante Pavelić)'
+          );
+        }
         return makeResult('YUG', getTop('YUG').name || rawName, 'Regno di Jugoslavia');
       }
 
@@ -4701,6 +6821,36 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nid === 'LR'
       ) {
         return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano');
+      }
+
+      if (
+        nrm === 'mexico' ||
+        nrm === 'messico' ||
+        nrm === 'estados unidos mexicanos' ||
+        nrm.includes('mexico') ||
+        nrm.includes('messico') ||
+        nid.startsWith('MX')
+      ) {
+        const top = getTop('MEX');
+        return makeResult('MEX', top.name || 'Estados Unidos Mexicanos', top.note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)', 'Neutrale', top.adminTitle || 'Estados Unidos Mexicanos');
+      }
+
+      if (
+        nrm.includes('puerto rico') ||
+        nrm.includes('porto rico') ||
+        nid.startsWith('PR')
+      ) {
+        const top = getTop('USA');
+        return makeResult('USA', top.name || 'Puerto Rico (USA)', top.note || 'Territorio insulare non incorporato degli Stati Uniti', 'Alleati', top.adminTitle || 'Territory of Puerto Rico');
+      }
+
+      if (
+        nrm.includes('jamaica') ||
+        nrm.includes('giamaica') ||
+        nid.startsWith('JM')
+      ) {
+        const top = getTop('UK');
+        return makeResult('UK', top.name || 'Jamaica (Crown Colony)', top.note || 'Colonia della Corona Britannica', s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'British Crown Colony of Jamaica');
       }
 
       // Risoluzione esplicita Vicino Oriente / Turchia / Arabia / Persia / Mesopotamia
@@ -4811,6 +6961,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         !nrm.includes('syria') &&
         !nrm.includes('iran')
       ) {
+        if (s >= 8) {
+          return makeResult(
+            'IRQ',
+            'Regno dell\'Iraq — Governo di Difesa Nazionale (Rashid Ali al-Kaylani — Baghdad)',
+            'Colpo di Stato nazionalista e filo-Asse del 1°-2 aprile 1941 a Baghdad (Rashid Ali al-Kaylani e il "Quadrato d\'Oro"): apertura della guerra anglo-irachena e assedio della base RAF di Habbaniya.',
+            'Asse',
+            'Al-Mamlakah al-\'Irāqiyyah — Governo di Difesa Nazionale (Rashid Ali al-Kaylani)'
+          );
+        }
         return makeResult('UK', 'Regno dell\'Iraq (Mesopotamia Britannica)', 'Sfera d\'Influenza e Mandato Britannico');
       }
 
@@ -4883,10 +7042,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('balboa') ||
         nrm.includes('cristobal') ||
         nrm.includes('zona del canal') ||
-        nid.startsWith('PZ')
+        nid.startsWith('PZ') ||
+        nid.startsWith('US_PCZ')
       ) {
-        return makeResult('USA', 'Zona del Canale di Panama (USA)', 'Territorio Strategico USA (Trattato Hay-Bunau-Varilla)');
+        const topCanal = getTop('USA');
+        return makeResult(
+          'USA',
+          topCanal.name || 'Panama Canal Zone (Balboa Heights / Quarry Heights — USA)',
+          topCanal.note || 'Territorio Strategico USA (Trattato Hay-Bunau-Varilla)',
+          'Alleati',
+          topCanal.adminTitle || 'Panama Canal Zone — U.S. Strategic Military Outpost'
+        );
       }
+
 
       if (
         nrm.includes('panama') ||
@@ -4992,6 +7160,26 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         (nrm.includes('sudan') && !nrm.includes('french') && !nrm.includes('soudan')) ||
         nrm.includes('british somaliland')
       ) {
+        if (nrm.includes('british somaliland') && s === 7) {
+          const top = getExtendedToponym('British Somaliland', 'ITA', nid, c, s);
+          return makeResult(
+            'ITA',
+            top.name || 'Somalia Britannica Occupata (Berbera — AOI)',
+            top.note || 'Conquista italiana della Somalia Britannica (agosto 1940) — Annessa all\'AOI',
+            'Asse',
+            top.adminTitle || 'Governo Militare della Somalia Britannica (AOI — Gen. Guglielmo Nasi)'
+          );
+        }
+        if (nrm.includes('british somaliland') && s >= 8) {
+          const top = getExtendedToponym('British Somaliland', 'UK', nid, c, s);
+          return makeResult(
+            'UK',
+            top.name || 'British Somaliland Protectorate (Berbera — Riconquista Alleata)',
+            'Operazione Appearance (16 marzo 1941): riconquista britannica di Berbera e della Somalia Britannica.',
+            'Alleati',
+            'British Somaliland Military Administration (Brig. Arthur Chater)'
+          );
+        }
         return makeResult('UK', getTop('UK').name || rawName, 'Impero Britannico in Africa');
       }
 
@@ -5014,15 +7202,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           return makeResult(
             'VIC_NAF',
             top.name || (rawName ? `${rawName} (Vichy)` : 'Nordafrica Francese (Vichy)'),
-            'Nordafrica Francese — Regime di Vichy',
-            'Fantoccio'
+            top.note || 'Nordafrica Francese — Regime di Vichy',
+            'Fantoccio',
+            top.adminTitle || 'Gouvernement Général de l\'Algérie (Yves Châtel / Maxime Weygand — Vichy)'
           );
         }
         const top = getTop('F_NAF');
         return makeResult(
           'F_NAF',
           top.name || rawName || 'Nordafrica Francese',
-          'Nordafrica Francese (AFN)'
+          top.note || 'Territoires français d\'Afrique du Nord',
+          undefined,
+          top.adminTitle || 'Gouvernement Général de l\'Algérie / Protectorats de Tunisie et du Maroc'
         );
       }
 
@@ -5055,15 +7246,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           return makeResult(
             'VIC_AOF',
             top.name || (rawName ? `${rawName} (AOF — Vichy)` : 'Africa Occidentale Francese (AOF — Vichy)'),
-            'Alto Commissariato di Pierre Boisson (Vichy)',
-            'Fantoccio'
+            top.note || 'Haut-Commissariat de Pierre Boisson pour l\'Afrique Noire (Vichy)',
+            'Fantoccio',
+            top.adminTitle || 'Haut-Commissariat de Pierre Boisson pour l\'Afrique Noire (Dakar — Vichy)'
           );
         }
         const top = getTop('F_AOF');
         return makeResult(
           'F_AOF',
           top.name || rawName || 'Africa Occidentale Francese (AOF)',
-          'Africa Occidentale Francese (AOF)'
+          top.note || 'Fédération coloniale de l\'Afrique Occidentale Française',
+          undefined,
+          top.adminTitle || 'Gouvernement Général de l\'AOF (Dakar)'
         );
       }
 
@@ -5086,15 +7280,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           return makeResult(
             'FFL_AEF',
             top.name || (rawName ? `${rawName} (Francia Libera)` : 'Africa Equatoriale (Francia Libera)'),
-            'Francia Libera — De Gaulle & Félix Éboué (Brazzaville)',
-            'Alleati'
+            top.note || 'Afrique Française Libre — Félix Éboué & De Gaulle (Brazzaville)',
+            'Alleati',
+            top.adminTitle || 'Capitale de l\'Empire de la France Libre (Brazzaville)'
           );
         }
         const top = getTop('F_AEF');
         return makeResult(
           'F_AEF',
           top.name || rawName || 'Africa Equatoriale Francese (AEF)',
-          'Africa Equatoriale Francese (AEF)'
+          top.note || 'Fédération de l\'Afrique-Équatoriale Française',
+          undefined,
+          top.adminTitle || 'Gouvernement Général de l\'AEF (Brazzaville)'
         );
       }
 
@@ -5139,15 +7336,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           return makeResult(
             'VIC_MAD',
             top.name || (rawName ? `${rawName} (Vichy)` : 'Madagascar (Vichy)'),
-            'Amministrazione Coloniale di Vichy (Armand Annet)',
-            'Fantoccio'
+            top.note || 'Gouvernement Général d\'Armand Annet sous autorité de Vichy',
+            'Fantoccio',
+            top.adminTitle || 'Gouvernement Général d\'Armand Annet (Vichy — Tananarive)'
           );
         }
         const top = getTop('F_MAD');
         return makeResult(
           'F_MAD',
           top.name || rawName || 'Madagascar Francese',
-          'Madagascar Francese'
+          top.note || 'Colonie de Madagascar et Dépendances dans l\'océan Indien',
+          undefined,
+          top.adminTitle || 'Gouvernement Général de Madagascar (Tananarive)'
         );
       }
 
@@ -5161,19 +7361,57 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           return makeResult(
             'VIC_SOM',
             top.name || (rawName ? `${rawName} (Vichy)` : 'Somalia Francese (Gibuti — Vichy)'),
-            'Amministrazione Coloniale di Vichy (Pierre Nouailhetas)',
-            'Fantoccio'
+            top.note || 'Administration autoritaire de Pierre Nouailhetas sous le régime de Vichy',
+            'Fantoccio',
+            top.adminTitle || 'Administration de Pierre Nouailhetas (Régime de Vichy — Djibouti)'
           );
         }
         const top = getTop('F_SOM');
         return makeResult(
           'F_SOM',
           top.name || rawName || 'Somalia Francese (Gibuti)',
-          'Somalia Francese (Gibuti)'
+          top.note || 'Colonie de la Côte Française des Somalis (Djibouti)',
+          undefined,
+          top.adminTitle || 'Colonie de Djibouti (Gouverneur Hubert Deschamps)'
         );
       }
 
-      if (ITA_COL[cntr]) return makeResult('ITA', getTop('ITA').name || ITA_COL[cntr]);
+      if (ITA_COL[cntr] || cntr === 'LY' || cntr === 'LBY' || nid.startsWith('LY')) {
+        if (s >= 8 && (cntr === 'ER' || cntr === 'ERI' || nrm.includes('eritrea') || nid.startsWith('ER'))) {
+          return makeResult(
+            'UK',
+            'Eritrea Occupata (Asmara / Massaua / Cheren — British Military Administration)',
+            'Campagna dell\'Africa Orientale Italiana (febbraio-aprile 1941): dopo i 53 giorni dell\'aspra battaglia di Cheren (5 febbraio - 27 marzo 1941), le divisioni anglo-indiane del Gen. William Platt occupano Asmara (1° aprile) e la base navale di Massaua (8 aprile 1941).',
+            'Alleati',
+            'Occupied Enemy Territory Administration (OETA) — British Military Administration in Eritrea'
+          );
+        }
+        if (s >= 8 && (cntr === 'SO' || cntr === 'SOM' || nrm.includes('somal') || nid.startsWith('SO'))) {
+          return makeResult(
+            'UK',
+            'Somalia Occupata (Mogadiscio / Chisimaio — British Military Administration)',
+            'Campagna dell\'Africa Orientale Italiana (febbraio-marzo 1941): l\'11ª Divisione Africana del Gen. Alan Cunningham sfonda la linea del Giuba, occupa Chisimaio e il 25 febbraio 1941 entra a Mogadiscio, proseguendo verso Harar e Addis Abeba.',
+            'Alleati',
+            'Occupied Enemy Territory Administration (OETA) — British Military Administration in Somalia'
+          );
+        }
+        const itTop = getTop('ITA');
+        return makeResult(
+          'ITA',
+          itTop.name || ITA_COL[cntr] || rawName,
+          itTop.note ||
+            (s >= 8
+              ? 'Operazione Sonnenblume (febbraio-aprile 1941): sbarco a Tripoli del Deutsches Afrikakorps (Gen. Erwin Rommel) e controffensiva italo-tedesca (El Agheila, Agedabia, Mechili, riconquista di Bengasi e Derna), con inizio dell\'assedio della piazzaforte australiano-britannica di Tobruk (10 aprile 1941) sotto il comando del Gen. Italo Gariboldi e di Rommel.'
+              : s >= 6
+              ? 'Governo Generale della Libia (Maresciallo Rodolfo Graziani)'
+              : 'Governo Generale della Libia (Maresciallo dell\'Aria Italo Balbo)'),
+          s >= 6 ? 'Asse' : undefined,
+          itTop.adminTitle ||
+            (s >= 8
+              ? 'Governo Generale della Libia (Gen. Italo Gariboldi) & Deutsches Afrikakorps (Gen. Erwin Rommel)'
+              : 'Libia Italiana (Quarta Sponda)')
+        );
+      }
       if (FRA_COL[cntr]) {
         const [lbl, t] = FRA_COL[cntr];
         if (s >= 6) {
@@ -5182,9 +7420,34 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             return makeResult(
               'FFL_AEF',
               fflTop.name || `${lbl} (Francia Libera)`,
-              'Francia Libera — De Gaulle & Félix Éboué (Brazzaville)',
-              'Alleati'
+              fflTop.note || 'Afrique Française Libre — Félix Éboué & De Gaulle (Brazzaville)',
+              'Alleati',
+              fflTop.adminTitle || 'Capitale de l\'Empire de la France Libre (Brazzaville)'
             );
+          }
+          if (t === 'F_COL') {
+            const isRalliedCol =
+              cntr === 'VU' ||
+              cntr === 'VUT' ||
+              cntr === 'NC' ||
+              cntr === 'NCL' ||
+              cntr === 'PF' ||
+              cntr === 'PYF' ||
+              nrm.includes('hebrid') ||
+              nrm.includes('caledon') ||
+              nrm.includes('polynesi') ||
+              nrm.includes('tahiti') ||
+              nrm.includes('pondicher');
+            if (isRalliedCol && s >= 7) {
+              const fflTop = getExtendedToponym(lbl, 'FFL_AEF', nid, c, s);
+              return makeResult(
+                'FFL_AEF',
+                fflTop.name || `${lbl} (France Libre)`,
+                fflTop.note || 'Territoire d\'outre-mer rallié à la France Libre du Général de Gaulle en 1940',
+                'Alleati',
+                fflTop.adminTitle || 'France Libre — Conseil de défense de l\'Empire'
+              );
+            }
           }
           const vicKey =
             t === 'F_NAF'
@@ -5201,14 +7464,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               ? 'VIC_IND'
               : 'VIC';
           const vicTop = getTop(vicKey);
+          if (vicKey === 'VIC_IND' && s >= 7) {
+            return makeResult(
+              'VIC_IND',
+              vicTop.name || `${lbl} (Vichy — Stazionamento Militare Giapponese nel Tonchino)`,
+              'Accordo franco-giapponese di Hanoi (22 settembre 1940): stazionamento della 5ª Divisione dell\'Esercito Imperiale Giapponese nel Tonchino settentrionale (Lạng Sơn, Haiphong) sotto l\'amministrazione Vichy dell\'Ammiraglio Jean Decoux.',
+              'Fantoccio',
+              'Gouvernement Général de l\'Indochine (Amiral Jean Decoux — Vichy / Stazionamento Imperiale Giapponese)'
+            );
+          }
           return makeResult(
             vicKey,
             vicTop.name || `${lbl} (Vichy)`,
-            'Amministrazione di Vichy',
-            'Fantoccio'
+            vicTop.note || 'Amministrazione coloniale sotto l\'autorità di Vichy',
+            'Fantoccio',
+            vicTop.adminTitle || 'Administration coloniale de Vichy'
           );
         }
-        return makeResult(t, getTop(t).name || lbl);
+        const fTop = getTop(t);
+        return makeResult(t, fTop.name || lbl, fTop.note, undefined, fTop.adminTitle);
       }
       if (BEL_COL[cntr])
         return makeResult('BEL', BEL_COL[cntr], undefined, s >= 6 ? 'Alleati' : 'Neutrale');
@@ -5220,7 +7494,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           s >= 6 ? 'Alleati' : 'Neutrale'
         );
       if (POR_COL[cntr]) return makeResult('POR', POR_COL[cntr]);
-      if (UK_COL[cntr]) return makeResult('UK', getTop('UK').name || UK_COL[cntr]);
+      if (UK_COL[cntr]) {
+        const ukTop = getTop('UK');
+        return makeResult(
+          'UK',
+          ukTop.name || UK_COL[cntr],
+          ukTop.note || 'Colonia della Corona, protettorato o mandato della Corona Britannica',
+          s >= 4 ? 'Alleati' : 'Neutrale',
+          ukTop.adminTitle || 'British Empire (Overseas Territories)'
+        );
+      }
       if (JAP_COL[cntr]) {
         const jpTop = resolveJapanToponym(cntr, rawName, nrm, 'JAP', s);
         return makeResult(
@@ -5235,7 +7518,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         if (cntr === 'PH' || cntr === 'PHL' || cntr === '608') {
           return makeResult('PHL', USA_COL[cntr], 'Commonwealth delle Filippine (Stato Autonomo Associato agli USA)');
         }
-        return makeResult('USA', USA_COL[cntr]);
+        const usaTop = getTop('USA');
+        return makeResult(
+          'USA',
+          usaTop.name || USA_COL[cntr],
+          usaTop.note || 'Stati Uniti d\'America',
+          'Alleati',
+          usaTop.adminTitle || 'United States of America'
+        );
       }
 
       // Fallback geografico per territori non assegnati nella Penisola Arabica

@@ -5,6 +5,7 @@ import {
   Anchor,
   Navigation,
   Landmark,
+  Radio,
   Volume2,
   VolumeX,
   Layers,
@@ -19,6 +20,7 @@ export interface LayerVisibilityState {
   seaLanes: boolean;
   cityLabels: boolean;
   hatchPatterns: boolean;
+  islandBeacons: boolean;
 }
 
 interface MapLayerControlsProps {
@@ -173,6 +175,26 @@ export const MapLayerControls: React.FC<MapLayerControlsProps> = ({
             <span
               className={`w-2 h-2 rounded-full ${
                 layers.cityLabels ? 'bg-[#7ec97e] shadow-[0_0_6px_#7ec97e]' : 'bg-[#404040]'
+              }`}
+            />
+          </button>
+
+          {/* 6. Strategic Island Beacons / Nuclei Luminosi */}
+          <button
+            onClick={() => toggle('islandBeacons')}
+            className={`flex items-center justify-between px-2 py-1.5 border transition-all text-[11.5px] ${
+              layers.islandBeacons
+                ? 'bg-[#e8c979]/20 border-[#e8c979] text-[#f0e6c8]'
+                : 'bg-black/30 border-[#2c2a20] text-[#8b9298] hover:text-[#cfd3d6]'
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <Radio className="h-3.5 w-3.5 text-[#e8c979]" />
+              <span>Nuclei Luminosi Isole</span>
+            </span>
+            <span
+              className={`w-2 h-2 rounded-full ${
+                layers.islandBeacons ? 'bg-[#e8c979] shadow-[0_0_6px_#e8c979]' : 'bg-[#404040]'
               }`}
             />
           </button>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Info, Volume2, VolumeX, Shield, Crosshair, Camera } from 'lucide-react';
+import { Search, Info, Volume2, VolumeX, Shield, Crosshair, Camera, Compass } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';
 import { tacticalAudio } from '../data/audioSynthesizer';
@@ -59,6 +59,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           <span>{stepBattlesCount} OPERAZIONI</span>
         </div>
       </div>
+
 
       {/* Action Buttons Toolbar */}
       <div className="tactical-panel pointer-events-auto px-2 flex items-center gap-1.5 shadow-2xl">

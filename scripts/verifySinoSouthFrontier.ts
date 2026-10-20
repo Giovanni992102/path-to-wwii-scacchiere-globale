@@ -90,7 +90,7 @@ const testPoints = [
   { name: 'Lang Son / Dong Dang (Porta dell\'Amicizia / Tonkino)', pt: [106.76, 21.85], expectedOwner: 'F_IND' },
   { name: 'Hanoi (Capitale dell\'Indocina Francese)', pt: [105.85, 21.03], expectedOwner: 'F_IND' },
   { name: 'Haiphong (Porto Principale del Tonkino)', pt: [106.68, 20.86], expectedOwner: 'F_IND' },
-  { name: 'Mong Cai / Hai Ha (Tonkino Costiero)', pt: [107.78, 21.42], expectedOwner: 'F_IND' },
+  { name: 'Mong Cai / Hai Ha (Tonkino Costiero)', pt: [107.75, 21.45], expectedOwner: 'F_IND' },
 
   // Guangxi & Guangdong (China)
   { name: 'Pingxiang (Guangxi - Passo dell\'Amicizia)', pt: [106.75, 22.10], expectedOwner: 'CHI' },

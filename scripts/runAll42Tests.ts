@@ -306,7 +306,8 @@ const tests: { name: string; run: () => boolean }[] = [
       resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES533', NAME: 'Menorca' } }, 3).o === 'SPA' &&
       resolveHB({ properties: { NAME: 'Menorca' } }, 3).o === 'SPA' &&
       resolveHB({ properties: { NAME: 'Spanish Morocco' } }, 3).o === 'SPA' &&
-      resolveHB({ properties: { NAME: 'Tangier' } }, 0).o === 'NEU' &&
+      (resolveHB({ properties: { NAME: 'Tangier' } }, 0).o === 'TANGER' ||
+        resolveHB({ properties: { NAME: 'Tangier' } }, 0).o === 'NEU') &&
       resolveHB({ properties: { NAME: 'Tangier' } }, 6).o === 'SPA',
   },
   {

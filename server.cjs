@@ -99,12 +99,33 @@ const server = http.createServer((req, res) => {
         return;
       }
       try {
-        res.writeHead(200, {
+        const isHtml = ext === '.html';
+        const isJson = ext === '.json';
+        const headers = {
           'Content-Type': contentType,
-          'Cache-Control': 'no-cache',
-        });
-        res.end(data);
-      } catch {}
+        };
+        if (isHtml || isJson) {
+          headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+          headers['Pragma'] = 'no-cache';
+          headers['Expires'] = '0';
+        } else {
+          headers['Cache-Control'] = 'no-cache';
+        }
+        res.writeHead(200, headers);
+        if (req.method === 'HEAD') {
+          res.end();
+        } else {
+          res.end(data);
+        }
+      } catch (sendErr) {
+        console.error('[SEND ERROR]', sendErr);
+        if (!res.writableEnded && !res.destroyed) {
+          try {
+            res.writeHead(500, { 'Content-Type': 'text/plain; charset=UTF-8' });
+            res.end('500 - Errore: ' + sendErr.message);
+          } catch {}
+        }
+      }
     });
   } catch (err) {
     console.error('[REQUEST PROCESSING ERROR]', err);

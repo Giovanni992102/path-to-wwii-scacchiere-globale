@@ -23,5 +23,15 @@ $scStop.IconLocation = "shell32.dll,27"
 $scStop.WindowStyle = 7
 $scStop.Save()
 
+# 3. Collegamento Ricompilazione
+$lnkRebuild = Join-Path $desktop "Ricompila Scacchiere Globale.lnk"
+$scRebuild = $wshell.CreateShortcut($lnkRebuild)
+$scRebuild.TargetPath = Join-Path $currentDir "Ricompila_Applicazione.bat"
+$scRebuild.WorkingDirectory = $currentDir
+$scRebuild.Description = "Ricompila l'applicazione con le ultime modifiche e avvia"
+$scRebuild.IconLocation = "shell32.dll,238"
+$scRebuild.WindowStyle = 1
+$scRebuild.Save()
+
 Write-Host "Collegamenti creati con successo sul Desktop:"
 Get-Item (Join-Path $desktop "*Scacchiere*.lnk") | Select-Object -Property Name, Length, LastWriteTime

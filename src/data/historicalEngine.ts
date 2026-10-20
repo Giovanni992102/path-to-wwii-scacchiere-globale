@@ -21,14 +21,14 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
   UK: { o: 'UK', n: 'Regno Unito' },
   ES: { o: 'SPR', n: 'Repubblica Spagnola' },
   PT: { o: 'POR', n: 'Portogallo' },
-  CH: { o: 'CH', n: 'Svizzera' },
-  AT: { o: 'AT', n: 'Austria' },
+  CH: { o: 'SWI', n: 'Svizzera' },
+  AT: { o: 'AUS', n: 'Austria' },
   PL: { o: 'POL', n: 'Polonia' },
   CS: { o: 'CZE', n: 'Cecoslovacchia' },
   CZ: { o: 'CZE', n: 'Cecoslovacchia' },
   SK: { o: 'CZE', n: 'Cecoslovacchia' },
   HU: { o: 'HUN', n: 'Ungheria' },
-  RO: { o: 'ROU', n: 'Romania' },
+  RO: { o: 'ROM', n: 'Romania' },
   BG: { o: 'BUL', n: 'Bulgaria' },
   GR: { o: 'GRE', n: 'Grecia' },
   EL: { o: 'GRE', n: 'Grecia' },
@@ -46,7 +46,7 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
   SU: { o: 'SOV', n: 'Unione Sovietica' },
   UA: { o: 'SOV', n: 'Unione Sovietica' },
   BY: { o: 'SOV', n: 'Unione Sovietica' },
-  MD: { o: 'ROU', n: 'Romania (Bessarabia)' },
+  MD: { o: 'ROM', n: 'Romania (Bessarabia)' },
   FI: { o: 'FIN', n: 'Finlandia' },
   SE: { o: 'SWE', n: 'Svezia' },
   NO: { o: 'NOR', n: 'Norvegia' },
@@ -54,7 +54,7 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
   NL: { o: 'HOL', n: 'Paesi Bassi' },
   BE: { o: 'BEL', n: 'Belgio' },
   LU: { o: 'LUX', n: 'Lussemburgo' },
-  IE: { o: 'EIR', n: 'Irlanda' },
+  IE: { o: 'IRE', n: 'Irlanda' },
   IS: { o: 'ICE', n: 'Islanda' },
   EE: { o: 'EST', n: 'Estonia' },
   LV: { o: 'LAT', n: 'Lettonia' },
@@ -66,13 +66,13 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
   AU: { o: 'AST', n: 'Australia' },
   NZ: { o: 'NZL', n: 'Nuova Zelanda' },
   ZA: { o: 'SAF', n: 'Unione Sudafricana' },
-  IN: { o: 'IND', n: 'Raj Britannico' },
+  IN: { o: 'RAJ', n: 'Raj Britannico' },
   CN: { o: 'CHI', n: 'Repubblica di Cina' },
   JP: { o: 'JAP', n: 'Impero del Giappone' },
   BR: { o: 'BRA', n: 'Brasile' },
   AR: { o: 'ARG', n: 'Argentina' },
   CL: { o: 'CHL', n: 'Cile' },
-  PE: { o: 'PER', n: 'Perù' },
+  PE: { o: 'PRU', n: 'Perù' },
   CO: { o: 'COL', n: 'Colombia' },
   VE: { o: 'VEN', n: 'Venezuela' },
   MX: { o: 'MEX', n: 'Messico' },
@@ -83,9 +83,9 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
   LY: { o: 'ITA', n: 'Libia Italiana' },
   ET: { o: 'ETH', n: 'Impero d\'Etiopia' },
   SO: { o: 'ITA', n: 'Somalia Italiana' },
-  IQ: { o: 'UK', n: 'Regno dell\'Iraq' },
+  IQ: { o: 'IRQ', n: 'Regno dell\'Iraq' },
   SA: { o: 'SAU', n: 'Arabia Saudita' },
-  IR: { o: 'PER_IR', n: 'Impero dell\'Iran' },
+  IR: { o: 'IRN', n: 'Impero dell\'Iran' },
   SY: { o: 'F_SYR', n: 'Mandato di Siria' },
   LB: { o: 'F_SYR', n: 'Grande Libano' },
   IL: { o: 'UK', n: 'Mandato di Palestina' },
@@ -214,6 +214,9 @@ export function healOrphanTerritory(feature: any, step: number): ResolvedTerrito
  * Combina georesolver, precisione geometrica e toponomastica dinamica con zero tolleranza per i buchi neri.
  */
 export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerritory {
+  if (!feature) {
+    return { o: 'NEU', name: 'Territorio Sconosciuto', fac: 'Neutrale' };
+  }
   let resolved: ResolvedTerritory | null = null;
 
   // A. Funzione di risoluzione personalizzata (es. enclave di precisione)
@@ -259,9 +262,24 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     }
   }
 
-  if (rawBaseName && !feature.__resolve) {
+  const isAlreadyGranular =
+    Boolean(feature.__resolve) ||
+    nid.startsWith('EE') ||
+    nid.startsWith('LV') ||
+    nid.startsWith('LT') ||
+    p.CNTR_CODE === 'EE' ||
+    p.CNTR_CODE === 'LV' ||
+    p.CNTR_CODE === 'LT' ||
+    nid.startsWith('PL_KRESY_') ||
+    p.REGION_KIND === 'POLISH_EASTERN_POWIAT' ||
+    nid.startsWith('EG') ||
+    p.CNTR_CODE === 'EG' ||
+    p.REGION_KIND === 'EGYPT_PROVINCE' ||
+    p.SOVEREIGN === 'EGY';
+
+  if (rawBaseName && !isAlreadyGranular) {
     const dynToponym = getExtendedToponym(rawBaseName, resolved.o, nid, cent, step);
-    if (dynToponym && dynToponym.name) {
+    if (dynToponym && dynToponym.name && dynToponym.name !== rawBaseName) {
       resolved.name = dynToponym.name;
       if (dynToponym.adminTitle) {
         resolved.adminEntity = dynToponym.adminTitle;
@@ -271,7 +289,7 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
         resolved.historicalContext = dynToponym.note;
       }
     }
-  } else if (feature.__resolve && rawBaseName) {
+  } else if (rawBaseName) {
     const dynToponym = getExtendedToponym(rawBaseName, resolved.o, nid, cent, step);
     if (dynToponym) {
       if (dynToponym.adminTitle && !resolved.adminEntity) {
@@ -330,7 +348,7 @@ export function processHistoricalCartographyPipeline(
 
   const all = provs.concat(isHB ? hbs : cntrs);
   const newStats: StatsStep[] = [];
-  for (let s = 0; s < 7; s++) newStats.push({ own: {}, fac: {} });
+  for (let s = 0; s < 9; s++) newStats.push({ own: {}, fac: {} });
 
   for (const f of all) {
     // 1. Sanificazione Topologica
@@ -347,9 +365,9 @@ export function processHistoricalCartographyPipeline(
       f.__cent = [0, 0];
     }
 
-    // 3. Risoluzione Verità Storica per tutti i 7 passaggi
+    // 3. Risoluzione Verità Storica per tutti i 9 passaggi
     f.__res = [];
-    for (let s = 0; s < 7; s++) {
+    for (let s = 0; s < 9; s++) {
       const r = resolveHistoricalTruth(f, s);
       f.__res.push(r);
 
@@ -373,7 +391,7 @@ export function processHistoricalCartographyPipeline(
       totalFeatures: all.length,
       blackHolesFixed,
       topologiesSanitized,
-      stepsAnalyzed: 7,
+      stepsAnalyzed: 9,
     },
   };
 }

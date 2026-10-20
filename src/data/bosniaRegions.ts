@@ -39,6 +39,15 @@ export const BOSNIA_FEDERATION_FEATURE: any = {
   __kind: 'BOSNIA',
 };
 BOSNIA_FEDERATION_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 8) {
+    return makeResult(
+      'CRO',
+      'Bosna i Hercegovina — Velike župe Vrhbosna, Hum i Lašva-Glaž (Sarajevo / Mostar / Tuzla — NDH)',
+      'Nezavisna Država Hrvatska (NDH) — Cuore della Bosnia centrale ed Erzegovina (Sarajevo, Mostar, Tuzla, Zenica, Bihać, Travnik) incorporato nello Stato Indipendente di Croazia proclamato dagli Ustascia di Ante Pavelić il 10 aprile 1941. Attraversato dalla Linea di Demarcazione di Vienna tra la zona d\'occupazione militare tedesca (Sarajevo, Tuzla, Zenica) e quella italiana della 2ª Armata (Mostar, Livno, Erzegovina).',
+      'Fantoccio',
+      'Nezavisna Država Hrvatska (Stato Indipendente di Croazia — Poglavnik Ante Pavelić)'
+    );
+  }
   return makeResult(
     'YUG',
     s >= 4
@@ -72,7 +81,16 @@ export const BOSNIA_SRPSKA_FEATURE: any = {
   __layer: 'prov',
   __kind: 'BOSNIA',
 };
-BOSNIA_SRPSKA_FEATURE.__resolve = (_s: number): ResolvedTerritory => {
+BOSNIA_SRPSKA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 8) {
+    return makeResult(
+      'CRO',
+      'Bosanska Krajina i Podrinje — Velike župe Sana i Luka, Krbava-Psat i Dubrava (Banja Luka / Trebinje — NDH)',
+      'Nezavisna Država Hrvatska (NDH) — Territorio della Bosanska Krajina (Banja Luka, Prijedor, Kozara), dell\'alta Posavina e del Podrinje/Erzegovina orientale (Bijeljina, Višegrad, Foča, Trebinje) annesso allo Stato Indipendente di Croazia (NDH) nell\'aprile 1941. Banja Luka è designata dal regime ustascia quale polo strategico centrale della NDH.',
+      'Fantoccio',
+      'Nezavisna Država Hrvatska (Stato Indipendente di Croazia — Poglavnik Ante Pavelić)'
+    );
+  }
   return makeResult(
     'YUG',
     'Bosanska Krajina i Podrinje (Banja Luka i Trebinje)',
@@ -102,7 +120,16 @@ export const BOSNIA_BRCKO_FEATURE: any = {
   __layer: 'prov',
   __kind: 'BOSNIA',
 };
-BOSNIA_BRCKO_FEATURE.__resolve = (_s: number): ResolvedTerritory => {
+BOSNIA_BRCKO_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 8) {
+    return makeResult(
+      'CRO',
+      'Posavina — Velika župa Posavje (Brčko — NDH)',
+      'Nezavisna Država Hrvatska (NDH) — Corridoio fluviale della Posavina sulla Sava (Brčko) incorporato nella Velika župa Posavje dello Stato Indipendente di Croazia (zona d\'occupazione militare tedesca).',
+      'Fantoccio',
+      'Nezavisna Država Hrvatska (Stato Indipendente di Croazia — Poglavnik Ante Pavelić)'
+    );
+  }
   return makeResult(
     'YUG',
     'Posavina (Brčko)',

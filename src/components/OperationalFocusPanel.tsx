@@ -1,7 +1,7 @@
 import React from 'react';
-import { X, Crosshair, MapPin, Globe, Clock, Shield, Award, User, Landmark } from 'lucide-react';
+import { X, Crosshair, MapPin, Globe, Clock, Shield, Award, User, Landmark, Crown } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
-import { getOwnerMeta, FACTION_COLORS } from '../data/owners';
+import { getOwnerMeta, FACTION_COLORS, formatHierarchyBadge } from '../data/owners';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';
 import { tacticalAudio } from '../data/audioSynthesizer';
 import { CountryFlag } from '../data/historicalFlags';
@@ -140,6 +140,14 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
                   {fac.toUpperCase()}
                 </span>
               </div>
+              {formatHierarchyBadge(res.o, currentStep) && (
+                <div className="flex items-center gap-1.5 mt-1 text-[10px] text-[#e8c979] bg-[#c9a557]/15 border border-[#8a7440]/50 px-1.5 py-0.5 rounded-[1px] tracking-[0.2px]">
+                  <Crown className="h-3 w-3 text-[#e8c979] flex-none" />
+                  <span className="truncate font-medium">
+                    {formatHierarchyBadge(res.o, currentStep)}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
