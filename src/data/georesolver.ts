@@ -6525,6 +6525,57 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'YEM':
     case '887':
       return makeResult('YEM', 'Regno Mutawakkilita dello Yemen / Aden');
+            // -------------------------------------------------------------
+    // MANDATO BRITANNICO DELLA PALESTINA (1920-1948) — 8 PROVINCE
+    // -------------------------------------------------------------
+    case 'PAL':
+    case 'PS':
+    case 'IL':
+    case 'PSGZZ':
+    case 'PSWBK':
+    case 'PAL_GAZ':
+    case 'PAL_SAM':
+    case 'PAL_BEER':
+    case 'PAL_JRS':
+    case 'PAL_TLV':
+    case 'PAL_LYD':
+    case 'PAL_HFA':
+    case 'PAL_GAL': {
+      const props = (ft && ft.properties) ? ft.properties : {};
+      const pNid = String(props.NUTS_ID || props.id || ft?.id || '').trim().toUpperCase();
+      const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
+      let subName = 'Mandato di Palestina';
+      let subTitle = 'League of Nations Class A Mandate (British Administration)';
+
+      if (pNid === 'PAL_GAZ' || pNid === 'PSGZZ' || pName.includes('gaza')) {
+        subName = 'Mandato di Palestina — Distretto di Gaza';
+        subTitle = 'Gaza District · Sfera Britannica';
+      } else if (pNid === 'PAL_SAM' || pNid === 'PSWBK' || pName.includes('samaria') || pName.includes('west bank')) {
+        subName = 'Mandato di Palestina — Samaria e Giudea';
+        subTitle = 'Samaria & Judea Districts (Nablus/Hebron) · Mandato SDN';
+      } else if (pNid === 'PAL_BEER' || pNid === 'ILD' || pName.includes('beersheba') || pName.includes('darom') || pName.includes('negev')) {
+        subName = 'Mandato di Palestina — Distretto di Beersheba (Negev)';
+        subTitle = 'Beersheba Sub-District & Golfo di Aqaba · Mandato SDN';
+      } else if (pNid === 'PAL_JRS' || pNid === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme')) {
+        subName = 'Mandato di Palestina — Distretto di Gerusalemme';
+        subTitle = 'Jerusalem District (Government House) · Sede Alto Commissario';
+      } else if (pNid === 'PAL_TLV' || pNid === 'ILTA' || pName.includes('tel aviv') || pName.includes('jaffa')) {
+        subName = 'Mandato di Palestina — Sottodistretto di Jaffa-Tel Aviv';
+        subTitle = 'Lydda District (Porto di Giaffa e Municipio di Tel Aviv)';
+      } else if (pNid === 'PAL_LYD' || pNid === 'ILM' || pName.includes('lydda') || pName.includes('merkaz') || pName.includes('sharon')) {
+        subName = 'Mandato di Palestina — Distretto di Lydda e Sharon';
+        subTitle = 'Lydda District (Snodo Ferroviario & Base RAF Lydda)';
+      } else if (pNid === 'PAL_HFA' || pNid === 'ILHA' || pName.includes('haifa')) {
+        subName = 'Mandato di Palestina — Distretto di Haifa';
+        subTitle = 'Haifa District (Terminale Oleodotto Kirkuk-Haifa & Base Navale RN)';
+      } else if (pNid === 'PAL_GAL' || pNid === 'ILZ' || pName.includes('galilea') || pName.includes('zafon') || pName.includes('nazareth')) {
+        subName = 'Mandato di Palestina — Distretto di Galilea';
+        subTitle = 'Galilee District (Nazareth, Acri & Frontiera con Mandato Siriano)';
+      }
+
+      return makeResult('UK', subName, subTitle, 'Alleati', subName);
+    }
+    
     case 'IQ':
     case 'IRQ':
     case '368':
