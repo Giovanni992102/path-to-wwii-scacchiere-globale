@@ -6528,7 +6528,100 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             // -------------------------------------------------------------
     // MANDATO BRITANNICO DELLA PALESTINA (1920-1948) — 8 PROVINCE
     // -------------------------------------------------------------
+    // -------------------------------------------------------------
+    // MANDATO FRANCESE DI SIRIA E LIBANO — 14 PROVINCE E DISTRETTI
+    // -------------------------------------------------------------
+    case 'SYR':
+    case 'SY':
+    case '760':
+    case 'LEB':
+    case 'LB':
+    case 'LBN':
+    case '422':
+    case 'F_SYR':
+    case 'VIC_SYR':
+    case 'SYR_DAM':
+    case 'SYR_GHT':
+    case 'SYR_ALP':
+    case 'SYR_IDL':
+    case 'SYR_LTK':
+    case 'SYR_TAR':
+    case 'SYR_HMS':
+    case 'SYR_HMA':
+    case 'SYR_JAZ':
+    case 'SYR_RAQ':
+    case 'SYR_DEZ':
+    case 'SYR_DRU':
+    case 'SYR_HAU':
+    case 'SYR_GOL':
+    case 'LEB_ALL': {
+      const props = (ft && ft.properties) ? ft.properties : {};
+      const pNid = String(props.NUTS_ID || props.id || ft?.id || '').trim().toUpperCase();
+      const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
+
+      const isVichy = s >= 6;
+      const ownerCode = isVichy ? 'VIC_SYR' : 'F_SYR';
+      const factionCode = isVichy ? 'Fantoccio' : 'Alleati';
+      const regimePrefix = isVichy ? 'Siria (Regime di Vichy — Gen. Dentz)' : 'Mandato Francese di Siria';
+
+      let subName = isVichy ? 'Siria (Regime di Vichy — Gen. Dentz)' : 'Mandato Francese di Siria';
+      let subTitle = isVichy ? 'Stato di Siria · Tutela del Governo di Vichy' : 'League of Nations Class A Mandate (French Administration)';
+
+      if (pNid === 'SYR_DAM' || pName.includes('damasco') || pName.includes('damascus')) {
+        subName = `${regimePrefix} — Città di Damasco`;
+        subTitle = 'Damascus (Capitale Mandataria & Comando Militare)';
+      } else if (pNid === 'SYR_GHT' || pName.includes('rif dimashq') || pName.includes('ghouta')) {
+        subName = `${regimePrefix} — Rif Dimashq e Ghouta`;
+        subTitle = 'Oasi della Ghouta & Massiccio del Qalamoun';
+      } else if (pNid === 'SYR_ALP' || pName.includes('aleppo') || pName.includes('alep')) {
+        subName = `${regimePrefix} — Governatorato di Aleppo`;
+        subTitle = 'Aleppo (Metropoli Mercantile & Snodo Ferroviario Settentrionale)';
+      } else if (pNid === 'SYR_IDL' || pName.includes('idlib')) {
+        subName = `${regimePrefix} — Distretto di Idlib`;
+        subTitle = 'Idlib & Gebel Zawiya';
+      } else if (pNid === 'SYR_LTK' || pName.includes('latakia') || pName.includes('lattakia')) {
+        subName = `${regimePrefix} — Territorio Alauita di Latakia`;
+        subTitle = 'Latakia (Porto Mediterraneo & Gebel Alauita)';
+      } else if (pNid === 'SYR_TAR' || pName.includes('tartus')) {
+        subName = `${regimePrefix} — Territorio Alauita di Tartus`;
+        subTitle = 'Tartus & Isola Fortificata di Arwad';
+      } else if (pNid === 'SYR_HMS' || pName.includes('homs')) {
+        subName = `${regimePrefix} — Governatorato di Homs`;
+        subTitle = 'Homs (Varco Oronte & Corridoio Strategico)';
+      } else if (pNid === 'SYR_HMA' || pName.includes('hama')) {
+        subName = `${regimePrefix} — Governatorato di Hama`;
+        subTitle = 'Hama (Valle Fluviale dell\'Oronte)';
+      } else if (pNid === 'SYR_JAZ' || pName.includes('hasaka') || pName.includes('giazira')) {
+        subName = `${regimePrefix} — Territorio della Giazira`;
+        subTitle = 'Al-Hasakah & Alta Mesopotamia Siriana';
+      } else if (pNid === 'SYR_RAQ' || pName.includes('raqqa')) {
+        subName = `${regimePrefix} — Governatorato di Raqqa`;
+        subTitle = 'Ar-Raqqah (Medio Eufrate & Steppe Settentrionali)';
+      } else if (pNid === 'SYR_DEZ' || pName.includes('deir') || pName.includes('zawr')) {
+        subName = `${regimePrefix} — Governatorato di Deir ez-Zor`;
+        subTitle = 'Dayr Az Zawr (Avamposto sull\'Eufrate verso l\'Iraq)';
+      } else if (pNid === 'SYR_DRU' || pName.includes('suwayda') || pName.includes('druso')) {
+        subName = `${regimePrefix} — Stato del Gebel Druso`;
+        subTitle = 'Jabal al-Druze (Roccaforte di As-Suwayda)';
+      } else if (pNid === 'SYR_HAU' || pName.includes('dar`a') || pName.includes('dara') || pName.includes('hauran')) {
+        subName = `${regimePrefix} — Piana dell'Hauran (Dar'a)`;
+        subTitle = 'Dar\'a (Ferrovia dell\'Hejaz & Confine con Transgiordania)';
+      } else if (pNid === 'SYR_GOL' || pName.includes('quneitra') || pName.includes('golan')) {
+        subName = `${regimePrefix} — Distretto del Golan (Quneitra)`;
+        subTitle = 'Quneitra (Alture del Golan & Monte Hermon)';
+      } else if (pNid === 'LEB_ALL' || pNid === 'LEB' || pNid === 'LB' || pNid === 'LBN' || pNid === '422' || pName.includes('liban') || pName.includes('lebanon') || pName.includes('libano')) {
+        subName = isVichy ? 'Grande Libano (Amministrazione di Vichy)' : 'Mandato Francese del Grande Libano';
+        subTitle = 'Grand Liban (Beirut, Monte Libano, Beqaa & Tripoli)';
+      }
+
+      return makeResult(ownerCode, subName, subTitle, factionCode, subName);
+    }
+
     case 'PAL':
+    case 'ISR':
+    case '376':
+    case 'PSE':
+    case '275':
     case 'PS':
     case 'IL':
     case 'PSGZZ':
@@ -6599,13 +6692,6 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'JOR':
     case '400':
       return makeResult('UK', 'Emirato di Transgiordania', 'Mandato Britannico');
-    case 'IL':
-    case 'ISR':
-    case '376':
-    case 'PS':
-    case 'PSE':
-    case '275':
-      return makeResult('UK', 'Mandato di Palestina', 'Mandato Britannico');
     case 'KW':
     case 'KWT':
     case '414':
@@ -6622,20 +6708,6 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'BHR':
     case '048':
       return makeResult('UK', 'Protettorati Britannici del Golfo');
-    case 'SY':
-    case 'SYR':
-    case '760':
-    case 'XSY':
-      return s < 6
-        ? makeResult('F_SYR', 'Mandato Francese di Siria')
-        : makeResult('F_SYR', 'Mandato Francese di Siria', 'Amministrazione di Vichy', 'Fantoccio');
-    case 'LB':
-    case 'LBN':
-    case '422':
-    case 'XLB':
-      return s < 6
-        ? makeResult('F_SYR', 'Mandato Francese del Libano')
-        : makeResult('F_SYR', 'Mandato Francese del Libano', 'Amministrazione di Vichy', 'Fantoccio');
 
     case 'LR':
     case 'LBR':
