@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Info, Volume2, VolumeX, Shield, Crosshair, Camera, Compass } from 'lucide-react';
+import { Search, Info, Volume2, VolumeX, Crosshair } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';
 import { tacticalAudio } from '../data/audioSynthesizer';

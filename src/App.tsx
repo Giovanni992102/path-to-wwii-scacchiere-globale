@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
-import { StepInfo, StatsStep } from './types';
+import { StatsStep } from './types';
 import { STEPS } from './data/historySteps';
 import {
   HB_NAME,
   resolveFeature,
   resolveHB,
-  makeResult,
 } from './data/georesolver';
 import { getOwnerMeta, getOverlord, isSubjectOf } from './data/owners';
 import { getExtendedToponym } from './data/historicalToponyms';
@@ -17,41 +16,17 @@ import { TopBar } from './components/TopBar';
 import { OperationalFocusPanel } from './components/OperationalFocusPanel';
 import { IntelligencePanel } from './components/IntelligencePanel';
 import { TimelineController } from './components/TimelineController';
-import { SearchModal, ISLAND_SEARCH_ALIASES } from './components/SearchModal';
+import { SearchModal } from './components/SearchModal';
 import { InfoModal } from './components/InfoModal';
 
 import { ToastNotice } from './components/ToastNotice';
-import { TacticalMap, STRATEGIC_ISLAND_LABELS } from './components/TacticalMap';
+import { TacticalMap } from './components/TacticalMap';
 import { processHistoricalCartographyPipeline } from './data/historicalEngine';
 import { MapLayerControls, LayerVisibilityState } from './components/MapLayerControls';
 import { tacticalAudio } from './data/audioSynthesizer';
 import { HistoricalBattle } from './data/historicalBattles';
 import { FortificationLine, NavalBase } from './data/historicalFortifications';
 import { resolveBalkansToponym, BALKAN_DISTRICTS_CATALOG } from './data/balkanDistricts';
-
-function fixFeatureWinding(f: any) {
-  if (!f || !f.geometry) return f;
-  try {
-    if (f.geometry.type === 'Polygon') {
-      const area = d3.geoArea(f);
-      if (area > 2 * Math.PI) {
-        f.geometry.coordinates = f.geometry.coordinates.map((ring: any[]) => [...ring].reverse());
-      }
-    } else if (f.geometry.type === 'MultiPolygon') {
-      f.geometry.coordinates = f.geometry.coordinates.map((poly: any[]) => {
-        const singlePoly = { type: 'Polygon', coordinates: poly };
-        const area = d3.geoArea(singlePoly as any);
-        if (area > 2 * Math.PI) {
-          return poly.map((ring: any[]) => [...ring].reverse());
-        }
-        return poly;
-      });
-    }
-  } catch (e) {
-    // ignore
-  }
-  return f;
-}
 
 export default function App() {
   const [loading, setLoading] = useState(true);

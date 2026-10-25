@@ -17,7 +17,7 @@
  * - Step 8 (1941: Campagna Balcani, annessione Bassa Stiria/Alta Carniola, mobilitazione totale per Operazione Barbarossa)
  */
 
-import { ResolvedTerritory, FactionType } from '../types';
+import { ResolvedTerritory } from '../types';
 import { makeResult } from './georesolver';
 
 export interface GermanyProvinceMeta {

@@ -9,7 +9,8 @@
  * - Toponimi storici autentici, titoli amministrativi persiani e note geostoriche dinamiche (Step 0-8)
  */
 
-import { ResolvedTerritory, makeResult } from './georesolver';
+import { ResolvedTerritory } from '../types';
+import { makeResult } from './georesolver';
 
 export interface IranProvinceInfo {
   id: string;

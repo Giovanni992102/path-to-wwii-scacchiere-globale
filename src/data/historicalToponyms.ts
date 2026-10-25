@@ -1,4 +1,3 @@
-import { GERMANY_PROVINCES_META } from './germanyProvinces';
 import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)

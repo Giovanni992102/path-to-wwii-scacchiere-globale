@@ -58,6 +58,7 @@ export interface PhilippinesProvinceInfo {
   s5_7: string; // Step 5-7 (set 1939 - ott 1940: Patto Tripartito, Invasione Tonchino & Allerta USAFFE)
   s8: string;   // Step 8 (apr 1941: Patto di Mosca, Mobilitazione USAFFE & B-17 a Clark Field)
   getNote: (s: number) => string;
+  getSovereign?: (s: number) => string;
   getFaction?: (s: number) => FactionType;
   getHistoricalName?: (s: number) => string;
   getAdminTitle?: (s: number) => string;

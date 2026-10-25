@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Crosshair, MapPin, Globe, Clock, Shield, Award, User, Landmark, Crown } from 'lucide-react';
+import { X, Crosshair, User, Landmark, Crown } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
 import { getOwnerMeta, FACTION_COLORS, formatHierarchyBadge } from '../data/owners';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';

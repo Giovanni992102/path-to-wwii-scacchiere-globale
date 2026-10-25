@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Search, X, MapPin, Globe, ArrowRight, Shield, Crosshair, Anchor } from 'lucide-react';
+import { Search, X, MapPin, ArrowRight, Shield, Crosshair, Anchor } from 'lucide-react';
 import { SearchResultItem } from '../types';
 import { getOwnerMeta, getOverlord } from '../data/owners';
 import { normStr } from '../data/georesolver';

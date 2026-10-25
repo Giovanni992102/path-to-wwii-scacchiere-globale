@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { ResolvedTerritory, FactionType, StatsStep } from '../types';
+import { ResolvedTerritory, StatsStep } from '../types';
 import { resolveFeature, resolveHB } from './georesolver';
 import { getOwnerMeta } from './owners';
 import { getExtendedToponym } from './historicalToponyms';

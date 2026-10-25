@@ -4,11 +4,9 @@ import { getOwnerMeta, FACTION_COLORS, formatHierarchyBadge } from '../data/owne
 import {
   HISTORICAL_FORTIFICATION_LINES,
   HISTORICAL_NAVAL_BASES,
-  FortificationLine,
-  NavalBase,
 } from '../data/historicalFortifications';
-import { HISTORICAL_BATTLES, HistoricalBattle } from '../data/historicalBattles';
-import { HISTORICAL_SEA_LANES, SeaLane } from '../data/historicalSeaLanes';
+import { HISTORICAL_BATTLES } from '../data/historicalBattles';
+import { HISTORICAL_SEA_LANES } from '../data/historicalSeaLanes';
 import { LayerVisibilityState } from './MapLayerControls';
 import { tacticalAudio } from '../data/audioSynthesizer';
 import { getCountryFlagSvg } from '../data/historicalFlags';

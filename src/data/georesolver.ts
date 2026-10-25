@@ -8,7 +8,6 @@ import {
   resolveIndonesiaProvince,
   resolveTimorLeste,
   INDONESIA_PROVINCES_META,
-  TIMOR_LESTE_META,
 } from './indonesiaTimorProvinces';
 import {
   resolvePhilippinesProvince,
@@ -16,7 +15,6 @@ import {
 } from './philippinesProvinces';
 import {
   resolveGermanyProvince,
-  GERMANY_PROVINCES_META,
 } from './germanyProvinces';
 import {
   resolveFrenchIndochinaProvince,
@@ -28,7 +26,6 @@ import {
   resolvePolandToponym,
   resolveJapanToponym,
   resolveChinaToponym,
-  resolveBeneluxToponym,
   resolveSwissAustrianToponym,
   resolveBalkansToponym,
   EGYPT_DISTRICTS_META,

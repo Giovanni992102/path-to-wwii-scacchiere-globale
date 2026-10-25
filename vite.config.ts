@@ -38,6 +38,9 @@ export default defineConfig(() => {
               }
               return 'vendor-libs';
             }
+            if (normalized.includes('/src/data/flags/')) {
+              return 'data-flags';
+            }
           },
         },
       },

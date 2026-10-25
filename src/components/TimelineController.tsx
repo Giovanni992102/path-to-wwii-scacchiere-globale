@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Play, Pause, ChevronRight, Globe2 } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';
 import { tacticalAudio } from '../data/audioSynthesizer';
