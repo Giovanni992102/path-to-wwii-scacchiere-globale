@@ -153,6 +153,10 @@ export async function loadUnifiedGeoDatabase(
     f.__layer = layer;
     p.__layer = layer;
 
+    if (!f.__itname) {
+      f.__itname = p.NUTS_NAME || p.NAME_LATN || p.NAME || '';
+    }
+
     // Collega l'eventuale resolver storico temporale
     const resId = p.__resolverId || f.id || p.id || p.NAME;
     if (resId && RESOLVER_REGISTRY[resId]) {

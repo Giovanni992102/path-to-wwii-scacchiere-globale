@@ -274,12 +274,15 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
   }, []);
 
   const renderTerritoryTooltipHtml = useCallback((d: any, res: any, meta: any, fac: string, step: number) => {
+    const p = d?.properties || {};
     const noteText = res.note || res.historicalContext;
     const hierarchyBadge = formatHierarchyBadge(res.o, step);
+    const modernStr = p.NUTS_NAME || d?.__itname || '';
     return `<div class="font-oswald text-[15px] font-semibold text-[#f0e6c8] tracking-[0.5px] border-b border-[#3a3420] pb-1 mb-1 leading-tight flex items-center justify-between gap-3">
       <span>${res.name || d.__itname || 'Territorio'}</span>
       <span class="text-[10px] font-mono-tech px-1.5 py-0.2 bg-[#222a30] text-[#c9a557] border border-[#3d4852] rounded">${res.o}</span>
     </div>
+    ${modernStr && modernStr !== res.name ? `<div class="text-[10px] text-[#8b9298] font-mono-tech mb-1 tracking-[0.2px]">Oggi: ${modernStr}${p.CNTR_NAME && !modernStr.includes(p.CNTR_NAME) ? ` (${p.CNTR_NAME})` : ''}</div>` : ''}
     ${hierarchyBadge ? `<div class="text-[9.5px] font-mono-tech tracking-wider uppercase text-[#fbbf24] px-1.5 py-0.5 bg-[#d97706]/15 border border-[#d97706]/35 rounded mb-1 flex items-center gap-1 leading-tight">👑 ${hierarchyBadge}</div>` : ''}
     ${res.adminEntity ? `<div class="text-[11px] text-[#c9a557] font-mono-tech mb-1 leading-tight tracking-[0.2px]">${res.adminEntity}</div>` : ''}
     <div class="flex items-center gap-2.5 text-[13px] text-[#cfd3d6] tracking-[0.3px] my-1">

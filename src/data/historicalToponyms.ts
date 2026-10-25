@@ -1230,20 +1230,50 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     vientiane: { historicalName: 'Vientiane (Vichy)', adminTitle: 'Protectorat du Laos (Vichy)', historicalNote: 'Poste frontière sur le Mékong face aux incursions thaïlandaises.' },
   },
   F_SYR: {
-    syrie: { historicalName: 'Mandat Français en Syrie et au Liban', adminTitle: 'Haut-Commissariat de la République Française au Levant (Beyrouth)', historicalNote: 'Mandat A de la Société des Nations (1920-1946). Haut-Commissaire Gabriel Puaux.' },
-    damas: { historicalName: 'Damas', adminTitle: 'Capitale de l\'État de Syrie', historicalNote: 'Cité millénaire, berceau de l\'arabisme et capitale de la République syrienne sous mandat.' },
-    alep: { historicalName: 'Alep', adminTitle: 'Métropole Commerciale du Nord Syrien', historicalNote: 'Grand carrefour caravanier et ferroviaire au débouché de l\'Anatolie et de la Mésopotamie.' },
-    liban: { historicalName: 'Grand Liban (République Libanaise)', adminTitle: 'État du Grand Liban sous Mandat Français', historicalNote: 'République parlementaire multiconfessionnelle présidée par Émile Éddé.' },
-    beyrouth: { historicalName: 'Beyrouth', adminTitle: 'Siège du Haut-Commissariat au Levant & Capitale du Liban', historicalNote: 'Grande métropole culturelle et portuaire de la Méditerranée orientale.' },
-    latakia: { historicalName: 'Lattaquié (Territoire des Alaouites)', adminTitle: 'Gouvernement de Lattaquié', historicalNote: 'Région côtière côtoyant le Djebel Ansariyé, dotée d\'une administration distincte.' },
-    jebel_druze: { historicalName: 'Djebel Druze (Soueida)', adminTitle: 'Gouvernement du Djebel Druze', historicalNote: 'Région montagneuse du Hauran peuplée par la communauté druze.' },
+    syrie: { historicalName: 'Mandat Français en Syrie et au Liban', adminTitle: 'Haut-Commissariat de la République Française au Levant (Beyrouth)', historicalNote: 'Mandat A de la Société des Nations (1920-1946). Haut-Commissaire Damien de Martel puis Gabriel Puaux.' },
+    damas: { historicalName: 'Damas (Città di Damasco)', adminTitle: 'Capitale de l\'État de Syrie & Siège du Parlement', historicalNote: 'Cité millénaire, berceau de l\'arabisme et capitale de la République syrienne sous mandat.' },
+    alep: { historicalName: 'Alep (Governatorato di Aleppo)', adminTitle: 'Métropole Commerciale du Nord Syrien & Base Aérienne de Nerab', historicalNote: 'Grand carrefour caravanier et ferroviaire au débouché de l\'Anatolie et de la Mésopotamie.' },
+    homs: { historicalName: 'Homs (Governatorato di Homs)', adminTitle: 'Carrefour de l\'Oronte, Krak des Chevaliers & Palmyre', historicalNote: 'Verrou stratégique entre les monts Alaouites et le Liban; traversé par le double oléoduc IPC.' },
+    hama: { historicalName: 'Hama (Governatorato di Hama)', adminTitle: 'Vallée de l\'Oronte & Norias Historiques', historicalNote: 'Cité aristocratique célèbre pour ses norias hydrauliques géantes et ses plaines céréalières.' },
+    latakia: { historicalName: 'Lattaquié (Territoire des Alaouites)', adminTitle: 'Gouvernement de Lattaquié & Grand Port Méditerranéen', historicalNote: 'Région côtière côtoyant le Djebel Ansariyé, principal débouché maritime de la Syrie.' },
+    tartus: { historicalName: 'Tartous (Territoire des Alaouites)', adminTitle: 'Port de Tartous & Île Fortifiée d\'Arwad', historicalNote: 'Ancienne Tortose franque avec la cathédrale templière et l\'île phénicienne d\'Arwad.' },
+    idlib: { historicalName: 'Idlib (Distretto di Idlib)', adminTitle: 'Bassin Agricole du Djebel Zawiya', historicalNote: 'Centre oléicole et agricole stratégique entre la plaine d\'Alep et la côte de Lattaquié.' },
+    hasaka: { historicalName: 'Al-Hassaké (Territoire de la Djézireh)', adminTitle: 'Haute-Mésopotamie Syrienne & Grenier Céréalier', historicalNote: 'Mosaïque ethnique et religieuse (Kurdes, Assyriens, Arméniens, Bédouins) entre Euphrate et Tigre.' },
+    raqqa: { historicalName: 'Ar-Raqqa (Governatorato di Raqqa)', adminTitle: 'Moyen-Euphrate & Steppes Pastorales', historicalNote: 'Ancienne capitale abbasside d\'Haroun ar-Rachid et marché bédouin de la steppe semi-aride.' },
+    deir_ez_zor: { historicalName: 'Deir ez-Zor (Governatorato di Deir ez-Zor)', adminTitle: 'Poste Frontière du Bas-Euphrate vers l\'Irak', historicalNote: 'Capitale fluviale dotée du célèbre pont suspendu français construit en 1927-1931.' },
+    jebel_druze: { historicalName: 'Djebel Druze (Soueida)', adminTitle: 'Gouvernement du Djebel Druze (Famille al-Atrash)', historicalNote: 'Région volcanique montagneuse peuplée par la communauté druze autonome.' },
+    hauran: { historicalName: 'Hauran (Deraa)', adminTitle: 'Plateau Céréalier du Hauran & Chemin de Fer du Hedjaz', historicalNote: 'Plaine basaltique fertile et frontière douanière vers l\'Émirat de Transjordanie.' },
+    golan: { historicalName: 'Golan (Kouneitra)', adminTitle: 'Plateau du Golan, Mont Hermon & Sources du Jourdain', historicalNote: 'Verrou militaire basaltique dominant les sources du Jourdain et la Galilée.' },
+    hatay: {
+      historicalName: 'Sangiaccato di Alessandretta (Hatay)',
+      adminTitle: 'Sanjak d\'Alexandrette · Statuto Autonomo nel Mandato di Siria',
+      historicalNote: 'Distretto autonomo a forte componente turca, araba e armena amministrato dalla Francia fino alla nascita dello Stato di Hatay nel 1938.',
+    },
+    tr631: {
+      historicalName: 'Sangiaccato di Alessandretta (Hatay)',
+      adminTitle: 'Sanjak d\'Alexandrette · Statuto Autonomo nel Mandato di Siria',
+      historicalNote: 'Sangiaccato di Alessandretta sotto amministrazione mandataria francese.',
+    },
     alexandrette: { historicalName: 'Sandjak d\'Alexandrette (Hatay)', adminTitle: 'Territoire Cédé à la Turquie (Traité du 23 juin 1939)', historicalNote: 'Territoire autonome du Levant cédé par la France à la République de Turquie en juin 1939 en échange d\'un pacte de neutralité mutuelle.' },
+    liban: { historicalName: 'Grand Liban (République Libanaise)', adminTitle: 'État du Grand Liban sous Mandat Français', historicalNote: 'République parlementaire multiconfessionnelle présidée par Émile Éddé.' },
+    beyrouth: { historicalName: 'Beyrouth (Città e Porto di Beirut)', adminTitle: 'Siège du Haut-Commissariat au Levant & Capitale du Liban', historicalNote: 'Grande métropole culturelle, bancaire et portuaire de la Méditerranée orientale.' },
+    mont_liban: { historicalName: 'Mont-Liban (Governatorato del Monte Libano)', adminTitle: 'Gouvernorat du Mont-Liban (Baabda, Kesrouan & Chouf)', historicalNote: 'Foyer historique montagnard maronite et druze aux villages de pinèdes et monastères.' },
+    tripoli_liban: { historicalName: 'Tripoli (Libano Settentrionale)', adminTitle: 'Gouvernorat du Liban-Nord & Terminal Oléoduc IPC', historicalNote: 'Deuxième port du pays avec le château Saint-Gilles et la raffinerie du pétrole de Kirkouk.' },
+    akkar: { historicalName: 'Akkar (Distretto dell\'Akkar)', adminTitle: 'Gouvernorat de l\'Akkar (Halba & Nahr al-Kabir)', historicalNote: 'Plaine agricole fertile bordant la frontière fluviale syrienne du Nahr al-Kabir.' },
+    bekaa: { historicalName: 'Békaa (Governatorato della Beqaa)', adminTitle: 'Vallée de la Békaa, Zahlé & Base Aérienne de Rayak', historicalNote: 'Dépression alluviale fertile entre Mont-Liban et Anti-Liban arrosée par le Litani; vignobles de Ksara.' },
+    baalbek: { historicalName: 'Baalbek (Distretto di Baalbek e Hermel)', adminTitle: 'Haute-Békaa & Cité Romaine d\'Héliopolis', historicalNote: 'Ruines romaines colossales du Temple de Jupiter et sources de l\'Oronte.' },
+    sud_liban: { historicalName: 'Liban-Sud (Sidone e Tiro)', adminTitle: 'Gouvernorat du Liban-Sud (Saïda, Sour & Jezzine)', historicalNote: 'Ports phéniciens millénaires et côte d\'agrumeraies reliant la Palestine mandataire.' },
+    nabatieh: { historicalName: 'Nabatieh (Distretto di Nabatieh)', adminTitle: 'Djebel Amel, Marjayoun & Forteresse de Beaufort', historicalNote: 'Région collinaire chiite et château croisé de Beaufort dominant le fleuve Litani.' },
   },
   VIC_SYR: {
     syrie: { historicalName: 'Mandat de Syrie (Vichy)', adminTitle: 'Haut-Commissaire Général Henri Dentz (Vichy)', historicalNote: 'Le général Henri Dentz prend le commandement au nom de Vichy en décembre 1940, préparant la défense du Levant contre les Britanniques.' },
-    damas: { historicalName: 'Damas (Syrie — Vichy)', adminTitle: 'État de Syrie sous Administration de Vichy', historicalNote: 'Gouvernement local surveillé par les troupes spéciales du Levant fidèles à Vichy.' },
-    beyrouth: { historicalName: 'Beyrouth (Liban — Vichy)', adminTitle: 'Quartier Général du Général Henri Dentz', historicalNote: 'Port militaire et siège du commandement vichyste des forces du Levant.' },
-    liban: { historicalName: 'Grand Liban (Vichy)', adminTitle: 'République Libanaise sous Tutelle de Vichy', historicalNote: 'Sous strict blocus maritime imposé par la Royal Navy basée en Palestine.' },
+    damas: { historicalName: 'Damas (Syrie — Vichy)', adminTitle: 'État de Syrie sous Administration de Vichy', historicalNote: 'Gouvernement local surveillé par les troupes spéciales du Levant fidèles à Vichy; aéroport de Mezzeh ouvert à l\'Axe.' },
+    alep: { historicalName: 'Alep (Syrie — Vichy)', adminTitle: 'Base Aérienne de Nerab (Fliegerführer Irak)', historicalNote: 'Escale stratégique pour les bombardiers de la Luftwaffe et de la Regia Aeronautica soutenant l\'Irak de Rashid Ali.' },
+    homs: { historicalName: 'Homs (Syrie — Vichy)', adminTitle: 'Base d\'Aviation de Palmyre & Ligne IPC Suspendue', historicalNote: 'Oasis et terrain d\'aviation bombardés par la RAF britannique lors de la crise d\'Irak.' },
+    beyrouth: { historicalName: 'Beyrouth (Liban — Vichy)', adminTitle: 'Grand Sérail & Quartier Général du Général Henri Dentz', historicalNote: 'Port militaire et siège du commandement vichyste des forces du Levant sous blocus de la Royal Navy.' },
+    liban: { historicalName: 'Grand Liban (Vichy)', adminTitle: 'République Libanaise sous Tutelle de Vichy', historicalNote: 'Sous strict blocus maritime imposé par la Royal Navy basée en Palestine; pénurie de farine et carburant.' },
+    tripoli_liban: { historicalName: 'Tripoli (Liban — Vichy)', adminTitle: 'Port de Tripoli sous Blocus Allié', historicalNote: 'Raffinerie paralysée par l\'arrêt du pétrole irakien; patrouilles d\'hydravions vichystes.' },
+    bekaa: { historicalName: 'Békaa (Liban — Vichy)', adminTitle: 'Base Aérienne de Rayak (Armée de l\'Air de Vichy)', historicalNote: 'Aérodrome militaire servant de relais technique pour les appareils de l\'Axe vers l\'Irak.' },
   },
   F_MAD: {
     madagascar: { historicalName: 'Colonie de Madagascar et Dépendances', adminTitle: 'Gouvernement Général de Madagascar (Tananarive)', historicalNote: 'Grande île de l\'océan Indien et dépendances (archipel des Comores, île Sainte-Marie, Glorieuses, Kerguelen, Crozet).' },
@@ -1311,10 +1341,96 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     gibraltar: { historicalName: 'Gibraltar (The Rock)', adminTitle: 'Crown Colony & Fortress (Force H)', historicalNote: 'Baluardo strategico all\'imbocco del Mediterraneo e sede della Force H.' },
     malta: { historicalName: 'Malta (Valletta Grand Harbour)', adminTitle: 'Crown Colony & Naval Fortress', historicalNote: 'Base avanzata della Mediterranean Fleet nel Canale di Sicilia.' },
     cyprus: { historicalName: 'Cyprus (Nicosia)', adminTitle: 'Crown Colony of Cyprus', historicalNote: 'Colonia della Corona a presidio del Mediterraneo orientale.' },
-    palestine: { historicalName: 'British Mandate for Palestine', adminTitle: 'League of Nations Mandate (High Commissioner)' },
-    jerusalem: { historicalName: 'Jerusalem (Palestine)', adminTitle: 'Seat of the High Commissioner' },
-    haifa: { historicalName: 'Haifa (Palestine)', adminTitle: 'Major Port and Oil Pipeline Terminal' },
-    jaffa: { historicalName: 'Jaffa / Tel Aviv', adminTitle: 'Mandate of Palestine' },
+    palestine: {
+      historicalName: 'Mandato Britannico della Palestina',
+      adminTitle: 'British Mandate for Palestine · League of Nations Class A Mandate',
+      historicalNote: 'Mandato di Classe A della Società delle Nazioni sotto amministrazione civile britannica con sede a Gerusalemme.'
+    },
+    jerusalem: {
+      historicalName: 'Mandato di Palestina — Distretto di Gerusalemme',
+      adminTitle: "Jerusalem District · Sede dell'Alto Commissario Britannico (Government House)",
+      historicalNote: 'Capitale mandataria, sede dell\'Alto Commissario al Government House e centro spirituale delle tre fedi monoteiste.'
+    },
+    pal_jrs: {
+      historicalName: 'Mandato di Palestina — Distretto di Gerusalemme',
+      adminTitle: "Jerusalem District · Sede dell'Alto Commissario Britannico (Government House)",
+      historicalNote: 'Capitale mandataria e centro amministrativo, diplomatico e spirituale supremo.'
+    },
+    haifa: {
+      historicalName: 'Mandato di Palestina — Distretto di Haifa',
+      adminTitle: 'Haifa District · Base Navale della Royal Navy & Terminale Oleodotto Kirkuk-Haifa (IPC)',
+      historicalNote: 'Porto principale in acque profonde, raffinerie CRL e terminale dell\'oleodotto petrolifero transdesertico dell\'Iraq.'
+    },
+    pal_hfa: {
+      historicalName: 'Mandato di Palestina — Distretto di Haifa',
+      adminTitle: 'Haifa District · Base Navale della Royal Navy & Terminale Oleodotto Kirkuk-Haifa (IPC)',
+      historicalNote: 'Porto navale strategico alleato, raffinazione del greggio e capolinea ferroviario della costa.'
+    },
+    jaffa: {
+      historicalName: 'Mandato di Palestina — Sottodistretto di Jaffa e Tel Aviv',
+      adminTitle: "Jaffa & Tel Aviv Sub-District · Polo Economico dell'Yishuv & Porto Storico di Giaffa",
+      historicalNote: 'Metropoli modernista di Tel Aviv affiancata all\'antico porto arabo di Giaffa.'
+    },
+    telaviv: {
+      historicalName: 'Mandato di Palestina — Sottodistretto di Jaffa e Tel Aviv',
+      adminTitle: "Jaffa & Tel Aviv Sub-District · Polo Economico dell'Yishuv & Porto Storico di Giaffa",
+      historicalNote: 'La "Città Bianca" Bauhaus, centro vitale dell\'Yishuv, della stampa, finanza e industria.'
+    },
+    pal_tlv: {
+      historicalName: 'Mandato di Palestina — Sottodistretto di Jaffa e Tel Aviv',
+      adminTitle: "Jaffa & Tel Aviv Sub-District · Polo Economico dell'Yishuv & Porto Storico di Giaffa",
+      historicalNote: 'Polo urbano ed economico principale con i porti gemelli di Giaffa e Tel Aviv.'
+    },
+    galilee: {
+      historicalName: 'Mandato di Palestina — Distretto di Galilea',
+      adminTitle: 'Galilee District (Nazareth, Acri & Safed) · Frontiera Settentrionale Mandataria',
+      historicalNote: 'Regione settentrionale collinare (Nazareth, Safed, Tiberiade e Acri), linea fortificata Tegart sul confine con Siria e Libano.'
+    },
+    pal_gal: {
+      historicalName: 'Mandato di Palestina — Distretto di Galilea',
+      adminTitle: 'Galilee District (Nazareth, Acri & Safed) · Frontiera Settentrionale Mandataria',
+      historicalNote: 'Frontiera settentrionale verso il Mandato francese; settore di radunata dell\'Operazione Exporter nel 1941.'
+    },
+    samaria: {
+      historicalName: 'Mandato di Palestina — Samaria e Giudea',
+      adminTitle: 'Samaria & Judea Districts (Nablus, Jenin & Hebron) · Roccaforte della Montagna',
+      historicalNote: 'Dorsale montuosa centrale della Palestina (Cisgiordania), cuore rurale della coltivazione dell\'olivo e roccaforte della rivolta araba.'
+    },
+    pal_sam: {
+      historicalName: 'Mandato di Palestina — Samaria e Giudea',
+      adminTitle: 'Samaria & Judea Districts (Nablus, Jenin & Hebron) · Roccaforte della Montagna',
+      historicalNote: 'Distretti montani di Nablus, Jenin, Tulkarm e Hebron presidiati da forti Tegart della polizia britannica.'
+    },
+    lydda: {
+      historicalName: 'Mandato di Palestina — Distretto di Lydda e Sharon',
+      adminTitle: 'Lydda District (Lod & Ramle) · Snodo Ferroviario Mandatario & Base Aerea RAF Lydda',
+      historicalNote: 'Snodo ferroviario centrale della Palestina e aeroporto internazionale strategico della RAF.'
+    },
+    pal_lyd: {
+      historicalName: 'Mandato di Palestina — Distretto di Lydda e Sharon',
+      adminTitle: 'Lydda District (Lod & Ramle) · Snodo Ferroviario Mandatario & Base Aerea RAF Lydda',
+      historicalNote: 'Piana costiera di Sharon, crocevia delle linee ferroviarie verso l\'Egitto e la Siria e base aerea di Lydda.'
+    },
+    gaza: {
+      historicalName: 'Mandato di Palestina — Distretto di Gaza',
+      adminTitle: "Gaza District · Corridoio Costiero verso il Sinai & Posto di Frontiera con l'Egitto",
+      historicalNote: 'Antico varco costiero verso il deserto del Sinai e l\'Egitto, snodo doganale e ferroviario.'
+    },
+    pal_gaz: {
+      historicalName: 'Mandato di Palestina — Distretto di Gaza',
+      adminTitle: "Gaza District · Corridoio Costiero verso il Sinai & Posto di Frontiera con l'Egitto",
+      historicalNote: 'Fascia litoranea meridionale a controllo della linea ferroviaria trans-sinaitica verso Il Cairo.'
+    },
+    beersheba: {
+      historicalName: 'Mandato di Palestina — Distretto di Beersheba (Negev)',
+      adminTitle: 'Beersheba Sub-District · Territorio Beduino del Negev & Sbocco sul Golfo di Aqaba',
+      historicalNote: 'Vasto territorio semiarido e desertico del Negev esteso fino al Mar Rosso (Umm Rashrash / Aqaba).'
+    },
+    pal_beer: {
+      historicalName: 'Mandato di Palestina — Distretto di Beersheba (Negev)',
+      adminTitle: 'Beersheba Sub-District · Territorio Beduino del Negev & Sbocco sul Golfo di Aqaba',
+      historicalNote: 'Distretto meridionale beduino pattugliato dalla Transjordan Frontier Force e accesso al Mar Rosso.'
+    },
     transjordan: { historicalName: 'Emirate of Transjordan (Amman)', adminTitle: 'British Protectorate (Emir Abdullah)' },
     amman: { historicalName: 'Amman', adminTitle: 'Capital of Transjordan' },
     iraq: { historicalName: 'Kingdom of Iraq (Baghdad)', adminTitle: 'British Sphere of Influence (1930 Treaty)' },
@@ -1570,18 +1686,35 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     kars: { historicalName: 'Kars', adminTitle: 'Kars İli' },
     edirne: { historicalName: 'Edirne', adminTitle: 'Edirne İli (Doğu Trakya)' },
     canakkale: { historicalName: 'Çanakkale', adminTitle: 'Çanakkale Boğazı (Montrö Boğazlar Sözleşmesi)' },
-    hatay: { historicalName: 'Hatay (Antakya / İskenderun)', adminTitle: 'Hatay İli (Türkiye Cumhuriyeti)' },
-    alexandretta: { historicalName: 'İskenderun', adminTitle: 'Hatay İli' },
+        hatay: {
+      historicalName: 'Hatay (Antakya / İskenderun)',
+      adminTitle: 'Hatay İli (Valiliği) · 63ª Provincia della Repubblica di Turchia',
+      historicalNote: 'Territorio annesso alla Turchia nel giugno 1939 in seguito all\'accordo franco-turco. Sede del Vali e porto strategico di İskenderun sul Golfo di Alessandretta.',
+    },
+    tr631: {
+      historicalName: 'Hatay (Antakya / İskenderun)',
+      adminTitle: 'Hatay İli (Valiliği) · 63ª Provincia della Repubblica di Turchia',
+      historicalNote: 'Provincia di frontiera meridionale della Turchia con capoluogo Antakya.',
+    },
+    alexandretta: { historicalName: 'İskenderun', adminTitle: 'Hatay İli · Porto di İskenderun' },
     antakya: { historicalName: 'Antakya', adminTitle: 'Hatay İli Merkezi' },
   },
   HAT: {
-    hatay: { historicalName: 'Hatay Devleti', adminTitle: 'Bağımsız Hatay Devleti (1938-1939)' },
+    hatay: {
+      historicalName: 'Hatay Devleti (Repubblica di Hatay)',
+      adminTitle: 'Hatay Devleti · Governo Parlamentare di Antakya (1938-1939)',
+      historicalNote: 'Stato sovrano di transizione proclamato il 2 settembre 1938 e guidato dal presidente Tayfur Sökmen e dal primo ministro Abdurrahman Melek prima dell\'incorporazione nella Repubblica di Turchia.',
+    },
+    tr631: {
+      historicalName: 'Hatay Devleti (Repubblica di Hatay)',
+      adminTitle: 'Hatay Devleti · Governo Parlamentare di Antakya (1938-1939)',
+      historicalNote: 'Stato sovrano di transizione con capitale Antakya.',
+    },
     alexandretta: { historicalName: 'İskenderun (Hatay Devleti)', adminTitle: 'Hatay Devleti Limanı' },
     antakya: { historicalName: 'Antakya (Hatay Devleti Başkenti)', adminTitle: 'Hatay Devleti Başkenti' },
-    iskenderun: { historicalName: 'İskenderun', adminTitle: 'Hatay Devleti' },
+    iskenderun: { historicalName: 'İskenderun', adminTitle: 'Hatay Devleti Limanı' },
   },
-
-  // ================= MESSICO =================
+// ================= MESSICO =================
   MEX: {
     mexico: {
       historicalName: 'Estados Unidos Mexicanos (Ciudad de México)',
@@ -16566,7 +16699,7 @@ export function getExtendedToponym(
 
   if (
     (owner === 'HOL' || owner === 'NL') &&
-    (normKey.includes('suriname') || normKey.includes('surinam') || normKey.includes('dutch guiana') || id.includes('SR') || id.includes('SUR'))
+    (normKey.includes('suriname') || normKey.includes('surinam') || normKey.includes('dutch guiana') || id === 'SR' || id === 'SUR' || id.startsWith('SR_') || id.startsWith('SUR'))
   ) {
     return {
       name: 'Suriname / Nederlands-Guyana (Paramaribo)',

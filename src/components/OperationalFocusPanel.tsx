@@ -31,7 +31,10 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
   const fac = res.fac || meta.f;
   const p = feature.properties || {};
   const isHB = feature.__layer === 'hb';
-  const modernName = p.NUTS_NAME || p.NAME_ENGL || p.CNTR_NAME || feature.__itname || '';
+  const rawModern = p.MODERN_NAME || p.NUTS_NAME || p.NAME_ENGL || p.CNTR_NAME || feature.__itname || '';
+  const modernName = (rawModern && p.CNTR_NAME && !rawModern.includes(p.CNTR_NAME))
+    ? `${rawModern} (${p.CNTR_NAME})`
+    : rawModern;
   const nutsId = p.NUTS_ID || p.CNTR_ID || '';
 
   // Approximate area in km²

@@ -247,7 +247,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       const res = f.__res ? f.__res[currentStep] : null;
       if (!res) continue;
 
-      const modern = p.NUTS_NAME || p.NAME_ENGL || p.CNTR_NAME || f.__itname || '';
+      const rawModern = p.MODERN_NAME || p.NUTS_NAME || p.NAME_ENGL || p.CNTR_NAME || f.__itname || '';
+      const modern = (rawModern && p.CNTR_NAME && !rawModern.includes(p.CNTR_NAME))
+        ? `${rawModern} (${p.CNTR_NAME})`
+        : rawModern;
       const hist = res.name || '';
       const nid = String(p.NUTS_ID || p.CNTR_ID || '');
       const note = res.note || res.historicalContext || '';
@@ -265,6 +268,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       const normOwner = normStr(ownerLabel);
       const normShort = normStr(ownerShort);
       const normLeader = normStr(ownerLeader);
+      const normCntr = normStr(p.CNTR_NAME || '');
+      const normLatn = normStr(p.NAME_LATN || '');
+      const normEngl = normStr(p.NAME_ENGL || '');
+      const normModernName = normStr(p.MODERN_NAME || '');
 
       const overlord = getOverlord(res.o, currentStep);
       const matchesOverlord = overlord
@@ -393,6 +400,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         normOwner.includes(q) ||
         normShort.includes(q) ||
         normLeader.includes(q) ||
+        normCntr.includes(q) ||
+        normLatn.includes(q) ||
+        normEngl.includes(q) ||
+        normModernName.includes(q) ||
         matchesOwnerAlias ||
         matchesIslandAlias
       ) {

@@ -1,3 +1,19 @@
+import { resolveIranProvince } from './iranProvinces';
+import { resolveBritishRajProvince } from './britishRajProvinces';
+import { resolveKoreaProvince, KOREA_PROVINCES_META } from './koreaProvinces';
+import { resolveJapanProvince, JAPAN_PROVINCES_META } from './japanProvinces';
+import { resolveMalaysiaProvince, MALAYSIA_PROVINCES_META } from './malaysiaProvinces';
+import { resolvePapuaNewGuineaProvince, PNG_PROVINCES_META } from './papuaNewGuineaProvinces';
+import {
+  resolveIndonesiaProvince,
+  resolveTimorLeste,
+  INDONESIA_PROVINCES_META,
+  TIMOR_LESTE_META,
+} from './indonesiaTimorProvinces';
+import {
+  resolvePhilippinesProvince,
+  PHILIPPINES_PROVINCES_META,
+} from './philippinesProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -1239,36 +1255,92 @@ export const HB_SUBJ: Record<string, { o: string }> = {
 
 export function resolveHatay(step: number, rawName?: string): ResolvedTerritory {
   if (step === 0) {
-    // Gennaio 1936: Sandjak d'Alexandrette sous mandat français en Syrie
+    // Gennaio 1936: Mandato Francese di Siria — Sangiaccato di Alessandretta
     return makeResult(
       'F_SYR',
-      'Sandjak d\'Alexandrette (Mandat français)',
-      'Mandat de la Société des Nations pour la Syrie et le Liban'
+      'Mandato Francese di Siria — Sangiaccato di Alessandretta',
+      'Sangiaccato di Alessandretta (Liwa Iskenderun / İskenderun Sancağı) · Distretto a statuto speciale autonomo del Mandato di Siria retto dalla Francia in virtù dell\'Accordo di Ankara del 1921. Porto strategico sul Golfo di Alessandretta e fertile pianura dell\'Amik attraversata dall\'Oronte. Popolazione composita formata da turchi, arabi alauiti e sunniti, armeni e cristiani levantini.',
+      'Alleati',
+      'Sanjak d\'Alexandrette · Statuto Autonomo nel Mandato di Siria (Capoluogo Antakya / Antiochia)'
     );
   }
   if (step === 1) {
-    // Mars 1938: Régime autonome sous accords franco-turcs et SDN
+    // Marzo 1938: Regime Autonomo di Transizione
     return makeResult(
       'F_SYR',
-      'Sandjak d\'Alexandrette (Régime autonome franco-turc)',
-      'Régime autonome sous supervision de la Société des Nations'
+      'Sangiaccato di Alessandretta — Regime Autonomo di Transizione',
+      'Alessandretta · In seguito ai negoziati franco-turchi e alle forti pressioni del presidente turco Mustafa Kemal Atatürk, la Società delle Nazioni definisce un nuovo statuto di autonomia separata dalla Siria. A luglio del 1938 truppe turche e francesi entrano congiuntamente nel distretto per garantire l\'ordine pubblico in vista delle elezioni legislative.',
+      'Alleati',
+      'Régime Autonome sous Mandat Français & Supervisione della Società delle Nazioni'
     );
   }
-  if (step === 2 || step === 3) {
-    // 2 septembre 1938: Hatay Devleti (Cumhurbaşkanı Tayfur Sökmen, Başbakan Abdurrahman Melek)
+  if (step === 2) {
+    // Ottobre 1938: Repubblica Indipendente di Hatay
     return makeResult(
       'HAT',
-      step === 2 ? 'Hatay Devleti (Bağımsız Cumhuriyet)' : 'Hatay Devleti (Gümrük Birliği ve Türk Lirası)',
-      'Hatay Devleti (Cumhurbaşkanı Tayfur Sökmen — Antakya)',
-      'Neutrale'
+      'Repubblica di Hatay (Hatay Devleti) — Stato Indipendente',
+      'Stato di Hatay (Hatay Devleti) · Proclamato indipendente il 2 settembre 1938 dal parlamento locale eletto ad Antakya sotto la presidenza di Tayfur Sökmen e con primo ministro Abdurrahman Melek. Il nuovo stato adotta come inno la İstiklâl Marşı, la bandiera con stella a contorno rosso e introduce la lira turca, sancendo il distacco formale dalla Siria mandataria.',
+      'Neutrale',
+      'Hatay Devleti · Governo Parlamentare di Antakya (Pres. Tayfur Sökmen, P.M. Abdurrahman Melek)'
     );
   }
-  // Da Step 4 (Aprile/Estate 1939) in poi: Türkiye Cumhuriyeti Hatay İli
+  if (step === 3) {
+    // Marzo 1939: Unione Doganale con la Turchia
+    return makeResult(
+      'HAT',
+      'Repubblica di Hatay (Hatay Devleti) — Unione Doganale Turca',
+      'Hatay Devleti · Piena integrazione legislativa, monetaria e doganale con la Repubblica di Turchia. Il parlamento di Antakya abroga i codici e le normative legali siriane e francesi, adottando la legislazione civile e penale di Ankara in preparazione dell\'annessione formale alla Turchia.',
+      'Neutrale',
+      'Hatay Devleti · Assemblea Nazionale di Hatay & Unione Doganale con Ankara'
+    );
+  }
+  if (step === 4) {
+    // Maggio/Estate 1939: Annessione alla Turchia
+    return makeResult(
+      'TUR',
+      'Repubblica di Turchia — Provincia di Hatay (Hatay İli)',
+      'Hatay (Turchia) · Con l\'accordo franco-turco del 23 giugno 1939 e il voto unanime dell\'Assemblea di Hatay, il territorio viene formalmente incorporato nella Repubblica di Turchia come 63ª provincia (Hatay İli). In cambio la Francia ottiene un patto di mutua assistenza e la garanzia della neutralità turca. La cessione scatena veementi proteste popolari a Damasco e Aleppo, che considerano la perdita una mutilazione coloniale illegittima.',
+      'Neutrale',
+      'Hatay İli (Valiliği) · 63ª Provincia della Repubblica di Turchia (Antakya & İskenderun)'
+    );
+  }
+  if (step === 5) {
+    // Settembre 1939: Scoppio della WWII
+    return makeResult(
+      'TUR',
+      'Repubblica di Turchia — Provincia di Hatay (Hatay İli)',
+      'Hatay · Consolidamento della sovranità turca allo scoppio della Seconda Guerra Mondiale. Emigrazione forzata di oltre 40.000 tra armeni, arabi alauiti e sunniti che si rifugiano oltre confine nel Mandato di Siria (verso Aleppo, Latakia e Beirut). Il porto di İskenderun (ex Alessandretta) diviene una delle principali basi logistiche marittime turche nel Mediterraneo orientale protetta dalla neutralità di Ankara.',
+      'Neutrale',
+      'Türkiye Cumhuriyeti Hatay Valiliği (Vali Şükrü Sökmensüer)'
+    );
+  }
+  if (step === 6) {
+    // Giugno 1940: Caduta della Francia e Regime di Vichy
+    return makeResult(
+      'TUR',
+      'Repubblica di Turchia — Provincia di Hatay (Hatay İli)',
+      'Hatay · Con il collasso militare della Francia e l\'insediamento del regime di Vichy in Siria, le forze armate turche rafforzano le guarnigioni di frontiera lungo i passi dell\'Amanus e della pianura dell\'Amik per prevenire qualsiasi sconfinamento o velleità irredentista da parte delle truppe siriane coloniali.',
+      'Neutrale',
+      'Hatay Valiliği & Comando Militare della Frontiera Meridionale Turca'
+    );
+  }
+  if (step === 7) {
+    // Ottobre 1940: Tensione nei Balcani e Mediterraneo
+    return makeResult(
+      'TUR',
+      'Repubblica di Turchia — Provincia di Hatay (Hatay İli)',
+      'Hatay · Frontiera fortificata e sottoposta a stretto pattugliamento mentre il conflitto italo-greco e le manovre dell\'Asse nei Balcani aumentano la tensione regionale. Il governo di Ankara ribadisce la propria rigorosa neutralità armata, rifiutando pressioni diplomatiche dell\'Asse e bloccando i valichi montani verso Aleppo.',
+      'Neutrale',
+      'Hatay Valiliği & Comando Militare della Frontiera Meridionale Turca'
+    );
+  }
+  // Step 8: Aprile 1941 - Crisi Irachena e Prologo Operazione Exporter
   return makeResult(
     'TUR',
-    'Hatay İli (Türkiye Cumhuriyeti)',
-    'Hatay İli (23 Haziran 1939 Antlaşması ile Türkiye\'ye katılım)',
-    'Neutrale'
+    'Repubblica di Turchia — Provincia di Hatay (Hatay İli)',
+    'Hatay · Snodo strategico di primaria importanza durante la ribellione antibritannica di Rashid Ali al-Kaylani in Iraq e la cooperazione del generale Dentz a Damasco con l\'Asse. Ankara rifiuta categoricamente il transito di armi e velivoli della Luftwaffe attraverso le ferrovie di Hatay diretti in Siria, sigillando la frontiera fino all\'imminente campagna alleata nel Levante (Operazione Exporter).',
+    'Neutrale',
+    'Hatay Valiliği · Presidio di Frontiera della Turchia Neutrale (Linea Difensiva Iskenderun-Kilis)'
   );
 }
 
@@ -3823,6 +3895,591 @@ export function resolveLithuanianProvince(
   );
 }
 
+export function resolveLevantMandateProvince(ft: any, s: number): ResolvedTerritory {
+  const props = (ft && ft.properties) ? ft.properties : {};
+  const pNid = String(props.NUTS_ID || props.id || ft?.id || '').trim().toUpperCase();
+  const pOrig = String(props.ORIG_ID || '').trim().toUpperCase();
+  const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
+
+  const isVichy = s >= 6;
+  const ownerCode = isVichy ? 'VIC_SYR' : 'F_SYR';
+  const factionCode = isVichy ? 'Fantoccio' : 'Alleati';
+
+  const isHatay =
+    pNid === 'TR631' ||
+    pOrig === 'TR631' ||
+    pNid === 'HAT' ||
+    props.CNTR_CODE === 'HAT' ||
+    pName.includes('hatay') ||
+    pName.includes('alexandretta') ||
+    pName.includes('iskenderun') ||
+    pName.includes('antakya');
+
+  if (isHatay) {
+    return resolveHatay(s, props.NAME || props.NAME_LATN || pNid);
+  }
+
+  const isLeb =
+    props.CNTR_CODE === 'LEB' ||
+    pNid === 'LEB_ALL' ||
+    pNid === 'LEB' ||
+    pNid === 'LB' ||
+    pNid === 'LBN' ||
+    pNid === '422' ||
+    pNid.startsWith('LB') ||
+    pOrig.startsWith('LB') ||
+    pName.includes('liban') ||
+    pName.includes('lebanon') ||
+    pName.includes('libano');
+
+  if (isLeb) {
+    const regimePrefix = isVichy ? 'Grande Libano (Regime di Vichy)' : 'Mandato del Grande Libano';
+
+    // 1. Beirut
+    if (pOrig === 'LBBA' || pNid === 'LBBA' || pName.includes('beirut') || pName.includes('beyrouth')) {
+      const subName = `${regimePrefix} — Città e Porto di Beirut`;
+      const adminEntity = isVichy
+        ? 'Quartier Generale dell\'Alto Commissario Generale Henri Dentz (Gran Serraglio)'
+        : 'Gouvernorat de Beyrouth · Capitale del Libano & Sede dell\'Alto Commissariato';
+      let note = '';
+      if (s <= 1) {
+        note = 'Beirut (Beyrouth) · Capitale della Repubblica Libanese e sede dell\'Alto Commissariato Francese per la Siria e il Libano al Gran Serraglio. Grande crocevia bancario, consolare e intellettuale della regione; prestigiosa sede dell\'Università Americana di Beirut (AUB) e dell\'Université Saint-Joseph dei Gesuiti. Presidenza di Émile Éddé.';
+      } else if (s <= 4) {
+        note = 'Beirut · Centro politico del Libano mandatario. Il fallimento della ratifica parlamentare a Parigi del Trattato franco-libanese del 1936 scatena proteste civili e alimenta il movimento indipendentista guidato da Bishara al-Khuri e Riad al-Solh.';
+      } else if (s === 5) {
+        note = 'Beirut · Con lo scoppio della Seconda Guerra Mondiale l\'Alto Commissario Gabriel Puaux sospende la costituzione e scioglie la Camera dei Deputati. Il Generale Maxime Weygand insedia a Beirut il comando supremo dell\'Armée du Levant; il porto commerciale diviene base navale militare alleata.';
+      } else if (s === 6) {
+        note = 'Beirut (Vichy) · In seguito all\'armistizio di Compiègne l\'amministrazione coloniale si sottomette a Vichy. La Royal Navy britannica da Alessandria d\'Egitto impone un blocco navale totale sul porto: il traffico merci marittimo viene azzerato, innescando grave crisi economica e razionamento.';
+      } else if (s === 7) {
+        note = 'Beirut (Vichy) · Il Generale Henri Dentz assume le funzioni di Alto Commissario di Vichy al Gran Serraglio. Si insedia la Commissione d\'Armistizio Italiana (CIAF); il porto è isolato e sorvegliato da batterie costiere francesi contro possibili incursioni della marina britannica.';
+      } else {
+        note = 'Beirut (Vichy) · Sede del comando generale di difesa del Gen. Dentz contro l\'imminente offensiva alleata. La città subisce bombardamenti navali e aerei della flotta britannica contro i depositi carburante e le caserme costiere; Dentz dichiara la mobilitazione totale delle truppe coloniali in vista dell\'invasione da sud (Operazione Exporter).';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // 2. Monte Libano
+    if (pOrig === 'LBJL' || pNid === 'LBJL' || pName.includes('monte libano') || pName.includes('mont-liban') || pName.includes('baabda')) {
+      const subName = `${regimePrefix} — Governatorato del Monte Libano`;
+      const adminEntity = 'Gouvernorat du Mont-Liban (Baabda, Chouf, Metn & Keserwan)';
+      let note = '';
+      if (s <= 1) {
+        note = 'Monte Libano (Mont-Liban) · Cuore storico montano e spirituale delle comunità maronita e drusa con capoluogo a Baabda. Regione caratterizzata da spettacolari terrazzamenti di ulivi e gelsi, antichi monasteri rupestri della Qadisha e celebri borghi montani (Bikfaya, Jounieh, Aley, Deir al-Qamar e Bsharri).';
+      } else if (s <= 5) {
+        note = 'Monte Libano · Nucleo identitario della sovranità libanese; sede del Patriarcato Maronita a Bkerké, attivo nel rivendicare l\'indipendenza nazionale e la neutralità del paese dai conflitti tra grandi potenze.';
+      } else {
+        note = 'Monte Libano (Vichy) · La popolazione montana soffre duramente per il blocco marittimo della Royal Navy e il crollo delle esportazioni di seta e frutta; forte ostilità popolare verso l\'amministrazione collaborazionista di Vichy e solidarietà clandestina con la Francia Libera di De Gaulle.';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // 3. Libano Settentrionale (Tripoli)
+    if (pOrig === 'LBAS' || pNid === 'LBAS' || pName.includes('tripoli') || pName.includes('trablus') || pName.includes('settentrionale') || pName.includes('liban-nord')) {
+      const subName = `${regimePrefix} — Libano Settentrionale (Tripoli)`;
+      const adminEntity = 'Gouvernorat du Liban-Nord (Tripoli, Porto & Terminale Oleodotto IPC)';
+      let note = '';
+      if (s <= 1) {
+        note = 'Tripoli (Trablus ash-Sham) · Seconda città e porto del Libano, dominata dalla storica fortezza crociata di Raymond de Saint-Gilles. Scalo industriale strategico: terminale marittimo e grande raffineria dell\'oleodotto trans-desertico della Iraq Petroleum Company (IPC) proveniente dai giacimenti di Kirkuk.';
+      } else if (s <= 5) {
+        note = 'Tripoli · Snodo commerciale verso la Siria interna (Homs) e base logistica della ferrovia costiera; vivace centro mercantile sunnita con stretti legami culturali e familiari con Damasco.';
+      } else {
+        note = 'Tripoli (Vichy) · Nel giugno 1940 i britannici in Iraq bloccano il flusso di greggio nell\'oleodotto IPC diretto a Tripoli, paralizzando la raffineria costiera. Il porto subisce il blocco della Royal Navy e mitragliamenti aerei alleati contro i serbatoi di petrolio.';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // 4. Akkar
+    if (pOrig === 'LBAK' || pNid === 'LBAK' || pName.includes('akkar') || pName.includes('halba')) {
+      const subName = `${regimePrefix} — Distretto dell'Akkar`;
+      const adminEntity = 'Gouvernorat de l\'Akkar (Piana Agricola di Halba & Nahr al-Kabir)';
+      let note = '';
+      if (s <= 5) {
+        note = 'Akkar · Fertile distretto settentrionale chiuso tra i contrafforti montuosi del Libano settentrionale e la valle fluviale del Nahr al-Kabir al confine con la Siria (Tartus e Homs); capoluogo Halba e borghi cristiani di Qoubaiyat; fondamentale corridoio di comunicazione tra la costa e l\'entroterra.';
+      } else {
+        note = 'Akkar (Vichy) · Presidio di frontiera e arteria di rifornimento tra il Libano e la Siria di Vichy, sorvegliata da reparti di gendarmeria coloniale.';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // 5. Beqaa (Zahlé)
+    if (pOrig === 'LBBI' || pNid === 'LBBI' || pName.includes('beqaa') || pName.includes('zahle') || pName.includes('zahlé')) {
+      const subName = `${regimePrefix} — Governatorato della Beqaa`;
+      const adminEntity = 'Gouvernorat de la Beqaa (Zahlé, Valle del Litani & Base Aerea di Rayak)';
+      let note = '';
+      if (s <= 1) {
+        note = 'Valle della Beqaa · Vasta depressione alluvionale fertile racchiusa tra la catena del Monte Libano a occidente e l\'Antilibano a oriente, solcata dal fiume Litani. Capoluogo Zahlé, celebre per la viticoltura (Ksara) e attraversata dalla ferrovia Damasco-Beirut.';
+      } else if (s <= 5) {
+        note = 'Beqaa · La grande base aerea militare francese di Rayak ospita gli squadroni da caccia e ricognizione dell\'Armée de l\'Air nel Levante; snodo logistico centrale per le truppe coloniali francesi.';
+      } else {
+        note = 'Beqaa (Vichy) · Base strategica dell\'aviazione di Vichy a Rayak; centro di raccolta granario essenziale per alimentare Beirut durante il blocco navale. Nella primavera 1941 la base di Rayak viene posta in allerta per l\'assistenza tecnica ai voli di collegamento dell\'Asse verso l\'Iraq, divenendo bersaglio di raid dei bombardieri della RAF britannica.';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // 6. Baalbek e Hermel
+    if (pOrig === 'LBBH' || pNid === 'LBBH' || pName.includes('baalbek') || pName.includes('hermel')) {
+      const subName = `${regimePrefix} — Distretto di Baalbek e Hermel`;
+      const adminEntity = 'Distretto di Baalbek-Hermel (Alta Beqaa, Heliopolis Romana & Oronte)';
+      let note = '';
+      if (s <= 5) {
+        note = 'Baalbek e Hermel · Alta valle della Beqaa e sorgenti del fiume Oronte ai piedi dell\'Antilibano. Celebre per le maestose e colossali rovine romane della Heliopolis (Tempio di Giove, Tempio di Bacco e Triliton); zona pastorale e agricola di fiere tradizioni tribali e sciite (Metawali).';
+      } else {
+        note = 'Baalbek (Vichy) · Posto di blocco dell\'esercito di Vichy lungo la rotta interna che collega la Beqaa con la Siria centrale (Homs); guarnigione coloniale schierata a guardia dei passi montani.';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // 7. Libano Meridionale (Sidone e Tiro)
+    if (pOrig === 'LBJA' || pNid === 'LBJA' || pName.includes('meridionale') || pName.includes('liban-sud') || pName.includes('sidone') || pName.includes('tiro') || pName.includes('saida')) {
+      const subName = `${regimePrefix} — Libano Meridionale (Sidone e Tiro)`;
+      const adminEntity = 'Gouvernorat du Liban-Sud (Porti Fenici di Saïda e Sour, Jezzine)';
+      let note = '';
+      if (s <= 1) {
+        note = 'Libano del Sud (Liban-Sud) · Gloriosa costa fenicia dominata dai millenari approdi di Sidone (Saïda, col celebre Castello del Mare) e Tiro (Sour); fertile fascia costiera di agrumeti e bananeti e contrafforti montuosi di Jezzine celebri per le pinete e le cascate.';
+      } else if (s <= 5) {
+        note = 'Libano del Sud · Strada litoranea di collegamento vitale con la Palestina Mandataria attraverso il varco di Naqoura (Ras an-Naqoura); controllo doganale e pattugliamento congiunto anglo-francese.';
+      } else {
+        note = 'Libano del Sud (Vichy) · Linea di frontiera meridionale del mandato di Vichy direttamente a contatto con le forze britanniche in Galilea. Il porto di Sidone è bloccato dalla Royal Navy; il Gen. Dentz vi schiera reparti di fanteria coloniale e Troupes Spéciales per fortificare le alture costiere in previsione di un\'invasione da sud.';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // 8. Nabatieh e Gebel Amel
+    if (pOrig === 'LBNA' || pNid === 'LBNA' || pName.includes('nabatieh') || pName.includes('gebel amel') || pName.includes('jabal amel') || pName.includes('marjeyoun')) {
+      const subName = `${regimePrefix} — Distretto di Nabatieh`;
+      const adminEntity = 'Distretto di Nabatieh (Gebel Amel, Marjeyoun & Fortezza di Beaufort)';
+      let note = '';
+      if (s <= 1) {
+        note = 'Nabatieh · Storico capoluogo della regione collinare del Gebel Amel (Jabal Amel), tradizionale roccaforte teologica e culturale della comunità sciita libanese; distretto agricolo celebre per il tabacco e la fiera commerciale settimanale.';
+      } else if (s <= 5) {
+        note = 'Nabatieh e Marjeyoun · Zona strategica di frontiera dominata dall\'imponente fortezza crociata di Beaufort (Qala\'at ash-Shaqif), arroccata su una parete rocciosa a picco sul fiume Litani a guardia delle vie d\'accesso dalla Galilea verso la Beqaa e la valle del Giordano.';
+      } else {
+        note = 'Nabatieh (Vichy) · Trinceramento avanzato delle forze di Vichy: lungo il Litani e intorno alla piazzaforte di Marjeyoun il Gen. Dentz disloca la 6ª Divisione di fanteria e reggimenti di tirailleurs senegalesi e algerini; teatro di aspri e sanguinosi combattimenti durante l\'imminente Operazione Exporter nel giugno 1941.';
+      }
+      return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+    }
+
+    // Fallback Lebanon
+    const subName = isVichy ? 'Grande Libano (Amministrazione di Vichy)' : 'Mandato Francese del Grande Libano';
+    const subTitle = isVichy ? 'Stato del Grande Libano · Tutela di Vichy' : 'Grand Liban (Beirut, Monte Libano, Beqaa & Tripoli)';
+    return makeResult(ownerCode, subName, subTitle, factionCode, subName);
+  }
+
+  // --- SYRIA (14 PROVINCE) ---
+  const regimePrefix = isVichy ? 'Siria (Regime di Vichy — Gen. Dentz)' : 'Mandato Francese di Siria';
+
+  // 1. Damasco
+  if (pNid === 'SYR_DAM' || pName.includes('damasco') || pName.includes('damascus')) {
+    const subName = `${regimePrefix} — Città di Damasco`;
+    const adminEntity = isVichy
+      ? 'Sede del Delegato di Vichy & Base Militare di Mezzeh'
+      : 'Capitale dello Stato di Siria & Sede del Governo (Palazzo Presidenziale)';
+    let note = '';
+    if (s <= 1) {
+      note = 'Damasco (Madinat Dimashq) · Città millenaria e cuore politico della Siria Mandataria. Sede del parlamento e del governo nazionalista del Blocco Nazionale di Hashim al-Atassi e Jamil Mardam Bey; teatro dello sciopero generale del 1936 che ha strappato a Parigi il trattato di indipendenza.';
+    } else if (s <= 4) {
+      note = 'Damasco · Tensione politica ai massimi livelli dopo il rifiuto del Parlamento francese di ratificare il trattato del 1936. L\'Alto Commissario Gabriel Puaux sospende la costituzione e scioglie la Camera. Nel giugno 1939 la cessione di Hatay alla Turchia provoca le dimissioni del Presidente Atassi e imponenti manifestazioni.';
+    } else if (s === 5) {
+      note = 'Damasco · Con lo scoppio della Seconda Guerra Mondiale viene proclamato lo stato d\'assedio. La città ospita il quartier generale sussidiario dell\'Armée du Levant del Gen. Maxime Weygand; l\'aeroporto militare di Mezzeh e la caserma Hamidiyya presidiano le vie di comunicazione del deserto.';
+    } else if (s === 6) {
+      note = 'Damasco (Vichy) · In seguito alla caduta della Francia e all\'armistizio, l\'amministrazione coloniale si sottomette al governo di Vichy del Maresciallo Pétain. La Royal Navy blocca le forniture di petrolio e grano dalla Palestina, innescando grave inflazione e malcontento.';
+    } else if (s === 7) {
+      note = 'Damasco (Vichy) · Insediamento della Commissione d\'Armistizio Italiana (CIAF) e degli ispettori dell\'Asse. La città è scossa da scioperi e proteste per la carestia e il carovita; il Consiglio dei Direttori nominato da Vichy reprime l\'opposizione nazionalista di Shukri al-Quwwatli.';
+    } else {
+      note = 'Damasco (Vichy) · Sotto il governo di Vichy del Gen. Henri Dentz e in seguito agli accordi Darlan-Hitler, l\'aeroporto militare di Mezzeh viene aperto ai caccia e bombardieri della Luftwaffe e della Regia Aeronautica a supporto del golpe di Rashid Ali in Iraq. La base subisce raid aerei della RAF alla vigilia dell\'Operazione Exporter.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 2. Rif Dimashq e Ghouta
+  if (pNid === 'SYR_GHT' || pName.includes('rif dimashq') || pName.includes('ghouta')) {
+    const subName = `${regimePrefix} — Rif Dimashq e Ghouta`;
+    const adminEntity = 'Distretto Rurale di Damasco, Oasi della Ghouta & Massiccio del Qalamoun';
+    let note = '';
+    if (s <= 1) {
+      note = 'Oasi della Ghouta e monti del Qalamoun · Fertile polmone agricolo irrigato dai rami del fiume Barada, celebre per frutteti e giardini. Storica roccaforte dei combattenti anticoloniali durante la Grande Rivolta Siriana (1925-1927).';
+    } else if (s <= 4) {
+      note = 'Rif Dimashq · Snodo montano e agricolo cruciale per i rifornimenti della capitale. I valichi del Qalamoun controllano l\'autostrada strategica verso Homs e la valle della Beqaa libanese.';
+    } else if (s === 5) {
+      note = 'Rif Dimashq · Mobilitazione generale e fortificazione dei passi del Qalamoun da parte dell\'Armée du Levant del Gen. Weygand a protezione del corridoio strategico Beirut-Damasco.';
+    } else if (s === 6) {
+      note = 'Rif Dimashq (Vichy) · Requisizioni agricole imposte dalle autorità di Vichy per fronteggiare il blocco britannico; malcontento diffuso tra i contadini e i villaggi dell\'Antilibano.';
+    } else if (s === 7) {
+      note = 'Rif Dimashq (Vichy) · Posti di blocco e pattuglie speciali francesi lungo la gola del Barada e verso il Monte Hermon per intercettare agenti gollisti e contrabbando dalla Transgiordania.';
+    } else {
+      note = 'Rif Dimashq (Vichy) · Settore difensivo avanzato del Gen. Dentz contro l\'imminente offensiva della 7ª Divisione australiana e della 1ª Divisione Francia Libera del Gen. Legentilhomme proveniente da sud attraverso Kiswe.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 3. Aleppo
+  if (pNid === 'SYR_ALP' || pName.includes('aleppo') || pName.includes('alep')) {
+    const subName = `${regimePrefix} — Governatorato di Aleppo`;
+    const adminEntity = 'Governatorato di Aleppo (Capitale Economica & Snodo Ferroviario del Nord)';
+    let note = '';
+    if (s <= 1) {
+      note = 'Aleppo (Halab) · Millenaria metropoli commerciale dominata dall\'imponente Cittadella medievale; capolinea della ferrovia Baghdad-Bahn e sbocco dei traffici con la Mesopotamia e l\'Anatolia. Roccaforte del nazionalismo siriano (Saadallah al-Jabiri).';
+    } else if (s <= 4) {
+      note = 'Aleppo · Profondo trauma economico e politico causato dalla perdita del porto naturale di Alessandretta (Hatay). Il confine turco viene militarizzato; violente manifestazioni studentesche e sciopero dei mercanti nel suq storico.';
+    } else if (s === 5) {
+      note = 'Aleppo · Quartier generale del settore settentrionale dell\'Armée du Levant; la grande base aerea di Nerab viene ampliata dai francesi per vigilare sulla frontiera anatolica e presidiare l\'accesso all\'Eufrate.';
+    } else if (s === 6) {
+      note = 'Aleppo (Vichy) · Passaggio sotto l\'amministrazione di Vichy. Interruzione dei commerci con la Turchia e con l\'Iraq britannico; la ferrovia verso Mosul e Baghdad subisce forti restrizioni alleate.';
+    } else if (s === 7) {
+      note = 'Aleppo (Vichy) · Presidio di osservatori della Commissione d\'Armistizio Italiana (CIAF). La città soffre di grave penuria di carburante; tensioni tra autorità collaborazioniste e popolazione araba locale.';
+    } else {
+      note = 'Aleppo (Vichy) · Ruolo strategico chiave: su autorizzazione di Vichy, l\'aeroporto militare di Nerab diviene la principale base di transito e rifornimento per i bombardieri He 111 e i caccia Bf 110 della Luftwaffe (Fliegerführer Irak) inviati a sostenere la rivolta irachena di Rashid Ali. Obiettivo di pesanti incursioni della RAF.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 4. Idlib
+  if (pNid === 'SYR_IDL' || pName.includes('idlib')) {
+    const subName = `${regimePrefix} — Distretto di Idlib`;
+    const adminEntity = 'Distretto Agricolo di Idlib, Gebel Zawiya & Piana di Rouj';
+    let note = '';
+    if (s <= 1) {
+      note = 'Idlib · Cuore agricolo del Gebel Zawiya e dei secolari oliveti siriani. Importante nodo stradale di raccordo tra la metropoli interna di Aleppo e il litorale alauita di Latakia.';
+    } else if (s <= 4) {
+      note = 'Idlib · La separazione del distretto di Alessandretta sposta la frontiera turca a ridosso dell\'Afrin e delle colline di Idlib, accogliendo ondate di profughi arabi e armeni fuggiti da Hatay.';
+    } else if (s === 5) {
+      note = 'Idlib · Posizioni fortificate dell\'Armée du Levant sulle alture del Gebel Zawiya per presidiare la vallata dell\'Oronte.';
+    } else {
+      note = 'Idlib (Vichy) · Produzione intensiva di olio d\'oliva e cereali sottoposta al rigido controllo delle commissioni di rifornimento di Vichy per sfamare le guarnigioni costiere isolate dal blocco marittimo alleato.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 5. Latakia
+  if (pNid === 'SYR_LTK' || pName.includes('latakia') || pName.includes('lattakia')) {
+    const subName = `${regimePrefix} — Territorio Alauita di Latakia`;
+    const adminEntity = 'Territorio Autonomo dei Monti Alauiti (Gebel Ansariya) & Porto di Latakia';
+    let note = '';
+    if (s <= 1) {
+      note = 'Latakia (Al-Ladhiqiyya) · Principale scalo marittimo della Siria Mandataria e capoluogo del Territorio Alauita (Stato degli Alauiti dal 1920 al 1936), reintegrato nello Stato di Siria con regime di decentralizzazione amministrativa e finanziaria.';
+    } else if (s <= 4) {
+      note = 'Latakia · Con la cessione di Alessandretta alla Turchia nel 1939, il porto di Latakia diventa l\'unico grande sbocco marittimo sovrano della Repubblica di Siria, provocando un rapido potenziamento delle infrastrutture doganali.';
+    } else if (s === 5) {
+      note = 'Latakia · Base navale di avviso dell\'Armée du Levant; batterie costiere francesi e idrovolanti della Marine Nationale presidiano il bacino del Mediterraneo orientale.';
+    } else if (s === 6) {
+      note = 'Latakia (Vichy) · Blocco navale della Royal Navy britannica. Il porto è completamente paralizzato; navi da guerra alleate pattugliano le acque costiere impedendo ogni rifornimento via mare.';
+    } else {
+      note = 'Latakia (Vichy) · Presidio militare costiero del Gen. Henri Dentz affidato alle truppe speciali coloniali; batterie d\'artiglieria allertate contro sbarchi anfibi della marina britannica.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 6. Tartus
+  if (pNid === 'SYR_TAR' || pName.includes('tartus')) {
+    const subName = `${regimePrefix} — Territorio Alauita di Tartus`;
+    const adminEntity = 'Distretto Marittimo di Tartus & Isola Fortificata di Arwad';
+    let note = '';
+    if (s <= 1) {
+      note = 'Tartus · Antica Tortosa crociata con la cattedrale templare di Nostra Signora di Tortosa e l\'antistante isola fortificata fenicia di Arwad (Ruad), base marittima francese già occupata nella Prima Guerra Mondiale.';
+    } else if (s <= 5) {
+      note = 'Tartus · Porto di cabotaggio e base costiera meridionale a guardia della frontiera fluviale del Nahr al-Kabir al confine con il Grande Libano (Akkar).';
+    } else {
+      note = 'Tartus (Vichy) · Presidio marittimo vichyste sottoposto al blocco navale alleato; l\'isola di Arwad funge da posto di vedetta ottica contro sommergibili e incrociatori della Royal Navy.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 7. Homs
+  if (pNid === 'SYR_HMS' || pName.includes('homs')) {
+    const subName = `${regimePrefix} — Governatorato di Homs`;
+    const adminEntity = 'Governatorato di Homs (Varco Strategico dell\'Oronte, Krak dei Cavalieri & Oasi di Palmira)';
+    let note = '';
+    if (s <= 1) {
+      note = 'Homs (Emesa) · Snodo geografico e militare decisivo della Siria centrale, situato nel "Varco di Homs" (Buqay\'ah) tra i monti Ansariya e il Libano. Dominato a occidente dal possente Krak dei Cavalieri (Qal\'at al-Hosn); attraversato dal doppio oleodotto della Iraq Petroleum Company (IPC) diretto a Tripoli.';
+    } else if (s <= 4) {
+      note = 'Homs · Centro nevralgico della rete ferroviaria che connette Damasco, Aleppo e la costa di Tripoli. La vasta oasi desertica di Palmira (Tadmor) ospita un avamposto meharista della Legione Straniera francese.';
+    } else if (s === 5) {
+      note = 'Homs · Concentramento strategico dell\'Armée du Levant del Gen. Weygand; l\'aeroporto di Palmira e la ferrovia IPC sono posti sotto stretto regime di protezione militare contro sabotaggi.';
+    } else if (s === 6) {
+      note = 'Homs (Vichy) · Il governo britannico in Iraq interrompe il flusso di petrolio greggio nell\'oleodotto IPC diretto a Tripoli e Homs; la raffineria e le stazioni di pompaggio deserte vengono presidiate da Vichy.';
+    } else if (s === 7) {
+      note = 'Homs (Vichy) · Ispezioni della Commissione d\'Armistizio Italiana (CIAF) nei depositi carburante e alla guarnigione di Palmira; forte tensione sociale nella città vecchia di Homs per il razionamento dei viveri.';
+    } else {
+      note = 'Homs (Vichy) · Punto focale della crisi mediorientale: l\'aeroporto di Palmira (Tadmor) viene aperto come base di scalo e rifornimento per i velivoli della Luftwaffe e italiani diretti in Iraq. Il campo aereo subisce duri mitragliamenti aerei da parte dei Blenheim della RAF; la guarnigione francese del Krak dei Cavalieri si prepara allo scontro con gli Alleati.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 8. Hama
+  if (pNid === 'SYR_HMA' || pName.includes('hama')) {
+    const subName = `${regimePrefix} — Governatorato di Hama`;
+    const adminEntity = 'Governatorato di Hama (Valle dell\'Oronte & Norie Idrauliche Storiche)';
+    let note = '';
+    if (s <= 1) {
+      note = 'Hama · Città storica e aristocratica sulle rive dell\'Oronte, celebre a livello mondiale per le gigantesche norie idrauliche di legno (Na\'ura) per l\'irrigazione dei campi; feudo delle grandi famiglie terriere sunnite (al-Kaylani, al-Azm).';
+    } else if (s <= 5) {
+      note = 'Hama · Roccaforte del conservatorismo arabo e del nazionalismo; fulcro delle agitazioni contadine e delle proteste contro il governo mandatario francese di Gabriel Puaux.';
+    } else {
+      note = 'Hama (Vichy) · Centro agricolo cerealicolo di primaria importanza per il sostentamento del Mandato sotto blocco alleato; acquartieramento di reparti coloniali fedeli al regime di Vichy.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 9. Giazira (Hasaka)
+  if (pNid === 'SYR_JAZ' || pName.includes('hasaka') || pName.includes('giazira')) {
+    const subName = `${regimePrefix} — Territorio della Giazira`;
+    const adminEntity = 'Territorio dell\'Alta Mesopotamia (Al-Hasakah, Qamishli & Khabur)';
+    let note = '';
+    if (s <= 1) {
+      note = 'Al-Jazira (Hasaka) · Vasta regione dell\'Alta Mesopotamia racchiusa tra i fiumi Eufrate e Tigri; straordinario mosaico etnico e religioso popolato da arabi beduini (Shammar), curdi, cristiani assiri-caldei (profughi dell\'Iraq) e armeni. Granaio strategico del Mandato.';
+    } else if (s <= 4) {
+      note = 'Giazira · Movimento autonomista locale guidato da comunità cristiane e curde sostenuto da ufficiali francesi, in contrapposizione al governo centrale arabo di Damasco.';
+    } else if (s === 5) {
+      note = 'Giazira · Presidio militare dell\'Armée du Levant a Qamishli lungo la linea ferroviaria verso la Turchia e Mosul; sorveglianza delle piste carovaniere verso il nord dell\'Iraq.';
+    } else {
+      note = 'Giazira (Vichy) · Territorio isolato e vulnerabile, a stretto contatto con le postazioni britanniche del Regno dell\'Iraq; tensioni tribali e sorveglianza aerea delle rotte desertiche.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 10. Raqqa
+  if (pNid === 'SYR_RAQ' || pName.includes('raqqa')) {
+    const subName = `${regimePrefix} — Governatorato di Raqqa`;
+    const adminEntity = 'Governatorato di Raqqa (Medio Eufrate & Steppe Pastorali della Badiyat)';
+    let note = '';
+    if (s <= 5) {
+      note = 'Ar-Raqqah · Antica capitale del califfo abbaside Harun al-Rashid sulle rive del Medio Eufrate; centro carovaniero e mercato del bestiame delle tribù beduine nomadi della steppa semiarida.';
+    } else {
+      note = 'Raqqa (Vichy) · Presidio di gendarmeria e truppe cammellate (meharisti) di Vichy a controllo dei varchi fluviali dell\'Eufrate e del traffico verso l\'Iraq.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 11. Deir ez-Zor
+  if (pNid === 'SYR_DEZ' || pName.includes('deir') || pName.includes('zawr')) {
+    const subName = `${regimePrefix} — Governatorato di Deir ez-Zor`;
+    const adminEntity = 'Governatorato del Basso Eufrate Siriano & Presidio di Frontiera verso l\'Iraq';
+    let note = '';
+    if (s <= 1) {
+      note = 'Deir ez-Zor (Dayr al-Zawr) · Capitale dell\'Eufrate siriano, celebre per lo spettacolare ponte pedonale sospeso costruito dall\'ingegneria militare francese nel 1927-1931; avamposto di collegamento tra la Siria e la Mesopotamia irachena.';
+    } else if (s <= 5) {
+      note = 'Deir ez-Zor · Base avanzata dell\'Armée du Levant con campo d\'aviazione nel deserto a sorveglianza della frontiera doganale di Abu Kamal verso l\'Iraq britannico.';
+    } else {
+      note = 'Deir ez-Zor (Vichy) · Posto di blocco strategico di Vichy lungo l\'Eufrate. Nella primavera 1941, durante la guerra anglo-irachena, la città è testimone del transito clandestino di rifornimenti e armi per gli insorti di Rashid Ali prima dei raid aerei della RAF britannica.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 12. Gebel Druso
+  if (pNid === 'SYR_DRU' || pName.includes('suwayda') || pName.includes('druso')) {
+    const subName = `${regimePrefix} — Stato del Gebel Druso`;
+    const adminEntity = 'Gouvernement du Djebel Druze (Roccaforte Autonoma di As-Suwayda)';
+    let note = '';
+    if (s <= 1) {
+      note = 'Jabal al-Druze (As-Suwayda) · Territorio montuoso vulcanico a sud di Damasco popolato dalla fiera comunità guerriera drusa guidata dalla storica famiglia al-Atrash. Stato autonomo dal 1921 al 1936, culla della Grande Rivolta Siriana del Sultano al-Atrash (1925), formalmente unito alla Repubblica Siriana ma geloso custode della propria autonomia armata.';
+    } else if (s <= 4) {
+      note = 'Gebel Druso · Tensioni con il governo centrale di Damasco; i capi clan drusi trattano direttamente con l\'Alto Commissario Gabriel Puaux per mantenere i propri privilegi tradizionali.';
+    } else if (s === 5) {
+      note = 'Gebel Druso · Squadroni di cavalleria drusa inquadrati nelle Troupes Spéciales du Levant dell\'Armée du Levant a presidio della frontiera con la Transgiordania.';
+    } else {
+      note = 'Gebel Druso (Vichy) · Neutralità armata delle tribù druse di fronte alla crisi tra Vichy e gli Alleati; contatti segreti dei leader drusi con la legione araba giordana e i britannici in Palestina in vista dell\'Operazione Exporter.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 13. Hauran
+  if (pNid === 'SYR_HAU' || pName.includes('dar`a') || pName.includes('dara') || pName.includes('hauran')) {
+    const subName = `${regimePrefix} — Piana dell'Hauran (Dar'a)`;
+    const adminEntity = 'Distretto dell\'Hauran & Snodo Ferroviario dell\'Hejaz (Dar\'a)';
+    let note = '';
+    if (s <= 5) {
+      note = 'Dar\'a (Hauran) · Fertile altopiano cerealicolo vulcanico dell\'Hauran e strategico snodo ferroviario della Ferrovia dell\'Hejaz verso Amman e Medina e della ferrovia verso Haifa (Palestina); varco doganale verso la Transgiordania britannica.';
+    } else {
+      note = 'Hauran (Vichy) · Settore meridionale fortificato del Gen. Dentz a ridosso della valle dello Yarmouk; sorveglianza militare contro infiltrazioni di commando britannici e gollisti.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 14. Golan
+  if (pNid === 'SYR_GOL' || pName.includes('quneitra') || pName.includes('golan')) {
+    const subName = `${regimePrefix} — Distretto del Golan (Quneitra)`;
+    const adminEntity = 'Distretto del Golan, Pendici del Monte Hermon & Sorgenti del Giordano';
+    let note = '';
+    if (s <= 5) {
+      note = 'Quneitra (Golan) · Altopiano strategico basaltico situato tra il Monte Hermon (Gebel ash-Sheikh) e il lago di Tiberiade; popolato da comunità circasse, turcomanne e arabe; sorgenti montane del fiume Giordano e controllo delle vie d\'accesso alla Galilea.';
+    } else {
+      note = 'Golan (Vichy) · Linea di sbarramento fortificata del Gen. Dentz con capisaldi difensivi e campi minati a controllo dei varchi dalla Palestina mandataria verso Damasco; settore di scontro primario dell\'Operazione Exporter nel giugno 1941.';
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // Fallback Syria
+  const subName = isVichy ? 'Siria (Regime di Vichy — Gen. Dentz)' : 'Mandato Francese di Siria';
+  const subTitle = isVichy ? 'Stato di Siria · Tutela del Governo di Vichy' : 'League of Nations Class A Mandate (French Administration)';
+  return makeResult(ownerCode, subName, subTitle, factionCode, subName);
+}
+
+export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTerritory {
+  const props = (ft && ft.properties) ? ft.properties : {};
+  const pNid = String(props.NUTS_ID || props.id || ft?.id || '').trim().toUpperCase();
+  const pOrig = String(props.ORIG_ID || '').trim().toUpperCase();
+  const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
+
+  const ownerCode = 'UK';
+  const factionCode = 'Alleati';
+  const prefix = 'Mandato di Palestina';
+
+  // 1. Gerusalemme (PAL_JRS / ILJM)
+  if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+    const subName = `${prefix} — Distretto di Gerusalemme`;
+    const adminEntity = "Jerusalem District · Sede dell'Alto Commissario Britannico (Government House, Armon HaNetziv)";
+    let note = '';
+    if (s === 0) {
+      note = "Gerusalemme (Al-Quds / Yerushalayim) · Capitale mandataria e sede dell'Alto Commissario Sir Arthur Wauchope al Government House e del Secretariat al King David Hotel. Mosaico spirituale millenario delle tre religioni monoteiste (Città Vecchia, Cupola della Roccia, Muro Occidentale, Santo Sepolcro). Centro diplomatico e giudiziario supremo.";
+    } else if (s <= 3) {
+      note = "Gerusalemme · Epicentro della Grande Rivolta Araba; scioperi e guerriglia urbana. Nell'autunno 1938 i ribelli arabi occupano la Città Vecchia prima di essere espulsi dai battaglioni britannici delle Coldstream Guards con il coprifuoco totale. Fuga del Gran Muftì Amin al-Husseini.";
+    } else if (s <= 5) {
+      note = "Gerusalemme · Furiose proteste contro il Libro Bianco di MacDonald del maggio 1939. Con lo scoppio della Seconda Guerra Mondiale la città ospita il quartier generale della Palestine Base Area e l'arruolamento dei volontari arabi ed ebrei nel Palestine Regiment.";
+    } else if (s <= 7) {
+      note = "Gerusalemme · Rafforzamento della sicurezza imperiale; quartier generale per il coordinamento delle forze di sicurezza e delle agenzie di intelligence britanniche (MI6 / SOE) in Medio Oriente contro lo spionaggio dell'Asse.";
+    } else {
+      note = "Gerusalemme · Centro di comando politico-militare per la gestione della crisi in Iraq e la pianificazione dell'invasione alleata della Siria di Vichy (Operazione Exporter).";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 2. Haifa (PAL_HFA / ILHA)
+  if (pNid === 'PAL_HFA' || pOrig === 'ILHA' || pName.includes('haifa')) {
+    const subName = `${prefix} — Distretto di Haifa`;
+    const adminEntity = "Haifa District · Base Navale della Royal Navy & Terminale Oleodotto Iraq (IPC)";
+    let note = '';
+    if (s === 0) {
+      note = "Haifa (Hefa) · Porto moderno inaugurato nel 1933, unico approdo in acque profonde del Levante in grado di accogliere le corazzate della Royal Navy. Terminale del grandioso oleodotto trans-desertico Kirkuk-Haifa (Iraq Petroleum Company — IPC) e snodo delle ferrovie Hejaz e Palestine Railways.";
+    } else if (s <= 3) {
+      note = "Haifa · Obiettivo primario di sabotaggi da parte dei ribelli arabi lungo la tratta dell'oleodotto nella piana di Esdraelon; difesa dai reparti speciali congiunti anglo-ebraici dei Special Night Squads (SNS) del capitano Orde Wingate. Costruzione della grande raffineria della Consolidated Refineries Ltd (CRL).";
+    } else if (s <= 5) {
+      note = "Haifa · Con lo scoppio della guerra Haifa diviene il polmone energetico insostituibile della Mediterranean Fleet britannica e delle forze aeree in Egitto; scalo di convogli armati e idrovolanti.";
+    } else if (s <= 7) {
+      note = "Haifa · Bersaglio di ripetuti e devastanti bombardamenti della Regia Aeronautica italiana (SM.82 da Rodi) tra luglio e settembre 1940 diretti contro i serbatoi di greggio e il porto. Con la caduta della Francia, la diramazione dell'oleodotto verso Tripoli di Siria/Libano viene sigillata, convogliando tutto il flusso su Haifa.";
+    } else {
+      note = "Haifa · Blocco temporaneo dei flussi petroliferi dall'Iraq durante il colpo di stato di Rashid Ali ad Habbaniya; porto e base navale di radunata per la flotta alleata e le truppe australiane prima dell'invasione di Siria e Libano.";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 3. Jaffa e Tel Aviv (PAL_TLV / ILTA)
+  if (pNid === 'PAL_TLV' || pOrig === 'ILTA' || pName.includes('tel aviv') || pName.includes('jaffa') || pName.includes('yafa') || pName.includes('giaffa')) {
+    const subName = `${prefix} — Sottodistretto di Jaffa e Tel Aviv`;
+    const adminEntity = "Jaffa & Tel Aviv Sub-District · Polo Economico e Industriale dell'Yishuv & Porto di Giaffa";
+    let note = '';
+    if (s === 0) {
+      note = "Tel Aviv e Giaffa · Cuore pulsante dell'insediamento ebraico (Yishuv) a Tel Aviv (fondata nel 1909 e sviluppatasi vertiginosamente in architettura modernista Bauhaus) affiancata all'antico porto arabo di Giaffa. Principale polo industriale, editoriale e finanziario del paese.";
+    } else if (s <= 3) {
+      note = "Tel Aviv e Giaffa · Lo sciopero arabo del 1936 blocca il porto di Giaffa; in risposta la comunità ebraica ottiene il permesso di costruire e inaugurare il nuovo porto indipendente di Tel Aviv. Forti tensioni interetniche lungo la linea di confine tra Giaffa e Tel Aviv, pattugliata dalle forze di polizia mandataria.";
+    } else if (s <= 5) {
+      note = "Tel Aviv · Epicentro delle oceaniche proteste dell'Yishuv contro il Libro Bianco del 1939; sede del comitato esecutivo dell'Agenzia Ebraica e dell'Haganah. Conversione delle fabbriche cittadine alla produzione bellica ausiliaria (munizioni, tessuti, medicinali) per le truppe imperiali britanniche.";
+    } else if (s <= 7) {
+      note = "Tel Aviv · Tragico bombardamento della Regia Aeronautica italiana il 9 settembre 1940: gli aerei italiani colpiscono quartieri residenziali a nord di Tel Aviv causando 137 morti e oltre 140 feriti civili. La città organizza la difesa antiaerea passiva e rifugi costieri.";
+    } else {
+      note = "Tel Aviv · Centro di mobilitazione e reclutamento per i volontari ebraici; collaborazione segreta con i comandi britannici per la formazione delle prime compagnie del Palmach destinate a operazioni speciali e di infiltrazione in Siria e Libano.";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 4. Galilea (PAL_GAL / ILZ)
+  if (pNid === 'PAL_GAL' || pOrig === 'ILZ' || pName.includes('galilea') || pName.includes('nazareth') || pName.includes('safed') || pName.includes('tiberias') || pName.includes('acre') || pName.includes('acri')) {
+    const subName = `${prefix} — Distretto di Galilea`;
+    const adminEntity = "Galilee District (Nazareth, Acri & Safed) · Frontiera Settentrionale Mandataria";
+    let note = '';
+    if (s === 0) {
+      note = "Galilea (Al-Jalil / HaGalil) · Regione collinare e montuosa di grande valore storico e religioso (Nazareth, Lago di Tiberiade, Safed e Acri). Frontiera aperta con il Mandato Francese di Siria e del Libano; mosaico di villaggi arabi, antiche comunità cristiane e kibbutz pionieristici nella valle di Hula.";
+    } else if (s <= 3) {
+      note = "Galilea · Roccaforte della guerriglia araba durante la rivolta del 1936-39 (assassinio del commissario britannico Lewis Andrews a Nazareth nel 1937). I britannici erigono la recinzione fortificata di filo spinato ('Tegart\'s Wall') lungo il confine con Libano e Siria, presidiata da Forti Tegart per bloccare i rifornimenti di armi.";
+    } else if (s <= 5) {
+      note = "Galilea · Pacificazione forzata con l'impiego massiccio di truppe britanniche e delle Jewish Settlement Police; consolidamento degli insediamenti fortificati 'Homa U\'Migdal' (Torre e Palizzata) lungo le direttrici strategiche.";
+    } else if (s <= 7) {
+      note = "Galilea · Con la caduta della Francia e l'allineamento di Siria e Libano al regime di Vichy, la frontiera della Galilea si trasforma improvvisamente nella prima linea difensiva dell'Impero Britannico: trinceramenti, posti di blocco a Naqoura e Metulla, mine anticarro e pattugliamento continuo.";
+    } else {
+      note = "Galilea · Piattaforma operativa di lancio per l'Operazione Exporter: concentramento della 7th Australian Division e delle forze alleate che attraversano il confine della Galilea l'8 giugno 1941 penetrando nel Libano meridionale e verso Damasco.";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 5. Samaria e Giudea (PAL_SAM / PSWBK)
+  if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+    const subName = `${prefix} — Samaria e Giudea`;
+    const adminEntity = "Samaria & Judea Districts (Nablus, Jenin & Hebron) · Roccaforte della Montagna";
+    let note = '';
+    if (s === 0) {
+      note = "Samaria e Giudea (Cisgiordania) · Dorsale montuosa centrale della Palestina mandataria a netta maggioranza araba, dominata dagli uliveti e dai centri storici mercantili di Nablus, Jenin, Tulkarm e Hebron. Snodo della ferrovia della Samaria.";
+    } else if (s <= 3) {
+      note = "Samaria e Giudea · Roccaforte impenetrabile e focolaio principale della Grande Rivolta Araba ('Triangolo della Ribellione' Nablus-Jenin-Tulkarm), guidato da capibanda come Fawzi al-Qawuqji e Abd al-Rahim al-Hajj Muhammad. L'esercito britannico conduce vaste operazioni di controinsurrezione, distruggendo case di ribelli e imponendo punizioni collettive.";
+    } else if (s <= 5) {
+      note = "Samaria e Giudea · Fine della rivolta e disarmo delle bande armate; istituzione di presidi permanenti dell'esercito britannico e stazioni di polizia Tegart a Nablus, Jenin e Hebron.";
+    } else if (s <= 7) {
+      note = "Samaria e Giudea · Calma vigilata sotto rigida amministrazione militare; produzione agricola intensiva di grano e olio per il sostentamento del Mandato e delle guarnigioni britanniche in Medio Oriente durante il blocco del Mediterraneo.";
+    } else {
+      note = "Samaria e Giudea · Retrovia strategica per il transito e il dislocamento di truppe britanniche, della Legione Araba transgiordana e delle colonne motorizzate dirette a nord per l'invasione della Siria di Vichy.";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 6. Lydda e Sharon (PAL_LYD / ILM)
+  if (pNid === 'PAL_LYD' || pOrig === 'ILM' || pName.includes('lydda') || pName.includes('ramle') || pName.includes('sharon') || pName.includes('lod')) {
+    const subName = `${prefix} — Distretto di Lydda e Sharon`;
+    const adminEntity = "Lydda District (Lod & Ramle) · Snodo Ferroviario Mandatario & Base Aerea RAF Lydda";
+    let note = '';
+    if (s === 0) {
+      note = "Lydda e Sharon · Cuore della piana costiera di Sharon, famosa per gli agrumeti di arance 'Jaffa' e per il gigantesco nodo ferroviario di Lydda (intersezione tra le linee Il Cairo-Haifa e Jaffa-Gerusalemme).";
+    } else if (s <= 3) {
+      note = "Lydda · Costruzione e inaugurazione dell'Aeroporto di Wilhelma/Lydda (inaugurato nel 1937, futura base RAF Lydda), il più moderno e spazioso aeroporto del Medio Oriente; snodo cruciale delle rotte aeree imperiali dell'Imperial Airways verso l'India. Frequenti attentati arabi alle linee ferroviarie e ai convogli.";
+    } else if (s <= 5) {
+      note = "Lydda · Con lo scoppio della Seconda Guerra Mondiale la base aerea di Lydda (RAF Station Lydda) viene militarizzata ed espansa come quartier generale aereo strategico per bombardieri e caccia di scorta a difesa del Canale di Suez e della costa palestinese.";
+    } else if (s <= 7) {
+      note = "Lydda · Installazione di batterie antiaeree e depositi munizioni; la RAF schiera squadriglie da caccia Hurricanes e Gladiators per intercettare i bombardieri italiani della Regia Aeronautica diretti verso Tel Aviv e Haifa.";
+    } else {
+      note = "Lydda · Base di partenza fondamentale per le squadriglie della Royal Air Force impegnate nelle operazioni di soccorso ad Habbaniya in Iraq e per la ricognizione sui campi d'aviazione di Vichy a Rayak e Mezzeh prima dell'Operazione Exporter.";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 7. Gaza (PAL_GAZ / PSGZZ)
+  if (pNid === 'PAL_GAZ' || pOrig === 'PSGZZ' || pName.includes('gaza') || pName.includes('ghazzah') || pName.includes('khan yunis') || pName.includes('rafah')) {
+    const subName = `${prefix} — Distretto di Gaza`;
+    const adminEntity = "Gaza District · Corridoio Costiero verso il Sinai & Posto di Frontiera con l'Egitto";
+    let note = '';
+    if (s === 0) {
+      note = "Gaza (Ghazzah) · Storico corridoio costiero meridionale tra il Levante e l'Egitto; centro commerciale e agricolo rinomato per la coltivazione dell'orzo, degli agrumi e per l'artigianato della ceramica e della tessitura.";
+    } else if (s <= 3) {
+      note = "Gaza · Snodo di frontiera doganale e ferroviaria sulla linea trans-sinaitica verso Al-Qantarah e Il Cairo. Durante la rivolta araba, la stazione e i ponti ferroviari vengono ripetutamente presidiati e difesi da truppe coloniali britanniche e da polizia a cavallo.";
+    } else if (s <= 5) {
+      note = "Gaza · Militarizzazione del corridoio ferroviario per il trasporto di materiale bellico e truppe dell'esercito imperiale britannico tra l'Egitto e la Palestina; costruzione di campi d'addestramento e depositi logistici.";
+    } else if (s <= 7) {
+      note = "Gaza · Linea di collegamento vitale per il transito delle divisioni australiane, neozelandesi e indiane tra il teatro nordafricano (fronte di Marsa Matruh e Sidi Barrani) e i presidi del Levante.";
+    } else {
+      note = "Gaza · Retrovia logistica e ospedaliera della British Army; scalo di rifornimento per le colonne corazzate e i convogli di munizioni in movimento verso il fronte siriano.";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // 8. Beersheba e Negev (PAL_BEER / ILD)
+  if (pNid === 'PAL_BEER' || pOrig === 'ILD' || pName.includes('beersheba') || pName.includes('negev') || pName.includes('darom') || pName.includes('aqaba')) {
+    const subName = `${prefix} — Distretto di Beersheba (Negev)`;
+    const adminEntity = "Beersheba Sub-District · Territorio Beduino del Negev & Sbocco sul Golfo di Aqaba";
+    let note = '';
+    if (s === 0) {
+      note = "Beersheba (Bir as-Sabi / Negev) · Immensa distesa desertica e semiarida che costituisce quasi metà dell'intero territorio del Mandato, estendendosi da Beersheba a sud fino alle acque del Golfo di Aqaba (Mar Rosso). Amministrazione speciale basata sul diritto consuetudinario delle tribù beduine (Bani Sakhr, Tarabin, Tayaha).";
+    } else if (s <= 3) {
+      note = "Beersheba · Sorveglianza delle piste carovaniere da parte delle unità a cammello della Transjordan Frontier Force (TJFF) e della Palestine Police; la proposta Peel del 1937 ne prevedeva l'inclusione nella sfera mandataria/araba a causa della scarsa densità abitativa.";
+    } else if (s <= 5) {
+      note = "Beersheba · Il Libro Bianco del 1939 impone il blocco totale alle compravendite di terreni nel Negev (Zona A). L'esercito britannico istituisce stazioni di rifornimento per le pattuglie di ricognizione a lungo raggio nel deserto.";
+    } else if (s <= 7) {
+      note = "Beersheba · Corridoio strategico terrestre alternativo verso il Mar Rosso in caso di chiusura o danneggiamento del Canale di Suez; installazione di posti di vedetta a Umm Rashrash per controllare la navigazione nel Golfo di Aqaba contro possibili incursioni dei sommergibili italiani della base di Massaua (Mar Rosso).";
+    } else {
+      note = "Beersheba · Sicurezza garantita dalle pattuglie beduine della TJFF; collegamento strategico tra la Palestina e l'Emirato di Transgiordania dell'Emiro Abdullah I per garantire il libero transito delle forze motorizzate alleate verso l'Iraq e la Siria.";
+    }
+    return makeResult(ownerCode, subName, note, factionCode, adminEntity);
+  }
+
+  // Fallback
+  return makeResult(ownerCode, 'Mandato di Palestina', 'British Mandate for Palestine (League of Nations Class A Mandate)', factionCode, 'British Mandate Administration (Jerusalem)');
+}
+
 export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (!ft) return makeResult('NEU', 'Territorio Sconosciuto');
   if (ft.__resolve) return ft.__resolve(s);
@@ -3860,6 +4517,152 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (ft.__kind === 'KALININGRAD') {
     return makeResult('GER', 'Königsberg in Preußen', 'Hauptstadt der Provinz Ostpreußen');
   }
+
+  // Impero dell'Iran (31 Province 1936-1941)
+  const isIranProv =
+    p.REGION_KIND === 'IRAN_PROVINCE' ||
+    String(ft.id || '').startsWith('IRN_') ||
+    nid.startsWith('IRN_') ||
+    cntr === 'IR' ||
+    cntr === 'IRN';
+
+  if (isIranProv) {
+    return resolveIranProvince(ft, s);
+  }
+
+  // British Raj (65 Province e Territori dell\'Impero Anglo-Indiano, Pakistan, Bangladesh, Birmania e India 1936-1941)
+  const fidClean = String(ft.id || p.id || p.NUTS_ID || '').trim();
+
+  // U.S. Naval Operating Base Guantanamo Bay (Treaty of 1903 / 1934)
+  const isGuantanamo =
+    fidClean === 'US_GUANTANAMO' ||
+    nid === 'US_GUANTANAMO' ||
+    p.REGION_KIND === 'US_MILITARY_BASE' ||
+    nrm.includes('guantanamo');
+
+  if (isGuantanamo) {
+    const topG = getExtendedToponym('guantanamo', 'USA', nid, c, s);
+    return makeResult(
+      'USA',
+      topG.name || 'Guantanamo Bay Naval Base (U.S. Navy — Cuba)',
+      topG.note ||
+        'Base navale permanente di 116 km² affittata in perpetuità dagli Stati Uniti sulla baia di Guantánamo nel sud-est di Cuba in virtù del trattato cubano-statunitense del 1903 (confermato dal trattato del 1934). Base navale operativa primaria per il controllo del Paso de los Vientos (Windward Passage) tra Cuba e Haiti e la sorveglianza delle rotte dei Caraibi.',
+      'Alleati',
+      topG.adminTitle || 'U.S. Naval Operating Base Guantanamo Bay (Treaty of 1934)'
+    );
+  }
+
+  const isBritishRajProv =
+    p.REGION_KIND === 'RAJ_PROVINCE' ||
+    fidClean.startsWith('PK_') ||
+    fidClean.startsWith('BD_') ||
+    fidClean.startsWith('MM_') ||
+    fidClean.startsWith('IN_') ||
+    p.ORIG_ID === 'PKGB';
+
+  if (isBritishRajProv) {
+    return resolveBritishRajProvince(ft, s);
+  }
+
+  // Chōsen / Corea (33 Province e Territori Coloniali dell'Impero Giapponese 1936-1941)
+  const isKoreaProv =
+    p.REGION_KIND === 'KOREA_PROVINCE' ||
+    Boolean((KOREA_PROVINCES_META as any)?.[fidClean]) ||
+    Boolean((KOREA_PROVINCES_META as any)?.[String(p.id || '')]) ||
+    Boolean((KOREA_PROVINCES_META as any)?.[String(p.cartodb_id || '')]) ||
+    fidClean.startsWith('KR') ||
+    fidClean.startsWith('KP') ||
+    cntr === 'KR' ||
+    cntr === 'KP' ||
+    cntr === 'KOR' ||
+    cntr === 'PRK' ||
+    cntr === '410' ||
+    cntr === '408';
+
+  if (isKoreaProv) {
+    return resolveKoreaProvince(ft, s);
+  }
+
+  // British Malaya e Singapore (16 Stati/Territori Malesi + Singapore 1936-1941)
+  const isMalaysiaProv =
+    p.REGION_KIND === 'MALAYSIA_STATE' ||
+    p.REGION_KIND === 'MALAYSIA_PROVINCE' ||
+    p.REGION_KIND === 'MALAYSIA_FEDERAL_TERRITORY' ||
+    p.REGION_KIND === 'SINGAPORE_SETTLEMENT' ||
+    Boolean((MALAYSIA_PROVINCES_META as any)?.[fidClean]) ||
+    Boolean((MALAYSIA_PROVINCES_META as any)?.[nid]) ||
+    (fidClean.startsWith('MY') && fidClean.length > 2) ||
+    (nid.startsWith('MY') && nid.length > 2) ||
+    fidClean === 'SG01' ||
+    nid === 'SG01' ||
+    cntr === 'MY' ||
+    cntr === 'MYS' ||
+    cntr === 'SG' ||
+    cntr === 'SGP';
+
+  if (isMalaysiaProv) {
+    return resolveMalaysiaProvince(ft, s);
+  }
+
+  // Territory of Papua & Mandated Territory of New Guinea (22 Province 1936-1941)
+  const isPngProv =
+    p.REGION_KIND === 'PNG_PROVINCE' ||
+    Boolean((PNG_PROVINCES_META as any)?.[fidClean]) ||
+    Boolean((PNG_PROVINCES_META as any)?.[nid]) ||
+    (fidClean.startsWith('PG') && fidClean.length > 2) ||
+    (nid.startsWith('PG') && nid.length > 2) ||
+    cntr === 'PG' ||
+    cntr === 'PNG';
+
+  if (isPngProv) {
+    return resolvePapuaNewGuineaProvince(ft, s);
+  }
+
+  // Timor Português / Timor-Leste (1936-1941)
+  const isTimorLeste =
+    p.REGION_KIND === 'TIMOR_LESTE' ||
+    fidClean === 'TLS' ||
+    nid === 'TLS' ||
+    cntr === 'TL' ||
+    cntr === 'TLS' ||
+    nrm === 'timor-leste' ||
+    nrm === 'timor leste' ||
+    nrm === 'portuguese timor' ||
+    nrm === 'timor portugues';
+
+  if (isTimorLeste) {
+    return resolveTimorLeste(ft, s);
+  }
+
+  // Nederlands-Indië / Indonesia (34 Province 1936-1941)
+  const isIndonesiaProv =
+    p.REGION_KIND === 'INDONESIA_PROVINCE' ||
+    Boolean((INDONESIA_PROVINCES_META as any)?.[fidClean]) ||
+    Boolean((INDONESIA_PROVINCES_META as any)?.[nid]) ||
+    ((fidClean.startsWith('ID') || nid.startsWith('ID')) && (fidClean.length === 4 || nid.length === 4)) ||
+    cntr === 'ID' ||
+    cntr === 'IDN';
+
+  if (isIndonesiaProv) {
+    return resolveIndonesiaProvince(ft, s);
+  }
+
+  // Commonwealth of the Philippines (17 Province e Regioni 1936-1941)
+  const isPhilippinesProv =
+    p.REGION_KIND === 'PHILIPPINES_PROVINCE' ||
+    Boolean((PHILIPPINES_PROVINCES_META as any)?.[fidClean]) ||
+    Boolean((PHILIPPINES_PROVINCES_META as any)?.[nid]) ||
+    ((fidClean.startsWith('PH') || nid.startsWith('PH')) && (fidClean.length === 4 || nid.length === 4)) ||
+    cntr === 'PH' ||
+    cntr === 'PHL' ||
+    cntr === '608';
+
+  if (isPhilippinesProv) {
+    return resolvePhilippinesProvince(ft, s);
+  }
+
+
+
 
   // Algérie française (58 Wilayas / Dipartimenti e Territori del Sud 1936-1940)
   const isAlgeriaProv =
@@ -4268,21 +5071,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return resolveChinaProvince(s, nid, p, rawName);
   }
 
-  // Granularizzazione e risoluzione prefetture/territori dell'Impero Giapponese (1936-1940)
-  if (
+  // Granularizzazione e risoluzione prefetture/territori dell'Impero Giapponese (1936-1941)
+  const isJapanProv =
     cntr === 'JP_PREF' ||
+    cntr === 'JP' ||
+    cntr === 'JPN' ||
+    cntr === '392' ||
     nid.startsWith('JP_') ||
+    fidClean.startsWith('JP_') ||
     p.REGION_KIND === 'JAPAN_PREFECTURE' ||
-    (nid.startsWith('JP') && nid.length > 2)
-  ) {
-    const jpTop = resolveJapanToponym(nid, histName, nrm, 'JAP', s);
-    return makeResult(
-      'JAP',
-      jpTop?.name || histName || 'Dai Nippon Teikoku (Naichi)',
-      jpTop?.note || 'Prefettura o territorio metropolitano dell\'Impero Giapponese (Naichi).',
-      'Asse',
-      jpTop?.adminTitle || 'Dai Nippon Teikoku (Naichi)'
-    );
+    p.REGION_KIND === 'JAPAN_TERRITORY' ||
+    Boolean((JAPAN_PROVINCES_META as any)?.[fidClean]) ||
+    Boolean((JAPAN_PROVINCES_META as any)?.[nid]) ||
+    (nid.startsWith('JP') && nid.length > 2) ||
+    (fidClean.startsWith('JP') && fidClean.length > 2);
+
+  if (isJapanProv) {
+    return resolveJapanProvince(ft, s);
   }
 
   // Repubblica Popolare di Tannu Tuva (1921-1944) — Indipendente
@@ -6325,7 +7130,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '192':
     case 'XCU': {
       if (nrm.includes('guantanamo')) {
-        return makeResult('USA', 'Base Navale USA di Guantánamo', 'Base Navale USA a Cuba');
+        const topG = getExtendedToponym('guantanamo', 'USA', nid, c, s);
+        return makeResult(
+          'USA',
+          topG.name || 'Guantanamo Bay Naval Base (U.S. Navy — Cuba)',
+          topG.note ||
+            'Base navale permanente di 116 km² affittata in perpetuità dagli Stati Uniti sulla baia di Guantánamo nel sud-est di Cuba in virtù del trattato cubano-statunitense del 1903 (confermato dal trattato del 1934). Base navale operativa primaria per il controllo del Paso de los Vientos (Windward Passage) tra Cuba e Haiti e la sorveglianza delle rotte dei Caraibi.',
+          'Alleati',
+          topG.adminTitle || 'U.S. Naval Operating Base Guantanamo Bay (Treaty of 1934)'
+        );
       }
       return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', getTop('CUB').note || 'Repubblica di Cuba', 'Neutrale', getTop('CUB').adminTitle);
     }
@@ -6401,8 +7214,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IR':
     case 'IRN':
     case '364':
-    case 'XIR':
-      return makeResult('IRN', getTop('IRN').name || 'Impero dell\'Iran (Persia)', 'Impero dell\'Iran (Persia)');
+    case 'XIR': {
+      const irTop = getTop('IRN');
+      const provName = irTop.name || histName || rawName || 'Impero dell\'Iran (Persia)';
+      const provAdmin = irTop.adminTitle || p.ADMIN || 'Keshvar-e Shāhanshāhi-ye Irān (Impero dell\'Iran)';
+      const provNote = irTop.note || p.HISTORICAL_NOTE || (s >= 8 ? 'Impero dell\'Iran sotto il regno di Reza Shah Pahlavi; neutrale all\'inizio delle ostilità mondiali.' : 'Impero dell\'Iran (Dinastia Pahlavi) — Stato sovrano guidato da Reza Shah Pahlavi con capitale a Teheran; neutrale e impegnato nella modernizzazione infrastrutturale (Ferrovia Trans-Iraniana).');
+      return makeResult('IRN', provName, provNote, 'Neutrale', provAdmin);
+    }
     case 'SA':
     case 'SAU':
     case '682':
@@ -6443,14 +7261,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'JP':
     case 'JPN':
     case '392': {
-      const jpTop = resolveJapanToponym(nid, histName, nrm, 'JAP', s);
-      return makeResult(
-        'JAP',
-        jpTop?.name || 'Dai Nippon Teikoku (Naichi)',
-        jpTop?.note || 'Impero del Grande Giappone — Territorio Metropolitano (Naichi)',
-        'Asse',
-        jpTop?.adminTitle || 'Dai Nippon Teikoku (Naichi)'
-      );
+      return resolveJapanProvince(ft, s);
     }
     case 'KR':
     case 'KOR':
@@ -6458,6 +7269,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'PRK':
     case '410':
     case '408': {
+      return resolveKoreaProvince(ft, s);
       const jpTop = resolveJapanToponym('JP_CHOSEN', histName, 'chosen_korea', 'JAP', s);
       return makeResult(
         'JAP',
@@ -6528,10 +7340,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             // -------------------------------------------------------------
     // MANDATO BRITANNICO DELLA PALESTINA (1920-1948) — 8 PROVINCE
     // -------------------------------------------------------------
+        // -------------------------------------------------------------
+    // MANDATO FRANCESE DI SIRIA E LIBANO — 22 PROVINCE E DISTRETTI
     // -------------------------------------------------------------
-    // MANDATO FRANCESE DI SIRIA E LIBANO — 14 PROVINCE E DISTRETTI
-    // -------------------------------------------------------------
-    case 'SYR':
+        case 'SYR':
     case 'SY':
     case '760':
     case 'LEB':
@@ -6554,67 +7366,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'SYR_DRU':
     case 'SYR_HAU':
     case 'SYR_GOL':
-    case 'LEB_ALL': {
-      const props = (ft && ft.properties) ? ft.properties : {};
-      const pNid = String(props.NUTS_ID || props.id || ft?.id || '').trim().toUpperCase();
-      const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
-
-      const isVichy = s >= 6;
-      const ownerCode = isVichy ? 'VIC_SYR' : 'F_SYR';
-      const factionCode = isVichy ? 'Fantoccio' : 'Alleati';
-      const regimePrefix = isVichy ? 'Siria (Regime di Vichy — Gen. Dentz)' : 'Mandato Francese di Siria';
-
-      let subName = isVichy ? 'Siria (Regime di Vichy — Gen. Dentz)' : 'Mandato Francese di Siria';
-      let subTitle = isVichy ? 'Stato di Siria · Tutela del Governo di Vichy' : 'League of Nations Class A Mandate (French Administration)';
-
-      if (pNid === 'SYR_DAM' || pName.includes('damasco') || pName.includes('damascus')) {
-        subName = `${regimePrefix} — Città di Damasco`;
-        subTitle = 'Damascus (Capitale Mandataria & Comando Militare)';
-      } else if (pNid === 'SYR_GHT' || pName.includes('rif dimashq') || pName.includes('ghouta')) {
-        subName = `${regimePrefix} — Rif Dimashq e Ghouta`;
-        subTitle = 'Oasi della Ghouta & Massiccio del Qalamoun';
-      } else if (pNid === 'SYR_ALP' || pName.includes('aleppo') || pName.includes('alep')) {
-        subName = `${regimePrefix} — Governatorato di Aleppo`;
-        subTitle = 'Aleppo (Metropoli Mercantile & Snodo Ferroviario Settentrionale)';
-      } else if (pNid === 'SYR_IDL' || pName.includes('idlib')) {
-        subName = `${regimePrefix} — Distretto di Idlib`;
-        subTitle = 'Idlib & Gebel Zawiya';
-      } else if (pNid === 'SYR_LTK' || pName.includes('latakia') || pName.includes('lattakia')) {
-        subName = `${regimePrefix} — Territorio Alauita di Latakia`;
-        subTitle = 'Latakia (Porto Mediterraneo & Gebel Alauita)';
-      } else if (pNid === 'SYR_TAR' || pName.includes('tartus')) {
-        subName = `${regimePrefix} — Territorio Alauita di Tartus`;
-        subTitle = 'Tartus & Isola Fortificata di Arwad';
-      } else if (pNid === 'SYR_HMS' || pName.includes('homs')) {
-        subName = `${regimePrefix} — Governatorato di Homs`;
-        subTitle = 'Homs (Varco Oronte & Corridoio Strategico)';
-      } else if (pNid === 'SYR_HMA' || pName.includes('hama')) {
-        subName = `${regimePrefix} — Governatorato di Hama`;
-        subTitle = 'Hama (Valle Fluviale dell\'Oronte)';
-      } else if (pNid === 'SYR_JAZ' || pName.includes('hasaka') || pName.includes('giazira')) {
-        subName = `${regimePrefix} — Territorio della Giazira`;
-        subTitle = 'Al-Hasakah & Alta Mesopotamia Siriana';
-      } else if (pNid === 'SYR_RAQ' || pName.includes('raqqa')) {
-        subName = `${regimePrefix} — Governatorato di Raqqa`;
-        subTitle = 'Ar-Raqqah (Medio Eufrate & Steppe Settentrionali)';
-      } else if (pNid === 'SYR_DEZ' || pName.includes('deir') || pName.includes('zawr')) {
-        subName = `${regimePrefix} — Governatorato di Deir ez-Zor`;
-        subTitle = 'Dayr Az Zawr (Avamposto sull\'Eufrate verso l\'Iraq)';
-      } else if (pNid === 'SYR_DRU' || pName.includes('suwayda') || pName.includes('druso')) {
-        subName = `${regimePrefix} — Stato del Gebel Druso`;
-        subTitle = 'Jabal al-Druze (Roccaforte di As-Suwayda)';
-      } else if (pNid === 'SYR_HAU' || pName.includes('dar`a') || pName.includes('dara') || pName.includes('hauran')) {
-        subName = `${regimePrefix} — Piana dell'Hauran (Dar'a)`;
-        subTitle = 'Dar\'a (Ferrovia dell\'Hejaz & Confine con Transgiordania)';
-      } else if (pNid === 'SYR_GOL' || pName.includes('quneitra') || pName.includes('golan')) {
-        subName = `${regimePrefix} — Distretto del Golan (Quneitra)`;
-        subTitle = 'Quneitra (Alture del Golan & Monte Hermon)';
-      } else if (pNid === 'LEB_ALL' || pNid === 'LEB' || pNid === 'LB' || pNid === 'LBN' || pNid === '422' || pName.includes('liban') || pName.includes('lebanon') || pName.includes('libano')) {
-        subName = isVichy ? 'Grande Libano (Amministrazione di Vichy)' : 'Mandato Francese del Grande Libano';
-        subTitle = 'Grand Liban (Beirut, Monte Libano, Beqaa & Tripoli)';
-      }
-
-      return makeResult(ownerCode, subName, subTitle, factionCode, subName);
+    case 'LEB_ALL':
+    case 'LBAS':
+    case 'LBBH':
+    case 'LBJL':
+    case 'LBJA':
+    case 'LBNA':
+    case 'LBAK':
+    case 'LBBI':
+    case 'LBBA':
+    case 'TR631':
+    case 'HAT': {
+      return resolveLevantMandateProvince(ft, s);
     }
 
     case 'PAL':
@@ -6634,39 +7397,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'PAL_LYD':
     case 'PAL_HFA':
     case 'PAL_GAL': {
-      const props = (ft && ft.properties) ? ft.properties : {};
-      const pNid = String(props.NUTS_ID || props.id || ft?.id || '').trim().toUpperCase();
-      const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
-      let subName = 'Mandato di Palestina';
-      let subTitle = 'League of Nations Class A Mandate (British Administration)';
-
-      if (pNid === 'PAL_GAZ' || pNid === 'PSGZZ' || pName.includes('gaza')) {
-        subName = 'Mandato di Palestina — Distretto di Gaza';
-        subTitle = 'Gaza District · Sfera Britannica';
-      } else if (pNid === 'PAL_SAM' || pNid === 'PSWBK' || pName.includes('samaria') || pName.includes('west bank')) {
-        subName = 'Mandato di Palestina — Samaria e Giudea';
-        subTitle = 'Samaria & Judea Districts (Nablus/Hebron) · Mandato SDN';
-      } else if (pNid === 'PAL_BEER' || pNid === 'ILD' || pName.includes('beersheba') || pName.includes('darom') || pName.includes('negev')) {
-        subName = 'Mandato di Palestina — Distretto di Beersheba (Negev)';
-        subTitle = 'Beersheba Sub-District & Golfo di Aqaba · Mandato SDN';
-      } else if (pNid === 'PAL_JRS' || pNid === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme')) {
-        subName = 'Mandato di Palestina — Distretto di Gerusalemme';
-        subTitle = 'Jerusalem District (Government House) · Sede Alto Commissario';
-      } else if (pNid === 'PAL_TLV' || pNid === 'ILTA' || pName.includes('tel aviv') || pName.includes('jaffa')) {
-        subName = 'Mandato di Palestina — Sottodistretto di Jaffa-Tel Aviv';
-        subTitle = 'Lydda District (Porto di Giaffa e Municipio di Tel Aviv)';
-      } else if (pNid === 'PAL_LYD' || pNid === 'ILM' || pName.includes('lydda') || pName.includes('merkaz') || pName.includes('sharon')) {
-        subName = 'Mandato di Palestina — Distretto di Lydda e Sharon';
-        subTitle = 'Lydda District (Snodo Ferroviario & Base RAF Lydda)';
-      } else if (pNid === 'PAL_HFA' || pNid === 'ILHA' || pName.includes('haifa')) {
-        subName = 'Mandato di Palestina — Distretto di Haifa';
-        subTitle = 'Haifa District (Terminale Oleodotto Kirkuk-Haifa & Base Navale RN)';
-      } else if (pNid === 'PAL_GAL' || pNid === 'ILZ' || pName.includes('galilea') || pName.includes('zafon') || pName.includes('nazareth')) {
-        subName = 'Mandato di Palestina — Distretto di Galilea';
-        subTitle = 'Galilee District (Nazareth, Acri & Frontiera con Mandato Siriano)';
-      }
-
-      return makeResult('UK', subName, subTitle, 'Alleati', subName);
+      return resolvePalestineMandateProvince(ft, s);
     }
     
     case 'IQ':
@@ -7204,9 +7935,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nid.startsWith('CU')
       ) {
         if (nrm.includes('guantanamo')) {
-          return makeResult('USA', 'Base Navale USA di Guantánamo', 'Base Navale USA a Cuba');
+          const topG = getExtendedToponym('guantanamo', 'USA', nid, c, s);
+          return makeResult(
+            'USA',
+            topG.name || 'Guantanamo Bay Naval Base (U.S. Navy — Cuba)',
+            topG.note ||
+              'Base navale permanente di 116 km² affittata in perpetuità dagli Stati Uniti sulla baia di Guantánamo nel sud-est di Cuba in virtù del trattato cubano-statunitense del 1903 (confermato dal trattato del 1934). Base navale operativa primaria per il controllo del Paso de los Vientos (Windward Passage) tra Cuba e Haiti e la sorveglianza delle rotte dei Caraibi.',
+            'Alleati',
+            topG.adminTitle || 'U.S. Naval Operating Base Guantanamo Bay (Treaty of 1934)'
+          );
         }
-        return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', 'Repubblica di Cuba');
+        return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', getTop('CUB').note || 'Repubblica di Cuba', 'Neutrale', getTop('CUB').adminTitle);
       }
 
       if (
