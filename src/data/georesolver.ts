@@ -20,6 +20,10 @@ import {
   resolveFrenchIndochinaProvince,
   FRENCH_INDOCHINA_PROVINCES_META,
 } from './frenchIndochinaProvinces';
+import {
+  resolveUSAProvince,
+  USA_PROVINCES_META,
+} from './usaProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -5097,6 +5101,28 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return resolveFrenchIndochinaProvince(ft, s);
   }
 
+  // Granularizzazione e risoluzione integrata 50 Stati, DC e Territori degli Stati Uniti d'America (1936-1941)
+  const isUsaProv =
+    !p.IS_HB &&
+    rawName !== 'United States' &&
+    (
+      cntr === 'US' ||
+      cntr === 'USA' ||
+      cntr === '840' ||
+      p.SOVEREIGN === 'USA' ||
+      p.country === 'United States' ||
+      nid.startsWith('US_') ||
+      fidClean.startsWith('US_') ||
+      Boolean((p.shapeISO && String(p.shapeISO).startsWith('US-'))) ||
+      Boolean((USA_PROVINCES_META as any)?.[fidClean]) ||
+      Boolean((USA_PROVINCES_META as any)?.[nid])
+    );
+
+  if (isUsaProv) {
+    const resUsa = resolveUSAProvince(ft, s);
+    if (resUsa) return resUsa;
+  }
+
   // Granularizzazione integrale del Teatro Cinese e Guerra Sino-Giapponese (1936-1940)
   if (cntr === 'CN_PROV' || nid.startsWith('CHN_') || p.REGION_KIND === 'CHINA_PROVINCE') {
     return resolveChinaProvince(s, nid, p, rawName);
@@ -7224,6 +7250,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'UM':
     case 'UMI':
     case '581': {
+      if (rawName !== 'United States') {
+        const resUsa = resolveUSAProvince(ft, s);
+        if (resUsa) return resUsa;
+      }
       const usaTop = getTop('USA');
       return makeResult(
         'USA',

@@ -1,4 +1,5 @@
 import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
+import { USA_PROVINCES_META, populateUSAToponyms } from './usaProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2848,6 +2849,9 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
 
 // Integrazione automatica toponomastica storica scandinava
 populateScandinavianToponyms(HISTORICAL_TOPONYM_DICT);
+
+// Integrazione automatica toponomastica e amministrazioni storiche Stati Uniti (50 Stati, DC, Territori)
+populateUSAToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -15234,7 +15238,7 @@ export function resolveUSAToponym(
   }
 
   // 6. Distretto Federale di Columbia vs Stato di Washington
-  if (normKey.includes('district_of_columbia') || normKey === 'washington_dc' || normKey === 'dc') {
+  if (normKey.includes('district_of_columbia') || normKey === 'washington_dc' || normKey === 'washington_d_c' || normKey.includes('d_c') || normKey === 'dc') {
     return {
       name: 'Washington, D.C. (District of Columbia)',
       adminTitle: 'Federal Capital of the United States of America',
@@ -15254,7 +15258,30 @@ export function resolveUSAToponym(
     };
   }
 
-  // 7. Ricerca granulare nel dizionario storico degli Stati Uniti
+  // 7. Ricerca granulare e timeline-sensitive in USA_PROVINCES_META
+  const cleanId = id.replace(/[^A-Za-z0-9_]/g, '');
+  const provMeta = USA_PROVINCES_META[cleanId] || (cleanId.startsWith('US_') ? undefined : USA_PROVINCES_META['US_' + cleanId]);
+  if (provMeta) {
+    return {
+      name: provMeta.getHistoricalName(step),
+      adminTitle: provMeta.getAdminTitle(step),
+      note: provMeta.getNote(step),
+    };
+  }
+
+  for (const k of Object.keys(USA_PROVINCES_META)) {
+    const item = USA_PROVINCES_META[k];
+    const nrmItem = item.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+    if (normKey === nrmItem || (nrmItem.length >= 5 && normKey.includes(nrmItem))) {
+      return {
+        name: item.getHistoricalName(step),
+        adminTitle: item.getAdminTitle(step),
+        note: item.getNote(step),
+      };
+    }
+  }
+
+  // 8. Ricerca granulare nel dizionario storico degli Stati Uniti
   const usaDict = HISTORICAL_TOPONYM_DICT['USA'];
   if (usaDict) {
     if (usaDict[normKey]) {

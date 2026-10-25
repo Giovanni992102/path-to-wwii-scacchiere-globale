@@ -2028,6 +2028,14 @@ export default function App() {
           const topDutch = getExtendedToponym('Dutch Harbor', 'USA');
           const topGuant = getExtendedToponym('Guantanamo', 'USA');
 
+          // 4. Risoluzione federata di precisione e dinamica temporale (Step 0 New Deal vs Step 8 Lend-Lease)
+          const ca0 = resolveFeature({ id: 'US_CA', properties: { id: 'US_CA', shapeName: 'California', country: 'United States' } }, 0);
+          const ca8 = resolveFeature({ id: 'US_CA', properties: { id: 'US_CA', shapeName: 'California', country: 'United States' } }, 8);
+          const mt0 = resolveFeature({ id: 'US_MT', properties: { id: 'US_MT', shapeName: 'Montana', country: 'United States' } }, 0);
+          const mt8 = resolveFeature({ id: 'US_MT', properties: { id: 'US_MT', shapeName: 'Montana', country: 'United States' } }, 8);
+          const ak0 = resolveFeature({ id: 'US_AK', properties: { id: 'US_AK', shapeName: 'Alaska', country: 'United States' } }, 0);
+          const ak8 = resolveFeature({ id: 'US_AK', properties: { id: 'US_AK', shapeName: 'Alaska', country: 'United States' } }, 8);
+
           return (
             usa0.o === 'USA' && usa0.name.includes('New Deal') && (meta0.leader || '').includes('Roosevelt') &&
             usa6.o === 'USA' && usa6.name.includes('Two-Ocean Navy') && (meta6.leader || '').includes('Terzo Mandato') &&
@@ -2049,7 +2057,13 @@ export default function App() {
             topMA.name.includes('Boston') &&
             topPearl.name.includes('Pearl Harbor') && (topPearl.note || '').includes('Flotta del Pacifico') &&
             topDutch.name.includes('Dutch Harbor') && (topDutch.note || '').includes('Aleutine') &&
-            topGuant.name.includes('Guantanamo') && (topGuant.adminTitle || '').includes('Treaty of 1934')
+            topGuant.name.includes('Guantanamo') && (topGuant.adminTitle || '').includes('Treaty of 1934') &&
+            ca0.o === 'USA' && ca0.name.includes('California') && (ca0.note || '').includes('New Deal') &&
+            ca8.o === 'USA' && ca8.name.includes('Arsenale della Democrazia') && (ca8.note || '').includes('Lend-Lease') &&
+            mt0.o === 'USA' && mt0.name.includes('Montana') && (mt0.note || '').includes('Fort Peck') &&
+            mt8.o === 'USA' && (mt8.note || '').includes('ALSIB') &&
+            ak0.o === 'USA' && ak0.name.includes('Territory of Alaska') &&
+            ak8.o === 'USA' && (ak8.note || '').includes('Lend-Lease')
           );
         },
       },
