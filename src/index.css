@@ -116,8 +116,8 @@ body {
 }
 
 .prov, .cty, .hb {
-  stroke: #090c0f;
-  stroke-width: 0.48px;
+  stroke: #070a0d;
+  stroke-width: 0.58px;
   stroke-linejoin: round;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;

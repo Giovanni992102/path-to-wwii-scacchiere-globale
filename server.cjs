@@ -151,12 +151,12 @@ const server = http.createServer((req, res) => {
     const isHtml = ext === '.html';
     const isAsset = filePath.includes(path.sep + 'assets' + path.sep);
     let cacheControl;
-    if (isHtml) {
+    if (isHtml || ext === '.json') {
       cacheControl = 'no-cache, must-revalidate';
     } else if (isAsset) {
       cacheControl = 'public, max-age=31536000, immutable';
     } else {
-      cacheControl = 'public, max-age=3600, must-revalidate';
+      cacheControl = 'no-cache, must-revalidate';
     }
 
     // 3. Compression check
