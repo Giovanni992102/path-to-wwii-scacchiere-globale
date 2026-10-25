@@ -101,7 +101,6 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
  */
 export function sanitizeTopology(feature: any): void {
   if (!feature || !feature.geometry) return;
-  if (feature.properties?.__sanitized) return;
   const geom = feature.geometry;
 
   try {
@@ -416,11 +415,8 @@ export function processHistoricalCartographyPipeline(
   for (const f of all) {
     const p = f.properties || (f.properties = {});
 
-    // 1. Sanificazione Topologica (O(1) se già verificata)
-    if (!p.__sanitized) {
-      sanitizeTopology(f);
-      p.__sanitized = true;
-    }
+    // 1. Sanificazione Topologica di sicurezza
+    sanitizeTopology(f);
     topologiesSanitized++;
 
     // 2. Baricentro geospaziale (O(1) da metadata precalcolati)
