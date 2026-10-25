@@ -1,3 +1,5 @@
+import { GERMANY_PROVINCES_META } from './germanyProvinces';
+import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -3858,7 +3860,7 @@ export const FRANCE_DEPARTMENTS_CATALOG: FranceDeptDef[] = [
     repAdminTitle: 'Troisième République française — Territoire de Belfort (Trouée de Belfort)',
     repNote: 'Verrou stratégique de la trouée de Belfort entre les Vosges et le Jura.',
     armisticeAdminTitle: 'Zone occupée — Militärbefehlshaber in Frankreich (Zone réservée)',
-    armisticeNote: 'Placé en Zone réservée du Nord-Est sous surveillance militaire stricte.',
+    armisticeNote: 'Placé en Zone réservée du Nord-Est sous surveillance militaire stricte; verrou stratégique de la trouée de Belfort entre les Vosges et le Jura tenu par la Wehrmacht.',
   },
 
   // Normandie (FRD11 - FRD13, FRD21, FRD22)
@@ -3882,7 +3884,7 @@ export const FRANCE_DEPARTMENTS_CATALOG: FranceDeptDef[] = [
     repAdminTitle: 'Troisième République française — Département de la Manche (Cherbourg)',
     repNote: 'Péninsule du Cotentin et grand port militaire et arsenal de Cherbourg.',
     armisticeAdminTitle: 'Zone occupée — Militärbefehlshaber in Frankreich (Kriegsmarine Cherbourg)',
-    armisticeNote: 'Arsenal et rade de Cherbourg occupés et utilisés par la Kriegsmarine allemande.',
+    armisticeNote: 'Arsenal et rade de Cherbourg occupés et fortifiés par la Kriegsmarine allemande; base stratégique de première ligne pour vedettes lance-torpilles et U-Boote sur la Manche.',
   },
   {
     nuts: 'FRD13',
@@ -3948,7 +3950,7 @@ export const FRANCE_DEPARTMENTS_CATALOG: FranceDeptDef[] = [
     repAdminTitle: 'Troisième République française — Département de l\'Aisne (Laon)',
     repNote: 'Chemin des Dames et cours de l\'Aisne, théâtre de violents combats en mai-juin 1940.',
     armisticeAdminTitle: 'Zone occupée — Militärbefehlshaber in Frankreich (Zone réservée)',
-    armisticeNote: 'Inclus dans la Zone réservée (Zone interdite du Nord-Est).',
+    armisticeNote: 'Inclus dans la Zone réservée (Zone interdite du Nord-Est) sous autorité militaire allemande; secteur de Laon et du Chemin des Dames sous contrôle strict.',
   },
   {
     nuts: 'FRE22',
@@ -3970,7 +3972,7 @@ export const FRANCE_DEPARTMENTS_CATALOG: FranceDeptDef[] = [
     repAdminTitle: 'Troisième République française — Département de la Somme (Amiens)',
     repNote: 'Ligne de front Weygand sur la Somme (mai-juin 1940) et cathédrale d\'Amiens.',
     armisticeAdminTitle: 'Zone occupée — Militärbefehlshaber in Frankreich (Zone réservée)',
-    armisticeNote: 'Partie septentrionale incluse dans la Zone réservée du Nord-Est.',
+    armisticeNote: 'Partie septentrionale incluse dans la Zone réservée du Nord-Est; secteur stratégique de la Somme et d\'Amiens placé sous administration militaire d\'occupation.',
   },
 
   // Grand Est (FRF11, FRF12, FRF21 - FRF24, FRF31 - FRF34)
@@ -4046,7 +4048,7 @@ export const FRANCE_DEPARTMENTS_CATALOG: FranceDeptDef[] = [
     repAdminTitle: 'Troisième République française — Département de Meurthe-et-Moselle (Nancy)',
     repNote: 'Lorraine restée française en 1871, bassin sidérurgique de Briey et forteresse de Toul.',
     armisticeAdminTitle: 'Zone occupée — Militärbefehlshaber in Frankreich (Zone réservée)',
-    armisticeNote: 'Inclus dans la Zone réservée (Zone interdite du Nord-Est), coupée de Paris.',
+    armisticeNote: 'Inclus dans la Zone réservée (Zone interdite du Nord-Est), coupée de Paris; centre industriel et administratif lorrain de Nancy sous strict contrôle militaire.',
   },
   {
     nuts: 'FRF32',
@@ -4057,7 +4059,7 @@ export const FRANCE_DEPARTMENTS_CATALOG: FranceDeptDef[] = [
     repAdminTitle: 'Troisième République française — Département de la Meuse (Bar-le-Duc)',
     repNote: 'Champs de bataille de Verdun et secteur fortifié de Montmédy (Ligne Maginot).',
     armisticeAdminTitle: 'Zone occupée — Militärbefehlshaber in Frankreich (Zone réservée)',
-    armisticeNote: 'Inclus dans la Zone réservée du Nord-Est.',
+    armisticeNote: 'Inclus dans la Zone réservée du Nord-Est sous commandement militaire allemand; secteur de Bar-le-Duc et de la forteresse de Verdun gardant la frontière orientale.',
   },
   {
     nuts: 'FRF33',
@@ -5177,21 +5179,55 @@ export function resolveFrenchColonialToponym(
         };
   }
 
-  // 12. UNION INDOCHINOISE (Indochine française générale / Tonkin / Annam)
+  // 12. UNION INDOCHINOISE (Indochine française générale / Tonkin / Annam / Cochinchine / Cambodge / Laos)
   if (
     normKey.includes('indo_china') ||
     normKey.includes('indochin') ||
     normKey.includes('vietnam') ||
     normKey.includes('tonkin') ||
     normKey.includes('annam') ||
+    normKey.includes('cochinchin') ||
+    normKey.includes('cambod') ||
+    normKey.includes('laos') ||
     normKey.includes('hanoi') ||
     normKey.includes('haiphong') ||
     normKey.includes('hue') ||
     normKey.includes('tourane') ||
+    normKey.includes('saigon') ||
     normKey.includes('lang_son') ||
     owner === 'F_IND' ||
-    owner === 'VIC_IND'
+    owner === 'VIC_IND' ||
+    (id && (id.startsWith('KH') || id.startsWith('LA') || id.startsWith('VN')))
   ) {
+    if (id && FRENCH_INDOCHINA_PROVINCES_META[id]) {
+      const p = FRENCH_INDOCHINA_PROVINCES_META[id];
+      return {
+        name: p.getHistoricalName ? p.getHistoricalName(step) : p.historicalName,
+        adminTitle: p.getAdminTitle ? p.getAdminTitle(step) : p.adminTitle,
+        note: p.getNote(step),
+      };
+    }
+    const cleanId = (id || '').replace(/[^A-Za-z0-9]/g, '');
+    if (cleanId && FRENCH_INDOCHINA_PROVINCES_META[cleanId]) {
+      const p = FRENCH_INDOCHINA_PROVINCES_META[cleanId];
+      return {
+        name: p.getHistoricalName ? p.getHistoricalName(step) : p.historicalName,
+        adminTitle: p.getAdminTitle ? p.getAdminTitle(step) : p.adminTitle,
+        note: p.getNote(step),
+      };
+    }
+    for (const key of Object.keys(FRENCH_INDOCHINA_PROVINCES_META)) {
+      const p = FRENCH_INDOCHINA_PROVINCES_META[key];
+      const nrm = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const nrmTop = p.historicalToponym.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (normKey === nrm || normKey === nrmTop || (nrm.length >= 6 && normKey.includes(nrm))) {
+        return {
+          name: p.getHistoricalName ? p.getHistoricalName(step) : p.historicalName,
+          adminTitle: p.getAdminTitle ? p.getAdminTitle(step) : p.adminTitle,
+          note: p.getNote(step),
+        };
+      }
+    }
     return isVichyStep
       ? {
           name: "Indochine Française (Vichy / Présence Japonaise)",
@@ -8726,7 +8762,18 @@ export function resolveItalyToponym(
     const p = foundProv;
     const name = p.dynamicName ? p.dynamicName(step) : p.name;
     const adminTitle = p.dynamicAdminTitle ? p.dynamicAdminTitle(step) : (p.adminTitle || `Regno d'Italia — ${name}`);
-    const note = p.dynamicNote ? p.dynamicNote(step) : p.note;
+    let note = p.dynamicNote ? p.dynamicNote(step) : p.note;
+    if (owner === 'GER' && step >= 5 && (!note || note.length < 80)) {
+      if (adminTitle.includes('Wartheland')) {
+        note = 'Territorio della Polonia occidentale incorporato direttamente nel Reichsgau Wartheland (Gauleiter Arthur Greiser); sottoposto a spietate politiche di germanizzazione forzata, espropri e colonizzazione agricola.';
+      } else if (adminTitle.includes('Danzig-Westpreußen')) {
+        note = 'Territorio della Pomerania polacca annesso direttamente al Reichsgau Danzig-Westpreußen (Gauleiter Albert Forster); presidio strategico costiero e forestale sottoposto a germanizzazione e repressione dell\'Intelligenzaktion.';
+      } else if (adminTitle.includes('Kattowitz') || adminTitle.includes('Oberschlesien')) {
+        note = 'Bacino carbonifero e industriale dell\'Alta Slesia annesso direttamente al Terzo Reich (Regierungsbezirk Kattowitz, Gau Oberschlesien); polo siderurgico e minerario strategico integralmente asservito alle commesse belliche.';
+      } else {
+        note = 'Territorio polacco occupato incorporato nel Governatorato Generale (Generalgouvernement, Governatore Generale Hans Frank); soggetto a regime di sfruttamento economico totale, lavoro coatto, requisizioni e rigida sorveglianza militare.';
+      }
+    }
     return { name, adminTitle, note };
   }
 
@@ -8871,8 +8918,8 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     nuts: 'PL432',
     name: 'Grünberg in Schlesien',
     keys: ['zielonogorski', 'zielona_gora', 'gruenberg', 'grunberg', 'zagan', 'sagan', 'zary', 'sorau', 'krosno_odrzanskie', 'crossen'],
-    adminTitle: 'Deutsches Reich — Provinz Niederschlesien / Mark Brandenburg',
-    note: 'Bassa Slesia settentrionale e Bassa Lusazia orientale (Sorau e Sagan).',
+    adminTitle: 'Deutsches Reich — Provinz Niederschlesien (Regierungsbezirk Liegnitz)',
+    note: 'Territorio storico tedesco della Bassa Slesia settentrionale (Regierungsbezirk Liegnitz) e della Bassa Lusazia orientale (Sorau e Sagan), importante centro vinicolo, tessile e manifatturiero solcato dal corso dell\'Oder.',
   },
   {
     nuts: 'PL411',
@@ -8951,7 +8998,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Corridoio Polacco occidentale, foresta di Tuchola e teatro dei primi scontri a Krojanty il 1 settembre 1939.'
-        : 'Landkreis Konitz nel Reichsgau Danzig-Westpreußen.',
+        : 'Landkreis Konitz nel Regierungsbezirk Danzig (Reichsgau Danzig-Westpreußen); snodo ferroviario di prima linea della Pomerania e fulcro della viabilità verso la Prussia Orientale.',
   },
   {
     nuts: 'PL638',
@@ -8966,7 +9013,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Ponte ferroviario strategico sulla Vistola a Tczew (fatto saltare dai genieri polacchi all\'alba del 1 settembre 1939) e regione del Kociewie.'
-        : 'Annesso al Reichsgau Danzig-Westpreußen.',
+        : 'Distretto di Dirschau e Preußisch Stargard annesso al Reichsgau Danzig-Westpreußen; fondamentale snodo ferroviario per i ponti sulla Vistola e l\'accesso al porto di Danzica.',
   },
   {
     nuts: 'PL613',
@@ -8996,7 +9043,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Storica fortezza sulla Vistola e sede della scuola di cavalleria (Centrum Wyszkolenia Kawalerii) dell\'Esercito Polacco.'
-        : 'Landkreis Graudenz nel Reichsgau Danzig-Westpreußen.',
+        : 'Landkreis Graudenz annesso direttamente al Reichsgau Danzig-Westpreußen; piazzaforte strategica fluviale sulla Vistola sottoposta alle ferree politiche del Gauleiter Forster.',
   },
   {
     nuts: 'PL618',
@@ -9011,7 +9058,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Distretto fluviale della Pomerania polacca tra la Vistola e le foreste di Tuchola.'
-        : 'Landkreis Schwetz nel Reichsgau Danzig-Westpreußen.',
+        : 'Landkreis Schwetz sulla riva occidentale della Vistola, incorporato nel Regierungsbezirk Marienwerder (Reichsgau Danzig-Westpreußen); distretto forestale ed idraulico chiave.',
   },
 
   // ================= 8. GRANDE POLONIA (Wielkopolska / Województwo Poznańskie -> Reichsgau Wartheland - 7) =================
@@ -9043,7 +9090,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Circondario agricolo di Poznań e prima capitale ecclesiastica e reale della Polonia a Gniezno (cattedrale di San Adalberto).'
-        : 'Regierungsbezirk Posen nel Reichsgau Wartheland.',
+        : 'Sede del Regierungsbezirk Posen e distretto rurale circostante incorporati nel Reichsgau Wartheland; fulcro amministrativo e agricolo della colonizzazione germanica.',
   },
   {
     nuts: 'PL414',
@@ -9058,7 +9105,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Bacino centrale del fiume Warta nella Polonia centro-occidentale.'
-        : 'Annesso direttamente al Reichsgau Wartheland.',
+        : 'Circondario di Konin annesso direttamente al Terzo Reich nel settembre 1939 come Landkreis Konin all\'interno del Regierungsbezirk Hohensalza (Reichsgau Wartheland).',
   },
   {
     nuts: 'PL416',
@@ -9073,7 +9120,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Storica città mercantile sulla Prosna e strategico snodo ferroviario di Ostrów Wielkopolski.'
-        : 'Sede del Regierungsbezirk Kalisch incorporato nel Reichsgau Wartheland.',
+        : 'Capoluogo del Regierungsbezirk Kalisch incorporato direttamente nel Reichsgau Wartheland; importante centro manifatturiero e snodo logistico verso la Germania centrale.',
   },
   {
     nuts: 'PL417',
@@ -9088,7 +9135,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Grande Polonia meridionale lungo la frontiera con la Slesia tedesca.'
-        : 'Landkreis Lissa nel Reichsgau Wartheland.',
+        : 'Circondario di Lissa annesso direttamente al Terzo Reich come Landkreis Lissa nel Regierungsbezirk Posen (Reichsgau Wartheland), sottoposto a germanizzazione integrale.',
   },
   {
     nuts: 'PL617',
@@ -9103,7 +9150,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Cuore storico della Cuiavia (Kujawy), ricco distretto termale, salifero e agricolo.'
-        : 'Capoluogo del Regierungsbezirk Hohensalza nel Reichsgau Wartheland.',
+        : 'Capoluogo del Regierungsbezirk Hohensalza nel Reichsgau Wartheland; grande polo per l\'estrazione del salgemma e centro di raffinazione saccarifera d\'interesse bellico.',
   },
   {
     nuts: 'PL619',
@@ -9118,7 +9165,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Storica sede vescovile cuiava e porto fluviale sulla riva sinistra della Vistola.'
-        : 'Landkreis Leslau nel Reichsgau Wartheland.',
+        : 'Landkreis Leslau nel Regierungsbezirk Hohensalza (Reichsgau Wartheland); snodo industriale e portuale fluviale sulla Vistola riorganizzato per la produzione autarchica.',
   },
 
   // ================= 9. REGIONE DI ŁÓDŹ (Województwo Łódzkie -> Wartheland o Generalgouvernement - 5) =================
@@ -9150,7 +9197,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Cintura industriale tessile attorno a Łódź comprendente Pabianice, Zgierz e Aleksandrów.'
-        : 'Landkreis Litzmannstadt nel Reichsgau Wartheland.',
+        : 'Landkreis Litzmannstadt nel Reichsgau Wartheland; imponente bacino tessile e industriale della Polonia centrale integralmente riconvertito alla fornitura di uniformi della Wehrmacht.',
   },
   {
     nuts: 'PL714',
@@ -9165,7 +9212,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Confine occidentale della Polonia centrale lungo la Warta; la città inerme di Wieluń fu il primo bersaglio del devastante bombardamento terroristico della Luftwaffe all\'alba del 1 settembre 1939.'
-        : 'Landkreis Schieratz nel Reichsgau Wartheland.',
+        : 'Landkreis Schieratz nel Regierungsbezirk Kalisch (Reichsgau Wartheland); territorio agricolo lungo il fiume Warta sottoposto a requisizioni e redistribuzioni fondiarie ai coloni.',
   },
   {
     nuts: 'PL713',
@@ -9180,7 +9227,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Storica sede del Tribunale della Corona della Polonia nobiliare e distretto industriale tessile-chimico di Tomaszów Mazowiecki.'
-        : 'Assegnato al Governatorato Generale all\'interno del Distrikt Radom.',
+        : 'Kreishauptmannschaft Petrikau nel Distrikt Radom del Governatorato Generale; polo tessile, vetrario e ferroviario strategico sulle direttrici per Varsavia e Cracovia.',
   },
   {
     nuts: 'PL715',
@@ -9195,7 +9242,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Snodo ferroviario strategico verso Varsavia; teatro della decisiva controffensiva polacca sul fiume Bzura (9-22 settembre 1939).'
-        : 'Incluso nel Distrikt Warschau del Governatorato Generale.',
+        : 'Kreishauptmannschaft Skierniewice e Lowitsch nel Distrikt Warschau del Governatorato Generale; snodo ferroviario cruciale e riserva agricola per il presidio di Varsavia.',
   },
 
   // ================= 10. ALTA SLESIA POLACCA E ZAGŁĘBIE -> Regierungsbezirk Kattowitz (6) =================
@@ -9242,7 +9289,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Storico principato di Pszczyna e bacino forestale-minerario della Slesia polacca.'
-        : 'Annesso al Reich come Landkreis Pless.',
+        : 'Distretto industriale e minerario dell\'Alta Slesia annesso direttamente al Terzo Reich nel settembre 1939 come Landkreis Pless (Regierungsbezirk Kattowitz, Gau Oberschlesien).',
   },
   {
     nuts: 'PL225',
@@ -9413,7 +9460,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Riva destra della Vistola col sobborgo storico di Praga, Otwock e la linea ferroviaria verso Brześć nad Bugiem.'
-        : 'Incluso nel Distrikt Warschau del Governatorato Generale.',
+        : 'Settore orientale di Varsavia e sobborgo di Praga (Distrikt Warschau del Governatorato Generale); testa di ponte fluviale sulla riva destra della Vistola sotto controllo militare.',
   },
   {
     nuts: 'PL913',
@@ -9428,7 +9475,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Circondario occidentale della capitale e possente fortezza fluviale di Modlin (eroica resistenza polacca fino al 29 settembre 1939).'
-        : 'Incluso nel Distrikt Warschau del Governatorato Generale.',
+        : 'Settore occidentale suburbano di Varsavia e fortezza fluviale di Modlin (Distrikt Warschau); presidio militare tedesco a guardia della confluenza tra Vistola e Narew.',
   },
   {
     nuts: 'PL925',
@@ -9443,7 +9490,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Podlachia meridionale, snodo ferroviario strategico verso Brest e teatro degli scontri della battaglia di Kock (ottobre 1939).'
-        : 'Kreishauptmannschaft Siedlce nel Distrikt Warschau del Governatorato Generale.',
+        : 'Kreishauptmannschaft Siedlce nel Distrikt Warschau del Governatorato Generale; snodo ferroviario strategico verso Brześć nad Bugiem e la nuova frontiera con l\'Unione Sovietica.',
   },
   {
     nuts: 'PL926',
@@ -9458,7 +9505,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Polo manifatturiero del lino a Żyrardów e frutteti del Grójecki a sud-ovest di Varsavia.'
-        : 'Incluso nel Distrikt Warschau del Governatorato Generale.',
+        : 'Kreishauptmannschaft Sochaczew e distretto industriale di Zyrardow nel Distrikt Warschau; grande polo per la filatura e tessitura del lino riconvertito alle commesse belliche.',
   },
 
   // ================= 14. GENERALGOUVERNEMENT: DISTRIKT KRAKAU (9) =================
@@ -9490,7 +9537,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Circondario rurale di Cracovia con le storiche miniere di sale di Wieliczka e Bochnia.'
-        : 'Kreishauptmannschaft Krakau-Land nel Governatorato Generale.',
+        : 'Kreishauptmannschaft Krakau-Land nel Governatorato Generale (Generalgouvernement), territorio polacco occupato comprendente le miniere saline storiche e i distretti agricoli suburbani della capitale del Governatorato.',
   },
   {
     nuts: 'PL217',
@@ -9505,7 +9552,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Piccola Polonia centrale, grande complesso chimico statale di Mościce e snodo sulla ferrovia galiziana.'
-        : 'Distrikt Krakau del Governatorato Generale.',
+        : 'Kreishauptmannschaft Tarnow nel Distrikt Krakau del Governatorato Generale; importante polo per la produzione chimica azotata di Mościce asservito alla produzione bellica tedesca.',
   },
   {
     nuts: 'PL218',
@@ -9535,7 +9582,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Regione montana del Podhale e massiccio degli Alti Tatra (Zakopane), celebre centro alpinistico polacco.'
-        : 'Kreishauptmannschaft Neumarkt nel Distrikt Krakau del Governatorato Generale.',
+        : 'Kreishauptmannschaft Neumarkt nel Distrikt Krakau del Governatorato Generale, comprendente la roccaforte montano-alpina dei Tatra a Zakopane e il confine difensivo verso la Slovacchia.',
   },
   {
     nuts: 'PL821',
@@ -9612,7 +9659,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Importante centro dell\'industria militare e armiera polacca (Fabbrica d\'Armi FB Radom, produttrice della celebre pistola Vis wz. 35) e polverificio di Pionki.'
-        : 'Capitale del Distrikt Radom nel Governatorato Generale.',
+        : 'Capitale amministrativa del Distrikt Radom nel Governatorato Generale; sede del Governatore Karl Lasch e fulcro della fabbricazione d\'armi portatili (fucili Mauser e pistole Vis).',
   },
   {
     nuts: 'PL721',
@@ -9627,7 +9674,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Capoluogo del Voivodato di Kielce, Monti Świętokrzyskie e polo siderurgico-bellico di Starachowice, Ostrowiec e Skarżysko-Kamienna.'
-        : 'Distrikt Radom del Governatorato Generale.',
+        : 'Kreishauptmannschaft Kielce nel Distrikt Radom del Governatorato Generale; distretto montuoso dei Monti Świętokrzyskie ricco di cave e miniere metallifere sfruttate dal Reich.',
   },
   {
     nuts: 'PL722',
@@ -9642,7 +9689,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Antica città sulla Vistola destinata nei piani polacchi pre-bellici a divenire capitale del nuovo Voivodato di Sandomierz come perno del COP.'
-        : 'Distrikt Radom del Governatorato Generale.',
+        : 'Kreishauptmannschaft Sandomir nel Distrikt Radom del Governatorato Generale; storico presidio sulla riva alta della Vistola e snodo di controllo fluviale e cerealicolo.',
   },
   {
     nuts: 'PL224',
@@ -9704,7 +9751,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Fortezza rinascimentale di Zamość e città storica di Chełm nella Polonia sud-orientale.'
-        : 'Distrikt Lublin del Governatorato Generale.',
+        : 'Kreishauptmannschaft Cholm e Zamosch nel Distrikt Lublin del Governatorato Generale; retrovia orientale verso la frontiera sovietica e settore agricolo di primaria importanza.',
   },
   {
     nuts: 'PL815',
@@ -9719,7 +9766,7 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
     dynamicNote: (s: number) =>
       s < 5
         ? 'Valle della Vistola a Puławy e moderna fabbrica di munizioni del COP a Kraśnik.'
-        : 'Distrikt Lublin del Governatorato Generale.',
+        : 'Kreishauptmannschaft Pulawy nel Distrikt Lublin del Governatorato Generale; centro chimico e agricolo fluviale sulla Vistola occupato dalla Wehrmacht nel settembre 1939.',
   },
 ];
 
@@ -10429,7 +10476,7 @@ export const CHINA_PROVINCES_CATALOG: ChinaProvDef[] = [
     dynamicName: (s: number) => "Damanzhoudiguo — Binjiang Sheng (Harbin)",
     dynamicAdminTitle: (s: number) => "Damanzhoudiguo — Binjiang Sheng (Fiume Amur / Confine Sovietico)",
     dynamicNote: (s: number) =>
-      "Provincia settentrionale del Manciukuò con la cosmopolita Harbin (grande comunità di russi bianchi), affacciata sulla frontiera fluviale dell'Amur con l'Unione Sovietica.",
+      "Provincia settentrionale del Manciukuò con la cosmopolita Harbin (grande comunità di russi bianchi), affacciata sulla frontiera fluviale dell'Amur con l\'Unione Sovietica.",
   },
   {
     id: 'CHN_MANCHUKUO_XINGAN_NORTH',
@@ -13417,7 +13464,7 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
     preNote: 'Capoluogo provinciale storico dell\'Olanda Settentrionale sul fiume Spaarne e litorale di Zandvoort.',
     occName: 'Haarlem (Reichskommissariat Niederlande)',
     occAdminTitle: 'Reichskommissariat für die besetzten niederländischen Gebiete',
-    occNote: 'Occupata il 15 maggio 1940 dal 18º Esercito tedesco del generale von Küchler.',
+    occNote: 'Occupata il 15 maggio 1940 dal 18º Esercito tedesco del generale von Küchler; polo industriale e capoluogo dell\'Olanda Settentrionale sottoposto a rigido controllo d\'occupazione.',
   },
   {
     nuts: 'NL325',
@@ -13705,7 +13752,7 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
     preNote: 'Confluenza della Roer e della Mosa, snodo ferroviario strategico verso Mönchengladbach e la Ruhr.',
     occName: 'Roermond (Reichskommissariat Niederlande)',
     occAdminTitle: 'Reichskommissariat für die besetzten niederländischen Gebiete',
-    occNote: 'Occupata il 10 maggio 1940 dalle colonne d\'invasione tedesche.',
+    occNote: 'Occupata il 10 maggio 1940 dalle colonne d\'invasione tedesche attraverso la Mosa; piazzaforte di frontiera del Limburgo e snodo ferroviario verso la Germania.',
   },
   {
     nuts: 'NL423',
@@ -13731,7 +13778,7 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
     preNote: 'Capoluogo provinciale sull\'IJssel e canale dello Zwarte Water, porta d\'ingresso verso il nord.',
     occName: 'Zwolle (Reichskommissariat Niederlande)',
     occAdminTitle: 'Reichskommissariat für die besetzten niederländischen Gebiete',
-    occNote: 'Occupata l\'11 maggio 1940 dalla 1ª Divisione di Cavalleria tedesca.',
+    occNote: 'Occupata l\'11 maggio 1940 dalla 1ª Divisione di Cavalleria della Wehrmacht; capoluogo della provincia dell\'Overijssel e sede di comando militare territoriale tedesco.',
   },
   {
     nuts: 'NL212',
@@ -13781,7 +13828,7 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
     preNote: 'Vaste torbiere di confine verso la Bassa Sassonia.',
     occName: 'Emmen (Reichskommissariat Niederlande)',
     occAdminTitle: 'Reichskommissariat für die besetzten niederländischen Gebiete',
-    occNote: 'Occupata il 10 maggio 1940 dai reparti motorizzati della Wehrmacht.',
+    occNote: 'Occupata il 10 maggio 1940 dai reparti motorizzati della Wehrmacht avanzanti nel Drenthe; distretto torbiero e agricolo integrato nel sistema dei rifornimenti del Reich.',
   },
   {
     nuts: 'NL133',
@@ -13793,7 +13840,7 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
     preNote: 'Snodo di canali e ferrovia di raccordo tra Overijssel e Drenthe.',
     occName: 'Meppel (Reichskommissariat Niederlande)',
     occAdminTitle: 'Reichskommissariat für die besetzten niederländischen Gebiete',
-    occNote: 'Occupata l\'11 maggio 1940 durante la marcia tedesca verso l\'IJsselmeer.',
+    occNote: 'Occupata l\'11 maggio 1940 durante la marcia tedesca verso l\'IJsselmeer; snodo ferroviario e fluviale strategico tra Overijssel e Drenthe nel Reichskommissariat Niederlande.',
   },
 
   // --- Groninga (Groningen) ---
@@ -13807,7 +13854,7 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
     preNote: 'Campagne orientali di Groninga al confine con la Frisia Orientale tedesca.',
     occName: 'Winschoten (Reichskommissariat Niederlande)',
     occAdminTitle: 'Reichskommissariat für die besetzten niederländischen Gebiete',
-    occNote: 'Occupata la mattina del 10 maggio 1940 da reparti di frontiera tedeschi.',
+    occNote: 'Occupata la mattina del 10 maggio 1940 da reparti di frontiera della Wehrmacht durante l\'avanzata verso Groninga; presidio doganale orientale del Reichskommissariat Niederlande.',
   },
   {
     nuts: 'NL112',
@@ -13869,7 +13916,7 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
     preNote: 'Distretto agricolo e canali interni delle torbiere frisone.',
     occName: 'Heerenveen (Reichskommissariat Niederlande)',
     occAdminTitle: 'Reichskommissariat für die besetzten niederländischen Gebiete',
-    occNote: 'Occupata l\'11 maggio 1940 durante la manovra tedesca verso lo Zuiderzee.',
+    occNote: 'Occupata l\'11 maggio 1940 durante la rapida manovra tedesca verso lo Zuiderzee; centro agricolo e snodo fluviale della Frisia sotto amministrazione civile d\'occupazione.',
   },
 
   // --- Flevoland / Zuiderzee ---
@@ -14650,8 +14697,8 @@ export const SWISS_AUSTRIAN_DISTRICTS_CATALOG: SwissAustrianDistrictDef[] = [
     "preAdminTitle": "Bundesstaat Österreich — Land Salzburg (Bezirk Tamsweg)",
     "preNote": "Valle alpina interna protetta dalle vette dei Tauri; distretto agricolo montano e forestale del Salisburghese.",
     "postName": "Reichsgau Salzburg — Kreis Tamsweg (Lungau)",
-    "postAdminTitle": "Deutsches Reich — Reichsgau Salzburg",
-    "postNote": "Integrato nel Reichsgau Salzburg sotto la guida del Gauleiter Friedrich Rainer."
+    "postAdminTitle": "Deutsches Reich — Reichsgau Salzburg (Alpen- und Donau-Reichsgaue)",
+    "postNote": "Distretto alpino d'alta quota del Lungau integrato nel Reichsgau Salzburg (Alpen- und Donau-Reichsgaue) sotto la guida del Gauleiter Friedrich Rainer; presidio strategico montano dei Tauri e riserva forestale."
   },
   {
     "nuts": "AT322",

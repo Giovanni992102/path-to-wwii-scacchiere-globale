@@ -20,6 +20,7 @@
  */
 
 import { makeResult } from './georesolver';
+import { resolveGermanyProvince } from './germanyProvinces';
 import { ResolvedTerritory } from '../types';
 import {
   BOSNIA_FEDERATION_FEATURE,
@@ -349,13 +350,17 @@ export const DANZIG_FREE_CITY_FEATURE: any = {
       return makeResult(
         'DANZIG',
         'Freie Stadt Danzig',
+        'Città-stato autonoma posta sotto la protezione della Società delle Nazioni e unione doganale con la Polonia; epicentro delle rivendicazioni territoriali tedesche.',
+        'Neutrale',
         'Freie Stadt Danzig (Völkerbund-Mandat)'
       );
     }
     return makeResult(
       'GER',
       'Danzig (Reichsgau Danzig-Westpreußen)',
-      'Reichsgau Danzig-Westpreußen (Gauleiter Albert Forster)'
+      'Annessa al Terzo Reich il 1° settembre 1939 dopo l\'assalto alla Westerplatte e alle Poste Polacche, divenendo capitale del Reichsgau Danzig-Westpreußen retto dal Gauleiter Albert Forster.',
+      'Asse',
+      'Reichsgau Danzig-Westpreußen (Großdeutsches Reich)'
     );
   },
 };
@@ -536,13 +541,17 @@ POLISH_CORRIDOR_GDYNIA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
     return makeResult(
       'POL',
       'Województwo Pomorskie (Gdynia)',
-      'Rzeczpospolita Polska (Gdynia, Puck, Hel)'
+      'Provincia marittima della Seconda Repubblica Polacca comprendente la penisola fortificata di Hel e il grande porto moderno di Gdynia, vitale sbocco sovrano polacco sul Mar Baltico.',
+      'Alleati',
+      'Rzeczpospolita Polska (Województwo Pomorskie)'
     );
   }
   return makeResult(
     'GER',
     'Gotenhafen (Reichsgau Danzig-Westpreußen)',
-    'Reichsgau Danzig-Westpreußen'
+    'Territorio polacco annesso direttamente al Terzo Reich nel settembre 1939 dopo la caduta di Hel e Westerplatte; la città portuale viene ribattezzata Gotenhafen e trasformata in base navale primaria della Kriegsmarine.',
+    'Asse',
+    'Reichsgau Danzig-Westpreußen (Großdeutsches Reich)'
   );
 };
 
@@ -596,12 +605,15 @@ export const KONIGSBERG_OSTPREUSSEN_FEATURE: any = {
     NAME: 'Königsberg',
     NUTS_NAME: 'Königsberg in Preußen',
     NAME_ENGL: 'Königsberg in Prussia',
-    CNTR_NAME: 'Reich Tedesco',
+    CNTR_NAME: 'Germania',
     CNTR_ID: 'DE_KONIGSBERG',
     CNTR_CODE: 'DE',
     ADMIN: 'Provinz Ostpreußen',
     SOVEREIGNT: 'Germany',
     CAPITAL: 'Königsberg in Preußen',
+    MODERN_NAME: 'Königsberg (Prussia Orientale, oggi Kaliningrad)',
+    HISTORICAL_NAME: 'Königsberg in Preußen (Hauptstadt Provinz Ostpreußen)',
+    REGION_KIND: 'GERMANY_PROVINCE',
     HISTORICAL_NOTE:
       'Hauptstadt der Provinz Ostpreußen — Enclave tedesca separata dal Corridoio Polacco a seguito del Trattato di Versailles (1919). Roccaforte del Baltico e centro del I Armeekorps della Wehrmacht.',
   },
@@ -610,11 +622,7 @@ export const KONIGSBERG_OSTPREUSSEN_FEATURE: any = {
   __kind: 'KONIGSBERG',
 };
 KONIGSBERG_OSTPREUSSEN_FEATURE.__resolve = (s: number): ResolvedTerritory => {
-  return makeResult(
-    'GER',
-    'Königsberg in Preußen (Ostpreußen)',
-    'Provinz Ostpreußen (Hauptstadt Königsberg / I. Armeekorps)'
-  );
+  return resolveGermanyProvince(KONIGSBERG_OSTPREUSSEN_FEATURE, s);
 };
 
 // ----------------------------------------------------------------------------
@@ -712,6 +720,8 @@ TURKEY_MOUNT_ARARAT_FEATURE.__resolve = (_s: number): ResolvedTerritory => {
   return makeResult(
     'TUR',
     'Ağrı Dağı ve Doğubayazıt',
+    'Settore strategico di confine della Repubblica di Turchia comprendente il massiccio vulcanico del Monte Ararat (Ağrı Dağı, 5.137 m) e il distretto frontaliero di Doğubayazıt verso Iran e Caucaso sovietico.',
+    'Neutrale',
     'Türkiye Cumhuriyeti (Ağrı İli)'
   );
 };

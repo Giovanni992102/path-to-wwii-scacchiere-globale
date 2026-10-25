@@ -14,6 +14,14 @@ import {
   resolvePhilippinesProvince,
   PHILIPPINES_PROVINCES_META,
 } from './philippinesProvinces';
+import {
+  resolveGermanyProvince,
+  GERMANY_PROVINCES_META,
+} from './germanyProvinces';
+import {
+  resolveFrenchIndochinaProvince,
+  FRENCH_INDOCHINA_PROVINCES_META,
+} from './frenchIndochinaProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -5066,6 +5074,28 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       : makeResult('F_COL', 'Guyane française (Cayenne)', 'Administration coloniale de Vichy', 'Fantoccio', 'Colonie de Guyane — Gouverneur René Veber');
   }
 
+  // Granularizzazione province dell'Indocina Francese (Cambogia, Laos, Vietnam)
+  const isIndochinaProv =
+    cntr === 'KH' ||
+    cntr === 'LA' ||
+    cntr === 'VN' ||
+    cntr === 'KHM' ||
+    cntr === 'LAO' ||
+    cntr === 'VNM' ||
+    p.REGION_KIND === 'INDOCHINA_PROVINCE' ||
+    Boolean((FRENCH_INDOCHINA_PROVINCES_META as any)?.[fidClean]) ||
+    Boolean((FRENCH_INDOCHINA_PROVINCES_META as any)?.[nid]) ||
+    nid.startsWith('KH') ||
+    nid.startsWith('LA') ||
+    nid.startsWith('VN') ||
+    fidClean.startsWith('KH') ||
+    fidClean.startsWith('LA') ||
+    fidClean.startsWith('VN');
+
+  if (isIndochinaProv) {
+    return resolveFrenchIndochinaProvince(ft, s);
+  }
+
   // Granularizzazione integrale del Teatro Cinese e Guerra Sino-Giapponese (1936-1940)
   if (cntr === 'CN_PROV' || nid.startsWith('CHN_') || p.REGION_KIND === 'CHINA_PROVINCE') {
     return resolveChinaProvince(s, nid, p, rawName);
@@ -5282,14 +5312,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'DE': {
-      const top = getTop('GER');
-      return makeResult(
-        'GER',
-        top.name || rawName,
-        top.note,
-        undefined,
-        top.adminTitle || (s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich')
-      );
+      return resolveGermanyProvince(ft, s);
     }
 
     case 'POL':
