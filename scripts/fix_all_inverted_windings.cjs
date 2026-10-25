@@ -4,7 +4,12 @@ const path = require('path');
 
 console.log('=== CORREZIONE DEFINITIVA DEL WINDING INVERTITO SU TUTTE LE FEATURE ===');
 
-for (const relPath of ['public/data/world_historical_1938_unified.json', 'dist/data/world_historical_1938_unified.json']) {
+for (const relPath of [
+  'public/data/world_historical_1938_unified.json',
+  'dist/data/world_historical_1938_unified.json',
+  'public/data/usa_provinces.geojson',
+  'dist/data/usa_provinces.geojson'
+]) {
   const filePath = path.resolve(relPath);
   if (!fs.existsSync(filePath)) continue;
 
