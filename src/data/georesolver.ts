@@ -1969,7 +1969,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Isole del Canale (Channel Islands)
   const isChannel =
-    nrm_hb.includes('jersey') ||
+    (nrm_hb.includes('jersey') && !nrm_hb.includes('new jersey')) ||
     nrm_hb.includes('guernsey') ||
     nrm_hb.includes('channel islands') ||
     nrm_hb.includes('isole del canale') ||
@@ -5006,21 +5006,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
   // Isole del Canale (Channel Islands)
   const isChannel =
-    cntr === 'GG' ||
-    cntr === 'GGY' ||
-    cntr === 'JE' ||
-    cntr === 'JEY' ||
-    cntr === '831' ||
-    cntr === '832' ||
-    cntr === 'XGG' ||
-    cntr === 'XJE' ||
-    nid.startsWith('GG') ||
-    nid.startsWith('JE') ||
-    nrm.includes('jersey') ||
-    nrm.includes('guernsey') ||
-    nrm.includes('channel islands') ||
-    nrm.includes('isole del canale') ||
-    (c[0] >= -3.0 && c[0] <= -1.8 && c[1] >= 49.0 && c[1] <= 49.9);
+    !cntr.startsWith('US') &&
+    !nid.startsWith('US') &&
+    (
+      cntr === 'GG' ||
+      cntr === 'GGY' ||
+      cntr === 'JE' ||
+      cntr === 'JEY' ||
+      cntr === '831' ||
+      cntr === '832' ||
+      cntr === 'XGG' ||
+      cntr === 'XJE' ||
+      nid.startsWith('GG') ||
+      nid.startsWith('JE') ||
+      (nrm.includes('jersey') && !nrm.includes('new jersey')) ||
+      nrm.includes('guernsey') ||
+      nrm.includes('channel islands') ||
+      nrm.includes('isole del canale') ||
+      (c[0] >= -3.0 && c[0] <= -1.8 && c[1] >= 49.0 && c[1] <= 49.9)
+    );
 
   if (isChannel) {
     if (s >= 6) {

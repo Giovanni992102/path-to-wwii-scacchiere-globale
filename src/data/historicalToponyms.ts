@@ -11936,7 +11936,7 @@ export function resolveUKToponym(
   if (
     id.startsWith('GG') ||
     id.startsWith('JE') ||
-    normKey.includes('jersey') ||
+    (normKey.includes('jersey') && !normKey.includes('new_jersey')) ||
     normKey.includes('guernsey') ||
     normKey.includes('channel_islands') ||
     normKey.includes('isole_del_canale')
@@ -16518,7 +16518,7 @@ export function getExtendedToponym(
     if (
       id.startsWith('GG') ||
       id.startsWith('JE') ||
-      normKey.includes('jersey') ||
+      (normKey.includes('jersey') && !normKey.includes('new_jersey')) ||
       normKey.includes('guernsey') ||
       normKey.includes('channel_islands') ||
       normKey.includes('isole_del_canale')
