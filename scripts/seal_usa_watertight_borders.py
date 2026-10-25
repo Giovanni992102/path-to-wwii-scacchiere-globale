@@ -1,6 +1,6 @@
 import sys, os, json, subprocess, time
-from shapely.geometry import shape, mapping, Polygon, MultiPolygon
-from shapely.ops import unary_union
+from shapely.geometry import shape, mapping, Polygon, MultiPolygon, LineString
+from shapely.ops import unary_union, split
 from shapely.validation import make_valid
 from shapely.strtree import STRtree
 
@@ -137,8 +137,35 @@ def main():
 
     union_clipped = clean_geometry(unary_union(list(state_geoms.values())))
     residual = clean_geometry(old_48.difference(union_clipped))
-    residual_polys = [p for p in (residual.geoms if hasattr(residual, 'geoms') else [residual]) if p.area > 1e-12]
-    print(f"      Residual gap area to seal: {residual.area:.6f} across {len(residual_polys)} slivers.")
+
+    # Cut lines to partition multi-state boundary strips accurately
+    # and prevent any state (like Montana or Texas) from stretching outside its authentic bounds
+    cut_lines = [
+        # Northern border vertical partition lines (Canada border along 49th parallel)
+        LineString([(-117.039, 48.8), (-117.039, 49.6)]),       # WA / ID
+        LineString([(-116.049169, 48.8), (-116.049169, 49.6)]), # ID / MT
+        LineString([(-104.041673, 48.8), (-104.041673, 49.6)]), # MT / ND
+        LineString([(-97.230, 48.8), (-97.230, 49.6)]),         # ND / MN
+        # Southern border partition lines (Mexico border)
+        LineString([(-114.73, 31.0), (-114.73, 32.8)]),          # CA / AZ
+        LineString([(-109.048, 30.5), (-109.048, 31.5)]),        # AZ / NM
+        LineString([(-106.53, 30.5), (-106.53, 31.85)])          # NM / TX
+    ]
+    multi_cut = unary_union(cut_lines)
+
+    residual_polys = []
+    for p in (residual.geoms if hasattr(residual, 'geoms') else [residual]):
+        if p.area < 1e-12:
+            continue
+        if p.intersects(multi_cut):
+            parts = split(p, multi_cut)
+            for part in parts.geoms:
+                if part.area > 1e-12:
+                    residual_polys.append(part)
+        else:
+            residual_polys.append(p)
+
+    print(f"      Residual gap area to seal: {residual.area:.6f} across {len(residual_polys)} split slivers.")
 
     # Spatial index for allocating residual pieces to touching state
     state_names = list(state_geoms.keys())
@@ -188,6 +215,11 @@ def main():
     assert gap_with_envelope < 1e-9, f"Gap with envelope must be 0, got {gap_with_envelope}"
     assert overlap_can < 1e-9, f"Overlap with Canada must be 0, got {overlap_can}"
     assert overlap_mex < 1e-9, f"Overlap with Mexico must be 0, got {overlap_mex}"
+
+    # Assert authentic bounds for Montana and other key states to prevent horizontal stretching
+    mt_b = final_states['Montana'].bounds
+    assert mt_b[0] > -117.0 and mt_b[2] < -104.0, f"Montana bounds stretched/invalid: {mt_b}"
+    print(f"      Montana bounds verified authentic: lon=({mt_b[0]:.2f}, {mt_b[2]:.2f}), lat=({mt_b[1]:.2f}, {mt_b[3]:.2f})")
 
     # Add Alaska to final dictionary
     final_states['Alaska'] = ak_sealed
