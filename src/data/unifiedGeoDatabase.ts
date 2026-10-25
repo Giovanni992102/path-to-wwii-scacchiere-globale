@@ -120,7 +120,7 @@ export async function loadUnifiedGeoDatabase(
   // Ambiente browser
   if (typeof window !== 'undefined' && typeof fetch === 'function') {
     if (onProgress) onProgress(10);
-    const res = await fetch(`/data/world_historical_1938_unified.json?v=${Date.now()}`);
+    const res = await fetch('/data/world_historical_1938_unified.json');
     if (!res.ok) {
       throw new Error(`Impossibile caricare il database unificato: HTTP ${res.status}`);
     }

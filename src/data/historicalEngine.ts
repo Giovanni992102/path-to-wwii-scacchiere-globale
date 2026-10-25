@@ -101,6 +101,7 @@ export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
  */
 export function sanitizeTopology(feature: any): void {
   if (!feature || !feature.geometry) return;
+  if (feature.properties?.__sanitized) return;
   const geom = feature.geometry;
 
   try {
@@ -413,18 +414,27 @@ export function processHistoricalCartographyPipeline(
   for (let s = 0; s < 9; s++) newStats.push({ own: {}, fac: {} });
 
   for (const f of all) {
-    // 1. Sanificazione Topologica
-    sanitizeTopology(f);
+    const p = f.properties || (f.properties = {});
+
+    // 1. Sanificazione Topologica (O(1) se già verificata)
+    if (!p.__sanitized) {
+      sanitizeTopology(f);
+      p.__sanitized = true;
+    }
     topologiesSanitized++;
 
-    // 2. Baricentro geospaziale
-    try {
-      f.__cent = d3.geoCentroid(f);
-      if (isNaN(f.__cent[0]) || isNaN(f.__cent[1])) {
+    // 2. Baricentro geospaziale (O(1) da metadata precalcolati)
+    if (p.centroid && Array.isArray(p.centroid)) {
+      f.__cent = p.centroid;
+    } else {
+      try {
+        f.__cent = d3.geoCentroid(f);
+        if (isNaN(f.__cent[0]) || isNaN(f.__cent[1])) {
+          f.__cent = [0, 0];
+        }
+      } catch (e) {
         f.__cent = [0, 0];
       }
-    } catch (e) {
-      f.__cent = [0, 0];
     }
 
     // 3. Risoluzione Verità Storica per tutti i 9 passaggi
