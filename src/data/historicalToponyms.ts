@@ -15101,17 +15101,19 @@ export function resolveUSAToponym(
   const isPost1939 = step >= 4;
 
   // 1. Livello Nazionale USA — timeline-sensitive
-  const isNationalUSA =
+  const isNationalName =
     normKey === 'united_states' ||
     normKey === 'united_states_of_america' ||
     normKey === 'usa' ||
     normKey === 'us' ||
     normKey === 'stati_uniti' ||
     normKey === 'stati_uniti_d_america' ||
-    normKey === 'stati_uniti_damerica' ||
-    id === 'USA' ||
-    id === 'US' ||
-    id === '840';
+    normKey === 'stati_uniti_damerica';
+
+  const isNationalUSA =
+    isNationalName ||
+    ((id === 'USA' || id === 'US' || id === '840') &&
+     (isNationalName || !normKey || normKey === 'unknown' || normKey === 'territorio_non_assegnato'));
 
   if (isNationalUSA) {
     if (isPost1939) {

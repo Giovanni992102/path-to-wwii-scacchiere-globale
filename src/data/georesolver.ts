@@ -1943,6 +1943,33 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   const cleanId = String(f.id || P.id || nid || '').toUpperCase();
   const getTop = (owner: string) => getExtendedToponym(rawName, owner, nid, c, s);
 
+  // 0. Intercettazione prioritaria Province, Stati e Territori USA
+  const isUSAProvince =
+    cleanId.startsWith('US_') ||
+    cleanId === 'PR' ||
+    cleanId === 'VI' ||
+    cleanId === 'GU' ||
+    cleanId === 'AS' ||
+    cleanId === 'MP' ||
+    cleanId === 'UM' ||
+    Boolean((USA_PROVINCES_META as any)?.[cleanId]) ||
+    (rawName !== 'United States' &&
+     rawName !== 'Stati Uniti d\'America' &&
+     rawName !== 'Stati Uniti' &&
+     rawName !== 'USA' &&
+     rawName !== 'US' &&
+     (nrm_hb.includes('hawaii') ||
+      nrm_hb.includes('alaska') ||
+      nrm_hb.includes('pearl harbor') ||
+      nrm_hb.includes('canal zone') ||
+      nrm_hb.includes('guantanamo') ||
+      Boolean((USA_PROVINCES_META as any)?.[nrm_hb])));
+
+  if (isUSAProvince) {
+    const resUsa = resolveUSAProvince(f, s);
+    if (resUsa) return resUsa;
+  }
+
   // Isola di Man (Isle of Man)
   const isMan =
     nrm_hb.includes('isle of man') ||

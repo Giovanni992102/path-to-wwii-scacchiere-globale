@@ -13,7 +13,16 @@
  */
 
 import { ResolvedTerritory, FactionType, ToponymMatch } from '../types';
-import { makeResult } from './georesolver';
+
+function makeResult(
+  o: string,
+  name: string,
+  note?: string,
+  fac?: FactionType,
+  adminEntity?: string
+): ResolvedTerritory {
+  return { o, name, note, fac, adminEntity };
+}
 
 export interface USAProvinceInfo {
   id: string;
@@ -1917,7 +1926,7 @@ export const USA_PROVINCES_META: Record<string, USAProvinceInfo> = {
     name: "Panama Canal Zone",
     modernName: "Panama Canal Zone",
     historicalName: "Panama Canal Zone (Balboa Heights / Quarry Heights — USA)",
-    adminTitle: "United States of America — Panama Canal Zone (Gov. Clarence S. Ridley / Glen E. Edgerton)",
+    adminTitle: "United States of America — Panama Canal Zone (Strategic Military Outpost — Gov. Clarence S. Ridley / Glen E. Edgerton)",
     capital: "Balboa Heights",
     region: "Strategic Chokepoint",
     isState: false,
@@ -1942,7 +1951,7 @@ export const USA_PROVINCES_META: Record<string, USAProvinceInfo> = {
       return base;
     },
     getAdminTitle: (s: number) => {
-      return "United States of America — Panama Canal Zone (Gov. Clarence S. Ridley / Glen E. Edgerton)";
+      return "United States of America — Panama Canal Zone (Strategic Military Outpost — Gov. Clarence S. Ridley / Glen E. Edgerton)";
     },
     getSovereign: () => "USA",
     getFaction: () => "Alleati",
