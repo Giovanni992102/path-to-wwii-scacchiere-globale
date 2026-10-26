@@ -1,6 +1,7 @@
 import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 import { USA_PROVINCES_META, populateUSAToponyms } from './usaProvinces';
 import { CANADA_PROVINCES_META, populateCanadaToponyms } from './canadaProvinces';
+import { MEXICO_PROVINCES_META, populateMexicoToponyms } from './mexicoProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2856,6 +2857,9 @@ populateUSAToponyms(HISTORICAL_TOPONYM_DICT);
 
 // Integrazione automatica toponomastica e amministrazioni storiche Canada e Terranova (10 Province, 2 Territori, Nunavut, Dominion of Newfoundland)
 populateCanadaToponyms(HISTORICAL_TOPONYM_DICT);
+
+// Integrazione automatica toponomastica e amministrazioni storiche Messico (31 Stati, 2 Territori Federali, Distrito Federal)
+populateMexicoToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -15419,6 +15423,125 @@ export function resolveUSAToponym(
  * Risoluzione toponomastica, istituzionale e geostorica per l'Unione Sovietica (1936-1940),
  * focalizzata sull'Oblast di Leningrado, Kronštadt, Ingria, Carelia e Russia Nord-Occidentale.
  */
+export function resolveMexicoToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. Livello Nazionale Messico (Estados Unidos Mexicanos) — timeline-sensitive step 0..8
+  const isNationalName =
+    normKey === 'mexico' ||
+    normKey === 'messico' ||
+    normKey === 'estados_unidos_mexicanos' ||
+    normKey === 'stati_uniti_messicani' ||
+    normKey === 'republica_mexicana';
+
+  const isNationalMexico =
+    isNationalName ||
+    ((id === 'MEX' || id === 'MX' || id === '484') &&
+     (isNationalName || !normKey || normKey === 'unknown' || normKey === 'territorio_non_assegnato' || normKey === 'mexico' || normKey === 'estados_unidos_mexicanos'));
+
+  if (isNationalMexico) {
+    if (step >= 8) {
+      return {
+        name: 'Estados Unidos Mexicanos / México (Presidenza Ávila Camacho & Cooperazione Emisferica)',
+        adminTitle: 'Estados Unidos Mexicanos — Presidente Constitucional Gen. Manuel Ávila Camacho',
+        note: 'Presidenza di Manuel Ávila Camacho ("El Presidente Caballero"), all\'insegna dell\'unità nazionale, della riconciliazione con la Chiesa cattolica e della distensione con gli Stati Uniti. Siglato l\'accordo globale di indennizzo petrolifero con Washington; nell\'aprile 1941 la Marina messicana procede al sequestro cautelare nei porti di Tampico e Veracruz di 12 navi mercantili e petroliere dell\'Asse bloccate dal blocco britannico. Negoziati per la Commissione Congiunta di Difesa Messico-USA e piena mobilitazione mineraria (rame di Cananea, piombo, zinco) per l\'Arsenale della Democrazia alleato.',
+      };
+    }
+    if (step >= 7) {
+      return {
+        name: 'Estados Unidos Mexicanos / México (Transizione Ávila Camacho & Difesa Emisferica)',
+        adminTitle: 'Estados Unidos Mexicanos — Presidente Eletto Gen. Manuel Ávila Camacho',
+        note: 'Fase di transizione verso l\'insediamento presidenziale del moderato Manuel Ávila Camacho (1° dicembre 1940), successore designato di Cárdenas dopo le tese elezioni di luglio contro Almazán. Roosevelt invia il vicepresidente Henry Wallace alla cerimonia d\'insediamento a Città del Messico. Avvio di intensi colloqui strategici per la cooperazione di difesa emisferica, la sorveglianza delle coste del Pacifico e il contrasto alle reti di spionaggio dell\'Abwehr.',
+      };
+    }
+    if (step >= 5) {
+      return {
+        name: 'Estados Unidos Mexicanos / México (Neutralità Armata & Solidarietà Panamericana)',
+        adminTitle: 'Estados Unidos Mexicanos — Presidente Constitucional Gen. Lázaro Cárdenas del Río',
+        note: 'Allo scoppio della Seconda Guerra Mondiale in Europa (settembre 1939), il Messico proclama la rigorosa neutralità armata e la difesa del diritto internazionale panamericano (Dichiarazione di Panama). Cessano le vendite di greggio alla Germania nazista. Il 21 agosto 1940 Leon Trotsky viene assassinato a Coyoacán dal sicario sovietico dell\'NKVD Ramón Mercader. Nelle elezioni di luglio 1940 la vittoria va al generale moderato Manuel Ávila Camacho.',
+      };
+    }
+    if (step >= 2) {
+      return {
+        name: 'Estados Unidos Mexicanos / México (Espropriazione Petrolifera & Nascita di PEMEX 1938)',
+        adminTitle: 'Estados Unidos Mexicanos — Presidente Constitucional Gen. Lázaro Cárdenas del Río',
+        note: 'Il 18 marzo 1938 il presidente Lázaro Cárdenas decreta l\'espropriazione storica delle compagnie petrolifere straniere anglo-americane (Standard Oil, Royal Dutch Shell, El Águila). Il 7 giugno 1938 viene fondata la compagnia statale Petróleos Mexicanos (PEMEX). Di fronte al boicottaggio economico britannico e statunitense, il Messico ricorre ad accordi commerciali di baratto; viene soppressa la ribellione reazionaria del generale Saturnino Cedillo a San Luis Potosí e accolti oltre 25.000 esuli della Repubblica Spagnola.',
+      };
+    }
+    return {
+      name: 'Estados Unidos Mexicanos / México (Presidenza Lázaro Cárdenas & Riforme Sociali)',
+      adminTitle: 'Estados Unidos Mexicanos — Presidente Constitucional Gen. Lázaro Cárdenas del Río',
+      note: 'Repubblica federale democratica in profonda trasformazione socio-economica guidata dal generale Lázaro Cárdenas del Río. Emancipazione politica con l\'esilio dell\'ex "Jefe Máximo" Plutarco Elías Calles (1936), fondazione della Confederación de Trabajadores de México (CTM) con Vicente Lombardo Toledano, asilo politico a Leon Trotsky a Coyoacán (gennaio 1937), massicce distribuzioni di terre comunitarie (ejidos della Comarca Lagunera e henequén dello Yucatán) e nazionalizzazione delle Ferrovie Nazionali del Messico (FNM, giugno 1937). Territori Federali della Baja California e Quintana Roo direttamente amministrati dalla Federazione.',
+    };
+  }
+
+  // 2. Ricerca granulare e timeline-sensitive in MEXICO_PROVINCES_META
+  const cleanId = id.toUpperCase().trim().replace('-', '_');
+  const provMeta =
+    MEXICO_PROVINCES_META[cleanId] ||
+    (cleanId.startsWith('MX_') ? undefined : MEXICO_PROVINCES_META['MX_' + cleanId]);
+
+  if (provMeta) {
+    return {
+      name: provMeta.getHistoricalName(step),
+      adminTitle: provMeta.getAdminTitle(step),
+      note: provMeta.getNote(step),
+    };
+  }
+
+  // Lookup per chiave o nome in MEXICO_PROVINCES_META
+  const pNorm = normKey.replace(/[^a-z0-9]/g, '');
+  for (const k of Object.keys(MEXICO_PROVINCES_META)) {
+    const item = MEXICO_PROVINCES_META[k];
+    const nrmItem = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const nrmMod = item.modernName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const nrmHist = item.historicalName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (
+      pNorm === nrmItem ||
+      pNorm === nrmMod ||
+      (nrmItem.length >= 4 && pNorm.includes(nrmItem)) ||
+      (nrmItem.length >= 4 && nrmHist.includes(pNorm))
+    ) {
+      return {
+        name: item.getHistoricalName(step),
+        adminTitle: item.getAdminTitle(step),
+        note: item.getNote(step),
+      };
+    }
+  }
+
+  // 3. Ricerca granulare nel dizionario storico del Messico (HISTORICAL_TOPONYM_DICT['MEX'])
+  const mexDict = HISTORICAL_TOPONYM_DICT['MEX'];
+  if (mexDict) {
+    if (mexDict[normKey]) {
+      return {
+        name: mexDict[normKey].historicalName,
+        adminTitle: mexDict[normKey].adminTitle,
+        note: mexDict[normKey].historicalNote || mexDict[normKey].note,
+      };
+    }
+    const sortedKeys = Object.keys(mexDict).sort((a, b) => b.length - a.length);
+    for (const k of sortedKeys) {
+      if (k.length <= 3) continue;
+      if (normKey === k || normKey.includes(k) || (k.length >= 5 && k.includes(normKey))) {
+        return {
+          name: mexDict[k].historicalName,
+          adminTitle: mexDict[k].adminTitle,
+          note: mexDict[k].historicalNote || mexDict[k].note,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
 export function resolveSovietToponym(
   id: string,
   rawName: string,
@@ -16134,6 +16257,24 @@ export function getExtendedToponym(
     if (usaTop) return usaTop;
   }
 
+
+    // 0.136 Overrides prioritari per Stati Uniti Messicani (MEX / MX / codici MX_... / stati e territori messicani)
+  if (
+    owner === 'MEX' ||
+    owner === 'MX' ||
+    id.startsWith('MX_') ||
+    id.startsWith('MX-') ||
+    id === 'MEX' ||
+    id === 'MX' ||
+    id === '484' ||
+    normKey.includes('mexico') ||
+    normKey.includes('messico') ||
+    normKey.includes('estados_unidos_mexicanos') ||
+    Boolean((MEXICO_PROVINCES_META as any)?.[id])
+  ) {
+    const mexTop = resolveMexicoToponym(id, rawName, normKey, owner, yearStep);
+    if (mexTop) return mexTop;
+  }
 
   // 0.14 Overrides prioritari per Unione Sovietica (SOV / codici RU, BY, UA, MD, KZ, UZ, TM, TJ, KG, GE, AM, AZ / toponimi sovietici)
   if (

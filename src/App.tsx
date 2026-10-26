@@ -2594,9 +2594,9 @@ export default function App() {
         },
       },
       {
-        name: '79. Audit Geotopografico Integrale degli Stati del Messico (32 Stati e Territori, Watertightness con USA e Centroamerica, Zero Overlap, Zero Slivers)',
+        name: '79. Audit Geotopografico e Toponomastico Integrale degli Stati Uniti Messicani 1936-1941 (32 Stati e Territori, Denominazioni Moderne e Storiche, Watertightness con USA e Centroamerica, Dinamica Temporale Cárdenas - Ávila Camacho, PEMEX e Arsenale Alleato)',
         run: () => {
-          // 1. Verifica presenza di tutti i 32 stati messicani nei layer caricati
+          // 1. Verifica presenza di tutti i 32 stati e territori messicani nei layer caricati
           const mxIds = [
             'MX_SON', 'MX_BCN', 'MX_CHH', 'MX_COA', 'MX_TAM', 'MX_NLE',
             'MX_ROO', 'MX_CAM', 'MX_TAB', 'MX_CHP', 'MX_COL', 'MX_NAY',
@@ -2620,22 +2620,61 @@ export default function App() {
             }
           }
 
-          // 2. Controllo coerenza geografica stati chiave (Sonora, Chihuahua, Jalisco, Yucatan, Chiapas)
-          const sonora = allFeatures.find((f: any) => f.id === 'MX_SON');
-          const resSon = resolveFeature(sonora, 0);
-          if (!resSon || !resSon.name.includes('Sonora')) return false;
+          // 2. Controllo coerenza nomi storici e toponimi per stati cardine
+          const ftSon = allFeatures.find((f: any) => f.id === 'MX_SON');
+          const resSon0 = resolveFeature(ftSon, 0);
+          if (!resSon0 || !resSon0.name.includes('Sonora') || !resSon0.name.includes('Cananea') || !resSon0.note?.includes('Román Yocupicio')) return false;
 
-          const chih = allFeatures.find((f: any) => f.id === 'MX_CHH');
-          const resChih = resolveFeature(chih, 0);
-          if (!resChih || !resChih.name.includes('Chihuahua')) return false;
+          const ftBcn = allFeatures.find((f: any) => f.id === 'MX_BCN');
+          const resBcn0 = resolveFeature(ftBcn, 0);
+          if (!resBcn0 || !resBcn0.name.includes('Territorio Norte de la Baja California') || !resBcn0.note?.includes('Mexicali')) return false;
 
-          const jal = allFeatures.find((f: any) => f.id === 'MX_JAL');
-          const resJal = resolveFeature(jal, 0);
-          if (!resJal || !resJal.name.includes('Jalisco')) return false;
+          const ftBcs = allFeatures.find((f: any) => f.id === 'MX_BCS');
+          const resBcs0 = resolveFeature(ftBcs, 0);
+          if (!resBcs0 || !resBcs0.name.includes('Territorio Sur de la Baja California') || !resBcs0.note?.includes('La Paz')) return false;
 
-          const yuc = allFeatures.find((f: any) => f.id === 'MX_YUC');
-          const resYuc = resolveFeature(yuc, 0);
-          if (!resYuc || (!resYuc.name.includes('Yucatán') && !resYuc.name.includes('Yucatan'))) return false;
+          const ftRoo = allFeatures.find((f: any) => f.id === 'MX_ROO');
+          const resRoo0 = resolveFeature(ftRoo, 0);
+          if (!resRoo0 || !resRoo0.name.includes('Territorio Federal de Quintana Roo') || !resRoo0.note?.includes('Chetumal')) return false;
+
+          const ftCmx = allFeatures.find((f: any) => f.id === 'MX_CMX');
+          const resCmx0 = resolveFeature(ftCmx, 0);
+          if (!resCmx0 || !resCmx0.name.includes('Distrito Federal') || !resCmx0.note?.includes('Palacio Nacional') || !resCmx0.note?.includes('Trotsky')) return false;
+
+          // 3. Verifica timeline-sensitive step 2 (18 Marzo 1938: Espropriazione Petrolifera & Fondazione PEMEX)
+          const ftTam = allFeatures.find((f: any) => f.id === 'MX_TAM');
+          const resTam2 = resolveFeature(ftTam, 2);
+          if (!resTam2 || !resTam2.note?.includes('18 Marzo 1938') || !resTam2.note?.includes('Tampico') || !resTam2.note?.includes('PEMEX')) return false;
+
+          const ftSlp = allFeatures.find((f: any) => f.id === 'MX_SLP');
+          const resSlp2 = resolveFeature(ftSlp, 2);
+          if (!resSlp2 || !resSlp2.note?.includes('Cedillo')) return false;
+
+          // 4. Verifica timeline-sensitive step 5 (Settembre 1939 - Giugno 1940: Neutralità e Assassinio di Trotsky)
+          const resCmx5 = resolveFeature(ftCmx, 5);
+          if (!resCmx5 || !resCmx5.note?.includes('Trotsky') || !resCmx5.note?.includes('Mercader')) return false;
+
+          // 5. Verifica timeline-sensitive step 7 (Ottobre 1940: Transizione Presidenziale Ávila Camacho & Reggente Rojo Gómez)
+          const resCmx7 = resolveFeature(ftCmx, 7);
+          if (!resCmx7 || !resCmx7.note?.includes('Javier Rojo Gómez') || !resCmx7.note?.includes('Ávila Camacho')) return false;
+
+          // 6. Verifica timeline-sensitive step 8 (Aprile 1941: Sequestro navi dell'Asse nei porti e Arsenale della Democrazia)
+          const resTam8 = resolveFeature(ftTam, 8);
+          if (!resTam8 || !resTam8.note?.includes('Tampico') || !resTam8.note?.includes('sequestro') || !resTam8.note?.includes('petroliere')) return false;
+
+          const resSon8 = resolveFeature(ftSon, 8);
+          if (!resSon8 || !resSon8.note?.includes('Arsenale della Democrazia')) return false;
+
+          // 7. Verifica toponimi estesi da getExtendedToponym a livello nazionale per il Messico (Step 0, 2, 5, 8)
+          const topMex0 = getExtendedToponym('Mexico', 'MEX', 'MEX', undefined, 0);
+          const topMex2 = getExtendedToponym('Mexico', 'MEX', 'MEX', undefined, 2);
+          const topMex5 = getExtendedToponym('Mexico', 'MEX', 'MEX', undefined, 5);
+          const topMex8 = getExtendedToponym('Mexico', 'MEX', 'MEX', undefined, 8);
+
+          if (!topMex0.name.includes('Lázaro Cárdenas') || !topMex0.note?.includes('Calles') || !topMex0.note?.includes('ejidos')) return false;
+          if (!topMex2.name.includes('PEMEX') || !topMex2.note?.includes('18 marzo 1938')) return false;
+          if (!topMex5.name.includes('Neutralità Armata') || !topMex5.note?.includes('Dichiarazione di Panama')) return false;
+          if (!topMex8.name.includes('Ávila Camacho') || !topMex8.note?.includes('Arsenale della Democrazia') || !topMex8.note?.includes('sequestro')) return false;
 
           return true;
         },

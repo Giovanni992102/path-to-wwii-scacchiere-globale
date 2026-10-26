@@ -28,6 +28,10 @@ import {
   resolveCanadaProvince,
   CANADA_PROVINCES_META,
 } from './canadaProvinces';
+import {
+  resolveMexicoProvince,
+  MEXICO_PROVINCES_META,
+} from './mexicoProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -2006,6 +2010,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   const isMexProvince =
     cleanId.startsWith('MX_') ||
     cleanId.startsWith('MX-') ||
+    Boolean((MEXICO_PROVINCES_META as any)?.[cleanId]) ||
     (rawName !== 'Mexico' &&
      rawName !== 'Estados Unidos Mexicanos' &&
      rawName !== 'Stati Uniti Messicani' &&
@@ -2025,18 +2030,14 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       nrm_hb.includes('sinaloa') ||
       nrm_hb.includes('durango') ||
       nrm_hb.includes('zacatecas') ||
-      nrm_hb.includes('san luis potosi')));
+      nrm_hb.includes('san luis potosi') ||
+      nrm_hb.includes('distrito federal') ||
+      nrm_hb.includes('ciudad de mexico') ||
+      Boolean((MEXICO_PROVINCES_META as any)?.[nrm_hb])));
 
   if (isMexProvince) {
-    const provName = rawName || P.shapeName || P.NAME || P.HISTORICAL_NAME || '';
-    const displayName = provName ? `${provName} (México)` : 'Estados Unidos Mexicanos';
-    return makeResult(
-      'MEX',
-      displayName,
-      'Stati Uniti Messicani (Presidenza di Lázaro Cárdenas). Repubblica federale democratica in ripresa economica post-Rivoluzione; politica progressista di riforma agraria (ejidos) e nazionalizzazione strategica dei giacimenti petroliferi (PEMEX, marzo 1938). Rigorosa dottrina diplomatica di non intervento e neutralità armata.',
-      'Neutrale',
-      'Estados Unidos Mexicanos'
-    );
+    const resMex = resolveMexicoProvince(f, s);
+    if (resMex) return resMex;
   }
 
   // Isola di Man (Isle of Man)
@@ -5270,18 +5271,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       p.country === 'Mexico' ||
       nid.startsWith('MX_') ||
       fidClean.startsWith('MX_') ||
-      Boolean((p.shapeISO && String(p.shapeISO).startsWith('MX-')))
+      Boolean((p.shapeISO && String(p.shapeISO).startsWith('MX-'))) ||
+      Boolean((MEXICO_PROVINCES_META as any)?.[fidClean]) ||
+      Boolean((MEXICO_PROVINCES_META as any)?.[nid])
     );
 
   if (isMexProv) {
+    const resMex = resolveMexicoProvince(ft, s);
+    if (resMex) return resMex;
     const provName = rawName || p.shapeName || p.NAME || p.HISTORICAL_NAME || '';
-    const displayName = provName ? `${provName} (México)` : 'Estados Unidos Mexicanos';
+    const topMex = getExtendedToponym('Mexico', 'MEX', '', c, s);
+    const displayName = provName ? `${provName} (${topMex.name || 'Estados Unidos Mexicanos'})` : (topMex.name || 'Estados Unidos Mexicanos');
     return makeResult(
       'MEX',
       displayName,
-      'Stati Uniti Messicani (Presidenza di Lázaro Cárdenas). Repubblica federale democratica in ripresa economica post-Rivoluzione; politica progressista di riforma agraria (ejidos) e nazionalizzazione strategica dei giacimenti petroliferi (PEMEX, marzo 1938). Rigorosa dottrina diplomatica di non intervento e neutralità armata.',
+      topMex.note || 'Stati Uniti Messicani (Presidenza di Lázaro Cárdenas)',
       'Neutrale',
-      'Estados Unidos Mexicanos'
+      topMex.adminTitle || 'Estados Unidos Mexicanos'
     );
   }
 
@@ -7282,14 +7288,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'MEX':
     case '484':
     case 'XMX': {
+      const resMex = resolveMexicoProvince(ft, s);
+      if (resMex) return resMex;
       const provName = rawName && rawName !== 'Mexico' && rawName !== 'Estados Unidos Mexicanos' ? rawName : (p.shapeName || p.NAME || '');
-      const displayName = provName ? `${provName} (México)` : (getTop('MEX').name || 'Estados Unidos Mexicanos');
+      const topMex = getExtendedToponym('Mexico', 'MEX', '', c, s);
+      const displayName = provName ? `${provName} (${topMex.name || 'Estados Unidos Mexicanos'})` : (topMex.name || 'Estados Unidos Mexicanos');
       return makeResult(
         'MEX',
         displayName,
-        getTop('MEX').note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)',
+        topMex.note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)',
         'Neutrale',
-        getTop('MEX').adminTitle || 'Estados Unidos Mexicanos'
+        topMex.adminTitle || 'Estados Unidos Mexicanos'
       );
     }
 
@@ -7924,6 +7933,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('messico') ||
         nid.startsWith('MX')
       ) {
+        const resMex = resolveMexicoProvince(ft, s);
+        if (resMex) return resMex;
         const top = getTop('MEX');
         return makeResult('MEX', top.name || 'Estados Unidos Mexicanos', top.note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)', 'Neutrale', top.adminTitle || 'Estados Unidos Mexicanos');
       }
