@@ -32,6 +32,7 @@ const MIME_TYPES = {
   '.mjs': 'application/javascript; charset=UTF-8',
   '.css': 'text/css; charset=UTF-8',
   '.json': 'application/json; charset=UTF-8',
+  '.geojson': 'application/geo+json; charset=UTF-8',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
@@ -45,7 +46,7 @@ const MIME_TYPES = {
   '.wav': 'audio/wav',
 };
 
-const COMPRESSIBLE_EXTS = new Set(['.html', '.js', '.mjs', '.css', '.json', '.svg', '.txt']);
+const COMPRESSIBLE_EXTS = new Set(['.html', '.js', '.mjs', '.css', '.json', '.geojson', '.svg', '.txt']);
 
 // In-memory cache for pre-compressed gzip buffers (key: filePath + ':' + mtimeMs)
 const GZIP_CACHE = new Map();

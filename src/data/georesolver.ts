@@ -5150,6 +5150,42 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     if (resUsa) return resUsa;
   }
 
+  const isCanProv =
+    !p.IS_HB &&
+    rawName !== 'Canada' &&
+    (
+      cntr === 'CA' ||
+      cntr === 'CAN' ||
+      cntr === '124' ||
+      p.country === 'Canada' ||
+      p.country === 'Dominion of Newfoundland' ||
+      nid.startsWith('CA_') ||
+      fidClean.startsWith('CA_') ||
+      Boolean((p.shapeISO && String(p.shapeISO).startsWith('CA-')))
+    );
+
+  if (isCanProv) {
+    if (nid === 'CA_NL' || fidClean === 'CA_NL' || p.country === 'Dominion of Newfoundland' || (p.shapeISO && String(p.shapeISO) === 'CA-NL')) {
+      return makeResult(
+        'UK',
+        'Dominion of Newfoundland (St. John\'s)',
+        'Dominion di Terranova sotto Commissione di Governo Britannica (Commission of Government 1934-1949). Frontiera del Labrador confermata dal Privy Council nel 1927.',
+        'Alleati',
+        'Dominion of Newfoundland'
+      );
+    }
+    const provName = rawName || p.shapeName || p.NAME || p.HISTORICAL_NAME || '';
+    const topCan = getExtendedToponym('Canada', 'CAN', '', c, s);
+    const displayName = provName ? `${provName} (${topCan.name || 'Dominion of Canada'})` : (topCan.name || 'Dominion of Canada');
+    return makeResult(
+      'CAN',
+      displayName,
+      topCan.note || 'Dominion del Canada',
+      'Alleati',
+      topCan.adminTitle || 'Dominion of Canada'
+    );
+  }
+
   // Granularizzazione integrale del Teatro Cinese e Guerra Sino-Giapponese (1936-1940)
   if (cntr === 'CN_PROV' || nid.startsWith('CHN_') || p.REGION_KIND === 'CHINA_PROVINCE') {
     return resolveChinaProvince(s, nid, p, rawName);
@@ -7397,7 +7433,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         ? makeResult('JAP', getTop('JAP').name, 'Occupazione Militare Giapponese', 'Asse', 'Dai Nippon Teikoku Kōgun Senryōchi')
         : makeResult('CHI', getTop('CHI').name, 'Repubblica di Cina (KMT)', 'Alleati', s >= 2 ? 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Péidū Chongqing)' : 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Nanjing)');
     case 'CA':
-      return makeResult('CAN', getTop('CAN').name, 'Dominion del Canada');
+    case 'CAN':
+    case '124': {
+      const topCan = getExtendedToponym('Canada', 'CAN', '', c, s);
+      const provName = rawName && rawName !== 'Canada' ? rawName : (p.shapeName || p.NAME || '');
+      const displayName = provName ? `${provName} (${topCan.name || 'Dominion of Canada'})` : (topCan.name || 'Dominion of Canada');
+      return makeResult(
+        'CAN',
+        displayName,
+        topCan.note || 'Dominion del Canada',
+        'Alleati',
+        topCan.adminTitle || 'Dominion of Canada'
+      );
+    }
     case 'AU':
       return makeResult('AST', getTop('AST').name, 'Commonwealth d\'Australia');
     case 'NZ':
