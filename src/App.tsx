@@ -2510,6 +2510,89 @@ export default function App() {
           return okCoast && okTri1 && okTri2 && okVyborgKakisalmi && okTri3 && okLahdenSorta && okTri4 && okSortaSuojPitk && okSuojNorth;
         },
       },
+      {
+        name: '78. Audit Geostorico e Toponomastico Integrale di Canada e Terranova 1936-1941 (10 Province, 2 Territori, Nunavut, Dominion of Newfoundland, Timeline BCATP, Turner Valley, Arvida, Port Radium, NEF e Ogdensburg)',
+        run: () => {
+          // 1. Verifica che tutte le 13 entità canadesi e Terranova siano presenti nei feature caricati
+          const canIds = [
+            'CA_ON', 'CA_QC', 'CA_NS', 'CA_NB', 'CA_PE',
+            'CA_MB', 'CA_SK', 'CA_AB', 'CA_BC', 'CA_NL',
+            'CA_NT', 'CA_YT', 'CA_NU'
+          ];
+          const allCanadaFeatures = [...loadedProvs, ...loadedHbs];
+          for (const cid of canIds) {
+            const ft = allCanadaFeatures.find((f: any) => f.id === cid || f.properties?.shapeISO === cid.replace('_', '-'));
+            if (!ft) {
+              console.error(`Manca feature per ${cid}`);
+              return false;
+            }
+          }
+
+          // 2. Verifica risoluzione e attribuzione geostorica per Terranova (CA_NL) -> Sovrano UK, Dominion of Newfoundland
+          const ftNL = allCanadaFeatures.find((f: any) => f.id === 'CA_NL');
+          const resNL_s0 = resolveFeature(ftNL, 0);
+          const resNL_s7 = resolveFeature(ftNL, 7);
+          const resNL_s8 = resolveFeature(ftNL, 8);
+
+          if (!resNL_s0 || resNL_s0.o !== 'UK' || !resNL_s0.name.includes('Newfoundland')) return false;
+          if (!resNL_s0.note?.includes('Commission of Government') || !resNL_s0.note?.includes('Walwyn')) return false;
+          if (!resNL_s7?.note?.includes('Destroyers for Bases') || !resNL_s7?.note?.includes('Argentia')) return false;
+          if (!resNL_s8?.note?.includes('Newfoundland Escort Force') || !resNL_s8?.note?.includes('NEF')) return false;
+
+          // 3. Verifica risoluzione Ontario (CA_ON) -> CAN, Heartland Industriale, CMP, BCATP, Hyde Park
+          const ftON = loadedProvs.find((f: any) => f.id === 'CA_ON');
+          const resON_s0 = resolveFeature(ftON, 0);
+          const resON_s5 = resolveFeature(ftON, 5);
+          const resON_s7 = resolveFeature(ftON, 7);
+          const resON_s8 = resolveFeature(ftON, 8);
+
+          if (!resON_s0 || resON_s0.o !== 'CAN' || !resON_s0.name.includes('Ontario')) return false;
+          if (!resON_s0.note?.includes('Sudbury') || !resON_s0.note?.includes('nichel')) return false;
+          if (!resON_s5?.note?.includes('CMP') || !resON_s5?.note?.includes('BCATP')) return false;
+          if (!resON_s7?.note?.includes('Ogdensburg') || !resON_s7?.note?.includes('Hurricane')) return false;
+          if (!resON_s8?.note?.includes('Hyde Park')) return false;
+
+          // 4. Verifica risoluzione Québec (CA_QC) -> Arvida alluminio Alcan, corvette
+          const ftQC = loadedProvs.find((f: any) => f.id === 'CA_QC');
+          const resQC_s5 = resolveFeature(ftQC, 5);
+          if (!resQC_s5 || resQC_s5.o !== 'CAN' || !resQC_s5.note?.includes('Arvida') || !resQC_s5.note?.includes('alluminio')) return false;
+
+          // 5. Verifica risoluzione Alberta (CA_AB) -> Turner Valley petrolio
+          const ftAB = loadedProvs.find((f: any) => f.id === 'CA_AB');
+          const resAB_s0 = resolveFeature(ftAB, 0);
+          const resAB_s8 = resolveFeature(ftAB, 8);
+          if (!resAB_s0 || resAB_s0.o !== 'CAN' || !resAB_s0.note?.includes('Turner Valley')) return false;
+          if (!resAB_s8?.note?.includes('Turner Valley')) return false;
+
+          // 6. Verifica risoluzione Northwest Territories (CA_NT) -> Port Radium uranio Tube Alloys
+          const ftNT = loadedProvs.find((f: any) => f.id === 'CA_NT');
+          const resNT_s0 = resolveFeature(ftNT, 0);
+          const resNT_s8 = resolveFeature(ftNT, 8);
+          if (!resNT_s0 || resNT_s0.o !== 'CAN' || !resNT_s0.note?.includes('Port Radium')) return false;
+          if (!resNT_s8?.note?.includes('Tube Alloys') || !resNT_s8?.note?.includes('uranio')) return false;
+
+          // 7. Verifica risoluzione Nuova Scozia (CA_NS) -> Halifax convogli HX
+          const ftNS = loadedProvs.find((f: any) => f.id === 'CA_NS');
+          const resNS_s5 = resolveFeature(ftNS, 5);
+          if (!resNS_s5 || resNS_s5.o !== 'CAN' || !resNS_s5.note?.includes('HX-1') || !resNS_s5.note?.includes('Halifax')) return false;
+
+          // 8. Verifica risoluzione Columbia Britannica (CA_BC) -> Trail acqua pesante e Mosquito Sitka
+          const ftBC = loadedProvs.find((f: any) => f.id === 'CA_BC');
+          const resBC_s7 = resolveFeature(ftBC, 7);
+          if (!resBC_s7 || resBC_s7.o !== 'CAN' || !resBC_s7.note?.includes('Trail') || !resBC_s7.note?.includes('acqua pesante')) return false;
+
+          // 9. Verifica toponimi estesi da getExtendedToponym a livello nazionale e provinciale
+          const topCan_s0 = getExtendedToponym('Canada', 'CAN', 'CAN', undefined, 0);
+          const topCan_s5 = getExtendedToponym('Canada', 'CAN', 'CAN', undefined, 5);
+          const topCan_s8 = getExtendedToponym('Canada', 'CAN', 'CAN', undefined, 8);
+
+          if (!topCan_s0.name.includes('Statuto di Westminster') || !topCan_s0.note?.includes('Mackenzie King')) return false;
+          if (!topCan_s5.name.includes('BCATP') || !topCan_s5.note?.includes('10 settembre 1939')) return false;
+          if (!topCan_s8.name.includes('Hyde Park') || !topCan_s8.note?.includes('Lend-Lease')) return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;

@@ -1,5 +1,6 @@
 import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 import { USA_PROVINCES_META, populateUSAToponyms } from './usaProvinces';
+import { CANADA_PROVINCES_META, populateCanadaToponyms } from './canadaProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2852,6 +2853,9 @@ populateScandinavianToponyms(HISTORICAL_TOPONYM_DICT);
 
 // Integrazione automatica toponomastica e amministrazioni storiche Stati Uniti (50 Stati, DC, Territori)
 populateUSAToponyms(HISTORICAL_TOPONYM_DICT);
+
+// Integrazione automatica toponomastica e amministrazioni storiche Canada e Terranova (10 Province, 2 Territori, Nunavut, Dominion of Newfoundland)
+populateCanadaToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -10716,6 +10720,119 @@ export function resolveChinaToponym(
   return null;
 }
 
+export function resolveCanadaToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. Livello Nazionale Canada
+  const isNationalCanada =
+    normKey === 'canada' ||
+    normKey === 'dominion_of_canada' ||
+    normKey === 'dominion_del_canada' ||
+    ((id === 'CAN' || id === 'CA' || id === '124') &&
+     (!normKey || normKey === 'unknown' || normKey === 'territorio_non_assegnato' || normKey === 'canada'));
+
+  if (isNationalCanada) {
+    if (step >= 8) {
+      return {
+        name: 'Dominion of Canada (Hyde Park Agreement & Arsenale Alleato)',
+        adminTitle: 'Dominion of the British Commonwealth — Prime Minister W.L. Mackenzie King',
+        note: "Dominion autonomo del Commonwealth britannico. Con la Dichiarazione di Hyde Park dell'aprile 1941, l'apparato industriale canadese è pienamente coordinato con il Lend-Lease statunitense; la Royal Canadian Navy assume oltre il 40% delle missioni di scorta ai convogli transatlantici e la miniera Eldorado a Port Radium (NWT) avvia le forniture segrete di uranio per il progetto Tube Alloys.",
+      };
+    }
+    if (step >= 7) {
+      return {
+        name: 'Dominion of Canada (Accordo di Ogdensburg & Difesa Nordamericana)',
+        adminTitle: 'Dominion of the British Commonwealth — Prime Minister W.L. Mackenzie King',
+        note: "A seguito della caduta della Francia, il Canada diventa la seconda potenza bellica alleata dopo il Regno Unito. Nell'agosto 1940 Mackenzie King e Roosevelt siglano l'Accordo di Ogdensburg istituendo la Commissione Permanente di Difesa Congiunta (PJBD); mobilitazione totale dell'industria automobilistica (autocarri CMP) e aeronautica (Hawker Hurricane a Fort William).",
+      };
+    }
+    if (step >= 5) {
+      return {
+        name: 'Dominion of Canada (Mobilitazione Bellica & BCATP)',
+        adminTitle: 'Dominion of the British Commonwealth — Prime Minister W.L. Mackenzie King',
+        note: "Il 10 settembre 1939, a seguito del voto sovrano del Parlamento di Ottawa, il Canada dichiara guerra alla Germania nazista. Viene istituito il Dipartimento delle Munizioni sotto C.D. Howe, salpano da Halifax i primi convogli atlantici (HX-1) e viene siglato il British Commonwealth Air Training Plan (BCATP) per addestrare decine di migliaia di piloti dell'Impero.",
+      };
+    }
+    if (step >= 2) {
+      return {
+        name: 'Dominion of Canada (Riarmo Industriale & Visita Reale 1939)',
+        adminTitle: 'Dominion of the British Commonwealth — Prime Minister W.L. Mackenzie King',
+        note: "Dominion autonomo in fase di riarmo difensivo post-crisi di Monaco. Nel maggio-giugno 1939 la storica visita ufficiale di Re Giorgio VI e della Regina Elisabetta attraverso tutte le province consolida la coesione nazionale e la lealtà imperiale alla vigilia della guerra.",
+      };
+    }
+    return {
+      name: 'Dominion of Canada (Statuto di Westminster 1931 & Ottawa)',
+      adminTitle: 'Dominion of the British Commonwealth — Prime Minister W.L. Mackenzie King',
+      note: "Dominion pienamente autonomo del Commonwealth britannico sotto lo Statuto di Westminster (1931), guidato dal premier liberale William Lyon Mackenzie King. Cuore politico federale a Ottawa; economia in ripresa post-Grande Depressione con primati mondiali nell'esportazione di grano delle praterie, nichel di Sudbury, alluminio di Arvida e petrolio di Turner Valley.",
+    };
+  }
+
+  // 2. Terranova e Labrador (Dominion of Newfoundland)
+  if (
+    id === 'CA_NL' ||
+    id === 'NF' ||
+    id === 'NFD' ||
+    normKey.includes('newfoundland') ||
+    normKey.includes('terranova') ||
+    normKey.includes('labrador')
+  ) {
+    const nlMeta = CANADA_PROVINCES_META['CA_NL'];
+    if (nlMeta) {
+      return {
+        name: nlMeta.getHistoricalName(step),
+        adminTitle: nlMeta.getAdminTitle(step),
+        note: nlMeta.getNote(step),
+      };
+    }
+  }
+
+  // 3. Risoluzione granulare Province e Territori da CANADA_PROVINCES_META
+  const cleanId = id.toUpperCase().trim().replace('-', '_');
+  const provMeta =
+    CANADA_PROVINCES_META[cleanId] ||
+    (cleanId.startsWith('CA_') ? undefined : CANADA_PROVINCES_META['CA_' + cleanId]);
+
+  if (provMeta) {
+    return {
+      name: provMeta.getHistoricalName(step),
+      adminTitle: provMeta.getAdminTitle(step),
+      note: provMeta.getNote(step),
+    };
+  }
+
+  for (const k of Object.keys(CANADA_PROVINCES_META)) {
+    const item = CANADA_PROVINCES_META[k];
+    const nrmItem = item.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+    if (normKey === nrmItem || (nrmItem.length >= 5 && normKey.includes(nrmItem))) {
+      return {
+        name: item.getHistoricalName(step),
+        adminTitle: item.getAdminTitle(step),
+        note: item.getNote(step),
+      };
+    }
+  }
+
+  // 4. Ricerca nel dizionario storico di CAN
+  const canDict = HISTORICAL_TOPONYM_DICT['CAN'];
+  if (canDict && canDict[normKey]) {
+    return {
+      name: canDict[normKey].historicalName,
+      adminTitle: canDict[normKey].adminTitle,
+      note: canDict[normKey].historicalNote,
+    };
+  }
+
+  return null;
+}
+
+
+
 export function resolveBritishColonialToponym(
   id: string,
   rawName: string,
@@ -10728,33 +10845,22 @@ export function resolveBritishColonialToponym(
   const nid = (id || '').toUpperCase();
 
   // 1. Dominions del Commonwealth Britannico
-  // Canada
+  // Canada & Terranova (Newfoundland)
   if (
     owner === 'CAN' ||
     nid === 'CA' ||
     nid === 'CAN' ||
     nid === '124' ||
-    n.includes('canada')
-  ) {
-    return {
-      name: 'Dominion of Canada (Ottawa)',
-      adminTitle: 'Dominion of the British Commonwealth',
-      note: 'Dominion autonomo sotto lo Statuto di Westminster (1931), guidato dal Primo Ministro W.L. Mackenzie King. Entrò formalmente in guerra il 10 settembre 1939 dopo autonoma approvazione parlamentare a Ottawa, fornendo all\'Impero grano, scorte belliche, la scorta dei convogli atlantici della Royal Canadian Navy e il massiccio programma di addestramento aeronautico del Commonwealth (BCATP).',
-    };
-  }
-
-  // Terranova (Newfoundland)
-  if (
     nid === 'NF' ||
     nid === 'NFD' ||
+    nid === 'CA_NL' ||
+    n.includes('canada') ||
     n.includes('newfoundland') ||
-    n.includes('terranova')
+    n.includes('terranova') ||
+    Boolean((CANADA_PROVINCES_META as any)?.[nid])
   ) {
-    return {
-      name: 'Dominion of Newfoundland (St. John\'s)',
-      adminTitle: 'Dominion of Newfoundland (Commission of Government)',
-      note: 'Dominion con autogoverno sospeso dal 1934 a causa della crisi finanziaria della Grande Depressione, retto da una Commissione di Governo nominata da Londra. Base navale e aerea insostituibile per la protezione delle rotte convogli nell\'Atlantico settentrionale (Gander, St. John\'s).',
-    };
+    const canRes = resolveCanadaToponym(id, rawName, normKey, owner, step);
+    if (canRes) return canRes;
   }
 
   // Australia
@@ -15568,6 +15674,7 @@ export function resolveSovietToponym(
 }
 
 
+
 export function getExtendedToponym(
   rawName: string,
   owner: string,
@@ -15954,6 +16061,34 @@ export function getExtendedToponym(
     if (cnTop) return cnTop;
   }
 
+  // 0.13b Overrides prioritari per Canada e Terranova (CAN / CA / Dominion of Canada & Newfoundland)
+  if (
+    owner === 'CAN' ||
+    owner === 'CA' ||
+    id.startsWith('CA_') ||
+    id.startsWith('CA-') ||
+    id === 'CAN' ||
+    id === 'CA' ||
+    id === '124' ||
+    id === 'CA_NL' ||
+    normKey.includes('canada') ||
+    normKey.includes('newfoundland') ||
+    normKey.includes('terranova') ||
+    normKey.includes('ontario') ||
+    normKey.includes('quebec') ||
+    normKey.includes('nova_scotia') ||
+    normKey.includes('new_brunswick') ||
+    normKey.includes('manitoba') ||
+    normKey.includes('saskatchewan') ||
+    normKey.includes('alberta') ||
+    normKey.includes('british_columbia') ||
+    normKey.includes('yukon') ||
+    normKey.includes('nunavut')
+  ) {
+    const canTop = resolveCanadaToponym(id, rawName, normKey, owner, yearStep);
+    if (canTop) return canTop;
+  }
+
   // 0.13 Overrides prioritari per Regno Unito, Dominions e Territori della Corona (UK, CAN, AST, NZL, SAF, RAJ, EGY, IRQ / codici UK... / IM / GG / JE / GIB / MT / CY)
   if (
     owner === 'UK' ||
@@ -15998,6 +16133,7 @@ export function getExtendedToponym(
     const usaTop = resolveUSAToponym(id, rawName, normKey, owner, yearStep);
     if (usaTop) return usaTop;
   }
+
 
   // 0.14 Overrides prioritari per Unione Sovietica (SOV / codici RU, BY, UA, MD, KZ, UZ, TM, TJ, KG, GE, AM, AZ / toponimi sovietici)
   if (

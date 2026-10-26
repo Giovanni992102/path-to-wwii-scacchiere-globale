@@ -24,6 +24,10 @@ import {
   resolveUSAProvince,
   USA_PROVINCES_META,
 } from './usaProvinces';
+import {
+  resolveCanadaProvince,
+  CANADA_PROVINCES_META,
+} from './canadaProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -1968,6 +1972,34 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   if (isUSAProvince) {
     const resUsa = resolveUSAProvince(f, s);
     if (resUsa) return resUsa;
+  }
+
+  // 0.b Intercettazione prioritaria Province, Territori e Dominion di Terranova (Canada & Newfoundland)
+  const isCanadaProvince =
+    cleanId.startsWith('CA_') ||
+    cleanId.startsWith('CA-') ||
+    Boolean((CANADA_PROVINCES_META as any)?.[cleanId]) ||
+    (rawName !== 'Canada' &&
+     rawName !== 'Dominion of Canada' &&
+     (nrm_hb.includes('ontario') ||
+      nrm_hb.includes('quebec') ||
+      nrm_hb.includes('nova scotia') ||
+      nrm_hb.includes('new brunswick') ||
+      nrm_hb.includes('manitoba') ||
+      nrm_hb.includes('saskatchewan') ||
+      nrm_hb.includes('alberta') ||
+      nrm_hb.includes('british columbia') ||
+      nrm_hb.includes('newfoundland') ||
+      nrm_hb.includes('terranova') ||
+      nrm_hb.includes('labrador') ||
+      nrm_hb.includes('northwest territories') ||
+      nrm_hb.includes('yukon') ||
+      nrm_hb.includes('nunavut') ||
+      Boolean((CANADA_PROVINCES_META as any)?.[nrm_hb])));
+
+  if (isCanadaProvince) {
+    const resCan = resolveCanadaProvince(f, s);
+    if (resCan) return resCan;
   }
 
   // Isola di Man (Isle of Man)
@@ -5161,10 +5193,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       p.country === 'Dominion of Newfoundland' ||
       nid.startsWith('CA_') ||
       fidClean.startsWith('CA_') ||
-      Boolean((p.shapeISO && String(p.shapeISO).startsWith('CA-')))
+      Boolean((p.shapeISO && String(p.shapeISO).startsWith('CA-'))) ||
+      Boolean((CANADA_PROVINCES_META as any)?.[fidClean]) ||
+      Boolean((CANADA_PROVINCES_META as any)?.[nid])
     );
 
   if (isCanProv) {
+    const resCan = resolveCanadaProvince(ft, s);
+    if (resCan) return resCan;
+
     if (nid === 'CA_NL' || fidClean === 'CA_NL' || p.country === 'Dominion of Newfoundland' || (p.shapeISO && String(p.shapeISO) === 'CA-NL')) {
       return makeResult(
         'UK',
@@ -7435,6 +7472,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'CA':
     case 'CAN':
     case '124': {
+      const resCan = resolveCanadaProvince(ft, s);
+      if (resCan) return resCan;
       const topCan = getExtendedToponym('Canada', 'CAN', '', c, s);
       const provName = rawName && rawName !== 'Canada' ? rawName : (p.shapeName || p.NAME || '');
       const displayName = provName ? `${provName} (${topCan.name || 'Dominion of Canada'})` : (topCan.name || 'Dominion of Canada');
