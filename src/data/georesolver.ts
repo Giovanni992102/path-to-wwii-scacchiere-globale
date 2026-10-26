@@ -2002,6 +2002,43 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     if (resCan) return resCan;
   }
 
+  // 0.c Intercettazione prioritaria Province e Stati del Messico
+  const isMexProvince =
+    cleanId.startsWith('MX_') ||
+    cleanId.startsWith('MX-') ||
+    (rawName !== 'Mexico' &&
+     rawName !== 'Estados Unidos Mexicanos' &&
+     rawName !== 'Stati Uniti Messicani' &&
+     (nrm_hb.includes('sonora') ||
+      nrm_hb.includes('baja california') ||
+      nrm_hb.includes('chihuahua') ||
+      nrm_hb.includes('coahuila') ||
+      nrm_hb.includes('tamaulipas') ||
+      nrm_hb.includes('nuevo leon') ||
+      nrm_hb.includes('jalisco') ||
+      nrm_hb.includes('veracruz') ||
+      nrm_hb.includes('chiapas') ||
+      nrm_hb.includes('yucatan') ||
+      nrm_hb.includes('oaxaca') ||
+      nrm_hb.includes('puebla') ||
+      nrm_hb.includes('michoacan') ||
+      nrm_hb.includes('sinaloa') ||
+      nrm_hb.includes('durango') ||
+      nrm_hb.includes('zacatecas') ||
+      nrm_hb.includes('san luis potosi')));
+
+  if (isMexProvince) {
+    const provName = rawName || P.shapeName || P.NAME || P.HISTORICAL_NAME || '';
+    const displayName = provName ? `${provName} (México)` : 'Estados Unidos Mexicanos';
+    return makeResult(
+      'MEX',
+      displayName,
+      'Stati Uniti Messicani (Presidenza di Lázaro Cárdenas). Repubblica federale democratica in ripresa economica post-Rivoluzione; politica progressista di riforma agraria (ejidos) e nazionalizzazione strategica dei giacimenti petroliferi (PEMEX, marzo 1938). Rigorosa dottrina diplomatica di non intervento e neutralità armata.',
+      'Neutrale',
+      'Estados Unidos Mexicanos'
+    );
+  }
+
   // Isola di Man (Isle of Man)
   const isMan =
     nrm_hb.includes('isle of man') ||
@@ -5223,6 +5260,31 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
   }
 
+  const isMexProv =
+    !p.IS_HB &&
+    rawName !== 'Mexico' &&
+    rawName !== 'Estados Unidos Mexicanos' &&
+    rawName !== 'Stati Uniti Messicani' &&
+    (
+      cntr === 'MEX' ||
+      p.country === 'Mexico' ||
+      nid.startsWith('MX_') ||
+      fidClean.startsWith('MX_') ||
+      Boolean((p.shapeISO && String(p.shapeISO).startsWith('MX-')))
+    );
+
+  if (isMexProv) {
+    const provName = rawName || p.shapeName || p.NAME || p.HISTORICAL_NAME || '';
+    const displayName = provName ? `${provName} (México)` : 'Estados Unidos Mexicanos';
+    return makeResult(
+      'MEX',
+      displayName,
+      'Stati Uniti Messicani (Presidenza di Lázaro Cárdenas). Repubblica federale democratica in ripresa economica post-Rivoluzione; politica progressista di riforma agraria (ejidos) e nazionalizzazione strategica dei giacimenti petroliferi (PEMEX, marzo 1938). Rigorosa dottrina diplomatica di non intervento e neutralità armata.',
+      'Neutrale',
+      'Estados Unidos Mexicanos'
+    );
+  }
+
   // Granularizzazione integrale del Teatro Cinese e Guerra Sino-Giapponese (1936-1940)
   if (cntr === 'CN_PROV' || nid.startsWith('CHN_') || p.REGION_KIND === 'CHINA_PROVINCE') {
     return resolveChinaProvince(s, nid, p, rawName);
@@ -7219,8 +7281,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'MX':
     case 'MEX':
     case '484':
-    case 'XMX':
-      return makeResult('MEX', getTop('MEX').name || 'Estados Unidos Mexicanos', getTop('MEX').note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)', 'Neutrale', getTop('MEX').adminTitle || 'Estados Unidos Mexicanos');
+    case 'XMX': {
+      const provName = rawName && rawName !== 'Mexico' && rawName !== 'Estados Unidos Mexicanos' ? rawName : (p.shapeName || p.NAME || '');
+      const displayName = provName ? `${provName} (México)` : (getTop('MEX').name || 'Estados Unidos Mexicanos');
+      return makeResult(
+        'MEX',
+        displayName,
+        getTop('MEX').note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)',
+        'Neutrale',
+        getTop('MEX').adminTitle || 'Estados Unidos Mexicanos'
+      );
+    }
 
     // Centro America & Caraibi
     case 'GT':

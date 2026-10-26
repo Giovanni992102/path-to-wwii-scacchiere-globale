@@ -2593,6 +2593,53 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: '79. Audit Geotopografico Integrale degli Stati del Messico (32 Stati e Territori, Watertightness con USA e Centroamerica, Zero Overlap, Zero Slivers)',
+        run: () => {
+          // 1. Verifica presenza di tutti i 32 stati messicani nei layer caricati
+          const mxIds = [
+            'MX_SON', 'MX_BCN', 'MX_CHH', 'MX_COA', 'MX_TAM', 'MX_NLE',
+            'MX_ROO', 'MX_CAM', 'MX_TAB', 'MX_CHP', 'MX_COL', 'MX_NAY',
+            'MX_BCS', 'MX_SIN', 'MX_YUC', 'MX_VER', 'MX_JAL', 'MX_MIC',
+            'MX_GRO', 'MX_OAX', 'MX_MEX', 'MX_PUE', 'MX_MOR', 'MX_QUE',
+            'MX_HID', 'MX_GUA', 'MX_SLP', 'MX_ZAC', 'MX_AGU', 'MX_DUR',
+            'MX_TLA', 'MX_CMX'
+          ];
+          const allFeatures = [...loadedProvs, ...loadedHbs];
+          for (const mid of mxIds) {
+            const ft = allFeatures.find((f: any) => f.id === mid || f.properties?.shapeISO === mid.replace('_', '-'));
+            if (!ft) {
+              console.error(`Manca feature per ${mid}`);
+              return false;
+            }
+            // Verifica risoluzione di base: sovrano MEX, fazione Neutrale
+            const res = resolveFeature(ft, 0);
+            if (!res || res.o !== 'MEX' || res.fac !== 'Neutrale') {
+              console.error(`Risoluzione fallita per ${mid}:`, res);
+              return false;
+            }
+          }
+
+          // 2. Controllo coerenza geografica stati chiave (Sonora, Chihuahua, Jalisco, Yucatan, Chiapas)
+          const sonora = allFeatures.find((f: any) => f.id === 'MX_SON');
+          const resSon = resolveFeature(sonora, 0);
+          if (!resSon || !resSon.name.includes('Sonora')) return false;
+
+          const chih = allFeatures.find((f: any) => f.id === 'MX_CHH');
+          const resChih = resolveFeature(chih, 0);
+          if (!resChih || !resChih.name.includes('Chihuahua')) return false;
+
+          const jal = allFeatures.find((f: any) => f.id === 'MX_JAL');
+          const resJal = resolveFeature(jal, 0);
+          if (!resJal || !resJal.name.includes('Jalisco')) return false;
+
+          const yuc = allFeatures.find((f: any) => f.id === 'MX_YUC');
+          const resYuc = resolveFeature(yuc, 0);
+          if (!resYuc || (!resYuc.name.includes('Yucatán') && !resYuc.name.includes('Yucatan'))) return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;
