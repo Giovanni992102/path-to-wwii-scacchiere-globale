@@ -2680,11 +2680,11 @@ export default function App() {
         },
       },
       {
-        name: '80. Audit Geotopografico, Storico ed Evolutivo Integrale dell\'Africa Occidentale Francese (AOF: Sénégal, Mauritanie, Soudan Français, Guinée, Côte d\'Ivoire con Haute-Volta, Dahomey, Niger, Watertightness, Denominazioni Storico-Moderne e Timeline 1936-1941)',
+        name: '80. Audit Geotopografico, Storico ed Evolutivo Integrale dell\'Africa Occidentale Francese (AOF: Sénégal, Mauritanie, Soudan Français, Guinée, Côte d\'Ivoire, Dahomey, Burkina Faso / Haute-Volta e Niger, Watertightness, Denominazioni Storico-Moderne e Timeline 1936-1941)',
         run: () => {
-          // 1. Verifica presenza di tutte le 7 entità AOF nei layer caricati
+          // 1. Verifica presenza di tutte le 8 entità AOF nei layer caricati
           const aofIds = [
-            'AOF_CI', 'AOF_GN', 'AOF_SN', 'AOF_MR', 'AOF_ML', 'AOF_BJ', 'AOF_NER_HV'
+            'AOF_CI', 'AOF_GN', 'AOF_SN', 'AOF_MR', 'AOF_ML', 'AOF_BJ', 'AOF_BF', 'AOF_NER'
           ];
           const allFeatures = [...loadedProvs, ...loadedHbs];
           for (const aid of aofIds) {
@@ -2707,7 +2707,7 @@ export default function App() {
             }
           }
 
-          // 2. Controllo coerenza nomi storici e note delle entità AOF
+          // 2. Controllo coerenza nomi storici e note delle 8 entità AOF
           const ftSn = allFeatures.find((f: any) => f.id === 'AOF_SN');
           const resSn0 = resolveFeature(ftSn, 0);
           if (!resSn0 || !resSn0.name.includes('Sénégal') || !resSn0.note?.includes('Jules Marcel de Coppet') || !resSn0.note?.includes('Quatre Communes') || !resSn0.adminEntity?.includes('Sénégal')) return false;
@@ -2732,8 +2732,12 @@ export default function App() {
           const resBj0 = resolveFeature(ftBj, 0);
           if (!resBj0 || !resBj0.name.includes('Dahomey') || !resBj0.note?.includes('Porto-Novo') || !resBj0.note?.includes('Cotonou') || !resBj0.note?.includes('olio di palma')) return false;
 
-          const ftNerHv = allFeatures.find((f: any) => f.id === 'AOF_NER_HV');
-          const resNer0 = resolveFeature(ftNerHv, 0);
+          const ftBf = allFeatures.find((f: any) => f.id === 'AOF_BF');
+          const resBf0 = resolveFeature(ftBf, 0);
+          if (!resBf0 || !resBf0.name.includes('Haute-Volta') || !resBf0.note?.includes('Mogho Naba Kom II') || !resBf0.note?.includes('Bobo-Dioulasso') || !resBf0.adminEntity?.includes("Haute-Côte d'Ivoire")) return false;
+
+          const ftNer = allFeatures.find((f: any) => f.id === 'AOF_NER');
+          const resNer0 = resolveFeature(ftNer, 0);
           if (!resNer0 || !resNer0.name.includes('Niger') || !resNer0.note?.includes('Niamey') || !resNer0.note?.includes('Bilma') || !resNer0.note?.includes('Azalaï')) return false;
 
           // 3. Verifica timeline-sensitive step 5 (Settembre 1939 - Maggio 1940: Mobilitazione bellica, oro della Banca di Francia a Dakar)
@@ -2743,9 +2747,15 @@ export default function App() {
           const resMl5 = resolveFeature(ftMl, 5);
           if (!resMl5 || !resMl5.note?.toLowerCase().includes('soudanais') || !resMl5.note?.includes('cereali')) return false;
 
+          const resBf5 = resolveFeature(ftBf, 5);
+          if (!resBf5 || !resBf5.note?.includes('15.000 fanti mossi') || !resBf5.note?.includes('Somme') || !resBf5.note?.includes('miglio')) return false;
+
           // 4. Verifica timeline-sensitive step 6 (Giugno - Agosto 1940: Armistizio, Boisson, allineamento Vichy e Operazione Catapult)
           const resSn6 = resolveFeature(ftSn, 6);
           if (!resSn6 || resSn6.o !== 'VIC_AOF' || !resSn6.note?.includes('Pierre Boisson') || !resSn6.note?.includes('Pétain') || !resSn6.note?.includes('Catapult') || !resSn6.adminEntity?.includes('Pierre Boisson')) return false;
+
+          const resBf6 = resolveFeature(ftBf, 6);
+          if (!resBf6 || resBf6.o !== 'VIC_AOF' || !resBf6.note?.includes('Pierre Boisson') || !resBf6.note?.includes('lavoro forzato') || !resBf6.note?.includes('indigénat')) return false;
 
           // 5. Verifica timeline-sensitive step 7 (23-25 Settembre 1940: Battaglia di Dakar / Operazione Menace)
           const resSn7 = resolveFeature(ftSn, 7);
@@ -2754,15 +2764,21 @@ export default function App() {
           const resGn7 = resolveFeature(ftGn, 7);
           if (!resGn7 || !resGn7.note?.includes('Freetown') || !resGn7.note?.includes('britannici')) return false;
 
+          const resBf7 = resolveFeature(ftBf, 7);
+          if (!resBf7 || !resBf7.note?.includes('Mogho Naba Kom II') || !resBf7.note?.includes('Gold Coast') || !resBf7.note?.includes('boicottaggio passivo')) return false;
+
           // 6. Verifica timeline-sensitive step 8 (Aprile 1941: Blocco Navale Royal Navy e Allarme Sahariano Kufra / Leclerc)
           const resSn8 = resolveFeature(ftSn, 8);
           if (!resSn8 || !resSn8.note?.includes('blocco aeronavale') || !resSn8.note?.includes('Gambia')) return false;
 
-          const resNer8 = resolveFeature(ftNerHv, 8);
+          const resNer8 = resolveFeature(ftNer, 8);
           if (!resNer8 || !resNer8.note?.includes('Leclerc') || !resNer8.note?.includes('Kufra') || !resNer8.note?.includes('Agadez')) return false;
 
           const resCi8 = resolveFeature(ftCi, 8);
           if (!resCi8 || !resCi8.note?.includes('blocco navale') || !resCi8.note?.includes('cacao')) return false;
+
+          const resBf8 = resolveFeature(ftBf, 8);
+          if (!resBf8 || !resBf8.note?.includes('Gold Coast') || !resBf8.note?.includes('karité') || !resBf8.note?.includes('boscaglia')) return false;
 
           // 7. Verifica toponimi estesi da getExtendedToponym a livello federale per l'Africa Occidentale Francese (Step 0, 2, 5, 6, 7, 8)
           const topAOF0 = getExtendedToponym('French West Africa', 'F_AOF', 'F_AOF', undefined, 0);

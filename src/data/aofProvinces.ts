@@ -297,34 +297,72 @@ export const AOF_PROVINCES_META: Record<string, AOFProvinceInfo> = {
     getFaction: (s: number) => (s >= 6 ? ('Fantoccio' as FactionType) : ('Alleati' as FactionType)),
   },
 
-  AOF_NER_HV: {
-    id: 'AOF_NER_HV',
-    iso: 'NE-BF',
+  AOF_BF: {
+    id: 'AOF_BF',
+    iso: 'BF',
+    cntrCode: 'BF',
+    name: 'Burkina Faso',
+    modernName: 'République du Burkina Faso',
+    historicalName: 'Colonie de la Haute-Volta (Démembrée 1932–1947 / Haute-Côte d\'Ivoire)',
+    adminTitle: "Gouvernement Général de l'AOF — Région de Haute-Volta (Ouagadougou & Bobo-Dioulasso)",
+    capital: 'Ouagadougou / Bobo-Dioulasso',
+    region: 'Sahel',
+    historicalToponym: 'Ouagadougou / Bobo-Dioulasso / Koudougou / Ouahigouya / Kaya / Fada N\'Gourma / Banfora / Dédougou',
+    s0_1: "Territorio dell'Haute-Volta, ufficialmente soppressa e smembrata il 5 settembre 1932 (la porzione centrale e meridionale dei Mossi è aggregata alla Costa d'Avorio come 'Haute-Côte d'Ivoire', il nord al Sudan e l'est al Niger). Residenza dinastica a Ouagadougou del Mogho Naba Kom II, venerato re dei Mossi; polo economico a Bobo-Dioulasso, capolinea dei cantieri ferroviari della Régie Abidjan-Niger. Il Fronte Popolare (1936) e il Governatore Jules Marcel de Coppet allentano il duro codice dell'indigénat; il Mogho Naba Kom II promuove continue petizioni diplomatiche a Parigi chiedendo la ricostituzione dell'Alta Volta come colonia autonoma in virtù dei centomila veterani mossi della Grande Guerra.",
+    s2_4: "Territorio dell'Haute-Volta (Haute-Côte d'Ivoire). Prosecuzione forzata dei binari della ferrovia Abidjan-Niger verso Bobo-Dioulasso per drenare manodopera e merci agricole verso la costa; reclutamento massiccio nei reggimenti di Tirailleurs Sénégalais di migliaia di soldati mossi a sostegno della madrepatria in vista delle crescenti tensioni belliche in Europa.",
+    s5: "Territorio dell'Haute-Volta (settembre 1939 - maggio 1940). Piena mobilitazione bellica: oltre 15.000 fanti mossi partono per il fronte francese combattendo sulla Somme e sull'Aisne. L'amministrazione impone tributi straordinari e la consegna obbligatoria di derrate (miglio, sorgo, sesamo) e carichi di bestiame per assicurare la sussistenza delle truppe imperiali dell'AOF.",
+    s6: "Territorio dell'Haute-Volta (giugno - agosto 1940). Con l'armistizio del 22 giugno 1940, l'amministrazione coloniale si sottomette agli ordini di Pierre Boisson e si allinea al Regime di Vichy. Ripristino del lavoro forzato coatto e rigida applicazione dell'indigénat; controllo militare sulla residenza reale del Mogho Naba a Ouagadougou per reprimere ogni simpatia filo-alleata.",
+    s7: "Territorio dell'Haute-Volta (autunno 1940). Nodo nevralgico della guerra clandestina: emissari britannici della Gold Coast (Ghana) e agenti della Francia Libera di De Gaulle cercano di persuadere il Mogho Naba Kom II a guidare la ribellione dei Mossi contro Vichy. Kom II, pur rifiutando le imposizioni pétainiste, sceglie una condotta prudente di boicottaggio passivo per preservare la popolazione dalle cruente rappresaglie militari di Boisson.",
+    s8: "Territorio dell'Haute-Volta (aprile 1941). Sigillata la frontiera con la Gold Coast britannica: paralisi delle rotte storiche di esportazione del bestiame e delle carovane del sale. L'amministrazione di Vichy intensifica le requisizioni coatte di burro di karité, cotone e cereali per sostenere la piazzaforte navale di Dakar sotto blocco britannico; migliaia di giovani mossi fuggono clandestinamente nella boscaglia verso i territori inglesi.",
+    getNote: (s: number) => {
+      if (s >= 8) return AOF_PROVINCES_META['AOF_BF'].s8;
+      if (s >= 7) return AOF_PROVINCES_META['AOF_BF'].s7;
+      if (s >= 6) return AOF_PROVINCES_META['AOF_BF'].s6;
+      if (s >= 5) return AOF_PROVINCES_META['AOF_BF'].s5;
+      if (s >= 2) return AOF_PROVINCES_META['AOF_BF'].s2_4;
+      return AOF_PROVINCES_META['AOF_BF'].s0_1;
+    },
+    getHistoricalName: (s: number) => {
+      if (s >= 6) return 'Haute-Volta (AOF — Vichy / Région Mossi & Ouagadougou)';
+      if (s >= 5) return 'Haute-Volta (AOF — Mobilitazione Tirailleurs Mossi)';
+      return 'Haute-Volta (AOF — Cercles de Ouagadougou & Bobo-Dioulasso)';
+    },
+    getAdminTitle: (s: number) => {
+      if (s >= 6) return "Haut-Commissariat de l'Afrique Française — Cercle de Ouagadougou (Vichy)";
+      return "Gouvernement Général de l'AOF — Haute-Côte d'Ivoire (Ouagadougou)";
+    },
+    getSovereign: (s: number) => (s >= 6 ? 'VIC_AOF' : 'F_AOF'),
+    getFaction: (s: number) => (s >= 6 ? ('Fantoccio' as FactionType) : ('Alleati' as FactionType)),
+  },
+
+  AOF_NER: {
+    id: 'AOF_NER',
+    iso: 'NE',
     cntrCode: 'NE',
-    name: 'French West Africa',
-    modernName: 'République du Niger & Burkina Faso',
-    historicalName: 'Colonie du Niger & Territoires Saharo-Sahéliens (incluse Haute-Volta Orientale)',
+    name: 'Niger',
+    modernName: 'République du Niger',
+    historicalName: 'Colonie du Niger (Territoires Militaires du Sahara)',
     adminTitle: "Gouvernement Général de l'AOF — Colonie du Niger (Niamey)",
     capital: 'Niamey / Zinder',
     region: 'Sahel',
-    historicalToponym: 'Niamey / Zinder / Agadez / Bilma / Tahoua / Maradi / Dori',
-    s0_1: "Colonia del Niger (capitale Niamey sul fiume Niger) e territori orientali della smembrata Haute-Volta (Dori). Spazio desertico e saheliano strategico di cerniera tra l'AOF, il Ciad e il Sahara centrale. Perno del commercio del sale con le grandi carovane carovaniere Azalaï tra Agadez e le saline di Bilma; difesa affidata ai plotoni meharisti tuareg.",
-    s2_4: "Colonia del Niger. Consolidamento dei posti sahariani dell'Air e del Tibesti; sorveglianza delle frontiere a nord a ridosso del Fezzan libico, occupato dalle forze dell'Italia fascista.",
+    historicalToponym: 'Niamey / Zinder / Agadez / Bilma / Tahoua / Maradi / N\'Guigmi',
+    s0_1: "Colonia del Niger (capitale Niamey sul fiume Niger). Spazio desertico e saheliano strategico di cerniera tra l'AOF, il Ciad e il Sahara centrale. Perno del commercio transahariano con le carovane Azalaï del sale tra i massicci dell'Air e le saline sahariane di Bilma; difesa delle piste affidata ai reparti meharisti e alle guardie di frontiera indigene.",
+    s2_4: "Colonia del Niger. Consolidamento dei posti sahariani dell'Air, del Kaouar e del Tibesti; attenta sorveglianza delle frontiere settentrionali a ridosso del Fezzan libico, militarizzato dalle truppe dell'Italia fascista.",
     s5: "Colonia del Niger (settembre 1939 - maggio 1940). Rinforzo dei presidi sahariani lungo il confine libico (Fort de Madama e Bilma); fornitura di bestiame e contingenti di truppe coloniali per la difesa della Francia.",
-    s6: "Colonia del Niger (giugno - agosto 1940). Dopo la dichiarazione di guerra dell'Italia fascista (10 giugno) e l'armistizio, il Niger resta fedele a Vichy per ordine di Pierre Boisson, trovandosi a fronteggiare a nord le forze italo-libiche.",
-    s7: "Colonia del Niger (autunno 1940). Situazione di accerchiamento: ad est il Ciad ha aderito alla Francia Libera di De Gaulle ed Éboué (agosto 1940), a sud la Nigeria britannica è ostile; il Niger di Vichy si trova isolato in una posizione di estrema vulnerabilità sahariana.",
-    s8: "Colonia del Niger (aprile 1941). Allarme costante lungo il deserto orientale a seguito delle vittorie della Colonna Leclerc della Francia Libera (presa dell'oasi di Kufra nel marzo 1941). Le guarnigioni pétainiste di Agadez, Bilma e Zinder sono consegnate a una rigida vigilanza difensiva.",
+    s6: "Colonia del Niger (giugno - agosto 1940). Dopo la dichiarazione di guerra dell'Italia fascista (10 giugno 1940) e l'armistizio, il Niger resta fedele al Regime di Vichy per ordine di Pierre Boisson, schierando i propri reparti a guardia della frontiera libica.",
+    s7: "Colonia del Niger (autunno 1940). Posizione di accerchiamento strategico: ad est la colonia del Ciad è passata sotto la Francia Libera di Félix Éboué e De Gaulle (agosto 1940), mentre a sud la confinante Nigeria britannica è schierata con gli Alleati; il Niger pétainista si trova isolato nel cuore del Sahel.",
+    s8: "Colonia del Niger (aprile 1941). Stato di massimo allarme lungo il confine sahariano orientale a seguito della vittoriosa offensiva della Colonna Leclerc della Francia Libera (presa dell'oasi di Kufra nel marzo 1941). Le guarnigioni sahariane di Agadez, Bilma e Zinder sono consegnate a una rigida vigilanza difensiva.",
     getNote: (s: number) => {
-      if (s >= 8) return AOF_PROVINCES_META['AOF_NER_HV'].s8;
-      if (s >= 7) return AOF_PROVINCES_META['AOF_NER_HV'].s7;
-      if (s >= 6) return AOF_PROVINCES_META['AOF_NER_HV'].s6;
-      if (s >= 5) return AOF_PROVINCES_META['AOF_NER_HV'].s5;
-      if (s >= 2) return AOF_PROVINCES_META['AOF_NER_HV'].s2_4;
-      return AOF_PROVINCES_META['AOF_NER_HV'].s0_1;
+      if (s >= 8) return AOF_PROVINCES_META['AOF_NER'].s8;
+      if (s >= 7) return AOF_PROVINCES_META['AOF_NER'].s7;
+      if (s >= 6) return AOF_PROVINCES_META['AOF_NER'].s6;
+      if (s >= 5) return AOF_PROVINCES_META['AOF_NER'].s5;
+      if (s >= 2) return AOF_PROVINCES_META['AOF_NER'].s2_4;
+      return AOF_PROVINCES_META['AOF_NER'].s0_1;
     },
     getHistoricalName: (s: number) => {
-      if (s >= 6) return 'Niger & Haute-Volta (AOF — Vichy / Niamey & Agadez)';
-      return 'Niger & Haute-Volta (AOF — Niamey, Zinder & Azalaï di Bilma)';
+      if (s >= 6) return 'Niger (AOF — Vichy / Niamey & Agadez)';
+      return 'Niger (AOF — Niamey, Zinder & Azalaï di Bilma)';
     },
     getAdminTitle: (s: number) => {
       if (s >= 6) return "Haut-Commissariat de l'Afrique Française — Colonie du Niger (Vichy)";
@@ -368,14 +406,20 @@ AOF_PROVINCES_META['BEN'] = AOF_PROVINCES_META['AOF_BJ'];
 AOF_PROVINCES_META['BENIN'] = AOF_PROVINCES_META['AOF_BJ'];
 AOF_PROVINCES_META['DAHOMEY'] = AOF_PROVINCES_META['AOF_BJ'];
 
-AOF_PROVINCES_META['NE'] = AOF_PROVINCES_META['AOF_NER_HV'];
-AOF_PROVINCES_META['NER'] = AOF_PROVINCES_META['AOF_NER_HV'];
-AOF_PROVINCES_META['NIGER'] = AOF_PROVINCES_META['AOF_NER_HV'];
-AOF_PROVINCES_META['BF'] = AOF_PROVINCES_META['AOF_NER_HV'];
-AOF_PROVINCES_META['BFA'] = AOF_PROVINCES_META['AOF_NER_HV'];
-AOF_PROVINCES_META['BURKINA FASO'] = AOF_PROVINCES_META['AOF_NER_HV'];
-AOF_PROVINCES_META['UPPER VOLTA'] = AOF_PROVINCES_META['AOF_NER_HV'];
-AOF_PROVINCES_META['HAUTE-VOLTA'] = AOF_PROVINCES_META['AOF_NER_HV'];
+AOF_PROVINCES_META['BF'] = AOF_PROVINCES_META['AOF_BF'];
+AOF_PROVINCES_META['BFA'] = AOF_PROVINCES_META['AOF_BF'];
+AOF_PROVINCES_META['BURKINA FASO'] = AOF_PROVINCES_META['AOF_BF'];
+AOF_PROVINCES_META['UPPER VOLTA'] = AOF_PROVINCES_META['AOF_BF'];
+AOF_PROVINCES_META['HAUTE-VOLTA'] = AOF_PROVINCES_META['AOF_BF'];
+AOF_PROVINCES_META['HAUTE VOLTA'] = AOF_PROVINCES_META['AOF_BF'];
+AOF_PROVINCES_META['OUAGADOUGOU'] = AOF_PROVINCES_META['AOF_BF'];
+AOF_PROVINCES_META['BOBO-DIOULASSO'] = AOF_PROVINCES_META['AOF_BF'];
+
+AOF_PROVINCES_META['NE'] = AOF_PROVINCES_META['AOF_NER'];
+AOF_PROVINCES_META['NER'] = AOF_PROVINCES_META['AOF_NER'];
+AOF_PROVINCES_META['NIGER'] = AOF_PROVINCES_META['AOF_NER'];
+AOF_PROVINCES_META['NIAMEY'] = AOF_PROVINCES_META['AOF_NER'];
+AOF_PROVINCES_META['AOF_NER_HV'] = AOF_PROVINCES_META['AOF_NER'];
 
 /**
  * Risolutore timeline-sensitive per le Colonie e i Territori dell'AOF (1936-1941).
