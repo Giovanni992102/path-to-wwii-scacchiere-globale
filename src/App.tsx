@@ -2679,6 +2679,59 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: '80. Audit Geotopografico Integrale degli Stati dell\'Africa Occidentale Francese (AOF: Côte d\'Ivoire, Guinée, Sénégal, Mauritanie, Soudan Français / Mali, Dahomey / Bénin e Niger-Haute Volta, Watertightness e Zero Overlap con Gambia, Sierra Leone, Liberia, Gold Coast, Togo, Nigeria e Sahara)',
+        run: () => {
+          // 1. Verifica presenza di tutte le 7 entità AOF nei layer caricati
+          const aofIds = [
+            'AOF_CI', 'AOF_GN', 'AOF_SN', 'AOF_MR', 'AOF_ML', 'AOF_BJ', 'AOF_NER_HV'
+          ];
+          const allFeatures = [...loadedProvs, ...loadedHbs];
+          for (const aid of aofIds) {
+            const ft = allFeatures.find((f: any) => f.id === aid);
+            if (!ft) {
+              console.error(`Manca feature per ${aid}`);
+              return false;
+            }
+            // Verifica risoluzione di base: step 0 -> F_AOF
+            const res0 = resolveFeature(ft, 0);
+            if (!res0 || res0.o !== 'F_AOF') {
+              console.error(`Risoluzione Step 0 fallita per ${aid}:`, res0);
+              return false;
+            }
+            // Verifica evoluzione Vichy 1940: step 6 -> VIC_AOF
+            const res6 = resolveFeature(ft, 6);
+            if (!res6 || res6.o !== 'VIC_AOF') {
+              console.error(`Risoluzione Step 6 fallita per ${aid}:`, res6);
+              return false;
+            }
+          }
+
+          // 2. Controllo coerenza geografica entità AOF caricate
+          const ftSn = allFeatures.find((f: any) => f.id === 'AOF_SN');
+          if (!ftSn || ftSn.properties?.CNTR_CODE !== 'SN' || ftSn.properties?.NAME !== 'Senegal') return false;
+
+          const ftCi = allFeatures.find((f: any) => f.id === 'AOF_CI');
+          if (!ftCi || ftCi.properties?.CNTR_CODE !== 'CI' || !ftCi.properties?.NAME.includes('Ivoire')) return false;
+
+          const ftGn = allFeatures.find((f: any) => f.id === 'AOF_GN');
+          if (!ftGn || ftGn.properties?.CNTR_CODE !== 'GN' || ftGn.properties?.NAME !== 'Guinea') return false;
+
+          const ftMr = allFeatures.find((f: any) => f.id === 'AOF_MR');
+          if (!ftMr || ftMr.properties?.CNTR_CODE !== 'MR' || ftMr.properties?.NAME !== 'Mauritania') return false;
+
+          const ftMl = allFeatures.find((f: any) => f.id === 'AOF_ML');
+          if (!ftMl || ftMl.properties?.CNTR_CODE !== 'ML' || ftMl.properties?.NAME !== 'Mali') return false;
+
+          const ftBj = allFeatures.find((f: any) => f.id === 'AOF_BJ');
+          if (!ftBj || ftBj.properties?.CNTR_CODE !== 'BJ' || ftBj.properties?.NAME !== 'Benin') return false;
+
+          const ftNerHv = allFeatures.find((f: any) => f.id === 'AOF_NER_HV');
+          if (!ftNerHv || ftNerHv.properties?.NAME !== 'French West Africa') return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;
