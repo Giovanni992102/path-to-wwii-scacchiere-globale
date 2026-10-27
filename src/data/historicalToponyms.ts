@@ -2,6 +2,7 @@ import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 import { USA_PROVINCES_META, populateUSAToponyms } from './usaProvinces';
 import { CANADA_PROVINCES_META, populateCanadaToponyms } from './canadaProvinces';
 import { MEXICO_PROVINCES_META, populateMexicoToponyms } from './mexicoProvinces';
+import { AOF_PROVINCES_META, populateAOFToponyms } from './aofProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2860,6 +2861,9 @@ populateCanadaToponyms(HISTORICAL_TOPONYM_DICT);
 
 // Integrazione automatica toponomastica e amministrazioni storiche Messico (31 Stati, 2 Territori Federali, Distrito Federal)
 populateMexicoToponyms(HISTORICAL_TOPONYM_DICT);
+
+// Integrazione automatica toponomastica e amministrazioni storiche Africa Occidentale Francese (7 entità territoriali e federazione AOF)
+populateAOFToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -6535,17 +6539,8 @@ export function resolveAfricanToponym(
     normKey.includes('dahomey') ||
     normKey.includes('haute_volta')
   ) {
-    return {
-      name: step >= 6
-        ? 'Afrique-Occidentale Française (AOF — Vichy / Dakar)'
-        : 'Afrique-Occidentale Française (AOF — Dakar)',
-      adminTitle: step >= 6
-        ? "Haut-Commissariat de Pierre Boisson pour l'Afrique Noire (Dakar — Vichy)"
-        : "Gouvernement Général de l'AOF (Dakar — Jules Marcel de Coppet)",
-      note: step >= 6
-        ? "Fédération maintenue sous l'autorité du gouverneur général Pierre Boisson, farouchement fidèle à Vichy. Base navale strategica di Dakar, teatro della vittoriosa difesa nel settembre 1940 contro l'attacco navale anglo-gollista (Operazione Menace)."
-        : "Vasta federazione coloniale francese estesa dal Sahara all'Atlantico equatoriale (capitale Dakar), centro nevralgico della presenza coloniale della Terza Repubblica in Africa subsahariana.",
-    };
+    const aofTop = resolveAOFToponym(id, rawName, normKey, owner, step);
+    if (aofTop) return aofTop;
   }
 
   // 5.9 AFRICA EQUATORIALE FRANCESE & CAMERUN (AEF — Brazzaville, Tchad, Oubangui-Chari, Gabon, Moyen-Congo, Cameroun)
@@ -15542,6 +15537,140 @@ export function resolveMexicoToponym(
   return null;
 }
 
+/**
+ * Risoluzione toponomastica, istituzionale e geostorica per l'Africa Occidentale Francese (AOF, 1936-1941),
+ * comprendente la federazione coloniale (Dakar) e le sue 7 entità territoriali:
+ * Sénégal, Mauritanie, Soudan Français, Guinée Française, Côte d'Ivoire (con Haute-Côte d'Ivoire),
+ * Dahomey, Niger (con Haute-Volta Orientale).
+ */
+export function resolveAOFToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. Livello Nazionale / Federale Generale AOF (French West Africa / Afrique-Occidentale Française) - timeline-sensitive step 0..8
+  const isNationalName =
+    normKey === 'french_west_africa' ||
+    normKey === 'afrique_occidentale_francaise' ||
+    normKey === 'afrique_occidentale' ||
+    normKey === 'africa_occidentale_francese' ||
+    normKey === 'aof' ||
+    normKey === 'f_aof' ||
+    normKey === 'vic_aof';
+
+  const isNationalAOF =
+    isNationalName ||
+    ((id === 'AOF' || id === 'F_AOF' || id === 'VIC_AOF' || id === 'FWA') &&
+     (isNationalName || !normKey || normKey === 'unknown' || normKey === 'territorio_non_assegnato' || normKey === 'french_west_africa'));
+
+  if (isNationalAOF) {
+    if (step >= 8) {
+      return {
+        name: "Afrique-Occidentale Française / AOF (Blocco Navale Royal Navy & Vigilanza Pétainista)",
+        adminTitle: "Haut-Commissariat de l'Afrique Française (Pierre Boisson — Vichy)",
+        note: "Consolidamento del regime autoritario dell'Alto Commissario Pierre Boisson ed estensione della 'Révolution Nationale' pétainista all'intera federazione coloniale. La Royal Navy impone un asfissiante blocco aeronavale dalle basi atlantiche di Freetown (Sierra Leone), Gambia e Lagos; collasso dei commerci civili marittimi, requisizioni forzate di derrate alimentari e materie prime strategiche (arachidi, olio di palma, caucciù) convogliate verso la roccaforte fortificata di Dakar. Lungo le frontiere sahariane orientali vige uno stato di allerta permanente per sventare le incursioni delle forze golliste della Francia Libera del generale Leclerc, galvanizzate dalla recente presa dell'oasi libica di Kufra (marzo 1941).",
+      };
+    }
+    if (step >= 7) {
+      return {
+        name: "Afrique-Occidentale Française / AOF (Vittoria a Dakar & Roccaforte di Vichy)",
+        adminTitle: "Haut-Commissariat de l'Afrique Française (Pierre Boisson — Vichy)",
+        note: "23-25 Settembre 1940: Battaglia di Dakar (Operazione Menace). Il tentativo aeronavale combinato anglo-gollista guidato dal generale Charles de Gaulle e dall'ammiraglio John Cunningham di impadronirsi della colonia viene respinto con fermezza dalle difese costiere, dalla corazzata Richelieu e dai sommergibili lealisti (la corazzata britannica HMS Resolution viene gravemente silurata dal sommergibile Bévéziers e la HMS Barham danneggiata). La vittoria difensiva dell'Alto Commissario Pierre Boisson consacra Dakar e l'AOF come il bastione inespugnabile della sovranità di Vichy in Africa, in netto contrappunto all'Africa Equatoriale Francese (AEF) controllata dalla Francia Libera.",
+      };
+    }
+    if (step >= 6) {
+      return {
+        name: "Afrique-Occidentale Française / AOF (Haut-Commissariat de Dakar & Regime di Vichy)",
+        adminTitle: "Haut-Commissariat de l'Afrique Française (Pierre Boisson — Vichy)",
+        note: "A seguito dell'armistizio franco-tedesco del 22 giugno 1940, l'Alto Commissario per l'Africa Nera Pierre Boisson rifiuta fermamente gli appelli di Winston Churchill e Charles de Gaulle, proclamando la fedeltà assoluta al Regime di Vichy e al Maresciallo Philippe Pétain. L'8 luglio 1940 la Royal Navy sferra l'Operazione Catapult nella rada di Dakar: aerosiluranti Swordfish decollati dalla portaerei HMS Hermes danneggiano i timoni della corazzata Richelieu. Boisson instaura una rigida dittatura coloniale autoritaria, epurando i funzionari dissidenti e blindando l'intera federazione coloniale.",
+      };
+    }
+    if (step >= 5) {
+      return {
+        name: "Afrique-Occidentale Française / AOF (Mobilitazione Bellica & Base Navale di Dakar)",
+        adminTitle: "Gouvernement Général de l'AOF (Léon Cayla) — Sforzo Bellico Imperiale",
+        note: "Piena mobilitazione bellica dell'Africa Occidentale Francese allo scoppio delle ostilità in Europa sotto il Governatore Generale Léon Cayla. Decine di reggimenti di Tirailleurs Sénégalais e Soudanais vengono inviati a presidiare i confini della madrepatria metropolitana; fornitura intensiva di riserve agricole e minerarie strategiche. Nella rada fortificata di Dakar vengono segretamente trasbordate ed evacuate via mare oltre 200 tonnellate di riserve auree della Banca di Francia, della Banca Nazionale di Polonia e della Banca Nazionale del Belgio; nel giugno 1940 approda la moderna corazzata Richelieu per sfuggire all'avanzata della Wehrmacht a Brest.",
+      };
+    }
+    if (step >= 2) {
+      return {
+        name: "Afrique-Occidentale Française / AOF (Riarmo Navale Atlantico & Difese di Dakar)",
+        adminTitle: "Gouvernement Général de l'AOF — Riarmo e Fortificazioni Coloniali",
+        note: "Fase di riarmo accelerato post-Accordi di Monaco (autunno 1938 - 1939): il governo di Parigi stanzia cospicui fondi per modernizzare le infrastrutture militari dell'AOF, trasformando Dakar nella più potente base aeronavale della Marine Nationale nell'Atlantico meridionale. Vengono ampliate le batterie pesanti costiere di Cap Manuel e dell'isola di Gorée, allestito l'aerodromo militare di Ouakam e intensificato l'addestramento bellico delle truppe coloniali africane.",
+      };
+    }
+    return {
+      name: "Afrique-Occidentale Française / AOF (Governo Jules Marcel de Coppet & Riforme)",
+      adminTitle: "Gouvernement Général de l'AOF (Dakar) — Front Populaire",
+      note: "Federazione coloniale francese dell'Africa Occidentale (AOF), raggruppante 7 entità territoriali con sede amministrativa centrale a Dakar. Sotto la guida del Governatore Generale Jules Marcel de Coppet, espressione del governo metropolitano del Fronte Popolare di Léon Blum, vengono introdotte significative riforme sociali: attenuazione del codice dell'indigénat, riconoscimento del diritto sindacale per i lavoratori autoctoni e tutela della rappresentanza parlamentare a Parigi delle 'Quatre Communes' del Senegal (guidate dal deputato Galandou Diouf). Economia agricola dominata dall'arachide senegalese, dall'olio di palma del Dahomey e dai colossali cantieri idraulici dell'Office du Niger.",
+    };
+  }
+
+  // 2. Ricerca granulare e timeline-sensitive in AOF_PROVINCES_META
+  const cleanId = id.toUpperCase().trim().replace('-', '_');
+  const provMeta =
+    AOF_PROVINCES_META[cleanId] ||
+    (cleanId.startsWith('AOF_') ? undefined : AOF_PROVINCES_META['AOF_' + cleanId]);
+
+  if (provMeta) {
+    return {
+      name: provMeta.getHistoricalName(step),
+      adminTitle: provMeta.getAdminTitle(step),
+      note: provMeta.getNote(step),
+    };
+  }
+
+  // Lookup per chiave o nome in AOF_PROVINCES_META
+  const pNorm = normKey.replace(/[^a-z0-9]/g, '');
+  for (const k of Object.keys(AOF_PROVINCES_META)) {
+    const item = AOF_PROVINCES_META[k];
+    const nrmItem = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const nrmMod = item.modernName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const nrmHist = item.historicalName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (
+      pNorm === nrmItem ||
+      pNorm === nrmMod ||
+      (nrmItem.length >= 4 && pNorm.includes(nrmItem)) ||
+      (nrmItem.length >= 4 && nrmHist.includes(pNorm))
+    ) {
+      return {
+        name: item.getHistoricalName(step),
+        adminTitle: item.getAdminTitle(step),
+        note: item.getNote(step),
+      };
+    }
+  }
+
+  // 3. Ricerca granulare nei dizionari storici AOF (HISTORICAL_TOPONYM_DICT['F_AOF'] o ['VIC_AOF'])
+  const aofDict = (step >= 6 ? HISTORICAL_TOPONYM_DICT['VIC_AOF'] : HISTORICAL_TOPONYM_DICT['F_AOF']) || HISTORICAL_TOPONYM_DICT['F_AOF'];
+  if (aofDict) {
+    if (aofDict[normKey]) {
+      return {
+        name: aofDict[normKey].historicalName,
+        adminTitle: aofDict[normKey].adminTitle,
+        note: aofDict[normKey].historicalNote || aofDict[normKey].note,
+      };
+    }
+    const sortedKeys = Object.keys(aofDict).sort((a, b) => b.length - a.length);
+    for (const k of sortedKeys) {
+      if (k.length <= 3) continue;
+      if (normKey === k || normKey.includes(k) || (k.length >= 5 && k.includes(normKey))) {
+        return {
+          name: aofDict[k].historicalName,
+          adminTitle: aofDict[k].adminTitle,
+          note: aofDict[k].historicalNote || aofDict[k].note,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
 export function resolveSovietToponym(
   id: string,
   rawName: string,
@@ -15925,6 +16054,32 @@ export function getExtendedToponym(
     if (sovTop) return sovTop;
   }
 
+  // 0.0349 Overrides prioritari per Africa Occidentale Francese (AOF / F_AOF / VIC_AOF / codici AOF_... / territori coloniali AOF)
+  if (
+    owner === 'F_AOF' ||
+    owner === 'VIC_AOF' ||
+    id.startsWith('AOF_') ||
+    id.startsWith('AOF-') ||
+    id === 'AOF' ||
+    id === 'F_AOF' ||
+    id === 'VIC_AOF' ||
+    id === 'FWA' ||
+    normKey.includes('french_west_africa') ||
+    normKey.includes('afrique_occidentale') ||
+    normKey.includes('africa_occidentale_francese') ||
+    normKey.includes('senegal') ||
+    normKey.includes('mauritanie') ||
+    normKey.includes('mauritania') ||
+    normKey.includes('soudan') ||
+    normKey.includes('dakar') ||
+    normKey.includes('dahomey') ||
+    Boolean((AOF_PROVINCES_META as any)?.[id]) ||
+    Boolean((AOF_PROVINCES_META as any)?.[normKey])
+  ) {
+    const aofTop = resolveAOFToponym(id, rawName, normKey, owner, yearStep);
+    if (aofTop) return aofTop;
+  }
+
   // 0.035 Overrides prioritari esaustivi per Africa (AOI, Quarta Sponda, AOF, AEF, Congo Belga, Colonie Portoghesi, Africa Britannica, Africa Spagnola, Sudafrica, Liberia, Egitto, Sudan)
   const afTop = resolveAfricanToponym(id, rawName, normKey, owner, yearStep);
   if (afTop) return afTop;
@@ -16274,6 +16429,32 @@ export function getExtendedToponym(
   ) {
     const mexTop = resolveMexicoToponym(id, rawName, normKey, owner, yearStep);
     if (mexTop) return mexTop;
+  }
+
+  // 0.137 Overrides prioritari per Africa Occidentale Francese (AOF / F_AOF / VIC_AOF / codici AOF_... / territori coloniali AOF)
+  if (
+    owner === 'F_AOF' ||
+    owner === 'VIC_AOF' ||
+    id.startsWith('AOF_') ||
+    id.startsWith('AOF-') ||
+    id === 'AOF' ||
+    id === 'F_AOF' ||
+    id === 'VIC_AOF' ||
+    id === 'FWA' ||
+    normKey.includes('french_west_africa') ||
+    normKey.includes('afrique_occidentale') ||
+    normKey.includes('africa_occidentale_francese') ||
+    normKey.includes('senegal') ||
+    normKey.includes('mauritanie') ||
+    normKey.includes('mauritania') ||
+    normKey.includes('soudan') ||
+    normKey.includes('dakar') ||
+    normKey.includes('dahomey') ||
+    Boolean((AOF_PROVINCES_META as any)?.[id]) ||
+    Boolean((AOF_PROVINCES_META as any)?.[normKey])
+  ) {
+    const aofTop = resolveAOFToponym(id, rawName, normKey, owner, yearStep);
+    if (aofTop) return aofTop;
   }
 
   // 0.14 Overrides prioritari per Unione Sovietica (SOV / codici RU, BY, UA, MD, KZ, UZ, TM, TJ, KG, GE, AM, AZ / toponimi sovietici)

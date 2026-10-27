@@ -32,6 +32,10 @@ import {
   resolveMexicoProvince,
   MEXICO_PROVINCES_META,
 } from './mexicoProvinces';
+import {
+  resolveAOFProvince,
+  AOF_PROVINCES_META,
+} from './aofProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -2628,6 +2632,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('benin') ||
     (nrm_hb.includes('niger') && !nrm_hb.includes('nigeria'))
   ) {
+    const resAOF = resolveAOFProvince(f, s);
+    if (resAOF) return resAOF;
     if (s >= 6) {
       const top = getExtendedToponym(name, 'VIC_AOF', nid, c, s);
       return makeResult(
@@ -5289,6 +5295,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       'Neutrale',
       topMex.adminTitle || 'Estados Unidos Mexicanos'
     );
+  }
+
+  const isAOFProv =
+    !p.IS_HB &&
+    (
+      nid.startsWith('AOF_') ||
+      fidClean.startsWith('AOF_') ||
+      Boolean((AOF_PROVINCES_META as any)?.[fidClean]) ||
+      Boolean((AOF_PROVINCES_META as any)?.[nid]) ||
+      ((cntr === 'SN' || cntr === 'MR' || cntr === 'ML' || cntr === 'GN' || cntr === 'CI' || cntr === 'BJ' || cntr === 'NE' || cntr === 'BF') &&
+        (p.country === 'French West Africa' || p.PARTOF === 'French West Africa'))
+    );
+
+  if (isAOFProv) {
+    const resAOF = resolveAOFProvince(ft, s);
+    if (resAOF) return resAOF;
   }
 
   // Granularizzazione integrale del Teatro Cinese e Guerra Sino-Giapponese (1936-1940)
@@ -8353,6 +8375,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         (nrm.includes('niger') && !nrm.includes('nigeria')) ||
         nrm.includes('aof')
       ) {
+        const resAOF = resolveAOFProvince(ft, s);
+        if (resAOF) return resAOF;
         if (s >= 6) {
           const top = getTop('VIC_AOF');
           return makeResult(

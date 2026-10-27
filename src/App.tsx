@@ -2680,7 +2680,7 @@ export default function App() {
         },
       },
       {
-        name: '80. Audit Geotopografico Integrale degli Stati dell\'Africa Occidentale Francese (AOF: Côte d\'Ivoire, Guinée, Sénégal, Mauritanie, Soudan Français / Mali, Dahomey / Bénin e Niger-Haute Volta, Watertightness e Zero Overlap con Gambia, Sierra Leone, Liberia, Gold Coast, Togo, Nigeria e Sahara)',
+        name: '80. Audit Geotopografico, Storico ed Evolutivo Integrale dell\'Africa Occidentale Francese (AOF: Sénégal, Mauritanie, Soudan Français, Guinée, Côte d\'Ivoire con Haute-Volta, Dahomey, Niger, Watertightness, Denominazioni Storico-Moderne e Timeline 1936-1941)',
         run: () => {
           // 1. Verifica presenza di tutte le 7 entità AOF nei layer caricati
           const aofIds = [
@@ -2693,41 +2693,91 @@ export default function App() {
               console.error(`Manca feature per ${aid}`);
               return false;
             }
-            // Verifica risoluzione di base: step 0 -> F_AOF
+            // Verifica risoluzione di base: step 0 -> F_AOF, fazione Alleati
             const res0 = resolveFeature(ft, 0);
-            if (!res0 || res0.o !== 'F_AOF') {
+            if (!res0 || res0.o !== 'F_AOF' || res0.fac !== 'Alleati') {
               console.error(`Risoluzione Step 0 fallita per ${aid}:`, res0);
               return false;
             }
-            // Verifica evoluzione Vichy 1940: step 6 -> VIC_AOF
+            // Verifica evoluzione Vichy 1940: step 6 -> VIC_AOF, fazione Fantoccio
             const res6 = resolveFeature(ft, 6);
-            if (!res6 || res6.o !== 'VIC_AOF') {
+            if (!res6 || res6.o !== 'VIC_AOF' || res6.fac !== 'Fantoccio') {
               console.error(`Risoluzione Step 6 fallita per ${aid}:`, res6);
               return false;
             }
           }
 
-          // 2. Controllo coerenza geografica entità AOF caricate
+          // 2. Controllo coerenza nomi storici e note delle entità AOF
           const ftSn = allFeatures.find((f: any) => f.id === 'AOF_SN');
-          if (!ftSn || ftSn.properties?.CNTR_CODE !== 'SN' || ftSn.properties?.NAME !== 'Senegal') return false;
+          const resSn0 = resolveFeature(ftSn, 0);
+          if (!resSn0 || !resSn0.name.includes('Sénégal') || !resSn0.note?.includes('Jules Marcel de Coppet') || !resSn0.note?.includes('Quatre Communes') || !resSn0.adminEntity?.includes('Sénégal')) return false;
 
           const ftCi = allFeatures.find((f: any) => f.id === 'AOF_CI');
-          if (!ftCi || ftCi.properties?.CNTR_CODE !== 'CI' || !ftCi.properties?.NAME.includes('Ivoire')) return false;
+          const resCi0 = resolveFeature(ftCi, 0);
+          if (!resCi0 || !resCi0.name.includes("Côte d'Ivoire") || !resCi0.note?.includes('Abidjan') || !resCi0.note?.includes("Alta Costa d'Avorio") || !resCi0.note?.includes('Ouagadougou')) return false;
 
           const ftGn = allFeatures.find((f: any) => f.id === 'AOF_GN');
-          if (!ftGn || ftGn.properties?.CNTR_CODE !== 'GN' || ftGn.properties?.NAME !== 'Guinea') return false;
+          const resGn0 = resolveFeature(ftGn, 0);
+          if (!resGn0 || !resGn0.name.includes('Guinée Française') || !resGn0.note?.includes('Conakry') || !resGn0.note?.includes('Fouta Djallon')) return false;
 
           const ftMr = allFeatures.find((f: any) => f.id === 'AOF_MR');
-          if (!ftMr || ftMr.properties?.CNTR_CODE !== 'MR' || ftMr.properties?.NAME !== 'Mauritania') return false;
+          const resMr0 = resolveFeature(ftMr, 0);
+          if (!resMr0 || !resMr0.name.includes('Mauritanie') || !resMr0.note?.includes('Saint-Louis') || !resMr0.note?.includes('Port-Étienne')) return false;
 
           const ftMl = allFeatures.find((f: any) => f.id === 'AOF_ML');
-          if (!ftMl || ftMl.properties?.CNTR_CODE !== 'ML' || ftMl.properties?.NAME !== 'Mali') return false;
+          const resMl0 = resolveFeature(ftMl, 0);
+          if (!resMl0 || !resMl0.name.includes('Soudan Français') || !resMl0.note?.includes('Bamako') || !resMl0.note?.includes('Office du Niger') || !resMl0.note?.includes('Sansanding')) return false;
 
           const ftBj = allFeatures.find((f: any) => f.id === 'AOF_BJ');
-          if (!ftBj || ftBj.properties?.CNTR_CODE !== 'BJ' || ftBj.properties?.NAME !== 'Benin') return false;
+          const resBj0 = resolveFeature(ftBj, 0);
+          if (!resBj0 || !resBj0.name.includes('Dahomey') || !resBj0.note?.includes('Porto-Novo') || !resBj0.note?.includes('Cotonou') || !resBj0.note?.includes('olio di palma')) return false;
 
           const ftNerHv = allFeatures.find((f: any) => f.id === 'AOF_NER_HV');
-          if (!ftNerHv || ftNerHv.properties?.NAME !== 'French West Africa') return false;
+          const resNer0 = resolveFeature(ftNerHv, 0);
+          if (!resNer0 || !resNer0.name.includes('Niger') || !resNer0.note?.includes('Niamey') || !resNer0.note?.includes('Bilma') || !resNer0.note?.includes('Azalaï')) return false;
+
+          // 3. Verifica timeline-sensitive step 5 (Settembre 1939 - Maggio 1940: Mobilitazione bellica, oro della Banca di Francia a Dakar)
+          const resSn5 = resolveFeature(ftSn, 5);
+          if (!resSn5 || !resSn5.note?.includes('Léon Cayla') || !resSn5.note?.includes('Richelieu') || !resSn5.note?.includes('Banca di Francia') || !resSn5.note?.includes('Polonia')) return false;
+
+          const resMl5 = resolveFeature(ftMl, 5);
+          if (!resMl5 || !resMl5.note?.toLowerCase().includes('soudanais') || !resMl5.note?.includes('cereali')) return false;
+
+          // 4. Verifica timeline-sensitive step 6 (Giugno - Agosto 1940: Armistizio, Boisson, allineamento Vichy e Operazione Catapult)
+          const resSn6 = resolveFeature(ftSn, 6);
+          if (!resSn6 || resSn6.o !== 'VIC_AOF' || !resSn6.note?.includes('Pierre Boisson') || !resSn6.note?.includes('Pétain') || !resSn6.note?.includes('Catapult') || !resSn6.adminEntity?.includes('Pierre Boisson')) return false;
+
+          // 5. Verifica timeline-sensitive step 7 (23-25 Settembre 1940: Battaglia di Dakar / Operazione Menace)
+          const resSn7 = resolveFeature(ftSn, 7);
+          if (!resSn7 || !resSn7.note?.includes('Battaglia di Dakar') || !resSn7.note?.includes('Operazione Menace') || !resSn7.note?.includes('Resolution') || !resSn7.note?.includes('Bévéziers')) return false;
+
+          const resGn7 = resolveFeature(ftGn, 7);
+          if (!resGn7 || !resGn7.note?.includes('Freetown') || !resGn7.note?.includes('britannici')) return false;
+
+          // 6. Verifica timeline-sensitive step 8 (Aprile 1941: Blocco Navale Royal Navy e Allarme Sahariano Kufra / Leclerc)
+          const resSn8 = resolveFeature(ftSn, 8);
+          if (!resSn8 || !resSn8.note?.includes('blocco aeronavale') || !resSn8.note?.includes('Gambia')) return false;
+
+          const resNer8 = resolveFeature(ftNerHv, 8);
+          if (!resNer8 || !resNer8.note?.includes('Leclerc') || !resNer8.note?.includes('Kufra') || !resNer8.note?.includes('Agadez')) return false;
+
+          const resCi8 = resolveFeature(ftCi, 8);
+          if (!resCi8 || !resCi8.note?.includes('blocco navale') || !resCi8.note?.includes('cacao')) return false;
+
+          // 7. Verifica toponimi estesi da getExtendedToponym a livello federale per l'Africa Occidentale Francese (Step 0, 2, 5, 6, 7, 8)
+          const topAOF0 = getExtendedToponym('French West Africa', 'F_AOF', 'F_AOF', undefined, 0);
+          const topAOF2 = getExtendedToponym('French West Africa', 'F_AOF', 'F_AOF', undefined, 2);
+          const topAOF5 = getExtendedToponym('French West Africa', 'F_AOF', 'F_AOF', undefined, 5);
+          const topAOF6 = getExtendedToponym('French West Africa', 'VIC_AOF', 'VIC_AOF', undefined, 6);
+          const topAOF7 = getExtendedToponym('French West Africa', 'VIC_AOF', 'VIC_AOF', undefined, 7);
+          const topAOF8 = getExtendedToponym('French West Africa', 'VIC_AOF', 'VIC_AOF', undefined, 8);
+
+          if (!topAOF0.name.includes('Jules Marcel de Coppet') || !topAOF0.note?.includes('Quatre Communes') || !topAOF0.adminTitle?.includes('Front Populaire')) return false;
+          if (!topAOF2.name.includes('Riarmo') || !topAOF2.note?.includes('Cap Manuel') || !topAOF2.note?.includes('Gorée')) return false;
+          if (!topAOF5.name.includes('Mobilitazione') || !topAOF5.note?.includes('Léon Cayla') || !topAOF5.note?.includes('Banca di Francia')) return false;
+          if (!topAOF6.name.includes('Vichy') || !topAOF6.note?.includes('Pierre Boisson') || !topAOF6.note?.includes('Catapult')) return false;
+          if (!topAOF7.name.includes('Dakar') || !topAOF7.note?.includes('Resolution') || !topAOF7.note?.includes('Menace')) return false;
+          if (!topAOF8.name.includes('Blocco Navale') || !topAOF8.note?.includes('Freetown') || !topAOF8.note?.includes('Kufra')) return false;
 
           return true;
         },
