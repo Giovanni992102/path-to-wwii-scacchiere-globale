@@ -2799,10 +2799,10 @@ export default function App() {
         },
       },
             {
-        name: "81. Audit Geotopografico, Storico ed Evolutivo Integrale dell'Africa Equatoriale Francese (AEF: Gabon, Oubangui-Chari / Centrafrica, Moyen-Congo e Ciad, Watertightness, Denominazioni Storico-Moderne e Timeline 1936-1941)",
+        name: "81. Audit Geotopografico, Storico ed Evolutivo Integrale dell'Africa Equatoriale Francese e Mandato del Camerun (AEF: Gabon, Oubangui-Chari / Centrafrica, Moyen-Congo, Ciad e Cameroun Français, Watertightness, Denominazioni Storico-Moderne e Timeline 1936-1941)",
         run: () => {
-          // 1. Verifica presenza di tutte le 4 entità AEF nei layer caricati
-          const aefIds = ['AEF_GA', 'AEF_CF', 'AEF_TD', 'AEF_CG'];
+          // 1. Verifica presenza di tutte le 5 entità AEF e Mandato del Camerun nei layer caricati
+          const aefIds = ['AEF_GA', 'AEF_CF', 'AEF_TD', 'AEF_CG', 'AEF_CM'];
           const allFeatures = [...loadedProvs, ...loadedHbs];
           for (const aid of aefIds) {
             const ft = allFeatures.find((f: any) => f.id === aid || f.properties?.id === aid);
@@ -2822,13 +2822,14 @@ export default function App() {
             }
           }
 
-          // 2. Controllo specifico geotopografico delle entità AEF
+          // 2. Controllo specifico geotopografico delle entità AEF e Camerun
           const ftGa = allFeatures.find((f: any) => f.id === 'AEF_GA' || f.properties?.id === 'AEF_GA');
           const ftCf = allFeatures.find((f: any) => f.id === 'AEF_CF' || f.properties?.id === 'AEF_CF');
           const ftTd = allFeatures.find((f: any) => f.id === 'AEF_TD' || f.properties?.id === 'AEF_TD');
           const ftCg = allFeatures.find((f: any) => f.id === 'AEF_CG' || f.properties?.id === 'AEF_CG');
+          const ftCm = allFeatures.find((f: any) => f.id === 'AEF_CM' || f.properties?.id === 'AEF_CM' || f.properties?.NAME === 'French Cameroons');
 
-          if (!ftGa || !ftCf || !ftTd || !ftCg) return false;
+          if (!ftGa || !ftCf || !ftTd || !ftCg || !ftCm) return false;
 
           // Gabon: area ~ 20.7 deg²
           const gaArea = ftGa.properties?.area_deg2;
@@ -2855,14 +2856,20 @@ export default function App() {
           const resGa0 = resolveFeature(ftGa, 0);
           if (!resGa0 || !resGa0.name.includes('Gabon') || !resGa0.note?.includes('Libreville') || !resGa0.note?.includes('okoumé') || !resGa0.note?.includes('Schweitzer')) return false;
 
-          // 4. Verifica timeline-sensitive step 2 (Riarmo post-Monaco 1938-1939: Félix Éboué governatore del Ciad, frontiera Aouzou)
+          const resCm0 = resolveFeature(ftCm, 0);
+          if (!resCm0 || !resCm0.name.includes('Cameroun') || !resCm0.adminEntity?.includes('Boisson') || !resCm0.note?.includes('Jamot') || !resCm0.note?.includes('Ayos') || !resCm0.note?.includes('Mungo') || !resCm0.note?.includes('cacao')) return false;
+
+          // 4. Verifica timeline-sensitive step 2 (Riarmo post-Monaco 1938-1939: Félix Éboué governatore del Ciad, frontiera Aouzou, Brunot al Camerun e Koloniale Frage)
           const resTd2 = resolveFeature(ftTd, 2);
           if (!resTd2 || !resTd2.note?.includes('Félix Éboué') || !resTd2.note?.includes('Tibesti') || !resTd2.note?.includes('Aouzou')) return false;
 
           const resCg2 = resolveFeature(ftCg, 2);
           if (!resCg2 || !resCg2.note?.includes('CFCO') || !resCg2.note?.includes('Pointe-Noire')) return false;
 
-          // 5. Verifica timeline-sensitive step 5 (Mobilitazione bellica generale 1939-1940: RTST, BTOC, Pierre Husson)
+          const resCm2 = resolveFeature(ftCm, 2);
+          if (!resCm2 || !resCm2.adminEntity?.includes('Brunot') || !resCm2.note?.includes('Koloniale Frage') || !resCm2.note?.includes('Atangana') || !resCm2.note?.includes('BTC')) return false;
+
+          // 5. Verifica timeline-sensitive step 5 (Mobilitazione bellica generale 1939-1940: RTST, BTOC, Pierre Husson, RTC ed internamento)
           const resTd5 = resolveFeature(ftTd, 5);
           if (!resTd5 || !resTd5.note?.includes('Félix Éboué') || !resTd5.note?.includes('RTST') || !resTd5.note?.includes('Marchand')) return false;
 
@@ -2872,7 +2879,10 @@ export default function App() {
           const resCg5 = resolveFeature(ftCg, 5);
           if (!resCg5 || !resCg5.note?.includes('Pierre Husson') || !resCg5.note?.includes('Moyen-Congo')) return false;
 
-          // 6. Verifica timeline-sensitive step 6 (26-28 Agosto 1940: Ralliement del Ciad e Moyen-Congo vs Gabon a Vichy)
+          const resCm5 = resolveFeature(ftCm, 5);
+          if (!resCm5 || !resCm5.note?.includes('Brunot') || !resCm5.note?.includes('RTC') || !resCm5.note?.includes('tedeschi')) return false;
+
+          // 6. Verifica timeline-sensitive step 6 (26-28 Agosto 1940: Ralliement del Ciad, Moyen-Congo e Camerun di Leclerc vs Gabon a Vichy)
           const resTd6 = resolveFeature(ftTd, 6);
           if (!resTd6 || resTd6.o !== 'FFL_AEF' || !resTd6.note?.includes('26 Agosto 1940') || !resTd6.note?.includes('Félix Éboué') || !resTd6.adminEntity?.includes('Marchand')) return false;
 
@@ -2882,23 +2892,32 @@ export default function App() {
           const resCg6 = resolveFeature(ftCg, 6);
           if (!resCg6 || resCg6.o !== 'FFL_AEF' || !resCg6.note?.includes('Edgard de Larminat') || !resCg6.adminEntity?.includes('Larminat')) return false;
 
+          const resCm6 = resolveFeature(ftCm, 6);
+          if (!resCm6 || resCm6.o !== 'FFL_AEF' || !resCm6.adminEntity?.includes('Leclerc') || !resCm6.note?.includes('26-27 Agosto 1940') || !resCm6.note?.includes('Douala') || !resCm6.note?.includes('Louis Dio')) return false;
+
           // Gabon: verifica enclave di Vichy sotto il governatore Georges Masson
           const resGaVichy = resolveHB({ properties: { NAME: 'Gabon (France)' } }, 6);
           if (!resGaVichy || resGaVichy.o !== 'VIC_AEF' || !resGaVichy.note?.includes('Georges Masson') || resGaVichy.fac !== 'Fantoccio') return false;
 
-          // 7. Verifica timeline-sensitive step 7 (27 Ottobre 1940: Manifeste de Brazzaville, Capitale de la France Libre & Campagna del Gabon)
+          // 7. Verifica timeline-sensitive step 7 (27 Ottobre 1940: Manifeste de Brazzaville, Capitale de la France Libre, Campagna del Gabon e Visita di De Gaulle)
           const resCg7 = resolveFeature(ftCg, 7);
           if (!resCg7 || resCg7.o !== 'FFL_AEF' || !resCg7.name.includes('Capitale de la France Libre') || !resCg7.note?.includes('Manifeste de Brazzaville') || !resCg7.note?.includes('Radio Brazzaville') || !resCg7.adminEntity?.includes('Félix Éboué')) return false;
 
           const resGa7 = resolveFeature(ftGa, 7);
           if (!resGa7 || resGa7.o !== 'FFL_AEF' || !resGa7.name.includes('Gabon (France Libre') || !resGa7.note?.includes('Campagna del Gabon') || !resGa7.note?.includes('Bougainville') || !resGa7.adminEntity?.includes('Forces Françaises Libres')) return false;
 
-          // 8. Verifica timeline-sensitive step 8 (1º Marzo 1941: Serment de Koufra di Leclerc, BM 2 e Fusiliers Marins)
+          const resCm7 = resolveFeature(ftCm, 7);
+          if (!resCm7 || resCm7.o !== 'FFL_AEF' || !resCm7.adminEntity?.includes('Leclerc') || !resCm7.note?.includes('Campagna del Gabon') || !resCm7.note?.includes('De Gaulle') || !resCm7.note?.includes('Rennes')) return false;
+
+          // 8. Verifica timeline-sensitive step 8 (1º Marzo 1941: Serment de Koufra di Leclerc, BM 1, BM 2, Colonne di Louis Dio e Fusiliers Marins)
           const resTd8 = resolveFeature(ftTd, 8);
           if (!resTd8 || resTd8.o !== 'FFL_AEF' || !resTd8.name.includes('Giuramento di Kufra') || !resTd8.note?.includes('Kufra') || !resTd8.note?.includes('Strasbourg') || !resTd8.adminEntity?.includes('Leclerc')) return false;
 
           const resCf8 = resolveFeature(ftCf, 8);
           if (!resCf8 || resCf8.o !== 'FFL_AEF' || !resCf8.name.includes('BM 2') || !resCf8.note?.includes('Bir Hakeim')) return false;
+
+          const resCm8 = resolveFeature(ftCm, 8);
+          if (!resCm8 || resCm8.o !== 'FFL_AEF' || !resCm8.adminEntity?.includes('Pierre Cournarie') || !resCm8.name.includes('Louis Dio') || !resCm8.note?.includes('BM 1') || !resCm8.note?.includes('Kufra')) return false;
 
           // 9. Verifica toponimi estesi da getExtendedToponym a livello federale per l'Africa Equatoriale Francese (Step 0, 2, 5, 6, 7, 8)
           const topAEF0 = getExtendedToponym('French Equatorial Africa', 'F_AEF', undefined, undefined, 0);

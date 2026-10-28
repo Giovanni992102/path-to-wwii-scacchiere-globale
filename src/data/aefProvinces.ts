@@ -254,6 +254,50 @@ export const AEF_PROVINCES_META: Record<string, AEFProvinceInfo> = {
       return 'Alleati' as FactionType;
     },
   },
+
+  AEF_CM: {
+    id: 'AEF_CM',
+    iso: 'CM',
+    cntrCode: 'CM',
+    name: 'French Cameroons',
+    modernName: 'République du Cameroun',
+    historicalName: 'Territoire sous Mandat du Cameroun (Yaoundé / Douala)',
+    adminTitle: 'Commissariat de la République Française au Cameroun (Yaoundé)',
+    capital: 'Yaoundé',
+    region: 'Golfe de Guinée / Bassin du Congo / Hauts Plateaux',
+    historicalToponym: 'Yaoundé / Douala / Kribi / Nkongsamba / Bafoussam / Foumban / Garoua / Maroua / Ngaoundéré',
+    s0_1: "Territoire sous Mandat du Cameroun, affidato alla Francia dalla Società delle Nazioni nel 1919 (dopo la spartizione del vecchio Kamerun tedesco con la Gran Bretagna lungo la linea Milner-Simon). Amministrato dal Commissario della Repubblica Pierre-François Boisson con capitale politica Yaoundé e fulcro economico nel porto atlantico di Douala sull'estuario del Wouri. Economia coloniale prospera basata sulle esportazioni di cacao, caffè arabica e banane (soprattutto nella fertile valle vulcanica del Mungo), con infrastruttura imperniata sulle ferrovie del Centro (Yaoundé) e del Nord (Nkongsamba). Campagna sanitaria pionieristica contro la tripanosomiasi (malattia del sonno) guidata dal Dr. Eugène Jamot nel centro medico di Ayos. Forte presenza di piantatori e commercianti tedeschi (ex concessionari e agenti della Woermann-Linie) sottoposti a sorveglianza speciale.",
+    s2_4: "Cameroun Français (Commissario Richard Brunot dal novembre 1938). All'indomani degli accordi di Monaco, il territorio subisce la massiccia offensiva diplomatica e propagandistica del Terzo Reich, che esige la restituzione delle ex colonie africane (Koloniale Frage). In risposta, le autorità tradizionali e le élite locali indigene – guidate dal capo superiore Yaoundé Charles Atangana e dal Sultano Seidou Njoya di Foumban – fondano l'Union Française pour le Maintien du Mandat, proclamando solenne fedeltà alla Francia contro ogni restaurazione germanica. Riarmo difensivo del porto di Douala e potenziamento degli organici del Bataillon de Tirailleurs du Cameroun (BTC).",
+    s5: "Cameroun Français (settembre 1939 - maggio 1940: Mobilitazione Bellica Generale). Sotto la guida del Commissario Richard Brunot, il territorio entra in stato di guerra. Internamento preventivo immediato di oltre 400 cittadini e coloni tedeschi, con sequestro giudiziario delle grandi piantagioni tedesche nel Mungo e sulle pendici del Monte Camerun; requisizione della flotta fluviale e costiera. Arruolamento massiccio nel Régiment de Tirailleurs du Cameroun (RTC) e intensificazione delle spedizioni strategiche di gomma naturale, legno pregiato e derrate agricole per le industrie di guerra alleate.",
+    s6: "Cameroun Français (26-27 Agosto 1940: Le Ralliement du Cameroun alla Francia Libera). Di fronte all'attendismo lealista a Vichy del commissario Brunot dopo l'armistizio, nella notte tra il 26 e il 27 agosto 1940 il comandante Philippe Leclerc (sotto lo pseudonimo di colonnello di Hauteclocque) sbarca arditamente a Douala attraversando l'estuario del Wouri in piroga dalla Nigeria britannica insieme a René Pleven e Boislambert. Con l'adesione fulminea e risolutiva del capitano Louis Dio e del comandante Bureau del Bataillon de Tirailleurs du Cameroun, la guarnigione e la popolazione si schierano per la Francia Libera senza versare una sola goccia di sangue. Il 29 agosto Leclerc entra a Yaoundé arrestando e destituendo Brunot: il Camerun diviene il secondo bastione sovrano della Francia Libera, assicurando a De Gaulle il porto di Douala e il raccordo con il Ciad di Félix Éboué.",
+    s7: "Cameroun Français (Ottobre - Dicembre 1940: Quartier Generale di Leclerc & Visita Trionfale di De Gaulle). Il colonnello Philippe Leclerc assume la carica di Governatore e Commissario Generale del Camerun, facendo di Douala la base d'attacco logistica per la Campagna del Gabon contro l'enclave di Vichy a Libreville. L'8-9 ottobre 1940 il Generale Charles de Gaulle compie a Douala e Yaoundé una visita trionfale, acclamato da folle oceaniche di coloni e truppe indigene. A Douala viene costituita l'Escadrille Rennes (FAFL), prima unità da bombardamento aerea della Francia Libera.",
+    s8: "Cameroun Français (Francia Libera — Arsenale Alleato & Colonne di Louis Dio). Amministrato dal governatore Pierre Cournarie, il Camerun si trasforma nel polmone logistico e produttivo della riscossa alleata: primato nelle forniture di gomma selvatica, legname, caffè e provviste per le forze britanniche e francesi in Medio Oriente. Dal territorio muovono il Bataillon de Marche n° 1 (BM 1) e le colonne motorizzate del comandante Louis Dio, che risalgono verso il Ciad per congiungersi a Leclerc, distinguendosi nella conquista di Kufra (marzo 1941) e preparando l'epopea del Fezzan.",
+    getNote: (s: number) => {
+      if (s >= 8) return AEF_PROVINCES_META['AEF_CM'].s8;
+      if (s >= 7) return AEF_PROVINCES_META['AEF_CM'].s7;
+      if (s >= 6) return AEF_PROVINCES_META['AEF_CM'].s6;
+      if (s >= 5) return AEF_PROVINCES_META['AEF_CM'].s5;
+      if (s >= 2) return AEF_PROVINCES_META['AEF_CM'].s2_4;
+      return AEF_PROVINCES_META['AEF_CM'].s0_1;
+    },
+    getHistoricalName: (s: number) => {
+      if (s >= 8) return 'Cameroun (Afrique Française Libre — Base Logistica & Colonne di Louis Dio)';
+      if (s >= 7) return 'Cameroun (Afrique Française Libre — Quartier Generale di Leclerc / Visita di De Gaulle)';
+      if (s >= 6) return 'Cameroun Français (Afrique Française Libre — Douala / Ralliement di Leclerc)';
+      if (s >= 5) return 'Cameroun Français (AEF — Mandat SDN / Mobilitazione RTC & Internamento Tedesco)';
+      if (s >= 2) return 'Cameroun Français (Mandat SDN — Brunot / Resistenza Anti-Nazista nel Mungo)';
+      return 'Cameroun Français (Mandat de la Société des Nations — Yaoundé / Douala)';
+    },
+    getAdminTitle: (s: number) => {
+      if (s >= 8) return 'Gouvernement du Cameroun Français (Pierre Cournarie — France Libre)';
+      if (s >= 7) return 'Gouverneur Général Philippe Leclerc (Commandement Militaire & France Libre)';
+      if (s >= 6) return 'Forces Françaises Libres — Colonel Philippe Leclerc (Ralliement du 27 Août 1940)';
+      if (s >= 2) return 'Commissariat de la République (Richard Brunot — Mandat SDN)';
+      return 'Commissariat de la République au Cameroun (Pierre-François Boisson — Mandat SDN)';
+    },
+    getSovereign: (s: number) => (s >= 6 ? 'FFL_AEF' : 'F_AEF'),
+    getFaction: () => 'Alleati' as FactionType,
+  },
 };
 
 // Aliases per risoluzione rapida
@@ -293,6 +337,18 @@ AEF_PROVINCES_META['LIBREVILLE'] = AEF_PROVINCES_META['AEF_GA'];
 AEF_PROVINCES_META['PORT-GENTIL'] = AEF_PROVINCES_META['AEF_GA'];
 AEF_PROVINCES_META['PORT_GENTIL'] = AEF_PROVINCES_META['AEF_GA'];
 
+AEF_PROVINCES_META['CM'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['CMR'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['CAMEROON'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['CAMEROUN'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['FRENCH CAMEROON'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['FRENCH CAMEROONS'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['FRENCH_CAMEROON'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['FRENCH_CAMEROONS'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['DOUALA'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['YAOUNDE'] = AEF_PROVINCES_META['AEF_CM'];
+AEF_PROVINCES_META['YAOUNDÉ'] = AEF_PROVINCES_META['AEF_CM'];
+
 /**
  * Recupera i metadati di una provincia AEF per ID.
  */
@@ -306,7 +362,7 @@ export function getAEFProvinceById(id: string): AEFProvinceInfo | undefined {
 }
 
 /**
- * Restituisce l'elenco delle 4 province/territori dell'AEF.
+ * Restituisce l'elenco delle 5 province/territori dell'AEF e Mandato del Camerun.
  */
 export function getAllAEFProvinces(): AEFProvinceInfo[] {
   return [
@@ -314,6 +370,7 @@ export function getAllAEFProvinces(): AEFProvinceInfo[] {
     AEF_PROVINCES_META['AEF_CF'],
     AEF_PROVINCES_META['AEF_CG'],
     AEF_PROVINCES_META['AEF_GA'],
+    AEF_PROVINCES_META['AEF_CM'],
   ];
 }
 
@@ -365,7 +422,7 @@ export function resolveAEFProvince(
   // Lookup fuzzy per nome
   if (!meta && provName) {
     const pNorm = provName.toLowerCase().replace(/[^a-z0-9]/g, '');
-    for (const key of ['AEF_TD', 'AEF_CF', 'AEF_CG', 'AEF_GA']) {
+    for (const key of ['AEF_TD', 'AEF_CF', 'AEF_CG', 'AEF_GA', 'AEF_CM']) {
       const item = AEF_PROVINCES_META[key];
       const nrmItem = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
       const nrmMod = item.modernName.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -409,7 +466,7 @@ export function populateAEFToponyms(dict: Record<string, any>): void {
   if (!dict['FFL_AEF']) dict['FFL_AEF'] = {};
   if (!dict['VIC_AEF']) dict['VIC_AEF'] = {};
 
-  for (const key of ['AEF_TD', 'AEF_CF', 'AEF_CG', 'AEF_GA']) {
+  for (const key of ['AEF_TD', 'AEF_CF', 'AEF_CG', 'AEF_GA', 'AEF_CM']) {
     const item = AEF_PROVINCES_META[key];
     const match = {
       historicalName: item.historicalName,

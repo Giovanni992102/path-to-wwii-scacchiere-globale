@@ -1189,7 +1189,7 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     tchad: { historicalName: 'Tchad (AEF)', adminTitle: 'Colonie du Tchad (Gouverneur Félix Éboué)', historicalNote: 'Félix Éboué prépare dès juillet 1940 le ralliement de l\'Afrique à la France Libre de De Gaulle.' },
     fort_lamy: { historicalName: 'Fort-Lamy (Tchad)', adminTitle: 'Chef-lieu du Territoire du Tchad', historicalNote: 'Carrefour stratégique aux portes du Sahara et base de surveillance de la Libye italienne.' },
     largeau: { historicalName: 'Largeau (Faya-Largeau)', adminTitle: 'Poste Militaire du Borkou-Ennedi-Tibesti (BET)', historicalNote: 'Poste saharien avancé qui servira de tremplin à la Colonne Leclerc vers Koufra et le Fezzan.' },
-    cameroun: { historicalName: 'Cameroun Français', adminTitle: 'Territoire sous Mandat de la SDN (Yaoundé)', historicalNote: 'Mandat de la Société des Nations confié à la France, riche en cultures de cacao, café et bananes.' },
+    cameroun: { historicalName: 'Cameroun Français', adminTitle: 'Commissariat de la République (Mandat SDN — Yaoundé / Douala)', historicalNote: "Mandat B de la Société des Nations confié à la France, avec capitale administrative à Yaoundé et port principal à Douala; cultures de cacao, café et bananes dans le Mungo, lutte contre la maladie du sommeil du Dr. Jamot." },
     douala: { historicalName: 'Douala (Cameroun)', adminTitle: 'Port Principal du Cameroun Français', historicalNote: 'Grand port de l\'estuaire du Wouri et capitale économique du Cameroun.' },
     yaounde: { historicalName: 'Yaoundé (Cameroun)', adminTitle: 'Siège du Commissaire de la République au Cameroun', historicalNote: 'Capitale administrative établie sur les hauts plateaux du Sud.' },
     oubangui: { historicalName: 'Oubangui-Chari (Centrafrique)', adminTitle: 'Colonie de l\'Oubangui-Chari (Bangui)', historicalNote: 'Colonie de savane et de forêt au cœur du continent africain.' },
@@ -1203,7 +1203,7 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     brazzaville: { historicalName: 'Brazzaville (Capitale de la France Libre)', adminTitle: 'Capitale de l\'Empire de la France Libre (Manifeste de Brazzaville)', historicalNote: 'Le 27 octobre 1940, le général de Gaulle crée à Brazzaville le Conseil de défense de l\'Empire. Brazzaville devient la capitale officielle de la France combattante.' },
     tchad: { historicalName: 'Tchad (Premier Territoire Rallié à la France Libre)', adminTitle: 'Gouverneur Général Félix Éboué (Ralliement du 26 août 1940)', historicalNote: 'Félix Éboué et le colonel Marchand proclament le ralliement du Tchad, offrant à la France Libre sa première assise territoriale souveraine.' },
     fort_lamy: { historicalName: 'Fort-Lamy (France Libre)', adminTitle: 'Quartier Général des Forces Françaises Libres d\'Afrique', historicalNote: 'Base de départ de la glorieuse Colonne Leclerc et des opérations contre les forces de l\'Axe dans le désert libyen.' },
-    cameroun: { historicalName: 'Cameroun Français (Rallié à la France Libre)', adminTitle: 'Colonel Philippe Leclerc (Ralliement du 27 août 1940)', historicalNote: 'Philippe Leclerc débarque à Douala dans la nuit du 26 au 27 août 1940 et rallie l\'ensemble du territoire camerounais sans effusion de sang.' },
+    cameroun: { historicalName: 'Cameroun Français (Afrique Française Libre)', adminTitle: 'Colonel Philippe Leclerc (Ralliement du 27 août 1940)', historicalNote: "Philippe Leclerc débarque héroïquement à Douala en pirogue dans la nuit du 26 au 27 août 1940 et rallie l'ensemble du territoire camerounais sans effusion de sang à la France Libre, formant le socle atlantique du ralliement de l'AEF." },
     douala: { historicalName: 'Douala (Port de la France Libre)', adminTitle: 'Port de Débarquement et Base Logistique de Leclerc', historicalNote: 'Port stratégique par lequel transitent les armes et renforts des Forces Françaises Libres.' },
     oubangui: { historicalName: 'Oubangui-Chari (Rallié à la France Libre)', adminTitle: 'Gouverneur Pierre de Saint-Mart (29 août 1940)', historicalNote: 'Ralliement immédiat sous l\'impulsion des officiers et colons patriotes.' },
     gabon: { historicalName: 'Gabon (France Libre — Post-Campagne du Gabon)', adminTitle: 'Rallié à la France Libre (Novembre 1940)', historicalNote: 'Resté d\'abord fidèle à Vichy sous Masson, le Gabon est rallié après la brève campagne militaire de Leclerc et Koenig en novembre 1940.' },
@@ -5044,22 +5044,13 @@ export function resolveFrenchColonialToponym(
         };
   }
 
-  // 6. CAMEROUN FRANÇAIS (Mandat SDN)
+  // 6. CAMEROUN FRANÇAIS (Mandat SDN & France Libre — Ralliement de Leclerc)
   if (
-    (normKey.includes('cameroon') || normKey.includes('cameroun') || normKey.includes('douala') || normKey.includes('yaounde')) &&
+    (normKey.includes('cameroon') || normKey.includes('cameroun') || normKey.includes('douala') || normKey.includes('yaounde') || id === 'AEF_CM' || normKey === 'cm') &&
     owner !== 'UK'
   ) {
-    return isVichyStep
-      ? {
-          name: "Cameroun Français (France Libre)",
-          adminTitle: "Colonel Philippe Leclerc (Ralliement du 27 août 1940)",
-          note: "Philippe Leclerc débarque à Douala dans la nuit du 26 au 27 août 1940 et rallie l'ensemble du territoire camerounais sans effusion de sang à la France Libre.",
-        }
-      : {
-          name: "Cameroun Français",
-          adminTitle: "Territoire sous Mandat de la Société des Nations (Yaoundé / Douala)",
-          note: "Mandat de la Société des Nations confié à la France, riche en cultures de cacao, café et bananes. Port principal de Douala.",
-        };
+    const aefTop = resolveAEFToponym(id, rawName, normKey, owner, step);
+    if (aefTop) return aefTop;
   }
 
   // 7. TCHAD (AEF)
@@ -15775,7 +15766,7 @@ export function resolveAEFToponym(
 
   // Lookup per chiave o nome in AEF_PROVINCES_META
   const pNorm = normKey.replace(/[^a-z0-9]/g, '');
-  for (const k of ['AEF_TD', 'AEF_CF', 'AEF_CG', 'AEF_GA']) {
+  for (const k of ['AEF_TD', 'AEF_CF', 'AEF_CG', 'AEF_GA', 'AEF_CM']) {
     const item = AEF_PROVINCES_META[k];
     const nrmItem = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
     const nrmMod = item.modernName.toLowerCase().replace(/[^a-z0-9]/g, '');
