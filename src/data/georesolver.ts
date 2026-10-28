@@ -1182,6 +1182,8 @@ export const HB_SUBJ: Record<string, { o: string }> = {
   Liberia: { o: 'LBR' },
   'Republic of Liberia': { o: 'LBR' },
   'Repubblica di Liberia': { o: 'LBR' },
+  Afghanistan: { o: 'AFG' },
+  'Kingdom of Afghanistan': { o: 'AFG' },
   Chile: { o: 'CHL' },
   Yugoslavia: { o: 'YUG' },
   'Kingdom of Yugoslavia': { o: 'YUG' },
@@ -3260,6 +3262,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.note || top.adminTitle || 'Zhōnghuá Mínguó',
         'Alleati',
         top.adminTitle || 'Zhōnghuá Mínguó Guómín Zhèngfǔ'
+      );
+    }
+    if (ov.o === 'AFG') {
+      return makeResult(
+        'AFG',
+        top.name || `${name} (Afghanistan)`,
+        top.note || 'Regno dell\'Afghanistan / Da Afghānistān Shāhī Dawlat',
+        'Neutrale',
+        top.adminTitle || 'Da Afghānistān Shāhī Dawlat (Regno dell\'Afghanistan)'
       );
     }
     if (ov.o === 'MAN') {
@@ -7513,7 +7524,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'AF':
     case 'AFG':
     case '004':
-      return makeResult('AFG', getTop('AFG').name, 'Regno dell\'Afghanistan');
+      return makeResult(
+        'AFG',
+        getTop('AFG').name || rawName || 'Regno dell\'Afghanistan',
+        'Regno dell\'Afghanistan (Da Afghānistān Shāhī Dawlat)',
+        'Neutrale',
+        'Da Afghānistān Shāhī Dawlat'
+      );
     case 'NP':
     case 'NPL':
     case '524':

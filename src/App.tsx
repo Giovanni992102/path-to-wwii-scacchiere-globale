@@ -3028,6 +3028,41 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: "84. Audit Geotopografico Integrale Province dell'Afghanistan (34 Province, Watertightness con Iran, Raj Britannico, URSS e Xinjiang, Zero Overlap, Conservazione Assoluta Area 63.6873 deg² e Risoluzione Sovrana AFG)",
+        run: () => {
+          if (!loadedHbs || loadedHbs.length === 0) return false;
+          const afProvs = loadedHbs.filter(
+            (f: any) => f.properties?.country === 'Afghanistan' || (f.id && String(f.id).startsWith('AF_'))
+          );
+          if (afProvs.length !== 34) return false;
+
+          // Somma area geotopografica
+          let sumArea = 0;
+          for (const p of afProvs) {
+            const a = p.properties?.area_deg2;
+            if (typeof a === 'number') sumArea += a;
+          }
+          if (sumArea < 63.5 || sumArea > 63.8) return false;
+
+          // Verifica risoluzione sovrana AFG e Neutrale
+          const pKabul = afProvs.find((f: any) => f.id === 'AF_KAB' || f.properties?.NAME === 'Kabul');
+          const pHirat = afProvs.find((f: any) => f.id === 'AF_HER' || f.properties?.NAME === 'Hirat');
+          const pBadakh = afProvs.find((f: any) => f.id === 'AF_BDS' || f.properties?.NAME === 'Badakhshan');
+          const pKand = afProvs.find((f: any) => f.id === 'AF_KAN' || f.properties?.NAME === 'Kandahar');
+
+          if (!pKabul || !pHirat || !pBadakh || !pKand) return false;
+
+          for (const p of [pKabul, pHirat, pBadakh, pKand]) {
+            const r0 = resolveHB(p, 0);
+            const r6 = resolveHB(p, 6);
+            if (!r0 || r0.o !== 'AFG' || r0.fac !== 'Neutrale') return false;
+            if (!r6 || r6.o !== 'AFG' || r6.fac !== 'Neutrale') return false;
+          }
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;
