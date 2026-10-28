@@ -2493,8 +2493,25 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     const top = getExtendedToponym(name, 'EGY', nid, c, s);
     return makeResult('EGY', top.name || 'Kingdom of Egypt (British Military Sphere — Cairo)', top.note || (s >= 1 ? "Regno d'Egitto (Trattato Anglo-Egiziano del 1936)" : "Regno d'Egitto (Occupazione/Influenza Britannica)"), 'Alleati', top.adminTitle || 'Kingdom of Egypt (Anglo-Egyptian Treaty of 1936)');
   }
-  if (nrm_hb.includes('sudan') && !nrm_hb.includes('french')) {
-    const top = getExtendedToponym(name, 'UK', nid, c, s);
+  if (
+    nrm_hb.includes('south sudan') ||
+    nrm_hb.includes('sud sudan') ||
+    f.id === 'SSD' ||
+    P.shapeISO === 'SS' ||
+    P.CNTR_CODE === 'SS' ||
+    P.ISO === 'SS'
+  ) {
+    const top = getExtendedToponym(name || 'South Sudan', 'UK', nid || 'SSD', c, s);
+    return makeResult('UK', top.name || 'Anglo-Egyptian Sudan — Southern Provinces (Juba)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Anglo-Egyptian Condominium — Closed Districts Administration (Juba)');
+  }
+  if (
+    (nrm_hb.includes('sudan') && !nrm_hb.includes('french')) ||
+    f.id === 'SUD' ||
+    P.shapeISO === 'SD' ||
+    P.CNTR_CODE === 'SD' ||
+    P.ISO === 'SD'
+  ) {
+    const top = getExtendedToponym(name || 'Sudan', 'UK', nid || 'SD', c, s);
     return makeResult('UK', top.name || 'Anglo-Egyptian Sudan (Khartoum)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Anglo-Egyptian Condominium (British Governed)');
   }
   if (
@@ -8326,7 +8343,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('nigeria') ||
         nrm.includes('sierra leone') ||
         nrm.includes('gambia') ||
+        nrm.includes('south sudan') ||
+        nrm.includes('sud sudan') ||
+        ft.id === 'SSD' ||
+        p.shapeISO === 'SS' ||
+        p.CNTR_CODE === 'SS' ||
         (nrm.includes('sudan') && !nrm.includes('french') && !nrm.includes('soudan')) ||
+        ft.id === 'SUD' ||
+        p.shapeISO === 'SD' ||
+        p.CNTR_CODE === 'SD' ||
         nrm.includes('british somaliland')
       ) {
         if (nrm.includes('british somaliland') && s === 7) {

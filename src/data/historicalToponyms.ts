@@ -1448,7 +1448,9 @@ export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch
     alexandria: { historicalName: 'Alexandria (Egypt)', adminTitle: 'Mediterranean Fleet HQ' },
     suez: { historicalName: 'Suez Canal Zone', adminTitle: 'British Military Protection Zone' },
     sudan: { historicalName: 'Anglo-Egyptian Sudan (Khartoum)', adminTitle: 'Condominium (Governor-General)' },
+    south_sudan: { historicalName: 'Anglo-Egyptian Sudan — Southern Provinces (Juba)', adminTitle: 'Closed Districts Administration (Juba)' },
     khartoum: { historicalName: 'Khartoum (Sudan)', adminTitle: 'Governor-General Palace' },
+    juba: { historicalName: 'Juba (Equatoria)', adminTitle: 'Southern Administration Headquarters' },
     kenya: { historicalName: 'Kenya Colony and Protectorate', adminTitle: 'British East Africa' },
     nairobi: { historicalName: 'Nairobi (Kenya)', adminTitle: 'Capital of Kenya Colony' },
     uganda: { historicalName: 'Uganda Protectorate (Entebbe)', adminTitle: 'British Protectorate' },
@@ -11372,12 +11374,25 @@ export function resolveBritishColonialToponym(
     };
   }
 
-  // Sudan Anglo-Egiziano (Anglo-Egyptian Sudan)
+  // Sudan Anglo-Egiziano (Anglo-Egyptian Sudan) & South Sudan (Southern Provinces)
+  if (
+    nid === 'SS' ||
+    nid === 'SSD' ||
+    n.includes('south sudan') ||
+    n.includes('sud sudan') ||
+    n.includes('south_sudan')
+  ) {
+    return {
+      name: 'Anglo-Egyptian Sudan — Southern Provinces (Juba)',
+      adminTitle: 'Anglo-Egyptian Condominium — Closed Districts Administration (Juba)',
+      note: 'Province meridionali del Sudan Anglo-Egiziano (Equatoria, Bahr el Ghazal, Upper Nile), amministrate da Juba sotto il regime speciale dei Closed Districts Ordinances (Southern Policy britannica) a tutela delle popolazioni nilotiche ed equatoriali.',
+    };
+  }
+
   if (
     nid === 'SD' ||
     nid === 'SDN' ||
-    nid === 'SS' ||
-    nid === 'SSD' ||
+    nid === 'SUD' ||
     nid === '729' ||
     nid === '736' ||
     n.includes('sudan')

@@ -2982,6 +2982,42 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: "83. Audit Geotopografico e Topologico Integrale Sud Sudan & Sudan Anglo-Egiziano (Watertightness, Zero Overlap, Conservazione Assoluta Area, Condominio UK e Closed Districts Juba)",
+        run: () => {
+          const allFeatures = [...loadedProvs, ...loadedHbs];
+          const ftSud = allFeatures.find((f: any) => f.id === 'SUD' || f.properties?.id === 'SUD' || (f.properties?.NAME === 'Sudan' && f.properties?.shapeISO === 'SD'));
+          const ftSsd = allFeatures.find((f: any) => f.id === 'SSD' || f.properties?.id === 'SSD' || f.properties?.NAME === 'South Sudan' || f.properties?.shapeISO === 'SS');
+          const ftWb = allFeatures.find((f: any) => f.id === 'WALVIS_BAY' || f.properties?.id === 'WALVIS_BAY' || f.properties?.NAME === 'Walvis Bay');
+
+          if (!ftSud || !ftSsd || !ftWb) {
+            console.error('Feature mancanti per Sudan, Sud Sudan o Walvis Bay:', { ftSud: !!ftSud, ftSsd: !!ftSsd, ftWb: !!ftWb });
+            return false;
+          }
+
+          // 1. Controllo aree e geometrie
+          const sudArea = ftSud.properties?.area_deg2;
+          if (typeof sudArea === 'number' && (sudArea < 156 || sudArea > 160)) return false;
+
+          const ssdArea = ftSsd.properties?.area_deg2;
+          if (typeof ssdArea === 'number' && (ssdArea < 51 || ssdArea > 54)) return false;
+
+          // 2. Controllo risoluzione step 0 (Neutrale) e step 6 (Alleati)
+          const resSud0 = resolveHB(ftSud, 0);
+          if (!resSud0 || resSud0.o !== 'UK' || resSud0.fac !== 'Neutrale' || !resSud0.name.includes('Sudan') || !resSud0.name.includes('Khartoum')) return false;
+
+          const resSud6 = resolveHB(ftSud, 6);
+          if (!resSud6 || resSud6.o !== 'UK' || resSud6.fac !== 'Alleati') return false;
+
+          const resSsd0 = resolveHB(ftSsd, 0);
+          if (!resSsd0 || resSsd0.o !== 'UK' || resSsd0.fac !== 'Neutrale' || !resSsd0.name.includes('Southern Provinces') || !resSsd0.name.includes('Juba')) return false;
+
+          const resSsd6 = resolveHB(ftSsd, 6);
+          if (!resSsd6 || resSsd6.o !== 'UK' || resSsd6.fac !== 'Alleati') return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;
