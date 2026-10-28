@@ -2938,7 +2938,7 @@ export default function App() {
         },
       },
       {
-        name: "82. Audit Geotopografico e Topologico Integrale Namibia / South West Africa & Walvis Bay (Watertightness, Zero Overlap, Conservazione Area, Mandato Sudafricano SAF e Walvis Bay Exclave)",
+        name: "82. Audit Geotopografico e Storico Integrale Namibia / South West Africa & Walvis Bay (Timeline 1936-1941, Watertightness, Zero Overlap, Mandato Società delle Nazioni, Jan Smuts, Conradie e Walvis Bay Exclave)",
         run: () => {
           const allFeatures = [...loadedProvs, ...loadedHbs];
           const ftSwa = allFeatures.find((f: any) => f.id === 'SAF_SWA' || f.properties?.id === 'SAF_SWA' || f.properties?.NAME === 'South West Africa');
@@ -2960,38 +2960,41 @@ export default function App() {
           const wbArea = ftWb.properties?.area_deg2;
           if (typeof wbArea === 'number' && (wbArea < 0.4 || wbArea > 0.6)) return false;
 
-          // 2. Controllo risoluzione step 0 (Neutrale) e step 6 (Alleati)
+          // 2. Controllo timeline-sensitive South West Africa
           const resSwa0 = resolveHB(ftSwa, 0);
-          if (!resSwa0 || resSwa0.o !== 'SAF' || resSwa0.fac !== 'Neutrale' || !resSwa0.name.includes('South West Africa') || !resSwa0.adminEntity?.includes('Mandate')) return false;
+          if (!resSwa0 || resSwa0.o !== 'SAF' || resSwa0.fac !== 'Neutrale' || !resSwa0.name.includes('South West Africa') || !resSwa0.note?.includes('Deutscher Bund') || !resSwa0.adminEntity?.includes('Conradie')) return false;
+
+          const resSwa3 = resolveHB(ftSwa, 3);
+          if (!resSwa3 || resSwa3.o !== 'SAF' || !resSwa3.note?.includes('Jan Smuts') || !resSwa3.note?.includes('South African Police')) return false;
 
           const resSwa6 = resolveHB(ftSwa, 6);
-          if (!resSwa6 || resSwa6.o !== 'SAF' || resSwa6.fac !== 'Alleati') return false;
+          if (!resSwa6 || resSwa6.o !== 'SAF' || resSwa6.fac !== 'Alleati' || !resSwa6.note?.includes('11 giugno 1940') || !resSwa6.note?.includes('1st South African Infantry Division')) return false;
 
-          const resSaf0 = resolveHB(ftSaf, 0);
-          if (!resSaf0 || resSaf0.o !== 'SAF' || resSaf0.fac !== 'Neutrale' || !resSaf0.name.includes('South Africa')) return false;
+          const resSwa8 = resolveHB(ftSwa, 8);
+          if (!resSwa8 || resSwa8.o !== 'SAF' || resSwa8.fac !== 'Alleati' || !resSwa8.note?.includes('Addis Abeba')) return false;
 
-          const resSaf6 = resolveHB(ftSaf, 6);
-          if (!resSaf6 || resSaf6.o !== 'SAF' || resSaf6.fac !== 'Alleati') return false;
-
+          // 3. Controllo timeline-sensitive Walvis Bay Exclave
           const resWb0 = resolveHB(ftWb, 0);
-          if (!resWb0 || resWb0.o !== 'SAF' || !resWb0.name.includes('Walvis Bay') || !resWb0.adminEntity?.includes('Walvis Bay')) return false;
+          if (!resWb0 || resWb0.o !== 'SAF' || resWb0.fac !== 'Neutrale' || !resWb0.name.includes('Walvis Bay') || !resWb0.note?.includes('1878') || !resWb0.adminEntity?.includes('Cape Province')) return false;
 
           const resWb6 = resolveHB(ftWb, 6);
-          if (!resWb6 || resWb6.o !== 'SAF' || resWb6.fac !== 'Alleati') return false;
+          if (!resWb6 || resWb6.o !== 'SAF' || resWb6.fac !== 'Alleati' || !resWb6.note?.includes('Cape Route') || !resWb6.adminEntity?.includes('Seaward Defence Force')) return false;
+
+          const resWb8 = resolveHB(ftWb, 8);
+          if (!resWb8 || resWb8.o !== 'SAF' || resWb8.fac !== 'Alleati' || !resWb8.name.includes('Fortress')) return false;
 
           return true;
         },
       },
       {
-        name: "83. Audit Geotopografico e Topologico Integrale Sud Sudan & Sudan Anglo-Egiziano (Watertightness, Zero Overlap, Conservazione Assoluta Area, Condominio UK e Closed Districts Juba)",
+        name: "83. Audit Geotopografico e Storico Integrale Sud Sudan & Sudan Anglo-Egiziano (Timeline 1936-1941, Watertightness, Zero Overlap, Conservazione Area, Southern Policy, Closed Districts Juba e Campagna d'Africa Orientale Platt)",
         run: () => {
           const allFeatures = [...loadedProvs, ...loadedHbs];
           const ftSud = allFeatures.find((f: any) => f.id === 'SUD' || f.properties?.id === 'SUD' || (f.properties?.NAME === 'Sudan' && f.properties?.shapeISO === 'SD'));
           const ftSsd = allFeatures.find((f: any) => f.id === 'SSD' || f.properties?.id === 'SSD' || f.properties?.NAME === 'South Sudan' || f.properties?.shapeISO === 'SS');
-          const ftWb = allFeatures.find((f: any) => f.id === 'WALVIS_BAY' || f.properties?.id === 'WALVIS_BAY' || f.properties?.NAME === 'Walvis Bay');
 
-          if (!ftSud || !ftSsd || !ftWb) {
-            console.error('Feature mancanti per Sudan, Sud Sudan o Walvis Bay:', { ftSud: !!ftSud, ftSsd: !!ftSsd, ftWb: !!ftWb });
+          if (!ftSud || !ftSsd) {
+            console.error('Feature mancanti per Sudan o Sud Sudan:', { ftSud: !!ftSud, ftSsd: !!ftSsd });
             return false;
           }
 
@@ -3002,18 +3005,25 @@ export default function App() {
           const ssdArea = ftSsd.properties?.area_deg2;
           if (typeof ssdArea === 'number' && (ssdArea < 51 || ssdArea > 54)) return false;
 
-          // 2. Controllo risoluzione step 0 (Neutrale) e step 6 (Alleati)
+          // 2. Controllo timeline-sensitive Sudan Settentrionale (Khartoum)
           const resSud0 = resolveHB(ftSud, 0);
-          if (!resSud0 || resSud0.o !== 'UK' || resSud0.fac !== 'Neutrale' || !resSud0.name.includes('Sudan') || !resSud0.name.includes('Khartoum')) return false;
+          if (!resSud0 || resSud0.o !== 'UK' || resSud0.fac !== 'Neutrale' || !resSud0.name.includes('Sudan') || !resSud0.note?.includes('Trattato Anglo-Egiziano del 1936') || !resSud0.note?.includes('Sir George Stewart Symes')) return false;
 
           const resSud6 = resolveHB(ftSud, 6);
-          if (!resSud6 || resSud6.o !== 'UK' || resSud6.fac !== 'Alleati') return false;
+          if (!resSud6 || resSud6.o !== 'UK' || resSud6.fac !== 'Alleati' || !resSud6.note?.includes('Kassala') || !resSud6.note?.includes('William Platt')) return false;
 
+          const resSud8 = resolveHB(ftSud, 8);
+          if (!resSud8 || resSud8.o !== 'UK' || resSud8.fac !== 'Alleati' || !resSud8.name.includes('Victory in East Africa') || !resSud8.note?.includes('Keren') || !resSud8.note?.includes('Asmara')) return false;
+
+          // 3. Controllo timeline-sensitive Sud Sudan (Southern Provinces / Juba)
           const resSsd0 = resolveHB(ftSsd, 0);
-          if (!resSsd0 || resSsd0.o !== 'UK' || resSsd0.fac !== 'Neutrale' || !resSsd0.name.includes('Southern Provinces') || !resSsd0.name.includes('Juba')) return false;
+          if (!resSsd0 || resSsd0.o !== 'UK' || resSsd0.fac !== 'Neutrale' || !resSsd0.name.includes('Southern Provinces') || !resSsd0.name.includes('Juba') || !resSsd0.note?.includes('Closed Districts Ordinances') || !resSsd0.note?.includes('Southern Policy')) return false;
 
           const resSsd6 = resolveHB(ftSsd, 6);
-          if (!resSsd6 || resSsd6.o !== 'UK' || resSsd6.fac !== 'Alleati') return false;
+          if (!resSsd6 || resSsd6.o !== 'UK' || resSsd6.fac !== 'Alleati' || !resSsd6.note?.includes('Kurmuk') || !resSsd6.note?.includes('Equatorial Corps') || !resSsd6.note?.includes('Torit')) return false;
+
+          const resSsd8 = resolveHB(ftSsd, 8);
+          if (!resSsd8 || resSsd8.o !== 'UK' || resSsd8.fac !== 'Alleati' || !resSsd8.note?.includes('Addis Abeba') || !resSsd8.note?.includes('Arbegnoch') || !resSsd8.name.includes('Allied Nile Front')) return false;
 
           return true;
         },

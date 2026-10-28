@@ -4,6 +4,8 @@ import { CANADA_PROVINCES_META, populateCanadaToponyms } from './canadaProvinces
 import { MEXICO_PROVINCES_META, populateMexicoToponyms } from './mexicoProvinces';
 import { AOF_PROVINCES_META, populateAOFToponyms } from './aofProvinces';
 import { AEF_PROVINCES_META, populateAEFToponyms } from './aefProvinces';
+import { NAMIBIA_PROVINCES_META, populateNamibiaToponyms, resolveNamibiaProvince } from './namibiaProvinces';
+import { SUDAN_PROVINCES_META, populateSudanToponyms, resolveSudanProvince } from './sudanProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2870,6 +2872,8 @@ populateAOFToponyms(HISTORICAL_TOPONYM_DICT);
 
 // Integrazione automatica toponomastica e amministrazioni storiche Africa Equatoriale Francese (4 entità territoriali e federazione AEF)
 populateAEFToponyms(HISTORICAL_TOPONYM_DICT);
+populateNamibiaToponyms(HISTORICAL_TOPONYM_DICT);
+populateSudanToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -10899,16 +10903,13 @@ export function resolveBritishColonialToponym(
     };
   }
 
-  // Walvis Bay (Exclave sudafricana)
-  if (
-    n.includes('walvis') ||
-    n.includes('walbis') ||
-    nid === 'WALVIS_BAY'
-  ) {
+  // Walvis Bay & South West Africa (Namibia)
+  const resNamibia = resolveNamibiaProvince(nid || n, step);
+  if (resNamibia) {
     return {
-      name: 'Walvis Bay (Exclave of the Union of South Africa)',
-      adminTitle: 'Port and Settlement of Walvis Bay (South Africa)',
-      note: 'Enclave costiera strategica d\'altura annessa alla Colonia del Capo nel 1884 e amministrata dall\'Unione Sudafricana, fondamentale per il rifornimento marittimo nell\'Atlantico meridionale.',
+      name: resNamibia.name,
+      adminTitle: resNamibia.adminEntity,
+      note: resNamibia.note,
     };
   }
 
@@ -10927,23 +10928,6 @@ export function resolveBritishColonialToponym(
       name: 'Union of South Africa / Unie van Suid-Afrika (Pretoria / Cape Town)',
       adminTitle: 'Dominion of the British Commonwealth',
       note: 'Dominion bilingue anglo-afrikaner. Nel settembre 1939, in seguito alle dimissioni del neutralista J.B.M. Hertzog, il generale Jan Smuts assunse la guida del governo e dichiarò guerra il 6 settembre. La South African Union Defence Force (UDF) fu decisiva nella liberazione dell\'Africa Orientale Italiana (1940-1941).',
-    };
-  }
-
-  // Africa del Sud-Ovest (South West Africa / Mandato SAF)
-  if (
-    nid === 'NA' ||
-    nid === 'NAM' ||
-    nid === '516' ||
-    n.includes('south_west_africa') ||
-    n.includes('south-west_africa') ||
-    n.includes('namibia') ||
-    n.includes('suidwes')
-  ) {
-    return {
-      name: 'Suidwes-Afrika / South West Africa (Windhoek)',
-      adminTitle: 'League of Nations Mandate (Union of South Africa)',
-      note: 'Ex-Africa Tedesca del Sud-Ovest (Deutsch-Südwestafrika), affidata in mandato di Classe C della Società delle Nazioni all\'Unione Sudafricana nel 1919.',
     };
   }
 
@@ -11375,32 +11359,12 @@ export function resolveBritishColonialToponym(
   }
 
   // Sudan Anglo-Egiziano (Anglo-Egyptian Sudan) & South Sudan (Southern Provinces)
-  if (
-    nid === 'SS' ||
-    nid === 'SSD' ||
-    n.includes('south sudan') ||
-    n.includes('sud sudan') ||
-    n.includes('south_sudan')
-  ) {
+  const resSudan = resolveSudanProvince(nid || n, step);
+  if (resSudan) {
     return {
-      name: 'Anglo-Egyptian Sudan — Southern Provinces (Juba)',
-      adminTitle: 'Anglo-Egyptian Condominium — Closed Districts Administration (Juba)',
-      note: 'Province meridionali del Sudan Anglo-Egiziano (Equatoria, Bahr el Ghazal, Upper Nile), amministrate da Juba sotto il regime speciale dei Closed Districts Ordinances (Southern Policy britannica) a tutela delle popolazioni nilotiche ed equatoriali.',
-    };
-  }
-
-  if (
-    nid === 'SD' ||
-    nid === 'SDN' ||
-    nid === 'SUD' ||
-    nid === '729' ||
-    nid === '736' ||
-    n.includes('sudan')
-  ) {
-    return {
-      name: 'Anglo-Egyptian Sudan (Khartoum)',
-      adminTitle: 'Anglo-Egyptian Condominium (British Governed)',
-      note: 'Condominio anglo-egiziano retto da un Governatore Generale britannico a Khartoum. Anello di congiunzione continentale tra il Mediterraneo e l\'Africa Equatoriale, con la Sudan Defence Force a presidio dei confini con l\'Eritrea e l\'Etiopia italiana.',
+      name: resSudan.name,
+      adminTitle: resSudan.adminEntity,
+      note: resSudan.note,
     };
   }
 

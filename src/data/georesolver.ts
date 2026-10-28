@@ -40,6 +40,14 @@ import {
   resolveAEFProvince,
   AEF_PROVINCES_META,
 } from './aefProvinces';
+import {
+  resolveNamibiaProvince,
+  NAMIBIA_PROVINCES_META,
+} from './namibiaProvinces';
+import {
+  resolveSudanProvince,
+  SUDAN_PROVINCES_META,
+} from './sudanProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -2493,27 +2501,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     const top = getExtendedToponym(name, 'EGY', nid, c, s);
     return makeResult('EGY', top.name || 'Kingdom of Egypt (British Military Sphere — Cairo)', top.note || (s >= 1 ? "Regno d'Egitto (Trattato Anglo-Egiziano del 1936)" : "Regno d'Egitto (Occupazione/Influenza Britannica)"), 'Alleati', top.adminTitle || 'Kingdom of Egypt (Anglo-Egyptian Treaty of 1936)');
   }
-  if (
-    nrm_hb.includes('south sudan') ||
-    nrm_hb.includes('sud sudan') ||
-    f.id === 'SSD' ||
-    P.shapeISO === 'SS' ||
-    P.CNTR_CODE === 'SS' ||
-    P.ISO === 'SS'
-  ) {
-    const top = getExtendedToponym(name || 'South Sudan', 'UK', nid || 'SSD', c, s);
-    return makeResult('UK', top.name || 'Anglo-Egyptian Sudan — Southern Provinces (Juba)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Anglo-Egyptian Condominium — Closed Districts Administration (Juba)');
-  }
-  if (
-    (nrm_hb.includes('sudan') && !nrm_hb.includes('french')) ||
-    f.id === 'SUD' ||
-    P.shapeISO === 'SD' ||
-    P.CNTR_CODE === 'SD' ||
-    P.ISO === 'SD'
-  ) {
-    const top = getExtendedToponym(name || 'Sudan', 'UK', nid || 'SD', c, s);
-    return makeResult('UK', top.name || 'Anglo-Egyptian Sudan (Khartoum)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Anglo-Egyptian Condominium (British Governed)');
-  }
+  const resSudanHB = resolveSudanProvince(f.id || P.id || P.shapeISO || name, s);
+  if (resSudanHB) return resSudanHB;
   if (
     nrm_hb.includes('kenya') ||
     nrm_hb.includes('uganda') ||
@@ -2581,26 +2570,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       top.adminTitle || 'British Crown Protectorate'
     );
   }
-  if (
-    nrm_hb.includes('south west africa') ||
-    nrm_hb.includes('south-west africa') ||
-    nrm_hb.includes('namibia') ||
-    f.id === 'SAF_SWA' ||
-    P.shapeISO === 'NA' ||
-    P.CNTR_CODE === 'NA' ||
-    P.ISO === 'NA'
-  ) {
-    const top = getExtendedToponym(name || 'South West Africa', 'SAF', nid, c, s);
-    return makeResult('SAF', top.name || 'Suidwes-Afrika / South West Africa (Windhoek)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'League of Nations Mandate (Union of South Africa)');
-  }
-  if (
-    nrm_hb.includes('walvis') ||
-    nrm_hb.includes('walbis') ||
-    f.id === 'WALVIS_BAY'
-  ) {
-    const top = getExtendedToponym(name || 'Walvis Bay', 'SAF', nid, c, s);
-    return makeResult('SAF', top.name || 'Walvis Bay (Exclave of the Union of South Africa)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Port and Settlement of Walvis Bay (South Africa)');
-  }
+  const resNamibiaHB = resolveNamibiaProvince(f.id || P.id || P.shapeISO || name, s);
+  if (resNamibiaHB) return resNamibiaHB;
 
   // Colonie Belga & Portoghesi in Africa
   if (
@@ -8318,6 +8289,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult('POR', getTop('POR').name || rawName, 'Province d\'Oltremare Portoghesi');
       }
 
+      const resSudanFt = resolveSudanProvince(ft.id || p.id || p.shapeISO || rawName, s);
+      if (resSudanFt) return resSudanFt;
+
       if (
         nrm.includes('malawi') ||
         nrm.includes('nyasaland') ||
@@ -8343,15 +8317,6 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('nigeria') ||
         nrm.includes('sierra leone') ||
         nrm.includes('gambia') ||
-        nrm.includes('south sudan') ||
-        nrm.includes('sud sudan') ||
-        ft.id === 'SSD' ||
-        p.shapeISO === 'SS' ||
-        p.CNTR_CODE === 'SS' ||
-        (nrm.includes('sudan') && !nrm.includes('french') && !nrm.includes('soudan')) ||
-        ft.id === 'SUD' ||
-        p.shapeISO === 'SD' ||
-        p.CNTR_CODE === 'SD' ||
         nrm.includes('british somaliland')
       ) {
         if (nrm.includes('british somaliland') && s === 7) {
@@ -8513,26 +8478,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
 
-      if (
-        nrm.includes('walvis') ||
-        nrm.includes('walbis') ||
-        ft.id === 'WALVIS_BAY'
-      ) {
-        const top = getExtendedToponym(rawName || 'Walvis Bay', 'SAF', nid, c, s);
-        return makeResult('SAF', top.name || 'Walvis Bay (Exclave of the Union of South Africa)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Port and Settlement of Walvis Bay (South Africa)');
-      }
-
-      if (
-        nrm.includes('namibia') ||
-        nrm.includes('south west africa') ||
-        nrm.includes('south-west africa') ||
-        ft.id === 'SAF_SWA' ||
-        p.shapeISO === 'NA' ||
-        p.CNTR_CODE === 'NA'
-      ) {
-        const top = getExtendedToponym(rawName || 'South West Africa', 'SAF', nid, c, s);
-        return makeResult('SAF', top.name || 'Suidwes-Afrika / South West Africa (Windhoek)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'League of Nations Mandate (Union of South Africa)');
-      }
+      const resNamibiaFt = resolveNamibiaProvince(ft.id || p.id || p.shapeISO || rawName, s);
+      if (resNamibiaFt) return resNamibiaFt;
 
       if (
         nrm.includes('south africa') ||
