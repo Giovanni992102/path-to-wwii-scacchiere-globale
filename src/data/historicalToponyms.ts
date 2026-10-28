@@ -10897,9 +10897,22 @@ export function resolveBritishColonialToponym(
     };
   }
 
+  // Walvis Bay (Exclave sudafricana)
+  if (
+    n.includes('walvis') ||
+    n.includes('walbis') ||
+    nid === 'WALVIS_BAY'
+  ) {
+    return {
+      name: 'Walvis Bay (Exclave of the Union of South Africa)',
+      adminTitle: 'Port and Settlement of Walvis Bay (South Africa)',
+      note: 'Enclave costiera strategica d\'altura annessa alla Colonia del Capo nel 1884 e amministrata dall\'Unione Sudafricana, fondamentale per il rifornimento marittimo nell\'Atlantico meridionale.',
+    };
+  }
+
   // Unione Sudafricana (Union of South Africa)
   if (
-    (owner === 'SAF' && !n.includes('south_west_africa') && !n.includes('south-west_africa') && !n.includes('namibia') && !n.includes('suidwes')) ||
+    (owner === 'SAF' && !n.includes('south_west_africa') && !n.includes('south-west_africa') && !n.includes('namibia') && !n.includes('suidwes') && !n.includes('walvis') && !n.includes('walbis')) ||
     nid === 'ZA' ||
     nid === 'SAF' ||
     nid === 'ZAF' ||
@@ -10912,18 +10925,6 @@ export function resolveBritishColonialToponym(
       name: 'Union of South Africa / Unie van Suid-Afrika (Pretoria / Cape Town)',
       adminTitle: 'Dominion of the British Commonwealth',
       note: 'Dominion bilingue anglo-afrikaner. Nel settembre 1939, in seguito alle dimissioni del neutralista J.B.M. Hertzog, il generale Jan Smuts assunse la guida del governo e dichiarò guerra il 6 settembre. La South African Union Defence Force (UDF) fu decisiva nella liberazione dell\'Africa Orientale Italiana (1940-1941).',
-    };
-  }
-
-  // Walvis Bay (Exclave sudafricana)
-  if (
-    n.includes('walvis_bay') ||
-    n.includes('walbis_bay')
-  ) {
-    return {
-      name: 'Walvis Bay (Exclave of the Union of South Africa)',
-      adminTitle: 'Port and Settlement of Walvis Bay (South Africa)',
-      note: 'Enclave costiera strategica d\'altura annessa alla Colonia del Capo nel 1884 e amministrata dall\'Unione Sudafricana, fondamentale per il rifornimento marittimo nell\'Atlantico meridionale.',
     };
   }
 

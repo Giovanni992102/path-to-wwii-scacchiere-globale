@@ -2567,10 +2567,22 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   if (
     nrm_hb.includes('south west africa') ||
     nrm_hb.includes('south-west africa') ||
-    nrm_hb.includes('namibia')
+    nrm_hb.includes('namibia') ||
+    f.id === 'SAF_SWA' ||
+    P.shapeISO === 'NA' ||
+    P.CNTR_CODE === 'NA' ||
+    P.ISO === 'NA'
   ) {
-    const top = getExtendedToponym(name, 'SAF', nid, c, s);
+    const top = getExtendedToponym(name || 'South West Africa', 'SAF', nid, c, s);
     return makeResult('SAF', top.name || 'Suidwes-Afrika / South West Africa (Windhoek)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'League of Nations Mandate (Union of South Africa)');
+  }
+  if (
+    nrm_hb.includes('walvis') ||
+    nrm_hb.includes('walbis') ||
+    f.id === 'WALVIS_BAY'
+  ) {
+    const top = getExtendedToponym(name || 'Walvis Bay', 'SAF', nid, c, s);
+    return makeResult('SAF', top.name || 'Walvis Bay (Exclave of the Union of South Africa)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Port and Settlement of Walvis Bay (South Africa)');
   }
 
   // Colonie Belga & Portoghesi in Africa
@@ -8477,11 +8489,32 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       }
 
       if (
+        nrm.includes('walvis') ||
+        nrm.includes('walbis') ||
+        ft.id === 'WALVIS_BAY'
+      ) {
+        const top = getExtendedToponym(rawName || 'Walvis Bay', 'SAF', nid, c, s);
+        return makeResult('SAF', top.name || 'Walvis Bay (Exclave of the Union of South Africa)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'Port and Settlement of Walvis Bay (South Africa)');
+      }
+
+      if (
         nrm.includes('namibia') ||
         nrm.includes('south west africa') ||
         nrm.includes('south-west africa') ||
+        ft.id === 'SAF_SWA' ||
+        p.shapeISO === 'NA' ||
+        p.CNTR_CODE === 'NA'
+      ) {
+        const top = getExtendedToponym(rawName || 'South West Africa', 'SAF', nid, c, s);
+        return makeResult('SAF', top.name || 'Suidwes-Afrika / South West Africa (Windhoek)', top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'League of Nations Mandate (Union of South Africa)');
+      }
+
+      if (
         nrm.includes('south africa') ||
-        nrm.includes('sudafrica')
+        nrm.includes('sudafrica') ||
+        ft.id === 'SAF' ||
+        p.shapeISO === 'ZA' ||
+        p.CNTR_CODE === 'ZA'
       ) {
         return makeResult('SAF', getTop('SAF').name || rawName, 'Unione Sudafricana');
       }

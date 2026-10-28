@@ -2937,6 +2937,51 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: "82. Audit Geotopografico e Topologico Integrale Namibia / South West Africa & Walvis Bay (Watertightness, Zero Overlap, Conservazione Area, Mandato Sudafricano SAF e Walvis Bay Exclave)",
+        run: () => {
+          const allFeatures = [...loadedProvs, ...loadedHbs];
+          const ftSwa = allFeatures.find((f: any) => f.id === 'SAF_SWA' || f.properties?.id === 'SAF_SWA' || f.properties?.NAME === 'South West Africa');
+          const ftSaf = allFeatures.find((f: any) => f.id === 'SAF' || f.properties?.id === 'SAF' || f.properties?.NAME === 'Union of South Africa');
+          const ftWb = allFeatures.find((f: any) => f.id === 'WALVIS_BAY' || f.properties?.id === 'WALVIS_BAY' || f.properties?.NAME === 'Walvis Bay' || f.properties?.NAME === 'Walbis Bay');
+
+          if (!ftSwa || !ftSaf || !ftWb) {
+            console.error('Feature mancanti per Namibia, Sudafrica o Walvis Bay:', { ftSwa: !!ftSwa, ftSaf: !!ftSaf, ftWb: !!ftWb });
+            return false;
+          }
+
+          // 1. Controllo aree e geometrie
+          const swaArea = ftSwa.properties?.area_deg2;
+          if (typeof swaArea === 'number' && (swaArea < 69 || swaArea > 72)) return false;
+
+          const safArea = ftSaf.properties?.area_deg2;
+          if (typeof safArea === 'number' && (safArea < 111 || safArea > 115)) return false;
+
+          const wbArea = ftWb.properties?.area_deg2;
+          if (typeof wbArea === 'number' && (wbArea < 0.4 || wbArea > 0.6)) return false;
+
+          // 2. Controllo risoluzione step 0 (Neutrale) e step 6 (Alleati)
+          const resSwa0 = resolveHB(ftSwa, 0);
+          if (!resSwa0 || resSwa0.o !== 'SAF' || resSwa0.fac !== 'Neutrale' || !resSwa0.name.includes('South West Africa') || !resSwa0.adminEntity?.includes('Mandate')) return false;
+
+          const resSwa6 = resolveHB(ftSwa, 6);
+          if (!resSwa6 || resSwa6.o !== 'SAF' || resSwa6.fac !== 'Alleati') return false;
+
+          const resSaf0 = resolveHB(ftSaf, 0);
+          if (!resSaf0 || resSaf0.o !== 'SAF' || resSaf0.fac !== 'Neutrale' || !resSaf0.name.includes('South Africa')) return false;
+
+          const resSaf6 = resolveHB(ftSaf, 6);
+          if (!resSaf6 || resSaf6.o !== 'SAF' || resSaf6.fac !== 'Alleati') return false;
+
+          const resWb0 = resolveHB(ftWb, 0);
+          if (!resWb0 || resWb0.o !== 'SAF' || !resWb0.name.includes('Walvis Bay') || !resWb0.adminEntity?.includes('Walvis Bay')) return false;
+
+          const resWb6 = resolveHB(ftWb, 6);
+          if (!resWb6 || resWb6.o !== 'SAF' || resWb6.fac !== 'Alleati') return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;
