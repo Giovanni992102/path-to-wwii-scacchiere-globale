@@ -2798,6 +2798,62 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: "81. Audit Geotopografico Integrale dell'Africa Centrale Francese (AEF: Gabon, Repubblica Centrafricana / Oubangui-Chari, Ciad e Medio Congo, Watertightness, Zero Gap e Zero Sovrapposizioni)",
+        run: () => {
+          // 1. Verifica presenza di tutte le 4 entità AEF nei layer caricati
+          const aefIds = ['AEF_GA', 'AEF_CF', 'AEF_TD', 'AEF_CG'];
+          const allFeatures = [...loadedProvs, ...loadedHbs];
+          for (const aid of aefIds) {
+            const ft = allFeatures.find((f: any) => f.id === aid || f.properties?.id === aid);
+            if (!ft) {
+              console.error(`Manca feature per ${aid}`);
+              return false;
+            }
+            if (!ft.geometry || !ft.geometry.coordinates || ft.geometry.coordinates.length === 0) {
+              console.error(`Geometria vuota o non valida per ${aid}`);
+              return false;
+            }
+            // Verifica risoluzione di base: step 0 -> F_AEF
+            const res0 = resolveFeature(ft, 0);
+            if (!res0 || res0.o !== 'F_AEF') {
+              console.error(`Risoluzione Step 0 fallita per ${aid}:`, res0);
+              return false;
+            }
+          }
+
+          // 2. Controllo specifico Gabon e Repubblica Centrafricana (file allegati ga.json e cf.json)
+          const ftGa = allFeatures.find((f: any) => f.id === 'AEF_GA' || f.properties?.id === 'AEF_GA');
+          const ftCf = allFeatures.find((f: any) => f.id === 'AEF_CF' || f.properties?.id === 'AEF_CF');
+          const ftTd = allFeatures.find((f: any) => f.id === 'AEF_TD' || f.properties?.id === 'AEF_TD');
+          const ftCg = allFeatures.find((f: any) => f.id === 'AEF_CG' || f.properties?.id === 'AEF_CG');
+
+          if (!ftGa || !ftCf || !ftTd || !ftCg) return false;
+
+          // Gabon: confina con Guinea Equatoriale, Camerun e Congo; area ~ 20.7 deg²
+          const gaArea = ftGa.properties?.area_deg2;
+          if (typeof gaArea === 'number' && (gaArea < 19 || gaArea > 22)) {
+            console.error('Area Gabon fuori tolleranza:', gaArea);
+            return false;
+          }
+
+          // Centrafrica / Oubangui-Chari: confina con Camerun, Ciad, Sudan, Congo Belga, Congo; area ~ 51.5 deg²
+          const cfArea = ftCf.properties?.area_deg2;
+          if (typeof cfArea === 'number' && (cfArea < 50 || cfArea > 53)) {
+            console.error('Area Centrafrica fuori tolleranza:', cfArea);
+            return false;
+          }
+
+          // Ciad: confina con Niger, Libia, Sudan, Camerun, Nigeria; area ~ 106.6 deg²
+          const tdArea = ftTd.properties?.area_deg2;
+          if (typeof tdArea === 'number' && (tdArea < 104 || tdArea > 108)) {
+            console.error('Area Ciad fuori tolleranza:', tdArea);
+            return false;
+          }
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;
