@@ -3,6 +3,7 @@ import { USA_PROVINCES_META, populateUSAToponyms } from './usaProvinces';
 import { CANADA_PROVINCES_META, populateCanadaToponyms } from './canadaProvinces';
 import { MEXICO_PROVINCES_META, populateMexicoToponyms } from './mexicoProvinces';
 import { AOF_PROVINCES_META, populateAOFToponyms } from './aofProvinces';
+import { AEF_PROVINCES_META, populateAEFToponyms } from './aefProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2864,6 +2865,9 @@ populateMexicoToponyms(HISTORICAL_TOPONYM_DICT);
 
 // Integrazione automatica toponomastica e amministrazioni storiche Africa Occidentale Francese (7 entità territoriali e federazione AOF)
 populateAOFToponyms(HISTORICAL_TOPONYM_DICT);
+
+// Integrazione automatica toponomastica e amministrazioni storiche Africa Equatoriale Francese (4 entità territoriali e federazione AEF)
+populateAEFToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -6554,9 +6558,17 @@ export function resolveAfricanToponym(
     normKey.includes('cameroun') ||
     normKey.includes('french_cameroon') ||
     normKey.includes('oubangui') ||
+    normKey.includes('ubangi') ||
     (normKey.includes('congo') && (owner === 'F_AEF' || owner === 'FFL_AEF')) ||
-    (normKey.includes('gabon') && (owner === 'F_AEF' || owner === 'FFL_AEF' || owner === 'VIC_AEF'))
+    (normKey.includes('gabon') && (owner === 'F_AEF' || owner === 'FFL_AEF' || owner === 'VIC_AEF')) ||
+    Boolean((AEF_PROVINCES_META as any)?.[id]) ||
+    Boolean((AEF_PROVINCES_META as any)?.[normKey])
   ) {
+    const aefTop = resolveAEFToponym(id, rawName, normKey, owner, step);
+    if (aefTop) return aefTop;
+  }
+
+  if (false) {
     if (normKey.includes('gabon')) {
       if (owner === 'VIC_AEF' || (step === 6 && owner !== 'FFL_AEF')) {
         return {
@@ -15671,6 +15683,150 @@ export function resolveAOFToponym(
   return null;
 }
 
+
+export function resolveAEFToponym(
+  id: string,
+  rawName: string,
+  normKey: string,
+  owner: string,
+  yearStep?: number
+): { name: string; adminTitle?: string; note?: string } | null {
+  const step = yearStep !== undefined ? yearStep : 0;
+
+  // 1. Livello Nazionale / Federale Generale AEF (French Equatorial Africa / Afrique-Équatoriale Française) - timeline-sensitive step 0..8
+  const isNationalName =
+    normKey === 'french_equatorial_africa' ||
+    normKey === 'afrique_equatoriale_francaise' ||
+    normKey === 'afrique_equatoriale' ||
+    normKey === 'africa_equatoriale_francese' ||
+    normKey === 'aef' ||
+    normKey === 'f_aef' ||
+    normKey === 'ffl_aef' ||
+    normKey === 'vic_aef';
+
+  const isNationalAEF =
+    isNationalName ||
+    ((id === 'AEF' || id === 'F_AEF' || id === 'FFL_AEF' || id === 'VIC_AEF' || id === 'FEA') &&
+     (isNationalName || !normKey || normKey === 'unknown' || normKey === 'territorio_non_assegnato' || normKey === 'french_equatorial_africa'));
+
+  if (isNationalAEF) {
+    if (step >= 8) {
+      return {
+        name: "Afrique Française Libre / AEF (Base Strategica di Leclerc & Serment de Koufra)",
+        adminTitle: "Gouvernement Général de l'AEF (Félix Éboué) & Forces Françaises Libres",
+        note: "Consolidamento dell'AEF come trampolino di lancio militare della riscossa alleata. Il governatore generale Félix Éboué riorganizza l'amministrazione civile secondo la sua celebre circolare sulla politica indigena, valorizzando le autorità tradizionali e abolendo gli abusi dell'indigénat, mentre le truppe coloniali dell'AEF (Bataillons de Marche) combattono valorosamente in Eritrea, Siria e nel deserto libico. Dal Ciad, la colonna del colonnello Philippe Leclerc compie la leggendaria presa dell'oasi di Kufra (1º marzo 1941) pronunciando il giuramento che legherà il destino dell'Africa Equatoriale alla futura liberazione di Strasburgo e di Parigi.",
+      };
+    }
+    if (step >= 7) {
+      return {
+        name: "Capitale de la France Libre (Brazzaville — Manifeste de Brazzaville & Unità dell'AEF)",
+        adminTitle: "Conseil de Défense de l'Empire — Gouvernement Général de l'AEF (Félix Éboué)",
+        note: "27 Ottobre 1940: Il Generale Charles de Gaulle stabilisce a Brazzaville la Capitale ufficiale dell'Impero della Francia Libera, emanando lo storico Manifeste de Brazzaville e istituendo il Conseil de Défense de l'Empire come primo organo di governo della resistenza. Félix Éboué viene nominato Governatore Generale dell'intera federazione AEF (primo nero a ricoprire la carica suprema coloniale). Con la Campagna del Gabon (ottobre-novembre 1940) condotta da Leclerc e Koenig, Libreville viene conquistata ponendo fine alla resistenza di Vichy: l'unità dell'Africa equatoriale gollista è totale. Da Brazzaville irradiano i messaggi di Radio Brazzaville, la voce libera della Francia nel mondo.",
+      };
+    }
+    if (step >= 6) {
+      return {
+        name: "Afrique Française Libre (AEF — Ralliement Storico di Brazzaville, Ciad & Camerun)",
+        adminTitle: "Délégation Générale de la France Libre (Félix Éboué & Edgard de Larminat)",
+        note: "26-28 Agosto 1940: Lo storico Ralliement dell'Empire! Rifiutando l'armistizio di Vichy, il governatore del Ciad Félix Éboué (26 agosto) e il colonnello Edgard de Larminat a Brazzaville (28 agosto), affiancati da Leclerc in Camerun e Saint-Mart a Bangui, schierano l'intera Africa Equatoriale Francese con il Generale Charles de Gaulle. Il ralliement dell'AEF conferisce alla Francia Libera la prima base territoriale sovrana, un immenso bacino di truppe coloniali (Tirailleurs) e una cerniera geostrategica continua con l'Impero Britannico (Nigeria e Sudan). Soltanto il Gabon sotto il governatore Masson resta provvisoriamente legato a Vichy.",
+      };
+    }
+    if (step >= 5) {
+      return {
+        name: "Afrique-Équatoriale Française / AEF (Mobilitazione Bellica Generale)",
+        adminTitle: "Gouvernement Général de l'AEF (Pierre Husson) — Sforzo Bellico Imperiale",
+        note: "Piena mobilitazione bellica dell'Africa Equatoriale Francese sotto il Governatore Generale Pierre Husson. Reclutamento e inquadramento di battaglioni coloniali (Tirailleurs del Ciad, Moyen-Congo e Oubangui-Chari) inviati sul fronte europeo; coordinamento con il Congo Belga e le colonie britanniche per la sicurezza delle rotte atlantiche e dell'Africa centrale; Pointe-Noire funge da porto di rifornimento navale per i convogli alleati.",
+      };
+    }
+    if (step >= 2) {
+      return {
+        name: "Afrique-Équatoriale Française / AEF (Riarmo & Nomina di Félix Éboué in Ciad)",
+        adminTitle: "Gouvernement Général de l'AEF (Brazzaville) — Difesa Coloniale",
+        note: "Fase di riarmo post-Monaco e consolidamento dei confini: nomina storica di Félix Éboué a Governatore del Ciad (novembre 1938) per blindare la frontiera sahariana contro le minacce dell'Italia fascista in Libia (Striscia di Aouzou). Potenziamento del porto atlantico di Pointe-Noire, della ferrovia Congo-Océan (CFCO) e delle comunicazioni interne della federazione.",
+      };
+    }
+    return {
+      name: "Afrique-Équatoriale Française / AEF (Brazzaville — François-Joseph Reste de Roca)",
+      adminTitle: "Gouvernement Général de l'AEF (Brazzaville)",
+      note: "Federazione coloniale francese dell'Africa Equatoriale (AEF) con sede centrale a Brazzaville, comprendente le quattro colonie di Gabon, Moyen-Congo, Oubangui-Chari e Tchad, oltre al mandato SDN sul Camerun francese. Amministrazione riformista del Governatore Generale François-Joseph Reste de Roca (Fronte Popolare); infrastruttura strategica imperniata sulla ferrovia Congo-Océan (Pointe-Noire - Brazzaville) e sulla navigazione fluviale del bacino Congo-Ubangi; legname okoumé, cotone, olio di palma e diamanti.",
+    };
+  }
+
+  // 2. Ricerca granulare e timeline-sensitive in AEF_PROVINCES_META
+  const cleanId = id.toUpperCase().trim().replace('-', '_');
+  const provMeta =
+    AEF_PROVINCES_META[cleanId] ||
+    (cleanId.startsWith('AEF_') ? undefined : AEF_PROVINCES_META['AEF_' + cleanId]);
+
+  if (provMeta) {
+    const isVichyGabon =
+      provMeta.id === 'AEF_GA' &&
+      step === 6 &&
+      (rawName.includes('Vichy') || rawName.includes('(France)') || owner === 'VIC_AEF');
+
+    return {
+      name: isVichyGabon ? 'Colonie du Gabon (Vichy — Libreville)' : provMeta.getHistoricalName(step),
+      adminTitle: isVichyGabon ? 'Gouverneur Georges Masson (Régime de Vichy — Libreville)' : provMeta.getAdminTitle(step),
+      note: isVichyGabon
+        ? "Il governatore Georges Masson rifiuta il ralliement all'AEF e mantiene il Gabon fedele al regime di Vichy fino alla campagna militare condotta da Leclerc e Koenig."
+        : provMeta.getNote(step),
+    };
+  }
+
+  // Lookup per chiave o nome in AEF_PROVINCES_META
+  const pNorm = normKey.replace(/[^a-z0-9]/g, '');
+  for (const k of ['AEF_TD', 'AEF_CF', 'AEF_CG', 'AEF_GA']) {
+    const item = AEF_PROVINCES_META[k];
+    const nrmItem = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const nrmMod = item.modernName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const nrmHist = item.historicalName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (
+      pNorm === nrmItem ||
+      pNorm === nrmMod ||
+      (nrmItem.length >= 4 && pNorm.includes(nrmItem)) ||
+      (nrmItem.length >= 4 && nrmHist.includes(pNorm))
+    ) {
+      const isVichyGabon =
+        item.id === 'AEF_GA' &&
+        step === 6 &&
+        (rawName.includes('Vichy') || rawName.includes('(France)') || owner === 'VIC_AEF');
+
+      return {
+        name: isVichyGabon ? 'Colonie du Gabon (Vichy — Libreville)' : item.getHistoricalName(step),
+        adminTitle: isVichyGabon ? 'Gouverneur Georges Masson (Régime de Vichy — Libreville)' : item.getAdminTitle(step),
+        note: isVichyGabon
+          ? "Il governatore Georges Masson rifiuta il ralliement all'AEF e mantiene il Gabon fedele al regime di Vichy fino alla campagna militare condotta da Leclerc e Koenig."
+          : item.getNote(step),
+      };
+    }
+  }
+
+  // 3. Ricerca granulare nei dizionari storici AEF
+  const aefDict = (step >= 6 ? HISTORICAL_TOPONYM_DICT['FFL_AEF'] : HISTORICAL_TOPONYM_DICT['F_AEF']) || HISTORICAL_TOPONYM_DICT['F_AEF'];
+  if (aefDict) {
+    if (aefDict[normKey]) {
+      return {
+        name: aefDict[normKey].historicalName,
+        adminTitle: aefDict[normKey].adminTitle,
+        note: aefDict[normKey].historicalNote || aefDict[normKey].note,
+      };
+    }
+    const sortedKeys = Object.keys(aefDict).sort((a, b) => b.length - a.length);
+    for (const k of sortedKeys) {
+      if (k.length <= 3) continue;
+      if (normKey === k || normKey.includes(k) || (k.length >= 5 && k.includes(normKey))) {
+        return {
+          name: aefDict[k].historicalName,
+          adminTitle: aefDict[k].adminTitle,
+          note: aefDict[k].historicalNote || aefDict[k].note,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
 export function resolveSovietToponym(
   id: string,
   rawName: string,
@@ -16078,6 +16234,20 @@ export function getExtendedToponym(
   ) {
     const aofTop = resolveAOFToponym(id, rawName, normKey, owner, yearStep);
     if (aofTop) return aofTop;
+  }
+
+  // 0.035 Overrides prioritari per AEF
+  if (
+    owner === 'F_AEF' ||
+    owner === 'FFL_AEF' ||
+    owner === 'VIC_AEF' ||
+    id.startsWith('AEF_') ||
+    normKey.includes('aef') ||
+    Boolean((AEF_PROVINCES_META as any)?.[id]) ||
+    Boolean((AEF_PROVINCES_META as any)?.[normKey])
+  ) {
+    const aefTop = resolveAEFToponym(id, rawName, normKey, owner, yearStep);
+    if (aefTop) return aefTop;
   }
 
   // 0.035 Overrides prioritari esaustivi per Africa (AOI, Quarta Sponda, AOF, AEF, Congo Belga, Colonie Portoghesi, Africa Britannica, Africa Spagnola, Sudafrica, Liberia, Egitto, Sudan)

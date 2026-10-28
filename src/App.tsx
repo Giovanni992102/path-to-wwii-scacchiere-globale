@@ -2798,8 +2798,8 @@ export default function App() {
           return true;
         },
       },
-      {
-        name: "81. Audit Geotopografico Integrale dell'Africa Centrale Francese (AEF: Gabon, Repubblica Centrafricana / Oubangui-Chari, Ciad e Medio Congo, Watertightness, Zero Gap e Zero Sovrapposizioni)",
+            {
+        name: "81. Audit Geotopografico, Storico ed Evolutivo Integrale dell'Africa Equatoriale Francese (AEF: Gabon, Oubangui-Chari / Centrafrica, Moyen-Congo e Ciad, Watertightness, Denominazioni Storico-Moderne e Timeline 1936-1941)",
         run: () => {
           // 1. Verifica presenza di tutte le 4 entità AEF nei layer caricati
           const aefIds = ['AEF_GA', 'AEF_CF', 'AEF_TD', 'AEF_CG'];
@@ -2822,7 +2822,7 @@ export default function App() {
             }
           }
 
-          // 2. Controllo specifico Gabon e Repubblica Centrafricana (file allegati ga.json e cf.json)
+          // 2. Controllo specifico geotopografico delle entità AEF
           const ftGa = allFeatures.find((f: any) => f.id === 'AEF_GA' || f.properties?.id === 'AEF_GA');
           const ftCf = allFeatures.find((f: any) => f.id === 'AEF_CF' || f.properties?.id === 'AEF_CF');
           const ftTd = allFeatures.find((f: any) => f.id === 'AEF_TD' || f.properties?.id === 'AEF_TD');
@@ -2830,26 +2830,90 @@ export default function App() {
 
           if (!ftGa || !ftCf || !ftTd || !ftCg) return false;
 
-          // Gabon: confina con Guinea Equatoriale, Camerun e Congo; area ~ 20.7 deg²
+          // Gabon: area ~ 20.7 deg²
           const gaArea = ftGa.properties?.area_deg2;
-          if (typeof gaArea === 'number' && (gaArea < 19 || gaArea > 22)) {
-            console.error('Area Gabon fuori tolleranza:', gaArea);
-            return false;
-          }
+          if (typeof gaArea === 'number' && (gaArea < 19 || gaArea > 22)) return false;
 
-          // Centrafrica / Oubangui-Chari: confina con Camerun, Ciad, Sudan, Congo Belga, Congo; area ~ 51.5 deg²
+          // Centrafrica / Oubangui-Chari: area ~ 51.5 deg²
           const cfArea = ftCf.properties?.area_deg2;
-          if (typeof cfArea === 'number' && (cfArea < 50 || cfArea > 53)) {
-            console.error('Area Centrafrica fuori tolleranza:', cfArea);
-            return false;
-          }
+          if (typeof cfArea === 'number' && (cfArea < 50 || cfArea > 53)) return false;
 
-          // Ciad: confina con Niger, Libia, Sudan, Camerun, Nigeria; area ~ 106.6 deg²
+          // Ciad: area ~ 106.6 deg²
           const tdArea = ftTd.properties?.area_deg2;
-          if (typeof tdArea === 'number' && (tdArea < 104 || tdArea > 108)) {
-            console.error('Area Ciad fuori tolleranza:', tdArea);
-            return false;
-          }
+          if (typeof tdArea === 'number' && (tdArea < 104 || tdArea > 108)) return false;
+
+          // 3. Controllo toponomastica storica e denominazioni moderne (Step 0)
+          const resTd0 = resolveFeature(ftTd, 0);
+          if (!resTd0 || !resTd0.name.includes('Tchad') || !resTd0.note?.includes('Fort-Lamy') || !resTd0.note?.includes('BET') || !resTd0.note?.includes('cotone')) return false;
+
+          const resCf0 = resolveFeature(ftCf, 0);
+          if (!resCf0 || !resCf0.name.includes('Oubangui-Chari') || !resCf0.note?.includes('Bangui') || !resCf0.note?.includes('Ubangi') || !resCf0.note?.includes('diamanti')) return false;
+
+          const resCg0 = resolveFeature(ftCg, 0);
+          if (!resCg0 || !resCg0.name.includes('Moyen-Congo') || !resCg0.note?.includes('Brazzaville') || !resCg0.note?.includes('Congo-Océan') || !resCg0.note?.includes('Pointe-Noire')) return false;
+
+          const resGa0 = resolveFeature(ftGa, 0);
+          if (!resGa0 || !resGa0.name.includes('Gabon') || !resGa0.note?.includes('Libreville') || !resGa0.note?.includes('okoumé') || !resGa0.note?.includes('Schweitzer')) return false;
+
+          // 4. Verifica timeline-sensitive step 2 (Riarmo post-Monaco 1938-1939: Félix Éboué governatore del Ciad, frontiera Aouzou)
+          const resTd2 = resolveFeature(ftTd, 2);
+          if (!resTd2 || !resTd2.note?.includes('Félix Éboué') || !resTd2.note?.includes('Tibesti') || !resTd2.note?.includes('Aouzou')) return false;
+
+          const resCg2 = resolveFeature(ftCg, 2);
+          if (!resCg2 || !resCg2.note?.includes('CFCO') || !resCg2.note?.includes('Pointe-Noire')) return false;
+
+          // 5. Verifica timeline-sensitive step 5 (Mobilitazione bellica generale 1939-1940: RTST, BTOC, Pierre Husson)
+          const resTd5 = resolveFeature(ftTd, 5);
+          if (!resTd5 || !resTd5.note?.includes('Félix Éboué') || !resTd5.note?.includes('RTST') || !resTd5.note?.includes('Marchand')) return false;
+
+          const resCf5 = resolveFeature(ftCf, 5);
+          if (!resCf5 || !resCf5.note?.includes('BTOC') || !resCf5.note?.includes('gomma')) return false;
+
+          const resCg5 = resolveFeature(ftCg, 5);
+          if (!resCg5 || !resCg5.note?.includes('Pierre Husson') || !resCg5.note?.includes('Moyen-Congo')) return false;
+
+          // 6. Verifica timeline-sensitive step 6 (26-28 Agosto 1940: Ralliement del Ciad e Moyen-Congo vs Gabon a Vichy)
+          const resTd6 = resolveFeature(ftTd, 6);
+          if (!resTd6 || resTd6.o !== 'FFL_AEF' || !resTd6.note?.includes('26 Agosto 1940') || !resTd6.note?.includes('Félix Éboué') || !resTd6.adminEntity?.includes('Marchand')) return false;
+
+          const resCf6 = resolveFeature(ftCf, 6);
+          if (!resCf6 || resCf6.o !== 'FFL_AEF' || !resCf6.note?.includes('Saint-Mart') || !resCf6.note?.includes('Robert de Roux')) return false;
+
+          const resCg6 = resolveFeature(ftCg, 6);
+          if (!resCg6 || resCg6.o !== 'FFL_AEF' || !resCg6.note?.includes('Edgard de Larminat') || !resCg6.adminEntity?.includes('Larminat')) return false;
+
+          // Gabon: verifica enclave di Vichy sotto il governatore Georges Masson
+          const resGaVichy = resolveHB({ properties: { NAME: 'Gabon (France)' } }, 6);
+          if (!resGaVichy || resGaVichy.o !== 'VIC_AEF' || !resGaVichy.note?.includes('Georges Masson') || resGaVichy.fac !== 'Fantoccio') return false;
+
+          // 7. Verifica timeline-sensitive step 7 (27 Ottobre 1940: Manifeste de Brazzaville, Capitale de la France Libre & Campagna del Gabon)
+          const resCg7 = resolveFeature(ftCg, 7);
+          if (!resCg7 || resCg7.o !== 'FFL_AEF' || !resCg7.name.includes('Capitale de la France Libre') || !resCg7.note?.includes('Manifeste de Brazzaville') || !resCg7.note?.includes('Radio Brazzaville') || !resCg7.adminEntity?.includes('Félix Éboué')) return false;
+
+          const resGa7 = resolveFeature(ftGa, 7);
+          if (!resGa7 || resGa7.o !== 'FFL_AEF' || !resGa7.name.includes('Gabon (France Libre') || !resGa7.note?.includes('Campagna del Gabon') || !resGa7.note?.includes('Bougainville') || !resGa7.adminEntity?.includes('Forces Françaises Libres')) return false;
+
+          // 8. Verifica timeline-sensitive step 8 (1º Marzo 1941: Serment de Koufra di Leclerc, BM 2 e Fusiliers Marins)
+          const resTd8 = resolveFeature(ftTd, 8);
+          if (!resTd8 || resTd8.o !== 'FFL_AEF' || !resTd8.name.includes('Giuramento di Kufra') || !resTd8.note?.includes('Kufra') || !resTd8.note?.includes('Strasbourg') || !resTd8.adminEntity?.includes('Leclerc')) return false;
+
+          const resCf8 = resolveFeature(ftCf, 8);
+          if (!resCf8 || resCf8.o !== 'FFL_AEF' || !resCf8.name.includes('BM 2') || !resCf8.note?.includes('Bir Hakeim')) return false;
+
+          // 9. Verifica toponimi estesi da getExtendedToponym a livello federale per l'Africa Equatoriale Francese (Step 0, 2, 5, 6, 7, 8)
+          const topAEF0 = getExtendedToponym('French Equatorial Africa', 'F_AEF', undefined, undefined, 0);
+          const topAEF2 = getExtendedToponym('French Equatorial Africa', 'F_AEF', undefined, undefined, 2);
+          const topAEF5 = getExtendedToponym('French Equatorial Africa', 'F_AEF', undefined, undefined, 5);
+          const topAEF6 = getExtendedToponym('French Equatorial Africa', 'FFL_AEF', undefined, undefined, 6);
+          const topAEF7 = getExtendedToponym('French Equatorial Africa', 'FFL_AEF', undefined, undefined, 7);
+          const topAEF8 = getExtendedToponym('French Equatorial Africa', 'FFL_AEF', undefined, undefined, 8);
+
+          if (!topAEF0.name.includes('Reste de Roca') || !topAEF0.note?.includes('Brazzaville') || !topAEF0.note?.includes('Congo-Océan')) return false;
+          if (!topAEF2.name.includes('Riarmo') || !topAEF2.note?.includes('Félix Éboué') || !topAEF2.note?.includes('Aouzou')) return false;
+          if (!topAEF5.name.includes('Mobilitazione') || !topAEF5.note?.includes('Pierre Husson') || !topAEF5.note?.includes('Tirailleurs')) return false;
+          if (!topAEF6.name.includes('Ralliement') || !topAEF6.adminTitle?.includes('Félix Éboué') || !topAEF6.note?.includes('26-28 Agosto 1940')) return false;
+          if (!topAEF7.name.includes('Capitale de la France Libre') || !topAEF7.note?.includes('Manifeste de Brazzaville') || !topAEF7.note?.includes('Radio Brazzaville')) return false;
+          if (!topAEF8.name.includes('Koufra') || !topAEF8.note?.includes('Kufra') || !topAEF8.note?.includes('Strasburgo')) return false;
 
           return true;
         },

@@ -36,6 +36,10 @@ import {
   resolveAOFProvince,
   AOF_PROVINCES_META,
 } from './aofProvinces';
+import {
+  resolveAEFProvince,
+  AEF_PROVINCES_META,
+} from './aefProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -2671,6 +2675,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     (nrm_hb.includes('congo') && (nrm_hb.includes('brazzaville') || subj === 'France')) ||
     (nrm_hb.includes('gabon') && !nrm_hb.includes('gabriel'))
   ) {
+    const resAEF = resolveAEFProvince(f, s);
+    if (resAEF) return resAEF;
     if (nrm_hb.includes('gabon') && !nrm_hb.includes('gabriel')) {
       if (s === 6) {
         const top = getExtendedToponym(name, 'VIC_AEF', nid, c, s);
@@ -5311,6 +5317,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isAOFProv) {
     const resAOF = resolveAOFProvince(ft, s);
     if (resAOF) return resAOF;
+  }
+
+  const isAEFProv =
+    (
+      cntr === 'AEF_PROV' ||
+      nid.startsWith('AEF_') ||
+      fidClean.startsWith('AEF_') ||
+      p.REGION_KIND === 'AEF_PROVINCE' ||
+      Boolean((AEF_PROVINCES_META as any)?.[fidClean]) ||
+      Boolean((AEF_PROVINCES_META as any)?.[nid]) ||
+      ((cntr === 'TD' || cntr === 'CF' || cntr === 'CG' || cntr === 'GA') &&
+        (p.country === 'French Equatorial Africa' || p.PARTOF === 'French Equatorial Africa'))
+    );
+
+  if (isAEFProv) {
+    const resAEF = resolveAEFProvince(ft, s);
+    if (resAEF) return resAEF;
   }
 
   // Granularizzazione integrale del Teatro Cinese e Guerra Sino-Giapponese (1936-1940)
@@ -8411,6 +8434,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         (nrm.includes('gabon') && !nrm.includes('gabriel')) ||
         nrm.includes('aef')
       ) {
+        const resAEF = resolveAEFProvince(ft, s);
+        if (resAEF) return resAEF;
         if (s >= 6) {
           const top = getTop('FFL_AEF');
           return makeResult(
