@@ -3029,7 +3029,7 @@ export default function App() {
         },
       },
       {
-        name: "84. Audit Geotopografico Integrale Province dell'Afghanistan (34 Province, Watertightness con Iran, Raj Britannico, URSS e Xinjiang, Zero Overlap, Conservazione Assoluta Area 63.6873 deg² e Risoluzione Sovrana AFG)",
+        name: "84. Audit Geotopografico, Storico ed Evolutivo Integrale del Regno dell'Afghanistan (34 Province, Watertightness, Denominazioni Storico-Moderne, Re Zahir Shah, Neutralità 1936-1941, Kunduz Spinzar, Wakhan e Transito Subhas Chandra Bose)",
         run: () => {
           if (!loadedHbs || loadedHbs.length === 0) return false;
           const afProvs = loadedHbs.filter(
@@ -3037,7 +3037,7 @@ export default function App() {
           );
           if (afProvs.length !== 34) return false;
 
-          // Somma area geotopografica
+          // 1. Somma area geotopografica e conservazione
           let sumArea = 0;
           for (const p of afProvs) {
             const a = p.properties?.area_deg2;
@@ -3045,20 +3045,51 @@ export default function App() {
           }
           if (sumArea < 63.5 || sumArea > 63.8) return false;
 
-          // Verifica risoluzione sovrana AFG e Neutrale
+          // 2. Controllo province e toponomastica storica chiave
           const pKabul = afProvs.find((f: any) => f.id === 'AF_KAB' || f.properties?.NAME === 'Kabul');
           const pHirat = afProvs.find((f: any) => f.id === 'AF_HER' || f.properties?.NAME === 'Hirat');
           const pBadakh = afProvs.find((f: any) => f.id === 'AF_BDS' || f.properties?.NAME === 'Badakhshan');
           const pKand = afProvs.find((f: any) => f.id === 'AF_KAN' || f.properties?.NAME === 'Kandahar');
+          const pKunduz = afProvs.find((f: any) => f.id === 'AF_KDZ' || f.properties?.NAME === 'Kunduz');
+          const pNangarhar = afProvs.find((f: any) => f.id === 'AF_NAN' || f.properties?.NAME === 'Nangarhar');
+          const pKhost = afProvs.find((f: any) => f.id === 'AF_KHO' || f.properties?.NAME === 'Khost');
+          const pBamyan = afProvs.find((f: any) => f.id === 'AF_BAM' || f.properties?.NAME === 'Bamyan');
 
-          if (!pKabul || !pHirat || !pBadakh || !pKand) return false;
+          if (!pKabul || !pHirat || !pBadakh || !pKand || !pKunduz || !pNangarhar || !pKhost || !pBamyan) return false;
 
-          for (const p of [pKabul, pHirat, pBadakh, pKand]) {
-            const r0 = resolveHB(p, 0);
-            const r6 = resolveHB(p, 6);
-            if (!r0 || r0.o !== 'AFG' || r0.fac !== 'Neutrale') return false;
-            if (!r6 || r6.o !== 'AFG' || r6.fac !== 'Neutrale') return false;
-          }
+          // 3. Risoluzione sovrana e timeline step 0 (1936 - Status Quo, Saadabad & Dinastia Musahiban)
+          const rKab0 = resolveHB(pKabul, 0);
+          if (!rKab0 || rKab0.o !== 'AFG' || rKab0.fac !== 'Neutrale' || !rKab0.name.includes('Vilayat-e Kabul') || !rKab0.note?.includes('Zahir Shah') || !rKab0.note?.includes('Saadabad')) return false;
+
+          const rKdz0 = resolveHB(pKunduz, 0);
+          if (!rKdz0 || !rKdz0.name.includes('Qataghan') || !rKdz0.note?.includes('Spinzar') || !rKdz0.note?.includes('Sher Khan Nasher')) return false;
+
+          const rBds0 = resolveHB(pBadakh, 0);
+          if (!rBds0 || !rBds0.name.includes('Wakhan') || !rBds0.note?.includes('Sar-i Sang') || !rBds0.note?.includes('Great Game')) return false;
+
+          const rNan0 = resolveHB(pNangarhar, 0);
+          if (!rNan0 || !rNan0.name.includes('Mashriqi') || !rNan0.name.includes('Khyber') || !rNan0.note?.includes('Seraj-ul-Emarat')) return false;
+
+          const rKho0 = resolveHB(pKhost, 0);
+          if (!rKho0 || !rKho0.note?.includes('Waziristan') || !rKho0.note?.includes('Matun')) return false;
+
+          const rKho6 = resolveHB(pKhost, 6);
+          if (!rKho6 || !rKho6.name.includes('Waziristan') || !rKho6.note?.includes('Faqir di Ipi')) return false;
+
+          const rBam0 = resolveHB(pBamyan, 0);
+          if (!rBam0 || !rBam0.name.includes('Buddha') || !rBam0.note?.includes('DAFA') || !rBam0.note?.includes('Hackin')) return false;
+
+          // 4. Timeline Step 5 (Settembre 1939 - Proclamazione Ufficiale Neutralità Reale)
+          const rKab5 = resolveHB(pKabul, 5);
+          if (!rKab5 || !rKab5.name.includes('Neutralità Reale') || !rKab5.note?.includes('6 settembre 1939') || !rKab5.note?.includes('rigorosa neutralità')) return false;
+
+          // 5. Timeline Step 6 (Giugno 1940 - Pressioni dell'Asse e Isolamento Diplomatico)
+          const rKab6 = resolveHB(pKabul, 6);
+          if (!rKab6 || !rKab6.note?.includes('Quaroni') || !rKab6.note?.includes('Pilger')) return false;
+
+          // 6. Timeline Step 8 (Aprile 1941 - Transito di Subhas Chandra Bose & Ferma Neutralità)
+          const rKab8 = resolveHB(pKabul, 8);
+          if (!rKab8 || !rKab8.note?.includes('Subhas Chandra Bose') || !rKab8.note?.includes('Mazzotta') || !rKab8.adminEntity?.includes('Hashim Khan')) return false;
 
           return true;
         },

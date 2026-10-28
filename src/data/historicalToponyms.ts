@@ -6,6 +6,7 @@ import { AOF_PROVINCES_META, populateAOFToponyms } from './aofProvinces';
 import { AEF_PROVINCES_META, populateAEFToponyms } from './aefProvinces';
 import { NAMIBIA_PROVINCES_META, populateNamibiaToponyms, resolveNamibiaProvince } from './namibiaProvinces';
 import { SUDAN_PROVINCES_META, populateSudanToponyms, resolveSudanProvince } from './sudanProvinces';
+import { AFGHANISTAN_PROVINCES_META, populateAfghanistanToponyms, resolveAfghanistanProvince } from './afghanistanProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2874,6 +2875,7 @@ populateAOFToponyms(HISTORICAL_TOPONYM_DICT);
 populateAEFToponyms(HISTORICAL_TOPONYM_DICT);
 populateNamibiaToponyms(HISTORICAL_TOPONYM_DICT);
 populateSudanToponyms(HISTORICAL_TOPONYM_DICT);
+populateAfghanistanToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -11365,6 +11367,16 @@ export function resolveBritishColonialToponym(
       name: resSudan.name,
       adminTitle: resSudan.adminEntity,
       note: resSudan.note,
+    };
+  }
+
+  // Regno dell'Afghanistan (34 Province 1936-1941)
+  const resAfg = resolveAfghanistanProvince(nid || n, step);
+  if (resAfg) {
+    return {
+      name: resAfg.name,
+      adminTitle: resAfg.adminEntity,
+      note: resAfg.note,
     };
   }
 

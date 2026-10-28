@@ -48,6 +48,10 @@ import {
   resolveSudanProvince,
   SUDAN_PROVINCES_META,
 } from './sudanProvinces';
+import {
+  resolveAfghanistanProvince,
+  AFGHANISTAN_PROVINCES_META,
+} from './afghanistanProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -2505,6 +2509,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
   const resSudanHB = resolveSudanProvince(f.id || P.id || P.shapeISO || name, s);
   if (resSudanHB) return resSudanHB;
+  const resAfgHB = resolveAfghanistanProvince(f.id || P.id || P.shapeISO || name, s);
+  if (resAfgHB) return resAfgHB;
   if (
     nrm_hb.includes('kenya') ||
     nrm_hb.includes('uganda') ||
@@ -3265,6 +3271,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     if (ov.o === 'AFG') {
+      const resAfg = resolveAfghanistanProvince(cleanId || nid || name, s);
+      if (resAfg) return resAfg;
       return makeResult(
         'AFG',
         top.name || `${name} (Afghanistan)`,
@@ -4645,6 +4653,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
   if (ft.__kind === 'KALININGRAD') {
     return makeResult('GER', 'Königsberg in Preußen', 'Hauptstadt der Provinz Ostpreußen');
+  }
+
+  // Regno dell'Afghanistan (34 Province 1936-1941)
+  const isAfgProv =
+    p.country === 'Afghanistan' ||
+    String(ft.id || '').startsWith('AF_') ||
+    nid.startsWith('AF_') ||
+    String(p.shapeISO || '').startsWith('AF-') ||
+    cntr === 'AF' ||
+    cntr === 'AFG' ||
+    cntr === '004';
+
+  if (isAfgProv) {
+    const resAfg = resolveAfghanistanProvince(ft.id || p.id || p.shapeISO || rawName, s);
+    if (resAfg) return resAfg;
   }
 
   // Impero dell'Iran (31 Province 1936-1941)
@@ -7523,7 +7546,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('SAU', getTop('SAU').name || rawName || 'Regno dell\'Arabia Saudita', 'Regno dell\'Arabia Saudita');
     case 'AF':
     case 'AFG':
-    case '004':
+    case '004': {
+      const resAfg = resolveAfghanistanProvince(ft.id || p.id || p.shapeISO || rawName, s);
+      if (resAfg) return resAfg;
       return makeResult(
         'AFG',
         getTop('AFG').name || rawName || 'Regno dell\'Afghanistan',
@@ -7531,6 +7556,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         'Neutrale',
         'Da Afghānistān Shāhī Dawlat'
       );
+    }
     case 'NP':
     case 'NPL':
     case '524':
