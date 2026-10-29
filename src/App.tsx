@@ -27,6 +27,7 @@ import { tacticalAudio } from './data/audioSynthesizer';
 import { HistoricalBattle } from './data/historicalBattles';
 import { FortificationLine, NavalBase } from './data/historicalFortifications';
 import { resolveBalkansToponym, BALKAN_DISTRICTS_CATALOG } from './data/balkanDistricts';
+import { FRANCE_PROVINCES_META, resolveFranceProvince } from './data/franceProvinces';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -3090,6 +3091,123 @@ export default function App() {
           // 6. Timeline Step 8 (Aprile 1941 - Transito di Subhas Chandra Bose & Ferma Neutralità)
           const rKab8 = resolveHB(pKabul, 8);
           if (!rKab8 || !rKab8.note?.includes('Subhas Chandra Bose') || !rKab8.note?.includes('Mazzotta') || !rKab8.adminEntity?.includes('Hashim Khan')) return false;
+
+          return true;
+        },
+      },
+      {
+        name: "85. Audit Geotopografico, Storico ed Evolutivo Integrale della Francia Metropolitana (101 Dipartimenti e Territori NUTS-3, Denominazioni Storico-Moderne, Armistizio di Compiègne 1940, Quadripartizione Territoriale e Timeline Dinamica 1936-1941)",
+        run: () => {
+          if (!loadedProvs || loadedProvs.length === 0) return false;
+
+          // 1. Verifica censimento integrale (101 entità: 96 Metropolitani NUTS-3 + 5 Territori d'Oltremare)
+          const allNuts = Object.keys(FRANCE_PROVINCES_META);
+          if (allNuts.length !== 101) return false;
+
+          // 2. Controllo integrità attributi per ogni dipartimento
+          for (const key of allNuts) {
+            const item = FRANCE_PROVINCES_META[key];
+            if (!item.nuts || !item.name || !item.modernName || !item.historicalName || !item.cheflieu || !item.region || !item.deptNum) return false;
+            if (!item.s0_1 || !item.s2_4 || !item.s5 || !item.s6 || !item.s7 || !item.s8) return false;
+          }
+
+          // 3. Toponomastica storica vs moderna comparata (Check dipartimenti rinominati postbellici)
+          // Seine (Paris) [75]
+          const pParis = resolveFranceProvince('FR101', 0);
+          if (!pParis || pParis.name !== 'Seine (Paris)' || !FRANCE_PROVINCES_META['FR101'].modernName.includes('Paris (75')) return false;
+
+          // Seine-Inférieure -> Seine-Maritime [76]
+          const pSeineMar = resolveFranceProvince('FRD22', 0);
+          if (!pSeineMar || pSeineMar.name !== 'Seine-Inférieure (Rouen / Le Havre)' || !FRANCE_PROVINCES_META['FRD22'].modernName.includes('Seine-Maritime (76')) return false;
+
+          // Loire-Inférieure -> Loire-Atlantique [44]
+          const pLoireAtl = resolveFranceProvince('FRG01', 0);
+          if (!pLoireAtl || pLoireAtl.name !== 'Loire-Inférieure (Nantes)' || !FRANCE_PROVINCES_META['FRG01'].modernName.includes('Loire-Atlantique (44')) return false;
+
+          // Basses-Pyrénées -> Pyrénées-Atlantiques [64]
+          const pPyrAtl = resolveFranceProvince('FRI15', 0);
+          if (!pPyrAtl || pPyrAtl.name !== 'Basses-Pyrénées (Pau / Bayonne)' || !FRANCE_PROVINCES_META['FRI15'].modernName.includes('Pyrénées-Atlantiques (64')) return false;
+
+          // Basses-Alpes -> Alpes-de-Haute-Provence [04]
+          const pBassesAlp = resolveFranceProvince('FRL01', 0);
+          if (!pBassesAlp || pBassesAlp.name !== 'Basses-Alpes (Digne)' || !FRANCE_PROVINCES_META['FRL01'].modernName.includes('Alpes-de-Haute-Provence (04')) return false;
+
+          // Côtes-du-Nord -> Côtes-d'Armor [22]
+          const pCotesNord = resolveFranceProvince('FRH01', 0);
+          if (!pCotesNord || pCotesNord.name !== "Côtes-du-Nord (Saint-Brieuc)" || !FRANCE_PROVINCES_META['FRH01'].modernName.includes("Côtes-d'Armor (22")) return false;
+
+          // Charente-Inférieure -> Charente-Maritime [17]
+          const pCharenteInf = resolveFranceProvince('FRI32', 0);
+          if (!pCharenteInf || pCharenteInf.name !== 'Charente-Inférieure (La Rochelle)' || !FRANCE_PROVINCES_META['FRI32'].modernName.includes('Charente-Maritime (17')) return false;
+
+          // 4. Timeline Step 0-1 (1936-1937 Terza Repubblica & Fronte Popolare Léon Blum)
+          const rPar0 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FR101', NAME: 'Paris' } }, 0);
+          if (!rPar0 || rPar0.o !== 'FRA' || !rPar0.note?.includes('Léon Blum') || !rPar0.note?.includes('Matignon') || !rPar0.adminEntity?.includes('Troisième République')) return false;
+
+          // 5. Timeline Step 2-4 (1938-1939 Crisi di Monaco Daladier & La Retirada spagnola)
+          const rGurs2 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRI15', NAME: 'Pyrénées-Atlantiques' } }, 2);
+          if (!rGurs2 || rGurs2.o !== 'FRA' || !rGurs2.note?.includes('Retirada') || !rGurs2.note?.includes('Gurs')) return false;
+
+          // 6. Timeline Step 5 (Settembre 1939 - Maggio 1940 Drôle de guerre & Evacuazione Strasburgo in Dordogna)
+          const rStras5 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRF11', NAME: 'Bas-Rhin' } }, 5);
+          const rDord5 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRI11', NAME: 'Dordogne' } }, 5);
+          if (!rStras5 || !rStras5.note?.includes('evacuazione') || !rStras5.note?.includes('Dordogna')) return false;
+          if (!rDord5 || !rDord5.note?.includes('Strasburgo') || !rDord5.note?.includes('Périgueux')) return false;
+
+          // 7. Timeline Step 6 (Giugno-Agosto 1940: Armistizio di Compiègne & Quadripartizione Territoriale)
+          // a) Alsace-Moselle (CdZ de facto annessa al Reich)
+          const rAls6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRF11', NAME: 'Bas-Rhin' } }, 6);
+          const rMos6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRF33', NAME: 'Moselle' } }, 6);
+          if (!rAls6 || rAls6.o !== 'GER' || !rAls6.adminEntity?.includes('CdZ') || !rAls6.note?.includes('Schoenenbourg') || !rAls6.note?.includes('Gau Baden-Elsass')) return false;
+          if (!rMos6 || rMos6.o !== 'GER' || !rMos6.adminEntity?.includes('CdZ') || !rMos6.note?.includes('Hackenberg') || !rMos6.note?.includes('Gau Westmark')) return false;
+
+          // b) Comando Militare di Bruxelles (Nord e Pas-de-Calais)
+          const rNord6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRE11', NAME: 'Nord' } }, 6);
+          const rPdc6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRE12', NAME: 'Pas-de-Calais' } }, 6);
+          if (!rNord6 || rNord6.o !== 'GER' || !rNord6.adminEntity?.includes('Bruxelles') || !rNord6.note?.includes('Dynamo') || !rNord6.note?.includes('Lille')) return false;
+          if (!rPdc6 || rPdc6.o !== 'GER' || !rPdc6.adminEntity?.includes('Bruxelles') || !rPdc6.note?.includes('Arras') || !rPdc6.note?.includes('Falkenhausen')) return false;
+
+          // c) Zone occupée (MBF Parigi, Basi U-Boot Atlantico)
+          const rBrest6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRH02', NAME: 'Finistère' } }, 6);
+          const rBord6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRI12', NAME: 'Gironde' } }, 6);
+          if (!rBrest6 || rBrest6.o !== 'GER' || !rBrest6.note?.includes('Richelieu') || !rBrest6.note?.includes('Sein')) return false;
+          if (!rBord6 || rBord6.o !== 'GER' || !rBord6.note?.includes('Sousa Mendes') || !rBord6.note?.includes('Bordeaux')) return false;
+
+          // d) Zone libre (État Français / Vichy & Capitale de la Résistance Lyon)
+          const rVichy6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK11', NAME: 'Allier' } }, 6);
+          const rLyon6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK26', NAME: 'Rhône' } }, 6);
+          const rMars6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRL04', NAME: 'Bouches-du-Rhône' } }, 6);
+          const rToulon6 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRL05', NAME: 'Var' } }, 6);
+          if (!rVichy6 || rVichy6.o !== 'VIC' || !rVichy6.note?.includes('Grand Casino') || !rVichy6.note?.includes('Pétain')) return false;
+          if (!rLyon6 || rLyon6.o !== 'VIC' || !rLyon6.note?.includes('Lione') || !rLyon6.note?.includes('Zone libre')) return false;
+          if (!rMars6 || rMars6.o !== 'VIC' || !rMars6.note?.includes('rifugio') || !rMars6.note?.includes('Zone libre')) return false;
+          if (!rToulon6 || rToulon6.o !== 'VIC' || !rToulon6.note?.includes('Flotte de Haute Mer') || !rToulon6.note?.includes('Laborde')) return false;
+
+          // 8. Timeline Step 7 (Ottobre 1940: Montoire Hitler-Pétain, Statut des Juifs, Keroman Lorient, Betasom Bordeaux, Varian Fry Marsiglia)
+          const rLorient7 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRH04', NAME: 'Morbihan' } }, 7);
+          const rMars7 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRL04', NAME: 'Bouches-du-Rhône' } }, 7);
+          const rBord7 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRI12', NAME: 'Gironde' } }, 7);
+          if (!rLorient7 || !rLorient7.note?.includes('Keroman') || !rLorient7.note?.includes('Dönitz')) return false;
+          if (!rMars7 || !rMars7.note?.includes('Varian Fry') || !rMars7.note?.includes('Emergency Rescue Committee')) return false;
+          if (!rBord7 || !rBord7.note?.includes('BETASOM') || !rBord7.note?.includes('Regia Marina')) return false;
+
+          // 9. Timeline Step 8 (Aprile 1941: Governo Darlan, Ligne de Démarcation, Combat Lyon, OCM Parigi, Sciopero Minatori Nord)
+          const rLyon8 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK26', NAME: 'Rhône' } }, 8);
+          const rNord8 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRE11', NAME: 'Nord' } }, 8);
+          const rPar8 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FR101', NAME: 'Paris' } }, 8);
+          if (!rLyon8 || !rLyon8.note?.includes('Capitale de la Résistance') || !rLyon8.note?.includes('Combat')) return false;
+          if (!rNord8 || !rNord8.note?.includes('Minatori') || !rNord8.note?.includes('sciopero')) return false;
+          if (!rPar8 || !rPar8.note?.includes('OCM') || !rPar8.note?.includes('Étoile')) return false;
+
+          // 10. Audit Geografico Database Unificato (tutti i 96 dipartimenti metropolitani in loadedProvs risolvono correttamente)
+          const frProvs = loadedProvs.filter((f: any) => f.properties?.CNTR_CODE === 'FR' && f.id && String(f.id).startsWith('FR') && String(f.id).length === 5);
+          if (frProvs.length !== 96) return false;
+          for (const feat of frProvs) {
+            const r0 = resolveFeature(feat, 0);
+            if (!r0 || r0.o !== 'FRA') return false;
+            const r6 = resolveFeature(feat, 6);
+            if (!r6 || (r6.o !== 'GER' && r6.o !== 'VIC')) return false;
+          }
 
           return true;
         },

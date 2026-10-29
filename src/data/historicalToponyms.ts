@@ -7,6 +7,12 @@ import { AEF_PROVINCES_META, populateAEFToponyms } from './aefProvinces';
 import { NAMIBIA_PROVINCES_META, populateNamibiaToponyms, resolveNamibiaProvince } from './namibiaProvinces';
 import { SUDAN_PROVINCES_META, populateSudanToponyms, resolveSudanProvince } from './sudanProvinces';
 import { AFGHANISTAN_PROVINCES_META, populateAfghanistanToponyms, resolveAfghanistanProvince } from './afghanistanProvinces';
+import {
+  FRANCE_PROVINCES_META,
+  populateFranceToponyms,
+  resolveFranceProvince,
+  type FranceProvinceInfo,
+} from './franceProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -43,6 +49,10 @@ export {
   SCANDINAVIAN_DISTRICTS_CATALOG,
   type ScandinavianDistrictDef,
   resolveScandinavianToponym,
+  FRANCE_PROVINCES_META,
+  populateFranceToponyms,
+  resolveFranceProvince,
+  type FranceProvinceInfo,
 };
 
 export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch>> = {
@@ -2876,6 +2886,7 @@ populateAEFToponyms(HISTORICAL_TOPONYM_DICT);
 populateNamibiaToponyms(HISTORICAL_TOPONYM_DICT);
 populateSudanToponyms(HISTORICAL_TOPONYM_DICT);
 populateAfghanistanToponyms(HISTORICAL_TOPONYM_DICT);
+populateFranceToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -4736,72 +4747,14 @@ export function resolveFranceToponym(
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
 
-  // 1. Cerca match tra i 101 dipartimenti/territori del catalogo
-  let foundDept: FranceDeptDef | undefined;
-
-  if (id.startsWith('FR')) {
-    foundDept = FRANCE_DEPARTMENTS_CATALOG.find((d) => d.nuts === id || id.startsWith(d.nuts));
-  }
-
-  if (!foundDept) {
-    const normTokens = normKey.split('_').filter(Boolean);
-    for (const d of FRANCE_DEPARTMENTS_CATALOG) {
-      if (d.keys.some((k) => normKey === k || normTokens.includes(k) || (k.length >= 5 && normKey.includes(k)))) {
-        foundDept = d;
-        break;
-      }
-    }
-  }
-
-  if (foundDept) {
-    const d = foundDept;
-
-    if (step < 6) {
-      // 1936 - Maggio 1940: Terza Repubblica Francese
-      return {
-        name: d.name,
-        adminTitle: d.repAdminTitle || `Troisième République française — Département de ${d.name}`,
-        note: d.repNote || `Département français sous la Troisième République (1870-1940). Chef-lieu : ${d.cheflieu}.`,
-      };
-    }
-
-    // Step >= 6: Giugno 1940 (Post-Armistizio del 22 giugno 1940)
-    switch (d.partition1940) {
-      case 'alsace_moselle':
-        return {
-          name: d.armisticeName || d.name,
-          adminTitle: d.armisticeAdminTitle || 'CdZ-Gebiet (Annexion de facto au Troisième Reich)',
-          note: d.armisticeNote || 'Territoire annexé de facto au Reich allemand après l\'armistice de juin 1940.',
-        };
-
-      case 'belgium_command':
-        return {
-          name: d.armisticeName || d.name,
-          adminTitle: d.armisticeAdminTitle || 'Militärverwaltung in Belgien und Nordfrankreich (Alexander von Falkenhausen, Bruxelles)',
-          note: d.armisticeNote || 'Zone rattachée au commandement militaire allemand de Bruxelles (Zone interdite).',
-        };
-
-      case 'zone_libre':
-        return {
-          name: d.armisticeName || d.name,
-          adminTitle: d.armisticeAdminTitle || `État français — Département de ${d.name} (Zone libre)`,
-          note: d.armisticeNote || `Département en Zone libre sous l\'autorité du gouvernement de Vichy. Chef-lieu : ${d.cheflieu}.`,
-        };
-
-      case 'zone_occupee':
-        return {
-          name: d.armisticeName || d.name,
-          adminTitle: d.armisticeAdminTitle || 'Zone occupée — Militärbefehlshaber in Frankreich (Paris)',
-          note: d.armisticeNote || `Département en Zone occupée sous administration militaire allemande (Militärbefehlshaber in Frankreich). Chef-lieu : ${d.cheflieu}.`,
-        };
-
-      case 'dom_tom':
-        return {
-          name: d.armisticeName || d.name,
-          adminTitle: d.armisticeAdminTitle || 'Administration coloniale de l\'État français (Vichy)',
-          note: d.armisticeNote || `Territoire d\'outre-mer français sous l\'autorité coloniale. Chef-lieu : ${d.cheflieu}.`,
-        };
-    }
+  // 1. Cerca match tra i 101 dipartimenti/territori del modulo franceProvinces
+  const frProv = resolveFranceProvince(id || normKey, step, rawName);
+  if (frProv) {
+    return {
+      name: frProv.name,
+      adminTitle: frProv.adminEntity,
+      note: frProv.note,
+    };
   }
 
   // Fallback per entità nazionale 'France' / 'Francia' (metropolitana)

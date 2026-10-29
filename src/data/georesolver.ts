@@ -52,6 +52,10 @@ import {
   resolveAfghanistanProvince,
   AFGHANISTAN_PROVINCES_META,
 } from './afghanistanProvinces';
+import {
+  resolveFranceProvince,
+  FRANCE_PROVINCES_META,
+} from './franceProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,

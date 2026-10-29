@@ -8,6 +8,7 @@ import { getCountryFlagSvg } from '../src/data/historicalFlags';
 import { getOwnerMeta, getOverlord, isSubjectOf } from '../src/data/owners';
 import { BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym } from '../src/data/balkanDistricts';
 import { STEPS } from '../src/data/historySteps';
+import { FRANCE_PROVINCES_META, resolveFranceProvince } from '../src/data/franceProvinces';
 
 async function verifyAll() {
   const { provFeatures: provs, hbFeatures: hbs } = await loadUnifiedGeoDatabase();
@@ -25,14 +26,14 @@ async function verifyAll() {
   const evalFn = new Function(
     'loadedProvs', 'loadedHbs', 'resolveFeature', 'resolveHB', 'HB_NAME',
     'getExtendedToponym', 'getCountryFlagSvg', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
-    'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS',
+    'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince',
     `${jsCode}; return tests;`
   );
 
   const tests = evalFn(
     loadedProvs, loadedHbs, resolveFeature, resolveHB, HB_NAME,
     getExtendedToponym, getCountryFlagSvg, getOwnerMeta, getOverlord, isSubjectOf,
-    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS
+    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince
   );
 
   console.log(`Esecuzione di ${tests.length} test da App.tsx...`);
