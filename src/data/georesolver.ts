@@ -60,6 +60,10 @@ import {
   resolveUKProvince,
   UK_PROVINCES_META,
 } from './ukProvinces';
+import {
+  resolveItalyProvince,
+  IT_PROVINCES_META,
+} from './italyProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -6108,7 +6112,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'MN':
       return makeResult('MON', 'Bügd Nairamdakh Mongol Ard Uls (Ulaanbaatar)', 'Mongol Ard Uls (Komintern)', 'Comintern');
 
-    case 'IT': {
+    case 'IT':
+    case 'ITA': {
+      // Risoluzione esaustiva delle 107 province del Regno d'Italia e possedimenti speciali
+      const itProv = resolveItalyProvince(nid || ft.id || rawName, s, rawName);
+      if (itProv) {
+        return itProv;
+      }
+
       const top = getTop('ITA');
       return makeResult(
         'ITA',

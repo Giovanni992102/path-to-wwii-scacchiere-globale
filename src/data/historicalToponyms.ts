@@ -19,6 +19,12 @@ import {
   resolveUKProvince,
   type UKProvinceInfo,
 } from './ukProvinces';
+import {
+  IT_PROVINCES_META,
+  populateItalyToponyms,
+  resolveItalyProvince,
+  type ItalyProvinceInfo,
+} from './italyProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2898,6 +2904,7 @@ populateSudanToponyms(HISTORICAL_TOPONYM_DICT);
 populateAfghanistanToponyms(HISTORICAL_TOPONYM_DICT);
 populateFranceToponyms(HISTORICAL_TOPONYM_DICT);
 populateUKToponyms(HISTORICAL_TOPONYM_DICT);
+populateItalyToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -8646,6 +8653,16 @@ export function resolveItalyToponym(
   yearStep?: number
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
+
+  // 0. Risoluzione prioritaria dal censimento esaustivo di italyProvinces (107 NUTS-3 + 8 territori speciali)
+  const itResolved = resolveItalyProvince(id || normKey, step, rawName);
+  if (itResolved) {
+    return {
+      name: itResolved.name,
+      adminTitle: itResolved.adminEntity || itResolved.name,
+      note: itResolved.note,
+    };
+  }
 
   // 1. Dodecaneso (Possedimento delle Isole Italiane dell'Egeo: Rodi, Coo, Lero, Calino, Scarpanto, Stampalia, Castelrosso)
   if (

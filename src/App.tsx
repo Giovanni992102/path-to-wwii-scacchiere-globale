@@ -29,6 +29,7 @@ import { FortificationLine, NavalBase } from './data/historicalFortifications';
 import { resolveBalkansToponym, BALKAN_DISTRICTS_CATALOG } from './data/balkanDistricts';
 import { FRANCE_PROVINCES_META, resolveFranceProvince } from './data/franceProvinces';
 import { UK_PROVINCES_META, resolveUKProvince } from './data/ukProvinces';
+import { IT_PROVINCES_META, resolveItalyProvince } from './data/italyProvinces';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -3312,7 +3313,102 @@ export default function App() {
           return true;
         },
       },
-];
+      {
+        name: "87. Censimento Geocartografico, Toponomastico e Cronologico Integrale del Regno d'Italia e Possedimenti Speciali (107 Province Metropolitane NUTS-3, 8 Territori Storici: Zara, Carnaro/Fiume, Pola, Gorizia Orientale, Postumia, Rodi/Dodecaneso, Saseno, Albania; Denominazioni Storico-Fasciste: Littoria, Apuania, Aosta, Roma Capitale, Caserta, Carbonia; Autarchia, Sanzioni, Alpi Occidentali, Notte di Taranto, Campagna di Grecia, Capo Matapan e Timeline Dinamica 1936-1941)",
+        run: () => {
+          // 1. Audit Censimento Metadata (115 entita censite)
+          if (!IT_PROVINCES_META || Object.keys(IT_PROVINCES_META).length !== 115) return false;
+
+          // 2. Denominazioni storiche e rinominazioni dell'epoca fascista
+          const rLit0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITI44', NAME: 'Latina' } }, 0);
+          if (!rLit0 || !rLit0.name.includes('Littoria') || (!rLit0.note?.includes('Paludi Pontine') && !rLit0.note?.includes('bonifica'))) return false;
+
+          const rApu0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITI11', NAME: 'Massa-Carrara' } }, 0);
+          if (!rApu0 || !rApu0.name.includes('Massa e Carrara') || !rApu0.note?.includes('autarchia')) return false;
+
+          const rApu2 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITI11', NAME: 'Massa-Carrara' } }, 2);
+          if (!rApu2 || !rApu2.name.includes('Apuania')) return false;
+
+          const rAos0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITC20', NAME: "Valle d'Aosta" } }, 0);
+          if (!rAos0 || !rAos0.name.includes('Aosta')) return false;
+
+          const rRom0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITI43', NAME: 'Roma' } }, 0);
+          if (!rRom0 || !rRom0.name.includes('Roma') || !rRom0.note?.includes('Palazzo Venezia')) return false;
+
+          const rCas0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITF31', NAME: 'Caserta' } }, 0);
+          if (!rCas0 || !rCas0.name.includes('Caserta') || !rCas0.note?.includes('Accademia Aeronautica')) return false;
+
+          const rCar0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG2H', NAME: 'Sud Sardegna' } }, 0);
+          if (!rCar0 || !rCar0.note?.includes('Sulcis')) return false;
+
+          // 3. Territori Speciali e Possedimenti Storici
+          const rZara = resolveItalyProvince('IT_ZARA', 0);
+          if (!rZara || !rZara.name.includes('Zara') || !rZara.note?.includes('Dalmazia')) return false;
+
+          const rFiume = resolveItalyProvince('IT_FIUME', 0);
+          if (!rFiume || !rFiume.name.includes('Carnaro') || !rFiume.note?.includes('Silurificio Whitehead')) return false;
+
+          const rPola = resolveItalyProvince('HR036', 0);
+          if (!rPola || !rPola.name.includes('Pola') || !rPola.note?.includes('Sommergibilisti')) return false;
+
+          const rRodi = resolveItalyProvince('EL421', 0);
+          if (!rRodi || !rRodi.note?.includes("Isole Italiane dell'Egeo")) return false;
+
+          const rSas = resolveItalyProvince('SASENO', 0);
+          if (!rSas || !rSas.name.includes('Saseno') || !rSas.note?.includes('Valona')) return false;
+
+          const rAlb = resolveItalyProvince('AL_ALBANIA', 2);
+          if (!rAlb || !rAlb.note?.includes('Unione Personale') || !rAlb.note?.includes('Vittorio Emanuele III')) return false;
+
+          // 4. Timeline Step 0-1 (1936-marzo 1938: Proclamazione Impero, Sanzioni SdN, Autarchia)
+          const rMil0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITC4C', NAME: 'Milano' } }, 0);
+          if (!rMil0 || !rMil0.note?.includes('Caproni')) return false;
+          const rTor0 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITC11', NAME: 'Torino' } }, 0);
+          if (!rTor0 || !rTor0.note?.includes('Mirafiori')) return false;
+
+          // 5. Timeline Step 2-4 (ottobre 1938-aprile 1939: Leggi Razziali, Inaugurazione Carbonia, Annessione Albania)
+          const rRom2 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITI43', NAME: 'Roma' } }, 2);
+          if (!rRom2 || !rRom2.note?.includes('leggi razziali') || !rRom2.note?.includes('Albania')) return false;
+          const rCar2 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG2H', NAME: 'Sud Sardegna' } }, 2);
+          if (!rCar2 || !rCar2.note?.includes('Carbonia') || !rCar2.note?.includes('carbone')) return false;
+
+          // 6. Timeline Step 5 (settembre 1939-maggio 1940: Non Belligeranza, Tessere Annonarie)
+          const rTor5 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITC11', NAME: 'Torino' } }, 5);
+          if (!rTor5 || !rTor5.note?.includes('non belligeranza')) return false;
+
+          // 7. Timeline Step 6 (giugno-agosto 1940: Entrata in guerra, Alpi Occidentali, Punta Stilo)
+          const rImp6 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITC31', NAME: 'Imperia' } }, 6);
+          if (!rImp6 || !rImp6.note?.includes('Mentone')) return false;
+          const rReg6 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITF65', NAME: 'Reggio di Calabria' } }, 6);
+          if (!rReg6 || !rReg6.note?.includes('Punta Stilo') || !rReg6.note?.includes('Stretto')) return false;
+
+          // 8. Timeline Step 7 (ottobre 1940: Campagna di Grecia, Julia, Notte di Taranto)
+          const rTar7 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITF43', NAME: 'Taranto' } }, 7);
+          if (!rTar7 || !rTar7.note?.includes('Notte di Taranto') || !rTar7.note?.includes('Swordfish')) return false;
+          const rAqu7 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITF11', NAME: "L'Aquila" } }, 7);
+          if (!rAqu7 || !rAqu7.note?.includes('Julia') || !rAqu7.note?.includes('Pindo')) return false;
+
+          // 9. Timeline Step 8 (aprile 1941: Rommel DAK a Tripoli, Capo Matapan, Invasione Jugoslavia, caduta Addis Abeba)
+          const rNap8 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITF33', NAME: 'Napoli' } }, 8);
+          if (!rNap8 || !rNap8.note?.includes('Rommel') || !rNap8.note?.includes('Afrikakorps')) return false;
+          const rMes8 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG13', NAME: 'Messina' } }, 8);
+          if (!rMes8 || !rMes8.note?.includes('Capo Matapan')) return false;
+          const rZara8 = resolveItalyProvince('IT_ZARA', 8);
+          if (!rZara8 || !rZara8.note?.includes('Governatorato di Dalmazia')) return false;
+
+          // 10. Audit Geografico Database Unificato (107 distretti NUTS-3 italiani)
+          const itProvs = loadedProvs.filter((f: any) => f.properties?.CNTR_CODE === 'IT' && f.id && String(f.id).startsWith('IT') && String(f.id).length === 5);
+          if (itProvs.length !== 107) return false;
+          for (const feat of itProvs) {
+            const r0 = resolveFeature(feat, 0);
+            if (!r0 || (r0.o !== 'IT' && r0.o !== 'ITA')) return false;
+            const r8 = resolveFeature(feat, 8);
+            if (!r8 || (r8.o !== 'IT' && r8.o !== 'ITA')) return false;
+          }
+
+          return true;
+        }      },
+    ];
 
     let passed = 0;
     tests.forEach((t) => {
