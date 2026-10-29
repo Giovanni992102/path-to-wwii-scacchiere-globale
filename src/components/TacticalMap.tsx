@@ -229,6 +229,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
   const selectOverlayRef = useRef<SVGPathElement | null>(null);
   const isZoomingRef = useRef<boolean>(false);
   const zoomEndTimeoutRef = useRef<any>(null);
+  const rafZoomIdRef = useRef<number | null>(null);
+  const pendingTransformRef = useRef<d3.ZoomTransform | null>(null);
+  const lastTooltipHtmlRef = useRef<string>('');
+  const tooltipDimensionsRef = useRef<{ w: number; h: number }>({ w: 260, h: 180 });
 
   // Sync currentStepRef synchronously so D3 event listeners always access the active timeline step
   const currentStepRef = useRef<number>(currentStep);
@@ -255,12 +259,21 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
   const positionTooltip = useCallback((clientX: number, clientY: number, html: string) => {
     if (!tooltipRef.current) return;
     const tt = tooltipRef.current;
-    tt.innerHTML = html;
-    tt.style.display = 'block';
+    if (lastTooltipHtmlRef.current !== html) {
+      tt.innerHTML = html;
+      lastTooltipHtmlRef.current = html;
+      tt.style.display = 'block';
+      tooltipDimensionsRef.current = {
+        w: tt.offsetWidth || 260,
+        h: tt.offsetHeight || 180,
+      };
+    } else {
+      tt.style.display = 'block';
+    }
 
     const pad = 16;
-    const tw = tt.offsetWidth;
-    const th = tt.offsetHeight;
+    const tw = tooltipDimensionsRef.current.w;
+    const th = tooltipDimensionsRef.current.h;
     let x = clientX + pad;
     let y = clientY + pad;
     if (x + tw > window.innerWidth - 8) x = clientX - tw - pad;
@@ -270,7 +283,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
   }, []);
 
   const hideTooltip = useCallback(() => {
-    if (tooltipRef.current) tooltipRef.current.style.display = 'none';
+    if (tooltipRef.current && tooltipRef.current.style.display !== 'none') {
+      tooltipRef.current.style.display = 'none';
+    }
+    lastTooltipHtmlRef.current = '';
   }, []);
 
   const renderTerritoryTooltipHtml = useCallback((d: any, res: any, meta: any, fac: string, step: number) => {
@@ -822,10 +838,43 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     let currentHoveredNode: SVGPathElement | null = null;
 
     function clearAllHover() {
-      currentHoveredNode = null;
-      svg.selectAll('.hov-overlay-path').attr('d', null);
-      hoveredInfoRef.current = null;
+      if (currentHoveredNode !== null || hoveredInfoRef.current !== null) {
+        currentHoveredNode = null;
+        svg.selectAll('.hov-overlay-path').attr('d', null);
+        hoveredInfoRef.current = null;
+      }
     }
+
+    const applyTransform = (t: d3.ZoomTransform) => {
+      gRoot.attr('transform', t.toString());
+
+      const k = t.k || 1;
+      gRoot.classed('zoom-out', k < 0.95);
+      gRoot.classed('zoom-deep', k < 0.6);
+      gRoot.classed('zoom-in', k >= 2.5);
+
+      // Infinite conveyor belt update:
+      // Position of camera center in world coordinates:
+      const xCenter = (W / 2 - t.x) / k;
+      const C = Math.round(xCenter / WORLD_WIDTH);
+      const needed = [C - 1, C, C + 1];
+
+      // Frustum / Viewport bounds in world coordinates:
+      const xViewMin = -t.x / k;
+      const xViewMax = (W - t.x) / k;
+
+      for (const c of needed) {
+        const slot = ((c % 3) + 3) % 3;
+        if (currentCyclesRef.current[slot] !== c) {
+          gCopiesRef.current[slot].attr('transform', `translate(${c * WORLD_WIDTH}, 0)`);
+          currentCyclesRef.current[slot] = c;
+        }
+        // Viewport culling: each copy spans [c * WORLD_WIDTH, (c + 1) * WORLD_WIDTH]
+        // A buffer margin of 250px prevents popping during fast pans
+        const isVisible = (c + 1) * WORLD_WIDTH + 250 >= xViewMin && c * WORLD_WIDTH - 250 <= xViewMax;
+        gCopiesRef.current[slot].style('display', isVisible ? null : 'none');
+      }
+    };
 
     // Zoom behavior with infinite horizontal wrapping & viewport culling
     const zoom = d3
@@ -835,6 +884,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         [-Infinity, -H * 1.5],
         [Infinity, H * 2.5],
       ])
+      .wheelDelta((event) => {
+        // Calibrated smooth stepping: eliminates wheel event flooding on high-polling mice & trackpads
+        return -event.deltaY * (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.0018) * (event.ctrlKey ? 10 : 1);
+      })
       .on('start', (event) => {
         if (event.sourceEvent && event.sourceEvent.type === 'wheel') {
           clearAllHover();
@@ -850,35 +903,27 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         clearAllHover();
         hideTooltip();
 
-        gRoot.attr('transform', event.transform);
-
-        const k = event.transform.k || 1;
-        gRoot.classed('zoom-out', k < 0.95);
-        gRoot.classed('zoom-deep', k < 0.6);
-
-        // Infinite conveyor belt update:
-        // Position of camera center in world coordinates:
-        const xCenter = (W / 2 - event.transform.x) / k;
-        const C = Math.round(xCenter / WORLD_WIDTH);
-        const needed = [C - 1, C, C + 1];
-
-        // Frustum / Viewport bounds in world coordinates:
-        const xViewMin = -event.transform.x / k;
-        const xViewMax = (W - event.transform.x) / k;
-
-        for (const c of needed) {
-          const slot = ((c % 3) + 3) % 3;
-          if (currentCyclesRef.current[slot] !== c) {
-            gCopiesRef.current[slot].attr('transform', `translate(${c * WORLD_WIDTH}, 0)`);
-            currentCyclesRef.current[slot] = c;
-          }
-          // Viewport culling: each copy spans [c * WORLD_WIDTH, (c + 1) * WORLD_WIDTH]
-          // A buffer margin of 250px prevents popping during fast pans
-          const isVisible = (c + 1) * WORLD_WIDTH + 250 >= xViewMin && c * WORLD_WIDTH - 250 <= xViewMax;
-          gCopiesRef.current[slot].style('display', isVisible ? null : 'none');
+        // Coalesce zoom renders via requestAnimationFrame for locked 60-120 FPS
+        pendingTransformRef.current = event.transform;
+        if (!rafZoomIdRef.current) {
+          rafZoomIdRef.current = requestAnimationFrame(() => {
+            if (pendingTransformRef.current) {
+              applyTransform(pendingTransformRef.current);
+              pendingTransformRef.current = null;
+            }
+            rafZoomIdRef.current = null;
+          });
         }
       })
       .on('end', () => {
+        if (rafZoomIdRef.current) {
+          cancelAnimationFrame(rafZoomIdRef.current);
+          rafZoomIdRef.current = null;
+        }
+        if (pendingTransformRef.current) {
+          applyTransform(pendingTransformRef.current);
+          pendingTransformRef.current = null;
+        }
         if (isZoomingRef.current) {
           if (zoomEndTimeoutRef.current) {
             clearTimeout(zoomEndTimeoutRef.current);
@@ -993,6 +1038,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     }
 
     return () => {
+      if (rafZoomIdRef.current) {
+        cancelAnimationFrame(rafZoomIdRef.current);
+        rafZoomIdRef.current = null;
+      }
       if (zoomEndTimeoutRef.current) {
         clearTimeout(zoomEndTimeoutRef.current);
       }

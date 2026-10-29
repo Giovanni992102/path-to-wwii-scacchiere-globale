@@ -131,16 +131,6 @@ body {
   pointer-events: none !important;
 }
 
-/* GPU Hardware Acceleration & Layer Hinting */
-#map {
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-#gRoot {
-  will-change: transform;
-}
-
 /* Dynamic Level of Detail (LOD) for Global Zoom-Out */
 .zoom-out .prov,
 .zoom-out .cty,
@@ -166,6 +156,17 @@ body {
 
 .zoom-deep .island-beacon-label {
   display: none !important;
+}
+
+/* Dynamic LOD for Regional Zoom-In (k >= 2.5): streamlines secondary lines */
+.zoom-in .graticule {
+  stroke-width: 0.25px;
+  stroke-opacity: 0.35;
+}
+
+.zoom-in .sea-lane {
+  stroke-opacity: 0.22;
+  stroke-width: 0.6px;
 }
 
 /* Lightweight GPU-accelerated Battle Pulse (replaces continuous SMIL DOM paints) */
