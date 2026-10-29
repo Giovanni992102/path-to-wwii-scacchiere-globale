@@ -31,6 +31,12 @@ import {
   resolveSpainProvince,
   type SpainProvinceInfo,
 } from './spainProvinces';
+import {
+  SOVIET_PROVINCES_META,
+  populateSovietToponyms,
+  resolveSovietProvince,
+  type SovietProvinceInfo,
+} from './sovietProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2912,6 +2918,7 @@ populateFranceToponyms(HISTORICAL_TOPONYM_DICT);
 populateUKToponyms(HISTORICAL_TOPONYM_DICT);
 populateItalyToponyms(HISTORICAL_TOPONYM_DICT);
 populateSpainToponyms(HISTORICAL_TOPONYM_DICT);
+populateSovietToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -15828,6 +15835,16 @@ export function resolveSovietToponym(
   yearStep?: number
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
+
+  // 0. Risoluzione prioritaria dal censimento esaustivo di 239 entita (sovietProvinces.ts)
+  const sovMeta = resolveSovietProvince(id || normKey || rawName, step, rawName);
+  if (sovMeta) {
+    return {
+      name: sovMeta.name,
+      adminTitle: sovMeta.adminEntity,
+      note: sovMeta.note,
+    };
+  }
 
   // 1. ORANIENBAUM / KAAROSTA / LOMONOSOV (SOV_NW_RUS_256_Kaarosta_District)
   if (

@@ -68,6 +68,10 @@ import {
   resolveSpainProvince,
   SPAIN_PROVINCES_META,
 } from './spainProvinces';
+import {
+  resolveSovietProvince,
+  SOVIET_PROVINCES_META,
+} from './sovietProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -5410,6 +5414,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return resolveJapanProvince(ft, s);
   }
 
+  // Censimento Geocartografico e Toponomastico esaustivo delle 239 entità territoriali sovietiche (1936-1941)
+  const isSovietProv =
+    (nid && (nid.startsWith('SOV_') || nid.startsWith('SU_'))) ||
+    cntr === 'SU' ||
+    cntr === 'SOV' ||
+    cntr === 'SU_CRIMEA' ||
+    cntr === 'SOV_MASSR' ||
+    Boolean((SOVIET_PROVINCES_META as any)?.[nid]) ||
+    Boolean((SOVIET_PROVINCES_META as any)?.[fidClean]);
+
+  if (isSovietProv) {
+    const sovRes = resolveSovietProvince(nid || fidClean || rawName, s, rawName);
+    if (sovRes) {
+      return sovRes;
+    }
+  }
+
   // Repubblica Popolare di Tannu Tuva (1921-1944) — Indipendente
   const isTuva =
     cntr === 'TUV' ||
@@ -5433,6 +5454,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   switch (cntr) {
     case 'SU':
     case 'SU_CRIMEA': {
+      const sovProv = resolveSovietProvince(nid || fidClean || rawName, s, rawName);
+      if (sovProv) return sovProv;
       if (nid === 'SOV_ADM1_RUS_55_Tuva' || nid.includes('Tuva') || nrm.includes('tuva') || nrm.includes('tannu')) {
         const histName = p.HISTORICAL_NAME || p.NUTS_NAME || 'Tyva Arat Respublika (Kyzyl)';
         const adminTitle = p.ADMIN_TITLE || 'Tyva Arat Respublika (Tuvan People\'s Republic)';

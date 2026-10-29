@@ -31,6 +31,7 @@ import { FRANCE_PROVINCES_META, resolveFranceProvince } from './data/franceProvi
 import { UK_PROVINCES_META, resolveUKProvince } from './data/ukProvinces';
 import { IT_PROVINCES_META, resolveItalyProvince } from './data/italyProvinces';
 import { SPAIN_PROVINCES_META, resolveSpainProvince } from './data/spainProvinces';
+import { SOVIET_PROVINCES_META, resolveSovietProvince } from './data/sovietProvinces';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -3531,6 +3532,127 @@ export default function App() {
           if (!rRif0 || rRif0.o !== 'SPR') return false;
           const rRif8 = resolveFeature({ properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF' } }, 8);
           if (!rRif8 || rRif8.o !== 'SPA') return false;
+
+          return true;
+        }
+      },
+      {
+        name: "89. Censimento Geocartografico, Toponomastico e Cronologico Integrale dell'Unione Sovietica (239 Entità Territoriali: RSFSR, RSS Ucraina, RSS Bielorussa, RSS Kazaka, RSS Uzbeka, RSS Turkmena, RSS Tagika, RSS Kirghisa, Transcaucasia & Tannu Tuva; Denominazioni Storico-Sovietiche: Stalingrado, Leningrado, Kujbyšev, Gor'kij, Sverdlovsk, Molotov, Čkalov, Kalinin, Kirov, Ordžonikidze, Stalino, Vorošilovgrad, Dnepropetrovsk, Stalinabad, Leninabad, Frunze, Krasnogvardejsk, Ostiachia-Vogulia; Timeline Dinamica 1936-1941: Costituzione 1936, Purghe 1938, Lago Chasan, Chalchin Gol, Patto Molotov-Ribbentrop, Guerra d'Inverno, Annessione Baltici e Bucovina Settentrionale, Patto Neutralità Giappone)",
+        run: () => {
+          // 1. Audit Censimento Metadata (239 entità territoriali censite)
+          if (!SOVIET_PROVINCES_META || Object.keys(SOVIET_PROVINCES_META).length !== 239) return false;
+
+          // 2. Denominazioni storiche sovietiche ufficiali dell'epoca
+          const pStal = resolveSovietProvince('SOV_ADM1_RUS_13_Volgograd_Oblast', 0);
+          if (!pStal || !pStal.name.includes('Stalingrado')) return false;
+
+          const pLen = resolveSovietProvince('SOV_ADM1_RUS_49_Saint_Petersburg', 0);
+          if (!pLen || !pLen.name.includes('Leningrado')) return false;
+
+          const pKujb = resolveSovietProvince('SOV_ADM1_RUS_20_Samara_Oblast', 0);
+          if (!pKujb || !pKujb.name.includes('Kujbyšev')) return false;
+
+          const pGork = resolveSovietProvince('SOV_ADM1_RUS_25_Nizhny_Novgorod_Oblast', 0);
+          if (!pGork || !pGork.name.includes("Gor'kij")) return false;
+
+          const pSver = resolveSovietProvince('SOV_ADM1_RUS_12_Sverdlovsk_Oblast', 0);
+          if (!pSver || !pSver.name.includes('Sverdlovsk')) return false;
+
+          const pMolo = resolveSovietProvince('SOV_ADM1_RUS_15_Perm_Krai', 0);
+          if (!pMolo || !pMolo.name.includes('Molotov')) return false;
+
+          const pCkal = resolveSovietProvince('SOV_ADM1_RUS_77_Orenburg_Oblast', 0);
+          if (!pCkal || !pCkal.name.includes('Čkalov')) return false;
+
+          const pKali = resolveSovietProvince('SOV_ADM1_RUS_56_Tver_Oblast', 0);
+          if (!pKali || !pKali.name.includes('Kalinin')) return false;
+
+          const pKiro = resolveSovietProvince('SOV_ADM1_RUS_7_Kirov_Oblast', 0);
+          if (!pKiro || !pKiro.name.includes('Kirov')) return false;
+
+          const pOrdz = resolveSovietProvince('SOV_ADM1_RUS_35_North_Ossetia_Alania', 0);
+          if (!pOrdz || !pOrdz.name.includes('Ordžonikidze')) return false;
+
+          const pStalino = resolveSovietProvince('SOV_ADM1_UKR_87_Donetsk_Oblast', 0);
+          if (!pStalino || !pStalino.name.includes('Stalino')) return false;
+
+          const pVoro = resolveSovietProvince('SOV_ADM1_UKR_86_Luhansk_Oblast', 0);
+          if (!pVoro || !pVoro.name.includes('Vorošilovgrad')) return false;
+
+          const pDnep = resolveSovietProvince('SOV_ADM1_UKR_96_Dnipropetrovsk_Oblast', 0);
+          if (!pDnep || !pDnep.name.includes('Dnepropetrovsk')) return false;
+
+          const pStalinabad = resolveSovietProvince('SOV_ADM1_TJK_169_Dushanbe', 0);
+          if (!pStalinabad || !pStalinabad.name.includes('Stalinabad')) return false;
+
+          const pLeninabad = resolveSovietProvince('SOV_ADM1_TJK_165_Sughd_Region', 0);
+          if (!pLeninabad || !pLeninabad.name.includes('Leninabad')) return false;
+
+          const pFrunze = resolveSovietProvince('SOV_ADM1_KGZ_175_Chuy_Region', 0);
+          if (!pFrunze || !pFrunze.name.includes('Frunze')) return false;
+
+          // 3. Status Speciali: Tannu Tuva (TUV alleato Comintern), Bucovina Settentrionale (ROM -> SOV), Moldavia/Transnistria
+          const pTuva = resolveSovietProvince('SOV_ADM1_RUS_55_Tuva', 0);
+          if (!pTuva || pTuva.o !== 'TUV' || pTuva.fac !== 'Comintern') return false;
+
+          const pBuko0 = resolveSovietProvince('SOV_ADM1_UKR_89_Chernivtsi_Oblast', 0);
+          if (!pBuko0 || pBuko0.o !== 'ROM') return false;
+
+          const pBuko6 = resolveSovietProvince('SOV_ADM1_UKR_89_Chernivtsi_Oblast', 6);
+          if (!pBuko6 || pBuko6.o !== 'SOV') return false;
+
+          const pMold0 = resolveSovietProvince('SOV_MASSR_310_Transnistria', 0);
+          if (!pMold0 || !pMold0.name.includes('RSSA Moldava')) return false;
+
+          const pMold6 = resolveSovietProvince('SOV_MASSR_310_Transnistria', 6);
+          if (!pMold6 || !pMold6.name.includes('RSS Moldava')) return false;
+
+          // 4. Timeline Dinamica (Step 0 - 8): Costituzione 1936, Purghe 1938, Chasan, Chalchin Gol, Patto Molotov-Ribbentrop, Guerra d'Inverno, Baltici, Neutralità Giappone
+          const pMos0 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 0);
+          if (!pMos0 || !pMos0.note?.includes('Costituzione')) return false;
+
+          const pMos1 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 1);
+          if (!pMos1 || !pMos1.note?.includes('Grande Terrore')) return false;
+
+          const pVlad2 = resolveSovietProvince('SOV_ADM1_RUS_78_Primorsky_Krai', 2);
+          if (!pVlad2 || !pVlad2.note?.includes('Lago Chasan')) return false;
+
+          const pZaba3 = resolveSovietProvince('SOV_ADM1_RUS_11_Zabaykalsky_Krai', 3);
+          if (!pZaba3 || !pZaba3.note?.includes('Chalchin Gol')) return false;
+
+          const pMos5 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 5);
+          if (!pMos5 || !pMos5.note?.includes('Patto di non aggressione')) return false;
+
+          const pKarel5 = resolveSovietProvince('SOV_NW_RUS_261_Petroskoi_District', 5);
+          if (!pKarel5 || !pKarel5.note?.includes("Guerra d'Inverno")) return false;
+
+          const pMos6 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 6);
+          if (!pMos6 || (!pMos6.note?.includes('baltici') && !pMos6.note?.includes('Trockij'))) return false;
+
+          const pMos7 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 7);
+          if (!pMos7 || !pMos7.note?.includes('Berlino')) return false;
+
+          const pMos8 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 8);
+          if (!pMos8 || !pMos8.note?.includes('Patto di Neutralità')) return false;
+
+          // 5. Audit Geografico Database Unificato (239 feature del layer prov)
+          const sovProvs = loadedProvs.filter((f: any) => String(f.id || '').startsWith('SOV_'));
+          if (sovProvs.length !== 239) return false;
+
+          let s0Count = 0;
+          let s8Count = 0;
+          for (const feat of sovProvs) {
+            const r0 = resolveFeature(feat, 0);
+            if (!r0 || !r0.o || !r0.note) return false;
+            if (r0.o === 'SOV') s0Count++;
+
+            const r8 = resolveFeature(feat, 8);
+            if (!r8 || !r8.o || !r8.note) return false;
+            if (r8.o === 'SOV') s8Count++;
+          }
+
+          if (s0Count !== 237) return false;
+          if (s8Count !== 238) return false;
 
           return true;
         }
