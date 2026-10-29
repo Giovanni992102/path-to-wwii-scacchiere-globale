@@ -56,6 +56,10 @@ import {
   resolveFranceProvince,
   FRANCE_PROVINCES_META,
 } from './franceProvinces';
+import {
+  resolveUKProvince,
+  UK_PROVINCES_META,
+} from './ukProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -7231,25 +7235,40 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('isole del canale');
 
       if (isMan) {
+        const ukProv = resolveUKProvince('IM', s, rawName);
         return makeResult(
           'UK',
-          getTop('UK').name || 'Isola di Man (Douglas)',
-          'Dipendenza della Corona Britannica (Isle of Man)'
+          ukProv ? ukProv.name : (getTop('UK').name || 'Isola di Man (Douglas)'),
+          ukProv ? ukProv.note : 'Dipendenza della Corona Britannica (Isle of Man)',
+          'Alleati',
+          'Crown Dependency of the Isle of Man'
         );
       }
       if (isChannel) {
+        const chKey = (nrm.includes('jersey') || nid === 'JE' || cntr === 'JE') ? 'JE' : 'GG';
+        const ukProv = resolveUKProvince(chKey, s, rawName);
         if (s >= 6) {
           return makeResult(
             'GER',
-            'Isole del Canale (Occupazione Tedesca)',
-            'Militärverwaltung Kanalinseln (giu 1940)'
+            ukProv ? ukProv.name : 'Isole del Canale (Occupazione Tedesca)',
+            ukProv ? ukProv.note : 'Militärverwaltung Kanalinseln (giu 1940)',
+            'Asse',
+            'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Channel Islands)'
           );
         }
         return makeResult(
           'UK',
-          getTop('UK').name || (nrm.includes('jersey') ? 'Baliato di Jersey' : 'Baliato di Guernsey'),
-          'Dipendenza della Corona Britannica (Isole del Canale)'
+          ukProv ? ukProv.name : (getTop('UK').name || (nrm.includes('jersey') ? 'Baliato di Jersey' : 'Baliato di Guernsey')),
+          ukProv ? ukProv.note : 'Dipendenza della Corona Britannica (Isole del Canale)',
+          'Alleati',
+          'British Crown Dependency (Channel Islands)'
         );
+      }
+
+      // Risoluzione esaustiva delle province del Regno Unito (NUTS-3 metropolitane)
+      const ukProv = resolveUKProvince(nid || ft.id || rawName, s, rawName);
+      if (ukProv) {
+        return ukProv;
       }
 
       return makeResult('UK', getTop('UK').name || rawName, 'Regno Unito');

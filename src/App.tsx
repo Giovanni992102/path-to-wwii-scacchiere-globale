@@ -28,6 +28,7 @@ import { HistoricalBattle } from './data/historicalBattles';
 import { FortificationLine, NavalBase } from './data/historicalFortifications';
 import { resolveBalkansToponym, BALKAN_DISTRICTS_CATALOG } from './data/balkanDistricts';
 import { FRANCE_PROVINCES_META, resolveFranceProvince } from './data/franceProvinces';
+import { UK_PROVINCES_META, resolveUKProvince } from './data/ukProvinces';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -3212,7 +3213,106 @@ export default function App() {
           return true;
         },
       },
-    ];
+            {
+        name: "86. Censimento Geocartografico, Toponomastico e Cronologico Integrale del Regno Unito di Gran Bretagna e Irlanda del Nord (179 Distretti NUTS-3, 3 Crown Dependencies: Isola di Man, Jersey, Guernsey; Denominazioni Storico-Moderne, Bletchley Park, Battaglia d'Inghilterra, The Blitz, Western Approaches, Shadow Factory Plan & Timeline Dinamica 1936-1941)",
+        run: () => {
+          if (!loadedProvs || loadedProvs.length === 0) return false;
+
+          // 1. Verifica censimento integrale (182 entità: 179 Distretti Metropolitani NUTS-3 + 3 Crown Dependencies)
+          const allNuts = Object.keys(UK_PROVINCES_META);
+          if (allNuts.length !== 182) return false;
+
+          // 2. Controllo completezza attributi per ciascuna delle 182 entità
+          for (const key of allNuts) {
+            const item = UK_PROVINCES_META[key];
+            if (!item.nuts || !item.name || !item.modernName || !item.historicalName || !item.historicCounty || !item.country || !item.capital || !item.region) return false;
+            if (!item.s0_1 || !item.s2_4 || !item.s5 || !item.s6 || !item.s7 || !item.s8) return false;
+          }
+
+          // 3. Toponomastica storica vs moderna comparata (Città e Contee tradizionali)
+          const pWest = resolveUKProvince('UKI32', 0);
+          if (!pWest || !pWest.name.includes('Westminster') || !UK_PROVINCES_META['UKI32'].modernName.includes('Inner London - West') || !UK_PROVINCES_META['UKI32'].historicalName.includes('County of London')) return false;
+
+          const pBrum = resolveUKProvince('UKG31', 0);
+          if (!pBrum || !pBrum.name.includes('Birmingham') || !UK_PROVINCES_META['UKG31'].historicalName.includes('Castle Bromwich')) return false;
+
+          const pManc = resolveUKProvince('UKD33', 0);
+          if (!pManc || !pManc.name.includes('Manchester') || !UK_PROVINCES_META['UKD33'].historicalName.includes('Trafford Park')) return false;
+
+          const pLiv = resolveUKProvince('UKD72', 0);
+          if (!pLiv || !pLiv.name.includes('Liverpool') || !UK_PROVINCES_META['UKD72'].historicalName.includes('Western Approaches')) return false;
+
+          const pCov = resolveUKProvince('UKG33', 0);
+          if (!pCov || !pCov.name.includes('Coventry') || !UK_PROVINCES_META['UKG33'].historicalName.includes('Polo Aeronautico')) return false;
+
+          const pSheff = resolveUKProvince('UKE32', 0);
+          if (!pSheff || !pSheff.name.includes('Sheffield') || !UK_PROVINCES_META['UKE32'].historicalName.includes('Acciai Speciali')) return false;
+
+          const pGlas = resolveUKProvince('UKM82', 0);
+          if (!pGlas || !pGlas.name.includes('Glasgow City') || !UK_PROVINCES_META['UKM82'].historicalName.includes("Seconda Città dell'Impero")) return false;
+
+          const pBelf = resolveUKProvince('UKN06', 0);
+          if (!pBelf || !pBelf.name.includes('Belfast') || !UK_PROVINCES_META['UKN06'].historicalName.includes('Harland & Wolff')) return false;
+
+          const pMan = resolveUKProvince('IM', 0);
+          if (!pMan || !pMan.name.includes('Isle of Man') || !UK_PROVINCES_META['IM'].modernName.includes('Crown Dependency')) return false;
+
+          // 4. Timeline Step 0-1 (1936-marzo 1938: Re Giorgio VI, Chamberlain, Shadow Factory Plan & Supermarine Spitfire)
+          const rSoton0 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKJ32', NAME: 'Southampton' } }, 0);
+          if (!rSoton0 || rSoton0.o !== 'UK' || !rSoton0.note?.includes('Spitfire') || !rSoton0.note?.includes('Mitchell')) return false;
+          const rSuff0 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKH14', NAME: 'Suffolk' } }, 0);
+          if (!rSuff0 || !rSuff0.note?.includes('Bawdsey Manor') || !rSuff0.note?.includes('Chain Home')) return false;
+
+          // 5. Timeline Step 2-4 (ottobre 1938 - aprile 1939: Accordi di Monaco, difesa passiva ARP & Bletchley Park)
+          const rBletch2 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKJ12', NAME: 'Milton Keynes' } }, 2);
+          if (!rBletch2 || rBletch2.o !== 'UK' || !rBletch2.note?.includes('Bletchley') || !rBletch2.note?.includes('Turing')) return false;
+
+          // 6. Timeline Step 5 (settembre 1939 - maggio 1940: Phoney War & Scapa Flow affondamento HMS Royal Oak)
+          const rOrk5 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKM65', NAME: 'Orkney Islands' } }, 5);
+          if (!rOrk5 || !rOrk5.note?.includes('Royal Oak') || !rOrk5.note?.includes('Scapa Flow') || !rOrk5.note?.includes('Prien')) return false;
+
+          // 7. Timeline Step 6 (giugno - agosto 1940: Churchill, Dunkerque Dynamo, Battaglia d'Inghilterra & Occupazione Isole del Canale)
+          const rDover6 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKJ44', NAME: 'East Kent' } }, 6);
+          if (!rDover6 || !rDover6.note?.includes('Dynamo') || !rDover6.note?.includes('Dunkerque') || !rDover6.note?.includes('Ramsay')) return false;
+          const rBiggin6 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKI61', NAME: 'Bromley' } }, 6);
+          if (!rBiggin6 || !rBiggin6.note?.includes('Biggin Hill') || !rBiggin6.note?.includes("Battaglia d'Inghilterra")) return false;
+
+          // Occupazione tedesca Isole del Canale (Step >= 6 sovranità GER e fazione Asse)
+          const rJer6 = resolveFeature({ properties: { CNTR_CODE: 'JE', NUTS_ID: 'JE', NAME: 'Jersey' } }, 6);
+          const rGue6 = resolveFeature({ properties: { CNTR_CODE: 'GG', NUTS_ID: 'GG', NAME: 'Guernsey' } }, 6);
+          if (!rJer6 || rJer6.o !== 'GER' || rJer6.fac !== 'Asse' || !rJer6.note?.includes('occupazione')) return false;
+          if (!rGue6 || rGue6.o !== 'GER' || rGue6.fac !== 'Asse') return false;
+
+          // 8. Timeline Step 7 (ottobre 1940: The Blitz, Coventry Mondscheinsonate, St Paul Second Great Fire & Liverpool Western Approaches)
+          const rCov7 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKG33', NAME: 'Coventry' } }, 7);
+          if (!rCov7 || !rCov7.note?.includes('coventrizzazione') || !rCov7.note?.includes('Mondscheinsonate')) return false;
+          const rCity7 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKI31', NAME: 'City of London' } }, 7);
+          if (!rCity7 || !rCity7.note?.includes('Second Great Fire') || !rCity7.note?.includes('St Paul')) return false;
+          const rLiv7 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKD72', NAME: 'Liverpool' } }, 7);
+          if (!rLiv7 || !rLiv7.note?.includes('Western Approaches') || !rLiv7.note?.includes('Derby House')) return false;
+
+          // 9. Timeline Step 8 (aprile 1941: Lend-Lease, Clydebank Blitz, Belfast Easter Blitz & Caccia alla Bismarck)
+          const rClyde8 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKM81', NAME: 'Clydebank' } }, 8);
+          if (!rClyde8 || !rClyde8.note?.includes('Clydebank Blitz')) return false;
+          const rBelf8 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKN06', NAME: 'Belfast' } }, 8);
+          if (!rBelf8 || !rBelf8.note?.includes('Belfast Blitz') || !rBelf8.note?.includes('Easter Raid')) return false;
+          const rFerm8 = resolveFeature({ properties: { CNTR_CODE: 'UK', NUTS_ID: 'UKN0G', NAME: 'Fermanagh' } }, 8);
+          if (!rFerm8 || !rFerm8.note?.includes('Bismarck') || !rFerm8.note?.includes('Castle Archdale')) return false;
+
+          // 10. Audit Geografico Database Unificato (179 distretti NUTS-3)
+          const ukProvs = loadedProvs.filter((f: any) => f.properties?.CNTR_CODE === 'UK' && f.id && String(f.id).startsWith('UK') && String(f.id).length === 5);
+          if (ukProvs.length !== 179) return false;
+          for (const feat of ukProvs) {
+            const r0 = resolveFeature(feat, 0);
+            if (!r0 || r0.o !== 'UK') return false;
+            const r8 = resolveFeature(feat, 8);
+            if (!r8 || r8.o !== 'UK') return false;
+          }
+
+          return true;
+        },
+      },
+];
 
     let passed = 0;
     tests.forEach((t) => {

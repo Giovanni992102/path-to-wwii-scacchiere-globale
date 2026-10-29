@@ -60,6 +60,7 @@ export interface ToponymMatch {
   adminTitle?: string;
   altNames?: string[];
   historicalNote?: string;
+  note?: string;
   languageCode?: string;
 }
 

@@ -13,6 +13,12 @@ import {
   resolveFranceProvince,
   type FranceProvinceInfo,
 } from './franceProvinces';
+import {
+  UK_PROVINCES_META,
+  populateUKToponyms,
+  resolveUKProvince,
+  type UKProvinceInfo,
+} from './ukProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -53,6 +59,10 @@ export {
   populateFranceToponyms,
   resolveFranceProvince,
   type FranceProvinceInfo,
+  UK_PROVINCES_META,
+  populateUKToponyms,
+  resolveUKProvince,
+  type UKProvinceInfo,
 };
 
 export const HISTORICAL_TOPONYM_DICT: Record<string, Record<string, ToponymMatch>> = {
@@ -2887,6 +2897,7 @@ populateNamibiaToponyms(HISTORICAL_TOPONYM_DICT);
 populateSudanToponyms(HISTORICAL_TOPONYM_DICT);
 populateAfghanistanToponyms(HISTORICAL_TOPONYM_DICT);
 populateFranceToponyms(HISTORICAL_TOPONYM_DICT);
+populateUKToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -4791,6 +4802,8 @@ export function resolveFranceToponym(
 
   return null;
 }
+
+
 
 /**
  * Risoluzione toponomastica, istituzionale e temporale dettagliata per l'Impero Coloniale Francese (1936-1940)
@@ -11975,6 +11988,16 @@ export function resolveUKToponym(
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
 
+  // 0. Match prioritario tra le 182 entità del censimento ukProvinces
+  const ukProv = resolveUKProvince(id || normKey, step, rawName);
+  if (ukProv) {
+    return {
+      name: ukProv.name,
+      adminTitle: ukProv.adminEntity,
+      note: ukProv.note,
+    };
+  }
+
   // 1. Dipendenze della Corona & Fortezze d'Oltremare Chokepoint
   if (
     id.startsWith('IM') ||
@@ -16367,6 +16390,26 @@ export function getExtendedToponym(
   ) {
     const frTop = resolveFranceToponym(id, rawName, normKey, owner, yearStep);
     if (frTop) return frTop;
+  }
+  // 0.07b Overrides prioritari per Regno Unito (UK / GB / codici UK / toponimi britannici d'epoca)
+  if (
+    owner === 'UK' ||
+    owner === 'GB' ||
+    id.startsWith('UK') ||
+    id === 'IM' || id === 'JE' || id === 'GG' ||
+    normKey.includes('united_kingdom') ||
+    normKey.includes('great_britain') ||
+    normKey.includes('england') ||
+    normKey.includes('scotland') ||
+    normKey.includes('wales') ||
+    normKey.includes('northern_ireland') ||
+    normKey.includes('isle_of_man') ||
+    normKey.includes('channel_islands') ||
+    normKey.includes('jersey') ||
+    normKey.includes('guernsey')
+  ) {
+    const ukTop = resolveUKToponym(id, rawName, normKey, owner, yearStep);
+    if (ukTop) return ukTop;
   }
 
   // 0.08 Overrides prioritari per Germania (GER / codici DE / toponimi tedeschi d'epoca)

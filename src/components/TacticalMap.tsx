@@ -5,7 +5,7 @@ import {
   HISTORICAL_FORTIFICATION_LINES,
   HISTORICAL_NAVAL_BASES,
 } from '../data/historicalFortifications';
-import { HISTORICAL_BATTLES } from '../data/historicalBattles';
+import { HISTORICAL_BATTLES, type HistoricalBattle } from '../data/historicalBattles';
 import { HISTORICAL_SEA_LANES } from '../data/historicalSeaLanes';
 import { LayerVisibilityState } from './MapLayerControls';
 import { tacticalAudio } from '../data/audioSynthesizer';
