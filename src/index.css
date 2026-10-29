@@ -141,13 +141,6 @@ body {
   will-change: transform;
 }
 
-/* High-performance Zoom & Pan mode: shuts down all hover calculations during gesture */
-.is-zooming,
-.is-zooming * {
-  pointer-events: none !important;
-  cursor: grabbing !important;
-}
-
 /* Dynamic Level of Detail (LOD) for Global Zoom-Out */
 .zoom-out .prov,
 .zoom-out .cty,

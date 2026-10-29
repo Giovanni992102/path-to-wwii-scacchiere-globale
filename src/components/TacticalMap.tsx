@@ -835,15 +835,11 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         [-Infinity, -H * 1.5],
         [Infinity, H * 2.5],
       ])
-      .on('start', () => {
-        isZoomingRef.current = true;
-        if (zoomEndTimeoutRef.current) {
-          clearTimeout(zoomEndTimeoutRef.current);
-          zoomEndTimeoutRef.current = null;
+      .on('start', (event) => {
+        if (event.sourceEvent && event.sourceEvent.type === 'wheel') {
+          clearAllHover();
+          hideTooltip();
         }
-        svg.classed('is-zooming', true);
-        clearAllHover();
-        hideTooltip();
       })
       .on('zoom', (event) => {
         isZoomingRef.current = true;
@@ -851,7 +847,6 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
           clearTimeout(zoomEndTimeoutRef.current);
           zoomEndTimeoutRef.current = null;
         }
-        svg.classed('is-zooming', true);
         clearAllHover();
         hideTooltip();
 
@@ -884,13 +879,14 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         }
       })
       .on('end', () => {
-        if (zoomEndTimeoutRef.current) {
-          clearTimeout(zoomEndTimeoutRef.current);
+        if (isZoomingRef.current) {
+          if (zoomEndTimeoutRef.current) {
+            clearTimeout(zoomEndTimeoutRef.current);
+          }
+          zoomEndTimeoutRef.current = setTimeout(() => {
+            isZoomingRef.current = false;
+          }, 60);
         }
-        zoomEndTimeoutRef.current = setTimeout(() => {
-          isZoomingRef.current = false;
-          svg.classed('is-zooming', false);
-        }, 100);
       });
 
     svg.call(zoom).on('dblclick.zoom', null);
@@ -903,14 +899,13 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
 
     svg.on('click', (event: MouseEvent) => {
       const target = event.target as Element | null;
+      if (!target) return;
       if (
-        target === svg.node() ||
-        target?.classList.contains('graticule') ||
-        target?.classList.contains('land-underlay-layer') ||
-        !target?.closest('.prov, .cty, .hb')
+        target.closest('.prov, .cty, .hb, .island-beacon, .battle-marker, .naval-base, .fort-line, .sea-lane')
       ) {
-        onClearSelection();
+        return;
       }
+      onClearSelection();
     });
 
     function handlePointerEnter(this: any, event: MouseEvent, d: any) {
