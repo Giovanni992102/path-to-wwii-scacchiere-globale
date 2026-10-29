@@ -11,6 +11,7 @@ import { STEPS } from '../src/data/historySteps';
 import { FRANCE_PROVINCES_META, resolveFranceProvince } from '../src/data/franceProvinces';
 import { UK_PROVINCES_META, resolveUKProvince } from '../src/data/ukProvinces';
 import { IT_PROVINCES_META, resolveItalyProvince } from '../src/data/italyProvinces';
+import { SPAIN_PROVINCES_META, resolveSpainProvince } from '../src/data/spainProvinces';
 
 async function verifyAll() {
   const { provFeatures: provs, hbFeatures: hbs } = await loadUnifiedGeoDatabase();
@@ -28,14 +29,14 @@ async function verifyAll() {
   const evalFn = new Function(
     'loadedProvs', 'loadedHbs', 'resolveFeature', 'resolveHB', 'HB_NAME',
     'getExtendedToponym', 'getCountryFlagSvg', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
-    'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince',
+    'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince', 'SPAIN_PROVINCES_META', 'resolveSpainProvince',
     `${jsCode}; return tests;`
   );
 
   const tests = evalFn(
     loadedProvs, loadedHbs, resolveFeature, resolveHB, HB_NAME,
     getExtendedToponym, getCountryFlagSvg, getOwnerMeta, getOverlord, isSubjectOf,
-    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince
+    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince
   );
 
   console.log(`Esecuzione di ${tests.length} test da App.tsx...`);

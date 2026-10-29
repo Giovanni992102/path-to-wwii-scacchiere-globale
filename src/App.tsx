@@ -30,6 +30,7 @@ import { resolveBalkansToponym, BALKAN_DISTRICTS_CATALOG } from './data/balkanDi
 import { FRANCE_PROVINCES_META, resolveFranceProvince } from './data/franceProvinces';
 import { UK_PROVINCES_META, resolveUKProvince } from './data/ukProvinces';
 import { IT_PROVINCES_META, resolveItalyProvince } from './data/italyProvinces';
+import { SPAIN_PROVINCES_META, resolveSpainProvince } from './data/spainProvinces';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -3407,7 +3408,133 @@ export default function App() {
           }
 
           return true;
-        }      },
+        }
+      },
+      {
+        name: "88. Censimento Geocartografico, Toponomastico e Cronologico Integrale della Spagna e Territori d'Oltremare (59 Feature NUTS-3 Metropolitane/Insulari, 4 Territori Coloniali/Speciali: Marocco Spagnolo/Tetuán, Sahara Spagnolo, Golfo di Guinea, Ifni; Denominazioni Storiche: La Coruña, Guipúzcoa, Vizcaya, Álava, Logroño, Santander, Oviedo; Guerra Civile Spagnola SPR vs SPA, Fronte dell'Ebro, Retirada, Neutralità, Hendaye e Timeline Dinamica 1936-1941)",
+        run: () => {
+          // 1. Audit Censimento Metadata (63 entita censite)
+          if (!SPAIN_PROVINCES_META || Object.keys(SPAIN_PROVINCES_META).length !== 63) return false;
+
+          // 2. Denominazioni storiche e toponimi regionali/coloniali
+          const rCor = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES111', NAME_LATN: 'A Coruña' } }, 0);
+          if (!rCor || !rCor.name.includes('La Coruña')) return false;
+
+          const rGuip = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES212', NAME_LATN: 'Gipuzkoa' } }, 0);
+          if (!rGuip || !rGuip.name.includes('Guipúzcoa')) return false;
+
+          const rLog = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES230', NAME_LATN: 'La Rioja' } }, 0);
+          if (!rLog || !rLog.name.includes('Logroño')) return false;
+
+          const rSant = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES130', NAME_LATN: 'Cantabria' } }, 0);
+          if (!rSant || !rSant.name.includes('Santander')) return false;
+
+          const rOvi = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES120', NAME_LATN: 'Asturias' } }, 0);
+          if (!rOvi || !rOvi.name.includes('Oviedo')) return false;
+
+          const rRif = resolveFeature({ properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF', NAME: 'Spanish Morocco' } }, 0);
+          if (!rRif || !rRif.name.includes('Tetuán')) return false;
+
+          const rSah = resolveSpainProvince('ES_SAHARA', 0);
+          if (!rSah || !rSah.name.includes('Sahara Español')) return false;
+
+          const rGui = resolveSpainProvince('ES_GUINEA', 0);
+          if (!rGui || !rGui.name.includes('Golfo de Guinea')) return false;
+
+          const rIfn = resolveSpainProvince('ES_IFNI', 0);
+          if (!rIfn || !rIfn.name.includes('Ifni')) return false;
+
+          // 3. Step 0 (1936 pre-Alzamiento: Seconda Repubblica Spagnola SPR)
+          const rMad0 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES300', NAME: 'Madrid' } }, 0);
+          if (!rMad0 || rMad0.o !== 'SPR' || !rMad0.note?.includes('Azaña')) return false;
+
+          const rBar0 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES511', NAME: 'Barcelona' } }, 0);
+          if (!rBar0 || rBar0.o !== 'SPR' || !rBar0.note?.includes('Generalitat')) return false;
+
+          // 4. Step 1 (Marzo 1938: Guerra Civile Spaccata tra SPR e SPA)
+          const rMad1 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES300', NAME: 'Madrid' } }, 1);
+          if (!rMad1 || rMad1.o !== 'SPR' || !rMad1.note?.includes('No pasarán')) return false;
+
+          const rAlb1 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES421', NAME: 'Albacete' } }, 1);
+          if (!rAlb1 || rAlb1.o !== 'SPR' || !rAlb1.note?.includes('Brigate Internazionali')) return false;
+
+          const rBur1 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES412', NAME: 'Burgos' } }, 1);
+          if (!rBur1 || rBur1.o !== 'SPA' || !rBur1.note?.includes('Bando Nacional')) return false;
+
+          const rTol1 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES425', NAME: 'Toledo' } }, 1);
+          if (!rTol1 || rTol1.o !== 'SPA' || !rTol1.note?.includes('Alcázar')) return false;
+
+          const rMal1 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES532', NAME: 'Mallorca' } }, 1);
+          if (!rMal1 || rMal1.o !== 'SPA' || !rMal1.note?.includes('Aviazione Legionaria')) return false;
+
+          const rMen1 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES533', NAME: 'Menorca' } }, 1);
+          if (!rMen1 || rMen1.o !== 'SPR' || !rMen1.note?.includes('Mahón')) return false;
+
+          // 5. Step 2 (Ottobre 1938: Rottura a Vinaròs & Battaglia dell'Ebro)
+          const rCas2 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES522', NAME: 'Castellón' } }, 2);
+          if (!rCas2 || rCas2.o !== 'SPA' || (!rCas2.note?.includes('Ebro') && !rCas2.note?.includes('franchisti'))) return false;
+
+          const rTar2 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES514', NAME: 'Tarragona' } }, 2);
+          if (!rTar2 || rTar2.o !== 'SPR' || !rTar2.note?.includes('Ebro')) return false;
+
+          const rBar2 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES511', NAME: 'Barcelona' } }, 2);
+          if (!rBar2 || rBar2.o !== 'SPR' || !rBar2.note?.includes('Pasionaria')) return false;
+
+          // 6. Step 3-4 (Marzo-Aprile 1939: Caduta Catalogna, Casado a Madrid, Vittoria Nazionalista SPA)
+          const rBar3 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES511', NAME: 'Barcelona' } }, 3);
+          if (!rBar3 || rBar3.o !== 'SPA' || !rBar3.note?.includes('Retirada')) return false;
+
+          const rMad3 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES300', NAME: 'Madrid' } }, 3);
+          if (!rMad3 || rMad3.o !== 'SPA' || !rMad3.note?.includes('Casado')) return false;
+
+          const rAli3 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES521', NAME: 'Alicante' } }, 3);
+          if (!rAli3 || rAli3.o !== 'SPA' || !rAli3.note?.includes('Stanbrook')) return false;
+
+          // 7. Step 5 (Settembre 1939-Maggio 1940: Proclamazione Neutralità & Anni della Fame)
+          const rMad5 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES300', NAME: 'Madrid' } }, 5);
+          if (!rMad5 || rMad5.o !== 'SPA' || (!rMad5.note?.includes('fame nera') && !rMad5.note?.includes('Nuevo Estado'))) return false;
+
+          const rCor5 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES111', NAME: 'A Coruña' } }, 5);
+          if (!rCor5 || rCor5.o !== 'SPA' || !rCor5.note?.includes('U-Boot')) return false;
+
+          // 8. Step 6 (Giugno 1940: Passaggio a Non Belligeranza, Operazione Felix & Tangeri)
+          const rRif6 = resolveFeature({ properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF', NAME: 'Spanish Morocco' } }, 6);
+          if (!rRif6 || rRif6.o !== 'SPA' || !rRif6.note?.includes('Tangeri')) return false;
+
+          const rCad6 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES612', NAME: 'Cádiz' } }, 6);
+          if (!rCad6 || rCad6.o !== 'SPA' || !rCad6.note?.includes('Felix')) return false;
+
+          // 9. Step 7 (Ottobre 1940: Incontro di Hendaye & Fucilazione Companys)
+          const rGuip7 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES212', NAME: 'Gipuzkoa' } }, 7);
+          if (!rGuip7 || rGuip7.o !== 'SPA' || !rGuip7.note?.includes('Hendaye')) return false;
+
+          const rBar7 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES511', NAME: 'Barcelona' } }, 7);
+          if (!rBar7 || rBar7.o !== 'SPA' || !rBar7.note?.includes('Companys')) return false;
+
+          // 10. Step 8 (Aprile 1941: Carestia, Diplomazia Anglo-Spagnola Hoare, Wolframio & Abwehr)
+          const rMad8 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES300', NAME: 'Madrid' } }, 8);
+          if (!rMad8 || rMad8.o !== 'SPA' || (!rMad8.note?.includes('Hoare') && !rMad8.note?.includes('Abwehr'))) return false;
+
+          const rVig8 = resolveFeature({ properties: { CNTR_CODE: 'ES', NUTS_ID: 'ES114', NAME: 'Pontevedra' } }, 8);
+          if (!rVig8 || rVig8.o !== 'SPA' || !rVig8.note?.includes('wolframio')) return false;
+
+          // 11. Audit Geografico Database Unificato (59 province metropolitane/insulari + Marocco Spagnolo)
+          const esProvs = loadedProvs.filter((f: any) => f.properties?.CNTR_CODE === 'ES');
+          if (esProvs.length !== 59) return false;
+          for (const feat of esProvs) {
+            const r0 = resolveFeature(feat, 0);
+            if (!r0 || r0.o !== 'SPR') return false;
+            const r8 = resolveFeature(feat, 8);
+            if (!r8 || r8.o !== 'SPA') return false;
+          }
+          const rRif0 = resolveFeature({ properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF' } }, 0);
+          if (!rRif0 || rRif0.o !== 'SPR') return false;
+          const rRif8 = resolveFeature({ properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF' } }, 8);
+          if (!rRif8 || rRif8.o !== 'SPA') return false;
+
+          return true;
+        }
+      },
     ];
 
     let passed = 0;

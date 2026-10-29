@@ -64,6 +64,10 @@ import {
   resolveItalyProvince,
   IT_PROVINCES_META,
 } from './italyProvinces';
+import {
+  resolveSpainProvince,
+  SPAIN_PROVINCES_META,
+} from './spainProvinces';
 import { ResolvedTerritory, FactionType } from '../types';
 import {
   getExtendedToponym,
@@ -5964,6 +5968,12 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '724':
     case 'XES':
     case 'ES_RIF': {
+      // Risoluzione esaustiva delle 63 province e territori storici della Spagna (1936-1941)
+      const esProv = resolveSpainProvince(nid || ft.id || rawName, s, rawName);
+      if (esProv) {
+        return esProv;
+      }
+
       // Protettorato Spagnolo del Marocco (Rif, Tetuán, Larache, Alhucemas, Nador)
       if (
         nid === 'ES_RIF' ||

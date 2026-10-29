@@ -25,6 +25,12 @@ import {
   resolveItalyProvince,
   type ItalyProvinceInfo,
 } from './italyProvinces';
+import {
+  SPAIN_PROVINCES_META,
+  populateSpainToponyms,
+  resolveSpainProvince,
+  type SpainProvinceInfo,
+} from './spainProvinces';
 /**
  * Motore Toponomastico Storico Esteso (1936-1940)
  * Dizionario multi-linguistico e geopolitico per la corretta attribuzione
@@ -2905,6 +2911,7 @@ populateAfghanistanToponyms(HISTORICAL_TOPONYM_DICT);
 populateFranceToponyms(HISTORICAL_TOPONYM_DICT);
 populateUKToponyms(HISTORICAL_TOPONYM_DICT);
 populateItalyToponyms(HISTORICAL_TOPONYM_DICT);
+populateSpainToponyms(HISTORICAL_TOPONYM_DICT);
 
 interface SpainProvDef {
   nuts: string;
@@ -3499,6 +3506,16 @@ export function resolveSpainToponym(
   yearStep?: number
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
+
+  // 0. Risoluzione prioritaria dal censimento esaustivo di spainProvinces (63 entita)
+  const esResolved = resolveSpainProvince(id || normKey, step, rawName);
+  if (esResolved) {
+    return {
+      name: esResolved.name,
+      adminTitle: esResolved.adminEntity || esResolved.name,
+      note: esResolved.note,
+    };
+  }
 
   // 1. Cerca match tra le 50 province (e isole / plazas de soberanía)
   let foundProv: SpainProvDef | undefined;
