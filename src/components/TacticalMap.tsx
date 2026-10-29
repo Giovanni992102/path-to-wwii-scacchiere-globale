@@ -227,6 +227,8 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
   const currentCyclesRef = useRef<number[]>([0, 1, -1]);
   const hoverOverlayRef = useRef<SVGPathElement | null>(null);
   const selectOverlayRef = useRef<SVGPathElement | null>(null);
+  const isZoomingRef = useRef<boolean>(false);
+  const zoomEndTimeoutRef = useRef<any>(null);
 
   // Sync currentStepRef synchronously so D3 event listeners always access the active timeline step
   const currentStepRef = useRef<number>(currentStep);
@@ -458,10 +460,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
 
       // 3. Continuous Land Underlay Layer (Prevents 0.5px sub-pixel vector seams from exposing ocean blue)
       const gUnderlay = gCopy.append('g').attr('class', 'land-underlay-layer pointer-events-none');
-      const allCartoFeatures = (hbMode ? hbFeatures : cntrFeatures).concat(provFeatures);
+      const underlayFeatures = hbMode ? hbFeatures : cntrFeatures;
       gUnderlay
         .selectAll('path')
-        .data(allCartoFeatures)
+        .data(underlayFeatures)
         .join('path')
         .attr('d', path as any)
         .attr('fill', '#14171a')
@@ -725,16 +727,11 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
 
           gBat
             .append('circle')
-            .attr('r', '2.5')
+            .attr('class', 'battle-pulse')
+            .attr('r', '3.5')
             .attr('fill', 'none')
             .attr('stroke', '#d9534f')
-            .attr('stroke-width', '0.6')
-            .attr('opacity', '0.7')
-            .append('animate')
-            .attr('attributeName', 'r')
-            .attr('values', '2;5;2')
-            .attr('dur', '2s')
-            .attr('repeatCount', 'indefinite');
+            .attr('stroke-width', '0.6');
 
           gBat
             .append('circle')
@@ -758,7 +755,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
             .append('g')
             .datum(city)
             .attr('transform', `translate(${pt[0]}, ${pt[1]})`)
-            .attr('class', 'city-marker pointer-events-none');
+            .attr('class', `city-marker pointer-events-none ${city.isCapital ? 'city-capital' : 'city-minor'}`);
 
           gCity
             .append('circle')
@@ -825,15 +822,12 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     let currentHoveredNode: SVGPathElement | null = null;
 
     function clearAllHover() {
-      if (currentHoveredNode) {
-        currentHoveredNode = null;
-      }
-      svg.selectAll('.hov').classed('hov', false);
+      currentHoveredNode = null;
       svg.selectAll('.hov-overlay-path').attr('d', null);
       hoveredInfoRef.current = null;
     }
 
-    // Zoom behavior with infinite horizontal wrapping
+    // Zoom behavior with infinite horizontal wrapping & viewport culling
     const zoom = d3
       .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.35, 25])
@@ -842,19 +836,40 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         [Infinity, H * 2.5],
       ])
       .on('start', () => {
+        isZoomingRef.current = true;
+        if (zoomEndTimeoutRef.current) {
+          clearTimeout(zoomEndTimeoutRef.current);
+          zoomEndTimeoutRef.current = null;
+        }
+        svg.classed('is-zooming', true);
         clearAllHover();
         hideTooltip();
       })
       .on('zoom', (event) => {
+        isZoomingRef.current = true;
+        if (zoomEndTimeoutRef.current) {
+          clearTimeout(zoomEndTimeoutRef.current);
+          zoomEndTimeoutRef.current = null;
+        }
+        svg.classed('is-zooming', true);
         clearAllHover();
         hideTooltip();
+
         gRoot.attr('transform', event.transform);
+
+        const k = event.transform.k || 1;
+        gRoot.classed('zoom-out', k < 0.95);
+        gRoot.classed('zoom-deep', k < 0.6);
 
         // Infinite conveyor belt update:
         // Position of camera center in world coordinates:
-        const xCenter = (W / 2 - event.transform.x) / (event.transform.k || 1);
+        const xCenter = (W / 2 - event.transform.x) / k;
         const C = Math.round(xCenter / WORLD_WIDTH);
         const needed = [C - 1, C, C + 1];
+
+        // Frustum / Viewport bounds in world coordinates:
+        const xViewMin = -event.transform.x / k;
+        const xViewMax = (W - event.transform.x) / k;
 
         for (const c of needed) {
           const slot = ((c % 3) + 3) % 3;
@@ -862,10 +877,20 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
             gCopiesRef.current[slot].attr('transform', `translate(${c * WORLD_WIDTH}, 0)`);
             currentCyclesRef.current[slot] = c;
           }
+          // Viewport culling: each copy spans [c * WORLD_WIDTH, (c + 1) * WORLD_WIDTH]
+          // A buffer margin of 250px prevents popping during fast pans
+          const isVisible = (c + 1) * WORLD_WIDTH + 250 >= xViewMin && c * WORLD_WIDTH - 250 <= xViewMax;
+          gCopiesRef.current[slot].style('display', isVisible ? null : 'none');
         }
       })
       .on('end', () => {
-        clearAllHover();
+        if (zoomEndTimeoutRef.current) {
+          clearTimeout(zoomEndTimeoutRef.current);
+        }
+        zoomEndTimeoutRef.current = setTimeout(() => {
+          isZoomingRef.current = false;
+          svg.classed('is-zooming', false);
+        }, 100);
       });
 
     svg.call(zoom).on('dblclick.zoom', null);
@@ -889,16 +914,8 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     });
 
     function handlePointerEnter(this: any, event: MouseEvent, d: any) {
-      if (currentHoveredNode && currentHoveredNode !== this) {
-        d3.select(currentHoveredNode).classed('hov', false);
-      }
-      svg.selectAll('.hov').classed('hov', false);
+      if (isZoomingRef.current) return;
       currentHoveredNode = this;
-
-      svg
-        .selectAll<SVGPathElement, any>('.prov, .cty, .hb')
-        .filter((f) => f === d)
-        .classed('hov', true);
 
       const dAttr = d3.select(this).attr('d');
       if (dAttr) {
@@ -930,18 +947,9 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     }
 
     function handlePointerMove(this: any, event: MouseEvent, d: any) {
+      if (isZoomingRef.current) return;
       if (currentHoveredNode !== this) {
-        if (currentHoveredNode) {
-          d3.select(currentHoveredNode).classed('hov', false);
-        }
-        svg.selectAll('.hov').classed('hov', false);
         currentHoveredNode = this;
-
-        svg
-          .selectAll<SVGPathElement, any>('.prov, .cty, .hb')
-          .filter((f) => f === d)
-          .classed('hov', true);
-
         const dAttr = d3.select(this).attr('d');
         if (dAttr) {
           svg.selectAll('.hov-overlay-path').attr('d', dAttr);
@@ -973,13 +981,9 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     }
 
     function handlePointerLeave(this: any) {
-      d3.select(this).classed('hov', false);
       if (currentHoveredNode === this) {
-        currentHoveredNode = null;
-        svg.selectAll('.hov').classed('hov', false);
-        svg.selectAll('.hov-overlay-path').attr('d', null);
+        clearAllHover();
       }
-      hoveredInfoRef.current = null;
       hideTooltip();
     }
 
@@ -992,6 +996,12 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
     function showTooltip(event: MouseEvent, html: string) {
       positionTooltip(event.clientX, event.clientY, html);
     }
+
+    return () => {
+      if (zoomEndTimeoutRef.current) {
+        clearTimeout(zoomEndTimeoutRef.current);
+      }
+    };
   }, [provFeatures, hbFeatures, cntrFeatures, hbMode]);
 
   // Update fills smoothly & toggle battle markers when currentStep changes

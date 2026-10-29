@@ -121,15 +121,76 @@ body {
   stroke-linejoin: round;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
-  transition: filter 0.15s, stroke-width 0.15s, stroke 0.15s;
 }
 
-.prov:hover, .cty:hover, .hb:hover,
-.prov.hov, .cty.hov, .hb.hov,
+/* Tactical Hover Overlay (Ultra-fast GPU rendering via dedicated top path) */
 .hov-overlay-path {
   stroke: var(--gold-bright) !important;
   stroke-width: 1.8px !important;
   filter: brightness(1.25) drop-shadow(0 0 6px rgba(232, 201, 121, 0.75)) !important;
+  pointer-events: none !important;
+}
+
+/* GPU Hardware Acceleration & Layer Hinting */
+#map {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+#gRoot {
+  will-change: transform;
+}
+
+/* High-performance Zoom & Pan mode: shuts down all hover calculations during gesture */
+.is-zooming,
+.is-zooming * {
+  pointer-events: none !important;
+  cursor: grabbing !important;
+}
+
+/* Dynamic Level of Detail (LOD) for Global Zoom-Out */
+.zoom-out .prov,
+.zoom-out .cty,
+.zoom-out .hb {
+  stroke-width: 0.38px;
+  stroke-opacity: 0.75;
+}
+
+.zoom-deep .prov,
+.zoom-deep .cty,
+.zoom-deep .hb {
+  stroke-width: 0.22px;
+  stroke-opacity: 0.55;
+}
+
+.zoom-out .city-minor {
+  display: none !important;
+}
+
+.zoom-deep .city-marker {
+  display: none !important;
+}
+
+.zoom-deep .island-beacon-label {
+  display: none !important;
+}
+
+/* Lightweight GPU-accelerated Battle Pulse (replaces continuous SMIL DOM paints) */
+@keyframes battle-pulse {
+  0%, 100% {
+    transform: scale(0.65);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.45);
+    opacity: 0.3;
+  }
+}
+
+.battle-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: battle-pulse 2s ease-in-out infinite;
 }
 
 /* Strategic Oceanic Island Beacons & Halos */
