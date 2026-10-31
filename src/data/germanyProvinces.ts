@@ -8086,6 +8086,20 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
 
 GERMANY_PROVINCES_META['DE_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
 GERMANY_PROVINCES_META['GER_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
+GERMANY_PROVINCES_META['DE300_WEST'] = {
+  ...GERMANY_PROVINCES_META['DE300'],
+  id: 'DE300_WEST',
+  nutsName: 'West-Berlin',
+  modernName: 'Berlino Ovest (West-Berlin)',
+  historicalName: 'West-Berlin (Settori Alleati)',
+};
+GERMANY_PROVINCES_META['DE300_EAST'] = {
+  ...GERMANY_PROVINCES_META['DE300'],
+  id: 'DE300_EAST',
+  nutsName: 'Ost-Berlin',
+  modernName: 'Berlino Est (Ost-Berlin)',
+  historicalName: 'Ost-Berlin (Settore Sovietico — Hauptstadt der DDR)',
+};
 
 /**
  * Risolve una provincia / distretto del Terzo Reich (GER) per uno step temporale specifico.
