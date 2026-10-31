@@ -662,6 +662,15 @@ export const LITHUANIA_PALANGA_FEATURE: any = {
   __kind: 'PALANGA',
 };
 LITHUANIA_PALANGA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 9) {
+    return makeResult(
+      'GER',
+      'Generalbezirk Litauen — Palanga ir Kretinga (Reichskommissariat Ostland)',
+      "Reichskommissariat Ostland (Generalbezirk Litauen) — Travolto nelle primissime ore dell'Operazione Barbarossa (22 giugno 1941) dall'assalto della 291ª Divisione di Fanteria della Wehrmacht partita dalla Prussia Orientale; il litorale di Palanga e Kretinga viene incorporato nel Reichskommissariat Ostland (Generalbezirk Litauen, Kauen) sotto il Generalkommissar Theodor Adrian von Renteln.",
+      'Asse',
+      'Reichskommissariat Ostland — Generalbezirk Litauen (Generalkommissar Theodor Adrian von Renteln, Kauen)'
+    );
+  }
   if (s < 6) {
     return makeResult(
       'LIT',

@@ -3716,6 +3716,16 @@ export default function App() {
           if (!mos9 || mos9.o !== 'SOV' || mos9.fac !== 'Comintern' || !mos9.note?.includes('5 dicembre')) return false;
           if (!len9 || len9.o !== 'SOV' || len9.fac !== 'Comintern' || !len9.note?.toLowerCase().includes('assedio')) return false;
 
+          // h) Palanga e costa baltica lituana (Operazione Barbarossa, 22 giugno 1941)
+          const pal9 = resolveFeature({ id: 'LT_HIST_PALANGA', properties: { NUTS_ID: 'LT_HIST_PALANGA', CNTR_CODE: 'LIT', NAME: 'Palanga and Kretinga' } }, 9);
+          if (!pal9 || pal9.o !== 'GER' || pal9.fac !== 'Asse' || !pal9.name.includes('Ostland')) return false;
+
+          // i) Rostov sul Don (liberata dal contrattacco sovietico il 29 novembre 1941) e Sebastopoli (fortezza assediata)
+          const rostov9 = resolveSovietProvince('SOV_ADM1_RUS_17_Rostov_Oblast', 9);
+          const sevast9 = resolveSovietProvince('SOV_ADM1_UKR_99_Sevastopol', 9);
+          if (!rostov9 || rostov9.o !== 'SOV' || rostov9.fac !== 'Comintern' || !rostov9.note?.includes('29 novembre 1941')) return false;
+          if (!sevast9 || sevast9.o !== 'SOV' || sevast9.fac !== 'Comintern' || !sevast9.note?.includes('Sebastopoli')) return false;
+
           // 2. Medio Oriente e Asia Centrale
           // a) Siria e Libano: controllo congiunto Francia Libera e Gran Bretagna (Armistizio di Saint-Jean-d'Acre, 14 luglio 1941)
           const syrDam9 = resolveFeature({ id: 'SYR_DAM', properties: { CNTR_CODE: 'SYR', NUTS_ID: 'SYR_DAM', NAME: 'Damascus' } }, 9);
@@ -3775,6 +3785,18 @@ export default function App() {
           const siaHb9 = resolveHB({ properties: { NAME: 'Thailand' } }, 9);
           if (sia9.o !== 'SIA' || sia9.fac !== 'Asse' || !sia9.note?.includes('21 dicembre')) return false;
           if (siaHb9.o !== 'SIA' || siaHb9.fac !== 'Asse') return false;
+
+          // h) Gain territoriali thailandesi in Indocina (Trattato di Tokyo del 9 maggio 1941: Battambang, Sisophon, Sayaboury, Champasack)
+          const batt9 = resolveFeature({ id: 'KH2', properties: { CNTR_CODE: 'KH', NUTS_ID: 'KH2', NAME: 'Battambang' } }, 9);
+          const siso9 = resolveFeature({ id: 'KH1', properties: { CNTR_CODE: 'KH', NUTS_ID: 'KH1', NAME: 'Banteay Meanchey' } }, 9);
+          const sayab9 = resolveFeature({ id: 'LAXA', properties: { CNTR_CODE: 'LA', NUTS_ID: 'LAXA', NAME: 'Xaignabouly' } }, 9);
+          const champ9 = resolveFeature({ id: 'LACH', properties: { CNTR_CODE: 'LA', NUTS_ID: 'LACH', NAME: 'Champasack' } }, 9);
+          const ratan9 = resolveFeature({ id: 'KH16', properties: { CNTR_CODE: 'KH', NUTS_ID: 'KH16', NAME: 'Ratanak Kiri' } }, 9);
+          if (batt9.o !== 'SIA' || batt9.fac !== 'Asse' || !batt9.name.includes('Phra Tabong')) return false;
+          if (siso9.o !== 'SIA' || siso9.fac !== 'Asse' || !siso9.name.includes('Phra Tabong')) return false;
+          if (sayab9.o !== 'SIA' || sayab9.fac !== 'Asse' || !sayab9.name.includes('Lan Chang')) return false;
+          if (champ9.o !== 'SIA' || champ9.fac !== 'Asse' || !champ9.name.includes('Nakhon Champassak')) return false;
+          if (ratan9.o !== 'JAP' || ratan9.fac !== 'Asse') return false;
 
           return true;
         }

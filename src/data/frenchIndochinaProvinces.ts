@@ -4627,8 +4627,8 @@ export const FRENCH_INDOCHINA_PROVINCES_META: Record<string, FrenchIndochinaProv
 /**
  * Risolutore territoriale completo per le province dell'Indocina Francese
  */
-// Override Step 9 (DIC 1941): Indocina interamente occupata dalle truppe giapponesi (fine luglio 1941) e province cedute alla Thailandia alleata dell'Asse
-const INDOCHINA_THAI_ANNEXED_IDS = new Set(['KH2', 'KH16', 'KH17', 'KH24', 'LAXA', 'LACH', 'LA3', 'LA14']);
+// Override Step 9 (DIC 1941): Indocina interamente occupata dalle truppe giapponesi (fine luglio 1941) e province cedute alla Thailandia alleata dell'Asse (Trattato di Tokyo del 9 maggio 1941)
+const INDOCHINA_THAI_ANNEXED_IDS = new Set(['KH1', 'KH2', 'KH9', 'KH13', 'KH17', 'KH22', 'KH24', 'LAXA', 'LACH']);
 for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
   const origSov = meta.getSovereign ? meta.getSovereign.bind(meta) : (s: number) => (s >= 7 ? 'VIC_IND' : 'F_IND');
   const origFac = meta.getFaction ? meta.getFaction.bind(meta) : (s: number) => (s >= 7 ? 'Fantoccio' : 'Alleati');
@@ -4647,14 +4647,31 @@ for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
   };
   meta.getHistoricalName = (s: number) => {
     if (s >= 9) {
-      if (isThai) return `${origHist(8)} (Regno di Thailandia — Alleanza con il Giappone, 21 Dicembre 1941)`;
+      if (isThai) {
+        if (k === 'KH2' || k === 'KH1' || k === 'KH24' || k === 'KH9') {
+          return `Changwat Phra Tabong (${meta.historicalToponym} — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'KH17' || k === 'KH22') {
+          return `Changwat Phibunsongkhram (${meta.historicalToponym} — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'KH13') {
+          return `Khao Phra Viharn (${meta.historicalToponym} — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'LAXA') {
+          return `Changwat Lan Chang (Sayaboury — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'LACH') {
+          return `Changwat Nakhon Champassak (Champassak / Bassac — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        return `${origHist(8)} (Regno di Thailandia — Alleanza con il Giappone, 21 Dicembre 1941)`;
+      }
       return `${ meta.historicalName } (Occupazione Militare Giapponese — Operazione Fu-Go, Luglio 1941)`;
     }
     return origHist(s);
   };
   meta.getAdminTitle = (s: number) => {
     if (s >= 9) {
-      if (isThai) return `Regno di Thailandia — Territori Annessi (Trattato di Tokyo & Alleanza Militare Nippo-Thailandese, Dicembre 1941)`;
+      if (isThai) return `Regno di Thailandia — Territori Annessi (Trattato di Tokyo del 9 Maggio 1941 & Alleanza Militare Nippo-Thailandese, 21 Dicembre 1941)`;
       return `Impero Giapponese — Gruppo d'Armate di Spedizione Meridionale (Gen. Hisaichi Terauchi, Saigon) / Amministrazione Coloniale Subordinata Vichy (Amm. Jean Decoux)`;
     }
     return origAdmin(s);
@@ -4662,7 +4679,7 @@ for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
   meta.getNote = (s: number) => {
     if (s >= 9) {
       if (isThai) {
-        return `${origNote(8)} A seguito dell'armistizio dell'8 dicembre e del trattato di alleanza militare nippo-thailandese del 21 dicembre 1941, la provincia annessa da Bangkok sostiene le operazioni dell'Esercito Imperiale Giapponese nel Sud-Est Asiatico.`;
+        return `${origNote(8)} A seguito della vittoria diplomatica mediata da Tokyo nel Trattato di pace del 9 maggio 1941, la regione è stata formalmente annessa al Regno di Thailandia del Maresciallo Plaek Phibunsongkhram. Dopo l'armistizio dell'8 dicembre e il trattato formale di alleanza militare con l'Impero Giapponese stipulato il 21 dicembre 1941 a Bangkok, il territorio annesso funge da retrovia strategica e logistica per l'offensiva dell'Asse nel Sud-Est Asiatico.`;
       }
       return `${meta.historicalToponym} · Sotto occupazione militare integrale dell'Impero Giapponese completata a fine luglio 1941 (Operazione Fu-Go, 28 luglio 1941, dopo gli accordi Darlan-Kato). Nel dicembre 1941 i porti e gli aeroporti indocinesi (Saigon, Cam Ranh, Bien Hoa, Thu Dau Mot, Haiphong) costituiscono la base di lancio dell'Esercito Meridionale del Gen. Hisaichi Terauchi e della 22ª Flottiglia Aerea della Marina Imperiale per l'invasione della Malesia britannica e l'affondamento della Force Z (HMS Prince of Wales e Repulse, 10 dicembre 1941).`;
     }
@@ -4674,8 +4691,10 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
   if (s >= 9) {
     const p = ft.properties || {};
     const rawId = String(ft.id || p.id || '').trim();
-    if (INDOCHINA_THAI_ANNEXED_IDS.has(rawId)) {
-      const m = FRENCH_INDOCHINA_PROVINCES_META[rawId];
+    const cleanId = rawId.replace(/[^A-Za-z0-9]/g, '');
+    const targetId = INDOCHINA_THAI_ANNEXED_IDS.has(rawId) ? rawId : (INDOCHINA_THAI_ANNEXED_IDS.has(cleanId) ? cleanId : null);
+    if (targetId) {
+      const m = FRENCH_INDOCHINA_PROVINCES_META[targetId];
       if (m) return makeResult('SIA', m.getHistoricalName!(s), m.getNote(s), 'Asse', m.getAdminTitle!(s));
     }
   }
