@@ -7215,6 +7215,20 @@ export const GERMANY_CITIES_CATALOG: GermanyCityDef[] = [
     note: 'Regierungssitz des Deutschen Reiches — Reichskanzlei, Wilhelmstraße, Bendlerblock. Gauleiter Joseph Goebbels. Pläne für die "Welthauptstadt Germania".',
   },
   {
+    nuts: 'DE300_WEST',
+    keys: ['berlin_west', 'west_berlin', 'berlino_ovest'],
+    name: 'Berlino Ovest (West-Berlin)',
+    getAdminTitle: (s) => `West-Berlin (Settori Americano, Britannico e Francese — ${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Settori occidentali di Berlino: Tiergarten, Charlottenburg, Spandau, Schöneberg, Kreuzberg, Neukölln, Steglitz, Zehlendorf, Tempelhof, Reinickendorf, Wedding. Centro industriale (Siemensstadt, Borsig, Alkett) e aeroporti di Tempelhof e Gatow.',
+  },
+  {
+    nuts: 'DE300_EAST',
+    keys: ['berlin_ost', 'east_berlin', 'berlino_est'],
+    name: 'Berlino Est (Ost-Berlin)',
+    getAdminTitle: (s) => `Ost-Berlin (Settore Sovietico — Hauptstadt der DDR / ${s === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich'})`,
+    note: 'Settore orientale di Berlino: Mitte storico (Reichskanzlei, Wilhelmstraße, Unter den Linden, Alexanderplatz), Prenzlauer Berg, Friedrichshain, Treptow, Köpenick, Lichtenberg, Weißensee, Pankow.',
+  },
+  {
     nuts: 'DE212',
     keys: ['munchen', 'munich', 'monaco_di_baviera'],
     name: 'München (Hauptstadt der Bewegung)',

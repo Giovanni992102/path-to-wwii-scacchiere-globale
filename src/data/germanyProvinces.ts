@@ -8087,18 +8087,44 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
 GERMANY_PROVINCES_META['DE_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
 GERMANY_PROVINCES_META['GER_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
 GERMANY_PROVINCES_META['DE300_WEST'] = {
-  ...GERMANY_PROVINCES_META['DE300'],
   id: 'DE300_WEST',
   nutsName: 'West-Berlin',
-  modernName: 'Berlino Ovest (West-Berlin)',
-  historicalName: 'West-Berlin (Settori Alleati)',
+  nameLatn: 'Berlin (West)',
+  nameEngl: 'West Berlin',
+  modernName: 'Berlino Ovest (Germania)',
+  historicalName: 'West-Berlin (Settori Alleati: Tiergarten, Charlottenburg, Spandau, Schöneberg, Neukölln)',
+  gau: 'Gau Berlin (West)',
+  land: 'Reichshauptstadt Berlin (Westsektoren)',
+  capital: 'Berlin-Charlottenburg / Schöneberg',
+  gauleiter: 'Joseph Goebbels (1936-1945) / Allied Kommandatura (post-1945)',
+  role: "Polo industriale d'armamento ed elettrotecnica (Siemensstadt, Borsig, Alkett a Spandau, Argus Motoren), snodo aereo strategico di Tempelhof e Gatow, sede dell'Olympiastadion e del Kaiser-Wilhelm-Institut di Dahlem; futuro bastione occidentale nella Guerra Fredda (Settori Americano, Britannico e Francese).",
+  notes: {
+    s0_1: "1936-inizio 1938: I distretti occidentali di Berlino (Charlottenburg, Spandau, Tiergarten, Schöneberg, Wilmersdorf, Steglitz, Zehlendorf, Tempelhof, Neukölln, Reinickendorf, Wedding) sono la vetrina mondiale del regime con i Giochi della XI Olimpiade del 1936 nell'Olympiastadion (Reichssportfeld) a Charlottenburg. I giganti industriali della Siemensstadt e della Borsig operano a pieno regime per il Piano Quadriennale di Hermann Göring. All'aeroporto di Tempelhof viene avviata la costruzione del gigantesco terminal monumentale di Ernst Sagebiel. Mobilitazione logistica per l'Anschluss dell'Austria (marzo 1938).",
+    s2_4: "1938-inizio 1939: Durante la crisi dei Sudeti e la Conferenza di Monaco, gli stabilimenti Alkett di Spandau e Borsig convertono le linee alla produzione accelerata di carri armati e munizioni per la Wehrmacht. Nella notte del 9-10 novembre 1938 (Kristallnacht), le squadre SA e SS devastano i negozi ebraici lungo la Kurfürstendamm e danno alle fiamme la sontuosa Sinagoga di Fasanenstraße a Charlottenburg. A Dahlem, presso il Kaiser-Wilhelm-Institut, Otto Hahn e Fritz Strassmann realizzano nel dicembre 1938 la prima scissione nucleare dell'uranio.",
+    s5: "Primavera-Estate 1939: Il 20 aprile 1939 la monumentale Ost-West-Achse (asse est-ovest progettato da Albert Speer attraverso il Tiergarten e la Charlottenburger Chaussee) fa da scenario alla più imponente parata militare della Wehrmacht per il 50° compleanno di Hitler. Dopo l'occupazione della Boemia e Moravia (marzo) e la firma del Patto d'Acciaio con l'Italia (maggio), la produzione di motori aeronautici alla Argus di Reinickendorf e velivoli a Spandau passa ai ritmi di guerra totale.",
+    s6_7: "Settembre 1939 - Fine 1940: Con l'inizio della guerra (Fall Weiß) e la vittoriosa campagna di Francia (giugno 1940), la capitale affronta i primi razionamenti ferrei. Nella notte tra il 25 e il 26 agosto 1940 la Royal Air Force britannica effettua la prima incursione aerea su Berlino, colpendo installazioni a Tempelhof e Siemensstadt. Nel Tiergarten e a Humboldthain viene ordinata la costruzione immediata delle ciclopiche Torri Contraeree (Flaktürme) dotate di bunker antiaerei civili e radar Wurzburg-Riese. Il 27 settembre 1940 viene siglato il Patto Tripartito.",
+    s8: "Aprile 1941: Mobilitazione industriale suprema in vista dell'Operazione Barbarossa contro l'URSS. Dalle officine Alkett di Spandau e dai depositi ferroviari di Moabit partono centinaia di cannoni d'assalto StuG III e convogli corazzati verso i comandi di raggruppamento a oriente. L'aeroporto di Tempelhof funge da perno logistico per i collegamenti aerei di stato maggiore dell'Asse verso i Balcani e il Mediterraneo.",
+  },
 };
 GERMANY_PROVINCES_META['DE300_EAST'] = {
-  ...GERMANY_PROVINCES_META['DE300'],
   id: 'DE300_EAST',
-  nutsName: 'Ost-Berlin',
-  modernName: 'Berlino Est (Ost-Berlin)',
-  historicalName: 'Ost-Berlin (Settore Sovietico — Hauptstadt der DDR)',
+  nutsName: 'Berlin, Hauptstadt der DDR',
+  nameLatn: 'Berlin (Ost)',
+  nameEngl: 'East Berlin',
+  modernName: 'Berlino Est (Germania)',
+  historicalName: 'Ost-Berlin (Settore Centrale-Orientale: Mitte, Friedrichshain, Prenzlauer Berg, Pankow)',
+  gau: 'Gau Berlin (Mitte-Ost)',
+  land: 'Reichshauptstadt Berlin (Zentrum und Ostsektoren)',
+  capital: 'Berlin-Mitte / Alexanderplatz',
+  gauleiter: 'Joseph Goebbels (1936-1945) / SMAD (post-1945)',
+  role: "Cuore politico, governativo e decisionale supremo del Reich: Vecchia e Nuova Cancelleria del Reich sulla Wilhelmstraße, Führerbunker, Ministeri di Stato, Alexanderplatz, Rotes Rathaus e cantieri lungo la Sprea; futuro settore di occupazione sovietico e capitale della Repubblica Democratica Tedesca (DDR).",
+  notes: {
+    s0_1: "1936-inizio 1938: Il cuore storico e governativo di Berlino (Mitte, Prenzlauer Berg, Friedrichshain, Pankow, Weißensee, Lichtenberg, Treptow, Köpenick) ospita i centri di comando assoluto del Terzo Reich: la Cancelleria del Reich sulla Wilhelmstraße, il Ministero della Propaganda di Goebbels su Wilhelmplatz e il Ministero dell'Aeronautica (Reichsluftfahrtministerium) di Göring sulla Leipziger Straße. Nel gennaio 1937 Hitler nomina Albert Speer Ispettore Generale dell'Edilizia per avviare il piano titanico di sventramento e ricostruzione della 'Welthauptstadt Germania'.",
+    s2_4: "1938-inizio 1939: Nel gennaio 1939 viene completata a tempo di record sulla Voßstraße la monumentale Nuova Cancelleria del Reich (Neue Reichskanzlei) di Albert Speer, con la leggendaria Galleria di Marmo lunga 146 metri. Durante il pogrom della Notte dei Cristalli (9-10 novembre 1938), le squadre naziste assaltano e incendiano la Sinagoga Nuova di Oranienburger Straße a Mitte, mentre la Gestapo e l'SD nel complesso centrale di Prinz-Albrecht-Straße coordinano l'arresto e la deportazione di migliaia di cittadini ebrei a Sachsenhausen.",
+    s5: "Primavera-Estate 1939: Il centro nevralgico della Wilhelmstraße è il teatro delle frenetiche manovre diplomatiche che precedono l'invasione della Polonia. Il 23 agosto 1939 il ministro degli Esteri Joachim von Ribbentrop parte dalla Cancelleria per Mosca per siglare il Patto Molotov-Ribbentrop. La mattina del 1° settembre 1939, dalla tribuna dell'Opera Kroll di fronte al Reichstag, Hitler annuncia al Reichstag e al mondo l'inizio delle ostilità contro la Polonia: 'Seit 5:45 Uhr wird jetzt zurückgeschossen!'.",
+    s6_7: "Settembre 1939 - Fine 1940: Il 18 luglio 1940 le truppe tedesche reduci dalla Campagna di Francia sfilano trionfalmente attraverso la Porta di Brandeburgo lungo Unter den Linden tra ali di folla. Il 27 settembre 1940, nella Cancelleria del Reich, Germania, Italia e Giappone firmano solennemente il Patto Tripartito. Nel novembre 1940 il commissario del popolo sovietico Vjačeslav Molotov è accolto alla Cancelleria e alla stazione di Anhalt per consultazioni strategiche di massima tensione con Hitler e Ribbentrop, interrotte da un'incursione aerea della RAF.",
+    s8: "Aprile 1941: Nella Cancelleria del Reich e negli uffici del comando supremo OKW fervono le riunioni segrete operative per definire gli ultimi dettagli della Direttiva 21 (Operazione Barbarossa). L'intero apparato della propaganda nazista su Wilhelmplatz orchestra la campagna d'odio antibolscevica e l'imminente rottura del patto con Mosca, mentre dalle stazioni dell'Ostbahnhof partono i treni rifornimento destinati ai fronti orientale e balcanico.",
+  },
 };
 
 /**
