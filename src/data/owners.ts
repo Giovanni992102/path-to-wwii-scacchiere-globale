@@ -99,7 +99,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'USA',
     c: '#233f69',
     f: 'Alleati',
-    l: (s) => (s >= 5 ? 'Stati Uniti d\'America (Two-Ocean Navy & Riarmamento)' : 'Stati Uniti d\'America (Presidenza Roosevelt — New Deal)'),
+    l: (s) => (s >= 9 ? 'Stati Uniti d\'America (In Guerra — Post-Pearl Harbor & Arsenale delle Democrazie)' : s >= 5 ? 'Stati Uniti d\'America (Two-Ocean Navy & Riarmamento)' : 'Stati Uniti d\'America (Presidenza Roosevelt — New Deal)'),
     shortName: 'Stati Uniti',
     leader: 'Franklin Delano Roosevelt (32° Presidente — New Deal / Terzo Mandato nel 1940)',
     capital: 'Washington, D.C.',
@@ -297,7 +297,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'IRQ',
     c: '#c29b38',
     f: 'Asse',
-    l: (s) => (s >= 8 ? 'Regno dell\'Iraq (Governo di Difesa Nazionale Filo-Asse — Rashid Ali al-Kaylani)' : 'Regno dell\'Iraq (Trattato Anglo-Iraqueno)'),
+    l: (s) => (s >= 9 ? 'Regno dell\'Iraq (Occupazione Militare Britannica PAIFORCE & Reggenza \'Abd al-Ilah)' : s >= 8 ? 'Regno dell\'Iraq (Governo di Difesa Nazionale Filo-Asse — Rashid Ali al-Kaylani)' : 'Regno dell\'Iraq (Trattato Anglo-Iraqueno)'),
     shortName: 'Iraq',
     leader: 'Re Ghazi I / Nuri al-Said / Rashid Ali al-Kaylani',
     capital: 'Baghdad',
@@ -521,7 +521,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'F_SYR',
     c: '#4c6a9c',
     f: 'Alleati',
-    l: (s) => (s >= 6 ? 'Mandato di Siria e Libano (Amministrazione Vichy)' : 'Mandato di Siria e Libano'),
+    l: (s) => (s >= 9 ? 'Siria e Libano (Controllo Congiunto Francia Libera & Gran Bretagna — Gen. Catroux)' : s >= 6 ? 'Mandato di Siria e Libano (Amministrazione Vichy)' : 'Mandato di Siria e Libano'),
     shortName: 'Siria e Libano',
     leader: 'Gabriel Puaux',
     capital: 'Beyrouth',
@@ -673,7 +673,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'ROM',
     c: '#b8a45e',
     f: 'Neutrale',
-    l: (s) => (s >= 7 ? 'Regno di Romania (Stato Nazionale Legionario — Antonescu)' : 'Regno di Romania'),
+    l: (s) => (s >= 9 ? 'Regno di Romania (Cobelligerante dell\'Asse & Governatorato della Transnistria — Antonescu)' : s >= 7 ? 'Regno di Romania (Stato Nazionale Legionario — Antonescu)' : 'Regno di Romania'),
     shortName: 'Romania',
     leader: 'Re Carlo II / Michele I & Ion Antonescu',
     capital: 'București',
@@ -712,7 +712,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'FIN',
     c: '#c7c2b1',
     f: 'Neutrale',
-    l: () => 'Repubblica di Finlandia',
+    l: (s) => (s >= 9 ? 'Repubblica di Finlandia (Guerra di Continuazione — Occupazione Carelia Orientale)' : 'Repubblica di Finlandia'),
     shortName: 'Finlandia',
     leader: 'Kyösti Kallio / Carl Gustaf Mannerheim',
     capital: 'Helsinki',
@@ -1098,7 +1098,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'IRN',
     c: '#7a8f61',
     f: 'Neutrale',
-    l: () => 'Impero dell\'Iran (Persia)',
+    l: (s) => (s >= 9 ? 'Stato Imperiale dell\'Iran (Corridoio Persiano Anglo-Sovietico — Mohammad Reza Pahlavi)' : 'Impero dell\'Iran (Persia)'),
     shortName: 'Iran',
     leader: 'Reza Shah Pahlavi',
     capital: 'Tehran',
@@ -1189,7 +1189,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'SIA',
     c: '#9e7b57',
     f: 'Neutrale',
-    l: () => 'Regno del Siam (Thailandia)',
+    l: (s) => (s >= 9 ? 'Regno di Thailandia (Alleanza Militare con il Giappone del 21 Dicembre 1941 — Phibunsongkhram)' : 'Regno del Siam (Thailandia)'),
     shortName: 'Siam / Thailandia',
     leader: 'Plaek Phibunsongkhram',
     capital: 'Bangkok',
@@ -1799,7 +1799,7 @@ export function getOverlord(o: string, step: number = 0): OwnerConfig | null {
   }
   if (canon === 'IRQ') {
     // Colpo di Stato nazionalista filo-Asse di Rashid Ali al-Kaylani (aprile 1941 / step 8): rottura con la tutela britannica
-    return step >= 8 ? null : getOwnerMeta('UK');
+    return step === 8 ? null : getOwnerMeta('UK');
   }
   if (canon === 'ALB') {
     // Prima dell'invasione e unione personale (aprile 1939 / step 4), l'Albania era indipendente

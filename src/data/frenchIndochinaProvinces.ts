@@ -4627,7 +4627,58 @@ export const FRENCH_INDOCHINA_PROVINCES_META: Record<string, FrenchIndochinaProv
 /**
  * Risolutore territoriale completo per le province dell'Indocina Francese
  */
+// Override Step 9 (DIC 1941): Indocina interamente occupata dalle truppe giapponesi (fine luglio 1941) e province cedute alla Thailandia alleata dell'Asse
+const INDOCHINA_THAI_ANNEXED_IDS = new Set(['KH2', 'KH16', 'KH17', 'KH24', 'LAXA', 'LACH', 'LA3', 'LA14']);
+for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
+  const origSov = meta.getSovereign ? meta.getSovereign.bind(meta) : (s: number) => (s >= 7 ? 'VIC_IND' : 'F_IND');
+  const origFac = meta.getFaction ? meta.getFaction.bind(meta) : (s: number) => (s >= 7 ? 'Fantoccio' : 'Alleati');
+  const origHist = meta.getHistoricalName ? meta.getHistoricalName.bind(meta) : (_s: number) => meta.historicalName;
+  const origAdmin = meta.getAdminTitle ? meta.getAdminTitle.bind(meta) : (_s: number) => meta.adminTitle;
+  const origNote = meta.getNote.bind(meta);
+  const isThai = INDOCHINA_THAI_ANNEXED_IDS.has(k) || INDOCHINA_THAI_ANNEXED_IDS.has(meta.id);
+
+  meta.getSovereign = (s: number) => {
+    if (s >= 9) return isThai ? 'SIA' : 'JAP';
+    return origSov(s);
+  };
+  meta.getFaction = (s: number) => {
+    if (s >= 9) return 'Asse';
+    return origFac(s);
+  };
+  meta.getHistoricalName = (s: number) => {
+    if (s >= 9) {
+      if (isThai) return `${origHist(8)} (Regno di Thailandia — Alleanza con il Giappone, 21 Dicembre 1941)`;
+      return `${ meta.historicalName } (Occupazione Militare Giapponese — Operazione Fu-Go, Luglio 1941)`;
+    }
+    return origHist(s);
+  };
+  meta.getAdminTitle = (s: number) => {
+    if (s >= 9) {
+      if (isThai) return `Regno di Thailandia — Territori Annessi (Trattato di Tokyo & Alleanza Militare Nippo-Thailandese, Dicembre 1941)`;
+      return `Impero Giapponese — Gruppo d'Armate di Spedizione Meridionale (Gen. Hisaichi Terauchi, Saigon) / Amministrazione Coloniale Subordinata Vichy (Amm. Jean Decoux)`;
+    }
+    return origAdmin(s);
+  };
+  meta.getNote = (s: number) => {
+    if (s >= 9) {
+      if (isThai) {
+        return `${origNote(8)} A seguito dell'armistizio dell'8 dicembre e del trattato di alleanza militare nippo-thailandese del 21 dicembre 1941, la provincia annessa da Bangkok sostiene le operazioni dell'Esercito Imperiale Giapponese nel Sud-Est Asiatico.`;
+      }
+      return `${meta.historicalToponym} · Sotto occupazione militare integrale dell'Impero Giapponese completata a fine luglio 1941 (Operazione Fu-Go, 28 luglio 1941, dopo gli accordi Darlan-Kato). Nel dicembre 1941 i porti e gli aeroporti indocinesi (Saigon, Cam Ranh, Bien Hoa, Thu Dau Mot, Haiphong) costituiscono la base di lancio dell'Esercito Meridionale del Gen. Hisaichi Terauchi e della 22ª Flottiglia Aerea della Marina Imperiale per l'invasione della Malesia britannica e l'affondamento della Force Z (HMS Prince of Wales e Repulse, 10 dicembre 1941).`;
+    }
+    return origNote(s);
+  };
+}
+
 export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerritory {
+  if (s >= 9) {
+    const p = ft.properties || {};
+    const rawId = String(ft.id || p.id || '').trim();
+    if (INDOCHINA_THAI_ANNEXED_IDS.has(rawId)) {
+      const m = FRENCH_INDOCHINA_PROVINCES_META[rawId];
+      if (m) return makeResult('SIA', m.getHistoricalName!(s), m.getNote(s), 'Asse', m.getAdminTitle!(s));
+    }
+  }
   const p = ft.properties || {};
   const rawId = String(ft.id || p.id || '').trim();
   const rawName = String(p.NAME || p.name || p.NAME_LATN || p.NUTS_NAME || '').trim();
@@ -4673,6 +4724,15 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     ? "Provincia dell'Indocina Francese sotto l'amministrazione coloniale di Vichy (Jean Decoux) e lo stazionamento militare giapponese a seguito dell'Accordo di Hanoi del settembre 1940."
     : "Territorio della Federazione Indocinese sotto sovranità francese (Gouvernement Général de l'Indochine, Hanoï).";
   const defaultFaction: FactionType = s >= 7 ? 'Fantoccio' : 'Alleati';
+  if (s >= 9) {
+    return makeResult(
+      'JAP',
+      `${defaultHistName} (Occupazione Militare Giapponese — Luglio 1941)`,
+      "Territorio dell'Indocina Francese interamente occupato dalle forze armate dell'Impero Giapponese a fine luglio 1941 (Operazione Fu-Go, 28 luglio 1941) e impiegato nel dicembre 1941 come base logistica e aeronavale dell'Esercito Meridionale giapponese per l'offensiva nel Sud-Est Asiatico.",
+      'Asse',
+      "Impero Giapponese — Gruppo d'Armate di Spedizione Meridionale (Gen. Hisaichi Terauchi) / Amministrazione Subordinata Vichy"
+    );
+  }
   const defaultSov = s >= 7 ? 'VIC_IND' : 'F_IND';
 
   return makeResult(defaultSov, defaultHistName, defaultNote, defaultFaction, defaultAdmin);

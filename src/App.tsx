@@ -2110,7 +2110,7 @@ export default function App() {
           const ind7 = resolveHB({ properties: { NAME: 'French Indo-China' } }, 7);
 
           return (
-            STEPS.length === 9 &&
+            STEPS.length === 10 &&
             STEPS[7].d === 'OTT 1940' &&
             cluj6.o === 'ROM' &&
             cluj7.o === 'HUN' &&
@@ -2357,8 +2357,9 @@ export default function App() {
           const irq7 = resolveFeature({ properties: { CNTR_CODE: 'IQ', NAME: 'Iraq' } }, 7);
 
           return (
-            STEPS.length === 9 &&
+            STEPS.length === 10 &&
             STEPS[8].d === 'APR 1941' &&
+            STEPS[9].d === 'DIC 1941' &&
             zag8.o === 'CRO' &&
             zag8.fac === 'Fantoccio' &&
             zag8.name.includes('Zagreb') &&
@@ -3653,6 +3654,127 @@ export default function App() {
 
           if (s0Count !== 237) return false;
           if (s8Count !== 238) return false;
+
+          return true;
+        }
+      },
+      {
+        name: "90. Audit Geostorico Integrale Step 9 (DIC 1941 — Situazione al 31 dicembre 1941: Operazione Barbarossa, Assedio di Mosca e Leningrado, Reichskommissariat Ostland e Ukraine, Distrikt Galizien, Bezirk Bialystok, Governatorato della Transnistria, Riconquista Carelia e Jatkosota Finlandese, Controllo Congiunto Francia Libera/UK in Siria e Libano, Spartizione Anglo-Sovietica dell'Iran, Occupazione Integrale Giapponese dell'Indocina, Pearl Harbor, Conquista di Hong Kong, Guam e Wake, Invasione di Malesia e Filippine con Manila Città Aperta, Alleanza Militare Thailandia-Giappone)",
+        run: () => {
+          if (STEPS.length !== 10 || STEPS[9].d !== 'DIC 1941') return false;
+
+          // 1. Europa Orientale (Fronte dell'Est)
+          // a) Reichskommissariat Ostland (Baltici e Bielorussia occidentale/centrale)
+          const est9 = resolveFeature({ properties: { CNTR_CODE: 'EE', NUTS_ID: 'EE001', NAME: 'Tallinn' } }, 9);
+          const lat9 = resolveFeature({ properties: { CNTR_CODE: 'LV', NUTS_ID: 'LV006', NAME: 'Riga' } }, 9);
+          const lit9 = resolveFeature({ properties: { CNTR_CODE: 'LT', NUTS_ID: 'LT011', NAME: 'Vilnius' } }, 9);
+          const minsk9 = resolveSovietProvince('SOV_ADM1_BLR_104_Minsk', 9);
+          if (est9.o !== 'GER' || est9.fac !== 'Asse' || !est9.name.includes('Ostland')) return false;
+          if (lat9.o !== 'GER' || lat9.fac !== 'Asse' || !lat9.name.includes('Ostland')) return false;
+          if (lit9.o !== 'GER' || lit9.fac !== 'Asse' || !lit9.name.includes('Ostland')) return false;
+          if (!minsk9 || minsk9.o !== 'GER' || minsk9.fac !== 'Asse' || !minsk9.adminEntity?.includes('Ostland')) return false;
+
+          // b) Reichskommissariat Ukraine (sotto Erich Koch, capitale Rovno)
+          const kiev9 = resolveSovietProvince('SOV_ADM1_UKR_98_Kyiv', 9);
+          const volh9 = resolveFeature({ id: 'PL_KRESY_UKR_1_Luck', properties: { NUTS_ID: 'PL_KRESY_UKR_1_Luck', CNTR_CODE: 'PL', NAME: 'Powiat Łuck', VOIVODESHIP: 'Wołyńskie', SOV_SSR: 'Ukrainskaya SSR' } }, 9);
+          if (!kiev9 || kiev9.o !== 'GER' || kiev9.fac !== 'Asse' || !kiev9.adminEntity?.includes('Reichskommissariat Ukraine')) return false;
+          if (volh9.o !== 'GER' || volh9.fac !== 'Asse' || !volh9.name.includes('Reichskommissariat Ukraine')) return false;
+
+          // c) Distretto di Galizia (scorporato dall'Ucraina e annesso al Governatorato Generale il 1° agosto 1941)
+          const lwow9 = resolveFeature({ id: 'PL_KRESY_LVO_1', properties: { NUTS_ID: 'PL_KRESY_LVO_1', CNTR_CODE: 'PL', NAME: 'Powiat Lwów', VOIVODESHIP: 'Lwowskie', SOV_SSR: 'Ukrainskaya SSR' } }, 9);
+          if (lwow9.o !== 'GER' || lwow9.fac !== 'Asse' || !lwow9.name.includes('Distrikt Galizien') || !lwow9.adminEntity?.includes('Generalgouvernement')) return false;
+
+          // d) Bezirk Bialystok (sotto amministrazione civile tedesca aggregata alla Prussia Orientale, agosto 1941)
+          const bial9 = resolveFeature({ properties: { CNTR_CODE: 'PL', NUTS_ID: 'PL841', NAME: 'Białystok' } }, 9);
+          const grod9 = resolveFeature({ id: 'PL_KRESY_BLR_1_Grodno', properties: { NUTS_ID: 'PL_KRESY_BLR_1_Grodno', CNTR_CODE: 'PL', NAME: 'Powiat Grodno', VOIVODESHIP: 'Białostockie', SOV_SSR: 'Belorusskaya SSR' } }, 9);
+          if (bial9.o !== 'GER' || bial9.fac !== 'Asse' || !bial9.name.includes('Bezirk Bialystok')) return false;
+          if (grod9.o !== 'GER' || grod9.fac !== 'Asse' || !grod9.name.includes('Bezirk Bialystok')) return false;
+
+          // e) Governatorato della Transnistria (Dnestr - Bug Meridionale ceduto alla Romania, Tighina 30 agosto 1941, caduta di Odessa a ottobre) + Bessarabia e Bucovina
+          const trans9 = resolveSovietProvince('SOV_MASSR_310_Transnistria', 9);
+          const odessa9 = resolveSovietProvince('SOV_ADM1_UKR_195_Odessa_City', 9);
+          const bess9 = resolveFeature({ properties: { CNTR_CODE: 'RO_BES', NAME: 'Bessarabia' } }, 9);
+          const buk9 = resolveSovietProvince('SOV_ADM1_UKR_89_Chernivtsi_Oblast', 9);
+          if (!trans9 || trans9.o !== 'ROM' || trans9.fac !== 'Asse' || !trans9.adminEntity?.includes('Transnistriei')) return false;
+          if (!odessa9 || odessa9.o !== 'ROM' || odessa9.fac !== 'Asse' || !odessa9.adminEntity?.includes('Transnistriei')) return false;
+          if (bess9.o !== 'ROM' || bess9.fac !== 'Asse') return false;
+          if (!buk9 || buk9.o !== 'ROM' || buk9.fac !== 'Asse') return false;
+
+          // f) Finlandia: riconquista della Carelia perduta nel 1940 e occupazione della Carelia orientale sovietica (Petrozavodsk / Äänislinna)
+          const viip9 = resolveFeature({ properties: { CNTR_CODE: 'FIN_KARELIA', NAME: 'Vyborgsky District' } }, 9);
+          const salla9 = resolveFeature({ properties: { CNTR_CODE: 'FIN_SALLA', NAME: 'Salla Alakurtti District' } }, 9);
+          const petro9 = resolveSovietProvince('SOV_NW_RUS_261_Petroskoi_District', 9);
+          if (viip9.o !== 'FIN' || viip9.fac !== 'Asse') return false;
+          if (salla9.o !== 'FIN' || salla9.fac !== 'Asse') return false;
+          if (!petro9 || petro9.o !== 'FIN' || petro9.fac !== 'Asse' || !petro9.adminEntity?.includes('Itä-Karjalan')) return false;
+
+          // g) Massima avanzata tedesca (Heeresgebiete) e tenuta sovietica a Mosca e Leningrado (controffensiva del 5 dicembre 1941)
+          const smol9 = resolveSovietProvince('SOV_ADM1_RUS_53_Smolensk_Oblast', 9);
+          const mos9 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 9);
+          const len9 = resolveSovietProvince('SOV_ADM1_RUS_49_Saint_Petersburg', 9);
+          if (!smol9 || smol9.o !== 'GER' || smol9.fac !== 'Asse') return false;
+          if (!mos9 || mos9.o !== 'SOV' || mos9.fac !== 'Comintern' || !mos9.note?.includes('5 dicembre')) return false;
+          if (!len9 || len9.o !== 'SOV' || len9.fac !== 'Comintern' || !len9.note?.toLowerCase().includes('assedio')) return false;
+
+          // 2. Medio Oriente e Asia Centrale
+          // a) Siria e Libano: controllo congiunto Francia Libera e Gran Bretagna (Armistizio di Saint-Jean-d'Acre, 14 luglio 1941)
+          const syrDam9 = resolveFeature({ id: 'SYR_DAM', properties: { CNTR_CODE: 'SYR', NUTS_ID: 'SYR_DAM', NAME: 'Damascus' } }, 9);
+          const lebBei9 = resolveFeature({ id: 'LBBA', properties: { CNTR_CODE: 'LEB', NUTS_ID: 'LBBA', NAME: 'Beirut' } }, 9);
+          if (syrDam9.o !== 'F_SYR' || syrDam9.fac !== 'Alleati' || !syrDam9.note?.includes("Saint-Jean-d'Acre")) return false;
+          if (lebBei9.o !== 'F_SYR' || lebBei9.fac !== 'Alleati' || !lebBei9.adminEntity?.includes('France Libre')) return false;
+
+          // b) Iran: spartito tra URSS (settore nord) e Regno Unito (settore sud) dopo l'invasione anglo-sovietica (agosto-settembre 1941)
+          const irnNorth9 = resolveFeature({ id: 'IRN_EAZ', properties: { CNTR_CODE: 'IRN', NUTS_ID: 'IRN_EAZ', NAME: 'East Azerbaijan' } }, 9);
+          const irnSouth9 = resolveFeature({ id: 'IRN_KHZ', properties: { CNTR_CODE: 'IRN', NUTS_ID: 'IRN_KHZ', NAME: 'Khuzestan' } }, 9);
+          const irnCenter9 = resolveFeature({ id: 'IRN_TEH', properties: { CNTR_CODE: 'IRN', NUTS_ID: 'IRN_TEH', NAME: 'Tehran' } }, 9);
+          if (irnNorth9.o !== 'SOV' || irnNorth9.fac !== 'Comintern') return false;
+          if (irnSouth9.o !== 'UK' || irnSouth9.fac !== 'Alleati') return false;
+          if (irnCenter9.o !== 'IRN' || irnCenter9.fac !== 'Alleati') return false;
+
+          // 3. Asia e Pacifico (La Guerra Globale)
+          // a) Indocina francese: interamente occupata dalle truppe giapponesi (completata a fine luglio 1941)
+          const hanoi9 = resolveFeature({ id: 'VN26', properties: { CNTR_CODE: 'VN', NUTS_ID: 'VN26', NAME: 'Ha Noi' } }, 9);
+          const saigon9 = resolveFeature({ id: 'VN61', properties: { CNTR_CODE: 'VN', NUTS_ID: 'VN61', NAME: 'Ho Chi Minh' } }, 9);
+          if (hanoi9.o !== 'JAP' || hanoi9.fac !== 'Asse') return false;
+          if (saigon9.o !== 'JAP' || saigon9.fac !== 'Asse') return false;
+
+          // b) Attacco a Pearl Harbor (7 dicembre 1941)
+          const haw9 = resolveFeature({ id: 'US_HI', properties: { CNTR_CODE: 'US', NUTS_ID: 'US_HI', NAME: 'Hawaii' } }, 9);
+          if (haw9.o !== 'USA' || haw9.fac !== 'Alleati' || !haw9.note?.includes('Pearl Harbor')) return false;
+
+          // c) Conquista di Hong Kong (resa britannica il 25 dicembre 1941)
+          const hk9 = resolveFeature({ id: 'CHN_HONGKONG', properties: { CNTR_CODE: 'CN_PROV', NUTS_ID: 'CHN_HONGKONG', NAME: 'Hong Kong' } }, 9);
+          if (hk9.o !== 'JAP' || hk9.fac !== 'Asse' || !hk9.note?.includes('25 dicembre 1941')) return false;
+
+          // d) Conquista delle isole di Guam (10 dicembre) e Wake (23 dicembre)
+          const guam9 = resolveFeature({ id: 'GU', properties: { CNTR_CODE: 'GU', NUTS_ID: 'GU', NAME: 'Guam' } }, 9);
+          const wake9 = resolveFeature({ id: 'UM_WAKE', properties: { CNTR_CODE: 'UM', NUTS_ID: 'UM_WAKE', NAME: 'Wake Island' } }, 9);
+          if (guam9.o !== 'JAP' || guam9.fac !== 'Asse' || !guam9.note?.includes('10 dicembre')) return false;
+          if (wake9.o !== 'JAP' || wake9.fac !== 'Asse' || !wake9.note?.includes('23 dicembre')) return false;
+
+          // e) Invasione in corso della Malesia britannica (sbarco a Kota Bharu l'8 dicembre, caduta di Penang a metà mese; Singapore ancora britannica)
+          const kelantan9 = resolveFeature({ id: 'MY03', properties: { CNTR_CODE: 'MY', NUTS_ID: 'MY03', NAME: 'Kelantan' } }, 9);
+          const penang9 = resolveFeature({ id: 'MY07', properties: { CNTR_CODE: 'MY', NUTS_ID: 'MY07', NAME: 'Pulau Pinang' } }, 9);
+          const sing9 = resolveFeature({ id: 'SG01', properties: { CNTR_CODE: 'SG', NUTS_ID: 'SG01', NAME: 'Singapore' } }, 9);
+          if (kelantan9.o !== 'JAP' || kelantan9.fac !== 'Asse' || !kelantan9.note?.includes('Kota Bharu')) return false;
+          if (penang9.o !== 'JAP' || penang9.fac !== 'Asse' || !penang9.note?.includes('Penang')) return false;
+          if (sing9.o !== 'UK' || sing9.fac !== 'Alleati') return false;
+
+          // f) Invasione delle Filippine (sbarchi a Luzon e Davao a dicembre; Manila dichiarata città aperta il 26 dicembre; resistenza a Bataan e Corregidor)
+          const ilocos9 = resolveFeature({ id: 'PH01', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH01', NAME: 'Ilocos' } }, 9);
+          const davao9 = resolveFeature({ id: 'PH11', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH11', NAME: 'Davao' } }, 9);
+          const manila9 = resolveFeature({ id: 'PH00', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH00', NAME: 'Metropolitan Manila' } }, 9);
+          const bataan9 = resolveFeature({ id: 'PH03', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH03', NAME: 'Central Luzon' } }, 9);
+          if (ilocos9.o !== 'JAP' || ilocos9.fac !== 'Asse') return false;
+          if (davao9.o !== 'JAP' || davao9.fac !== 'Asse') return false;
+          if (manila9.o !== 'PHL' || manila9.fac !== 'Alleati' || !manila9.note?.includes('26 dicembre')) return false;
+          if (bataan9.o !== 'PHL' || bataan9.fac !== 'Alleati' || !bataan9.note?.includes('Bataan')) return false;
+
+          // g) Thailandia: costretta all'armistizio l'8 dicembre e all'alleanza con Tokyo il 21 dicembre 1941
+          const sia9 = resolveFeature({ properties: { CNTR_CODE: 'SIA', NAME: 'Thailand' } }, 9);
+          const siaHb9 = resolveHB({ properties: { NAME: 'Thailand' } }, 9);
+          if (sia9.o !== 'SIA' || sia9.fac !== 'Asse' || !sia9.note?.includes('21 dicembre')) return false;
+          if (siaHb9.o !== 'SIA' || siaHb9.fac !== 'Asse') return false;
 
           return true;
         }

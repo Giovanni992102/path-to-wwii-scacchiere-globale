@@ -525,7 +525,104 @@ export const IRAN_PROVINCES_META: Record<string, IranProvinceInfo> = {
 /**
  * Risolve lo stato geopolitico di una provincia iraniana per uno step temporale specifico.
  */
+// Alias per codici alternativi provinciali iraniani
+IRAN_PROVINCES_META['IRN_GOL'] = IRAN_PROVINCES_META['IRN_GLS'];
+IRAN_PROVINCES_META['IRN_NKH'] = IRAN_PROVINCES_META['IRN_KRN'];
+IRAN_PROVINCES_META['IRN_RKH'] = IRAN_PROVINCES_META['IRN_KRR'];
+IRAN_PROVINCES_META['IRN_KHU'] = IRAN_PROVINCES_META['IRN_KHZ'];
+IRAN_PROVINCES_META['IRN_KSH'] = IRAN_PROVINCES_META['IRN_KMS'];
+IRAN_PROVINCES_META['IRN_ILA'] = IRAN_PROVINCES_META['IRN_ILM'];
+IRAN_PROVINCES_META['IRN_FAR'] = IRAN_PROVINCES_META['IRN_FRS'];
+IRAN_PROVINCES_META['IRN_BUS'] = IRAN_PROVINCES_META['IRN_BSH'];
+IRAN_PROVINCES_META['IRN_HOR'] = IRAN_PROVINCES_META['IRN_HRZ'];
+IRAN_PROVINCES_META['IRN_KOR'] = IRAN_PROVINCES_META['IRN_KRD'];
+IRAN_PROVINCES_META['IRN_MAR'] = IRAN_PROVINCES_META['IRN_MRK'];
+IRAN_PROVINCES_META['IRN_YAZ'] = IRAN_PROVINCES_META['IRN_YZD'];
+IRAN_PROVINCES_META['IRN_KER'] = IRAN_PROVINCES_META['IRN_KRM'];
+IRAN_PROVINCES_META['IRN_SKH'] = IRAN_PROVINCES_META['IRN_KRS'];
+
+const IRAN_SOV_NORTH_ZONE = new Set([
+  'IRN_EAZ', 'IRN_WAZ', 'IRN_ARD', 'IRN_GIL', 'IRN_MAZ', 'IRN_GLS', 'IRN_GOL',
+  'IRN_KRN', 'IRN_NKH', 'IRN_KRR', 'IRN_RKH', 'IRN_ZAN', 'IRN_QAZ', 'IRN_SEM'
+]);
+
+const IRAN_UK_SOUTH_ZONE = new Set([
+  'IRN_KHZ', 'IRN_KHU', 'IRN_KMS', 'IRN_KSH', 'IRN_ILM', 'IRN_ILA', 'IRN_LOR',
+  'IRN_FRS', 'IRN_FAR', 'IRN_BSH', 'IRN_BUS', 'IRN_HRZ', 'IRN_HOR', 'IRN_KBD',
+  'IRN_CHB', 'IRN_HAM', 'IRN_KRD', 'IRN_KOR'
+]);
+
+function resolveIranMetaAtStep(meta: IranProvinceInfo, s: number): ResolvedTerritory {
+  if (s >= 9) {
+    if (IRAN_SOV_NORTH_ZONE.has(meta.id)) {
+      return makeResult(
+        'SOV',
+        `${meta.historicalName} (Zona di Occupazione Sovietica — Settore Nord)`,
+        `${meta.nutsName} · Settore settentrionale iraniano occupato dall'Armata Rossa (Fronte Transcaucasico del Gen. Dmitrij Kozlov — 44ª, 47ª e 53ª Armata) a seguito dell'Operazione Countenance (25 agosto – 17 settembre 1941). I porti caspici di Bandar Pahlavi e Bandar Shah e la ferrovia del nord sono sotto controllo militare sovietico per garantire il transito dei rifornimenti Lend-Lease verso l'URSS.`,
+        'Comintern',
+        `Zona di Occupazione Sovietica in Iran — Settore Settentrionale (${meta.adminTitle})`
+      );
+    }
+    if (IRAN_UK_SOUTH_ZONE.has(meta.id)) {
+      return makeResult(
+        'UK',
+        `${meta.historicalName} (Zona di Occupazione Britannica — Settore Sud / Corridoio Persiano)`,
+        `${meta.nutsName} · Settore meridionale e sud-occidentale iraniano occupato dalle forze del British Empire (PAIFORCE — Persia and Iraq Force del Ten. Gen. Edward Quinan) a seguito dell'Operazione Countenance (25 agosto – 17 settembre 1941). La raffineria dell'AIOC ad Abadan, i campi petroliferi del Khuzestan e il capolinea ferroviario di Bandar Shahpur sul Golfo Persico sono presidiati dalle truppe indo-britanniche per alimentare il Corridoio Persiano.`,
+        'Alleati',
+        `Zona di Occupazione Britannica in Iran — PAIFORCE Settore Meridionale (${meta.adminTitle})`
+      );
+    }
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Corridoio Persiano Anglo-Sovietico — Mohammad Reza Pahlavi)`,
+      `${meta.nutsName} · A seguito dell'invasione anglo-sovietica (Operazione Countenance, 25 agosto – 17 settembre 1941) e dell'abdicazione forzata di Reza Shah (16 settembre), il nuovo sovrano Mohammad Reza Pahlavi coopera con gli Alleati in preparazione del Trattato Tripartito d'Alleanza, garantendo la sicurezza del Corridoio Persiano lungo la Ferrovia Trans-Iraniana.`,
+      'Alleati',
+      `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi (Corridoio Persiano Alleato)`
+    );
+  }
+  return makeResult(
+    'IRN',
+    meta.historicalName,
+    meta.getNote(s),
+    'Neutrale',
+    meta.adminTitle
+  );
+}
+
 export function resolveIranProvince(ft: any, s: number): ResolvedTerritory {
+  const p = (ft && ft.properties) ? ft.properties : {};
+  const fid = String(ft.id || p.id || p.NUTS_ID || '').trim();
+
+  if (IRAN_PROVINCES_META[fid]) {
+    return resolveIranMetaAtStep(IRAN_PROVINCES_META[fid], s);
+  }
+
+  for (const key of Object.keys(IRAN_PROVINCES_META)) {
+    const meta = IRAN_PROVINCES_META[key];
+    if (
+      p.name === meta.name ||
+      p.NUTS_NAME === meta.nutsName ||
+      p.NAME_LATN === meta.nameLatn ||
+      (p.NAME && p.NAME.includes(meta.name))
+    ) {
+      return resolveIranMetaAtStep(meta, s);
+    }
+  }
+
+  const fallbackName = p.NAME || p.HISTORICAL_NAME || "Impero dell'Iran (Persia)";
+  const fallbackAdmin = s >= 9
+    ? "Keshvar-e Shāhanshāhi-ye Irān — Corridoio Persiano Anglo-Sovietico (Mohammad Reza Pahlavi)"
+    : (p.ADMIN || "Keshvar-e Shāhanshāhi-ye Irān (Impero dell'Iran)");
+  const fallbackNote = s >= 9
+    ? "Impero dell'Iran spartito in zone di sicurezza militare tra Unione Sovietica (settore nord) e Regno Unito (settore sud) dopo l'Operazione Countenance (agosto-settembre 1941) per assicurare il Corridoio Persiano dei rifornimenti Alleati."
+    : s >= 8
+    ? "Impero dell'Iran sotto il regno di Reza Shah Pahlavi; neutrale all'inizio delle ostilità mondiali."
+    : "Impero dell'Iran (Dinastia Pahlavi) — Stato sovrano guidato da Reza Shah Pahlavi con capitale a Teheran; neutrale e impegnato nella modernizzazione infrastrutturale (Ferrovia Trans-Iraniana).";
+
+  return makeResult('IRN', fallbackName, fallbackNote, s >= 9 ? 'Alleati' : 'Neutrale', fallbackAdmin);
+}
+
+export function _legacyResolveIranProvinceUnused(ft: any, s: number): ResolvedTerritory {
   const p = (ft && ft.properties) ? ft.properties : {};
   const fid = String(ft.id || p.id || p.NUTS_ID || '').trim();
 

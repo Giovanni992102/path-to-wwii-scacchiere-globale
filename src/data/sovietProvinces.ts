@@ -8181,6 +8181,283 @@ export const SOVIET_PROVINCES_META: Record<string, SovietProvinceInfo> = {
   },
 };
 
+// ============================================================================
+// STEP 9 (DIC 1941 — 31 DICEMBRE 1941): ASSETTO GEOPOLITICO E MILITARE FRONTE DELL'EST
+// ============================================================================
+const SOVIET_ROM_TRANSNISTRIA_IDS = new Set<string>([
+  'SOV_MASSR_310_Transnistria',
+  'SOV_ADM1_UKR_178_Savran',
+  'SOV_ADM1_UKR_179_Balta',
+  'SOV_ADM1_UKR_180_Kodyma',
+  'SOV_ADM1_UKR_181_Liubashhivka',
+  'SOV_ADM1_UKR_182_Podilsk',
+  'SOV_ADM1_UKR_183_Ananiv',
+  'SOV_ADM1_UKR_184_Okny',
+  'SOV_ADM1_UKR_185_Zakharivka',
+  'SOV_ADM1_UKR_186_Mykolaivka',
+  'SOV_ADM1_UKR_187_Shyriaieve',
+  'SOV_ADM1_UKR_188_Berezivka',
+  'SOV_ADM1_UKR_189_Velyks_Mykhailivka',
+  'SOV_ADM1_UKR_190_Ivanivka',
+  'SOV_ADM1_UKR_191_Lyman',
+  'SOV_ADM1_UKR_192_Rozdilna',
+  'SOV_ADM1_UKR_193_Biliaivka',
+  'SOV_ADM1_UKR_194_Ovidiopol',
+  'SOV_ADM1_UKR_195_Odessa_City',
+]);
+
+const SOVIET_ROM_BUKOVINA_IDS = new Set<string>([
+  'SOV_ADM1_UKR_89_Chernivtsi_Oblast',
+]);
+
+const SOVIET_RKO_WEISSRUTHENIEN_IDS = new Set<string>([
+  'SOV_ADM1_BLR_103_Minsk',
+]);
+
+const SOVIET_RKU_UKRAINE_IDS = new Set<string>([
+  'SOV_ADM1_UKR_80_Kherson_Oblast',
+  'SOV_ADM1_UKR_81_Zhytomyr_Oblast',
+  'SOV_ADM1_UKR_82_Kyiv_Oblast',
+  'SOV_ADM1_UKR_88_Zaporizhia_Oblast',
+  'SOV_ADM1_UKR_90_Mykolaiv_Oblast',
+  'SOV_ADM1_UKR_92_Vinnytsia_Oblast',
+  'SOV_ADM1_UKR_93_Khmelnytskyi_Oblast',
+  'SOV_ADM1_UKR_94_Cherkasy_Oblast',
+  'SOV_ADM1_UKR_95_Poltava_Oblast',
+  'SOV_ADM1_UKR_96_Dnipropetrovsk_Oblast',
+  'SOV_ADM1_UKR_97_Kirovohrad_Oblast',
+  'SOV_ADM1_UKR_98_Kyiv',
+]);
+
+const SOVIET_FIN_EAST_KARELIA_IDS = new Set<string>([
+  'SOV_NW_RUS_261_Petroskoi_District',
+  'SOV_NW_RUS_265___nisenranta_District',
+  'SOV_NW_RUS_277_Aunus_District',
+  'SOV_NW_RUS_279_Kontupohja_District',
+  'SOV_NW_RUS_285_Medvezhyegorsky_District',
+  'SOV_NW_RUS_287_Pr__s__District',
+  'SOV_NW_RUS_257_Mujej_rvi_District',
+  'SOV_NW_RUS_267_Koskenala_District',
+]);
+
+const SOVIET_GER_HEERESGEBIET_NORD_IDS = new Set<string>([
+  'SOV_ADM1_RUS_16_Pskov_Oblast',
+  'SOV_ADM1_RUS_45_Novgorod_Oblast',
+  'SOV_NW_RUS_258_Tusina_District',
+  'SOV_NW_RUS_260_Slantsevsky_District',
+  'SOV_NW_RUS_263_Gatchinsky_District',
+  'SOV_NW_RUS_280_Korotka_District',
+  'SOV_NW_RUS_293_Volosovsky_District',
+  'SOV_NW_RUS_304_Kirishsky_District',
+  'SOV_NW_RUS_306_Jaama_District',
+  'SOV_NW_RUS_307_Luzhsky_District',
+]);
+
+const SOVIET_GER_HEERESGEBIET_MITTE_IDS = new Set<string>([
+  'SOV_ADM1_BLR_100_Gomel',
+  'SOV_ADM1_BLR_101_Vitebsk',
+  'SOV_ADM1_BLR_102_Mogilev',
+  'SOV_ADM1_RUS_53_Smolensk_Oblast',
+  'SOV_ADM1_RUS_29_Bryansk_Oblast',
+  'SOV_ADM1_RUS_48_Oryol_Oblast',
+]);
+
+const SOVIET_GER_HEERESGEBIET_SUED_IDS = new Set<string>([
+  'SOV_ADM1_RUS_40_Kursk_Oblast',
+  'SOV_ADM1_RUS_28_Belgorod_Oblast',
+  'SOV_ADM1_UKR_83_Chernihiv_Oblast',
+  'SOV_ADM1_UKR_84_Sumy_Oblast',
+  'SOV_ADM1_UKR_85_Kharkiv_Oblast',
+  'SOV_ADM1_UKR_87_Donetsk_Oblast',
+  'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea',
+]);
+
+for (const item of Object.values(SOVIET_PROVINCES_META)) {
+  const origGetOwner = item.getOwner.bind(item);
+  const origGetFaction = item.getFaction.bind(item);
+  const origGetHistName = item.getHistoricalName.bind(item);
+  const origGetAdmin = item.getAdminTitle.bind(item);
+  const origGetNote = item.getNote.bind(item);
+  const pid = item.id;
+
+  item.getOwner = (step: number): string => {
+    if (step < 9) return origGetOwner(step);
+    if (pid === 'SOV_ADM1_RUS_55_Tuva') return 'TUV';
+    if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid) || SOVIET_ROM_BUKOVINA_IDS.has(pid)) return 'ROM';
+    if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) return 'FIN';
+    if (
+      SOVIET_RKO_WEISSRUTHENIEN_IDS.has(pid) ||
+      SOVIET_RKU_UKRAINE_IDS.has(pid) ||
+      SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid) ||
+      SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid) ||
+      SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid)
+    ) {
+      return 'GER';
+    }
+    return 'SOV';
+  };
+
+  item.getFaction = (step: number): FactionType => {
+    if (step < 9) return origGetFaction(step);
+    const own9 = item.getOwner(step);
+    if (own9 === 'GER' || own9 === 'ROM' || own9 === 'FIN') return 'Asse';
+    return 'Comintern';
+  };
+
+  item.getAdminTitle = (step: number): string => {
+    if (step < 9) return origGetAdmin(step);
+    if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
+      return 'Guvernământul Transnistriei — Governatore Civile Gheorghe Alexianu (Odessa / Tiraspol — Accordo di Tighina, 30 agosto 1941)';
+    }
+    if (SOVIET_ROM_BUKOVINA_IDS.has(pid)) {
+      return 'Guvernământul Bucovinei — Regno di Romania (Gen. Corneliu Calotescu, Cernăuți)';
+    }
+    if (SOVIET_RKO_WEISSRUTHENIEN_IDS.has(pid)) {
+      return 'Reichskommissariat Ostland — Generalbezirk Weißruthenien (Generalkommissar Wilhelm Kube, Minsk / Reichskommissar Hinrich Lohse, Riga)';
+    }
+    if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
+      return 'Reichskommissariat Ukraine — Reichskommissar Erich Koch (Capitale: Rovno — Istituito il 1° settembre 1941)';
+    }
+    if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+      return 'Itä-Karjalan sotilashallinto — Amministrazione Militare Finlandese della Carelia Orientale (Maresciallo C.G. Mannerheim / Col. Väinö Kotilainen)';
+    }
+    if (SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid)) {
+      return 'Operationsgebiet Ost — Heeresgebiet Nord (Wehrmacht — Generalfeldmarschall Wilhelm Ritter von Leeb)';
+    }
+    if (SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid)) {
+      return 'Operationsgebiet Ost — Heeresgebiet Mitte (Wehrmacht — Generalfeldmarschall Fedor von Bock / Günther von Kluge)';
+    }
+    if (SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid)) {
+      return pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea'
+        ? 'Operationsgebiet Ost — AOK 11 Krim (Wehrmacht 11. Armee — Gen. Erich von Manstein)'
+        : 'Operationsgebiet Ost — Heeresgebiet Süd (Wehrmacht — Generalfeldmarschall Gerd von Rundstedt / Walter von Reichenau)';
+    }
+    if (pid === 'SOV_ADM1_RUS_42_Moscow' || pid === 'SOV_ADM1_RUS_43_Moscow_Oblast') {
+      return 'GKO (Comitato Statale di Difesa) & Fronte Occidentale dell\'Armata Rossa (Iosif Stalin / Gen. Georgij Žukov)';
+    }
+    if (pid === 'SOV_ADM1_RUS_49_Saint_Petersburg' || pid === 'SOV_NW_RUS_271_Vsevolozhsky_District' || pid === 'SOV_NW_RUS_256_Kaarosta_District' || pid === 'SOV_NW_RUS_272_Sosnovy_Bor') {
+      return 'Fronte di Leningrado & Flotta del Baltico Bandiera Rossa (Assedio di Leningrado — Gen. Leonid Govorov / Andrej Ždanov)';
+    }
+    if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
+      return 'Regione Difensiva di Sebastopoli (SOR) — Flotta del Mar Nero & Armata Costiera (Viceamm. Filipp Oktjabr\'skij / Gen. Ivan Petrov)';
+    }
+    if (pid === 'SOV_ADM1_RUS_20_Samara_Oblast') {
+      return 'Kujbyšev — Capitale di Riserva Bellica dell\'URSS (Sovnarkom Evacuato & Corpo Diplomatico)';
+    }
+    return origGetAdmin(8);
+  };
+
+  item.getHistoricalName = (step: number): string => {
+    if (step < 9) return origGetHistName(step);
+    const base = origGetHistName(8);
+    if (pid === 'SOV_ADM1_UKR_195_Odessa_City') {
+      return 'Odessa (Capitale del Governatorato della Transnistria — Guvernământul Transnistriei)';
+    }
+    if (pid === 'SOV_MASSR_310_Transnistria') {
+      return 'Governatorato della Transnistria (Tiraspol — Amministrazione Civile-Militare Romena)';
+    }
+    if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
+      return `${ item.capital } (Governatorato della Transnistria — Guvernământul Transnistriei)`;
+    }
+    if (SOVIET_ROM_BUKOVINA_IDS.has(pid)) {
+      return 'Bucovina Settentrionale (Cernăuți — Regno di Romania, Guvernământul Bucovinei)';
+    }
+    if (SOVIET_RKO_WEISSRUTHENIEN_IDS.has(pid)) {
+      return 'Generalbezirk Weißruthenien (Minsk — Reichskommissariat Ostland)';
+    }
+    if (pid === 'SOV_ADM1_UKR_98_Kyiv') {
+      return 'Kiew (Generalbezirk Kiew — Reichskommissariat Ukraine)';
+    }
+    if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
+      return `${ item.capital } (Reichskommissariat Ukraine — Erich Koch)`;
+    }
+    if (pid === 'SOV_NW_RUS_261_Petroskoi_District') {
+      return 'Äänislinna / Petrozavodsk (Carelia Orientale Occupata dalla Finlandia — 1° ottobre 1941)';
+    }
+    if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+      return `${ item.capital } (Carelia Orientale Occupata — Itä-Karjalan sotilashallinto)`;
+    }
+    if (SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid)) {
+      return `${ item.capital } (Occupazione Militare Wehrmacht — Heeresgebiet Nord)`;
+    }
+    if (SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid)) {
+      return `${ item.capital } (Occupazione Militare Wehrmacht — Heeresgebiet Mitte)`;
+    }
+    if (SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid)) {
+      return `${ item.capital } (Occupazione Militare Wehrmacht — Heeresgebiet Süd)`;
+    }
+    if (pid === 'SOV_ADM1_RUS_42_Moscow') {
+      return 'Moskva (Battaglia di Mosca — Controffensiva Sovietica del 5 Dicembre 1941)';
+    }
+    if (pid === 'SOV_ADM1_RUS_49_Saint_Petersburg') {
+      return 'Leningrad (Città Assediata — "Strada della Vita" sul Lago Ladoga, Settembre-Dicembre 1941)';
+    }
+    if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
+      return 'Sevastopol\' (Fortezza Assediata della Flotta del Mar Nero — Difesa Eroica)';
+    }
+    return base;
+  };
+
+  item.getNote = (step: number): string => {
+    if (step < 9) return origGetNote(step);
+    if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
+      return 'Al 31 dicembre 1941 il territorio compreso tra i fiumi Dnestr e Bug Meridionale costituisce il Governatorato della Transnistria (Guvernământul Transnistriei), formalmente ceduto dal Reich all\'amministrazione civile-militare del Regno di Romania con l\'Accordo di Tighina (30 agosto 1941) e governato dal prof. Gheorghe Alexianu per conto del Maresciallo Ion Antonescu. Dopo 73 giorni di accanito assedio contro l\'Armata Costiera sovietica, il 16 ottobre 1941 le truppe romene della 4ª Armata sono entrate a Odessa, proclamata nuova capitale amministrativa della Transnistria.';
+    }
+    if (SOVIET_ROM_BUKOVINA_IDS.has(pid)) {
+      return 'Riconquistata nel luglio 1941 dalla 3ª Armata romena del Gen. Petre Dumitrescu all\'inizio dell\'Operazione München / Barbarossa, la Bucovina Settentrionale con capoluogo Cernăuți (Černivci) è stata formalmente reintegrata nel Regno di Romania dal Maresciallo Ion Antonescu come Guvernământul Bucovinei sotto il governatore militare Gen. Corneliu Calotescu.';
+    }
+    if (SOVIET_RKO_WEISSRUTHENIEN_IDS.has(pid)) {
+      return 'Travolta nei primi giorni dell\'Operazione Barbarossa (caduta di Minsk il 28 giugno 1941 con oltre 300.000 prigionieri sovietici nella sacca di Białystok-Minsk), la Bielorussia occidentale e centrale è stata inquadrata tra luglio e il 1° settembre 1941 nel Reichskommissariat Ostland come Generalbezirk Weißruthenien (Commissariato Generale della Rutenia Bianca), governato a Minsk dal Generalkommissar Wilhelm Kube alle dipendenze del Reichskommissar Hinrich Lohse a Riga. A Minsk è stato istituito uno dei più grandi ghetti dell\'Europa orientale, mentre nelle foreste circostanti si formano i primi distaccamenti partigiani sovietici.';
+    }
+    if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
+      return 'A seguito del gigantesco accerchiamento della Battaglia di Kiev (caduta il 19 settembre 1941) e dell\'avanzata del Gruppo d\'Armate Sud oltre il Dnepr, la provincia è parte integrante del Reichskommissariat Ukraine (RKU), istituito per decreto di Hitler il 1° settembre 1941 con capitale a Rovno sotto la spietata amministrazione civile del Reichskommissar Erich Koch. Il regime d\'occupazione attua lo sfruttamento sistematico del grano del Černozëm, del ferro di Krivoj Rog e del carbone per il Reich, accompagnato dalla Shoah dei proiettili (eccidio di Babij Jar a Kiev del 29-30 settembre 1941).';
+    }
+    if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+      return 'Durante la Guerra di Continuazione (Jatkosota), l\'Armata di Carelia finlandese del Gen. Erik Heinrichs ha oltrepassato il vecchio confine del 1939 occupando la Carelia orientale sovietica: dopo la presa di Olonec (5 settembre), il 1° ottobre 1941 le truppe finlandesi hanno conquistato la capitale Petrozavodsk (ribattezzata Äänislinna, "Castello dell\'Onega") e a inizio dicembre Medvež\'egorsk (Karhumäki) sul Canale Mar Bianco-Baltico, istituendo l\'Amministrazione Militare della Carelia Orientale (Itä-Karjalan sotilashallinto) e attestandosi sulla linea difensiva del fiume Svir\'.';
+    }
+    if (SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid)) {
+      return 'Occupata nell\'estate-autunno 1941 dalle divisioni del Gruppo d\'Armate Nord della Wehrmacht (Generalfeldmarschall Wilhelm Ritter von Leeb), la provincia è sottoposta all\'amministrazione militare tedesca delle retrovie (Heeresgebiet Nord). Con la presa di Šlissel\'burg e Mga (8 settembre 1941), la 16ª e la 18ª Armata tedesca hanno serrato da sud il blocco terrestre attorno a Leningrado assediata.';
+    }
+    if (SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid)) {
+      return 'Conquistata tra luglio e ottobre 1941 durante le battaglie di Smolensk e di Brjansk-Vjaz\'ma (Operazione Tifone), la provincia si trova sotto l\'amministrazione militare diretta del Gruppo d\'Armate Centro della Wehrmacht (Heeresgebiet Mitte). A fine dicembre 1941 funge da base logistica arretrata tedesca duramente provata dal gelo estremo (-35 °C), dai sabotaggi partigiani lungo le ferrovie e dalla controffensiva sovietica scattata davanti a Mosca il 5 dicembre.';
+    }
+    if (SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid)) {
+      if (pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
+        return 'Dopo aver sfondato l\'Istmo di Perekop in ottobre, l\'11ª Armata tedesca del Gen. Erich von Manstein ha occupato nel novembre 1941 l\'intera penisola di Crimea ad eccezione della fortezza assediata di Sebastopoli. Tra il 26 e il 29 dicembre 1941 l\'Armata Rossa e la Flotta del Mar Nero lanciano un audace sbarco anfibio invernale a Kerč\' e Feodosija per alleggerire la pressione su Sebastopoli.';
+      }
+      return 'Occupata nell\'ottobre-novembre 1941 dalle armate del Gruppo d\'Armate Sud della Wehrmacht (presa di Stalino/Doneck il 20 ottobre con il concorso del CSIR italiano, e caduta del polo industriale di Char\'kov il 24 ottobre), la provincia è posta sotto amministrazione militare tedesca di prima linea (Heeresgebiet Süd). Prima dell\'evacuazione, i sovietici hanno smantellato e trasferito oltre gli Urali le grandi fabbriche di carri T-34 e gli impianti siderurgici.';
+    }
+    if (pid === 'SOV_ADM1_RUS_42_Moscow' || pid === 'SOV_ADM1_RUS_43_Moscow_Oblast') {
+      return 'Al 31 dicembre 1941 Mosca è l\'epicentro della svolta strategica della guerra sul Fronte dell\'Est: dopo che le punte corazzate dell\'Operazione Tifone tedesca erano giunte a fine novembre a Chimki e Krasnaja Poljana (a soli 25 km dal Cremlino, dove Stalin è rimasto celebrando la storica parata del 7 novembre sulla Piazza Rossa), il 5 dicembre 1941 il Gen. Georgij Žukov ha scatenato la poderosa controffensiva invernale del Fronte Occidentale. Entro fine dicembre le divisioni siberiane dell\'Armata Rossa hanno liberato Klin, Solnečnogorsk, Istra e Jachroma, ricacciando la Wehrmacht di 100-250 km e infliggendole la prima grande sconfitta terrestre della Seconda Guerra Mondiale.';
+    }
+    if (pid === 'SOV_ADM1_RUS_49_Saint_Petersburg' || pid === 'SOV_NW_RUS_271_Vsevolozhsky_District' || pid === 'SOV_NW_RUS_256_Kaarosta_District' || pid === 'SOV_NW_RUS_272_Sosnovy_Bor') {
+      return 'Dall\'8 settembre 1941 Leningrado e la testa di ponte costiera di Oranienbaum sono strette nel mortale Assedio tedesco-finlandese (che durerà 872 giorni). Nel terribile inverno del dicembre 1941, sotto continui bombardamenti e con le razioni di pane ridotte a 125 grammi al giorno, la metropoli resiste grazie ai cannoni della Flotta del Baltico e all\'apertura (22 novembre 1941) della "Strada della Vita" (Doroga Žizni), il corridoio di autocarri GAЗ-AA sul ghiaccio del Lago Ladoga salvato dalla riconquista sovietica di Tichvin il 9 dicembre.';
+    }
+    if (pid === 'SOV_NW_RUS_291_Tihvin__District' || pid === 'SOV_NW_RUS_286_Olhava_District' || pid === 'SOV_NW_RUS_301_Boksitogorsky_District' || pid === 'SOV_NW_RUS_302_Lotinapelto_District') {
+      return 'Settore cruciale per la sopravvivenza di Leningrado: dopo che la Wehrmacht aveva catturato Tichvin l\'8 novembre 1941 per spezzare l\'ultimo collegamento ferroviario verso il Lago Ladoga, la controffensiva della 4ª Armata sovietica del Gen. Kirill Mereckov ha riconquistato Tichvin il 9 dicembre 1941 e respinto i tedeschi oltre il fiume Volchov, salvando la centrale idroelettrica VolchovGES e la "Strada della Vita".';
+    }
+    if (pid === 'SOV_ADM1_RUS_56_Tver_Oblast') {
+      return 'Occupata dai panzer tedeschi il 14 ottobre 1941 durante l\'Operazione Tifone, la città strategica di Kalinin (Tver\') sul superiore corso del Volga è stata liberata il 16 dicembre 1941 dalle armate del Fronte di Kalinin comandato dal Gen. Ivan Konev nell\'ambito della grande controffensiva sovietica di Mosca.';
+    }
+    if (pid === 'SOV_ADM1_RUS_58_Kaluga_Oblast') {
+      return 'Dopo l\'occupazione tedesca d\'ottobre, all\'alba del 30 dicembre 1941 le truppe d\'assalto della 50ª Armata sovietica del Gen. Ivan Boldin hanno liberato Kaluga sul fiume Oka, spezzando l\'ala meridionale del Gruppo d\'Armate Centro tedesco durante la controffensiva invernale di Mosca.';
+    }
+    if (pid === 'SOV_ADM1_RUS_3_Tula_Oblast') {
+      return 'Baluardo meridionale inespugnabile di Mosca: tra ottobre e dicembre 1941 gli operai armati e la 50ª Armata sovietica hanno respinto a Tula tutti i tentativi di accerchiamento della 2ª Armata Corazzata di Heinz Guderian, passando a dicembre alla controffensiva e liberando Jasnaja Poljana (la tenuta di Lev Tolstoj) il 14 dicembre 1941.';
+    }
+    if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+      return 'Teatro della prima grande ritirata della Wehrmacht nella Seconda Guerra Mondiale: dopo che la 1ª Armata Corazzata del Gen. Ewald von Kleist aveva catturato Rostov sul Don ("la Porta del Caucaso") il 21 novembre 1941, il contrattacco del Fronte Meridionale sovietico (Maresciallo Semën Timošenko e 37ª Armata del Gen. Charitonov) ha liberato Rostov il 29 novembre 1941, ricacciando i tedeschi dietro il fiume Mius.';
+    }
+    if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
+      return 'Fortezza marittima assediata della Flotta del Mar Nero: al 31 dicembre 1941 la Regione Difensiva di Sebastopoli (comandata dal Viceammiraglio Filipp Oktjabr\'skij e dal Gen. Ivan Petrov, rinforzata dall\'Armata Costiera evacuata da Odessa) sta respingendo eroicamente il secondo furioso assalto generale sferrato il 17 dicembre dall\'11ª Armata tedesca di Erich von Manstein.';
+    }
+    if (pid === 'SOV_ADM1_RUS_20_Samara_Oblast') {
+      return 'Dall\'ottobre 1941 Kujbyšev (Samara) sul Volga svolge il ruolo di "Capitale di Riserva Bellica dell\'URSS" per decreto del GKO: vi sono stati evacuati il corpo diplomatico straniero, parte del Sovnarkom, il Teatro Bol\'šoj (dove Šostakovič completa il 27 dicembre la Settima Sinfonia "Leningrado") e le grandi fabbriche aeronautiche che producono a ciclo continuo gli aerei d\'attacco corazzati Il\'jušin Il-2 Šturmovik.';
+    }
+    return `${ origGetNote(8) } Nel dicembre 1941 la regione partecipa allo sforzo bellico totale della Grande Guerra Patriottica, accogliendo le industrie belliche e i milioni di lavoratori evacuati dall'ovest (Evakuacija) e inviando divisioni fresche, armamenti, carburante e viveri per la controffensiva sovietica davanti a Mosca.`;
+  };
+}
+
 const SOVIET_INDEX = new Map<string, SovietProvinceInfo>();
 
 for (const item of Object.values(SOVIET_PROVINCES_META)) {

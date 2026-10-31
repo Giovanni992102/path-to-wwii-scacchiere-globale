@@ -538,6 +538,69 @@ export const MALAYSIA_PROVINCES_META: Record<string, MalaysiaProvinceInfo> = {  
 /**
  * Mappatura rapida di alias regionali, nomi comuni e codici ISO
  */
+// Override Step 9 (DIC 1941): Invasione giapponese della Malesia britannica e del Borneo (sbarco a Kota Bharu l'8 dicembre, caduta di Penang il 19 dicembre, di Ipoh/Perak il 28 dicembre e di Kuching/Sarawak il 24 dicembre)
+const MALAYSIA_JAP_OCCUPIED_DEC1941 = new Set([
+  'MY03', // Kelantan (Kota Bharu - sbarco 8 dicembre 1941)
+  'MY11', // Terengganu
+  'MY09', // Perlis
+  'MY02', // Kedah (sfondamento della Linea Jitra 11-12 dicembre 1941)
+  'MY07', // Penang (caduta il 19 dicembre 1941)
+  'MY08', // Perak (caduta di Ipoh 26-28 dicembre 1941, battaglia di Kampar)
+  'MY13', // Sarawak (sbarco a Miri il 16 dicembre, caduta di Kuching il 24 dicembre 1941)
+  'MY12', // Sabah / North Borneo
+  'MY15', // Labuan
+]);
+
+const MALAYSIA_DEC1941_NOTES: Record<string, string> = {
+  MY03: "Kelantan (Kota Bharu) · Alle 00:25 dell'8 dicembre 1941 (oltre un'ora prima dell'attacco a Pearl Harbor), il Distaccamento Takumi della 18ª Divisione giapponese (25ª Armata del Ten. Gen. Tomoyuki Yamashita) sbarca sulle spiagge di Sabak e Badang presso Kota Bharu. Dopo aspri combattimenti contro l'8ª Brigata indiana e gli attacchi dei bombardieri Hudson della RAAF, le forze giapponesi catturano gli aeroporti di Kota Bharu, Gong Kedah e Machang il 9 dicembre.",
+  MY07: "Penang (George Town) · Sottoposta a devastanti bombardamenti aerei giapponesi dall'11 dicembre 1941 che incendiano George Town, l'isola fortificata di Penang viene evacuata segretamente dal comando britannico nella notte del 17 dicembre e occupata dalle truppe della 5ª Divisione della 25ª Armata giapponese il 19 dicembre 1941, fornendo a Yamashita decine di imbarcazioni costiere intatte per aggirare il fronte.",
+  MY02: "Kedah (Jitra e Alor Setar) · Tra l'11 e il 12 dicembre 1941 le colonne corazzate giapponesi (Distaccamento Saeki della 5ª Divisione) travolgono sotto la pioggia battente la Linea Jitra difesa dall'11ª Divisione di Fanteria Indiana, conquistando Alor Setar e gli aeroporti settentrionali.",
+  MY09: "Perlis (Kangar) · Invade l'8-10 dicembre 1941 dalle colonne meccanizzate della 5ª Divisione giapponese provenienti da Singora e Patani in Thailandia, aprendo la direttrice d'attacco occidentale verso Kedah.",
+  MY11: "Terengganu (Kuala Terengganu) · Occupato a metà dicembre 1941 dalle colonne costiere del Distaccamento Takumi avanzanti da Kota Bharu lungo il litorale del Mar Cinese Meridionale verso Kuantan.",
+  MY08: "Perak (Ipoh, Kuala Kangsar e Kampar) · Superato il fiume Perak a Kuala Kangsar (22-24 dicembre), le divisioni di Yamashita occupano Taiping e la capitale mineraria dello stagno Ipoh il 26-28 dicembre 1941; al 31 dicembre infuria la decisiva Battaglia di Kampar (30 dicembre 1941 – 2 gennaio 1942).",
+  MY13: "Sarawak (Miri e Kuching) · Il 16 dicembre 1941 il Distaccamento Kawaguchi (35ª Brigata giapponese) sbarca ai campi petroliferi di Miri e Seria (demoliti dai genieri britannici) e il 24 dicembre conquista la capitale Kuching dopo la resistenza del 2/15th Punjab Regiment.",
+  MY12: "North Borneo (Jesselton e Sandakan) · Incursioni aeronavali giapponesi e avvio dell'occupazione dei terminali petroliferi e gomma del Borneo settentrionale tra fine dicembre 1941 e inizio gennaio 1942.",
+  MY15: "Labuan · Isola strategica all'ingresso della baia di Brunei, investita dall'offensiva anfibia del Distaccamento Kawaguchi nel Borneo britannico nel dicembre 1941.",
+  MY06: "Pahang (Kuantan) · Il 10 dicembre 1941, al largo di Kuantan, gli aerosiluranti giapponesi G3M Nell e G4M Betty partiti dall'Indocina affondano la corazzata HMS Prince of Wales e l'incrociatore da battaglia HMS Repulse (Force Z dell'Amm. Tom Phillips), segnando la fine della supremazia navale britannica in Estremo Oriente; il 31 dicembre infuria la battaglia per l'aeroporto di Kuantan.",
+  SG01: "Singapore (Fortezza Imperiale) · A partire dalle 04:15 dell'8 dicembre 1941 Singapore subisce i primi bombardamenti aerei notturni giapponesi; il 10 dicembre l'affondamento della HMS Prince of Wales e della HMS Repulse priva la base navale di copertura corazzata mentre le truppe del Ten. Gen. Arthur Percival combattono in ripiegamento lungo la penisola malese.",
+};
+
+for (const [k, meta] of Object.entries(MALAYSIA_PROVINCES_META)) {
+  const origFac = meta.getFaction.bind(meta);
+  const origNote = meta.getNote.bind(meta);
+  const isJap = MALAYSIA_JAP_OCCUPIED_DEC1941.has(k) || MALAYSIA_JAP_OCCUPIED_DEC1941.has(meta.id);
+
+  meta.getSovereign = (s: number) => {
+    if (s >= 9) return isJap ? 'JAP' : 'UK';
+    return meta.sovereign;
+  };
+  meta.getFaction = (s: number) => {
+    if (s >= 9) return isJap ? 'Asse' : 'Alleati';
+    return origFac(s);
+  };
+  meta.getHistoricalName = (s: number) => {
+    if (s >= 9) {
+      if (isJap) return `${meta.historicalName} (Occupazione Militare Giapponese — 25ª Armata, Dicembre 1941)`;
+      return `${meta.historicalName} (Campagna di Malesia — Difesa del Malaya Command, Dicembre 1941)`;
+    }
+    return meta.historicalName;
+  };
+  meta.getAdminTitle = (s: number) => {
+    if (s >= 9) {
+      if (isJap) return `Impero Giapponese — Occupazione Militare della Malesia / Borneo (25ª Armata — Ten. Gen. Tomoyuki Yamashita)`;
+      return `${meta.adminTitle} — Malaya Command (Ten. Gen. Arthur Percival, Singapore)`;
+    }
+    return meta.adminTitle;
+  };
+  meta.getNote = (s: number) => {
+    if (s >= 9) {
+      if (MALAYSIA_DEC1941_NOTES[meta.id]) return MALAYSIA_DEC1941_NOTES[meta.id];
+      return `${origNote(8)} Nel dicembre 1941, dopo gli sbarchi giapponesi a Kota Bharu (8 dicembre) e la caduta di Penang e Ipoh, il territorio è in prima linea nella difesa britannica della Malesia meridionale a protezione di Kuala Lumpur e della piazzaforte di Singapore.`;
+    }
+    return origNote(s);
+  };
+}
+
 export const MALAYSIA_ALIASES: Record<string, string> = {
   'MY-01': 'MY01',
   'MY-02': 'MY02',

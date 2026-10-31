@@ -571,6 +571,67 @@ export const PHILIPPINES_PROVINCES_META: Record<string, PhilippinesProvinceInfo>
 /**
  * Risolutore geocartografico per le province e regioni delle Filippine (1936-1941)
  */
+// Override Step 9 (DIC 1941): Invasione giapponese delle Filippine (sbarchi a Luzon e Mindanao a dicembre; Manila dichiarata Città Aperta da MacArthur il 26 dicembre 1941; ripiegamento USAFFE a Bataan e Corregidor)
+const PHILIPPINES_JAP_OCCUPIED_DEC1941 = new Set([
+  'PH01', // Ilocos Region (sbarco a Vigan 10 dic e Golfo di Lingayen 22 dic 1941 - 14ª Armata Gen. Homma)
+  'PH02', // Cagayan Valley (sbarco a Batanes 8 dic e Aparri/Gonzaga 10 dic 1941)
+  'PH05', // Bicol Region (sbarco a Legazpi 12 dic e Baia di Lamon 24 dic 1941)
+  'PH15', // Cordillera / Baguio (caduta di Baguio il 27 dicembre 1941)
+  'PH11', // Davao Region (sbarco del Distaccamento Sakaguchi e Miura a Davao il 20 dicembre 1941)
+  'PH14', // Sulu / Jolo (sbarco a Jolo il 24-25 dicembre 1941)
+]);
+
+const PHILIPPINES_DEC1941_NOTES: Record<string, string> = {
+  PH00: "Manila (Città Aperta — 26 Dicembre 1941) · Bombardata dall'aviazione giapponese a partire dall'8-10 dicembre 1941 (distruzione dell'arsenale navale di Cavite), di fronte alla convergenza a tenaglia della 14ª Armata giapponese (Ten. Gen. Masaharu Homma) dal Golfo di Lingayen a nord e dalla Baia di Lamon a sud, il 26 dicembre 1941 il Gen. Douglas MacArthur proclama Manila 'Città Aperta' (Open City), evacuando il governo del Presidente Manuel L. Quezon a Corregidor e ritirando le forze USAFFE nella penisola di Bataan; le avanguardie giapponesi si trovano alle porte della capitale il 31 dicembre.",
+  PH01: "Regione di Ilocos e Golfo di Lingayen · Dopo il primo sbarco del Distaccamento Kanno a Vigan il 10 dicembre 1941, all'alba del 22 dicembre il grosso della 14ª Armata giapponese (48ª Divisione sotto il Ten. Gen. Masaharu Homma, trasportata da 85 navi) sbarca sulle spiagge del Golfo di Lingayen (Bauang, Agoo, Damortis), superando le difese della 11ª e 71ª Divisione filippina e degli Stuart M3 del 192nd Tank Battalion e marciando rapidamente attraverso la piana centrale verso Manila.",
+  PH02: "Valle di Cagayan, Batanes e Aparri · L'8 dicembre 1941 forze speciali navali giapponesi occupano l'isola di Batan e il 10 dicembre il Distaccamento Tanaka sbarca ad Aparri e Gonzaga nel nord di Luzon (contrastato dall'eroico attacco del B-17 del Cap. Colin Kelly), assicurando gli aeroporti avanzati per i caccia Zero della 5ª Divisione Aerea.",
+  PH03: "Luzon Centrale, Clark Field e Penisola di Bataan · L'8 dicembre 1941, nove ore dopo Pearl Harbor, i bombardieri giapponesi G4M e i caccia Zero decollati da Formosa distruggono al suolo a Clark Field e Iba metà della Far East Air Force statunitense (B-17 e P-40). Il 23 dicembre MacArthur attiva il War Plan Orange-3 (WPO-3): attraverso la magistrale manovra dilatoria sul ponte di Calumpit (31 dicembre 1941), le armate di Luzon Nord e Sud convergono nella fortezza naturale della penisola di Bataan.",
+  PH40: "Tagalog Meridionale, Cavite, Batangas e Isola di Corregidor · Il 10 dicembre 1941 i bombardieri della Marina Imperiale devastano la base navale statunitense di Sangley Point (Cavite), mentre il 24 dicembre la 16ª Divisione giapponese sbarca nella Baia di Lamon (Mauban e Atimonan). L'isola fortificata di Corregidor ('The Rock', Fort Mills) all'ingresso della Baia di Manila diviene il quartier generale sotterraneo (Malinta Tunnel) del Gen. Douglas MacArthur e del governo del Commonwealth di Manuel L. Quezon.",
+  PH05: "Regione di Bicol e Legazpi · Il 12 dicembre 1941 il Distaccamento Kimura (16ª Divisione giapponese) sbarca a Legazpi nell'estremità sud-orientale di Luzon, catturando la pista aerea e la linea ferroviaria Manila Railroad e avanzando verso nord a supporto dello sbarco principale nella Baia di Lamon (24 dicembre).",
+  PH15: "Cordillera e Baguio · La capitale estiva di Baguio, dove il Gen. Jonathan M. Wainwright coordina inizialmente la North Luzon Force, viene evacuata sotto l'avanzata giapponese da Naguilian ed occupata dalle truppe imperiali il 27 dicembre 1941.",
+  PH11: "Regione di Davao (Mindanao) · All'alba del 20 dicembre 1941 i distaccamenti giapponesi Sakaguchi e Miura (partiti da Palau) sbarcano a Davao e Talomo nel sud di Mindanao, travolgendo il presidio del 101° Reggimento filippino e trasformando Davao nella base aeronavale avanzata giapponese per l'invasione delle Indie Orientali Olandesi.",
+  PH14: "Arcipelago di Sulu e Jolo · Nella notte della vigilia di Natale (24-25 dicembre 1941), il Distaccamento Sakaguchi e le forze speciali da sbarco della Marina Imperiale conquistano l'isola di Jolo e il suo aeroporto strategico tra Mindanao e il Borneo britannico.",
+};
+
+for (const [k, meta] of Object.entries(PHILIPPINES_PROVINCES_META)) {
+  const origNote = meta.getNote.bind(meta);
+  const isJap = PHILIPPINES_JAP_OCCUPIED_DEC1941.has(k) || PHILIPPINES_JAP_OCCUPIED_DEC1941.has(meta.id);
+
+  (meta as any).getSovereign = (s: number) => {
+    if (s >= 9) return isJap ? 'JAP' : 'PHL';
+    return meta.sovereign;
+  };
+  meta.getFaction = (s: number) => {
+    if (s >= 9) return isJap ? 'Asse' : 'Alleati';
+    return meta.faction;
+  };
+  meta.getHistoricalName = (s: number) => {
+    if (s >= 9) {
+      if (meta.id === 'PH00') return 'City of Manila — Proclaimed Open City (26 December 1941 — Gen. Douglas MacArthur)';
+      if (meta.id === 'PH03') return `${meta.historicalName} (Ridotto Difensivo USAFFE di Bataan — War Plan Orange-3)`;
+      if (meta.id === 'PH40') return `${meta.historicalName} (Fortezza di Corregidor — Quartier Generale USAFFE & Governo Quezon)`;
+      if (isJap) return `${meta.historicalName} (Occupazione Militare Giapponese — 14ª Armata, Dicembre 1941)`;
+      return `${meta.historicalName} (Campagna delle Filippine — Difesa USAFFE, Dicembre 1941)`;
+    }
+    return meta.historicalName;
+  };
+  meta.getAdminTitle = (s: number) => {
+    if (s >= 9) {
+      if (isJap) return `Impero Giapponese — Occupazione Militare delle Filippine (14ª Armata — Ten. Gen. Masaharu Homma)`;
+      if (meta.id === 'PH00') return `Commonwealth of the Philippines — Manila Città Aperta (26 dicembre 1941 — Evacuazione USAFFE verso Bataan e Corregidor)`;
+      return `${meta.adminTitle} — Comando USAFFE (Gen. Douglas MacArthur, Corregidor / Bataan)`;
+    }
+    return meta.adminTitle;
+  };
+  meta.getNote = (s: number) => {
+    if (s >= 9) {
+      if (PHILIPPINES_DEC1941_NOTES[meta.id]) return PHILIPPINES_DEC1941_NOTES[meta.id];
+      return `${origNote(8)} Nel dicembre 1941, con l'invasione giapponese di Luzon e Mindanao e la dichiarazione di Manila Città Aperta (26 dicembre), le guarnigioni USAFFE delle Visayas e di Mindanao organizzano la resistenza insulare e il supporto logistico a Corregidor.`;
+    }
+    return origNote(s);
+  };
+}
+
 export function resolvePhilippinesProvince(ft: any, s: number): ResolvedTerritory {
   if (!ft) return makeResult('PHL', 'Commonwealth of the Philippines', 'Commonwealth delle Filippine', 'Alleati', 'Commonwealth of the Philippines');
 

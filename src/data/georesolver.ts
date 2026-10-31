@@ -717,6 +717,8 @@ export const HB_NAME: Record<string, { o: string; label: string }> = {
   'Chinese warlords': { o: 'CHI', label: 'Zhonghua Minguo (Difang Junfa)' },
   Tibet: { o: 'TIB', label: 'Bod Gzhung (Lhasa)' },
   Siam: { o: 'SIA', label: 'Ratcha-anachak Thai (Siam)' },
+  Thailand: { o: 'SIA', label: 'Ratcha-anachak Thai (Thailand)' },
+  'Kingdom of Thailand': { o: 'SIA', label: 'Ratcha-anachak Thai (Thailand)' },
   Liberia: { o: 'LBR', label: 'Republic of Liberia' },
   'Republic of Liberia': { o: 'LBR', label: 'Republic of Liberia' },
   'Repubblica di Liberia': { o: 'LBR', label: 'Republic of Liberia' },
@@ -1654,6 +1656,18 @@ export function resolveChinaProvince(
 
     // 29. Hong Kong (British Empire)
     case 'CHN_HONGKONG':
+      owner = s >= 9 ? 'JAP' : 'UK';
+      faction = s >= 9 ? 'Asse' : 'Alleati';
+      if (s >= 9) {
+        return makeResult(
+          'JAP',
+          'Honkon Senryōchi / Hong Kong (Occupazione Militare Giapponese — 25 Dicembre 1941)',
+          "Battaglia di Hong Kong (8-25 dicembre 1941): investita l'8 dicembre dalla 38ª Divisione della 23ª Armata giapponese (Ten. Gen. Takashi Sakai), la guarnigione britannica, canadese (Royal Rifles of Canada e Winnipeg Grenadiers) e indiana del Magg. Gen. Christopher Maltby resiste sui Nuovi Territori (Gin Drinkers' Line) e sull'isola di Hong Kong fino alla resa del Governatore Sir Mark Young nel 'Natale Nero' (Black Christmas, 25 dicembre 1941); instaurato il governatorato militare giapponese.",
+          'Asse',
+          'Impero Giapponese — Governatorato Militare di Hong Kong (Honkon Senryōchi Sōtokufu — Ten. Gen. Takashi Sakai / Rensuke Isogai)'
+        );
+      }
+      break;
       owner = 'UK';
       faction = 'Alleati';
       break;
@@ -2269,7 +2283,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('jeddah') ||
     nrm_hb.includes('jidda') ||
     nrm_hb.includes('taif') ||
-    nrm_hb.includes('hail') ||
+    (nrm_hb.includes('hail') && !nrm_hb.includes('thail')) ||
     nrm_hb.includes('shammar') ||
     nrm_hb.includes('jawf') ||
     nrm_hb.includes('sakaka') ||
@@ -2298,7 +2312,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_subj.includes('nejd') ||
     nrm_subj.includes('najd') ||
     nrm_subj.includes('hejaz') ||
-    nrm_subj.includes('hail') ||
+    (nrm_subj.includes('hail') && !nrm_subj.includes('thail')) ||
     nrm_subj.includes('shal\'an') ||
     nrm_subj.includes('shalan') ||
     nrm_subj.includes('arabia saudita') ||
@@ -2381,6 +2395,17 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   if (isSyriaLebanon) {
     const isLeb = nrm_hb.includes('lebanon') || nrm_hb.includes('libano') || P.CNTR_CODE === 'LB';
+    if (s >= 9) {
+      return makeResult(
+        'F_SYR',
+        isLeb
+          ? 'République Libanaise (Controllo Congiunto Francia Libera e Gran Bretagna — Beyrouth)'
+          : 'République Syrienne (Controllo Congiunto Francia Libera e Gran Bretagna — Damas)',
+        "Operazione Exporter e Armistizio di Saint-Jean-d'Acre (14 luglio 1941): dopo la resa delle truppe di Vichy del Gen. Henri Dentz, Siria e Libano passano sotto il controllo congiunto della Francia Libera (Gen. Georges Catroux, che proclama formalmente l'indipendenza siriana e libanese) e della 9ª Armata britannica.",
+        'Alleati',
+        "Délégation Générale de la France Libre au Levant (Gén. Georges Catroux) & British 9th Army"
+      );
+    }
     if (s >= 6) {
       return makeResult(
         'F_SYR',
@@ -2410,6 +2435,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     P.ADM0_A3 === 'IRN';
 
   if (isIran) {
+    if (s >= 9) {
+      return makeResult(
+        'IRN',
+        'Keshvar-e Shāhanshāhi-ye Irān (Occupazione Anglo-Sovietica & Corridoio Persiano)',
+        "Operazione Countenance (25 agosto – 17 settembre 1941): invasione congiunta anglo-sovietica dell'Iran, abdicazione di Reza Shah a favore del figlio Mohammad Reza Pahlavi e spartizione del paese tra settore sovietico a nord e settore britannico a sud per garantire il Corridoio Persiano dei rifornimenti Alleati.",
+        'Alleati',
+        'Keshvar-e Shāhanshāhi-ye Irān — Corridoio Persiano Anglo-Sovietico (Mohammad Reza Pahlavi)'
+      );
+    }
     const top = getExtendedToponym(name || 'Iran', 'IRN');
     return makeResult('IRN', top.name || 'Keshvar-e Shâhanshâhi-ye Irân', top.adminTitle || 'Dudmân-e Pahlavi');
   }
@@ -2441,6 +2475,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
 
   if (isMesopotamia) {
+    if (s >= 9) {
+      return makeResult(
+        'UK',
+        'Al-Mamlakah al-‘Irāqiyyah (Controllo Militare Britannico — PAIFORCE, Baghdad)',
+        "Dopo la sconfitta del governo filo-Asse di Rashid Ali al-Kaylani nella guerra anglo-irachena (maggio 1941), il Regno dell'Iraq torna sotto controllo militare britannico (PAIFORCE — Persia and Iraq Force del Ten. Gen. Edward Quinan) con la restaurazione del reggente 'Abd al-Ilah.",
+        'Alleati',
+        'Al-Mamlakah al-‘Irāqiyyah — British Military Control (PAIFORCE & Reggente ‘Abd al-Ilah)'
+      );
+    }
     if (s >= 8) {
       return makeResult(
         'IRQ',
@@ -2460,6 +2503,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Carelia & Petsamo
   if (name === 'Finland') {
+    if (s >= 9) {
+      return makeResult(
+        'FIN',
+        'Suomen tasavalta (Karjala, Petsamo ja Itä-Karjala — Jatkosota 1941)',
+        "Guerra di Continuazione (giugno-dicembre 1941): l'esercito finlandese del Maresciallo Mannerheim riconquista l'intera Carelia perduta nel 1940 (Viipuri, Sortavala, Salla, Hanko) e occupa la Carelia Orientale sovietica (presa di Petrozavodsk / Äänislinna il 1° ottobre 1941).",
+        'Asse',
+        'Suomen tasavalta — Päämaja (Sotamarsalkka C.G.E. Mannerheim)'
+      );
+    }
     return s < 6
       ? makeResult('FIN', 'Suomi (Petsamo / Karjala)', 'Ennen sotaa vallinneet rajat')
       : makeResult('SOV', 'Karelskaya ASSR i Petsamo', 'Moskovskiy mirny dogovor (1940)');
@@ -2467,6 +2519,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Bessarabia & Bucovina
   if (name === 'Romania') {
+    if (s >= 9) {
+      return makeResult(
+        'ROM',
+        'Regatul României (Basarabia, Bucovina de Nord și Transnistria — 1941)',
+        'Riconquista romena della Bessarabia e della Bucovina settentrionale (luglio 1941) e amministrazione civile-militare del Governatorato della Transnistria tra Dnestr e Bug Meridionale (Accordo di Tighina, 30 agosto 1941).',
+        'Asse',
+        'Regatul României — Conducător Mareșal Ion Antonescu'
+      );
+    }
     return s < 6
       ? makeResult('ROM', name, 'Regatul României (România Mare)')
       : makeResult('SOV', 'Basarabia i Severnaya Bukovina', 'Prisoyedineniye k SSSR (1940)');
@@ -2975,6 +3036,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
   }
   if (nrm_hb.includes('iraq')) {
+    if (s >= 9) {
+      return makeResult(
+        'UK',
+        'Kingdom of Iraq (Baghdad — British Military Control PAIFORCE)',
+        'Controllo militare britannico (PAIFORCE) dopo la guerra anglo-irachena del maggio 1941 e la restaurazione del reggente filo-alleato ‘Abd al-Ilah.',
+        'Alleati',
+        'British Military Administration / PAIFORCE (Baghdad)'
+      );
+    }
     if (s >= 8) {
       return makeResult(
         'IRQ',
@@ -2993,12 +3063,30 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('UK', 'British Mandate for Palestine (Jerusalem)', 'League of Nations Mandate');
   }
   if (nrm_hb.includes('syria')) {
+    if (s >= 9) {
+      return makeResult(
+        'F_SYR',
+        'République Syrienne (Controllo Congiunto Francia Libera e Gran Bretagna — Damas)',
+        "Armistizio di Saint-Jean-d'Acre (14 luglio 1941): al termine dell'Operazione Exporter, la Siria passa sotto il controllo congiunto della Francia Libera (Gen. Georges Catroux) e della 9ª Armata britannica.",
+        'Alleati',
+        'Délégation Générale de la France Libre au Levant (Gén. Georges Catroux, Damas)'
+      );
+    }
     const top = getTop(s < 6 ? 'F_SYR' : 'VIC_SYR');
     return s < 6
       ? makeResult('F_SYR', top.name || 'Mandat français en Syrie (Damas)', top.note || 'Mandat A de la Société des Nations confié à la France', undefined, top.adminTitle || 'Haut-Commissariat de la République Française au Levant (Beyrouth / Damas)')
       : makeResult('VIC_SYR', top.name || 'Syrie (Mandat français — Vichy)', top.note || 'Mandat sous administration du gouvernement de Vichy', 'Fantoccio', top.adminTitle || 'Haut-Commissaire Général Henri Dentz (Vichy — Damas)');
   }
   if (nrm_hb.includes('lebanon')) {
+    if (s >= 9) {
+      return makeResult(
+        'F_SYR',
+        'République Libanaise (Controllo Congiunto Francia Libera e Gran Bretagna — Beyrouth)',
+        "Armistizio di Saint-Jean-d'Acre (14 luglio 1941): dopo la resa delle forze di Vichy del Gen. Henri Dentz, il Libano passa sotto il controllo congiunto della Francia Libera (Gen. Georges Catroux) e della Gran Bretagna.",
+        'Alleati',
+        'Délégation Générale de la France Libre au Levant (Gén. Georges Catroux, Beyrouth)'
+      );
+    }
     const top = getTop(s < 6 ? 'F_SYR' : 'VIC_SYR');
     return s < 6
       ? makeResult('F_SYR', top.name || 'Grand Liban (Mandat français — Beyrouth)', top.note || 'État du Grand Liban sous mandat français', undefined, top.adminTitle || 'État du Grand Liban sous Mandat Français (Beyrouth)')
@@ -3009,7 +3097,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('hejaz') ||
     nrm_hb.includes('nejd') ||
     nrm_hb.includes('najd') ||
-    nrm_hb.includes('hail') ||
+    (nrm_hb.includes('hail') && !nrm_hb.includes('thail')) ||
     nrm_hb.includes('shal\'an') ||
     nrm_hb.includes('shalan')
   ) {
@@ -3258,6 +3346,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             ? 'VIC_IND'
             : 'VIC';
         const vicTop = getExtendedToponym(name, vicKey, nid, c, s);
+        if (vicKey === 'VIC_SYR' && s >= 9) {
+          return makeResult(
+            'F_SYR',
+            vicTop.name || 'Syrie et Liban (Controllo Congiunto Francia Libera e Gran Bretagna)',
+            "Operazione Exporter e Armistizio di Saint-Jean-d'Acre (14 luglio 1941): dopo la resa delle forze di Vichy del Gen. Henri Dentz, Siria e Libano passano sotto il controllo congiunto della Francia Libera (Gen. Georges Catroux) e della Gran Bretagna.",
+            'Alleati',
+            'Délégation Générale de la France Libre au Levant (Gén. Georges Catroux) & British 9th Army'
+          );
+        }
+        if (vicKey === 'VIC_IND' && s >= 9) {
+          return makeResult(
+            'JAP',
+            'Indochine française (Occupazione Militare Giapponese Integrale — Operazione Fu-Go, Luglio 1941)',
+            "Occupazione militare giapponese dell'intera Indocina francese completata a fine luglio 1941 (Operazione Fu-Go, 28 luglio 1941) e impiegata nel dicembre 1941 come piattaforma d'attacco dell'Esercito Meridionale giapponese (Gen. Hisaichi Terauchi) contro la Malesia britannica e la Thailandia.",
+            'Asse',
+            "Impero Giapponese — Gruppo d'Armate di Spedizione Meridionale (Saigon) / Amministrazione Subordinata Vichy"
+          );
+        }
         if (vicKey === 'VIC_IND' && s >= 7) {
           return makeResult(
             'VIC_IND',
@@ -3379,10 +3485,22 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     if (ov.o === 'USA') {
+      if (s >= 9 && (name === 'Guam' || nrm_hb.includes('guam') || name === 'Wake Island' || nrm_hb.includes('wake'))) {
+        const isWake = name === 'Wake Island' || nrm_hb.includes('wake');
+        return makeResult(
+          'JAP',
+          isWake ? 'Ōtori-jima (Wake Island — Occupazione Imperiale Giapponese)' : 'Ōmiya-jima (Guam — Occupazione Imperiale Giapponese)',
+          isWake
+            ? 'Battaglia dell\'Isola di Wake (8-23 dicembre 1941): dopo aver respinto il primo tentativo di sbarco giapponese l\'11 dicembre, la guarnigione dei Marines statunitensi (Maggiore James Devereux e Cdr. Winfield Cunningham) è costretta alla resa il 23 dicembre 1941 di fronte al secondo assalto anfibio della Marina Imperiale.'
+            : 'Battaglia di Guam (8-10 dicembre 1941): attaccata poche ore dopo Pearl Harbor, l\'isola di Guam viene invasa il 10 dicembre 1941 dal Distaccamento dei Mari del Sud (Magg. Gen. Tomitarō Horii); il governatore statunitense Capt. George McMillin capitola a Hagåtña.',
+          'Asse',
+          'Dai Nippon Teikoku Kaigun — Occupazione Militare Giapponese'
+        );
+      }
       return makeResult(
         'USA',
         top.name,
-        top.note || 'Stati Uniti d\'America',
+        top.note || (s >= 9 ? 'Stati Uniti d\'America — Potenza Belligerante Alleata (Dichiarazione di guerra a Giappone, Germania e Italia, 8-11 dicembre 1941)' : 'Stati Uniti d\'America'),
         'Alleati',
         top.adminTitle || 'United States of America'
       );
@@ -3390,6 +3508,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     if (ov.o === 'GRE') {
       if (s >= 8) {
         if (nrm_hb.includes('crete') || nrm_hb.includes('kriti') || nrm_hb.includes('chania') || nrm_hb.includes('heraklion') || (c && c[1] > 0 && c[1] < 35.7)) {
+          if (s >= 9) {
+            return makeResult(
+              'GER',
+              'Festung Kreta (Chania / Heraklion — Occupazione Militare Tedesca)',
+              'Operazione Merkur (20 maggio - 1° giugno 1941): conquista aviotrasportata tedesca di Creta (XI. Fliegerkorps del Gen. Kurt Student) e trasformazione dell\'isola nella "Festung Kreta" sotto comando tedesco (province occidentali e centrali) e italiano (Lasithi).',
+              'Asse',
+              'Kommandant der Festung Kreta — Wehrmacht Besatzungszone'
+            );
+          }
           return makeResult(
             'GRE',
             'Kriti — Roccaforte Alleata e Sede del Governo Greco (Chania / Heraklion)',
@@ -3412,6 +3539,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.note || (s >= 7 ? 'Regno di Grecia — Belligerante Alleato ("Giorno dell\'Oxi", 28 ottobre 1940)' : 'Regno di Grecia (Regime del 4 Agosto)'),
         s >= 7 ? 'Alleati' : 'Neutrale',
         top.adminTitle || 'Vasileion tis Ellados'
+      );
+    }
+    if (ov.o === 'SIA' && s >= 9) {
+      return makeResult(
+        'SIA',
+        top.name || 'Ratcha-anachak Thai (Regno di Thailandia — Alleato del Giappone)',
+        top.note || 'Dopo il breve scontro armato dell\'8 dicembre 1941, il Primo Ministro Maresciallo Plaek Phibunsongkhram ordina il cessate il fuoco, consente il transito alla 15ª e 25ª Armata giapponese verso Malesia e Birmania e il 21 dicembre 1941 firma nel Tempio del Buddha di Smeraldo a Bangkok il Trattato formale di Alleanza militare offensiva e difensiva con l\'Impero Giapponese.',
+        'Asse',
+        top.adminTitle || 'Ratcha-anachak Thai — Maresciallo Plaek Phibunsongkhram (Alleanza con il Giappone)'
       );
     }
     if (ov.o === 'BUL') {
@@ -3454,6 +3590,15 @@ export function resolveEstonianProvince(
   rawName: string
 ): ResolvedTerritory {
   const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
+  if (s >= 9) {
+    return makeResult(
+      'GER',
+      `Generalbezirk Estland — ${histName || 'Reval / Tallinn'} (Reichskommissariat Ostland)`,
+      `Reichskommissariat Ostland (Generalbezirk Estland) — Conquistata dal Gruppo d'Armate Nord della Wehrmacht (18ª Armata del Gen. Georg von Küchler; presa di Tallinn il 28 agosto 1941 e delle isole baltiche di Saaremaa e Hiiumaa nell'Operazione Beowulf a ottobre 1941). Il 5 dicembre 1941 il territorio passa sotto l'amministrazione civile del Commissario Generale Karl-Siegmund Litzmann a Reval (Tallinn), subordinato al Reichskommissar Hinrich Lohse.`,
+      'Asse',
+      'Reichskommissariat Ostland — Generalbezirk Estland (Generalkommissar Karl-Siegmund Litzmann, Reval)'
+    );
+  }
   const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
 
   // 1. Põhja-Eesti / Harjumaa (Tallinn, Paldiski)
@@ -3612,6 +3757,15 @@ export function resolveLatvianProvince(
   rawName: string
 ): ResolvedTerritory {
   const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
+  if (s >= 9) {
+    return makeResult(
+      'GER',
+      `Generalbezirk Lettland — ${histName || 'Riga'} (Reichskommissariat Ostland)`,
+      `Reichskommissariat Ostland (Generalbezirk Lettland) — Occupata dal Gruppo d'Armate Nord tedesco tra fine giugno e inizio luglio 1941 (caduta di Riga il 1° luglio 1941). Riga diviene la capitale amministrativa dell'intero Reichskommissariat Ostland (istituito il 17 luglio 1941 sotto il Reichskommissar Hinrich Lohse) e sede del Generalbezirk Lettland guidato dal Generalkommissar Otto-Heinrich Drechsler.`,
+      'Asse',
+      'Reichskommissariat Ostland — Hauptstadt Riga & Generalbezirk Lettland (Reichskommissar Hinrich Lohse / Otto-Heinrich Drechsler)'
+    );
+  }
   const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
 
   // 1. Rīga capitale
@@ -3791,6 +3945,15 @@ export function resolveLithuanianProvince(
 ): ResolvedTerritory {
   const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
   const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
+  if (s >= 9 && nid !== 'LT023' && nid !== 'MEMEL' && !nrm.includes('memel') && !nrm.includes('klaipedos krastas')) {
+    return makeResult(
+      'GER',
+      `Generalbezirk Litauen — ${histName || 'Kauen / Wilna'} (Reichskommissariat Ostland)`,
+      `Reichskommissariat Ostland (Generalbezirk Litauen) — Travolta nella prima settimana dell'Operazione Barbarossa (giugno 1941, presa di Kaunas e Vilnius il 24 giugno), la Lituania è incorporata nel Reichskommissariat Ostland (decreto del 17 luglio 1941) come Generalbezirk Litauen con sede a Kauen (Kaunas) sotto il Generalkommissar Theodor Adrian von Renteln.`,
+      'Asse',
+      'Reichskommissariat Ostland — Generalbezirk Litauen (Generalkommissar Theodor Adrian von Renteln, Kauen)'
+    );
+  }
 
   // 1. Memel Territory / Klaipėdos kraštas (LT023 o enclave)
   if (
@@ -4072,7 +4235,7 @@ export function resolveLevantMandateProvince(ft: any, s: number): ResolvedTerrit
   const pOrig = String(props.ORIG_ID || '').trim().toUpperCase();
   const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
 
-  const isVichy = s >= 6;
+  const isVichy = s >= 6 && s < 9;
   const ownerCode = isVichy ? 'VIC_SYR' : 'F_SYR';
   const factionCode = isVichy ? 'Fantoccio' : 'Alleati';
 
@@ -4102,6 +4265,26 @@ export function resolveLevantMandateProvince(ft: any, s: number): ResolvedTerrit
     pName.includes('liban') ||
     pName.includes('lebanon') ||
     pName.includes('libano');
+
+  if (s >= 9) {
+    const rawTitle = props.HISTORICAL_NAME || props.NAME || props.name || (isLeb ? 'Beyrouth' : 'Damas');
+    if (isLeb) {
+      return makeResult(
+        'F_SYR',
+        `République Libanaise (Francia Libera & Controllo Britannico) — ${rawTitle}`,
+        `${rawTitle} · Al termine dell'Operazione Exporter (8 giugno – 14 luglio 1941) e con la firma dell'Armistizio di Saint-Jean-d'Acre (14 luglio 1941), le forze di Vichy del Gen. Henri Dentz capitolano. Il Libano passa sotto il controllo congiunto della Francia Libera (Gen. Georges Catroux, che proclama formalmente l'indipendenza della Repubblica Libanese il 26 novembre 1941 sotto il Presidente Alfred Naccache) e della 9ª Armata britannica.`,
+        'Alleati',
+        "Controllo Congiunto Francia Libera e Gran Bretagna — Délégation Générale de la France Libre au Levant (Gén. Georges Catroux, Beyrouth)"
+      );
+    }
+    return makeResult(
+      'F_SYR',
+      `République Syrienne (Francia Libera & Controllo Britannico) — ${rawTitle}`,
+      `${rawTitle} · Dopo la campagna anglo-gollista di Siria e Libano (Operazione Exporter, giugno-luglio 1941) e l'Armistizio di Saint-Jean-d'Acre (14 luglio 1941), la Siria è posta sotto il controllo strategico congiunto della Francia Libera (Gen. Georges Catroux, che proclama l'indipendenza della Repubblica Siriana il 27 settembre 1941 con Taj al-Din al-Hasani presidente) e della 9ª Armata britannica (Gen. Henry Maitland Wilson).`,
+      'Alleati',
+      "Controllo Congiunto Francia Libera e Gran Bretagna — Délégation Générale de la France Libre au Levant (Gén. Georges Catroux, Damas) & British 9th Army"
+    );
+  }
 
   if (isLeb) {
     const regimePrefix = isVichy ? 'Grande Libano (Regime di Vichy)' : 'Mandato del Grande Libano';
@@ -5495,17 +5678,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           'FIN',
           histName,
-          'Suomen tasavalta — Petsamon lääni (Jäämeren yhteys, Tarton rauha 1920-1944)'
+          s >= 9
+            ? 'Suomen tasavalta — Petsamon lääni (Jatkosota: Operazione Silberfuchs, base artica tedesco-finlandese sul Mar di Barents)'
+            : 'Suomen tasavalta — Petsamon lääni (Jäämeren yhteys, Tarton rauha 1920-1944)',
+          s >= 9 ? 'Asse' : undefined
         );
       }
 
-      if (s < 6) {
+      if (s < 6 || s >= 9) {
         return makeResult(
           'FIN',
           histName,
-          isSalla
+          s >= 9
+            ? 'Suomen tasavalta — Jatkosota (Riconquista finlandese della Carelia e di Salla nell\'estate-autunno 1941; riannessione formale proclamata dal Parlamento finlandese il 6 dicembre 1941)'
+            : isSalla
             ? 'Suomen tasavalta — Salla-Kuusamon alue (1920-1940)'
-            : 'Suomen tasavalta — Tarton rauhan historialliset rajat (1920-1940)'
+            : 'Suomen tasavalta — Tarton rauhan historialliset rajat (1920-1940)',
+          s >= 9 ? 'Asse' : undefined,
+          s >= 9 ? 'Suomen tasavalta — Karjalan palautettu alue (Jatkosota 1941)' : undefined
         );
       }
       return makeResult(
@@ -5528,18 +5718,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult(
         'FIN',
         'Petsamo (Liinahamari)',
-        'Suomen tasavalta — Petsamon nikkelikaivokset ja Jäämeren käytävä (1940)'
+        s >= 9
+          ? 'Suomen tasavalta — Petsamon nikkelikaivokset (Jatkosota & Operazione Silberfuchs: base del Gebirgskorps Norwegen del Gen. Eduard Dietl verso Murmansk)'
+          : 'Suomen tasavalta — Petsamon nikkelikaivokset ja Jäämeren käytävä (1940)',
+        s >= 9 ? 'Asse' : undefined
       );
     }
 
     case 'FIN_KARELIA': {
       const finName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
       const sovName = p.SOV_NAME || (finName + ' (SSSR)');
-      if (s < 6) {
+      if (s < 6 || s >= 9) {
         return makeResult(
           'FIN',
           finName,
-          'Suomen tasavalta — Tarton rauhan historialliset rajat (1920-1940)'
+          s >= 9
+            ? 'Suomen tasavalta — Jatkosota (Luglio-Settembre 1941): le truppe finlandesi del Maresciallo Mannerheim riconquistano Viipuri (29 agosto 1941), Sortavala, Käkisalmi e l\'intero Istmo di Carelia e Ladoga-Carelia ceduti nel 1940; il 6 dicembre 1941 il Parlamento di Helsinki ne proclama la formale riunificazione alla Finlandia.'
+            : 'Suomen tasavalta — Tarton rauhan historialliset rajat (1920-1940)',
+          s >= 9 ? 'Asse' : undefined,
+          s >= 9 ? 'Suomen tasavalta — Viipurin lääni (Palautettu Karjala 1941)' : undefined
         );
       }
       return makeResult(
@@ -5552,11 +5749,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'FIN_SALLA': {
       const finName = p.HISTORICAL_NAME || p.NUTS_NAME || 'Itä-Salla ja Alakurtti (Kuolajärvi / Märkäjärvi)';
       const sovName = p.SOV_NAME || 'Alakurtin piiri (SSSR)';
-      if (s < 6) {
+      if (s < 6 || s >= 9) {
         return makeResult(
           'FIN',
           finName,
-          'Suomen tasavalta — Salla-Kuusamon alue (1920-1940)'
+          s >= 9
+            ? 'Suomen tasavalta — Jatkosota (Luglio-Settembre 1941): riconquista finlandese-tedesca (Operazione Polarfuchs, XXXVI Corpo tedesco e 6ª Divisione finlandese) di Salla orientale e Alakurtti lungo la direttrice di Kandalaksha.'
+            : 'Suomen tasavalta — Salla-Kuusamon alue (1920-1940)',
+          s >= 9 ? 'Asse' : undefined,
+          s >= 9 ? 'Suomen tasavalta — Sallan palautettu alue (Jatkosota 1941)' : undefined
         );
       }
       return makeResult(
@@ -5569,6 +5770,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'SOV_MASSR':
     case 'MDA_TRANSNISTRIA': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      if (s >= 9) {
+        return makeResult(
+          'ROM',
+          `${histName} — Guvernământul Transnistriei (Tiraspol / Balta)`,
+          'Governatorato della Transnistria (Guvernământul Transnistriei) — Territorio tra i fiumi Dnestr e Bug Meridionale formalmente ceduto dalla Germania all\'amministrazione civile e militare del Regno di Romania con l\'Accordo di Tighina del 30 agosto 1941 (Conducător Ion Antonescu, Governatore Gheorghe Alexianu; capitale trasferita da Tiraspol a Odessa dopo la caduta della città il 16 ottobre 1941).',
+          'Asse',
+          'Regatul României — Guvernământul Civil al Transnistriei (Guvernator Prof. Gheorghe Alexianu)'
+        );
+      }
       if (s < 6) {
         return makeResult(
           'SOV',
@@ -5588,6 +5798,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'RO_BES':
     case 'MDA_BESSARABIA': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      if (s >= 9) {
+        return makeResult(
+          'ROM',
+          `${histName} — Guvernământul Basarabiei (Chișinău)`,
+          'Operazione München (2-26 luglio 1941): la 3ª e 4ª Armata romena del Gen. Ion Antonescu, insieme all\'11ª Armata tedesca, riconquistano Chișinău (16 luglio) e l\'intera Bessarabia ceduta all\'URSS nel giugno 1940, ricostituendo il Governatorato autonomo della Bessarabia (Guvernământul Basarabiei, Governatore Gen. Constantin Voiculescu).',
+          'Asse',
+          'Regatul României — Guvernământul Basarabiei (Chișinău)'
+        );
+      }
       if (s < 6) {
         return makeResult(
           'ROM',
@@ -5606,6 +5825,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'RO_BUD': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      if (s >= 9) {
+        return makeResult(
+          'ROM',
+          `${histName} (Bugeac / Cetatea Albă și Ismail — Guvernământul Basarabiei)`,
+          'Operazione München (luglio 1941): riconquista romena della Bessarabia meridionale (Bugeac: Cetatea Albă/Akkerman e Ismail) sul Mar Nero e alle foci del Danubio, reintegrata nel Regno di Romania sotto il Governatorato della Bessarabia.',
+          'Asse',
+          'Regatul României — Guvernământul Basarabiei (Județele Cetatea Albă și Ismail)'
+        );
+      }
       if (s < 6) {
         return makeResult(
           'ROM',
@@ -5624,6 +5852,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'RO_BUK': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      if (s >= 9) {
+        return makeResult(
+          'ROM',
+          `${histName} (Guvernământul Bucovinei — Cernăuți și Hotin)`,
+          'Operazione München (luglio 1941): la 3ª Armata romena libera Cernăuți (5 luglio 1941), Storojineț e Hotin, ristabilendo la sovranità del Regno di Romania attraverso il Governatorato della Bucovina (Guvernământul Bucovinei, Governatore Gen. Corneliu Calotescu).',
+          'Asse',
+          'Regatul României — Guvernământul Bucovinei (Cernăuți)'
+        );
+      }
       if (s < 6) {
         return makeResult(
           'ROM',
@@ -5660,6 +5897,85 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             `Territorio storico dei Kresy Wschodnie (Confine del Trattato di Riga del 1921). Amministrato sotto il Województwo ${voiv}, presidiato dal Corpo di Difesa della Frontiera (KOP).${modern}`,
             'Alleati',
             `Rzeczpospolita Polska — Województwo ${voiv}`
+          );
+        }
+        if (s >= 9) {
+          const nrmVoiv = normStr(voiv + ' ' + nid + ' ' + histName);
+          // 1. Distretto di Galizia (Distrikt Galizien) annesso al Governatorato Generale il 1° agosto 1941 (Leopoli, Stanisławów, Tarnopol)
+          if (
+            nrmVoiv.includes('lwow') ||
+            nrmVoiv.includes('stanislaw') ||
+            nrmVoiv.includes('tarnopol') ||
+            nrmVoiv.includes('drohobycz') ||
+            nrmVoiv.includes('boryslav') ||
+            nrmVoiv.includes('kolomy') ||
+            nrmVoiv.includes('stryi') ||
+            nrmVoiv.includes('sambor') ||
+            nrmVoiv.includes('brody') ||
+            nrmVoiv.includes('chortkiv') ||
+            nrmVoiv.includes('czortkow')
+          ) {
+            return makeResult(
+              'GER',
+              `${histName} — Distrikt Galizien (Generalgouvernement, Lemberg)`,
+              `Distretto di Galizia (Distrikt Galizien) — Occupato dal Gruppo d'Armate Sud tedesco alla fine di giugno 1941 (caduta di Leopoli/Lemberg il 30 giugno 1941). Il 1° agosto 1941 Hitler scorpora formalmente la Galizia orientale dall'Ucraina e la annette come quinto distretto al Governatorato Generale (Generalgouvernement di Hans Frank), sotto il Governatore Karl Lasch a Lemberg.${modern}`,
+              'Asse',
+              'Generalgouvernement — Distrikt Galizien (Gouverneur Karl Lasch / Generalgouverneur Hans Frank, Lemberg)'
+            );
+          }
+          // 2. Bezirk Bialystok (Grodno, Wołkowysk, Białystok) aggregato alla Prussia Orientale nell'agosto 1941
+          if (
+            nrmVoiv.includes('bialostoc') ||
+            nrmVoiv.includes('bialystok') ||
+            nrmVoiv.includes('grodno') ||
+            nrmVoiv.includes('wolkowysk') ||
+            nrmVoiv.includes('lomza') ||
+            nrmVoiv.includes('augustow') ||
+            nrmVoiv.includes('bielsk')
+          ) {
+            return makeResult(
+              'GER',
+              `${histName} — Bezirk Bialystok (Zivilverwaltung Ostpreußen)`,
+              `Bezirk Bialystok — Travolto nel giugno 1941 durante la battaglia delle sacche di Białystok-Minsk, il territorio (inclusi Grodno e Wołkowysk) viene posto il 17 luglio / 1° agosto 1941 sotto amministrazione civile tedesca speciale (Chef der Zivilverwaltung) affidata a Erich Koch, Gauleiter della Prussia Orientale, in preparazione dell'annessione diretta al Reich.${modern}`,
+              'Asse',
+              'Bezirk Bialystok — Chef der Zivilverwaltung Erich Koch (Gau Ostpreußen, Königsberg / Bialystok)'
+            );
+          }
+          // 3. Volinia e Polesia meridionale (Brest-Litovsk, Pinsk, Kobryn, Lutsk, Rovno, Kovel, Dubno) -> Reichskommissariat Ukraine
+          if (
+            nrmVoiv.includes('wolyn') ||
+            nrmVoiv.includes('volhyn') ||
+            nrmVoiv.includes('poles') ||
+            nrmVoiv.includes('rovno') ||
+            nrmVoiv.includes('rowne') ||
+            nrmVoiv.includes('lutsk') ||
+            nrmVoiv.includes('luck') ||
+            nrmVoiv.includes('kovel') ||
+            nrmVoiv.includes('kowel') ||
+            nrmVoiv.includes('dubno') ||
+            nrmVoiv.includes('kremenets') ||
+            nrmVoiv.includes('krzemieniec') ||
+            nrmVoiv.includes('brest') ||
+            nrmVoiv.includes('brzesc') ||
+            nrmVoiv.includes('pinsk') ||
+            nrmVoiv.includes('kobryn') ||
+            nid.startsWith('PL_KRESY_UKR_')
+          ) {
+            return makeResult(
+              'GER',
+              `${histName} — Reichskommissariat Ukraine (Generalbezirk Wolhynien-Podolien, Rowno)`,
+              `Reichskommissariat Ukraine — Occupato dalla Wehrmacht nel giugno-luglio 1941 e incorporato il 1° settembre 1941 nel Reichskommissariat Ukraine (capitale Rowno/Rovno) sotto il Reichskommissar Erich Koch e il Commissario Generale Heinrich Schoene (Generalbezirk Wolhynien-Podolien, comprendente anche Brest-Litovsk e Pinsk).${modern}`,
+              'Asse',
+              'Reichskommissariat Ukraine — Generalbezirk Wolhynien-Podolien (Reichskommissar Erich Koch, Rowno)'
+            );
+          }
+          // 4. Wilno, Nowogródek, Baranowicze, Lida, Wilejka -> Reichskommissariat Ostland (Litauen / Weißruthenien)
+          return makeResult(
+            'GER',
+            `${histName} — Reichskommissariat Ostland (Generalbezirk Weißruthenien / Litauen)`,
+            `Reichskommissariat Ostland — Conquistato dal Gruppo d'Armate Centro nel giugno-luglio 1941 e inserito tra luglio e settembre 1941 nel Reichskommissariat Ostland (Reichskommissar Hinrich Lohse a Riga; Commissario Generale Wilhelm Kube a Minsk per il Generalbezirk Weißruthenien e Adrian von Renteln per il Generalbezirk Litauen).${modern}`,
+            'Asse',
+            'Reichskommissariat Ostland — Generalbezirk Weißruthenien / Litauen (Hinrich Lohse / Wilhelm Kube)'
           );
         }
         if (nid.startsWith('PL_KRESY_LTU_')) {
@@ -5773,8 +6089,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       }
 
       // Settembre 1939+ (s >= 5): Partizione nazi-sovietica della Polonia
-      // 1. Territori annessi all'URSS (Białystok PL841, Łomża PL842)
+      // 1. Territori annessi all'URSS nel 1939-41 e trasformati nel Bezirk Bialystok nell'agosto 1941 (Białystok PL841, Łomża PL842)
       if (nid === 'PL841' || nid === 'PL842') {
+        if (s >= 9) {
+          return makeResult(
+            'GER',
+            nid === 'PL841'
+              ? 'Bialystok (Bezirk Bialystok — Zivilverwaltung Ostpreußen)'
+              : 'Lomscha / Łomża (Bezirk Bialystok — Zivilverwaltung Ostpreußen)',
+            'Bezirk Bialystok — Occupato dalla Wehrmacht alla fine di giugno 1941 durante la battaglia di accerchiamento di Białystok-Minsk. Nell\'agosto 1941 Hitler istituisce il Bezirk Bialystok sotto amministrazione civile tedesca speciale (Chef der Zivilverwaltung) aggregata alla Prussia Orientale sotto il Gauleiter Erich Koch.',
+            'Asse',
+            'Bezirk Bialystok — Chef der Zivilverwaltung Erich Koch (Aggregato alla Prussia Orientale)'
+          );
+        }
         const top = resolvePolandToponym(nid, rawName, nrm, 'SOV', s);
         return makeResult(
           'SOV',
@@ -5924,6 +6251,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'MD': {
+      if (s >= 9) {
+        return makeResult(
+          'ROM',
+          getTop('ROM').name || 'Basarabia (Guvernământul Basarabiei — Regatul României)',
+          'Riconquista romena della Bessarabia (Operazione München, luglio 1941) e ricostituzione del Governatorato della Bessarabia sotto il Maresciallo Ion Antonescu.',
+          'Asse',
+          'Regatul României — Guvernământul Basarabiei (Chișinău)'
+        );
+      }
       return s < 6
         ? makeResult('ROM', getTop('ROM').name, 'Basarabia (Regatul României)')
         : makeResult('SOV', getTop('SOV').name, 'Prisoyedineniye k SSSR (1940)');
@@ -6007,11 +6343,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'Ahvenanmaan itsehallintoalue / Landskapet Åland (1921)'
         );
       }
-      if (nid === 'FI1B1' && s >= 6) {
+      if (nid === 'FI1B1' && s >= 6 && s < 9) {
         return makeResult(
           'FIN',
           getTop('FIN').name + ' (Hangon vuokra-alue)',
           'Suomen tasavalta — Hangon vuokra-alue Neuvostoliitolle (Moskovan rauha 1940)'
+        );
+      }
+      if (s >= 9) {
+        return makeResult(
+          'FIN',
+          getTop('FIN').name,
+          nid === 'FI1B1'
+            ? 'Suomen tasavalta — Jatkosota: riconquista finlandese della base navale di Hanko (evacuata dalla Flotta sovietica del Baltico il 2-4 dicembre 1941).'
+            : 'Suomen tasavalta — Jatkosota (Guerra di Continuazione: cobelligeranza con l\'Asse, riconquista della Carelia e occupazione della Carelia Orientale sovietica).',
+          'Asse',
+          'Suomen tasavalta — Päämaja (Sotamarsalkka C.G.E. Mannerheim)'
         );
       }
       return makeResult('FIN', getTop('FIN').name, 'Suomen tasavalta');
@@ -6749,7 +7096,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
       // Step >= 8 (Aprile 1941): Operazione Marita — Caduta della Grecia continentale e tripartizione tra Germania, Italia e Bulgaria (mentre Creta resta roccaforte Alleata)
       if (s >= 8) {
-        // 2a. Isola di Creta (EL431 Irakleio, EL432 Lasithi, EL433 Rethymno, EL434 Chania) -> Regno di Grecia / Alleati (Re Giorgio II ed evacuazione W Force)
+        // 2a. Isola di Creta (EL431 Irakleio, EL432 Lasithi, EL433 Rethymno, EL434 Chania)
         if (
           nid.startsWith('EL43') ||
           nrm.includes('kriti') ||
@@ -6762,6 +7109,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           nrm.includes('rethymn') ||
           nrm.includes('lasith')
         ) {
+          if (s >= 9) {
+            const isLasithi = nid === 'EL432' || nrm.includes('lasith') || nrm.includes('sitia') || nrm.includes('agios nikolaos');
+            if (isLasithi) {
+              return makeResult(
+                'ITA',
+                `${rawName || 'Lasithi'} (Creta Orientale — Occupazione Militare Italiana, Divisione Siena)`,
+                'Operazione Merkur (20-31 maggio 1941): mentre i paracadutisti tedeschi conquistano Chania, Rethymno e Heraklion, il 28 maggio 1941 un corpo di spedizione italiano sbarca a Sitia dal Dodecaneso, assumendo il presidio della provincia orientale di Lasithi.',
+                'Asse',
+                'Regio Esercito — Comando Truppe Creta Orientale (Divisione di Fanteria "Siena", Neapoli / Sitia)'
+              );
+            }
+            return makeResult(
+              'GER',
+              `${rawName || 'Kreta'} (Festung Kreta — Occupazione Militare Tedesca, Chania / Heraklion)`,
+              'Operazione Merkur (20 maggio – 1° giugno 1941): conquistata dai paracadutisti (Fallschirmjäger) dell\'XI. Fliegerkorps del Gen. Kurt Student e dalla 5. Gebirgs-Division, Creta viene trasformata nella Festung Kreta a guardia dell\'Egeo e delle rotte per il Nordafrica.',
+              'Asse',
+              'Wehrmacht — Kommandant der Festung Kreta (Gen. Kurt Student / Gen. Alexander Andrae, Chania)'
+            );
+          }
           const bTop = resolveBalkansToponym(nid, rawName, nrm, 'GRE', s);
           return makeResult(
             'GRE',
@@ -7633,6 +7999,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const resUsa = resolveUSAProvince(ft, s);
         if (resUsa) return resUsa;
       }
+      if (s >= 9 && (cntr === 'GU' || cntr === 'GUM' || cntr === '316' || cntr === 'XGU' || nrm.includes('guam') || nrm.includes('wake'))) {
+        const isWake = nrm.includes('wake') || nid.includes('WAKE');
+        return makeResult(
+          'JAP',
+          isWake ? 'Ōtori-jima (Wake Island — Occupazione Imperiale Giapponese)' : 'Ōmiya-jima (Guam — Occupazione Imperiale Giapponese)',
+          isWake
+            ? 'Battaglia dell\'Isola di Wake (8-23 dicembre 1941): conquista anfibia giapponese del 23 dicembre 1941 dopo l\'eroica resistenza dei Marines statunitensi.'
+            : 'Battaglia di Guam (8-10 dicembre 1941): sbarco giapponese del Distaccamento dei Mari del Sud (Magg. Gen. Tomitarō Horii) e resa della guarnigione statunitense il 10 dicembre 1941.',
+          'Asse',
+          'Dai Nippon Teikoku Kaigun — Occupazione Militare Giapponese'
+        );
+      }
       const usaTop = getTop('USA');
       return makeResult(
         'USA',
@@ -7648,6 +8026,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IRN':
     case '364':
     case 'XIR': {
+      if (s >= 9) {
+        return resolveIranProvince(ft, s);
+      }
       const irTop = getTop('IRN');
       const provName = irTop.name || histName || rawName || 'Impero dell\'Iran (Persia)';
       const provAdmin = irTop.adminTitle || p.ADMIN || 'Keshvar-e Shāhanshāhi-ye Irān (Impero dell\'Iran)';
@@ -7693,6 +8074,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'THA':
     case '764':
     case 'SIA':
+      if (s >= 9) {
+        return makeResult(
+          'SIA',
+          getTop('SIA').name || 'Ratcha-anachak Thai (Regno di Thailandia — Alleanza con il Giappone)',
+          'Dopo gli sbarchi giapponesi dell\'8 dicembre 1941 a Singora, Pattani e Prachuap Khiri Khan, il governo del Maresciallo Plaek Phibunsongkhram ordina l\'armistizio, concede il libero transito alle armate giapponesi verso Malesia e Birmania e il 21 dicembre 1941 firma a Bangkok il Trattato formale di Alleanza militare con Tokyo.',
+          'Asse',
+          'Ratcha-anachak Thai — Maresciallo Plaek Phibunsongkhram (Alleato dell\'Asse)'
+        );
+      }
       return makeResult('SIA', getTop('SIA').name, 'Regno del Siam (Thailandia)');
     case 'TUV':
     case 'XTU': {
@@ -7866,6 +8256,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IRQ':
     case '368':
     case 'XIQ':
+      if (s >= 9) {
+        return makeResult(
+          'UK',
+          'Regno dell\'Iraq — Controllo Militare Britannico (PAIFORCE — Baghdad / Bassora / Habbaniya)',
+          'Dopo la guerra anglo-irachena del maggio 1941 e la fuga di Rashid Ali al-Kaylani, l\'Iraq torna sotto il governo filo-britannico del Reggente \'Abd al-Ilah e di Nuri al-Sa\'id, presidiato dalla Persia and Iraq Force (PAIFORCE / 10ª Armata britannica del Gen. Edward Quinan) a tutela dei pozzi di Kirkuk e del corridoio verso l\'Iran.',
+          'Alleati',
+          'Al-Mamlakah al-\'Irāqiyyah — Reggente \'Abd al-Ilah & British PAIFORCE (10th Army)'
+        );
+      }
       if (s >= 8) {
         const top = getTop('IRQ');
         return makeResult(
@@ -8224,7 +8623,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('jubail') ||
         nrm.includes('qatif') ||
         nrm.includes('hofuf') ||
-        nrm.includes('hail') ||
+        (nrm.includes('hail') && !nrm.includes('thail')) ||
         nrm.includes('shammar') ||
         nrm.includes('jawf') ||
         nrm.includes('sakaka') ||
@@ -8263,6 +8662,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('tabriz') ||
         nid.startsWith('IR')
       ) {
+        if (s >= 9) {
+          return resolveIranProvince(ft, s);
+        }
         return makeResult('IRN', getTop('IRN').name || rawName || 'Impero dell\'Iran (Persia)', 'Impero dell\'Iran (Persia)');
       }
 
@@ -8280,6 +8682,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         !nrm.includes('syria') &&
         !nrm.includes('iran')
       ) {
+        if (s >= 9) {
+          return makeResult(
+            'UK',
+            'Regno dell\'Iraq — Controllo Militare Britannico (PAIFORCE — Baghdad)',
+            'Dopo la guerra anglo-irachena del maggio 1941, il Regno dell\'Iraq è presidiato dalla Persia and Iraq Force (PAIFORCE / 10ª Armata britannica) a protezione dei campi petroliferi e delle rotte di rifornimento alleate.',
+            'Alleati',
+            'Al-Mamlakah al-\'Irāqiyyah — Reggente \'Abd al-Ilah & British PAIFORCE'
+          );
+        }
         if (s >= 8) {
           return makeResult(
             'IRQ',
@@ -8731,19 +9142,47 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Occupied Enemy Territory Administration (OETA) — British Military Administration in Somalia'
           );
         }
+        if (
+          s >= 9 &&
+          (nid === 'LYBU' ||
+            nid === 'LYDR' ||
+            nid === 'LYJA' ||
+            nid === 'LYMJ' ||
+            nid === 'LYBA' ||
+            nid === 'LYWA' ||
+            nrm.includes('cyrenaic') ||
+            nrm.includes('cirenaic') ||
+            nrm.includes('tobruk') ||
+            nrm.includes('benghazi') ||
+            nrm.includes('bengasi') ||
+            nrm.includes('derna') ||
+            nrm.includes('bardia'))
+        ) {
+          return makeResult(
+            'UK',
+            'Cirenaica Occupata (Bengasi / Tobruk / Derna — Operazione Crusader, 8th Army)',
+            'Operazione Crusader (18 novembre - 30 dicembre 1941): l\'8ª Armata britannica (Gen. Alan Cunningham, poi Gen. Neil Ritchie) sblocca la guarnigione assediata di Tobruk (7-10 dicembre) e insegue il Panzergruppe Afrika di Rommel attraverso la Cirenaica, rioccupando Derna, Bengasi (24 dicembre) e Agedabia fino a El Agheila.',
+            'Alleati',
+            'British 8th Army — Military Administration of Cyrenaica'
+          );
+        }
         const itTop = getTop('ITA');
         return makeResult(
           'ITA',
           itTop.name || ITA_COL[cntr] || rawName,
           itTop.note ||
-            (s >= 8
+            (s >= 9
+              ? 'Governo Generale della Libia (Tripolitania e Fezzan — Maresciallo Ettore Bastico) & Panzergruppe Afrika (Gen. Erwin Rommel): dopo l\'Operazione Crusader (novembre-dicembre 1941), le forze italo-tedesche ripiegano ordinatamente sulla stretta di El Agheila al confine tra Cirenaica e Tripolitania, preparando la controffensiva del gennaio 1942.'
+              : s >= 8
               ? 'Operazione Sonnenblume (febbraio-aprile 1941): sbarco a Tripoli del Deutsches Afrikakorps (Gen. Erwin Rommel) e controffensiva italo-tedesca (El Agheila, Agedabia, Mechili, riconquista di Bengasi e Derna), con inizio dell\'assedio della piazzaforte australiano-britannica di Tobruk (10 aprile 1941) sotto il comando del Gen. Italo Gariboldi e di Rommel.'
               : s >= 6
               ? 'Governo Generale della Libia (Maresciallo Rodolfo Graziani)'
               : 'Governo Generale della Libia (Maresciallo dell\'Aria Italo Balbo)'),
           s >= 6 ? 'Asse' : undefined,
           itTop.adminTitle ||
-            (s >= 8
+            (s >= 9
+              ? 'Governo Generale della Libia (Maresciallo Ettore Bastico) & Panzergruppe Afrika (Gen. Erwin Rommel)'
+              : s >= 8
               ? 'Governo Generale della Libia (Gen. Italo Gariboldi) & Deutsches Afrikakorps (Gen. Erwin Rommel)'
               : 'Libia Italiana (Quarta Sponda)')
         );
@@ -8800,7 +9239,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               ? 'VIC_IND'
               : 'VIC';
           const vicTop = getTop(vicKey);
-          if (vicKey === 'VIC_IND' && s >= 7) {
+          if (vicKey === 'VIC_SYR' && s >= 9) {
+          return makeResult(
+            'F_SYR',
+            vicTop.name || 'Syrie et Liban (Controllo Congiunto Francia Libera e Gran Bretagna)',
+            "Operazione Exporter e Armistizio di Saint-Jean-d'Acre (14 luglio 1941): dopo la resa delle forze di Vichy del Gen. Henri Dentz, Siria e Libano passano sotto il controllo congiunto della Francia Libera (Gen. Georges Catroux) e della Gran Bretagna.",
+            'Alleati',
+            'Délégation Générale de la France Libre au Levant (Gén. Georges Catroux) & British 9th Army'
+          );
+        }
+        if (vicKey === 'VIC_IND' && s >= 9) {
+          return makeResult(
+            'JAP',
+            'Indochine française (Occupazione Militare Giapponese Integrale — Operazione Fu-Go, Luglio 1941)',
+            "Occupazione militare giapponese dell'intera Indocina francese completata a fine luglio 1941 (Operazione Fu-Go, 28 luglio 1941) e impiegata nel dicembre 1941 come piattaforma d'attacco dell'Esercito Meridionale giapponese (Gen. Hisaichi Terauchi) contro la Malesia britannica e la Thailandia.",
+            'Asse',
+            "Impero Giapponese — Gruppo d'Armate di Spedizione Meridionale (Saigon) / Amministrazione Subordinata Vichy"
+          );
+        }
+        if (vicKey === 'VIC_IND' && s >= 7) {
             return makeResult(
               'VIC_IND',
               vicTop.name || `${lbl} (Vichy — Stazionamento Militare Giapponese nel Tonchino)`,
@@ -8831,6 +9288,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       if (POR_COL[cntr]) return makeResult('POR', POR_COL[cntr]);
       if (UK_COL[cntr]) {
+        if (s >= 9 && (cntr === 'HK' || cntr === 'HKG' || nrm.includes('hong kong'))) {
+          return makeResult(
+            'JAP',
+            'Honkon Senryōchi (Hong Kong — Occupazione Imperiale Giapponese)',
+            'Battaglia di Hong Kong (8-25 dicembre 1941): dopo 18 giorni di combattimenti nei Nuovi Territori, a Kowloon e sull\'isola di Hong Kong contro la 38ª Divisione giapponese, il Governatore Sir Mark Young si arrende nel "Black Christmas" del 25 dicembre 1941.',
+            'Asse',
+            'Dai Nippon Teikoku — Honkon Senryōchi Sōtokubu (Ten. Gen. Rensuke Isogai)'
+          );
+        }
         const ukTop = getTop('UK');
         return makeResult(
           'UK',

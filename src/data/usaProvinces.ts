@@ -2187,6 +2187,61 @@ USA_PROVINCES_META['DC'] = USA_PROVINCES_META['US_DC'];
 /**
  * Risoluzione Geostorica e Toponomastica Completa per qualsiasi Provincia, Stato o Territorio USA
  */
+// Override Step 9 (DIC 1941): Attacco a Pearl Harbor (7 dicembre 1941), ingresso degli USA nella Seconda Guerra Mondiale e conquista giapponese di Guam (10 dicembre) e Wake (23 dicembre)
+for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
+  const origSov = meta.getSovereign.bind(meta);
+  const origFac = meta.getFaction.bind(meta);
+  const origHist = meta.getHistoricalName.bind(meta);
+  const origAdmin = meta.getAdminTitle.bind(meta);
+  const origNote = meta.getNote.bind(meta);
+
+  meta.getSovereign = (s: number) => {
+    if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'JAP';
+    return origSov(s);
+  };
+  meta.getFaction = (s: number) => {
+    if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'Asse';
+    if (s >= 9) return 'Alleati';
+    return origFac(s);
+  };
+  meta.getHistoricalName = (s: number) => {
+    if (s >= 9) {
+      if (meta.id === 'GU') return 'Ōmiya-jima / Guam (Occupazione Militare Giapponese — 10 Dicembre 1941)';
+      if (meta.id === 'UM_WAKE') return 'Ōtori-jima / Wake Island (Occupazione Militare Giapponese — 23 Dicembre 1941)';
+      if (meta.id === 'US_HAWAII') return 'Territory of Hawaii (Attack on Pearl Harbor — 7 December 1941 & Martial Law)';
+      if (meta.id === 'US_DC') return 'District of Columbia — Washington D.C. (Capitale Alleata & Conferenza Arcadia, Dicembre 1941)';
+      return `${origHist(8)} (Stati Uniti in Guerra — Mobilitazione Post-Pearl Harbor)`;
+    }
+    return origHist(s);
+  };
+  meta.getAdminTitle = (s: number) => {
+    if (s >= 9) {
+      if (meta.id === 'GU') return 'Impero Giapponese — Guarnigione Imperiale di Guam / Ōmiya-jima (Distaccamento dei Mari del Sud — Magg. Gen. Tomitarō Horii)';
+      if (meta.id === 'UM_WAKE') return 'Impero Giapponese — Guarnigione Navale dell\'Isola di Wake / Ōtori-jima (4ª Flotta Imperiale — Contramm. Sadamichi Kajioka)';
+      if (meta.id === 'US_HAWAII') return 'Territory of Hawaii — U.S. Pacific Fleet (Adm. Chester W. Nimitz) & Hawaiian Department Martial Law';
+    }
+    return origAdmin(s);
+  };
+  meta.getNote = (s: number) => {
+    if (s >= 9) {
+      if (meta.id === 'GU') {
+        return "Guam (Ōmiya-jima) · Isolata nel mezzo delle Marianne giapponesi, Guam viene bombardata dall'aviazione di Saipan l'8 dicembre 1941; all'alba del 10 dicembre i 5.500 uomini del Distaccamento dei Mari del Sud (Magg. Gen. Tomitarō Horii) e della 5ª Forza da Sbarco Navale sbarcano a Dungcas Beach e Tumon Bay. Dopo un breve scontro a fuoco in Plaza de España ad Agaña, il Governatore navale Cap. George J. McMillin e la piccola guarnigione di Marines e Insular Force Guard sono costretti alla resa: Guam è il primo territorio sovrano statunitense occupato dall'Asse e viene ribattezzata 'Ōmiya-jima' (Isola del Grande Santuario).";
+      }
+      if (meta.id === 'UM_WAKE') {
+        return "Isola di Wake (Ōtori-jima) · Investita dai bombardieri giapponesi l'8 dicembre 1941, la guarnigione statunitense di 449 Marines (1° Battaglione Difesa del Magg. James P.S. Devereux e squadriglia caccia VMF-211 del Magg. Paul Putnam) al comando del C.F. Winfield S. Cunningham respinge eroicamente il primo tentativo di sbarco giapponese l'11 dicembre, affondando i cacciatorpediniere Hayate e Kisaragi. Ritornata il 23 dicembre con il supporto delle portaerei Sōryū e Hiryū distaccate da Pearl Harbor, la forza d'invasione del Contramm. Sadamichi Kajioka sbarca sull'atollo, costringendo il presidio alla resa dopo ore di combattimento ravvicinato; l'isola è ribattezzata 'Ōtori-jima'.";
+      }
+      if (meta.id === 'US_HAWAII') {
+        return "Hawaii (Attacco a Pearl Harbor — 7 Dicembre 1941) · Alle 07:48 del 7 dicembre 1941 ('A Date Which Will Live in Infamy'), 353 aerei giapponesi lanciati in due ondate dalle sei portaerei della Kidō Butai dell'Amm. Chūichi Nagumo attaccano di sorpresa la Flotta del Pacifico statunitense a Pearl Harbor e le basi aeree di Oahu (Hickam, Wheeler, Kaneohe, Ewa). L'attacco affonda o mette fuori combattimento 8 corazzate (tra cui l'USS Arizona e l'USS Oklahoma), distrugge 188 aerei e causa 2.403 caduti americani, ma risparmia le tre portaerei (Enterprise, Lexington, Saratoga) e i depositi di carburante. L'arcipelago è posto sotto legge marziale e il 31 dicembre 1941 l'Amm. Chester W. Nimitz assume il comando della Pacific Fleet (CINCPAC).";
+      }
+      if (meta.id === 'US_DC') {
+        return "Washington D.C. · L'8 dicembre 1941, all'indomani di Pearl Harbor, il Presidente Franklin D. Roosevelt pronuncia davanti al Congresso il celebre discorso dell'Infamia ('A date which will live in infamy'), ottenendo la dichiarazione di guerra al Giappone; l'11 dicembre Germania e Italia dichiarano guerra agli Stati Uniti. Dal 22 dicembre 1941 Washington ospita la storica Conferenza Arcadia tra Roosevelt e Winston Churchill, che sancisce la strategia globale 'Europe First', l'istituzione del Combined Chiefs of Staff e la redazione della Dichiarazione delle Nazioni Unite.";
+      }
+      return `${origNote(8)} Dopo l'attacco giapponese a Pearl Harbor (7 dicembre 1941) e le dichiarazioni di guerra di Germania e Italia (11 dicembre), lo Stato è impegnato nella mobilitazione bellica totale dell'industria e delle forze armate statunitensi a sostegno dello sforzo globale degli Alleati.`;
+    }
+    return origNote(s);
+  };
+}
+
 export function resolveUSAProvince(ft: any, s: number): ResolvedTerritory | null {
   const p = ft.properties || {};
   const rawId = String(ft.id || p.id || '').trim();
