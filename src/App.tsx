@@ -25,7 +25,18 @@ import { processHistoricalCartographyPipeline } from './data/historicalEngine';
 import { MapLayerControls, LayerVisibilityState } from './components/MapLayerControls';
 import { tacticalAudio } from './data/audioSynthesizer';
 import { HistoricalBattle } from './data/historicalBattles';
-import { FortificationLine, NavalBase } from './data/historicalFortifications';
+import {
+  HISTORICAL_FORTIFICATION_LINES,
+  HISTORICAL_NAVAL_BASES,
+  FortificationLine,
+  NavalBase,
+  getDynamicNavalBaseStatus,
+} from './data/historicalFortifications';
+import {
+  HISTORICAL_SEA_LANES,
+  getDynamicSeaLaneStatus,
+} from './data/historicalSeaLanes';
+import { getStrategicIslandLabel } from './components/TacticalMap';
 import { resolveBalkansToponym, BALKAN_DISTRICTS_CATALOG } from './data/balkanDistricts';
 import { FRANCE_PROVINCES_META, resolveFranceProvince } from './data/franceProvinces';
 import { UK_PROVINCES_META, resolveUKProvince } from './data/ukProvinces';
@@ -3800,6 +3811,116 @@ export default function App() {
 
           return true;
         }
+      },
+      {
+        name: '91. Audit Dinamismo Integrale dei Layer Tattici nella Timeline (Fortificazioni, Basi Navali, Rotte di Convoglio e Nuclei Insulari)',
+        run: () => {
+          // 1. Linee Difensive (Fortifications)
+          const mozhaysk = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'mozhaysk_line');
+          const kaur = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'kaur_leningrad_line');
+          const siegfried = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'siegfried_line');
+          const mannerheim = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'mannerheim_line');
+          const molotov = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'molotov_line');
+          const vallo = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'vallo_alpino');
+          const salpa = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'salpa_line');
+
+          if (!mozhaysk || !mozhaysk.activeSteps.includes(9)) return false;
+          if (!kaur || !kaur.activeSteps.includes(9)) return false;
+          if (!siegfried || !siegfried.activeSteps.includes(9)) return false;
+          if (!vallo || !vallo.activeSteps.includes(9)) return false;
+          if (!salpa || !salpa.activeSteps.includes(9)) return false;
+          if (!mannerheim || mannerheim.activeSteps.includes(9)) return false; // Non attiva nel dic 1941
+          if (!molotov || molotov.activeSteps.includes(9)) return false; // Travolta all'inizio di Barbarossa
+
+          // 2. Basi Navali (Naval Bases) Dinamiche
+          const brest = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'brest')!;
+          const hanko = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'hanko')!;
+          const massawa = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'massawa')!;
+          const tobruk = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'tobruk_naval')!;
+          const hongKong = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'hong_kong_naval')!;
+          const guam = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'guam_naval')!;
+          const cavite = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'cavite_manila')!;
+          const saigon = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'saigon_naval')!;
+          const odessa = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'odessa')!;
+          const toulon = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'toulon')!;
+
+          // Brest: Francia prima del 1940 -> Germania Kriegsmarine U-Boot dal giugno 1940
+          const brest0 = getDynamicNavalBaseStatus(brest, 0);
+          const brest6 = getDynamicNavalBaseStatus(brest, 6);
+          const brest9 = getDynamicNavalBaseStatus(brest, 9);
+          if (brest0.nation !== 'Francia') return false;
+          if (!brest6.nation.includes('Germania') || !brest6.description.includes('U-Boot')) return false;
+          if (!brest9.nation.includes('Germania')) return false;
+
+          // Hanko: Finlandia (1936) -> URSS (1940-1941) -> Riconquistata dalla Finlandia (dic 1941)
+          const hanko0 = getDynamicNavalBaseStatus(hanko, 0);
+          const hanko6 = getDynamicNavalBaseStatus(hanko, 6);
+          const hanko9 = getDynamicNavalBaseStatus(hanko, 9);
+          if (hanko0.nation !== 'Finlandia') return false;
+          if (hanko6.nation !== 'URSS') return false;
+          if (hanko9.nation !== 'Finlandia' || !hanko9.historicalName?.includes('Riconquistata')) return false;
+
+          // Massaua & Tobruk: Italia prima del 1941 -> Gran Bretagna / Commonwealth nel 1941
+          const mass0 = getDynamicNavalBaseStatus(massawa, 0);
+          const mass8 = getDynamicNavalBaseStatus(massawa, 8);
+          const tobruk0 = getDynamicNavalBaseStatus(tobruk, 0);
+          const tobruk8 = getDynamicNavalBaseStatus(tobruk, 8);
+          if (!mass0.nation.includes('Italia') || !mass8.nation.includes('Regno Unito')) return false;
+          if (!tobruk0.nation.includes('Italia') || !tobruk8.nation.includes('Commonwealth')) return false;
+
+          // Hong Kong, Guam, Cavite nel dicembre 1941
+          const hk0 = getDynamicNavalBaseStatus(hongKong, 0);
+          const hk9 = getDynamicNavalBaseStatus(hongKong, 9);
+          const guam0 = getDynamicNavalBaseStatus(guam, 0);
+          const guam9 = getDynamicNavalBaseStatus(guam, 9);
+          const cav0 = getDynamicNavalBaseStatus(cavite, 0);
+          const cav9 = getDynamicNavalBaseStatus(cavite, 9);
+          if (hk0.nation !== 'Regno Unito' || !hk9.nation.includes('Giappone')) return false;
+          if (guam0.nation !== 'USA' || !guam9.nation.includes('Giappone')) return false;
+          if (!cav0.nation.includes('USA') || !cav9.description.includes('Bataan') || !cav9.description.includes('Corregidor')) return false;
+
+          // Tolone & Saigon & Odessa
+          const toulon6 = getDynamicNavalBaseStatus(toulon, 6);
+          const saigon9 = getDynamicNavalBaseStatus(saigon, 9);
+          const odessa9 = getDynamicNavalBaseStatus(odessa, 9);
+          if (toulon6.nation !== 'Francia di Vichy') return false;
+          if (!saigon9.nation.includes('Giappone')) return false;
+          if (!odessa9.nation.includes('Romania') || !odessa9.description.includes('Transnistria')) return false;
+
+          // 3. Rotte Marittime (Sea Lanes)
+          const arctic = HISTORICAL_SEA_LANES.find((s) => s.id === 'arctic_convoys');
+          const axisLibya = HISTORICAL_SEA_LANES.find((s) => s.id === 'axis_libya_convoy');
+          const persian = HISTORICAL_SEA_LANES.find((s) => s.id === 'persian_corridor_sealane');
+          const med = HISTORICAL_SEA_LANES.find((s) => s.id === 'mediterranean_suez_lifeline')!;
+          const pac = HISTORICAL_SEA_LANES.find((s) => s.id === 'transpacific_us_hawaii')!;
+
+          if (!arctic || !arctic.activeSteps?.includes(9)) return false;
+          if (!axisLibya || !axisLibya.activeSteps?.includes(6) || !axisLibya.activeSteps?.includes(9)) return false;
+          if (!persian || !persian.activeSteps?.includes(9)) return false;
+
+          const med0 = getDynamicSeaLaneStatus(med, 0);
+          const med6 = getDynamicSeaLaneStatus(med, 6);
+          if (med0.isContested) return false;
+          if (!med6.isContested || !med6.description.includes('Rotta del Capo')) return false;
+
+          const pac0 = getDynamicSeaLaneStatus(pac, 0);
+          const pac9 = getDynamicSeaLaneStatus(pac, 9);
+          if (pac0.isContested) return false;
+          if (!pac9.isContested || !pac9.description.includes('Pearl Harbor')) return false;
+
+          // 4. Nuclei Insulari Dinamici
+          const guamLbl0 = getStrategicIslandLabel('GU_GUAM', 0);
+          const guamLbl9 = getStrategicIslandLabel('GU_GUAM', 9);
+          const wakeLbl0 = getStrategicIslandLabel('WK_WAKE', 0);
+          const wakeLbl9 = getStrategicIslandLabel('WK_WAKE', 9);
+          const reunLbl0 = getStrategicIslandLabel('RE_REUNION', 0);
+          const reunLbl7 = getStrategicIslandLabel('RE_REUNION', 7);
+          if (guamLbl0 !== 'Guam (USA)' || guamLbl9 !== 'Guam / Omiya Jima (JAP)') return false;
+          if (wakeLbl0 !== 'Wake (USA)' || wakeLbl9 !== 'Wake / Otori Jima (JAP)') return false;
+          if (reunLbl0 !== 'La Réunion (FRA)' || reunLbl7 !== 'La Réunion (VIC)') return false;
+
+          return true;
+        },
       },
     ];
 

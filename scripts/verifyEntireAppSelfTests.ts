@@ -13,6 +13,16 @@ import { UK_PROVINCES_META, resolveUKProvince } from '../src/data/ukProvinces';
 import { IT_PROVINCES_META, resolveItalyProvince } from '../src/data/italyProvinces';
 import { SPAIN_PROVINCES_META, resolveSpainProvince } from '../src/data/spainProvinces';
 import { SOVIET_PROVINCES_META, resolveSovietProvince } from '../src/data/sovietProvinces';
+import {
+  HISTORICAL_FORTIFICATION_LINES,
+  HISTORICAL_NAVAL_BASES,
+  getDynamicNavalBaseStatus,
+} from '../src/data/historicalFortifications';
+import {
+  HISTORICAL_SEA_LANES,
+  getDynamicSeaLaneStatus,
+} from '../src/data/historicalSeaLanes';
+import { getStrategicIslandLabel } from '../src/components/TacticalMap';
 
 async function verifyAll() {
   const { provFeatures: provs, hbFeatures: hbs } = await loadUnifiedGeoDatabase();
@@ -31,13 +41,17 @@ async function verifyAll() {
     'loadedProvs', 'loadedHbs', 'resolveFeature', 'resolveHB', 'HB_NAME',
     'getExtendedToponym', 'getCountryFlagSvg', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
     'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince', 'SPAIN_PROVINCES_META', 'resolveSpainProvince', 'SOVIET_PROVINCES_META', 'resolveSovietProvince',
+    'HISTORICAL_FORTIFICATION_LINES', 'HISTORICAL_NAVAL_BASES', 'getDynamicNavalBaseStatus',
+    'HISTORICAL_SEA_LANES', 'getDynamicSeaLaneStatus', 'getStrategicIslandLabel',
     `${jsCode}; return tests;`
   );
 
   const tests = evalFn(
     loadedProvs, loadedHbs, resolveFeature, resolveHB, HB_NAME,
     getExtendedToponym, getCountryFlagSvg, getOwnerMeta, getOverlord, isSubjectOf,
-    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince, SOVIET_PROVINCES_META, resolveSovietProvince
+    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince, SOVIET_PROVINCES_META, resolveSovietProvince,
+    HISTORICAL_FORTIFICATION_LINES, HISTORICAL_NAVAL_BASES, getDynamicNavalBaseStatus,
+    HISTORICAL_SEA_LANES, getDynamicSeaLaneStatus, getStrategicIslandLabel
   );
 
   console.log(`Esecuzione di ${tests.length} test da App.tsx...`);

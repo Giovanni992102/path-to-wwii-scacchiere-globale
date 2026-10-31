@@ -16,6 +16,15 @@ export interface FortificationLine {
   activeSteps: number[]; // Step indices when the line was garrisoned / relevant
 }
 
+export interface DynamicBaseStatus {
+  nation: string;
+  historicalName?: string;
+  theater?: 'Atlantic' | 'Mediterranean' | 'Pacific' | 'Baltic' | 'Indian';
+  description: string;
+  fillColor: string;
+  strokeColor: string;
+}
+
 export interface NavalBase {
   id: string;
   name: string;
@@ -25,6 +34,7 @@ export interface NavalBase {
   type: 'fleet_hq' | 'major_base' | 'fortress_chokepoint';
   theater: 'Atlantic' | 'Mediterranean' | 'Pacific' | 'Baltic' | 'Indian';
   description: string;
+  getDynamicStatus?: (step: number) => DynamicBaseStatus;
 }
 
 export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
@@ -86,7 +96,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Bastione di Aquisgrana (Aachen)', coords: [6.12, 50.77], desc: 'Nodo settentrionale fortificato con campi di denti di drago e bunker Regelbau.' },
       { name: 'Sbarramento della Saar (Pirmasens)', coords: [7.60, 49.20], desc: 'Settore centrale ad altissima densità difensiva lungo il Reno.' },
     ],
-    activeSteps: [1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'ostwall_line',
@@ -109,7 +119,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Panzerwerk 717 (Werkgruppe Scharnhorst)', coords: [15.48, 52.42], desc: 'Complesso corazzato ipogeo a tre piani con cupole d\'acciaio da 200 mm, mitragliatrici binate e lanciafiamme M19.' },
       { name: 'Burschener Schleife', coords: [15.50, 52.47], desc: 'Sistema idraulico strategico con chiuse mobili e canali allagabili per creare fossati anticarro invalicabili.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'heilsberg_line',
@@ -132,7 +142,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Stützpunkt Heilsberg', coords: [20.58, 54.18], desc: 'Centro d\'arresto dell\'artiglieria pesante alla confluenza delle valli dell\'Alle e del Simser.' },
       { name: 'Sperrwerk Braunsberg', coords: [19.85, 54.42], desc: 'Sbarramento costiero di bunker e sbarre d\'acciaio a protezione dell\'accesso marittimo alla Laguna della Vistola.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'mannerheim_line',
@@ -264,7 +274,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Forte Bramafam & Chaberton', coords: [6.75, 44.96], desc: 'Batterie corazzate a 3.130 metri di quota dominanti Briançon.' },
       { name: 'Sbarramento Passo Monte Croce', coords: [12.42, 46.68], desc: 'Opere sotterranee blindate per il blocco delle direttrici verso il Friuli.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'benes_line',
@@ -326,7 +336,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Linea d\'Arresto del Medway', coords: [0.52, 51.35], desc: 'Bunker e fossati a protezione degli accessi meridionali all\'arsenale di Chatham e a Londra.' },
       { name: 'Wiltshire Stop Line (Kennet & Avon)', coords: [-1.98, 51.35], desc: 'Linea di pillbox scaglionata lungo il canale navigabile per tagliare fuori il South West.' },
     ],
-    activeSteps: [6, 7, 8], // Eretta nel giugno 1940 e presidiata durante la Battaglia d'Inghilterra
+    activeSteps: [6, 7, 8, 9], // Eretta nel giugno 1940 e presidiata durante la difesa della Gran Bretagna
   },
 
   // --- BENELUX (Belgio, Paesi Bassi, Lussemburgo) ---
@@ -488,7 +498,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Festung Sargans', coords: [9.44, 47.05], desc: 'Forti Magletsch, Schollberg e Kastels: perno orientale del Ridotto a sbarramento della valle del Reno contro le divisioni del Terzo Reich.' },
       { name: 'Fortezza di Crestawald', coords: [9.42, 46.57], desc: 'Opera fortificata a sbarramento del Passo del San Bernardino verso il Grigioni e il Ticino.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'limmatstellung_ch',
@@ -513,7 +523,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Posizione fortificata di Dietikon-Zurigo', coords: [8.42, 47.41], desc: 'Centinaia di bunker in calcestruzzo a protezione della periferia e delle arterie ferroviarie zurighesi.' },
       { name: 'Sbarramento della Piana della Linth', coords: [8.96, 47.19], desc: 'Casematte e canali allagabili tra il Lago di Zurigo e il Walensee per bloccare l\'avanzata verso le Prealpi.' },
     ],
-    activeSteps: [5, 6, 7, 8],
+    activeSteps: [5, 6, 7, 8, 9],
   },
 
   // --- REGNO D'ITALIA (Vallo Alpino del Littorio) ---
@@ -543,7 +553,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento del Moncenisio', coords: [6.90, 45.26], desc: 'Batterie in caverna del Forte Malamot, Ronce e Varisello a protezione della discesa verso la Val di Susa.' },
       { name: 'Sbarramento di Ventimiglia e Balzi Rossi', coords: [7.53, 43.78], desc: 'Casematte e fossati anticarro a controllo della costa ligure e della via Aurelia.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'vallo_alpino_orientale',
@@ -568,7 +578,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento di Postumia', coords: [14.21, 45.77], desc: 'Bunker d\'arresto sulla strada maestra e sulla ferrovia Trieste-Lubiana.' },
       { name: 'Piazza di Fiume e Monte Calvario', coords: [14.44, 45.33], desc: 'Cintura fortificata a protezione dell\'enclave del Carnaro e del porto mercantile.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'maginot_alpine',
@@ -717,7 +727,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Bastione dell\'Uadi Zigzaou', coords: [10.22, 33.52], desc: 'Profondo letto fluviale secco trasformato in imponente fossato anticarro con casematte d\'artiglieria a tiro incrociato.' },
       { name: 'Ridotta Costiera di Mareth', coords: [10.35, 33.68], desc: 'Postazioni corazzate e sbarramenti di mine a protezione del fianco marittimo della linea sul Golfo di Gabès.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'frontier_wire_libya',
@@ -741,7 +751,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Forte Maddalena', coords: [25.03, 30.82], desc: 'Presidio fortificato avanzato della Guardia alla Frontiera e dei battaglioni sahariani nel deserto cirenaico.' },
       { name: 'Piazzaforte dell\'Oasi di Giarabub', coords: [24.85, 29.75], desc: 'Roccaforte meridionale della Cirenaica dotata di trincee e postazioni d\'artiglieria, santuario della confraternita dei Senussi e sede dell\'eroica resistenza del maggiore Castagna.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
 
   // ================= SCANDINAVIA (1936-1940) =================
@@ -764,7 +774,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Oscarsborg Hovedfort (Kaholmen)', coords: [10.61, 59.67], desc: 'Batteria principale con cannoni pesanti da 28 cm Krupp e stazione lanciasiluri ipogea sommersa.' },
       { name: 'Kopås batteri', coords: [10.64, 59.68], desc: 'Batteria d\'appoggio rapido da 15 cm a protezione del passaggio est.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'boden_fortress',
@@ -787,7 +797,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Rödbergsfortet', coords: [21.68, 65.82], desc: 'Il più grande forte ipogeo d\'artiglieria pesante in caverna granitica armato di cannoni da 15 cm.' },
       { name: 'Degerbergsfortet', coords: [21.64, 65.84], desc: 'Forte corazzato a sbarramento della ferrovia verso Luleå e la costa.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   {
     id: 'hegra_fortress',
@@ -832,7 +842,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Batteri Helsingborg', coords: [12.68, 56.05], desc: 'Batterie pesanti d\'artiglieria a sbarramento della strozzatura dell\'Øresund verso la Danimarca occupata.' },
       { name: 'Skanör-Falsterbo Kustspärr', coords: [12.85, 55.40], desc: 'Sbarramento bunker e campi minati sulla punta sud-occidentale della Scania.' },
     ],
-    activeSteps: [5, 6, 7, 8],
+    activeSteps: [5, 6, 7, 8, 9],
   },
   {
     id: 'salpa_line',
@@ -863,7 +873,53 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento Granitico di Luumäki', coords: [27.75, 60.95], desc: 'Quattro file ininterrotte di monoliti granitici da 3 tonnellate ciascuno posizionati per bloccare i carri armati pesanti sovietici.' },
       { name: 'Caposaldo di Joensuu & Pielisjoki', coords: [29.80, 62.45], desc: 'Opere d\'arresto fluviali e bunker d\'artiglieria a protezione del corridoio della Carelia Settentrionale.' },
     ],
-    activeSteps: [6, 7, 8], // Costruita a partire dalla primavera 1940
+    activeSteps: [6, 7, 8, 9], // Costruita a partire dalla primavera 1940 e presidiata
+  },
+  {
+    id: 'mozhaysk_line',
+    name: 'Linea di Difesa di Možajsk / Cintura di Mosca (MZO)',
+    nation: 'URSS',
+    builder: 'Comando Fronte Occidentale (Žukov) & Popolazione di Mosca (GKO)',
+    description:
+      'Imponente sistema fortificato campale su più fasce difensive allestito nell\'autunno-inverno 1941 per sbarrare l\'avanzata delle armate corazzate tedesche (Operazione Tifone) verso Mosca. Comprendeva la Linea di Možajsk (Volokolamsk - Možajsk - Malojaroslavec - Kaluga), centinaia di bunker in cemento armato, trincee anticarro e la Zona di Difesa di Mosca (MZO). Respinse l\'Operazione Tifone e fu la base di lancio della controffensiva sovietica del 5 dicembre 1941.',
+    type: 'heavy',
+    color: '#d9534f',
+    coordinates: [
+      [35.95, 56.03], // Volokolamsk
+      [36.02, 55.50], // Možajsk / Borodino
+      [36.50, 55.01], // Malojaroslavec
+      [36.25, 54.52], // Kaluga (Fiume Oka)
+      [37.60, 54.20], // Tula (Perno meridionale difeso dal Gen. Boldin)
+    ],
+    keyForts: [
+      { name: 'Caposaldo di Možajsk & Campo di Borodino', coords: [36.02, 55.50], desc: 'Settore dell\'eroica resistenza della 32ª Divisione fucilieri di Polosuchin contro la 10ª Panzerdivision.' },
+      { name: 'Baluardo Corazzato di Tula', coords: [37.60, 54.20], desc: 'Roccaforte operaia e anticarro che bloccò l\'accerchiamento meridionale del 2º Gruppo Corazzato di Guderian.' },
+      { name: 'Sbarramento di Volokolamsk', coords: [35.95, 56.03], desc: 'Trincee e cannoni anticarro della 316ª Divisione di Panfilov lungo l\'autostrada per Mosca.' },
+    ],
+    activeSteps: [9],
+  },
+  {
+    id: 'kaur_leningrad_line',
+    name: 'Distretto Fortificato Careliano & Cintura di Leningrado (KaUR / Pulkovo)',
+    nation: 'URSS',
+    builder: 'Comando Fronte di Leningrado / Flotta del Baltico / Popolazione Civile',
+    description:
+      'Cintura difensiva titanica a protezione di Leningrado assediata (settembre 1941). A nord il Settore Fortificato Careliano (KaUR) bloccò l\'avanzata finlandese sulla vecchia frontiera del 1939; a sud la Linea dell\'Ižora, Kronštadt e le difese d\'artiglieria navale di Pulkovo respinsero il Gruppo d\'Armate Nord tedesco.',
+    type: 'heavy',
+    color: '#b04540',
+    coordinates: [
+      [29.85, 60.35], // Beloostrov / Sestroreck (KaUR sul Golfo di Finlandia)
+      [30.15, 60.28], // Lembolovo (Settore centrale KaUR)
+      [30.45, 60.25], // Fiume Neva / Sponda del Ladoga
+      [30.30, 59.78], // Alture di Pulkovo (Cintura meridionale)
+      [30.60, 59.75], // Distretto Fortificato di Ižora / Kolpino
+    ],
+    keyForts: [
+      { name: 'Caposaldo KaUR di Sestroreck', coords: [29.95, 60.28], desc: 'Bunker pesanti e torrette corazzate a sbarramento della ferrovia e della strada costiera contro le forze finlandesi.' },
+      { name: 'Alture di Pulkovo', coords: [30.32, 59.77], desc: 'Baluardo strategico dell\'artiglieria navale della Flotta del Baltico che impedì ai cannoni d\'assedio tedeschi di conquistare la città.' },
+      { name: 'Forte Krasnaja Gorka', coords: [29.35, 59.97], desc: 'Gigantesche batterie costiere da 305 mm a protezione della sacca di Oranienbaum sul Golfo di Finlandia.' },
+    ],
+    activeSteps: [9],
   },
 ];
 
@@ -1500,4 +1556,381 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     theater: 'Atlantic',
     description: 'Base navale occidentale della Marina Norvegese protetta dalla fortezza di Kvarven e dal Byfjorden. Occupata nell\'aprile 1940 dopo l\'affondamento dell\'incrociatore tedesco Königsberg ad opera di aerei navali britannici; trasformata dalla Kriegsmarine nella base sommergibili U-Boot-Bunker Bruno.',
   },
+
+  // ================= TEATRO PACIFICO ED ESTREMO ORIENTE =================
+  {
+    id: 'hong_kong_naval',
+    name: 'Hong Kong (HMS Tamar)',
+    historicalName: 'HMS Tamar / Hong Kong Royal Naval Station',
+    nation: 'Regno Unito',
+    coords: [114.16, 22.28],
+    type: 'fleet_hq',
+    theater: 'Pacific',
+    description: 'Base storica della China Station della Royal Navy con bacini di carenaggio, batterie d\'artiglieria costiera e quartier generale delle forze navali britanniche nel Mar Cinese Meridionale.',
+  },
+  {
+    id: 'guam_naval',
+    name: 'Guam (Apra Harbor)',
+    historicalName: 'Naval Station Guam (Apra Harbor)',
+    nation: 'USA',
+    coords: [144.65, 13.44],
+    type: 'major_base',
+    theater: 'Pacific',
+    description: 'Avamposto aeronavale strategico della US Navy nelle Isole Marianne, punto di scalo per idrovolanti e stazioni radio transpacifiche.',
+  },
+  {
+    id: 'cavite_manila',
+    name: 'Manila / Cavite',
+    historicalName: 'Cavite Navy Yard & Corregidor (Manila Bay)',
+    nation: 'USA / Filippine',
+    coords: [120.91, 14.49],
+    type: 'fleet_hq',
+    theater: 'Pacific',
+    description: 'Principale arsenale e base operativa della US Asiatic Fleet nella Baia di Manila a protezione delle Filippine, sostenuto dalla formidabile fortezza insulare di Corregidor.',
+  },
 ];
+
+export function getDynamicNavalBaseStatus(base: NavalBase, step: number): DynamicBaseStatus {
+  let nation = base.nation;
+  let historicalName = base.historicalName;
+  let description = base.description;
+  let theater = base.theater;
+  let fillColor = '#102434';
+  let strokeColor = '#5aa0c2';
+
+  switch (base.id) {
+    case 'brest':
+      if (step >= 6) {
+        nation = 'Germania (Kriegsmarine)';
+        historicalName = 'Kriegsmarine U-Boot-Stützpunkt Brest';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Occupata dalla Wehrmacht il 19 giugno 1940; trasformata nella principale base atlantica della 1ª e 9ª Flottiglia U-Boot con imponenti bunker corazzati (U-Boot-Bunker) e rifugio per le navi da battaglia Scharnhorst, Gneisenau e Prinz Eugen.';
+      }
+      break;
+
+    case 'lorient':
+      if (step >= 6) {
+        nation = 'Germania (Kriegsmarine)';
+        historicalName = 'Kriegsmarine U-Boot-Stützpunkt Keroman (Lorient)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Occupata nel giugno 1940; sede del comando supremo dei sommergibili (BdU) dell\'ammiraglio Karl Dönitz e del colossale complesso di bunker sottomarini Keroman I, II e III.';
+      }
+      break;
+
+    case 'cherbourg':
+      if (step >= 6) {
+        nation = 'Germania (Kriegsmarine)';
+        historicalName = 'Seeverteidigung Cherbourg (Kriegsmarine)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Base navale della Manica occupata dalla Kriegsmarine; scalo per flottiglie di motosiluranti d\'assalto (S-Boot) e pesanti batterie costiere d\'interdizione marittima.';
+      }
+      break;
+
+    case 'toulon':
+      if (step >= 6) {
+        nation = 'Francia di Vichy';
+        historicalName = 'Arsenale Navale di Tolone (Forces de Haute Mer — Vichy)';
+        strokeColor = '#8d77a3';
+        fillColor = '#241a29';
+        description = 'Cuore della flotta d\'alto mare della Francia di Vichy nell\'armistizio; sede delle maggiori unità da battaglia (Strasbourg, Dunkerque, Algérie) nella Zona Libera.';
+      }
+      break;
+
+    case 'mers_el_kebir':
+      if (step >= 6) {
+        nation = 'Francia di Vichy';
+        historicalName = 'Base Navale di Mers-el-Kébir (Vichy / Op. Catapult)';
+        strokeColor = '#8d77a3';
+        fillColor = '#241a29';
+        description = 'Base algerina della Marine Nationale rimasta sotto Vichy; teatro del drammatico attacco della Force H britannica il 3 luglio 1940 per impedire la consegna delle corazzate francesi all\'Asse.';
+      }
+      break;
+
+    case 'bizerte':
+      if (step >= 6) {
+        nation = 'Francia di Vichy';
+        strokeColor = '#8d77a3';
+        fillColor = '#241a29';
+        description = 'Piazzaforte navale e lago interno fortificato tunisino sotto l\'amministrazione di Vichy a controllo del Canale di Sicilia.';
+      }
+      break;
+
+    case 'dakar_naval':
+      if (step >= 6) {
+        nation = 'Francia di Vichy';
+        historicalName = 'Base Navale di Dakar (AOF — Vichy)';
+        strokeColor = '#8d77a3';
+        fillColor = '#241a29';
+        description = 'Roccaforte di Vichy nell\'Africa Occidentale Francese con la corazzata Richelieu; respinse vittoriosamente il tentativo di sbarco anglo-gollista nel settembre 1940 (Operazione Menace).';
+      }
+      break;
+
+    case 'gotenhafen':
+      if (step < 5) {
+        nation = 'Polonia';
+        historicalName = 'Port Wojenny Gdynia (Marynarka Wojenna)';
+        strokeColor = '#d97736';
+        fillColor = '#291810';
+        description = 'Principale base navale e porto militare della Polonia sul Mar Baltico; base del cacciatorpediniere Wicher e del posamine Gryf fino all\'invasione del settembre 1939.';
+      } else {
+        nation = 'Germania (Kriegsmarine)';
+        historicalName = 'Kriegsmarine-Hauptstützpunkt Gotenhafen (Ostsee)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Trasformata nel principale ancoraggio, centro addestramento e porto base per la flotta d\'alto mare della Kriegsmarine (Bismarck, Tirpitz, Lützow).';
+      }
+      break;
+
+    case 'hanko':
+      if (step < 6) {
+        nation = 'Finlandia';
+        historicalName = 'Hankoniemen rannikkotykistö (Finlandia)';
+        strokeColor = '#86b0d9';
+        fillColor = '#102434';
+        description = 'Piazzaforte costiera e promontorio fortificato finlandese a sbarramento del Golfo di Finlandia.';
+      } else if (step < 9) {
+        nation = 'URSS';
+        historicalName = 'Voenno-Morskaya Baza Khanko (Affitto Sovietico)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Base navale ottenuta in affitto per 30 anni dall\'URSS col Trattato di pace di Mosca (marzo 1940); difesa da oltre 25.000 marinai sovietici contro l\'assedio finlandese.';
+      } else {
+        nation = 'Finlandia';
+        historicalName = 'Hanko (Riconquistata dalla Finlandia - 2 Dicembre 1941)';
+        strokeColor = '#86b0d9';
+        fillColor = '#102434';
+        description = 'Completamente evacuata dalla Marina Sovietica a fine novembre 1941 ed espugnata dalle truppe finlandesi il 2 dicembre 1941 durante la Guerra di Continuazione.';
+      }
+      break;
+
+    case 'massawa':
+      if (step < 8) {
+        nation = 'Italia (Regia Marina)';
+        historicalName = 'Base Navale di Massaua (AOI / Mar Rosso)';
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+        description = 'Base principale del Comando Navale Africa Orientale Italiana della Regia Marina e della Flottiglia Sommergibili del Mar Rosso.';
+      } else {
+        nation = 'Regno Unito (Royal Navy)';
+        historicalName = 'Massawa Royal Naval Repair Yard (OETA)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Caduta in mano alle forze britanniche e del Commonwealth l\'8 aprile 1941 dopo l\'autoaffondamento delle navi italiane; riattivata dagli Alleati per la manutenzione navale nel Mar Rosso.';
+      }
+      break;
+
+    case 'tobruk_naval':
+      if (step < 8) {
+        nation = 'Italia (Regia Marina)';
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+        description = 'Base navale avanzata della Regia Marina in Nordafrica, protetta dall\'incrociatore San Giorgio impiegato come fortezza galleggiante contraerea.';
+      } else {
+        nation = 'Regno Unito / Commonwealth';
+        historicalName = 'Piazzaforte Navale di Tobruk (Presidio Alleato)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Presa dagli Alleati nel gennaio 1941; presidiata dai leggendari "Topi di Tobruk" (9ª Divisione Australiana e truppe polacche/britanniche) durante 240 giorni d\'assedio italo-tedesco e liberata nel dicembre 1941 (Operazione Crusader).';
+      }
+      break;
+
+    case 'odessa':
+      if (step >= 9) {
+        nation = 'Romania / Asse (Governatorato di Transnistria)';
+        historicalName = 'Porto di Odessa (Amministrazione Civile-Militare Romena)';
+        strokeColor = '#3488aa';
+        fillColor = '#12242b';
+        description = 'Caduta in mano all\'esercito romeno e tedesco il 16 ottobre 1941 dopo un eroico assedio sovietico di 73 giorni; trasformata nel centro di comando marittimo della Transnistria romena.';
+      } else {
+        nation = 'URSS';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+      }
+      break;
+
+    case 'sevastopol':
+      if (step >= 9) {
+        nation = 'URSS (Eroica Difesa sotto Assedio)';
+        historicalName = 'Fortezza Navale di Sebastopoli (Assedio dell\'11ª Armata di Manstein)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Cinta d\'assedio dalle divisioni tedesche di von Manstein e dalle truppe romene dal 30 ottobre 1941; le fortificazioni Maxim Gorkij I e i marinai della Flotta del Mar Nero resistono strenuamente con rifornimenti via mare.';
+      } else {
+        nation = 'URSS';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+      }
+      break;
+
+    case 'saigon_naval':
+      if (step < 7) {
+        nation = 'Francia';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+      } else if (step < 9) {
+        nation = 'Francia di Vichy / Accordo con Tokyo';
+        strokeColor = '#8d77a3';
+        fillColor = '#241a29';
+      } else {
+        nation = 'Giappone (Marina Imperiale)';
+        historicalName = 'Distretto Navale Occupato di Saigon (22ª Flottiglia Aerea IJN)';
+        strokeColor = '#b33d4a';
+        fillColor = '#2b1414';
+        description = 'Interamente occupata dalle forze aeronavali giapponesi nel luglio 1941; base strategica di lancio per gli aerosiluranti G3M e G4M che affondarono le corazzate Prince of Wales e Repulse il 10 dicembre 1941.';
+      }
+      break;
+
+    case 'hong_kong_naval':
+      if (step < 9) {
+        nation = 'Regno Unito';
+        historicalName = 'HMS Tamar / Hong Kong Royal Naval Station';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Base storica della China Station della Royal Navy con bacini di carenaggio e difese costiere su Hong Kong Island.';
+      } else {
+        nation = 'Giappone (Occupazione)';
+        historicalName = 'Hong Kong (Occupazione Giapponese — Resa 25 Dicembre 1941)';
+        strokeColor = '#b33d4a';
+        fillColor = '#2b1414';
+        description = 'Conquistata dalla 23ª Armata e dalla Marina Imperiale Giapponese il giorno di Natale 1941 ("Black Christmas") dopo 18 giorni di assedio ed eroica difesa della guarnigione britannica, canadese e indiana.';
+      }
+      break;
+
+    case 'guam_naval':
+      if (step < 9) {
+        nation = 'USA';
+        historicalName = 'Naval Station Guam (Apra Harbor)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Avamposto aeronavale statunitense e stazione idrovolanti Pan American Airways nelle Isole Marianne.';
+      } else {
+        nation = 'Giappone (Occupazione)';
+        historicalName = 'Omiya Jima (Occupata dalle Forze d\'Assalto IJN - 10 Dicembre 1941)';
+        strokeColor = '#b33d4a';
+        fillColor = '#2b1414';
+        description = 'Espugnata dalle truppe speciali della Marina e dell\'Armata Imperiale Giapponese il 10 dicembre 1941 dopo un breve scontro con la guarnigione della US Navy e dei Marine.';
+      }
+      break;
+
+    case 'cavite_manila':
+      if (step < 9) {
+        nation = 'USA / Commonwealth Filippino';
+        historicalName = 'Cavite Navy Yard & Corregidor (Manila Bay)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Quartier generale e arsenale della US Asiatic Fleet dell\'ammiraglio Thomas Hart a difesa dell\'ingresso della Baia di Manila.';
+      } else {
+        nation = 'USA / Filippine (Sotto Assedio)';
+        historicalName = 'Cavite Navy Yard distrutto / Ritiro a Bataan e Corregidor';
+        strokeColor = '#d97736';
+        fillColor = '#251b1b';
+        description = 'Arsenale di Cavite distrutto dai raid aerei giapponesi il 10 dicembre 1941; le forze del Gen. MacArthur dichiarano Manila città aperta (26 dicembre) ripiegando nella penisola di Bataan e nella fortezza dell\'isola di Corregidor.';
+      }
+      break;
+
+    case 'kotor_naval_base':
+      if (step >= 8) {
+        nation = 'Italia (Regia Marina)';
+        historicalName = 'Comando Militare Marittimo delle Bocche di Cattaro (Regia Marina)';
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+        description = 'Occupata nell\'aprile 1941 dalla Regia Marina e annessa all\'Italia come Provincia di Cattaro (Governatorato di Dalmazia); base siluranti e idroscalo militare.';
+      }
+      break;
+
+    case 'salamis_naval_base':
+      if (step >= 8) {
+        nation = 'Germania / Asse (Kriegsmarine)';
+        historicalName = 'Kriegsmarine-Stützpunkt Salamis (Marinegruppenkommando Süd)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Occupata dalla Wehrmacht e dalla Kriegsmarine nell\'aprile 1941; base per flottiglie di scorta convogli e cacciasommergibili nell\'Egeo.';
+      }
+      break;
+
+    case 'bergen_naval_base':
+    case 'narvik_naval_base':
+    case 'horten_karljohansvern_base':
+      if (step >= 6) {
+        nation = 'Germania (Kriegsmarine)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        if (base.id === 'bergen_naval_base') {
+          historicalName = 'U-Boot-Stützpunkt Bergen (Kriegsmarine / U-Boot-Bunker Bruno)';
+          description = 'Occupata dalla Kriegsmarine nell\'aprile 1940 e trasformata in una delle più importanti basi per sommergibili operanti nel Mare del Nord e nell\'Atlantico settentrionale.';
+        } else if (base.id === 'narvik_naval_base') {
+          historicalName = 'Seeverteidigung Narvik (Kriegsmarine)';
+          description = 'Presidio navale artico tedesco a tutela del porto di carico del minerale di ferro e base d\'appoggio per la caccia ai convogli artici verso la Russia.';
+        }
+      }
+      break;
+
+    case 'den_helder':
+    case 'vlissingen':
+    case 'zeebrugge':
+      if (step >= 6) {
+        nation = 'Germania (Kriegsmarine)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+      }
+      break;
+
+    case 'copenhagen_holmen_base':
+      if (step >= 6) {
+        nation = 'Danimarca (Presidio Wehrmacht)';
+        strokeColor = '#707478';
+        fillColor = '#1e1e1e';
+      }
+      break;
+
+    case 'taranto':
+    case 'la_spezia':
+    case 'pola_naval':
+    case 'augusta_messina':
+    case 'leros_aegean':
+    case 'sazan_naval_base':
+      strokeColor = '#6f7a3f';
+      fillColor = '#1e2418';
+      break;
+
+    case 'wilhelmshaven':
+    case 'kiel':
+    case 'helgoland':
+    case 'swinemunde':
+      strokeColor = '#8b8f94';
+      fillColor = '#251b1b';
+      break;
+
+    case 'kure':
+    case 'yokosuka':
+      strokeColor = '#b33d4a';
+      fillColor = '#2b1414';
+      break;
+
+    case 'kronstadt':
+    case 'polyarny':
+    case 'vladivostok':
+      strokeColor = '#d9534f';
+      fillColor = '#291212';
+      break;
+
+    case 'ceuta_naval_base':
+    case 'melilla_naval_base':
+    case 'karlskrona_naval_base':
+      strokeColor = '#96999c';
+      fillColor = '#1d2124';
+      break;
+  }
+
+  return {
+    nation,
+    historicalName,
+    theater,
+    description,
+    fillColor,
+    strokeColor,
+  };
+}
