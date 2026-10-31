@@ -23,8 +23,8 @@ export const BOSNIA_FEDERATION_FEATURE: any = {
   properties: {
     id: 'BABIH',
     NUTS_ID: 'BABIH',
-    CNTR_ID: 'BA',
-    CNTR_CODE: 'BA',
+    CNTR_ID: 'YUG',
+    CNTR_CODE: 'YUG',
     NAME: 'Bosna (Sarajevo, Mostar, Tuzla)',
     NUTS_NAME: 'Bosna (Sarajevo / Mostar / Tuzla)',
     NAME_ENGL: 'Bosnia (Sarajevo, Mostar, Tuzla)',
@@ -66,8 +66,8 @@ export const BOSNIA_SRPSKA_FEATURE: any = {
   properties: {
     id: 'BASRP',
     NUTS_ID: 'BASRP',
-    CNTR_ID: 'BA',
-    CNTR_CODE: 'BA',
+    CNTR_ID: 'YUG',
+    CNTR_CODE: 'YUG',
     NAME: 'Bosanska Krajina e Podrinje (Banja Luka / Trebinje)',
     NUTS_NAME: 'Bosanska Krajina e Podrinje (Banja Luka / Trebinje / Bijeljina)',
     NAME_ENGL: 'Bosanska Krajina and Podrinje (Banja Luka / Trebinje)',
@@ -105,8 +105,8 @@ export const BOSNIA_BRCKO_FEATURE: any = {
   properties: {
     id: 'BABRC',
     NUTS_ID: 'BABRC',
-    CNTR_ID: 'BA',
-    CNTR_CODE: 'BA',
+    CNTR_ID: 'YUG',
+    CNTR_CODE: 'YUG',
     NAME: 'Posavina (Brčko)',
     NUTS_NAME: 'Posavina (Distretto di Brčko)',
     NAME_ENGL: 'Posavina (Brcko)',

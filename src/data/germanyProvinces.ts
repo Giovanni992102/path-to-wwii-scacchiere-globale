@@ -8085,6 +8085,7 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
 };
 
 GERMANY_PROVINCES_META['DE_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
+GERMANY_PROVINCES_META['GER_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
 
 /**
  * Risolve una provincia / distretto del Terzo Reich (GER) per uno step temporale specifico.

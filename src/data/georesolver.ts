@@ -1,3 +1,4 @@
+import { toCanonicalCountryCode } from './countryCodes';
 import { resolveIranProvince } from './iranProvinces';
 import { resolveBritishRajProvince } from './britishRajProvinces';
 import { resolveKoreaProvince, KOREA_PROVINCES_META } from './koreaProvinces';
@@ -100,6 +101,19 @@ export const HB_URL1 =
   'https://raw.githubusercontent.com/aourednik/historical-basemaps/master/geojson/world_1938.geojson';
 
 export const ITNAMES: Record<string, string> = {
+  GER: 'Deutsches Reich',
+  DE: 'Deutsches Reich',
+  DEU: 'Deutsches Reich',
+  FRA: 'Troisième République française',
+  FR: 'Troisième République française',
+  ITA: "Regno d'Italia",
+  IT: "Regno d'Italia",
+  POL: 'Rzeczpospolita Polska',
+  PL: 'Rzeczpospolita Polska',
+  CZE: 'Československá republika',
+  CZ: 'Československá republika',
+  SOV: 'SSSR',
+  SU: 'SSSR',
   EG: "Regno d'Egitto",
   EGY: "Regno d'Egitto",
   UK: 'United Kingdom',
@@ -4641,7 +4655,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (!ft) return makeResult('NEU', 'Territorio Sconosciuto');
   if (ft.__resolve) return ft.__resolve(s);
   const p = ft.properties || {};
-  const cntr = String(
+  const rawCntr = String(
     p.CNTR_CODE ||
       p.CNTR_ID ||
       p.ISO_A2 ||
@@ -4653,7 +4667,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       p.GU_A3 ||
       ft.__cntr ||
       ''
-  ).toUpperCase();
+  ).toUpperCase().trim();
+  const cntr = toCanonicalCountryCode(rawCntr);
   const rawName =
     p.NAME_LATN ||
     p.NUTS_NAME ||
@@ -5452,6 +5467,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   }
 
   switch (cntr) {
+    case 'SOV':
     case 'SU':
     case 'SU_CRIMEA': {
       const sovProv = resolveSovietProvince(nid || fidClean || rawName, s, rawName);
@@ -5624,6 +5640,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'GER':
     case 'DE': {
       return resolveGermanyProvince(ft, s);
     }
@@ -5779,6 +5796,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'AUS':
+    case 'AUT':
     case 'AT': {
       if (s < 1) {
         const topAus = resolveSwissAustrianToponym(nid, rawName, nrm, 'AUS', s) || getTop('AUS');
@@ -5800,6 +5819,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'CZE':
     case 'CZ': {
       const sud =
         nid.startsWith('CZ041') ||
@@ -5854,6 +5874,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'HUN':
     case 'HU': {
       const bTop = resolveBalkansToponym(nid, rawName, nrm, 'HUN', s);
       const top = bTop || getTop('HUN');
@@ -5868,6 +5889,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'ROM':
+    case 'ROU':
     case 'RO': {
       const bTop = resolveBalkansToponym(nid, rawName, nrm, 'ROM', s);
       const roOwner = bTop?.owner || 'ROM';
@@ -5906,6 +5929,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         : makeResult('SOV', getTop('SOV').name, 'Prisoyedineniye k SSSR (1940)');
     }
 
+    case 'BUL':
+    case 'BGR':
     case 'BG': {
       // Dobrugia Meridionale (Cadrilater):
       // Esclusivamente Silistra (BG325 / Județul Durostor) e Dobrich (BG332 / Județul Caliacra).
@@ -5950,15 +5975,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'LIT':
+    case 'LTU':
     case 'LT':
       return resolveLithuanianProvince(s, nid, p, rawName);
 
+    case 'LAT':
+    case 'LVA':
     case 'LV':
       return resolveLatvianProvince(s, nid, p, rawName);
 
+    case 'EST':
     case 'EE':
       return resolveEstonianProvince(s, nid, p, rawName);
 
+    case 'FIN':
     case 'FI': {
       if (
         nid === 'FI200' ||
@@ -6142,6 +6173,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'MON':
     case 'MN':
       return makeResult('MON', 'Bügd Nairamdakh Mongol Ard Uls (Ulaanbaatar)', 'Mongol Ard Uls (Komintern)', 'Comintern');
 
@@ -6632,6 +6664,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'ALB':
     case 'AL': {
       const bTop = resolveBalkansToponym(nid, rawName, nrm, s < 4 ? 'ALB' : 'ITA', s);
       if (s < 4) {
@@ -6660,6 +6693,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       }
     }
 
+    case 'GRE':
+    case 'GRC':
     case 'GR':
     case 'EL': {
       const greFac = s >= 7 ? 'Alleati' : 'Neutrale';
@@ -6866,6 +6901,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'FRA':
     case 'FR': {
       if (s < 6) {
         // Dipartimenti d'Oltremare (DOM-TOM)
@@ -7112,6 +7148,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'DEN':
+    case 'DNK':
     case 'DK': {
       const isDkFaroe =
         nrm.includes('faroe') ||
@@ -7147,6 +7185,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
     }
 
+    case 'NOR':
     case 'NO':
       return s < 6
         ? makeResult('NOR', rawName, 'Kongeriket Norge', undefined, 'Kongeriket Norge')
@@ -7158,6 +7197,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Reichskommissariat Norwegen (Reichskommissar Josef Terboven)'
           );
 
+    case 'BEL':
     case 'BE':
       if (s >= 6) {
         if (nid === 'BE336') {
@@ -7188,6 +7228,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         belTop.adminTitle || 'Royaume de Belgique / Koninkrijk België'
       );
 
+    case 'HOL':
+    case 'NLD':
     case 'NL':
       if (s >= 6) {
         const gerTop = getTop('GER');
@@ -7208,6 +7250,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         holTop.adminTitle || 'Koninkrijk der Nederlanden'
       );
 
+    case 'LUX':
     case 'LU':
       if (s >= 6) {
         const gerTop = getTop('GER');
@@ -7228,14 +7271,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         luxTop.adminTitle || 'Grand-Duché de Luxembourg — Gouvernement Dupong-Krier'
       );
 
+    case 'ICE':
+    case 'ISL':
     case 'IS':
       return s < 6
         ? makeResult('ICE', rawName, 'Konungsríkið Ísland')
         : makeResult('UK', 'Kingdom of Iceland', 'British Occupation / Operation Fork (May 1940)');
 
-    case 'GB':
-    case 'UK':
     case 'GBR':
+    case 'UK':
+    case 'GB':
     case 'IM':
     case 'IMN':
     case 'GBM':
@@ -7318,9 +7363,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('UK', getTop('UK').name || rawName, 'Regno Unito');
     }
 
+    case 'IRE':
+    case 'IRL':
+    case 'EIR':
     case 'IE':
       return makeResult('IRE', rawName, 'Irlanda (Éire) — Neutrale');
 
+    case 'SWI':
+    case 'CHE':
     case 'CH': {
       const topSwi = resolveSwissAustrianToponym(nid, rawName, nrm, 'SWI', s) || getTop('SWI');
       return makeResult(
@@ -7332,14 +7382,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'POR':
+    case 'PRT':
     case 'PT':
       return makeResult('POR', rawName, 'Portogallo (Estado Novo)');
 
+    case 'SWE':
     case 'SE':
       return makeResult('SWE', rawName, 'Svezia — Neutrale');
 
-    case 'TR':
     case 'TUR':
+    case 'TR':
     case '792':
     case 'XTR': {
       if (
@@ -7355,8 +7408,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('TUR', getTop('TUR').name || rawName || 'Repubblica di Turchia', 'Repubblica di Turchia');
     }
 
-    case 'LI':
-    case 'LIE': {
+    case 'LIE':
+    case 'LI': {
       const topLie = resolveSwissAustrianToponym(nid, rawName, nrm, 'LIE', s);
       return makeResult(
         'LIE',
@@ -7647,6 +7700,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       const adminTitle = p.ADMIN_TITLE || 'Repubblica Popolare di Tannu Tuva (Stato socialista indipendente alleato dell\'URSS fino al 1944)';
       return makeResult('TUV', histName, adminTitle, 'Comintern');
     }
+    case 'JAP':
     case 'JP':
     case 'JPN':
     case '392': {
@@ -7700,6 +7754,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         jpTop?.adminTitle || "Dai Nippon Teikoku — Nan'yō-chō"
       );
     }
+    case 'CHI':
     case 'CN':
       return s >= 1 && c[0] > 113
         ? makeResult('JAP', getTop('JAP').name, 'Occupazione Militare Giapponese', 'Asse', 'Dai Nippon Teikoku Kōgun Senryōchi')
@@ -7720,12 +7775,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         topCan.adminTitle || 'Dominion of Canada'
       );
     }
+    case 'AST':
     case 'AU':
       return makeResult('AST', getTop('AST').name, 'Commonwealth d\'Australia');
+    case 'NZL':
     case 'NZ':
       return makeResult('NZL', getTop('NZL').name, 'Dominion della Nuova Zelanda');
+    case 'SAF':
     case 'ZA':
       return makeResult('SAF', getTop('SAF').name, 'Unione Sudafricana');
+    case 'RAJ':
     case 'IN':
     case 'PK':
     case 'BD':
@@ -7848,6 +7907,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '430':
     case 'XLR':
       return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano');
+    case 'ETH':
     case 'ET':
       if (s >= 8) {
         const top = getTop('ETH');

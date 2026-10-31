@@ -14,6 +14,40 @@ import { getExtendedToponym } from './historicalToponyms';
 
 // Heuristic lookup table for ISO / Country codes fallback to guarantee zero unassigned territories
 export const ISO_COUNTRY_FALLBACKS: Record<string, { o: string; n: string }> = {
+  GER: { o: 'GER', n: 'Reich Tedesco' },
+  DEU: { o: 'GER', n: 'Reich Tedesco' },
+  ITA: { o: 'ITA', n: 'Regno d\'Italia' },
+  FRA: { o: 'FRA', n: 'Repubblica Francese' },
+  GBR: { o: 'UK', n: 'Regno Unito' },
+  POL: { o: 'POL', n: 'Polonia' },
+  CZE: { o: 'CZE', n: 'Cecoslovacchia' },
+  HUN: { o: 'HUN', n: 'Ungheria' },
+  ROM: { o: 'ROM', n: 'Romania' },
+  BUL: { o: 'BUL', n: 'Bulgaria' },
+  GRE: { o: 'GRE', n: 'Grecia' },
+  ALB: { o: 'ALB', n: 'Albania' },
+  TUR: { o: 'TUR', n: 'Turchia' },
+  SOV: { o: 'SOV', n: 'Unione Sovietica' },
+  FIN: { o: 'FIN', n: 'Finlandia' },
+  SWE: { o: 'SWE', n: 'Svezia' },
+  NOR: { o: 'NOR', n: 'Norvegia' },
+  DEN: { o: 'DEN', n: 'Danimarca' },
+  HOL: { o: 'HOL', n: 'Paesi Bassi' },
+  BEL: { o: 'BEL', n: 'Belgio' },
+  LUX: { o: 'LUX', n: 'Lussemburgo' },
+  IRE: { o: 'IRE', n: 'Irlanda' },
+  ICE: { o: 'ICE', n: 'Islanda' },
+  EST: { o: 'EST', n: 'Estonia' },
+  LAT: { o: 'LAT', n: 'Lettonia' },
+  LIT: { o: 'LIT', n: 'Lituania' },
+  SWI: { o: 'SWI', n: 'Svizzera' },
+  AUS: { o: 'AUS', n: 'Austria' },
+  POR: { o: 'POR', n: 'Portogallo' },
+  ESP: { o: 'SPR', n: 'Repubblica Spagnola' },
+  SMR: { o: 'SMR', n: 'Serenissima Repubblica di San Marino' },
+  VAT: { o: 'VAT', n: 'Stato della Città del Vaticano' },
+  GIB: { o: 'GIB', n: 'Gibilterra' },
+  LIE: { o: 'LIE', n: 'Principato del Liechtenstein' },
   IT: { o: 'ITA', n: 'Regno d\'Italia' },
   DE: { o: 'GER', n: 'Reich Tedesco' },
   FR: { o: 'FRA', n: 'Repubblica Francese' },
@@ -335,8 +369,10 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     p.CNTR_CODE === 'LA' ||
     p.CNTR_CODE === 'VN' ||
     nid.startsWith('DE') ||
+    p.CNTR_CODE === 'GER' ||
     p.CNTR_CODE === 'DE' ||
     nid === 'DE_HIST_KONIGSBERG' ||
+    nid === 'GER_KONIGSBERG' ||
     Boolean(p.HISTORICAL_NOTE);
 
   if (rawBaseName && !isAlreadyGranular) {

@@ -180,7 +180,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_EGER',
       NUTS_ID: 'CZE_SUD_EGER',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Egerland (Cheb / As)",
       NUTS_NAME: "Egerland - Cheb e As",
       NAME_ENGL: "Egerland (Cheb / As)",
@@ -227,7 +227,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_KARLSBAD',
       NUTS_ID: 'CZE_SUD_KARLSBAD',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Karlsbad (Karlovy Vary)",
       NUTS_NAME: "Karlovy Vary (Karlsbad)",
       NAME_ENGL: "Karlsbad (Karlovy Vary)",
@@ -265,7 +265,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_BOEHMERWALD',
       NUTS_ID: 'CZE_SUD_BOEHMERWALD',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Sudetenland - Boehmerwald (Tachau / Tachov)",
       NUTS_NAME: "Selva Boema Occidentale - Tachov e Horsovsky Tyn",
       NAME_ENGL: "Sudetenland - Boehmerwald (Tachau / Tachov)",
@@ -318,7 +318,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_PLZEN',
       NUTS_ID: 'CZE_PLZEN',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Plzensko (Plzen)",
       NUTS_NAME: "Plzen e Boemia Occidentale",
       NAME_ENGL: "Plzensko (Plzen)",
@@ -379,7 +379,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_ERZGEBIRGE',
       NUTS_ID: 'CZE_SUD_ERZGEBIRGE',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Erzgebirge \u0026 Aussig (Usti nad Labem)",
       NUTS_NAME: "Monti Metalliferi - Usti nad Labem e Teplice",
       NAME_ENGL: "Erzgebirge \u0026 Aussig (Usti nad Labem)",
@@ -442,7 +442,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_REICHENBERG',
       NUTS_ID: 'CZE_SUD_REICHENBERG',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Reichenberg (Liberec)",
       NUTS_NAME: "Liberec - Reichenberg e Monti Iser",
       NAME_ENGL: "Reichenberg (Liberec)",
@@ -494,7 +494,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_TRAUTENAU',
       NUTS_ID: 'CZE_SUD_TRAUTENAU',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Sudetenland - Riesengebirge (Trutnov / Trautenau)",
       NUTS_NAME: "Monti dei Giganti - Trutnov e Broumov",
       NAME_ENGL: "Sudetenland - Riesengebirge (Trutnov / Trautenau)",
@@ -549,7 +549,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_HRADEC_KRALOVE',
       NUTS_ID: 'CZE_HRADEC_KRALOVE',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Kralovehradecko (Hradec Kralove)",
       NUTS_NAME: "Hradec Kralove e Boemia Orientale",
       NAME_ENGL: "Kralovehradecko (Hradec Kralove)",
@@ -608,7 +608,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_SCHONHENGST',
       NUTS_ID: 'CZE_SUD_SCHONHENGST',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Sudetenland - Schoenhengstgau (Svitavy / Zwittau)",
       NUTS_NAME: "Schoenhengstgau - Svitavy e Kraliky",
       NAME_ENGL: "Sudetenland - Schoenhengstgau (Svitavy / Zwittau)",
@@ -654,7 +654,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_PARDUBICE',
       NUTS_ID: 'CZE_PARDUBICE',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Pardubicko (Pardubice e Chrudim)",
       NUTS_NAME: "Pardubice e Chrudim",
       NAME_ENGL: "Pardubicko (Pardubice e Chrudim)",
@@ -710,7 +710,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_PRAHA',
       NUTS_ID: 'CZE_PRAHA',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Praha (Praga)",
       NUTS_NAME: "Praga - Capitale della Cecoslovacchia",
       NAME_ENGL: "Praha (Praga)",
@@ -743,7 +743,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_KLADNO',
       NUTS_ID: 'CZE_KLADNO',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Stredni Cechy Zapad (Kladno e Pribram)",
       NUTS_NAME: "Boemia Centrale Occidentale - Kladno, Rakovnik e Pribram",
       NAME_ENGL: "Stredni Cechy Zapad (Kladno e Pribram)",
@@ -799,7 +799,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_KOLIN',
       NUTS_ID: 'CZE_KOLIN',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Stredni Cechy Vychod (Kolin e Mlada Boleslav)",
       NUTS_NAME: "Boemia Centrale Orientale - Kolin, Kutna Hora e Mlada Boleslav",
       NAME_ENGL: "Stredni Cechy Vychod (Kolin e Mlada Boleslav)",
@@ -867,7 +867,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_KRUMMAU',
       NUTS_ID: 'CZE_SUD_KRUMMAU',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Sudetenland - Boehmerwald (Krummau / Cesky Krumlov)",
       NUTS_NAME: "Selva Boema Meridionale - Cesky Krumlov e Kaplice",
       NAME_ENGL: "Sudetenland - Boehmerwald (Krummau / Cesky Krumlov)",
@@ -915,7 +915,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_JIHOCESKY',
       NUTS_ID: 'CZE_JIHOCESKY',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Jizni Cechy (Ceske Budejovice e Tabor)",
       NUTS_NAME: "Ceske Budejovice, Tabor e Pisek",
       NAME_ENGL: "Jizni Cechy (Ceske Budejovice e Tabor)",
@@ -981,7 +981,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_SUEDMAEHREN',
       NUTS_ID: 'CZE_SUD_SUEDMAEHREN',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Sudetenland - Suedmaehren (Znojmo / Znaim)",
       NUTS_NAME: "Moravia Meridionale - Znojmo, Mikulov e Breclav",
       NAME_ENGL: "Sudetenland - Suedmaehren (Znojmo / Znaim)",
@@ -1031,7 +1031,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_BRNO',
       NUTS_ID: 'CZE_BRNO',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Brnensko (Brno / Bruenn)",
       NUTS_NAME: "Brno e Moravia Centrale",
       NAME_ENGL: "Brnensko (Brno / Bruenn)",
@@ -1101,7 +1101,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_VYSOCINA',
       NUTS_ID: 'CZE_VYSOCINA',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Vysocina (Jihlava / Iglau)",
       NUTS_NAME: "Altopiano di Jihlava e Pelhrimov",
       NAME_ENGL: "Vysocina (Jihlava / Iglau)",
@@ -1160,7 +1160,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_ALTVATER',
       NUTS_ID: 'CZE_SUD_ALTVATER',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Sudetenland - Altvatergebirge (Jesenik / Freiwaldau)",
       NUTS_NAME: "Monti Hruby Jesenik - Jesenik e Sumperk",
       NAME_ENGL: "Sudetenland - Altvatergebirge (Jesenik / Freiwaldau)",
@@ -1217,7 +1217,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_OLOMOUC',
       NUTS_ID: 'CZE_OLOMOUC',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Hana (Olomouc / Olmuetz)",
       NUTS_NAME: "Olomouc, Prostejov e Hana",
       NAME_ENGL: "Hana (Olomouc / Olmuetz)",
@@ -1272,7 +1272,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SUD_TROPPAU',
       NUTS_ID: 'CZE_SUD_TROPPAU',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Sudetenschlesien - Troppau (Opava)",
       NUTS_NAME: "Slesia dei Sudeti - Opava e Krnov",
       NAME_ENGL: "Sudetenschlesien - Troppau (Opava)",
@@ -1330,7 +1330,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_ZAOLZIE',
       NUTS_ID: 'CZE_ZAOLZIE',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Zaolzie - Slask Cieszynski (Cieszyn / Tesin)",
       NUTS_NAME: "Zaolzie - Slesia di Cieszyn (Cieszyn, Bohumin, Karvina)",
       NAME_ENGL: "Zaolzie - Slask Cieszynski (Cieszyn / Tesin)",
@@ -1368,7 +1368,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_OSTRAVA',
       NUTS_ID: 'CZE_OSTRAVA',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Ostravsko (Moravska Ostrava)",
       NUTS_NAME: "Moravska Ostrava e Frydek-Mistek",
       NAME_ENGL: "Ostravsko (Moravska Ostrava)",
@@ -1414,7 +1414,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_ZLIN',
       NUTS_ID: 'CZE_ZLIN',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Slovacko e Valassko (Zlin)",
       NUTS_NAME: "Zlin, Uherske Hradiste e Valacchia Morava",
       NAME_ENGL: "Slovacko e Valassko (Zlin)",
@@ -1463,7 +1463,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_BRATISLAVA',
       NUTS_ID: 'CZE_SLO_BRATISLAVA',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Bratislava (Presburgo)",
       NUTS_NAME: "Bratislava - Capitale della Slovacchia",
       NAME_ENGL: "Bratislava (Presburgo)",
@@ -1504,7 +1504,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_ZAHORIE',
       NUTS_ID: 'CZE_SLO_ZAHORIE',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Zahorie (Malacky e Senica)",
       NUTS_NAME: "Zahorie - Malacky, Senica e Skalica",
       NAME_ENGL: "Zahorie (Malacky e Senica)",
@@ -1544,7 +1544,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_FEL_CSALLOKOZ',
       NUTS_ID: 'CZE_FEL_CSALLOKOZ',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Felvidek - Csallokoz (Dunajska Streda / Dunaszerdahely)",
       NUTS_NAME: "Csallokoz / Zitny ostrov - Dunajska Streda e Komarno",
       NAME_ENGL: "Felvidek - Csallokoz (Dunajska Streda / Dunaszerdahely)",
@@ -1584,7 +1584,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_TRNAVA',
       NUTS_ID: 'CZE_SLO_TRNAVA',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Trnavsko (Trnava e Piestany)",
       NUTS_NAME: "Trnava e Basso Vah",
       NAME_ENGL: "Trnavsko (Trnava e Piestany)",
@@ -1637,7 +1637,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_FEL_NOVE_ZAMKY',
       NUTS_ID: 'CZE_FEL_NOVE_ZAMKY',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Felvidek - Nove Zamky e Komarno (Ersekujvar)",
       NUTS_NAME: "Nove Zamky, Komarno e Levice",
       NAME_ENGL: "Felvidek - Nove Zamky e Komarno (Ersekujvar)",
@@ -1684,7 +1684,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_NITRA_NORD',
       NUTS_ID: 'CZE_SLO_NITRA_NORD',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Nitriansko Nord (Nitra e Topolcany)",
       NUTS_NAME: "Nitra e Topolcany",
       NAME_ENGL: "Nitriansko Nord (Nitra e Topolcany)",
@@ -1740,7 +1740,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_TRENCIN',
       NUTS_ID: 'CZE_SLO_TRENCIN',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Povazie (Trencin e Ilava)",
       NUTS_NAME: "Valle del Vah - Trencin, Nove Mesto e Puchov",
       NAME_ENGL: "Povazie (Trencin e Ilava)",
@@ -1796,7 +1796,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_ZILINA',
       NUTS_ID: 'CZE_SLO_ZILINA',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Horne Povazie (Zilina e Kysuce)",
       NUTS_NAME: "Zilina, Povazska Bystrica e Cadca",
       NAME_ENGL: "Horne Povazie (Zilina e Kysuce)",
@@ -1843,7 +1843,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_LIPTOV',
       NUTS_ID: 'CZE_SLO_LIPTOV',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Liptov e Orava (Ruzomberok e Martin)",
       NUTS_NAME: "Liptov e Orava - Ruzomberok, Liptovsky Mikulas e Martin",
       NAME_ENGL: "Liptov e Orava (Ruzomberok e Martin)",
@@ -1894,7 +1894,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_FEL_LUCENEC',
       NUTS_ID: 'CZE_FEL_LUCENEC',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Felvidek - Lucenec e Ipel (Losonc / Ipolysag)",
       NUTS_NAME: "Lucenec, Rimavska Sobota e Sahy",
       NAME_ENGL: "Felvidek - Lucenec e Ipel (Losonc / Ipolysag)",
@@ -1938,7 +1938,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_BANSKA_BYSTRICA',
       NUTS_ID: 'CZE_SLO_BANSKA_BYSTRICA',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Pohronie (Banska Bystrica e Zvolen)",
       NUTS_NAME: "Banska Bystrica, Zvolen e Brezno",
       NAME_ENGL: "Pohronie (Banska Bystrica e Zvolen)",
@@ -2000,7 +2000,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_FEL_KOSICE',
       NUTS_ID: 'CZE_FEL_KOSICE',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Felvidek - Kosice e Roznava (Kassa / Rozsnyo)",
       NUTS_NAME: "Kosice (Kassa), Roznava e Moldava",
       NAME_ENGL: "Felvidek - Kosice e Roznava (Kassa / Rozsnyo)",
@@ -2049,7 +2049,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_GEMER_SPIS',
       NUTS_ID: 'CZE_SLO_GEMER_SPIS',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Dolny Spis e Gemer (Spisska Nova Ves e Gelnica)",
       NUTS_NAME: "Dolny Spis e Gemer Settentrionale",
       NAME_ENGL: "Dolny Spis e Gemer (Spisska Nova Ves e Gelnica)",
@@ -2113,7 +2113,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_SPIS',
       NUTS_ID: 'CZE_SLO_SPIS',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Spis e Alti Tatra (Poprad e Levoca)",
       NUTS_NAME: "Spis - Poprad, Kezmarok e Levoca",
       NAME_ENGL: "Spis e Alti Tatra (Poprad e Levoca)",
@@ -2166,7 +2166,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_SARIS',
       NUTS_ID: 'CZE_SLO_SARIS',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Saris (Presov e Bardejov)",
       NUTS_NAME: "Saris - Presov, Bardejov e Svidnik",
       NAME_ENGL: "Saris (Presov e Bardejov)",
@@ -2216,7 +2216,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_SLO_ZEMPLIN',
       NUTS_ID: 'CZE_SLO_ZEMPLIN',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Zemplin Nord (Humenne e Michalovce)",
       NUTS_NAME: "Zemplin Settentrionale - Humenne, Vranov e Snina",
       NAME_ENGL: "Zemplin Nord (Humenne e Michalovce)",
@@ -2263,7 +2263,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_RUTHENIA_SOUTH',
       NUTS_ID: 'CZE_RUTHENIA_SOUTH',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Karpatalja Meridionale (Uzhorod e Mukacevo)",
       NUTS_NAME: "Rutenia Meridionale - Uzhorod (Ungvar) e Mukacevo (Munkacs)",
       NAME_ENGL: "Karpatalja Meridionale (Uzhorod e Mukacevo)",
@@ -2311,7 +2311,7 @@ export const CZECHOSLOVAKIA_REGIONAL_FEATURES: any[] = [
     properties: {
       id: 'CZE_RUTHENIA_NORTH',
       NUTS_ID: 'CZE_RUTHENIA_NORTH',
-      CNTR_CODE: 'CZ',
+      CNTR_CODE: 'CZE',
       NAME: "Carpato-Ucraina (Chust / Khust)",
       NUTS_NAME: "Carpato-Ucraina Autonoma - Chust, Tjaciv e Rachiv",
       NAME_ENGL: "Carpato-Ucraina (Chust / Khust)",
