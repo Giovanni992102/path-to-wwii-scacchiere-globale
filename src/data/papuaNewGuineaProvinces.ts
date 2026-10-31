@@ -742,6 +742,79 @@ export const PNG_PROVINCES_META: Record<string, PNGProvinceInfo> = {
   }
 };
 
+// Step 10 (AGO 1942 — 31 agosto 1942): Espansione giapponese nel Pacifico sud-occidentale e campagna di Nuova Guinea
+// - Rabaul e Nuova Britannia (PGEBR, PGWBK), Nuova Irlanda/Kavieng (PGNIK), Bougainville (PGNSB) e Manus/Ammiragliato (PGMRL) conquistate tra gennaio e aprile 1942
+// - Costa settentrionale della Nuova Guinea: Lae e Salamaua (PGMPL, 8 marzo 1942), Madang (PGMPM), Wewak/Sepik (PGESW, PGSAN)
+// - Sbarco a Buna e Gona (PGNPP, 21 luglio 1942) e avanzata del Distaccamento dei Mari del Sud lungo il Sentiero di Kokoda (Battaglia di Isurava, 26-31 agosto 1942)
+// - Battaglia di Milne Bay (PGMBA, 25 agosto - 7 settembre 1942): la guarnigione australiana-americana respinge lo sbarco giapponese
+const PNG_JAP_OCCUPIED_AUG1942 = new Set<string>([
+  'PGEBR', // East New Britain (Rabaul — conquistata il 23 gennaio 1942, Quartier Generale dell'8ª Flotta e 17ª Armata giapponese)
+  'PGWBK', // West New Britain (Gasmata)
+  'PGNIK', // New Ireland (Kavieng — conquistata il 24 gennaio 1942)
+  'PGNSB', // Bougainville (Buka e Kieta — occupate nel marzo 1942)
+  'PGMRL', // Manus / Isole dell'Ammiragliato (Lorengau — occupate l'8 aprile 1942)
+  'PGMPL', // Morobe (Lae e Salamaua — occupate l'8 marzo 1942)
+  'PGMPM', // Madang
+  'PGESW', // East Sepik (Wewak)
+  'PGSAN', // West Sepik (Hollandia/Aitape littoral)
+  'PGNPP', // Northern / Oro (sbarco a Buna-Gona il 21 luglio 1942 e offensiva sulla pista di Kokoda)
+]);
+
+for (const meta of Object.values(PNG_PROVINCES_META)) {
+  const origFac = meta.getFaction.bind(meta);
+  const origNote = meta.getNote.bind(meta);
+  const isJap10 = PNG_JAP_OCCUPIED_AUG1942.has(meta.id);
+
+  meta.getSovereign = (s: number) => {
+    if (s >= 10 && isJap10) return 'JAP';
+    return meta.sovereign;
+  };
+  meta.getFaction = (s: number) => {
+    if (s >= 10 && isJap10) return 'Asse';
+    return origFac(s);
+  };
+  meta.getHistoricalName = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'PGEBR') return 'Rabaul / Nuova Britannia (Piazzaforte Aeronavale Giapponese dell\'8ª Flotta — Gennaio-Agosto 1942)';
+      if (meta.id === 'PGNPP') return 'Buna-Gona & Sentiero di Kokoda (Offensiva del Distaccamento dei Mari del Sud — Agosto 1942)';
+      if (meta.id === 'PGMPL') return 'Lae-Salamaua & Wau (Teste di Ponte Giapponesi sul Golfo di Huon & Kanga Force Australiana)';
+      if (meta.id === 'PGMBA') return 'Milne Bay (Battaglia di Milne Bay — 25-31 Agosto 1942, Difesa Australiana-Alleata)';
+      if (meta.id === 'PGNCD') return 'Port Moresby (Bastione Strategico Alleato & Quartier Generale New Guinea Force — Agosto 1942)';
+      if (isJap10) return `${meta.historicalName} (Occupazione Militare Giapponese — 1942)`;
+    }
+    return meta.historicalName;
+  };
+  meta.getAdminTitle = (s: number) => {
+    if (s >= 10) {
+      if (isJap10) {
+        return 'Impero Giapponese — 8ª Flotta Imperiale (Viceamm. Gunichi Mikawa) & 17ª Armata / Distaccamento dei Mari del Sud (Rabaul)';
+      }
+      return `${meta.adminTitle} — Comando Alleato SWPA (Gen. Douglas MacArthur / Gen. Thomas Blamey — New Guinea Force)`;
+    }
+    return meta.adminTitle;
+  };
+  meta.getNote = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'PGEBR') {
+        return "Rabaul (Nuova Britannia) · Conquistata il 23 gennaio 1942 dal Distaccamento dei Mari del Sud (Magg. Gen. Tomitarō Horii) dopo aver travolto la Lark Force australiana, la caldera di Rabaul (Simpson Harbour) è stata trasformata nella più formidabile roccaforte aeronavale dell'Impero Giapponese nel Pacifico meridionale, sede dell'8ª Flotta del Viceamm. Gunichi Mikawa e della 17ª Armata del Ten. Gen. Harukichi Hyakutake, da cui partono le operazioni contro Guadalcanal e Port Moresby.";
+      }
+      if (meta.id === 'PGNPP') {
+        return "Buna, Gona e Sentiero di Kokoda · Dopo che la Battaglia del Mar dei Coralli (4-8 maggio 1942) ha sventato lo sbarco anfibio diretto su Port Moresby (Operazione MO), il 21 luglio 1942 il Distaccamento dei Mari del Sud giapponese è sbarcato a Buna e Gona sulla costa settentrionale papuana per marciare via terra oltre la catena degli Owen Stanley lungo l'impervio Sentiero di Kokoda (Kokoda Track). Tra il 26 e il 31 agosto 1942 infuria nella giungla la sanguinosa Battaglia di Isurava contro il 39° Battaglione e la 21ª Brigata AIF australiana.";
+      }
+      if (meta.id === 'PGMBA') {
+        return "Baia di Milne (Milne Bay) · Nella notte del 25 agosto 1942 i fucilieri di marina giapponesi (Forze da Sbarco Speciali di Kure e Sasebo) sbarcano a Milne Bay per catturare gli aeroporti alleati all'estremità orientale della Papua: al 31 agosto 1942 la guarnigione australiana (Milne Force del Magg. Gen. Cyril Clowes, 7ª e 18ª Brigata AIF e caccia Kittyhawk n. 75 e 76 RAAF) sta infliggendo ai giapponesi la loro prima netta sconfitta terrestre della guerra del Pacifico.";
+      }
+      if (meta.id === 'PGNCD' || meta.id === 'PGCPM') {
+        return "Port Moresby e Catena degli Owen Stanley · Ultimo baluardo alleato a difesa dell'Australia settentrionale: salvata a maggio dalla Battaglia del Mar dei Coralli, al 31 agosto 1942 Port Moresby è il centro nevralgico della New Guinea Force australiana e della 5th Air Force statunitense, mentre a poche decine di chilometri a nord, sulle creste nebbiose del Sentiero di Kokoda, i 'Diggers' australiani contendono passo dopo passo l'avanzata giapponese.";
+      }
+      if (isJap10) {
+        return `${origNote(8)} Tra gennaio e aprile 1942 il territorio è stato occupato dalle forze anfibie dell'Impero Giapponese (presa di Kavieng il 24 gennaio, di Lae e Salamaua l'8 marzo, di Bougainville a marzo e delle Isole dell'Ammiragliato l'8 aprile 1942), costituendo il perimetro difensivo esterno di Rabaul.`;
+      }
+    }
+    return origNote(s);
+  };
+}
+
 /**
  * Risolutore geocartografico per le province della Papua Nuova Guinea
  */

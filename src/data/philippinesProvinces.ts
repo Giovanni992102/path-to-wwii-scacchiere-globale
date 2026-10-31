@@ -598,14 +598,22 @@ for (const [k, meta] of Object.entries(PHILIPPINES_PROVINCES_META)) {
   const isJap = PHILIPPINES_JAP_OCCUPIED_DEC1941.has(k) || PHILIPPINES_JAP_OCCUPIED_DEC1941.has(meta.id);
 
   (meta as any).getSovereign = (s: number) => {
+    if (s >= 10) return 'JAP';
     if (s >= 9) return isJap ? 'JAP' : 'PHL';
     return meta.sovereign;
   };
   meta.getFaction = (s: number) => {
+    if (s >= 10) return 'Asse';
     if (s >= 9) return isJap ? 'Asse' : 'Alleati';
     return meta.faction;
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'PH00') return 'City of Manila (Occupazione Imperiale Giapponese — 14ª Armata & Philippine Executive Commission)';
+      if (meta.id === 'PH03') return `${meta.historicalName} (Penisola di Bataan — Capitolazione del 9 Aprile 1942 & Marcia della Morte)`;
+      if (meta.id === 'PH40') return `${meta.historicalName} (Isola di Corregidor — Capitolazione USAFFE del 6 Maggio 1942)`;
+      return `${meta.historicalName} (Occupazione Militare Giapponese — 14ª Armata, Maggio 1942)`;
+    }
     if (s >= 9) {
       if (meta.id === 'PH00') return 'City of Manila — Proclaimed Open City (26 December 1941 — Gen. Douglas MacArthur)';
       if (meta.id === 'PH03') return `${meta.historicalName} (Ridotto Difensivo USAFFE di Bataan — War Plan Orange-3)`;
@@ -616,6 +624,9 @@ for (const [k, meta] of Object.entries(PHILIPPINES_PROVINCES_META)) {
     return meta.historicalName;
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 10) {
+      return 'Impero Giapponese — Amministrazione Militare delle Filippine (14ª Armata — Ten. Gen. Masaharu Homma / Shizuichi Tanaka & Commissione Esecutiva di Jorge B. Vargas)';
+    }
     if (s >= 9) {
       if (isJap) return `Impero Giapponese — Occupazione Militare delle Filippine (14ª Armata — Ten. Gen. Masaharu Homma)`;
       if (meta.id === 'PH00') return `Commonwealth of the Philippines — Manila Città Aperta (26 dicembre 1941 — Evacuazione USAFFE verso Bataan e Corregidor)`;
@@ -624,6 +635,15 @@ for (const [k, meta] of Object.entries(PHILIPPINES_PROVINCES_META)) {
     return meta.adminTitle;
   };
   meta.getNote = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'PH03') {
+        return "Penisola di Bataan · Dopo tre mesi di assedio disperato senza rifornimenti né copertura aerea (e dopo l'evacuazione per ordine di Roosevelt del Gen. Douglas MacArthur in Australia l'11 marzo 1942 con la promessa 'I shall return'), il 9 aprile 1942 i 76.000 soldati americani e filippini del Magg. Gen. Edward P. King sono stati costretti alla resa a Bataan, subendo la tragica 'Marcia della Morte di Bataan' (Bataan Death March) da Mariveles a Camp O'Donnell.";
+      }
+      if (meta.id === 'PH40') {
+        return "Fortezza di Corregidor ('The Rock') · Dopo la caduta di Bataan e un incessante bombardamento d'artiglieria e aereo giapponese che ha sconvolto la superficie dell'isola, nella notte del 5-6 maggio 1942 le truppe d'assalto della 4ª Divisione giapponese sono sbarcate a Corregidor: il 6 maggio 1942 il Ten. Gen. Jonathan M. Wainwright ha firmato la capitolazione di Corregidor e di tutte le forze USAFFE nelle Filippine.";
+      }
+      return `${origNote(8)} Con l'ingresso delle truppe giapponesi a Manila (2 gennaio 1942), la resa della penisola di Bataan (9 aprile 1942) e la capitolazione finale della fortezza insulare di Corregidor (6 maggio 1942, Gen. Jonathan Wainwright), l'intero arcipelago delle Filippine è passato sotto l'occupazione militare della 14ª Armata dell'Impero Giapponese.`;
+    }
     if (s >= 9) {
       if (PHILIPPINES_DEC1941_NOTES[meta.id]) return PHILIPPINES_DEC1941_NOTES[meta.id];
       return `${origNote(8)} Nel dicembre 1941, con l'invasione giapponese di Luzon e Mindanao e la dichiarazione di Manila Città Aperta (26 dicembre), le guarnigioni USAFFE delle Visayas e di Mindanao organizzano la resistenza insulare e il supporto logistico a Corregidor.`;

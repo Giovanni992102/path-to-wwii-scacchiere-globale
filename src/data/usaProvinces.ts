@@ -2172,6 +2172,38 @@ export const USA_PROVINCES_META: Record<string, USAProvinceInfo> = {
     getSovereign: () => "USA",
     getFaction: () => "Alleati",
   },
+  US_AK_ALEUTIANS_WEST: {
+    id: "US_AK_ALEUTIANS_WEST",
+    iso: "US-AK-W",
+    name: "Attu & Kiska (Western Aleutian Islands)",
+    modernName: "Western Aleutian Islands (Attu & Kiska, Alaska)",
+    historicalName: "Western Aleutian Islands — Attu & Kiska (Territory of Alaska)",
+    adminTitle: "United States of America — Territory of Alaska (Near & Rat Islands — Attu & Kiska)",
+    capital: "Kiska / Attu Village",
+    region: "Pacific Outpost",
+    isState: false,
+    historicalToponym: "Attu & Kiska (Isole Aleutine Occidentali)",
+    s0_1: "Isole Aleutine Occidentali (Attu, Agattu e Kiska, parte del Territory of Alaska). Estremo lembo occidentale del territorio nordamericano tra il Mare di Bering e l'Oceano Pacifico settentrionale; abitato da piccole comunità native Aleutine (Unangax̂) ad Attu e visitato dai guardacoste statunitensi della Bering Sea Patrol.",
+    s2_4: "Isole di Attu e Kiska (Aleutine Occidentali). La Marina degli Stati Uniti istituisce una riserva navale nella baia naturale di Kiska Harbor e monitora le acque subartiche contro i pescherecci-spia giapponesi operanti dalle vicine Isole Curili (Paramushiro).",
+    s5_6: "Isole di Attu e Kiska (1939-1940). Mentre la U.S. Navy avvia la costruzione della base aeronavale di Dutch Harbor (Unalaska) nelle Aleutine orientali, le remote isole occidentali di Attu e Kiska rimangono sguarnite di difese costiere permanenti.",
+    s7: "Isole di Attu e Kiska (ottobre 1940). Pattugliamenti sporadici di idrovolanti PBY Catalina e cutter della Guardia Costiera lungo i 1.800 km dell'arco insulare delle Aleutine.",
+    s8: "Isole di Attu e Kiska (aprile 1941). La U.S. Navy installa a Kiska una piccola stazione meteorologica della Marina di 10 uomini (sotto il comando del tenente William C. House), unico presidio militare statunitense all'estremità occidentale delle Aleutine.",
+    getNote: (s: number) => {
+      if (s >= 8) return USA_PROVINCES_META["US_AK_ALEUTIANS_WEST"].s8;
+      if (s >= 7) return USA_PROVINCES_META["US_AK_ALEUTIANS_WEST"].s7;
+      if (s >= 5) return USA_PROVINCES_META["US_AK_ALEUTIANS_WEST"].s5_6;
+      if (s >= 2) return USA_PROVINCES_META["US_AK_ALEUTIANS_WEST"].s2_4;
+      return USA_PROVINCES_META["US_AK_ALEUTIANS_WEST"].s0_1;
+    },
+    getHistoricalName: (s: number) => {
+      return "Western Aleutian Islands — Attu & Kiska (Territory of Alaska)";
+    },
+    getAdminTitle: (s: number) => {
+      return "United States of America — Territory of Alaska (Near & Rat Islands — Attu & Kiska)";
+    },
+    getSovereign: () => "USA",
+    getFaction: () => "Alleati",
+  },
 };
 
 // Alias per chiavi alternative
@@ -2183,11 +2215,13 @@ USA_PROVINCES_META['PCZ'] = USA_PROVINCES_META['US_PCZ'];
 USA_PROVINCES_META['MIDWAY'] = USA_PROVINCES_META['UM_MIDWAY'];
 USA_PROVINCES_META['WAKE'] = USA_PROVINCES_META['UM_WAKE'];
 USA_PROVINCES_META['DC'] = USA_PROVINCES_META['US_DC'];
+USA_PROVINCES_META['ATTU_KISKA'] = USA_PROVINCES_META['US_AK_ALEUTIANS_WEST'];
+USA_PROVINCES_META['UM_ATTU_KISKA'] = USA_PROVINCES_META['US_AK_ALEUTIANS_WEST'];
 
 /**
  * Risoluzione Geostorica e Toponomastica Completa per qualsiasi Provincia, Stato o Territorio USA
  */
-// Override Step 9 (DIC 1941): Attacco a Pearl Harbor (7 dicembre 1941), ingresso degli USA nella Seconda Guerra Mondiale e conquista giapponese di Guam (10 dicembre) e Wake (23 dicembre)
+// Override Step 9 (DIC 1941) & Step 10 (AGO 1942): Pearl Harbor, Guam, Wake, Midway e occupazione giapponese di Attu e Kiska nelle Aleutine (giugno 1942)
 for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
   const origSov = meta.getSovereign.bind(meta);
   const origFac = meta.getFaction.bind(meta);
@@ -2196,15 +2230,28 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
   const origNote = meta.getNote.bind(meta);
 
   meta.getSovereign = (s: number) => {
+    if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'JAP';
     if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'JAP';
     return origSov(s);
   };
   meta.getFaction = (s: number) => {
+    if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'Asse';
     if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'Asse';
     if (s >= 9) return 'Alleati';
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'US_AK_ALEUTIANS_WEST') {
+        return 'Atsuta-tō & Narukami-tō / Attu e Kiska (Aleutine Occidentali Occupate dal Giappone — Giugno 1942)';
+      }
+      if (meta.id === 'UM_MIDWAY') {
+        return 'Midway Atoll (Vittoria Navale Decisiva della U.S. Navy — 4-7 Giugno 1942)';
+      }
+      if (meta.id === 'US_AK') {
+        return 'Territory of Alaska (Bombardamento di Dutch Harbor & Costruzione dell\'Alaska Highway — Giugno-Agosto 1942)';
+      }
+    }
     if (s >= 9) {
       if (meta.id === 'GU') return 'Ōmiya-jima / Guam (Occupazione Militare Giapponese — 10 Dicembre 1941)';
       if (meta.id === 'UM_WAKE') return 'Ōtori-jima / Wake Island (Occupazione Militare Giapponese — 23 Dicembre 1941)';
@@ -2215,6 +2262,9 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origHist(s);
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') {
+      return 'Impero Giapponese — 5ª Flotta Imperiale (Viceamm. Boshirō Hosogaya — Guarnigioni di Narukami-tō / Kiska e Atsuta-tō / Attu)';
+    }
     if (s >= 9) {
       if (meta.id === 'GU') return 'Impero Giapponese — Guarnigione Imperiale di Guam / Ōmiya-jima (Distaccamento dei Mari del Sud — Magg. Gen. Tomitarō Horii)';
       if (meta.id === 'UM_WAKE') return 'Impero Giapponese — Guarnigione Navale dell\'Isola di Wake / Ōtori-jima (4ª Flotta Imperiale — Contramm. Sadamichi Kajioka)';
@@ -2223,6 +2273,17 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origAdmin(s);
   };
   meta.getNote = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'US_AK_ALEUTIANS_WEST') {
+        return "Attu e Kiska (Aleutine Occidentali occupate dal Giappone — Giugno 1942) · Nell'ambito dell'Operazione AL (braccio settentrionale dell'offensiva di Midway guidato dalla 5ª Flotta del Viceamm. Boshirō Hosogaya), dopo il bombardamento aereo di Dutch Harbor (3-4 giugno 1942), il 6 giugno 1942 la 3ª Forza da Sbarco Navale Speciale di Maizuru ha occupato l'isola di Kiska (catturando la stazione meteo della U.S. Navy e ribattezzando l'isola 'Narukami-tō') e il 7 giugno il Distaccamento dei Mari del Nord del Magg. Matsutoshi Hozumi è sbarcato ad Attu ('Atsuta-tō'): è la prima e unica occupazione militare straniera di suolo nordamericano statunitense dai tempi della Guerra del 1812.";
+      }
+      if (meta.id === 'UM_MIDWAY') {
+        return "Atollo di Midway (Battaglia delle Midway — 4-7 Giugno 1942) · Grazie alla decrittazione del codice navale giapponese JN-25 da parte della Station HYPO di Joseph Rochefort a Pearl Harbor, l'Amm. Chester W. Nimitz ha teso un'imboscata con le portaerei Enterprise, Hornet e Yorktown (Task Force 16 e 17 di Spruance e Fletcher) alla Flotta Combinata di Isoroku Yamamoto: il 4 giugno 1942 i bombardieri in picchiata SBD Dauntless hanno affondato le quattro portaerei della Kidō Butai (Akagi, Kaga, Sōryū e Hiryū), segnando l'arresto definitivo dell'espansione navale giapponese nel Pacifico centrale.";
+      }
+      if (meta.id === 'US_AK') {
+        return "Territorio dell'Alaska (Estate 1942) · Il 3-4 giugno 1942 le portaerei leggere giapponesi Ryūjō e Jun'yō hanno bombardato la base aeronavale di Dutch Harbor (Unalaska), mentre le truppe imperiali occupavano Attu e Kiska nelle Aleutine occidentali. In risposta, il Genio Militare statunitense costruisce a tempo di record i 2.700 km dell'Alaska Highway (ALCAN) attraverso il Canada e schiera l'11th Air Force per bombardare i presidi giapponesi nelle Aleutine.";
+      }
+    }
     if (s >= 9) {
       if (meta.id === 'GU') {
         return "Guam (Ōmiya-jima) · Isolata nel mezzo delle Marianne giapponesi, Guam viene bombardata dall'aviazione di Saipan l'8 dicembre 1941; all'alba del 10 dicembre i 5.500 uomini del Distaccamento dei Mari del Sud (Magg. Gen. Tomitarō Horii) e della 5ª Forza da Sbarco Navale sbarcano a Dungcas Beach e Tumon Bay. Dopo un breve scontro a fuoco in Plaza de España ad Agaña, il Governatore navale Cap. George J. McMillin e la piccola guarnigione di Marines e Insular Force Guard sono costretti alla resa: Guam è il primo territorio sovrano statunitense occupato dall'Asse e viene ribattezzata 'Ōmiya-jima' (Isola del Grande Santuario).";

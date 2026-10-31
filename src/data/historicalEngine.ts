@@ -446,7 +446,7 @@ export function processHistoricalCartographyPipeline(
 
   const all = provs.concat(isHB ? hbs : cntrs);
   const newStats: StatsStep[] = [];
-  for (let s = 0; s < 10; s++) newStats.push({ own: {}, fac: {} });
+  for (let s = 0; s < 11; s++) newStats.push({ own: {}, fac: {} });
 
   for (const f of all) {
     const p = f.properties || (f.properties = {});
@@ -469,9 +469,9 @@ export function processHistoricalCartographyPipeline(
       }
     }
 
-    // 3. Risoluzione Verità Storica per tutti i 9 passaggi
+    // 3. Risoluzione Verità Storica per tutti gli 11 passaggi
     f.__res = [];
-    for (let s = 0; s < 10; s++) {
+    for (let s = 0; s < 11; s++) {
       const r = resolveHistoricalTruth(f, s);
       f.__res.push(r);
 
@@ -495,7 +495,7 @@ export function processHistoricalCartographyPipeline(
       totalFeatures: all.length,
       blackHolesFixed,
       topologiesSanitized,
-      stepsAnalyzed: 10,
+      stepsAnalyzed: 11,
     },
   };
 }

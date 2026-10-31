@@ -41,7 +41,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [-3.00, 53.40],  // Liverpool
     ],
     description: 'La fondamentale linea di rifornimento vitale per la sopravvivenza della Gran Bretagna (armi, petrolio, cibo).',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'mediterranean_suez_lifeline',
@@ -63,7 +63,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [45.00, 12.80],  // Aden (Oceano Indiano)
     ],
     description: 'Il corridoio imperiale britannico più rapido per collegare la madrepatria con l\'India Britannica e Singapore.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'cape_route',
@@ -85,7 +85,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [72.85, 18.95],  // Bombay (India)
     ],
     description: 'Rotta strategica di riserva usata dai convogli alleati per evitare i pericoli aero-navali del Mediterraneo.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'pacific_singapore_tokyo',
@@ -104,7 +104,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [139.70, 35.65], // Tokyo
     ],
     description: 'L\'arteria vitale per l\'Impero Giapponese: trasporto di gomma, petrolio, bauxite e riso verso le industrie della madrepatria.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'transpacific_us_hawaii',
@@ -128,10 +128,10 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       ],
     ],
     description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor e alle Filippine attraverso l\'Oceano Pacifico.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
 
-  // Nuove rotte strategiche per il conflitto bellico (1940-1941)
+  // Nuove rotte strategiche per il conflitto bellico (1940-1942)
   {
     id: 'arctic_convoys',
     name: 'Rotta dei Convogli Artici (Arctic Convoys — PQ / QP)',
@@ -148,7 +148,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [40.50, 64.55],  // Arcangelo (Golfo di Dvina / Mar Bianco)
     ],
     description: 'La via navale più estrema della guerra: convogli alleati carichi di carri armati, aerei e munizioni affrontano ghiacci polari, tempeste e gli attacchi di U-Boot e bombardieri della Luftwaffe dai fiordi norvegesi per rifornire l\'URSS.',
-    activeSteps: [9], // Attivata dall'agosto 1941 (Operazione Dervish)
+    activeSteps: [9, 10], // Attivata dall'agosto 1941 (Operazione Dervish)
   },
   {
     id: 'axis_libya_convoy',
@@ -166,7 +166,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [20.06, 32.11], // Bengasi
     ],
     description: 'Cordone ombelicale logistico essenziale per il sostentamento del Regio Esercito e dell\'Afrikakorps di Rommel in Nordafrica, costantemente bersagliato dalla Force K e dai sommergibili britannici basati a Malta.',
-    activeSteps: [6, 7, 8, 9], // Dal giugno 1940
+    activeSteps: [6, 7, 8, 9, 10], // Dal giugno 1940
   },
   {
     id: 'persian_corridor_sealane',
@@ -185,7 +185,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [47.80, 30.50],  // Bassora (Iraq)
     ],
     description: 'Arteria marittima oceanica aperta dagli Alleati dopo l\'invasione congiunta anglo-sovietica dell\'Iran nell\'agosto-settembre 1941. Convogliava autocarri Studebaker, munizioni e materiale bellico del Lend-Lease verso la Russia tramite la Ferrovia Trans-Iraniana.',
-    activeSteps: [9],
+    activeSteps: [9, 10],
   },
 ];
 
@@ -210,10 +210,14 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
         statusNote = 'Prima Epoca Felice degli U-Boot (Happy Time)';
         isContested = true;
         description = 'Operando dalle nuove basi conquistate in Bretagna (Brest, Lorient), gli U-Boot della Kriegsmarine infliggono perdite devastanti alle rotte di convoglio alleate.';
-      } else {
+      } else if (step === 9) {
         statusNote = 'Battaglia dell\'Atlantico & Lend-Lease (Black Pit)';
         isContested = true;
         description = 'Espansione delle scorte statunitensi e canadesi a tutela dei mercantili; i branchi di lupi di Dönitz colpiscono nel Mid-Atlantic Gap privo di copertura aerea.';
+      } else {
+        statusNote = 'Seconda Epoca Felice (Operazione Paukenschlag / Drumbeat)';
+        isContested = true;
+        description = 'Nel gennaio-agosto 1942 gli U-Boot di Dönitz (Operazione Paukenschlag) colpiscono lungo la costa orientale degli Stati Uniti, nel Golfo del Messico e nei Caraibi, oltre che nel Mid-Atlantic Gap, provocando l\'entrata in guerra di Messico (maggio 1942) e Brasile (agosto 1942).';
       }
       break;
 
@@ -221,11 +225,16 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       if (step < 6) {
         statusNote = 'Arteria Imperiale Britannica Aperta';
         description = 'Il corridoio marittimo più rapido per collegare la Gran Bretagna con l\'Egitto, l\'India Britannica e Singapore attraverso Gibilterra e Suez.';
-      } else {
+      } else if (step < 10) {
         statusNote = 'Rotte del Mediterraneo Bloccate / Rerouted al Capo';
         isContested = true;
         color = '#e07a5f';
         description = 'Dopo l\'entrata in guerra dell\'Italia (giugno 1940), il canale di Sicilia diventa intransitabile per i mercantili alleati sotto il tiro delle forze aero-navali dell\'Asse. Il traffico di linea viene deviato attorno all\'Africa (Rotta del Capo); solo convogli da guerra speciali (Operation Halberd, Tiger) tentano la traversata scortati dalla Force H.';
+      } else {
+        statusNote = 'Assedio di Malta & Operazione Pedestal (Battaglia di Mezzo Agosto)';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Con il transito ordinario deviato sulla Rotta del Capo e la Panzerarmee Afrika ferma a El Alamein, nell\'agosto 1942 i convogli britannici affrontano la furiosa Battaglia di Mezzo Agosto (Operazione Pedestal, 10-15 agosto 1942): a caro prezzo (perdita della portaerei HMS Eagle), la petroliera SS Ohio raggiunge La Valletta garantendo la sopravvivenza di Malta.';
       }
       break;
 
@@ -243,11 +252,16 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       if (step < 9) {
         statusNote = 'Linee Commerciali e Petrolifere Giapponesi';
         description = 'L\'arteria vitale per l\'approvvigionamento di riso, ferro e petrolio verso le isole metropolitane dell\'Impero Giapponese.';
-      } else {
+      } else if (step === 9) {
         statusNote = 'Direttrice d\'Invasione a Sud (Nanshin-ron)';
         isContested = true;
         color = '#e63946';
         description = 'In seguito all\'embargo petrolifero totale imposto dagli Alleati nell\'estate 1941, la rotta si trasforma nella direttrice d\'assalto della Marina Imperiale per la conquista lampo della Malesia, di Singapore e dei campi petroliferi delle Indie Olandesi.';
+      } else {
+        statusNote = 'Arteria Imperiale della Sfera di Co-Prosperità (Palembang & Balikpapan -> Tokyo)';
+        isContested = false;
+        color = '#b33d4a';
+        description = 'Con la conquista di Singapore (febbraio 1942), delle Indie Orientali Olandesi (marzo 1942) e delle Filippine (maggio 1942), l\'Impero Giapponese controlla interamente l\'arteria marittima del Mar Cinese Meridionale, convogliando petrolio, gomma e stagno verso la madrepatria.';
       }
       break;
 
@@ -255,24 +269,41 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       if (step < 9) {
         statusNote = 'Arteria di Comunicazione USA - Filippine';
         description = 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor, Guam e Manila.';
-      } else {
+      } else if (step === 9) {
         statusNote = 'Tranciata a Ovest di Oahu (Attacco di Pearl Harbor)';
         isContested = true;
         color = '#d9534f';
         description = 'L\'attacco aereo a sorpresa di Pearl Harbor (7 dicembre 1941), la fulminea caduta di Guam (10 dicembre) e Wake (23 dicembre) e gli sbarchi a Luzon recidono la rotta diretta per Manila, isolando le truppe americane e filippine del generale MacArthur.';
+      } else {
+        statusNote = 'Fronte del Pacifico Centrale (Vittoria di Midway & Controffensiva di Guadalcanal)';
+        isContested = true;
+        color = '#d9534f';
+        description = 'Sebbene il segmento occidentale (Manila-Guam-Wake) sia in mano giapponese dopo la caduta di Corregidor (6 maggio 1942), la decisiva vittoria delle portaerei americane a Midway (4-7 giugno 1942) blinda Pearl Harbor e consente agli USA di aprire la controffensiva nel Pacifico meridionale a Guadalcanal (7 agosto 1942).';
       }
       break;
 
     case 'arctic_convoys':
-      statusNote = 'Convogli Artici Lend-Lease (PQ / QP)';
-      isContested = true;
-      description = 'I convogli della speranza attraverso i mari di Barents e Groenlandia: mercantili scortati affrontano tempeste polari e incursioni della Luftwaffe e degli U-Boot dalla Norvegia per recapitare carri Matilda, caccia Hurricane e materiali bellici a Murmansk e Arcangelo.';
+      if (step >= 10) {
+        statusNote = 'Tragedia del Convoglio PQ-17 & Assalti nel Mar di Barents';
+        isContested = true;
+        description = 'Nell\'estate 1942 la rotta artica sotto il sole di mezzanotte diventa un inferno aeronavale: nel luglio 1942 il convoglio PQ-17 perde 24 mercantili su 35 sotto gli attacchi combinati di U-Boot e aerosiluranti della Luftwaffe dopo l\'ordine di dispersione per la minaccia della corazzata Tirpitz.';
+      } else {
+        statusNote = 'Convogli Artici Lend-Lease (PQ / QP)';
+        isContested = true;
+        description = 'I convogli della speranza attraverso i mari di Barents e Groenlandia: mercantili scortati affrontano tempeste polari e incursioni della Luftwaffe e degli U-Boot dalla Norvegia per recapitare carri Matilda, caccia Hurricane e materiali bellici a Murmansk e Arcangelo.';
+      }
       break;
 
     case 'axis_libya_convoy':
-      statusNote = 'Convogli dell\'Asse per la Libia';
-      isContested = true;
-      description = 'Cordone ombelicale dell\'Afrikakorps e del Regio Esercito in Cirenaica e Tripolitania. Le rotte da Napoli e Taranto verso Tripoli e Bengasi sono costantemente minacciate dagli aerosiluranti e dai sommergibili della Royal Navy stanziati a Malta.';
+      if (step >= 10) {
+        statusNote = 'Linea Logistica per El Alamein (Tripoli, Bengasi & Tobruk)';
+        isContested = true;
+        description = 'Con l\'avanzata di Rommel fino a El Alamein (giugno-agosto 1942), i convogli della Regia Marina estendono le rotte fino a Bengasi e Tobruk, ma la carenza cronica di petroliere e gli attacchi da Malta strangolano i rifornimenti di carburante per la Panzerarmee Afrika alla vigilia di Alam el Halfa.';
+      } else {
+        statusNote = 'Convogli dell\'Asse per la Libia';
+        isContested = true;
+        description = 'Cordone ombelicale dell\'Afrikakorps e del Regio Esercito in Cirenaica e Tripolitania. Le rotte da Napoli e Taranto verso Tripoli e Bengasi sono costantemente minacciate dagli aerosiluranti e dai sommergibili della Royal Navy stanziati a Malta.';
+      }
       break;
 
     case 'persian_corridor_sealane':

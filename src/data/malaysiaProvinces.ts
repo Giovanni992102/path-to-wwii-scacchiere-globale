@@ -571,14 +571,23 @@ for (const [k, meta] of Object.entries(MALAYSIA_PROVINCES_META)) {
   const isJap = MALAYSIA_JAP_OCCUPIED_DEC1941.has(k) || MALAYSIA_JAP_OCCUPIED_DEC1941.has(meta.id);
 
   meta.getSovereign = (s: number) => {
+    if (s >= 10) return 'JAP';
     if (s >= 9) return isJap ? 'JAP' : 'UK';
     return meta.sovereign;
   };
   meta.getFaction = (s: number) => {
+    if (s >= 10) return 'Asse';
     if (s >= 9) return isJap ? 'Asse' : 'Alleati';
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'SG01') return 'Shōnan-tō / Singapore (Occupazione Imperiale Giapponese — Resa del 15 Febbraio 1942)';
+      if (meta.id === 'MY12' || meta.id === 'MY13' || meta.id === 'MY15') {
+        return `${meta.historicalName} (Kita Boruneo — Occupazione Militare Giapponese, 1942)`;
+      }
+      return `${meta.historicalName} (Malai — Amministrazione Militare Giapponese della 25ª Armata, 1942)`;
+    }
     if (s >= 9) {
       if (isJap) return `${meta.historicalName} (Occupazione Militare Giapponese — 25ª Armata, Dicembre 1941)`;
       return `${meta.historicalName} (Campagna di Malesia — Difesa del Malaya Command, Dicembre 1941)`;
@@ -586,6 +595,13 @@ for (const [k, meta] of Object.entries(MALAYSIA_PROVINCES_META)) {
     return meta.historicalName;
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'SG01') return 'Impero Giapponese — Piazza Militare e Navale di Shōnan-tō (25ª Armata — Ten. Gen. Tomoyuki Yamashita / Sindaco Shigeo Ōdate)';
+      if (meta.id === 'MY12' || meta.id === 'MY13' || meta.id === 'MY15') {
+        return 'Impero Giapponese — Armata di Difesa del Borneo Settentrionale (Kita Boruneo — Ten. Gen. Marquis Toshinari Maeda)';
+      }
+      return 'Impero Giapponese — Amministrazione Militare della Malesia (Malai Gunseikanbu — 25ª Armata)';
+    }
     if (s >= 9) {
       if (isJap) return `Impero Giapponese — Occupazione Militare della Malesia / Borneo (25ª Armata — Ten. Gen. Tomoyuki Yamashita)`;
       return `${meta.adminTitle} — Malaya Command (Ten. Gen. Arthur Percival, Singapore)`;
@@ -593,6 +609,12 @@ for (const [k, meta] of Object.entries(MALAYSIA_PROVINCES_META)) {
     return meta.adminTitle;
   };
   meta.getNote = (s: number) => {
+    if (s >= 10) {
+      if (meta.id === 'SG01') {
+        return "Singapore (Shōnan-tō, 'Isola della Luce del Sud') · Dopo una fulminea campagna di 70 giorni lungo la penisola malese e lo sbarco attraverso lo Stretto di Johor nella notte dell'8-9 febbraio 1942, il 15 febbraio 1942 presso la fabbrica Ford di Bukit Timah il Ten. Gen. Arthur Percival ha firmato la resa incondizionata di Singapore e di 80.000 soldati britannici, indiani e australiani nelle mani del Ten. Gen. Tomoyuki Yamashita (25ª Armata giapponese). Definita da Winston Churchill 'il peggior disastro e la più grande capitolazione della storia britannica', la piazzaforte e la base navale di Sembawang sono state ribattezzate 'Shōnan-tō' e trasformate nel perno meridionale dell'Impero Giapponese.";
+      }
+      return `${origNote(8)} Entro il febbraio 1942 l'intera Malesia britannica e il Borneo settentrionale sono caduti sotto il controllo dell'Esercito Imperiale Giapponese (presa di Kuala Lumpur l'11 gennaio 1942, di Johor Bahru il 31 gennaio e capitolazione di Singapore il 15 febbraio 1942); le piantagioni di gomma naturale e le miniere di stagno sono ora requisite dall'amministrazione militare nipponica (Malai Gunseikanbu) per alimentare l'industria bellica di Tokyo.`;
+    }
     if (s >= 9) {
       if (MALAYSIA_DEC1941_NOTES[meta.id]) return MALAYSIA_DEC1941_NOTES[meta.id];
       return `${origNote(8)} Nel dicembre 1941, dopo gli sbarchi giapponesi a Kota Bharu (8 dicembre) e la caduta di Penang e Ipoh, il territorio è in prima linea nella difesa britannica della Malesia meridionale a protezione di Kuala Lumpur e della piazzaforte di Singapore.`;

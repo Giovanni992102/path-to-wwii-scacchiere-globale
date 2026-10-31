@@ -2839,6 +2839,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Africa Orientale Italiana (AOI — Etiopia)', 'Impero proclamato il 9 maggio 1936');
   }
   if (nrm_hb.includes('libya') || nrm_hb.includes('cyrenaica') || nrm_hb.includes('tripolitania')) {
+    if (s >= 10) {
+      return makeResult(
+        'ITA',
+        'Libia Italiana (Riconquista di Tobruk e Avanzata fino a El Alamein)',
+        'Battaglia di Gazala e Caduta di Tobruk (26 maggio - 21 giugno 1942): la Panzerarmee Afrika del Generalfeldmarschall Erwin Rommel e del Maresciallo d\'Italia Ettore Bastico travolge l\'8ª Armata britannica sulla linea di Gazala-Bir Hakeim, espugna il 21 giugno 1942 la piazzaforte di Tobruk (33.000 prigionieri alleati) e penetra in profondità in Egitto fino alla linea di El Alamein.',
+        'Asse',
+        'Governo Generale della Libia (Maresciallo Ettore Bastico) & Panzerarmee Afrika (Generalfeldmarschall Erwin Rommel)'
+      );
+    }
+    if (s === 9 && nrm_hb.includes('cyrenaica')) {
+      return makeResult(
+        'UK',
+        'Cirenaica Occupata (Bengasi / Tobruk / Derna — Operazione Crusader, 8th Army)',
+        'Operazione Crusader (18 novembre - 30 dicembre 1941): l\'8ª Armata britannica sblocca l\'assedio di Tobruk e rioccupa Derna, Bengasi e la Cirenaica fino a El Agheila.',
+        'Alleati',
+        'British 8th Army — Military Administration of Cyrenaica'
+      );
+    }
     if (s >= 8) {
       return makeResult(
         'ITA',
@@ -3384,7 +3402,57 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       return makeResult(ov.o, top.name, top.note, undefined, top.adminTitle);
     }
     if (ov.o === 'BEL' || ov.o === 'HOL') {
+      if (
+        ov.o === 'HOL' &&
+        s >= 10 &&
+        (nrm_hb.includes('east indies') ||
+          nrm_hb.includes('indies') ||
+          nrm_hb.includes('indonesia') ||
+          nrm_hb.includes('java') ||
+          nrm_hb.includes('sumatra') ||
+          nrm_hb.includes('borneo') ||
+          nrm_hb.includes('celebes') ||
+          (c && c[0] > 90))
+      ) {
+        return makeResult(
+          'JAP',
+          'Ranryō Higashi Indo (Indie Orientali Olandesi — Occupazione Imperiale Giapponese)',
+          'Capitolazione di Kalijati (8-9 marzo 1942): dopo le battaglie navali del Mare di Giava e dello Stretto della Sonda e gli sbarchi della 16ª Armata giapponese (Ten. Gen. Hitoshi Imamura), il comandante supremo alleato del KNIL Ten. Gen. Hein ter Poorten firma la resa incondizionata delle Indie Orientali Olandesi.',
+          'Asse',
+          'Dai Nippon Teikoku Rikugun — 16ª Armata (Giava) / 25ª Armata (Sumatra) / Marina Imperiale (Borneo, Celebes e Molucche)'
+        );
+      }
       return makeResult(ov.o, top.name, top.adminTitle, s >= 6 ? 'Alleati' : 'Neutrale');
+    }
+    if (ov.o === 'POR') {
+      if (s >= 10 && (nrm_hb.includes('timor') || (c && c[0] > 120 && c[1] < 0))) {
+        return makeResult(
+          'JAP',
+          'Timor Português (Díli — Occupazione Militare Giapponese)',
+          'Battaglia di Timor (19-20 febbraio 1942): le forze da sbarco della Marina Imperiale e del 228º Reggimento di Fanteria giapponese occupano Dili e il Timor Portoghese neutrale, contrastate sulle montagne centrali dalla guerriglia della Sparrow Force australiano-olandese.',
+          'Asse',
+          'Dai Nippon Teikoku — Occupazione Militare del Timor Orientale (Díli)'
+        );
+      }
+      return makeResult('POR', top.name, top.note || top.adminTitle, 'Neutrale', top.adminTitle);
+    }
+    if (ov.o === 'PHL') {
+      if (s >= 10) {
+        return makeResult(
+          'JAP',
+          'Hiripin Gōsei-fu (Filippine — Occupazione Militare Giapponese)',
+          'Capitolazione americana nelle Filippine (aprile-maggio 1942): dopo la caduta della penisola di Bataan (9 aprile 1942) e la Marcia della Morte, il Ten. Gen. Jonathan Wainwright è costretto a capitolare il 6 maggio 1942 sull\'isola fortificata di Corregidor di fronte alla 14ª Armata giapponese (Ten. Gen. Masaharu Homma).',
+          'Asse',
+          'Dai Nippon Teikoku Rikugun — 14ª Armata & Commissione Esecutiva Filippina (Jorge B. Vargas)'
+        );
+      }
+      return makeResult(
+        'PHL',
+        top.name,
+        top.note || (s >= 9 ? 'Commonwealth delle Filippine — Invasione Giapponese di Luzon e Manila Città Aperta (26 dicembre 1941)' : 'Commonwealth delle Filippine (Stato Autonomo Associato agli USA)'),
+        s >= 9 ? 'Alleati' : 'Neutrale',
+        top.adminTitle || 'Commonwealth of the Philippines'
+      );
     }
     if (ov.o === 'SPA') {
       const top = getExtendedToponym(name, s === 0 ? 'SPR' : 'SPA', undefined, c, s);
@@ -3467,6 +3535,61 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     if (ov.o === 'UK') {
+      if (s >= 9 && (nrm_hb.includes('hong kong') || name === 'Hong Kong')) {
+        return makeResult(
+          'JAP',
+          'Honkon Senryōchi (Hong Kong — Occupazione Imperiale Giapponese)',
+          'Battaglia di Hong Kong (8-25 dicembre 1941): conquista giapponese della colonia britannica nel "Black Christmas" del 25 dicembre 1941.',
+          'Asse',
+          'Dai Nippon Teikoku — Honkon Senryōchi Sōtokubu'
+        );
+      }
+      if (s >= 9 && (nrm_hb.includes('sarawak') || nrm_hb.includes('brunei') || nrm_hb.includes('gilbert'))) {
+        return makeResult(
+          'JAP',
+          nrm_hb.includes('gilbert')
+            ? 'Girubāto Shotō (Isole Gilbert: Makin & Tarawa — Occupazione Imperiale Giapponese)'
+            : 'Kita Boruneo (Sarawak & Brunei — Occupazione Militare Giapponese)',
+          nrm_hb.includes('gilbert')
+            ? 'Occupazione delle Isole Gilbert (9-10 dicembre 1941 / agosto 1942): le Forze Speciali da Sbarco della Marina Imperiale occupano gli atolli di Makin (Butaritari) e Tarawa; dopo il raid dei Marine Raiders di Carlson a Makin (17-18 agosto 1942), Tokyo trasforma Tarawa in una formidabile piazzaforte corallina.'
+            : 'Operazione B (16-25 dicembre 1941): il Distaccamento Kawaguchi sbarca a Miri, conquista i campi petroliferi di Seria in Brunei e occupa Kuching (Sarawak) il 24 dicembre 1941.',
+          'Asse',
+          'Dai Nippon Teikoku — Occupazione Militare Giapponese'
+        );
+      }
+      if (
+        s >= 10 &&
+        (nrm_hb.includes('malaya') ||
+          nrm_hb.includes('malaysia') ||
+          nrm_hb.includes('straits') ||
+          nrm_hb.includes('singapore') ||
+          nrm_hb.includes('borneo') ||
+          nrm_hb.includes('burma') ||
+          nrm_hb.includes('solomon') ||
+          nrm_hb.includes('nauru') ||
+          nrm_hb.includes('andaman') ||
+          nrm_hb.includes('christmas'))
+      ) {
+        return makeResult(
+          'JAP',
+          nrm_hb.includes('singapore') || nrm_hb.includes('straits')
+            ? 'Shōnan-tō (Singapore — Fortezza Imperiale Giapponese, Resa del 15 Febbraio 1942)'
+            : nrm_hb.includes('burma')
+            ? 'Biruma Gunsei-kanbu (Birmania Occupata dal Giappone — Taglio della Burma Road, Maggio 1942)'
+            : nrm_hb.includes('solomon')
+            ? 'Soromon Shotō (Isole Salomone: Tulagi & Guadalcanal — Perimetro Difensivo Giapponese, Agosto 1942)'
+            : nrm_hb.includes('nauru')
+            ? 'Nauru-tō (Isola di Nauru — Occupazione Navale Giapponese, 26 Agosto 1942)'
+            : 'Marē Hantō & Kita Boruneo (Malesia e Borneo — Occupazione Militare Giapponese)',
+          nrm_hb.includes('solomon')
+            ? 'Campagna delle Isole Salomone (gennaio-agosto 1942): la Marina Imperiale Giapponese occupa Bougainville, le Shortland, Tulagi (3 maggio) e avvia la costruzione della pista aerea di Lunga Point a Guadalcanal. Nonostante lo sbarco della 1ª Divisione Marines statunitense il 7 agosto 1942 e la vittoria navale giapponese all\'Isola di Savo (9 agosto), al 31 agosto 1942 l\'arcipelago è teatro di furiosi scontri lungo il perimetro difensivo nipponico.'
+            : nrm_hb.includes('burma')
+            ? 'Conquista giapponese della Birmania (gennaio-maggio 1942): la 15ª Armata del Ten. Gen. Shōjirō Iida conquista Rangoon (8 marzo), Mandalay (1° maggio) e Lashio, tagliando definitivamente la Strada della Birmania (Burma Road) verso la Cina nazionalista.'
+            : 'Massima espansione dell\'Impero Giapponese nel Sud-Est Asiatico e nel Pacifico (febbraio-agosto 1942): caduta di Singapore (15 febbraio 1942, ribattezzata Shōnan-tō) e consolidamento della Sfera di Co-Prosperità della Grande Asia Orientale.',
+          'Asse',
+          'Dai Nippon Teikoku — Nanpōgun (Gruppo d\'Armate di Spedizione Meridionale) & Kaigun'
+        );
+      }
       return makeResult(
         'UK',
         top.name,
@@ -3476,6 +3599,23 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     if (ov.o === 'AST' || ov.o === 'CAN' || ov.o === 'NZL' || ov.o === 'SAF' || ov.o === 'RAJ') {
+      if (
+        ov.o === 'AST' &&
+        s >= 10 &&
+        (nrm_hb.includes('new guinea') ||
+          nrm_hb.includes('rabaul') ||
+          nrm_hb.includes('bismarck') ||
+          nrm_hb.includes('bougainville') ||
+          nrm_hb.includes('nauru'))
+      ) {
+        return makeResult(
+          'JAP',
+          'Rabaul, Nuova Guinea Settentrionale e Nauru (Occupazione Imperiale Giapponese)',
+          'Espansione giapponese nel Pacifico Sud-Occidentale (gennaio-agosto 1942): conquista di Rabaul in Nuova Britannia (23 gennaio 1942, trasformata nella principale roccaforte aeronavale dell\'8ª Flotta e della 17ª Armata), Kavieng, Bougainville, Lae-Salamaua (8 marzo), Buna-Gona (21 luglio, inizio dell\'offensiva lungo il Sentiero di Kokoda) e Nauru (26 agosto 1942).',
+          'Asse',
+          'Dai Nippon Teikoku — 8ª Flotta (Viceamm. Gunichi Mikawa) & 17ª Armata (Rabaul)'
+        );
+      }
       return makeResult(
         ov.o,
         top.name,
@@ -3485,6 +3625,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     if (ov.o === 'USA') {
+      if (s >= 10 && (nrm_hb.includes('attu') || nrm_hb.includes('kiska') || nrm_hb.includes('aleutian'))) {
+        return makeResult(
+          'JAP',
+          'Atsuta-tō & Narukami-tō (Isole di Attu e Kiska — Occupazione Imperiale Giapponese nelle Aleutine)',
+          'Campagna delle Isole Aleutine (Operazione AL, 6-7 giugno 1942): le forze speciali da sbarco della 5ª Flotta giapponese (Viceamm. Boshiro Hosogaya) occupano le isole statunitensi di Kiska (6 giugno) e Attu (7 giugno) in Alaska, unico territorio nordamericano occupato dall\'Asse nella Seconda Guerra Mondiale.',
+          'Asse',
+          'Dai Nippon Teikoku Kaigun — 5ª Flotta (Presidi di Attu e Kiska)'
+        );
+      }
       if (s >= 9 && (name === 'Guam' || nrm_hb.includes('guam') || name === 'Wake Island' || nrm_hb.includes('wake'))) {
         const isWake = name === 'Wake Island' || nrm_hb.includes('wake');
         return makeResult(
@@ -3503,6 +3652,33 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.note || (s >= 9 ? 'Stati Uniti d\'America — Potenza Belligerante Alleata (Dichiarazione di guerra a Giappone, Germania e Italia, 8-11 dicembre 1941)' : 'Stati Uniti d\'America'),
         'Alleati',
         top.adminTitle || 'United States of America'
+      );
+    }
+    if (ov.o === 'BRA' && s >= 10) {
+      return makeResult(
+        'BRA',
+        top.name || 'Estados Unidos do Brasil (Belligerante Alleato)',
+        'Dichiarazione di guerra del Brasile all\'Asse (22 agosto 1942): dopo l\'affondamento di cinque mercantili brasiliani ad opera del sommergibile tedesco U-507, il Presidente Getúlio Vargas dichiara lo stato di belligeranza contro Germania e Italia, concedendo agli Alleati le basi aeronavali strategiche di Natal ("Trampolino della Vittoria") e Recife.',
+        'Alleati',
+        'Estados Unidos do Brasil — Presidente Getúlio Vargas (Cobelligerante e Alleato)'
+      );
+    }
+    if (ov.o === 'MEX' && s >= 10) {
+      return makeResult(
+        'MEX',
+        top.name || 'Estados Unidos Mexicanos (Belligerante Alleato)',
+        'Dichiarazione di guerra del Messico alle Potenze dell\'Asse (22 maggio 1942): in seguito al siluramento delle petroliere messicane Potrero del Llano e Faja de Oro nel Golfo del Messico da parte degli U-Boot tedeschi, il Presidente Manuel Ávila Camacho porta il Messico in guerra al fianco degli Alleati.',
+        'Alleati',
+        'Estados Unidos Mexicanos — Presidente Gen. Manuel Ávila Camacho (Alleato)'
+      );
+    }
+    if (['GTM', 'SLV', 'HND', 'NIC', 'CRI', 'PAN', 'CUB', 'DOM', 'HAI'].includes(ov.o) && s >= 9) {
+      return makeResult(
+        ov.o,
+        top.name,
+        top.note || 'Stato centroamericano/caraibico cobelligerante delle Nazioni Unite (Dichiarazione di guerra a Giappone, Germania e Italia, dicembre 1941)',
+        'Alleati',
+        top.adminTitle
       );
     }
     if (ov.o === 'GRE') {
@@ -5151,7 +5327,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         'Western Desert Governorate — Frontline of Sidi Barrani & Mersa Matruh (British Middle East Command)'
       );
     }
-    if (cleanId === 'EGMT' && s >= 8) {
+    if (cleanId === 'EGMT' && s >= 10) {
+      return makeResult(
+        'ITA',
+        'Matruh e Marmarica Egiziana Occupata (Mersa Matruh, Sollum, Oasi di Siwa — Fronte di El Alamein)',
+        'Massima penetrazione dell\'Asse in Egitto (giugno-agosto 1942): dopo la caduta di Tobruk (21 giugno 1942), la Panzerarmee Afrika del Generalfeldmarschall Erwin Rommel e le divisioni italiane ("Ariete", "Littorio", "Trieste", "Folgore") sfondano a Mersa Matruh (28-29 giugno), occupano l\'Oasi di Siwa (20 luglio) e si arrestano a soli 106 km da Alessandria sulla linea fortificata di El Alamein tra il Mediterraneo e la Depressione di Qattara (Prima Battaglia di El Alamein, 1-27 luglio; Battaglia di Alam el Halfa, 30-31 agosto 1942).',
+        'Asse',
+        'Panzerarmee Afrika (Generalfeldmarschall Erwin Rommel) & Delegazione Comando Supremo in Africa Settentrionale'
+      );
+    }
+    if (cleanId === 'EGMT' && s === 9) {
+      return makeResult(
+        'EGY',
+        'Muḥāfaẓat al-Ṣaḥrāʾ al-Gharbiyyah (Mersa Matruh e Sollum — Retrovia dell\'Operazione Crusader)',
+        'Operazione Crusader (novembre-dicembre 1941): dal capolinea ferroviario di Mersa Matruh e attraverso il confine di Sollum-Halfaya, l\'8ª Armata britannica (Gen. Alan Cunningham / Gen. Neil Ritchie) lancia l\'offensiva che sblocca Tobruk e respinge Rommel fino a El Agheila.',
+        'Alleati',
+        'Western Desert Governorate — British 8th Army Rear & Supply Base (Mersa Matruh)'
+      );
+    }
+    if (cleanId === 'EGMT' && s === 8) {
       return makeResult(
         'EGY',
         'Muḥāfaẓat al-Ṣaḥrāʾ al-Gharbiyyah (Mersa Matruh — Fronte di Sollum e Passo di Halfaya)',
@@ -5558,8 +5752,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return makeResult(
       'MEX',
       displayName,
-      topMex.note || 'Stati Uniti Messicani (Presidenza di Lázaro Cárdenas)',
-      'Neutrale',
+      s >= 10
+        ? 'Dichiarazione di guerra del Messico alle Potenze dell\'Asse (22 maggio 1942): dopo il siluramento delle petroliere messicane Potrero del Llano e Faja de Oro ad opera degli U-Boot tedeschi nel Golfo del Messico, il Presidente Manuel Ávila Camacho schiera il Messico con gli Alleati.'
+        : topMex.note || 'Stati Uniti Messicani (Presidenza di Lázaro Cárdenas)',
+      s >= 10 ? 'Alleati' : 'Neutrale',
       topMex.adminTitle || 'Estados Unidos Mexicanos'
     );
   }
@@ -7802,7 +7998,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'BRA':
     case '076':
     case 'XBR':
-      return makeResult('BRA', getTop('BRA').name, 'Stati Uniti del Brasile (Estado Novo)');
+      if (s >= 10) {
+        return makeResult(
+          'BRA',
+          getTop('BRA').name || 'Estados Unidos do Brasil (Belligerante Alleato)',
+          'Dichiarazione di guerra del Brasile all\'Asse (22 agosto 1942): dopo gli attacchi del sommergibile U-507 contro cinque mercantili brasiliani lungo la costa di Sergipe e Bahia (15-19 agosto, oltre 600 vittime), il Presidente Getúlio Vargas dichiara lo stato di belligeranza contro Germania e Italia, mettendo le basi aeree e navali di Natal e Recife a disposizione della caccia antisommergibile alleata nell\'Atlantico meridionale.',
+          'Alleati',
+          'Estados Unidos do Brasil — Presidente Getúlio Vargas (Nazioni Unite / Alleati)'
+        );
+      }
+      return makeResult('BRA', getTop('BRA').name, 'Stati Uniti del Brasile (Estado Novo)', 'Neutrale');
     case 'AR':
     case 'ARG':
     case '032':
@@ -7870,8 +8075,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult(
         'MEX',
         displayName,
-        topMex.note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)',
-        'Neutrale',
+        s >= 10
+          ? 'Dichiarazione di guerra del Messico alle Potenze dell\'Asse (22 maggio 1942): dopo il siluramento delle petroliere messicane Potrero del Llano (13 maggio) e Faja de Oro (20 maggio) ad opera degli U-Boot tedeschi nel Golfo del Messico, il Presidente Manuel Ávila Camacho porta il paese in guerra al fianco degli Alleati.'
+          : topMex.note || 'Stati Uniti Messicani (Presidenza Lázaro Cárdenas)',
+        s >= 10 ? 'Alleati' : 'Neutrale',
         topMex.adminTitle || 'Estados Unidos Mexicanos'
       );
     }
@@ -7881,31 +8088,31 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'GTM':
     case '320':
     case 'XGT':
-      return makeResult('GTM', getTop('GTM').name || 'Repubblica del Guatemala', getTop('GTM').note || 'Presidenza del Gen. Jorge Ubico', 'Neutrale', getTop('GTM').adminTitle);
+      return makeResult('GTM', getTop('GTM').name || 'Repubblica del Guatemala', getTop('GTM').note || 'Presidenza del Gen. Jorge Ubico', s >= 9 ? 'Alleati' : 'Neutrale', getTop('GTM').adminTitle);
 
     case 'SV':
     case 'SLV':
     case '222':
     case 'XSV':
-      return makeResult('SLV', getTop('SLV').name || 'Repubblica di El Salvador', getTop('SLV').note || 'Governo del Gen. Maximiliano Hernández Martínez', 'Neutrale', getTop('SLV').adminTitle);
+      return makeResult('SLV', getTop('SLV').name || 'Repubblica di El Salvador', getTop('SLV').note || 'Governo del Gen. Maximiliano Hernández Martínez', s >= 9 ? 'Alleati' : 'Neutrale', getTop('SLV').adminTitle);
 
     case 'HN':
     case 'HND':
     case '340':
     case 'XHN':
-      return makeResult('HND', getTop('HND').name || 'Repubblica dell\'Honduras', getTop('HND').note || 'Presidenza del Gen. Tiburcio Carías Andino (El Cariato)', 'Neutrale', getTop('HND').adminTitle);
+      return makeResult('HND', getTop('HND').name || 'Repubblica dell\'Honduras', getTop('HND').note || 'Presidenza del Gen. Tiburcio Carías Andino (El Cariato)', s >= 9 ? 'Alleati' : 'Neutrale', getTop('HND').adminTitle);
 
     case 'NI':
     case 'NIC':
     case '558':
     case 'XNI':
-      return makeResult('NIC', getTop('NIC').name || 'Repubblica del Nicaragua', getTop('NIC').note || 'Governo del Gen. Anastasio Somoza García', 'Neutrale', getTop('NIC').adminTitle);
+      return makeResult('NIC', getTop('NIC').name || 'Repubblica del Nicaragua', getTop('NIC').note || 'Governo del Gen. Anastasio Somoza García', s >= 9 ? 'Alleati' : 'Neutrale', getTop('NIC').adminTitle);
 
     case 'CR':
     case 'CRI':
     case '188':
     case 'XCR':
-      return makeResult('CRI', getTop('CRI').name || 'Repubblica di Costa Rica', getTop('CRI').note || 'Repubblica Costituzionale di Costa Rica', 'Neutrale', getTop('CRI').adminTitle);
+      return makeResult('CRI', getTop('CRI').name || 'Repubblica di Costa Rica', getTop('CRI').note || 'Repubblica Costituzionale di Costa Rica', s >= 9 ? 'Alleati' : 'Neutrale', getTop('CRI').adminTitle);
 
     case 'PA':
     case 'PAN':
@@ -7926,7 +8133,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const topCanal = getExtendedToponym('Panama Canal Zone', 'USA', nid, c, s);
         return makeResult('USA', topCanal.name || 'Zona del Canale di Panama (USA)', topCanal.note || 'Territorio Strategico USA (Trattato Hay-Bunau-Varilla)', 'Alleati', topCanal.adminTitle);
       }
-      return makeResult('PAN', getTop('PAN').name || 'Repubblica di Panama', getTop('PAN').note || 'Repubblica di Panama', 'Neutrale', getTop('PAN').adminTitle);
+      return makeResult('PAN', getTop('PAN').name || 'Repubblica di Panama', getTop('PAN').note || 'Repubblica di Panama', s >= 9 ? 'Alleati' : 'Neutrale', getTop('PAN').adminTitle);
     }
 
     case 'CU':
@@ -7944,21 +8151,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           topG.adminTitle || 'U.S. Naval Operating Base Guantanamo Bay (Treaty of 1934)'
         );
       }
-      return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', getTop('CUB').note || 'Repubblica di Cuba', 'Neutrale', getTop('CUB').adminTitle);
+      return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', getTop('CUB').note || 'Repubblica di Cuba', s >= 9 ? 'Alleati' : 'Neutrale', getTop('CUB').adminTitle);
     }
 
     case 'DO':
     case 'DOM':
     case '214':
     case 'XDO':
-      return makeResult('DOM', getTop('DOM').name || 'Repubblica Dominicana', getTop('DOM').note || 'Dittatura del Generalissimo Trujillo', 'Neutrale', getTop('DOM').adminTitle);
+      return makeResult('DOM', getTop('DOM').name || 'Repubblica Dominicana', getTop('DOM').note || 'Dittatura del Generalissimo Trujillo', s >= 9 ? 'Alleati' : 'Neutrale', getTop('DOM').adminTitle);
 
     case 'HT':
     case 'HTI':
     case 'HAI':
     case '332':
     case 'XHT':
-      return makeResult('HAI', getTop('HAI').name || 'Repubblica di Haiti', getTop('HAI').note || 'Présidence Sténio Vincent', 'Neutrale', getTop('HAI').adminTitle);
+      return makeResult('HAI', getTop('HAI').name || 'Repubblica di Haiti', getTop('HAI').note || 'Présidence Sténio Vincent / Élie Lescot', s >= 9 ? 'Alleati' : 'Neutrale', getTop('HAI').adminTitle);
 
     case 'BZ':
     case 'BLZ':
@@ -9152,7 +9359,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
         if (
-          s >= 9 &&
+          s === 9 &&
           (nid === 'LYBU' ||
             nid === 'LYDR' ||
             nid === 'LYJA' ||
@@ -9180,7 +9387,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'ITA',
           itTop.name || ITA_COL[cntr] || rawName,
           itTop.note ||
-            (s >= 9
+            (s >= 10
+              ? 'Governo Generale della Libia (Maresciallo Ettore Bastico) & Panzerarmee Afrika (Feldmaresciallo Erwin Rommel): dopo la riconquista della Cirenaica occidentale (gennaio-febbraio 1942), la vittoria di Gazala (26 maggio - 21 giugno 1942) e l\'espugnazione della piazzaforte di Tobruk (21 giugno 1942), l\'intera Libia funge da retrovia logistica per l\'offensiva italo-tedesca fino alla linea di El Alamein in Egitto.'
+              : s >= 9
               ? 'Governo Generale della Libia (Tripolitania e Fezzan — Maresciallo Ettore Bastico) & Panzergruppe Afrika (Gen. Erwin Rommel): dopo l\'Operazione Crusader (novembre-dicembre 1941), le forze italo-tedesche ripiegano ordinatamente sulla stretta di El Agheila al confine tra Cirenaica e Tripolitania, preparando la controffensiva del gennaio 1942.'
               : s >= 8
               ? 'Operazione Sonnenblume (febbraio-aprile 1941): sbarco a Tripoli del Deutsches Afrikakorps (Gen. Erwin Rommel) e controffensiva italo-tedesca (El Agheila, Agedabia, Mechili, riconquista di Bengasi e Derna), con inizio dell\'assedio della piazzaforte australiano-britannica di Tobruk (10 aprile 1941) sotto il comando del Gen. Italo Gariboldi e di Rommel.'
@@ -9189,7 +9398,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               : 'Governo Generale della Libia (Maresciallo dell\'Aria Italo Balbo)'),
           s >= 6 ? 'Asse' : undefined,
           itTop.adminTitle ||
-            (s >= 9
+            (s >= 10
+              ? 'Governo Generale della Libia (Maresciallo Ettore Bastico) & Panzerarmee Afrika (Feldm. Erwin Rommel)'
+              : s >= 9
               ? 'Governo Generale della Libia (Maresciallo Ettore Bastico) & Panzergruppe Afrika (Gen. Erwin Rommel)'
               : s >= 8
               ? 'Governo Generale della Libia (Gen. Italo Gariboldi) & Deutsches Afrikakorps (Gen. Erwin Rommel)'
@@ -9288,14 +9499,53 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       }
       if (BEL_COL[cntr])
         return makeResult('BEL', BEL_COL[cntr], undefined, s >= 6 ? 'Alleati' : 'Neutrale');
-      if (HOL_COL[cntr])
+      if (HOL_COL[cntr]) {
+        if (s >= 10 && (cntr === 'ID' || cntr === 'IDN')) {
+          return makeResult(
+            'JAP',
+            'Indie Orientali Olandesi (Occupazione Militare Giapponese — Resa di Kalijati, 8-9 Marzo 1942)',
+            'Campagna delle Indie Orientali Olandesi (dicembre 1941 - marzo 1942): dopo la presa dei pozzi petroliferi di Tarakan, Balikpapan e Palembang e la disfatta navale ABDACOM nel Mar di Giava (27 febbraio 1942), il comandante del KNIL Ten. Gen. Hein ter Poorten firma la resa incondizionata a Kalijati (8-9 marzo 1942).',
+            'Asse',
+            'Dai Nippon Teikoku — Gunseikanbu (16ª e 25ª Armata Imperiale & Marina Imperiale)'
+          );
+        }
         return makeResult(
           'HOL',
           getTop('HOL').name || HOL_COL[cntr],
           undefined,
           s >= 6 ? 'Alleati' : 'Neutrale'
         );
-      if (POR_COL[cntr]) return makeResult('POR', POR_COL[cntr]);
+      }
+      if (POR_COL[cntr]) {
+        if (s >= 10 && (cntr === 'TL' || cntr === 'TLS')) {
+          return makeResult(
+            'JAP',
+            'Timor Portoghese (Occupazione Militare Giapponese — 19-20 Febbraio 1942)',
+            'Battaglia di Timor (1942-1943): nella notte tra il 19 e il 20 febbraio 1942 il 228º Reggimento di Fanteria giapponese sbarca a Dili, occupando la colonia neutrale del Timor Portoghese nonostante le proteste del governatore Manuel Ferreira de Carvalho.',
+            'Asse',
+            'Dai Nippon Teikoku — Occupazione Militare del Timor Orientale (Dili)'
+          );
+        }
+        return makeResult('POR', POR_COL[cntr]);
+      }
+      if (s >= 10 && (nid === 'NR_NAURU' || cntr === 'NR' || cntr === 'NRU')) {
+        return makeResult(
+          'JAP',
+          'Nauru (Occupazione Imperiale Giapponese — Operazione RY, 26 Agosto 1942)',
+          'Operazione RY (26 agosto 1942): dopo il bombardamento navale del dicembre 1940 e il primo tentativo rinviato nel maggio 1942 per la battaglia del Mar dei Coralli, il 26 agosto 1942 la 43ª Forza di Base Speciale della Marina Imperiale Giapponese sbarca e occupa senza resistenza l\'isola ricca di fosfati di Nauru e la vicina Ocean Island (Banaba).',
+          'Asse',
+          'Dai Nippon Teikoku Kaigun — 67ª Unità di Guardia (Nauru)'
+        );
+      }
+      if (s >= 9 && (nid === 'KI_GILBERT' || cntr === 'KI' || cntr === 'KIR')) {
+        return makeResult(
+          'JAP',
+          'Isole Gilbert / Tarawa e Makin (Occupazione Imperiale Giapponese — Dicembre 1941 / Agosto 1942)',
+          'Occupazione delle Isole Gilbert (9-10 dicembre 1941 - agosto 1942): sbarco della Marina Imperiale Giapponese negli atolli di Makin (Butaritari) e Tarawa subito dopo Pearl Harbor; dopo il raid dei Marine Raiders di Carlson su Makin (17-18 agosto 1942), Tokyo presidia massicciamente Tarawa (isola di Betio) trasformandola in una fortezza.',
+          'Asse',
+          'Dai Nippon Teikoku Kaigun — 3ª Forza di Base Speciale (Tarawa)'
+        );
+      }
       if (UK_COL[cntr]) {
         if (s >= 9 && (cntr === 'HK' || cntr === 'HKG' || nrm.includes('hong kong'))) {
           return makeResult(
@@ -9304,6 +9554,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Battaglia di Hong Kong (8-25 dicembre 1941): dopo 18 giorni di combattimenti nei Nuovi Territori, a Kowloon e sull\'isola di Hong Kong contro la 38ª Divisione giapponese, il Governatore Sir Mark Young si arrende nel "Black Christmas" del 25 dicembre 1941.',
             'Asse',
             'Dai Nippon Teikoku — Honkon Senryōchi Sōtokubu (Ten. Gen. Rensuke Isogai)'
+          );
+        }
+        if (s >= 9 && (cntr === 'BN' || cntr === 'BRN' || nrm.includes('brunei'))) {
+          return makeResult(
+            'JAP',
+            'Kita Boruneo / Brunei (Occupazione Militare Giapponese — 16 Dicembre 1941)',
+            'Sbarco del Distaccamento Kawaguchi a Miri e Seria (16 dicembre 1941) e occupazione integrale del Sultanato del Brunei e del Borneo settentrionale britannico.',
+            'Asse',
+            'Dai Nippon Teikoku — Borneo Defence Force (Ten. Gen. Marquis Toshinari Maeda)'
+          );
+        }
+        if (s >= 10 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {
+          return makeResult(
+            'JAP',
+            'Isole Salomone (Perimetro Difensivo Giapponese & Campagna di Guadalcanal — Agosto 1942)',
+            'Occupazione giapponese delle Isole Salomone (Shortland, Tulagi, Guadalcanal — marzo-maggio 1942): nonostante lo sbarco della 1ª Divisione Marines USA a Guadalcanal e Tulagi il 7 agosto 1942 (Operazione Watchtower) per catturare l\'aeroporto in costruzione (Henderson Field), la vittoria navale giapponese a Savo Island (8-9 agosto) e gli sbarchi del Tokyo Express mantengono l\'arcipelago delle Salomone al centro dell\'aspra battaglia aeronavale e terrestre dell\'agosto 1942.',
+            'Asse',
+            'Dai Nippon Teikoku — 8ª Flotta (Rabaul, Viceamm. Gunichi Mikawa) & 17ª Armata (Ten. Gen. Harukichi Hyakutake)'
           );
         }
         const ukTop = getTop('UK');
@@ -9327,7 +9595,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       }
       if (USA_COL[cntr]) {
         if (cntr === 'PH' || cntr === 'PHL' || cntr === '608') {
-          return makeResult('PHL', USA_COL[cntr], 'Commonwealth delle Filippine (Stato Autonomo Associato agli USA)');
+          if (s >= 10) {
+            return makeResult(
+              'JAP',
+              'Hitō Gunseikanbu (Filippine — Occupazione Militare Giapponese, Capitolazione di Corregidor 6 Maggio 1942)',
+              'Campagna delle Filippine (dicembre 1941 - maggio 1942): dopo la caduta della penisola di Bataan (9 aprile 1942 e Marcia della Morte di Bataan) e la capitolazione della fortezza insulare di Corregidor del Ten. Gen. Jonathan Wainwright (6 maggio 1942), l\'intero arcipelago filippino è sotto l\'amministrazione militare della 14ª Armata giapponese.',
+              'Asse',
+              'Dai Nippon Teikoku — 14ª Armata & Commissione Esecutiva Filippina (Jorge B. Vargas)'
+            );
+          }
+          return makeResult('PHL', USA_COL[cntr], 'Commonwealth delle Filippine (Stato Autonomo Associato agli USA)', s >= 9 ? 'Alleati' : 'Neutrale');
         }
         const usaTop = getTop('USA');
         return makeResult(

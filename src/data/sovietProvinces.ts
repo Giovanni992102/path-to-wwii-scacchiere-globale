@@ -8272,6 +8272,22 @@ const SOVIET_GER_HEERESGEBIET_SUED_IDS = new Set<string>([
   'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea',
 ]);
 
+// Step 10 (AGO 1942 — 31 agosto 1942): Massima espansione dell'Asse sul Fronte Orientale (Operazione Blu / Fall Blau)
+// - Caduta di Sebastopoli (4 luglio 1942) -> Crimea interamente occupata dalla 11. Armee
+// - Gruppo d'Armate B sul Don e sul Volga a nord di Stalingrado (23 agosto 1942); Luhansk/Voroshilovgrad occupata (17 luglio 1942)
+// - Gruppo d'Armate A conquista Rostov (24 luglio 1942), la steppa del Kuban' (Krasnodar 12 agosto), i pozzi petroliferi di Majkop (9 agosto), Stavropol' (3 agosto), Elista/Kalmuckia (12 agosto) e penetra nel Caucaso issando la bandiera di guerra sulla vetta dell'Elbrus (21 agosto 1942)
+const SOVIET_GER_AUG1942_IDS = new Set<string>([
+  'SOV_ADM1_UKR_99_Sevastopol',
+  'SOV_ADM1_UKR_86_Luhansk_Oblast',
+  'SOV_ADM1_RUS_17_Rostov_Oblast',
+  'SOV_ADM1_RUS_39_Krasnodar_Krai',
+  'SOV_ADM1_RUS_19_Adygea',
+  'SOV_ADM1_RUS_54_Stavropol_Krai',
+  'SOV_ADM1_RUS_72_Karachay_Cherkessia',
+  'SOV_ADM1_RUS_38_Kabardino_Balkaria',
+  'SOV_ADM1_RUS_70_Kalmykia',
+]);
+
 for (const item of Object.values(SOVIET_PROVINCES_META)) {
   const origGetOwner = item.getOwner.bind(item);
   const origGetFaction = item.getFaction.bind(item);
@@ -8294,6 +8310,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
     ) {
       return 'GER';
     }
+    if (step >= 10 && SOVIET_GER_AUG1942_IDS.has(pid)) {
+      return 'GER';
+    }
     return 'SOV';
   };
 
@@ -8306,6 +8325,26 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getAdminTitle = (step: number): string => {
     if (step < 9) return origGetAdmin(step);
+    if (step >= 10) {
+      if (pid === 'SOV_ADM1_UKR_99_Sevastopol' || pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
+        return 'Operationsgebiet Krim — AOK 11 (Generalfeldmarschall Erich von Manstein — Crimea conquistata il 4 luglio 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast' || pid === 'SOV_ADM1_UKR_86_Luhansk_Oblast' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return 'Operationsgebiet Ost — Heeresgruppe B (Gen. Maximilian von Weichs / 6. Armee Gen. Friedrich Paulus & 4. Panzerarmee)';
+      }
+      if (SOVIET_GER_AUG1942_IDS.has(pid)) {
+        return 'Operationsgebiet Kaukasus — Heeresgruppe A (Generalfeldmarschall Wilhelm List / 1. Panzerarmee von Kleist & 17. Armee Ruoff)';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Fronte di Stalingrado & 62ª Armata Sovietica (Gen. Andrej Erëmenko / Ordine n. 227 "Né un passo indietro!" — Difesa sul Volga)';
+      }
+      if (pid === 'SOV_ADM1_RUS_65_Voronezh_Oblast') {
+        return 'Fronte di Voronež dell\'Armata Rossa (Gen. Nikolaj Vatutin — Linea difensiva dell\'Alto Don)';
+      }
+      if (pid === 'SOV_ADM1_RUS_37_North_Ossetia_Alania' || pid === 'SOV_ADM1_RUS_26_Chechnya' || pid === 'SOV_ADM1_RUS_35_Ingushetia' || pid === 'SOV_ADM1_RUS_27_Dagestan') {
+        return 'Fronte Transcaucasico dell\'Armata Rossa — Gruppo Settentrionale (Gen. Ivan Tjulenev — Difesa di Vladikavkaz, Groznyj e del Terek)';
+      }
+    }
     if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
       return 'Guvernământul Transnistriei — Governatore Civile Gheorghe Alexianu (Odessa / Tiraspol — Accordo di Tighina, 30 agosto 1941)';
     }
@@ -8322,7 +8361,7 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       return 'Itä-Karjalan sotilashallinto — Amministrazione Militare Finlandese della Carelia Orientale (Maresciallo C.G. Mannerheim / Col. Väinö Kotilainen)';
     }
     if (SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid)) {
-      return 'Operationsgebiet Ost — Heeresgebiet Nord (Wehrmacht — Generalfeldmarschall Wilhelm Ritter von Leeb)';
+      return 'Operationsgebiet Ost — Heeresgebiet Nord (Wehrmacht — Generalfeldmarschall Wilhelm Ritter von Leeb / Georg von Küchler)';
     }
     if (SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid)) {
       return 'Operationsgebiet Ost — Heeresgebiet Mitte (Wehrmacht — Generalfeldmarschall Fedor von Bock / Günther von Kluge)';
@@ -8330,7 +8369,7 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
     if (SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid)) {
       return pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea'
         ? 'Operationsgebiet Ost — AOK 11 Krim (Wehrmacht 11. Armee — Gen. Erich von Manstein)'
-        : 'Operationsgebiet Ost — Heeresgebiet Süd (Wehrmacht — Generalfeldmarschall Gerd von Rundstedt / Walter von Reichenau)';
+        : 'Operationsgebiet Ost — Heeresgebiet Süd / Heeresgruppe B (Wehrmacht)';
     }
     if (pid === 'SOV_ADM1_RUS_42_Moscow' || pid === 'SOV_ADM1_RUS_43_Moscow_Oblast') {
       return 'GKO (Comitato Statale di Difesa) & Fronte Occidentale dell\'Armata Rossa (Iosif Stalin / Gen. Georgij Žukov)';
@@ -8350,6 +8389,44 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
   item.getHistoricalName = (step: number): string => {
     if (step < 9) return origGetHistName(step);
     const base = origGetHistName(8);
+    if (step >= 10) {
+      if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
+        return 'Sevastopol\' (Fortezza Conquistata dalla 11. Armee di Manstein — 4 Luglio 1942)';
+      }
+      if (pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
+        return 'Krim (Penisola di Crimea sotto Controllo Tedesco — Operazione Störfang, Luglio 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+        return 'Rostov sul Don (Occupata dal Gruppo d\'Armate A — 24 Luglio 1942, Porta del Caucaso)';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Krasnodar e Steppa del Kuban\' (Occupazione Gruppo d\'Armate A — Agosto 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_19_Adygea') {
+        return 'Majkop (Campi Petroliferi Occupati dalla 1. Panzerarmee — 9 Agosto 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria') {
+        return 'Kabardino-Balkaria & Vetta del Monte Elbrus (5.642 m — Conquista Gebirgsjäger, 21 Agosto 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia') {
+        return 'Karačaj-Circassia & Passi del Grande Caucaso (Occupazione 49. Gebirgskorps — Agosto 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_54_Stavropol_Krai') {
+        return 'Stavropol\' / Vorošilovsk (Occupazione Gruppo d\'Armate A — Agosto 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return 'Elista e Steppa della Kalmuckia (Avanzata Tedesca verso Astrachan\' — Agosto 1942)';
+      }
+      if (pid === 'SOV_ADM1_UKR_86_Luhansk_Oblast') {
+        return 'Vorošilovgrad / Luhans\'k (Occupazione Operazione Blu — 17 Luglio 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Stalingrad (6ª Armata sul Volga a Nord della Città il 23 Agosto 1942 — Inizio della Battaglia Urbana)';
+      }
+      if (pid === 'SOV_ADM1_RUS_65_Voronezh_Oblast') {
+        return 'Voronež (Fronte dell\'Alto Don — Battaglia Difensiva contro l\'Operazione Blu, Luglio-Agosto 1942)';
+      }
+    }
     if (pid === 'SOV_ADM1_UKR_195_Odessa_City') {
       return 'Odessa (Capitale del Governatorato della Transnistria — Guvernământul Transnistriei)';
     }
@@ -8387,10 +8464,14 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       return `${ item.capital } (Occupazione Militare Wehrmacht — Heeresgebiet Süd)`;
     }
     if (pid === 'SOV_ADM1_RUS_42_Moscow') {
-      return 'Moskva (Battaglia di Mosca — Controffensiva Sovietica del 5 Dicembre 1941)';
+      return step >= 10
+        ? 'Moskva (Capitale dell\'URSS & Quartier Generale della Stavka — Estate 1942)'
+        : 'Moskva (Battaglia di Mosca — Controffensiva Sovietica del 5 Dicembre 1941)';
     }
     if (pid === 'SOV_ADM1_RUS_49_Saint_Petersburg') {
-      return 'Leningrad (Città Assediata — "Strada della Vita" sul Lago Ladoga, Settembre-Dicembre 1941)';
+      return step >= 10
+        ? 'Leningrad (Città Assediata — Offensiva di Sinjavino, Agosto 1942)'
+        : 'Leningrad (Città Assediata — "Strada della Vita" sul Lago Ladoga, Settembre-Dicembre 1941)';
     }
     if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
       return 'Sevastopol\' (Fortezza Assediata della Flotta del Mar Nero — Difesa Eroica)';
@@ -8400,6 +8481,38 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getNote = (step: number): string => {
     if (step < 9) return origGetNote(step);
+    if (step >= 10) {
+      if (pid === 'SOV_ADM1_UKR_99_Sevastopol' || pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
+        return 'Al 31 agosto 1942 la Crimea è interamente sotto il controllo della Wehrmacht: dopo aver annientato il Fronte di Crimea sovietico nella penisola di Kerč\' (Operazione Trappenjagd, maggio 1942), l\'11ª Armata tedesca di Erich von Manstein ha sferrato l\'assalto finale contro la fortezza di Sebastopoli (Operazione Störfang) supportata da un parco d\'assedio senza precedenti (tra cui il gigantesco cannone ferroviario da 800 mm "Schwerer Gustav" e i mortai Karl-Gerät da 600 mm). Dopo 250 giorni di eroica resistenza, Sebastopoli è caduta il 4 luglio 1942 e Hitler ha promosso Manstein al grado di Generalfeldmarschall.';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Epicentro strategico mondiale al 31 agosto 1942: nell\'ambito dell\'Operazione Blu (Fall Blau), la 6ª Armata tedesca del Gen. Friedrich Paulus ha forzato il Don a Kalac il 21 agosto e il 23 agosto 1942 la 16ª Divisione Panzer ha raggiunto la riva occidentale del Volga a Rynok, alla periferia settentrionale di Stalingrado, mentre i bombardieri della Luftflotte 4 (Gen. Wolfram von Richthofen) scatenavano sulla città un rogo apocalittico con oltre 40.000 vittime civili. Sotto la vigenza dell\'Ordine n. 227 di Stalin ("Né un passo indietro!", 28 luglio 1942), la 62ª e la 64ª Armata sovietiche e le milizie operaie della Fabbrica di Trattori Dzeržinskij si preparano all\'imminente battaglia urbana casa per casa, mentre l\'Armata Rossa non è ancora in grado di sferrare una controffensiva strategica.';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+        return 'Riconquistata il 24 luglio 1942 dalle truppe d\'assalto della 1ª Armata Corazzata e della 17ª Armata tedesche durante l\'Operazione Blu (Fall Blau): la caduta di Rostov sul Don ha aperto al Gruppo d\'Armate A la via della steppa del Kuban\' e del Caucaso e ha spinto Stalin ad emanare il celebre Ordine n. 227 ("Ни шагу назад!" — "Né un passo indietro!") il 28 luglio 1942. Lungo il medio corso del Don sono schierate a protezione del fianco sinistro tedesco l\'8ª Armata Italiana (ARMIR) e la 3ª Armata Romena.';
+      }
+      if (pid === 'SOV_ADM1_RUS_19_Adygea') {
+        return 'Obiettivo economico cardine dell\'Operazione Edelweiß: il 9 agosto 1942 le colonne corazzate della 1ª Armata Panzer del Gen. Ewald von Kleist e i commando Brandenburg hanno occupato i campi petroliferi di Majkop. Tuttavia, prima di ripiegare sui contrafforti caucasici, le squadre tecniche sovietiche dell\'NKVD hanno demolito e cementato metodicamente tutti i pozzi e gli impianti di raffinazione, impedendo al Reich di estrarre greggio utilizzabile nel 1942.';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Nell\'agosto 1942 le armate del Gruppo d\'Armate A tedesco (Generalfeldmarschall Wilhelm List) hanno dilagato attraverso la fertile steppa del Kuban\', occupando Armavir, il capoluogo Krasnodar (12 agosto 1942) e la penisola di Taman\', e spingendo l\'offensiva della 17ª Armata fin dentro il porto militare della Flotta del Mar Nero a Novorossijsk.';
+      }
+      if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria' || pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia') {
+        return 'Punto di massima penetrazione meridionale della Wehrmacht nel Caucaso (Operazione Edelweiß): dopo aver occupato Čerkessk (11 agosto) e Pjatigorsk (9 agosto), il 21 agosto 1942 gli alpini bavaresi e austriaci della 1ª Divisione da Montagna (1. Gebirgs-Division, Cap. Heinz Groth) hanno scalato sotto la tormenta i 5.642 metri del Monte Elbrus — la vetta più alta d\'Europa e del Caucaso — issandovi la bandiera di guerra del Reich. Sui passi d\'alta quota di Kluchori e Maruch infuriano aspri scontri contro le truppe da montagna del Fronte Transcaucasico sovietico che sbarrano la discesa verso il Mar Nero e Tbilisi.';
+      }
+      if (pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return 'Travolta nell\'agosto 1942 dalla rapida avanzata meccanizzata del Gruppo d\'Armate A tedesco (presa di Vorošilovsk/Stavropol\' il 3 agosto, di Mineral\'nye Vody il 10 agosto e di Elista, capitale della Kalmuckia, il 12 agosto 1942), mentre pattuglie motorizzate tedesche del 16ª Divisione Motorizzata si spingono attraverso il deserto calmucco verso la ferrovia di Astrachan\'.';
+      }
+      if (pid === 'SOV_ADM1_UKR_86_Luhansk_Oblast') {
+        return 'Dopo la disfatta sovietica nella Seconda Battaglia di Char\'kov (maggio 1942) e l\'avvio dell\'Operazione Blu (28 giugno 1942), il 17 luglio 1942 le forze tedesche hanno occupato Vorošilovgrad (Luhans\'k), completando la conquista dell\'intero bacino carbonifero e industriale del Donbass.';
+      }
+      if (pid === 'SOV_ADM1_RUS_65_Voronezh_Oblast') {
+        return 'Perno settentrionale dell\'Operazione Blu (Fall Blau): investita a fine giugno 1942 dalla 4ª Armata Panzer di Hermann Hoth, la parte occidentale di Voronež sulla riva destra del Don è stata occupata il 6 luglio, ma i furiosi contrattacchi del neocostituito Fronte di Voronež (Gen. Nikolaj Vatutin) contendono la riva orientale e impegnano la 2ª Armata ungherese lungo il corso del Don.';
+      }
+      if (pid === 'SOV_ADM1_RUS_37_North_Ossetia_Alania' || pid === 'SOV_ADM1_RUS_26_Chechnya' || pid === 'SOV_ADM1_RUS_35_Ingushetia' || pid === 'SOV_ADM1_RUS_27_Dagestan') {
+        return 'Al 31 agosto 1942 il Gruppo Settentrionale del Fronte Transcaucasico sovietico (Gen. Ivan Tjulenev) difende accanitamente la linea del fiume Terek dopo la caduta di Mozdok (25 agosto), sbarrando ai panzer di von Kleist l\'accesso alla Strada Militare Georgiana (Ordžonikidze/Vladikavkaz), ai ricchi giacimenti petroliferi di Groznyj e al Mar Caspio (Baku).';
+      }
+    }
     if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
       return 'Al 31 dicembre 1941 il territorio compreso tra i fiumi Dnestr e Bug Meridionale costituisce il Governatorato della Transnistria (Guvernământul Transnistriei), formalmente ceduto dal Reich all\'amministrazione civile-militare del Regno di Romania con l\'Accordo di Tighina (30 agosto 1941) e governato dal prof. Gheorghe Alexianu per conto del Maresciallo Ion Antonescu. Dopo 73 giorni di accanito assedio contro l\'Armata Costiera sovietica, il 16 ottobre 1941 le truppe romene della 4ª Armata sono entrate a Odessa, proclamata nuova capitale amministrativa della Transnistria.';
     }

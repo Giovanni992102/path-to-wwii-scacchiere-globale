@@ -96,7 +96,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Bastione di Aquisgrana (Aachen)', coords: [6.12, 50.77], desc: 'Nodo settentrionale fortificato con campi di denti di drago e bunker Regelbau.' },
       { name: 'Sbarramento della Saar (Pirmasens)', coords: [7.60, 49.20], desc: 'Settore centrale ad altissima densità difensiva lungo il Reno.' },
     ],
-    activeSteps: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'ostwall_line',
@@ -119,7 +119,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Panzerwerk 717 (Werkgruppe Scharnhorst)', coords: [15.48, 52.42], desc: 'Complesso corazzato ipogeo a tre piani con cupole d\'acciaio da 200 mm, mitragliatrici binate e lanciafiamme M19.' },
       { name: 'Burschener Schleife', coords: [15.50, 52.47], desc: 'Sistema idraulico strategico con chiuse mobili e canali allagabili per creare fossati anticarro invalicabili.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'heilsberg_line',
@@ -142,7 +142,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Stützpunkt Heilsberg', coords: [20.58, 54.18], desc: 'Centro d\'arresto dell\'artiglieria pesante alla confluenza delle valli dell\'Alle e del Simser.' },
       { name: 'Sperrwerk Braunsberg', coords: [19.85, 54.42], desc: 'Sbarramento costiero di bunker e sbarre d\'acciaio a protezione dell\'accesso marittimo alla Laguna della Vistola.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'mannerheim_line',
@@ -274,7 +274,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Forte Bramafam & Chaberton', coords: [6.75, 44.96], desc: 'Batterie corazzate a 3.130 metri di quota dominanti Briançon.' },
       { name: 'Sbarramento Passo Monte Croce', coords: [12.42, 46.68], desc: 'Opere sotterranee blindate per il blocco delle direttrici verso il Friuli.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'benes_line',
@@ -336,7 +336,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Linea d\'Arresto del Medway', coords: [0.52, 51.35], desc: 'Bunker e fossati a protezione degli accessi meridionali all\'arsenale di Chatham e a Londra.' },
       { name: 'Wiltshire Stop Line (Kennet & Avon)', coords: [-1.98, 51.35], desc: 'Linea di pillbox scaglionata lungo il canale navigabile per tagliare fuori il South West.' },
     ],
-    activeSteps: [6, 7, 8, 9], // Eretta nel giugno 1940 e presidiata durante la difesa della Gran Bretagna
+    activeSteps: [6, 7, 8, 9, 10], // Eretta nel giugno 1940 e presidiata durante la difesa della Gran Bretagna
   },
 
   // --- BENELUX (Belgio, Paesi Bassi, Lussemburgo) ---
@@ -498,7 +498,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Festung Sargans', coords: [9.44, 47.05], desc: 'Forti Magletsch, Schollberg e Kastels: perno orientale del Ridotto a sbarramento della valle del Reno contro le divisioni del Terzo Reich.' },
       { name: 'Fortezza di Crestawald', coords: [9.42, 46.57], desc: 'Opera fortificata a sbarramento del Passo del San Bernardino verso il Grigioni e il Ticino.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'limmatstellung_ch',
@@ -523,7 +523,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Posizione fortificata di Dietikon-Zurigo', coords: [8.42, 47.41], desc: 'Centinaia di bunker in calcestruzzo a protezione della periferia e delle arterie ferroviarie zurighesi.' },
       { name: 'Sbarramento della Piana della Linth', coords: [8.96, 47.19], desc: 'Casematte e canali allagabili tra il Lago di Zurigo e il Walensee per bloccare l\'avanzata verso le Prealpi.' },
     ],
-    activeSteps: [5, 6, 7, 8, 9],
+    activeSteps: [5, 6, 7, 8, 9, 10],
   },
 
   // --- REGNO D'ITALIA (Vallo Alpino del Littorio) ---
@@ -553,7 +553,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento del Moncenisio', coords: [6.90, 45.26], desc: 'Batterie in caverna del Forte Malamot, Ronce e Varisello a protezione della discesa verso la Val di Susa.' },
       { name: 'Sbarramento di Ventimiglia e Balzi Rossi', coords: [7.53, 43.78], desc: 'Casematte e fossati anticarro a controllo della costa ligure e della via Aurelia.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'vallo_alpino_orientale',
@@ -578,7 +578,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento di Postumia', coords: [14.21, 45.77], desc: 'Bunker d\'arresto sulla strada maestra e sulla ferrovia Trieste-Lubiana.' },
       { name: 'Piazza di Fiume e Monte Calvario', coords: [14.44, 45.33], desc: 'Cintura fortificata a protezione dell\'enclave del Carnaro e del porto mercantile.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'maginot_alpine',
@@ -727,7 +727,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Bastione dell\'Uadi Zigzaou', coords: [10.22, 33.52], desc: 'Profondo letto fluviale secco trasformato in imponente fossato anticarro con casematte d\'artiglieria a tiro incrociato.' },
       { name: 'Ridotta Costiera di Mareth', coords: [10.35, 33.68], desc: 'Postazioni corazzate e sbarramenti di mine a protezione del fianco marittimo della linea sul Golfo di Gabès.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'frontier_wire_libya',
@@ -774,7 +774,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Oscarsborg Hovedfort (Kaholmen)', coords: [10.61, 59.67], desc: 'Batteria principale con cannoni pesanti da 28 cm Krupp e stazione lanciasiluri ipogea sommersa.' },
       { name: 'Kopås batteri', coords: [10.64, 59.68], desc: 'Batteria d\'appoggio rapido da 15 cm a protezione del passaggio est.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'boden_fortress',
@@ -797,7 +797,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Rödbergsfortet', coords: [21.68, 65.82], desc: 'Il più grande forte ipogeo d\'artiglieria pesante in caverna granitica armato di cannoni da 15 cm.' },
       { name: 'Degerbergsfortet', coords: [21.64, 65.84], desc: 'Forte corazzato a sbarramento della ferrovia verso Luleå e la costa.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
   {
     id: 'hegra_fortress',
@@ -842,7 +842,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Batteri Helsingborg', coords: [12.68, 56.05], desc: 'Batterie pesanti d\'artiglieria a sbarramento della strozzatura dell\'Øresund verso la Danimarca occupata.' },
       { name: 'Skanör-Falsterbo Kustspärr', coords: [12.85, 55.40], desc: 'Sbarramento bunker e campi minati sulla punta sud-occidentale della Scania.' },
     ],
-    activeSteps: [5, 6, 7, 8, 9],
+    activeSteps: [5, 6, 7, 8, 9, 10],
   },
   {
     id: 'salpa_line',
@@ -873,7 +873,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento Granitico di Luumäki', coords: [27.75, 60.95], desc: 'Quattro file ininterrotte di monoliti granitici da 3 tonnellate ciascuno posizionati per bloccare i carri armati pesanti sovietici.' },
       { name: 'Caposaldo di Joensuu & Pielisjoki', coords: [29.80, 62.45], desc: 'Opere d\'arresto fluviali e bunker d\'artiglieria a protezione del corridoio della Carelia Settentrionale.' },
     ],
-    activeSteps: [6, 7, 8, 9], // Costruita a partire dalla primavera 1940 e presidiata
+    activeSteps: [6, 7, 8, 9, 10], // Costruita a partire dalla primavera 1940 e presidiata
   },
   {
     id: 'mozhaysk_line',
@@ -896,7 +896,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Baluardo Corazzato di Tula', coords: [37.60, 54.20], desc: 'Roccaforte operaia e anticarro che bloccò l\'accerchiamento meridionale del 2º Gruppo Corazzato di Guderian.' },
       { name: 'Sbarramento di Volokolamsk', coords: [35.95, 56.03], desc: 'Trincee e cannoni anticarro della 316ª Divisione di Panfilov lungo l\'autostrada per Mosca.' },
     ],
-    activeSteps: [9],
+    activeSteps: [9, 10],
   },
   {
     id: 'kaur_leningrad_line',
@@ -919,7 +919,82 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Alture di Pulkovo', coords: [30.32, 59.77], desc: 'Baluardo strategico dell\'artiglieria navale della Flotta del Baltico che impedì ai cannoni d\'assedio tedeschi di conquistare la città.' },
       { name: 'Forte Krasnaja Gorka', coords: [29.35, 59.97], desc: 'Gigantesche batterie costiere da 305 mm a protezione della sacca di Oranienbaum sul Golfo di Finlandia.' },
     ],
-    activeSteps: [9],
+    activeSteps: [9, 10],
+  },
+  {
+    id: 'el_alamein_line',
+    name: 'Linea di El Alamein & Cresta di Alam el Halfa (Stretta di Qattara)',
+    nation: 'Regno Unito / Commonwealth',
+    builder: '8th Army (Gen. Claude Auchinleck / Ten. Gen. Bernard Montgomery)',
+    description:
+      'L\'unica posizione difensiva nel Deserto Occidentale egiziano non aggirabile a sud dai mezzi corazzati grazie all\'invalicabile Depressione di Qattara. Lunga 60 km dal Mar Mediterraneo (stazione di El Alamein e Tell el Eisa) attraverso la cresta di Ruweisat e la cresta fortificata di Alam el Halfa fino a Qaret el Himeimat: con i suoi immensi "Giardini del Diavolo" (campi minati), "box" fortificati e sbarramenti anticarro, arrestò la Panzerarmee Afrika di Rommel nel luglio-agosto 1942 a soli 100 km da Alessandria.',
+    type: 'heavy',
+    color: '#3d7848',
+    coordinates: [
+      [28.95, 30.84], // El Alamein / Tell el Eisa (Mediterraneo)
+      [29.02, 30.65], // Cresta di Miteiriya & Ruweisat Ridge
+      [29.18, 30.62], // Cresta di Alam el Halfa (Quota 132)
+      [29.08, 30.48], // Bab el Qattara / Depressione di Deir elinda
+      [28.98, 30.35], // Qaret el Himeimat (Bordo della Depressione di Qattara)
+    ],
+    keyForts: [
+      { name: 'Box di El Alamein & Tell el Eisa', coords: [28.95, 30.84], desc: 'Perno costiero fortificato presidiato dalla 1ª Divisione Sudafricana e dalla 9ª Divisione Australiana lungo la ferrovia per Alessandria.' },
+      { name: 'Cresta di Ruweisat (Ruweisat Ridge)', coords: [29.02, 30.65], desc: 'Dorsale rocciosa centrale al cuore dei feroci scontri della Prima Battaglia di El Alamein (luglio 1942) tra carri dell\'Asse, divisioni indiane e neozelandesi.' },
+      { name: 'Cresta Fortificata di Alam el Halfa', coords: [29.18, 30.62], desc: 'Perno difensivo arretrato presidiato dalla 44ª Divisione britannica e dai carri Grant interrati che infranse l\'ultimo assalto corazzato di Rommel (30 agosto - 5 settembre 1942).' },
+    ],
+    activeSteps: [10],
+  },
+  {
+    id: 'stalingrad_volga_line',
+    name: 'Anello Difensivo di Stalingrado & Fronte del Volga (Stalingradskij Obvod)',
+    nation: 'URSS',
+    builder: 'Fronte di Stalingrado (62ª e 64ª Armata) & Comitato di Difesa Urbano',
+    description:
+      'Complesso di quattro anelli fortificati concentrici (Esterno, Medio, Interno e Urbano — Obvody "O", "S", "V", "G") per oltre 2.500 km di trincee, fossati anticarro e capisaldi industriali edificati attorno a Stalingrado tra il Don e il Volga. Il 23 agosto 1942 il XIV Corpo Panzer tedesco raggiunse il Volga a Rynok a nord della città, dando inizio all\'epica battaglia urbana (Ordine N. 227 di Stalin "Né un passo indietro!") difesa dalla 62ª Armata di Čujkov tra il Mamajev Kurgan e le grandi fabbriche sul Volga.',
+    type: 'heavy',
+    color: '#d9534f',
+    coordinates: [
+      [44.62, 48.83], // Rynok / Spartakovka (Riva del Volga a nord)
+      [44.58, 48.79], // Fabbrica di Trattori Dzeržinskij (STZ) & Barrikady
+      [44.54, 48.74], // Collina di Mamajev Kurgan (Quota 102,0)
+      [44.51, 48.70], // Stazione Centrale, Casa di Pavlov & Imbarcadero sul Volga
+      [44.43, 48.59], // Silo Granario & Beketovka
+      [44.55, 48.51], // Krasnoarmejsk (Sbocco del futuro canale Volga-Don a sud)
+    ],
+    keyForts: [
+      { name: 'Mamajev Kurgan (Quota 102,0)', coords: [44.54, 48.74], desc: 'Collina strategica dominante l\'intera città e gli attraversamenti sul Volga, contesa metro per metro in sanguinosi assalti all\'arma bianca.' },
+      { name: 'Complesso Industriale STZ, Barrikady & Krasnyj Oktjabr\'', coords: [44.58, 48.79], desc: 'I giganteschi stabilimenti metallurgici e di trattori sul Volga trasformati in fortezze inespugnabili dai fucilieri della 62ª Armata.' },
+      { name: 'Silo Granario & Caposaldo Sud (64ª Armata)', coords: [44.43, 48.59], desc: 'Enorme edificio in cemento armato difeso eroicamente dai marinai e fucilieri sovietici contro la 4ª Armata Panzer di Hoth.' },
+    ],
+    activeSteps: [10],
+  },
+  {
+    id: 'atlantic_wall_1942',
+    name: 'Vallo Atlantico (Atlantikwall — Direttiva del Führer N. 40)',
+    nation: 'Germania',
+    builder: 'Organizzazione Todt & OB West (Feldm. Gerd von Rundstedt)',
+    description:
+      'Colossale sistema di fortificazioni costiere lungo le coste dell\'Europa occupata decretato da Hitler con la Direttiva N. 40 del 23 marzo 1942 dopo i raid dei Commandos britannici (Saint-Nazaire, Operazione Chariot, 28 marzo 1942). Articolato in Festungen portuali (porti-fortezza e bunker per U-Boot) e batterie pesanti sul Passo di Calais (Batteria Todt, Lindemann), respinse con gravi perdite alleate il grande sbarco anglo-canadese a Dieppe del 19 agosto 1942 (Operazione Jubilee).',
+    type: 'heavy',
+    color: '#707478',
+    coordinates: [
+      [3.22, 51.33],  // Zeebrugge / Ostenda
+      [1.85, 50.95],  // Calais / Cap Gris-Nez (Batterie Todt & Lindemann)
+      [1.61, 50.72],  // Boulogne-sur-Mer
+      [1.08, 49.93],  // Dieppe (Teatro dell'Operazione Jubilee, 19 agosto 1942)
+      [0.11, 49.49],  // Festung Le Havre
+      [-1.62, 49.64], // Festung Cherbourg
+      [-2.02, 48.65], // Festung Saint-Malo & Isole del Canale
+      [-4.48, 48.39], // Festung Brest
+      [-3.36, 47.75], // Festung Lorient
+      [-2.21, 47.27], // Festung Saint-Nazaire (Teatro dell'Operazione Chariot, 28 marzo 1942)
+    ],
+    keyForts: [
+      { name: 'Batterie Todt & Lindemann (Cap Gris-Nez / Calais)', coords: [1.58, 50.87], desc: 'Gigantesche casematte corazzate con cannoni navali da 380 mm e 406 mm puntate sullo Stretto di Dover.' },
+      { name: 'Caposaldo Costiero di Dieppe (Widerstandsnest)', coords: [1.08, 49.93], desc: 'Falesie fortificate e bunker in cemento che il 19 agosto 1942 infransero il raid anfibio della 2ª Divisione Canadese (Operazione Jubilee).' },
+      { name: 'Festung Saint-Nazaire & Chiusa Normandie', coords: [-2.21, 47.27], desc: 'Base U-Boot e grande bacino di carenaggio (Forme Joubert) assaltato dal cacciatorpediniere britannico HMS Campbeltown il 28 marzo 1942.' },
+    ],
+    activeSteps: [10],
   },
 ];
 
@@ -1728,12 +1803,18 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         strokeColor = '#6f7a3f';
         fillColor = '#1e2418';
         description = 'Base navale avanzata della Regia Marina in Nordafrica, protetta dall\'incrociatore San Giorgio impiegato come fortezza galleggiante contraerea.';
-      } else {
+      } else if (step < 10) {
         nation = 'Regno Unito / Commonwealth';
         historicalName = 'Piazzaforte Navale di Tobruk (Presidio Alleato)';
         strokeColor = '#5aa0c2';
         fillColor = '#102434';
         description = 'Presa dagli Alleati nel gennaio 1941; presidiata dai leggendari "Topi di Tobruk" (9ª Divisione Australiana e truppe polacche/britanniche) durante 240 giorni d\'assedio italo-tedesco e liberata nel dicembre 1941 (Operazione Crusader).';
+      } else {
+        nation = 'Italia / Asse (Panzerarmee Afrika)';
+        historicalName = 'Piazzaforte Navale di Tobruk (Espugnata da Rommel — 21 Giugno 1942)';
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+        description = 'Espugnata il 21 giugno 1942 dalla Panzerarmee Afrika di Erwin Rommel con la cattura di 33.000 prigionieri alleati e immensi depositi di carburante e viveri; trasformata nella principale base logistica navale avanzata dell\'Asse per l\'offensiva su El Alamein.';
       }
       break;
 
@@ -1752,16 +1833,48 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'sevastopol':
-      if (step >= 9) {
+      if (step === 9) {
         nation = 'URSS (Eroica Difesa sotto Assedio)';
         historicalName = 'Fortezza Navale di Sebastopoli (Assedio dell\'11ª Armata di Manstein)';
         strokeColor = '#d9534f';
         fillColor = '#291212';
         description = 'Cinta d\'assedio dalle divisioni tedesche di von Manstein e dalle truppe romene dal 30 ottobre 1941; le fortificazioni Maxim Gorkij I e i marinai della Flotta del Mar Nero resistono strenuamente con rifornimenti via mare.';
+      } else if (step >= 10) {
+        nation = 'Germania / Asse (Kriegsmarine)';
+        historicalName = 'Sevastopol\' (Espugnata dall\'11ª Armata di Manstein — 4 Luglio 1942)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Espugnata il 4 luglio 1942 al termine dell\'Operazione Störfang dopo 250 giorni di assedio e il bombardamento dei giganteschi mortai Dora (800 mm) e Karl; presidiata dalla Kriegsmarine e da flottiglie motosiluranti italo-tedesche.';
       } else {
         nation = 'URSS';
         strokeColor = '#d9534f';
         fillColor = '#291212';
+      }
+      break;
+
+    case 'singapore':
+      if (step >= 10) {
+        nation = 'Giappone (Marina Imperiale)';
+        historicalName = 'Shōnan-tō Kaigun Kichi (Ex-HMNB Singapore — Conquistata il 15 Febbraio 1942)';
+        strokeColor = '#b33d4a';
+        fillColor = '#2b1414';
+        description = 'Caduta il 15 febbraio 1942 dopo la travolgente avanzata della 25ª Armata del Ten. Gen. Tomoyuki Yamashita lungo la Malesia; ribattezzata Shōnan-tō ("Luce del Sud") e divenuta il principale arsenale della Flotta di Spedizione Meridionale della Marina Imperiale Giapponese.';
+      }
+      break;
+
+    case 'diego_suarez':
+      if (step >= 6 && step < 10) {
+        nation = 'Francia di Vichy';
+        historicalName = 'Base Navale di Diego-Suarez (Madagascar — Vichy)';
+        strokeColor = '#8d77a3';
+        fillColor = '#241a29';
+        description = 'Grande rada naturale del Madagascar settentrionale sotto il governatore Vichy Armand Annet, sorvegliata dalla Royal Navy per il timore di un suo utilizzo da parte dei sommergibili giapponesi.';
+      } else if (step >= 10) {
+        nation = 'Regno Unito (Royal Navy — Op. Ironclad)';
+        historicalName = 'Diego-Suarez (Occupata dalla Royal Navy — Operazione Ironclad, 5-7 Maggio 1942)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Conquistata dalle forze anfibie britanniche (Operazione Ironclad, 5-7 maggio 1942) per negare le basi del Madagascar ai sommergibili della Marina Imperiale Giapponese (che il 30 maggio 1942 vi danneggiarono la corazzata HMS Ramillies con sottomarini tascabili).';
       }
       break;
 
@@ -1822,12 +1935,18 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         strokeColor = '#5aa0c2';
         fillColor = '#102434';
         description = 'Quartier generale e arsenale della US Asiatic Fleet dell\'ammiraglio Thomas Hart a difesa dell\'ingresso della Baia di Manila.';
-      } else {
+      } else if (step === 9) {
         nation = 'USA / Filippine (Sotto Assedio)';
         historicalName = 'Cavite Navy Yard distrutto / Ritiro a Bataan e Corregidor';
         strokeColor = '#d97736';
         fillColor = '#251b1b';
         description = 'Arsenale di Cavite distrutto dai raid aerei giapponesi il 10 dicembre 1941; le forze del Gen. MacArthur dichiarano Manila città aperta (26 dicembre) ripiegando nella penisola di Bataan e nella fortezza dell\'isola di Corregidor.';
+      } else {
+        nation = 'Giappone (Occupazione)';
+        historicalName = 'Baia di Manila & Corregidor (Capitolazione USAFFE — 6 Maggio 1942)';
+        strokeColor = '#b33d4a';
+        fillColor = '#2b1414';
+        description = 'Dopo la resa di Bataan (9 aprile 1942) e la capitolazione della fortezza insulare di Corregidor del Ten. Gen. Jonathan Wainwright (6 maggio 1942) alla 14ª Armata del Gen. Masaharu Homma, la Baia di Manila passa sotto il pieno controllo aeronavale giapponese.';
       }
       break;
 

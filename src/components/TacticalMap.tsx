@@ -48,6 +48,7 @@ export const STRATEGIC_ISLAND_LABELS: Record<string, string> = {
   GU_GUAM: 'Guam (USA)',
   WK_WAKE: 'Wake (USA)',
   NC_NEWCALEDONIA: 'Nuova Caledonia (FRA)',
+  US_AK_ALEUTIANS_WEST: 'Attu & Kiska (USA)',
 };
 
 export function getStrategicIslandLabel(id: string, step: number): string {
@@ -56,6 +57,15 @@ export function getStrategicIslandLabel(id: string, step: number): string {
   }
   if (id === 'WK_WAKE') {
     return step >= 9 ? 'Wake / Otori Jima (JAP)' : 'Wake (USA)';
+  }
+  if (id === 'KI_GILBERT') {
+    return step >= 9 ? 'Gilbert / Tarawa (JAP)' : 'Gilbert (UK)';
+  }
+  if (id === 'NR_NAURU') {
+    return step >= 10 ? 'Nauru (JAP)' : 'Nauru (AUS)';
+  }
+  if (id === 'US_AK_ALEUTIANS_WEST') {
+    return step >= 10 ? 'Attu & Kiska (JAP)' : 'Attu & Kiska (USA)';
   }
   if (id === 'RE_REUNION') {
     return step >= 6 && step <= 8 ? 'La Réunion (VIC)' : 'La Réunion (FRA)';
@@ -115,8 +125,8 @@ const HISTORICAL_CITIES: {
   { id: 'washington', name: 'Washington', historicalNames: { step9: 'Washington, D.C. (Discorso dell\'Infamia)', default: 'Washington, D.C.' }, coords: [-77.03, 38.90], isCapital: true, ownerKey: 'USA' },
 
   // Grandi Metropoli del Pacifico, Asia e Medio Oriente (WWII)
-  { id: 'singapore', name: 'Singapore', historicalNames: { step9: 'Singapore (Fortezza Navale — Assedio Giapponese)', default: 'Singapore (Sembawang / Fortezza d\'Oriente)' }, coords: [103.82, 1.29], isCapital: false, ownerKey: 'UK' },
-  { id: 'manila', name: 'Manila', historicalNames: { step9: 'Manila (Città Aperta, 26 Dicembre 1941)', default: 'Manila (Commonwealth Filippino / USAFFE HQ)' }, coords: [120.98, 14.60], isCapital: true, ownerKey: 'USA' },
+  { id: 'singapore', name: 'Singapore', historicalNames: { step9: 'Singapore (Fortezza Navale — Assedio Giapponese)', step10: 'Shōnan-tō / Singapore (Occupazione Giapponese)', default: 'Singapore (Sembawang / Fortezza d\'Oriente)' }, coords: [103.82, 1.29], isCapital: false, ownerKey: 'UK' },
+  { id: 'manila', name: 'Manila', historicalNames: { step9: 'Manila (Città Aperta, 26 Dicembre 1941)', step10: 'Manila (Occupazione Militare Giapponese)', default: 'Manila (Commonwealth Filippino / USAFFE HQ)' }, coords: [120.98, 14.60], isCapital: true, ownerKey: 'USA' },
   { id: 'hong_kong', name: 'Hong Kong', historicalNames: { step9: 'Hong Kong (Occupazione Giapponese, 25 Dicembre 1941)', default: 'Hong Kong (Colonia della Corona Britannica)' }, coords: [114.16, 22.28], isCapital: true, ownerKey: 'UK' },
   { id: 'honolulu', name: 'Honolulu', historicalNames: { step9: 'Honolulu (Pearl Harbor / Legge Marziale)', default: 'Honolulu (Territorio delle Hawaii / Pacific Fleet)' }, coords: [-157.86, 21.31], isCapital: true, ownerKey: 'USA' },
   { id: 'bangkok', name: 'Bangkok', historicalNames: { step9: 'Bangkok (Alleanza con il Giappone, 21 Dicembre 1941)', default: 'Bangkok (Regno del Siam / Thailandia)' }, coords: [100.50, 13.75], isCapital: true, ownerKey: 'SIA' },
@@ -126,7 +136,7 @@ const HISTORICAL_CITIES: {
   { id: 'damascus', name: 'Damasco', historicalNames: { step6: 'Damasco (Mandato di Siria — Vichy)', step9: 'Damasco (Francia Libera & Gran Bretagna)', default: 'Damasco (Mandato Francese di Siria)' }, coords: [36.29, 33.51], isCapital: true, ownerKey: 'SYR' },
   { id: 'beirut', name: 'Beirut', historicalNames: { step6: 'Beirut (Mandato del Libano — Vichy)', step9: 'Beirut (Francia Libera & Gran Bretagna)', default: 'Beirut (Stato del Grande Libano)' }, coords: [35.50, 33.89], isCapital: true, ownerKey: 'LBN' },
   { id: 'baghdad', name: 'Baghdad', historicalNames: { step8: 'Baghdad (Guerra Anglo-Irachena / Rashid Ali)', step9: 'Baghdad (Presidio Britannico Paiforce)', default: 'Baghdad (Regno dell\'Iraq)' }, coords: [44.36, 33.31], isCapital: true, ownerKey: 'IRQ' },
-  { id: 'batavia', name: 'Batavia', historicalNames: { step9: 'Batavia (Indie Orientali Olandesi / Mobilitazione)', default: 'Batavia (Giacarta / Indie Orientali Olandesi)' }, coords: [106.85, -6.21], isCapital: true, ownerKey: 'HOL' },
+  { id: 'batavia', name: 'Batavia', historicalNames: { step9: 'Batavia (Indie Orientali Olandesi / Mobilitazione)', step10: 'Batavia / Giacarta (Occupazione 16ª Armata Giapponese)', default: 'Batavia (Giacarta / Indie Orientali Olandesi)' }, coords: [106.85, -6.21], isCapital: true, ownerKey: 'HOL' },
   { id: 'new_delhi', name: 'New Delhi', historicalNames: { default: 'Nuova Delhi (Capitale dell\'Impero Indiano)' }, coords: [77.21, 28.61], isCapital: true, ownerKey: 'IND' },
   { id: 'calcutta', name: 'Calcutta', historicalNames: { default: 'Calcutta (Porto del Bengala / Rifornimenti)' }, coords: [88.36, 22.57], isCapital: false, ownerKey: 'IND' },
   { id: 'sydney', name: 'Sydney', historicalNames: { default: 'Sydney (Base Principale Royal Australian Navy)' }, coords: [151.21, -33.87], isCapital: false, ownerKey: 'AUS' },
@@ -203,12 +213,12 @@ const HISTORICAL_CITIES: {
   { id: 'barcelona', name: 'Barcelona', historicalNames: { default: 'Barcelona (Generalitat de Catalunya)' }, coords: [2.17, 41.38], isCapital: false, ownerKey: 'SPR' },
   { id: 'sevilla', name: 'Sevilla', historicalNames: { default: 'Sevilla (Queipo de Llano)' }, coords: [-5.99, 37.38], isCapital: false, ownerKey: 'SPA' },
   { id: 'tripoli', name: 'Tripoli', historicalNames: { default: 'Tripoli (Governatorato Generale Libia)' }, coords: [13.19, 32.88], isCapital: true, ownerKey: 'ITA' },
-  { id: 'benghazi', name: 'Bengasi', historicalNames: { default: 'Bengasi (Comando Cirenaica)' }, coords: [20.06, 32.11], isCapital: false, ownerKey: 'ITA' },
+  { id: 'benghazi', name: 'Bengasi', historicalNames: { step9: 'Bengasi (Occupazione VIII Armata — Crusader)', step10: 'Bengasi (Base Logistica Panzerarmee Afrika)', default: 'Bengasi (Comando Cirenaica)' }, coords: [20.06, 32.11], isCapital: false, ownerKey: 'ITA' },
   { id: 'cairo', name: 'Al-Qahirah', historicalNames: { default: 'Il Cairo (Regno d\'Egitto / HQ Middle East Command)' }, coords: [31.23, 30.04], isCapital: true, ownerKey: 'EGY' },
   { id: 'alexandria', name: 'Al-Iskandariyah', historicalNames: { default: 'Alessandria d\'Egitto (HQ Mediterranean Fleet)' }, coords: [29.91, 31.20], isCapital: false, ownerKey: 'EGY' },
   { id: 'port_said', name: 'Porto Said', historicalNames: { default: 'Port Said (Ingresso Canale di Suez)' }, coords: [32.30, 31.26], isCapital: false, ownerKey: 'EGY' },
   { id: 'suez', name: 'Suez', historicalNames: { default: 'Suez (Sbocco Mar Rosso Canale)' }, coords: [32.55, 29.97], isCapital: false, ownerKey: 'EGY' },
-  { id: 'mersa_matruh', name: 'Mersa Matruh', historicalNames: { step7: 'Mersa Matruh (Fronte Sidi Barrani / Western Desert Force)', step9: 'Mersa Matruh (Base Avanzata VIII Armata — Crusader)', default: 'Mersa Matruh (Piazzaforte Western Desert)' }, coords: [27.24, 31.35], isCapital: false, ownerKey: 'EGY' },
+  { id: 'mersa_matruh', name: 'Mersa Matruh', historicalNames: { step7: 'Mersa Matruh (Fronte Sidi Barrani / Western Desert Force)', step9: 'Mersa Matruh (Base Avanzata VIII Armata — Crusader)', step10: 'Mersa Matruh & El Alamein (Fronte Panzerarmee Afrika)', default: 'Mersa Matruh (Piazzaforte Western Desert)' }, coords: [27.24, 31.35], isCapital: false, ownerKey: 'EGY' },
   { id: 'aswan', name: 'Aswan', historicalNames: { default: 'Aswan (Diga e Confine Nubiano)' }, coords: [32.90, 24.09], isCapital: false, ownerKey: 'EGY' },
   { id: 'khartoum', name: 'Khartoum', historicalNames: { default: 'Khartoum (Sudan Anglo-Egiziano)' }, coords: [32.55, 15.50], isCapital: true, ownerKey: 'UK' },
   { id: 'algiers', name: 'Algeri', historicalNames: { step6: 'Alger (Gouvernement Général — Vichy)', default: 'Alger (Préfecture d\'Alger / AFN)' }, coords: [3.05, 36.75], isCapital: true, ownerKey: 'FRA' },
@@ -231,8 +241,8 @@ const HISTORICAL_CITIES: {
   // Teatri URSS Occidentale
   { id: 'kyiv', name: 'Kyiv', historicalNames: { step9: 'Kiew (Reichskommissariat Ukraine)', default: 'Kiev (Capitale della RSS Ucraina)' }, coords: [30.52, 50.45], isCapital: false, ownerKey: 'SOV' },
   { id: 'kharkiv', name: 'Kharkiv', historicalNames: { step9: 'Charkow (Heeresgebiet Süd)', default: 'Charkiv (Fabbrica Carri KhPZ n. 183)' }, coords: [36.23, 50.00], isCapital: false, ownerKey: 'SOV' },
-  { id: 'stalingrad', name: 'Stalingrad', historicalNames: { default: 'Stalingrado (Fabbrica Trattori Dzeržinskij)' }, coords: [44.51, 48.71], isCapital: false, ownerKey: 'SOV' },
-  { id: 'sevastopol', name: 'Sevastopol', historicalNames: { step9: 'Sebastopoli (Eroica Difesa sotto Assedio Tedesco)', default: 'Sebastopoli (Fortezza Principale Mar Nero)' }, coords: [33.52, 44.62], isCapital: false, ownerKey: 'SOV' },
+  { id: 'stalingrad', name: 'Stalingrad', historicalNames: { step10: 'Stalingrado (Battaglia sul Volga — Ordine N. 227)', default: 'Stalingrado (Fabbrica Trattori Dzeržinskij)' }, coords: [44.51, 48.71], isCapital: false, ownerKey: 'SOV' },
+  { id: 'sevastopol', name: 'Sevastopol', historicalNames: { step9: 'Sebastopoli (Eroica Difesa sotto Assedio Tedesco)', step10: 'Sebastopoli (Occupata dalla Wehrmacht, 4 Luglio 1942)', default: 'Sebastopoli (Fortezza Principale Mar Nero)' }, coords: [33.52, 44.62], isCapital: false, ownerKey: 'SOV' },
   { id: 'odessa', name: 'Odessa', historicalNames: { step9: 'Odessa (Capitale del Governatorato di Transnistria)', default: 'Odessa (Base Navale Mar Nero)' }, coords: [30.73, 46.48], isCapital: false, ownerKey: 'SOV' },
   { id: 'smolensk', name: 'Smolensk', historicalNames: { step9: 'Smolensk (Militärverwaltung Wehrmacht / HGr Mitte)', default: 'Smolensk (Distretto Militare Occidentale)' }, coords: [32.05, 54.78], isCapital: false, ownerKey: 'SOV' },
   { id: 'minsk', name: 'Minsk', historicalNames: { step9: 'Minsk (Generalkommissariat Weißruthenien — Ostland)', default: 'Minsk (Capitale della RSS Bielorussa)' }, coords: [27.56, 53.90], isCapital: false, ownerKey: 'SOV' },

@@ -2105,6 +2105,64 @@ export const BRITISH_RAJ_PROVINCES_META: Record<string, BritishRajProvinceInfo> 
 };
 BRITISH_RAJ_PROVINCES_META['IN_TR'] = BRITISH_RAJ_PROVINCES_META['IN_TRI'];
 
+// Step 10 (AGO 1942 — 31 agosto 1942): Conquista giapponese della Birmania (marzo-maggio 1942, taglio della Strada della Birmania verso la Cina) e delle Isole Andamane e Nicobare (23 marzo 1942); Movimento "Quit India" nel Raj (8 agosto 1942)
+for (const meta of new Set(Object.values(BRITISH_RAJ_PROVINCES_META))) {
+  if (!meta) continue;
+  const origSov = meta.getSovereign ? meta.getSovereign.bind(meta) : () => meta.sovereign;
+  const origFac = meta.getFaction ? meta.getFaction.bind(meta) : () => meta.faction;
+  const origHist = meta.getHistoricalName ? meta.getHistoricalName.bind(meta) : () => meta.historicalName;
+  const origAdmin = meta.getAdminTitle ? meta.getAdminTitle.bind(meta) : () => meta.adminTitle;
+  const origNote = meta.getNote.bind(meta);
+  const isBurma = meta.cntrCode === 'MM' || meta.id.startsWith('MM_');
+  const isAndaman = meta.id === 'IN_ANI';
+
+  meta.getSovereign = (s: number) => {
+    if (s >= 10 && (isBurma || isAndaman)) return 'JAP';
+    return origSov(s);
+  };
+  meta.getFaction = (s: number) => {
+    if (s >= 10 && (isBurma || isAndaman)) return 'Asse';
+    return origFac(s);
+  };
+  meta.getHistoricalName = (s: number) => {
+    if (s >= 10) {
+      if (isAndaman) return 'Isole Andamane e Nicobare (Occupazione Imperiale Giapponese — Port Blair, 23 Marzo 1942)';
+      if (meta.id === 'MM_RAN') return 'Rangoon (Occupazione Imperiale Giapponese — 15ª Armata & Governo Esecutivo di Ba Maw, 1942)';
+      if (meta.id === 'MM_MDY') return 'Mandalay & Alta Birmania (Occupazione Giapponese — Taglio della Strada della Birmania, Maggio 1942)';
+      if (meta.id === 'MM_SHA') return 'Stati Shan e Lashio (Occupazione Giapponese & Armata Phayap Thailandese a Kengtung — Maggio 1942)';
+      if (isBurma) return `${origHist(8)} (Occupazione Militare Giapponese — 15ª Armata, Maggio 1942)`;
+    }
+    return origHist(s);
+  };
+  meta.getAdminTitle = (s: number) => {
+    if (s >= 10) {
+      if (isAndaman) return 'Impero Giapponese — Guarnigione Navale delle Andamane e Nicobare (Port Blair — 1ª Flotta di Spedizione del Sud)';
+      if (isBurma) return 'Impero Giapponese — Amministrazione Militare della Birmania (15ª Armata — Ten. Gen. Shōjirō Iida & Amministrazione Centrale Birmana di Ba Maw)';
+    }
+    return origAdmin(s);
+  };
+  meta.getNote = (s: number) => {
+    if (s >= 10) {
+      if (isAndaman) {
+        return "Isole Andamane e Nicobare (Port Blair) · All'alba del 23 marzo 1942 (Operazione D) la forza d'invasione della Marina Imperiale Giapponese ha occupato senza opposizione Port Blair, trasformando l'arcipelago nell'avamposto aeronavale più occidentale dell'Impero Giapponese nel Golfo del Bengala a copertura del fianco marittimo della campagna di Birmania.";
+      }
+      if (isBurma) {
+        if (meta.id === 'MM_SHA') {
+          return "Stati Shan, Lashio e Kengtung · Il 29 aprile 1942 le colonne motorizzate della 56ª Divisione giapponese hanno espugnato Lashio, capolinea ferroviario della celebre Strada della Birmania (Burma Road), tagliando l'ultima arteria terrestre di rifornimento alleata verso la Cina nazionalista di Chiang Kai-shek; nel maggio 1942 l'Armata Phayap thailandese del Gen. Phin Choonhavan ha occupato gli Stati Shan orientali di Kengtung e Möngpan.";
+        }
+        return `${origNote(8)} Tra gennaio e maggio 1942 la 15ª Armata giapponese (Ten. Gen. Shōjirō Iida), affiancata dall'Esercito d'Indipendenza Birmano (BIA) di Aung San, ha conquistato l'intera Birmania (caduta di Rangoon l'8 marzo, di Yenangyaung ad aprile, di Lashio il 29 aprile e di Mandalay e Myitkyina a maggio), costringendo il Burma Corps britannico del Gen. William Slim e le forze cinesi del Gen. Joseph Stilwell a una drammatica ritirata attraverso la giungla monsonica verso l'Assam e tagliando la Strada della Birmania verso la Cina.`;
+      }
+      if (meta.id === 'IN_BOM') {
+        return `${origNote(8)} L'8 agosto 1942, al Gowalia Tank Maidan di Bombay, il Mahatma Gandhi e il Congresso Nazionale Indiano lanciano la storica risoluzione 'Quit India' (Bharat Chodo Andolan) chiedendo l'immediata fine del dominio britannico; all'alba del 9 agosto il governo vicereale arresta Gandhi, Nehru e l'intera leadership del Congresso.`;
+      }
+      if (meta.id === 'IN_ASS' || meta.id === 'IN_MAN' || meta.id === 'IN_NAG') {
+        return `${origNote(8)} Nell'estate 1942, dopo la caduta della Birmania e il taglio della Burma Road, l'Assam, il Manipur (Imphal) e le colline Naga (Kohima) diventano la prima linea difensiva dell'Impero Britannico contro il Giappone e la base di partenza del leggendario ponte aereo statunitense 'The Hump' (La Gobba) sopra l'Himalaya per rifornire la Cina di Chiang Kai-shek.`;
+      }
+    }
+    return origNote(s);
+  };
+}
+
 /**
  * Risolve lo stato geopolitico di una provincia del British Raj per uno step temporale specifico (0-8).
  */
@@ -2112,8 +2170,10 @@ export function resolveBritishRajProvince(ft: any, s: number): ResolvedTerritory
   const p = (ft && ft.properties) ? ft.properties : {};
   let fid = String(ft.id || p.id || p.NUTS_ID || '').trim();
 
-  // Alias IN_TR to IN_TRI if needed
+  // Alias IN_TR to IN_TRI and Burma alternative ISO codes if needed
   if (fid === 'IN_TR') fid = 'IN_TRI';
+  if (fid === 'MM_YGN') fid = 'MM_RAN';
+  if (fid === 'MM_SHN') fid = 'MM_SHA';
 
   // Match canonico tramite BRITISH_RAJ_PROVINCES_META
   let meta = BRITISH_RAJ_PROVINCES_META[fid];
@@ -2151,7 +2211,15 @@ export function resolveBritishRajProvince(ft: any, s: number): ResolvedTerritory
   const cntr = String(p.CNTR_CODE || p.CNTR_ID || '').toUpperCase();
   const rawName = String(p.NAME || p.name || '');
   if (cntr === 'MM' || rawName.toLowerCase().includes('burma') || rawName.toLowerCase().includes('birmania')) {
-    if (s <= 1) {
+    if (s >= 10) {
+      return makeResult(
+        'JAP',
+        'Birmania Occupata (Amministrazione Militare Giapponese — 15ª Armata / Birma Gun政監部)',
+        "Conquistata dall'Esercito Imperiale Giapponese (15ª Armata del tenente generale Shōjirō Iida) tra marzo e maggio 1942 con la caduta di Rangoon (8 marzo), Lashio (29 aprile) e Mandalay (1º maggio), tagliando definitivamente la Strada della Birmania (Burma Road) verso la Cina nazionalista e costringendo le forze britanniche del gen. Alexander e cinesi del gen. Stilwell a ripiegare in Assam attraverso la giungla monsonica.",
+        'Asse',
+        'Occupazione Militare Giapponese (15ª Armata Imperiale)'
+      );
+    } else if (s <= 1) {
       return makeResult(
         'UK',
         'Burma (Province of the Indian Empire — Rangoon)',

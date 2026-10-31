@@ -1072,18 +1072,23 @@ export function resolveMexicoProvince(
         break;
       }
     }
-    if (!meta && (provName.toLowerCase().includes('distrito federal') || provName.toLowerCase().includes('ciudad de mexico') || provName.toLowerCase().includes('cdmx'))) {
+    if (!meta && (pNorm.includes('distritofederal') || pNorm.includes('ciudaddemexico') || pNorm.includes('cdmx') || cleanId === 'MX_DIF' || cleanId === 'MX_DF')) {
       meta = MEXICO_PROVINCES_META['MX_CMX'];
     }
   }
 
   if (!meta) return null;
 
+  const fac: FactionType = s >= 10 ? 'Alleati' : meta.getFaction(s);
+  const note = s >= 10
+    ? `${meta.getNote(8)} Dopo l'affondamento delle petroliere messicane Potrero del Llano (13 maggio 1942) e Faja de Oro (20 maggio 1942) da parte degli U-Boot tedeschi nel Golfo del Messico, il 22 maggio 1942 il Presidente Manuel Ávila Camacho ha dichiarato lo stato di guerra contro Germania, Italia e Giappone, schierando il Messico a pieno titolo con gli Alleati.`
+    : meta.getNote(s);
+
   return makeResult(
     meta.getSovereign(s),
     meta.getHistoricalName(s),
-    meta.getNote(s),
-    meta.getFaction(s),
+    note,
+    fac,
     meta.getAdminTitle(s)
   );
 }

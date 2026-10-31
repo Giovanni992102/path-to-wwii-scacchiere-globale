@@ -1197,6 +1197,16 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
 
   // 3. Risoluzione canonica
   if (meta) {
+    if (s >= 10) {
+      const japAdmin = meta.islandGroup === 'Java'
+        ? 'Impero Giapponese — 16ª Armata (Ten. Gen. Hitoshi Imamura, Batavia / Giacarta — Resa di Kalijati dell\'8-9 marzo 1942)'
+        : meta.islandGroup === 'Sumatra'
+          ? 'Impero Giapponese — 25ª Armata (Amministrazione Militare di Sumatra & Pozzi Petroliferi di Palembang)'
+          : 'Impero Giapponese — 2ª Flotta di Spedizione del Sud (Marina Imperiale Giapponese — Minseifu di Makassar/Ambon/Balikpapan)';
+      const japName = `${meta.historicalName} (Occupazione Imperiale Giapponese — Marzo 1942)`;
+      const japNote = `${meta.getNote(8)} Tra gennaio e marzo 1942 l'arcipelago delle Indie Orientali Olandesi è stato conquistato dalle forze dell'Impero Giapponese: dopo la cattura dei vitali pozzi petroliferi di Tarakan (11 gennaio), Balikpapan (24 gennaio) e Palembang (14-15 febbraio, tramite lancio di paracadutisti) e la distruzione della squadra navale alleata ABDACOM nella Battaglia del Mar di Giava (27 febbraio 1942), la 16ª Armata del Ten. Gen. Hitoshi Imamura è sbarcata a Giava costringendo il comandante del KNIL Gen. Hein ter Poorten e il Governatore Generale van Starkenborgh Stachouwer alla capitolazione incondizionata a Kalijati l'8-9 marzo 1942.`;
+      return makeResult('JAP', japName, japNote, 'Asse', japAdmin);
+    }
     const sov = meta.getSovereign ? meta.getSovereign(s) : meta.sovereign;
     const fac = meta.getFaction ? meta.getFaction(s) : meta.faction;
     const histName = meta.getHistoricalName ? meta.getHistoricalName(s) : meta.historicalName;
@@ -1207,6 +1217,15 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
   }
 
   // 4. Fallback per province indonesiane generiche
+  if (s >= 10) {
+    return makeResult(
+      'JAP',
+      'Indie Orientali Olandesi Occupate (Occupazione Imperiale Giapponese — Resa di Kalijati, 8-9 Marzo 1942)',
+      'Dopo la vittoria navale giapponese nel Mar di Giava (27 febbraio 1942) e gli sbarchi della 16ª Armata a Giava, l\'8-9 marzo 1942 a Kalijati le forze reali delle Indie Orientali Olandesi (KNIL) si sono arrese all\'Impero Giapponese, consegnando a Tokyo gli immensi giacimenti di petrolio, gomma e stagno dell\'arcipelago.',
+      'Asse',
+      'Impero Giapponese — 16ª Armata & 2ª Flotta di Spedizione del Sud'
+    );
+  }
   const defaultHistName = 'Nederlands-Indië (Batavia)';
   const defaultAdmin = 'Nederlands-Indië — Gouverneur-Generaal Jhr. A.W.L. Tjarda van Starkenborgh Stachouwer';
   const defaultNote = s >= 6
@@ -1222,6 +1241,15 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
  */
 export function resolveTimorLeste(ft: any, s: number): ResolvedTerritory {
   const meta = TIMOR_LESTE_META;
+  if (s >= 10) {
+    return makeResult(
+      'JAP',
+      'Timor Português (Occupazione Militare Giapponese di Díli — 20 Febbraio 1942)',
+      'Nonostante la formale neutralità del Portogallo di Salazar, nella notte tra il 19 e il 20 febbraio 1942 il 228° Reggimento di Fanteria giapponese e i fucilieri di marina della 3ª Forza da Sbarco Speciale di Yokosuka sono sbarcati a Díli, occupando Timor Est (mentre sulle montagne dell\'interno i commando australiani della Sparrow Force conducono un\'accanita guerriglia).',
+      'Asse',
+      'Impero Giapponese — Guarnigione Militare di Timor (Distaccamento Ito / 48ª Divisione)'
+    );
+  }
   const note = meta.getNote(s);
   return makeResult(meta.sovereign, meta.historicalName, note, meta.faction, meta.adminTitle);
 }

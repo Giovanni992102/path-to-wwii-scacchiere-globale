@@ -2121,7 +2121,7 @@ export default function App() {
           const ind7 = resolveHB({ properties: { NAME: 'French Indo-China' } }, 7);
 
           return (
-            STEPS.length === 10 &&
+            STEPS.length >= 10 &&
             STEPS[7].d === 'OTT 1940' &&
             cluj6.o === 'ROM' &&
             cluj7.o === 'HUN' &&
@@ -2368,7 +2368,7 @@ export default function App() {
           const irq7 = resolveFeature({ properties: { CNTR_CODE: 'IQ', NAME: 'Iraq' } }, 7);
 
           return (
-            STEPS.length === 10 &&
+            STEPS.length >= 10 &&
             STEPS[8].d === 'APR 1941' &&
             STEPS[9].d === 'DIC 1941' &&
             zag8.o === 'CRO' &&
@@ -3672,7 +3672,7 @@ export default function App() {
       {
         name: "90. Audit Geostorico Integrale Step 9 (DIC 1941 — Situazione al 31 dicembre 1941: Operazione Barbarossa, Assedio di Mosca e Leningrado, Reichskommissariat Ostland e Ukraine, Distrikt Galizien, Bezirk Bialystok, Governatorato della Transnistria, Riconquista Carelia e Jatkosota Finlandese, Controllo Congiunto Francia Libera/UK in Siria e Libano, Spartizione Anglo-Sovietica dell'Iran, Occupazione Integrale Giapponese dell'Indocina, Pearl Harbor, Conquista di Hong Kong, Guam e Wake, Invasione di Malesia e Filippine con Manila Città Aperta, Alleanza Militare Thailandia-Giappone)",
         run: () => {
-          if (STEPS.length !== 10 || STEPS[9].d !== 'DIC 1941') return false;
+          if (STEPS.length < 10 || STEPS[9].d !== 'DIC 1941') return false;
 
           // 1. Europa Orientale (Fronte dell'Est)
           // a) Reichskommissariat Ostland (Baltici e Bielorussia occidentale/centrale)
@@ -3918,6 +3918,149 @@ export default function App() {
           if (guamLbl0 !== 'Guam (USA)' || guamLbl9 !== 'Guam / Omiya Jima (JAP)') return false;
           if (wakeLbl0 !== 'Wake (USA)' || wakeLbl9 !== 'Wake / Otori Jima (JAP)') return false;
           if (reunLbl0 !== 'La Réunion (FRA)' || reunLbl7 !== 'La Réunion (VIC)') return false;
+
+          return true;
+        },
+      },
+      {
+        name: "92. Audit Geostorico e Topologico Integrale Step 10 (AGO 1942 — Situazione al 31 agosto 1942: Fall Blau al Picco dell'Avanzata con Crimea/Sebastopoli, Rostov, Kuban', Majkop, Vetta dell'Elbrus e Arrivo sul Volga a Stalingrado; Avanzata di Rommel in Egitto fino a El Alamein / Alam el Halfa; Massima Estensione Storica dell'Impero Giapponese con Caduta di Singapore e Malesia, Resa delle Indie Orientali Olandesi, Capitolazione Americana a Bataan/Corregidor nelle Filippine, Conquista della Birmania e Taglio della Burma Road, Occupazione di Attu e Kiska nelle Aleutine e Perimetro Difensivo di Rabaul/Nuova Guinea/Salomone/Guadalcanal; Europa Occidentale e Nordafrica ancora divisi tra Zona Occupata e Vichy; Entrata in Guerra di Brasile e Messico)",
+        run: () => {
+          if (STEPS.length !== 11 || STEPS[10].d !== 'AGO 1942') return false;
+
+          // 1. Fronte Orientale al picco dell'avanzata (Fall Blau — Estate 1942)
+          // a) Crimea completamente sotto controllo tedesco (Sebastopoli caduta il 4 luglio 1942)
+          const sev9 = resolveSovietProvince('SOV_ADM1_UKR_99_Sevastopol', 9);
+          const sev10 = resolveSovietProvince('SOV_ADM1_UKR_99_Sevastopol', 10);
+          const crim10 = resolveSovietProvince('SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea', 10);
+          if (!sev9 || sev9.o !== 'SOV' || !sev10 || sev10.o !== 'GER' || sev10.fac !== 'Asse' || !sev10.note?.includes('4 luglio 1942')) return false;
+          if (!crim10 || crim10.o !== 'GER' || crim10.fac !== 'Asse') return false;
+
+          // b) Gruppo d'Armate A: Rostov, steppa del Kuban' (Krasnodar), campi petroliferi di Majkop (Adygea) e vetta dell'Elbrus (Kabardino-Balkaria, 21 agosto 1942)
+          const rostov10 = resolveSovietProvince('SOV_ADM1_RUS_17_Rostov_Oblast', 10);
+          const kuban10 = resolveSovietProvince('SOV_ADM1_RUS_39_Krasnodar_Krai', 10);
+          const maikop10 = resolveSovietProvince('SOV_ADM1_RUS_19_Adygea', 10);
+          const elbrus10 = resolveSovietProvince('SOV_ADM1_RUS_38_Kabardino_Balkaria', 10);
+          const stavr10 = resolveSovietProvince('SOV_ADM1_RUS_54_Stavropol_Krai', 10);
+          const kalm10 = resolveSovietProvince('SOV_ADM1_RUS_70_Kalmykia', 10);
+          const voro10 = resolveSovietProvince('SOV_ADM1_UKR_86_Luhansk_Oblast', 10);
+          if (!rostov10 || rostov10.o !== 'GER' || rostov10.fac !== 'Asse' || !rostov10.note?.includes('24 luglio 1942')) return false;
+          if (!kuban10 || kuban10.o !== 'GER' || kuban10.fac !== 'Asse' || !kuban10.note?.includes('Kuban')) return false;
+          if (!maikop10 || maikop10.o !== 'GER' || maikop10.fac !== 'Asse' || !maikop10.note?.includes('Majkop')) return false;
+          if (!elbrus10 || elbrus10.o !== 'GER' || elbrus10.fac !== 'Asse' || !elbrus10.note?.includes('Elbrus') || !elbrus10.note?.includes('21 agosto')) return false;
+          if (!stavr10 || stavr10.o !== 'GER' || !kalm10 || kalm10.o !== 'GER' || !voro10 || voro10.o !== 'GER') return false;
+
+          // c) Gruppo d'Armate B sul Volga a nord di Stalingrado il 23 agosto 1942 (città difesa dall'Armata Rossa)
+          const stal10 = resolveSovietProvince('SOV_ADM1_RUS_13_Volgograd_Oblast', 10);
+          if (!stal10 || stal10.o !== 'SOV' || stal10.fac !== 'Comintern' || !stal10.note?.includes('23 agosto 1942') || !stal10.note?.includes('227')) return false;
+
+          // 2. Nordafrica: riconquista italo-tedesca della Cirenaica (Tobruk 21 giugno 1942) e massima penetrazione in Egitto fino alla linea di El Alamein / Alam el Halfa
+          const tobruk9 = resolveFeature({ id: 'LYBU', properties: { CNTR_CODE: 'LY', NUTS_ID: 'LYBU', NAME: 'Al Butnan' } }, 9);
+          const tobruk10 = resolveFeature({ id: 'LYBU', properties: { CNTR_CODE: 'LY', NUTS_ID: 'LYBU', NAME: 'Al Butnan' } }, 10);
+          const matruh9 = resolveFeature({ id: 'EGMT', properties: { CNTR_CODE: 'EG', NUTS_ID: 'EGMT', NAME: 'Matrouh' } }, 9);
+          const matruh10 = resolveFeature({ id: 'EGMT', properties: { CNTR_CODE: 'EG', NUTS_ID: 'EGMT', NAME: 'Matrouh' } }, 10);
+          const alex10 = resolveFeature({ id: 'EGALX', properties: { CNTR_CODE: 'EG', NUTS_ID: 'EGALX', NAME: 'Alexandria' } }, 10);
+          if (tobruk9.o !== 'UK' || tobruk10.o !== 'ITA' || tobruk10.fac !== 'Asse') return false;
+          if (matruh9.o !== 'EGY' || matruh10.o !== 'ITA' || matruh10.fac !== 'Asse' || !matruh10.note?.includes('El Alamein') || !matruh10.note?.includes('Alam el Halfa')) return false;
+          if (alex10.o !== 'EGY' || alex10.fac !== 'Alleati') return false;
+
+          // 3. Impero Giapponese alla sua estensione storica massima
+          // a) Caduta di Singapore e completamento della Malesia (15 febbraio 1942)
+          const sing9 = resolveFeature({ id: 'SG01', properties: { CNTR_CODE: 'SG', NUTS_ID: 'SG01', NAME: 'Singapore' } }, 9);
+          const sing10 = resolveFeature({ id: 'SG01', properties: { CNTR_CODE: 'SG', NUTS_ID: 'SG01', NAME: 'Singapore' } }, 10);
+          const johor10 = resolveFeature({ id: 'MY01', properties: { CNTR_CODE: 'MY', NUTS_ID: 'MY01', NAME: 'Johor' } }, 10);
+          if (sing9.o !== 'UK' || sing10.o !== 'JAP' || sing10.fac !== 'Asse' || !sing10.name.includes('Shōnan-tō') || !sing10.note?.includes('15 febbraio 1942')) return false;
+          if (johor10.o !== 'JAP' || johor10.fac !== 'Asse') return false;
+
+          // b) Resa delle Indie Orientali Olandesi (Kalijati, 8-9 marzo 1942) e Timor Portoghese
+          const batavia9 = resolveFeature({ id: 'IDJK', properties: { CNTR_CODE: 'ID', NUTS_ID: 'IDJK', NAME: 'Jakarta' } }, 9);
+          const batavia10 = resolveFeature({ id: 'IDJK', properties: { CNTR_CODE: 'ID', NUTS_ID: 'IDJK', NAME: 'Jakarta' } }, 10);
+          const palembang10 = resolveFeature({ id: 'IDSS', properties: { CNTR_CODE: 'ID', NUTS_ID: 'IDSS', NAME: 'Sumatera Selatan' } }, 10);
+          const timor10 = resolveFeature({ id: 'TL', properties: { CNTR_CODE: 'TL', NUTS_ID: 'TL', NAME: 'Timor-Leste' } }, 10);
+          if (batavia9.o !== 'HOL' || batavia10.o !== 'JAP' || batavia10.fac !== 'Asse' || !batavia10.note?.includes('Kalijati')) return false;
+          if (palembang10.o !== 'JAP' || timor10.o !== 'JAP') return false;
+
+          // c) Capitolazione americana nelle Filippine (Bataan 9 aprile, Corregidor 6 maggio 1942)
+          const manila9 = resolveFeature({ id: 'PH00', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH00', NAME: 'Metropolitan Manila' } }, 9);
+          const manila10 = resolveFeature({ id: 'PH00', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH00', NAME: 'Metropolitan Manila' } }, 10);
+          const bataan10 = resolveFeature({ id: 'PH03', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH03', NAME: 'Central Luzon' } }, 10);
+          const correg10 = resolveFeature({ id: 'PH40', properties: { CNTR_CODE: 'PH', NUTS_ID: 'PH40', NAME: 'Calabarzon' } }, 10);
+          if (manila9.o !== 'PHL' || manila10.o !== 'JAP' || manila10.fac !== 'Asse') return false;
+          if (bataan10.o !== 'JAP' || !bataan10.note?.includes('9 aprile 1942')) return false;
+          if (correg10.o !== 'JAP' || !correg10.note?.includes('6 maggio 1942')) return false;
+
+          // d) Conquista della Birmania (maggio 1942) che taglia la Strada della Birmania, e occupazione delle Andamane e Nicobare
+          const rangoon9 = resolveFeature({ id: 'MM_RAN', properties: { CNTR_CODE: 'MM', NUTS_ID: 'MM_RAN', NAME: 'Rangoon' } }, 9);
+          const rangoon10 = resolveFeature({ id: 'MM_RAN', properties: { CNTR_CODE: 'MM', NUTS_ID: 'MM_RAN', NAME: 'Rangoon' } }, 10);
+          const shan10 = resolveFeature({ id: 'MM_SHA', properties: { CNTR_CODE: 'MM', NUTS_ID: 'MM_SHA', NAME: 'Shan' } }, 10);
+          const andaman10 = resolveFeature({ id: 'IN_ANI', properties: { CNTR_CODE: 'IN', NUTS_ID: 'IN_ANI', NAME: 'Andaman and Nicobar' } }, 10);
+          const assam10 = resolveFeature({ id: 'IN_ASS', properties: { CNTR_CODE: 'IN', NUTS_ID: 'IN_ASS', NAME: 'Assam' } }, 10);
+          if (rangoon9.o !== 'UK' || rangoon10.o !== 'JAP' || rangoon10.fac !== 'Asse') return false;
+          if (shan10.o !== 'JAP' || !shan10.note?.includes('Lashio')) return false;
+          if (andaman10.o !== 'JAP' || assam10.o !== 'RAJ' || !assam10.note?.includes('The Hump')) return false;
+
+          // e) Territorio USA occupato: isole di Attu e Kiska nelle Aleutine occidentali (giugno 1942) — verifica anche la scissione topologica GeoJSON
+          const aleutFeat = loadedProvs.find((f: any) => f.id === 'US_AK_ALEUTIANS_WEST');
+          const akMainFeat = loadedProvs.find((f: any) => f.id === 'US_AK');
+          if (!aleutFeat || !akMainFeat) return false;
+          const aleut9 = resolveFeature(aleutFeat, 9);
+          const aleut10 = resolveFeature(aleutFeat, 10);
+          const akMain10 = resolveFeature(akMainFeat, 10);
+          if (aleut9.o !== 'USA' || aleut10.o !== 'JAP' || aleut10.fac !== 'Asse' || !aleut10.name.includes('Attu e Kiska')) return false;
+          if (akMain10.o !== 'USA' || akMain10.fac !== 'Alleati') return false;
+
+          // f) Pacifico meridionale e centrale: Rabaul, Lae-Salamaua, Buna-Gona, Salomone/Guadalcanal e Nauru sotto presidio JAP; Port Moresby e Milne Bay alleate; Midway USA
+          const rabaul10 = resolveFeature({ id: 'PGEBR', properties: { CNTR_CODE: 'PG', NUTS_ID: 'PGEBR', NAME: 'East New Britain' } }, 10);
+          const buna10 = resolveFeature({ id: 'PGNPP', properties: { CNTR_CODE: 'PG', NUTS_ID: 'PGNPP', NAME: 'Northern' } }, 10);
+          const moresby10 = resolveFeature({ id: 'PGNCD', properties: { CNTR_CODE: 'PG', NUTS_ID: 'PGNCD', NAME: 'National Capital District' } }, 10);
+          const solom10 = resolveFeature({ id: 'SB', properties: { CNTR_CODE: 'SB', NUTS_ID: 'SB', NAME: 'Solomon Islands' } }, 10);
+          const nauru10 = resolveFeature({ id: 'NR_NAURU', properties: { CNTR_CODE: 'NR', NUTS_ID: 'NR_NAURU', NAME: 'Nauru' } }, 10);
+          const midway10 = resolveFeature({ id: 'UM_MIDWAY', properties: { CNTR_CODE: 'UM', NUTS_ID: 'UM_MIDWAY', NAME: 'Midway Atoll' } }, 10);
+          if (rabaul10.o !== 'JAP' || buna10.o !== 'JAP' || moresby10.o !== 'AST') return false;
+          if (solom10.o !== 'JAP' || !solom10.note?.includes('Guadalcanal')) return false;
+          if (nauru10.o !== 'JAP' || midway10.o !== 'USA' || !midway10.note?.includes('Midway')) return false;
+
+          // 4. Europa occidentale e Nordafrica francese ancora differenziati (Zona Occupata vs Zone libre di Vichy; Marocco, Algeria e Tunisia sotto Vichy)
+          const paris10 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FR101', NAME: 'Paris' } }, 10);
+          const dieppe10 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRD22', NAME: 'Seine-Maritime' } }, 10);
+          const vichy10 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK11', NAME: 'Allier' } }, 10);
+          const marseille10 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRL04', NAME: 'Bouches-du-Rhône' } }, 10);
+          const algiers10 = resolveFeature({ id: 'DZ_ALG', properties: { CNTR_CODE: 'DZ', NUTS_ID: 'DZ_ALG', NAME: 'Algiers' } }, 10);
+          const morocco10 = resolveFeature({ id: 'FR_MOROCCO', properties: { id: 'FR_MOROCCO', CNTR_CODE: 'FR_MOROCCO', NAME: 'Morocco (France)' } }, 10);
+          const tunis10 = resolveFeature({ id: 'TN', properties: { CNTR_CODE: 'TN', NUTS_ID: 'TN', NAME: 'Tunisia' } }, 10);
+          if (paris10.o !== 'GER' || dieppe10.o !== 'GER') return false;
+          if (vichy10.o !== 'VIC' || marseille10.o !== 'VIC') return false;
+          if (algiers10.o !== 'VIC_NAF' || morocco10.o !== 'VIC_NAF' || tunis10.o !== 'VIC_NAF') return false;
+
+          // 5. Nuovi belligeranti alleati in America Latina (Messico maggio 1942, Brasile agosto 1942)
+          const mex9 = resolveFeature({ id: 'MX_DIF', properties: { CNTR_CODE: 'MX', NUTS_ID: 'MX_DIF', NAME: 'Ciudad de México' } }, 9);
+          const mex10 = resolveFeature({ id: 'MX_DIF', properties: { CNTR_CODE: 'MX', NUTS_ID: 'MX_DIF', NAME: 'Ciudad de México' } }, 10);
+          const bra9 = resolveFeature({ id: 'BR_RJ', properties: { CNTR_CODE: 'BR', NUTS_ID: 'BR_RJ', NAME: 'Rio de Janeiro' } }, 9);
+          const bra10 = resolveFeature({ id: 'BR_RJ', properties: { CNTR_CODE: 'BR', NUTS_ID: 'BR_RJ', NAME: 'Rio de Janeiro' } }, 10);
+          if (mex9.fac !== 'Neutrale' || mex10.fac !== 'Alleati') return false;
+          if (bra9.fac !== 'Neutrale' || bra10.fac !== 'Alleati') return false;
+
+          // 6. Layer Tattici Dinamici nello Step 10 (Fortificazioni, Basi Navali, Rotte Marittime, Isole)
+          const elAlamein = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'el_alamein_line');
+          const stalingradLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'stalingrad_volga_line');
+          const atlanticWall = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'atlantic_wall_1942');
+          if (!elAlamein || !elAlamein.activeSteps.includes(10)) return false;
+          if (!stalingradLine || !stalingradLine.activeSteps.includes(10)) return false;
+          if (!atlanticWall || !atlanticWall.activeSteps.includes(10)) return false;
+
+          const singBase = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'singapore')!, 10);
+          const sevBase = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'sevastopol')!, 10);
+          const tobBase = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'tobruk_naval')!, 10);
+          const cavBase = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'cavite_manila')!, 10);
+          const diegoBase = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'diego_suarez')!, 10);
+          if (!singBase.nation.includes('Giappone') || !singBase.historicalName?.includes('Shōnan-tō')) return false;
+          if (!sevBase.nation.includes('Germania') || !sevBase.historicalName?.includes('4 Luglio 1942')) return false;
+          if (!tobBase.nation.includes('Italia') || !tobBase.historicalName?.includes('21 Giugno 1942')) return false;
+          if (!cavBase.nation.includes('Giappone') || !cavBase.historicalName?.includes('6 Maggio 1942')) return false;
+          if (!diegoBase.nation.includes('Regno Unito') || !diegoBase.historicalName?.includes('Ironclad')) return false;
+
+          if (getStrategicIslandLabel('US_AK_ALEUTIANS_WEST', 9) !== 'Attu & Kiska (USA)') return false;
+          if (getStrategicIslandLabel('US_AK_ALEUTIANS_WEST', 10) !== 'Attu & Kiska (JAP)') return false;
+          if (getStrategicIslandLabel('NR_NAURU', 10) !== 'Nauru (JAP)') return false;
 
           return true;
         },
