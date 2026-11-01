@@ -8382,6 +8382,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       if (pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' || pid === 'SOV_ADM1_RUS_19_Adygea' || pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
         return 'Amministrazione Regionale Sovietica — Caucaso Settentrionale Liberato dall\'Armata Rossa';
       }
+      if (pid === 'SOV_ADM1_RUS_56_Tver_Oblast') {
+        return 'Kalininskij Oblispolkom — RSFSR (URSS) — Saliente di Ržev Liberato (Evacuazione Operazione Büffel, Marzo 1943)';
+      }
     }
     if (step >= 11) {
       if (isKessel) {
@@ -8482,6 +8485,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       }
       if (pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' || pid === 'SOV_ADM1_RUS_19_Adygea' || pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
         return `${item.capital} e Territori Caucasici (Liberati dall\'Armata Rossa, Inverno-Primavera 1943)`;
+      }
+      if (pid === 'SOV_ADM1_RUS_56_Tver_Oblast') {
+        return 'Oblast di Kalinin (Ržev Liberata — Saliente Evacuato, Marzo 1943)';
       }
     }
     if (step >= 11) {
@@ -8611,6 +8617,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       }
       if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria' || pid === 'SOV_ADM1_RUS_19_Adygea' || pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' || pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
         return 'Regione caucasica interamente liberata tra gennaio e febbraio 1943: le truppe da montagna dell\'Armata Rossa hanno rimosso la bandiera nazista dalla vetta dell\'Elbrus (febbraio 1943) e ricacciato i reparti dell\'Asse verso la penisola di Taman\', ripristinando la sicurezza delle raffinerie e dei campi petroliferi di Majkop e Groznyj.';
+      }
+      if (pid === 'SOV_ADM1_RUS_56_Tver_Oblast') {
+        return 'Nel marzo 1943 la 9ª Armata tedesca del generale Walter Model ha evacuato il saliente fortificato di Ržev (Operazione Büffel), ponendo fine alla logorante e sanguinosa battaglia del "tritacarne di Ržev" e ripiegando verso la linea difensiva Hagen a est di Smolensk. L\'intero Oblast di Kalinin è tornato saldamente e integralmente sotto sovranità sovietica, allontanando definitivamente la minaccia terrestre della Wehrmacht sulla capitale Mosca.';
       }
     }
     if (step >= 11) {

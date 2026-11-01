@@ -4504,6 +4504,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     s7: "Dipartimento d'Oltremare della Guadeloupe. Ottobre 1940: blocco navale e accordi di sorveglianza con gli Stati Uniti (Accordo Robert-Greenslade), che garantiscono la neutralizzazione dei possedimenti caraibici francesi in cambio di forniture alimentari essenziali.",
     s8: "Dipartimento d'Oltremare della Guadeloupe. Aprile 1941: il regime di Vichy reprime duramente i tentativi di dissidenza clandestina; gruppi di giovani patrioti fuggono a bordo di imbarcazioni verso le vicine isole britanniche (Dominica) per arruolarsi nella Francia Libera di De Gaulle.",
     getNote: (s: number) => {
+      if (s >= 12) return "Dipartimento d'Oltremare della Guadeloupe. Nel luglio 1943 (14-15 luglio), in coordinamento con la Martinica, l'amministrazione della Guadalupa si sottrae all'autorità di Vichy e si unisce al Comité Français de Libération Nationale (CFLN) di Algeri, ripristinando la sovranità repubblicana e l'alleanza con le Nazioni Unite.";
       if (s >= 8) return FRANCE_PROVINCES_META['FRY10'].s8;
       if (s >= 7) return FRANCE_PROVINCES_META['FRY10'].s7;
       if (s >= 6) return FRANCE_PROVINCES_META['FRY10'].s6;
@@ -4512,21 +4513,22 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
       return FRANCE_PROVINCES_META['FRY10'].s0_1;
     },
     getHistoricalName: (s: number) => {
-      if (s < 6) return FRANCE_PROVINCES_META['FRY10'].name;
+      if (s < 6 || s >= 12) return FRANCE_PROVINCES_META['FRY10'].name;
       return FRANCE_PROVINCES_META['FRY10'].armisticeName || FRANCE_PROVINCES_META['FRY10'].name;
     },
     getAdminTitle: (s: number) => {
+      if (s >= 12) return 'Comité Français de Libération Nationale (CFLN) — Colonie de la Guadeloupe';
       if (s < 6) return FRANCE_PROVINCES_META['FRY10'].repAdminTitle || 'Troisième République française';
       return FRANCE_PROVINCES_META['FRY10'].armisticeAdminTitle || 'État français';
     },
     getSovereign: (s: number) => {
-      if (s < 6) {
+      if (s < 6 || s >= 12) {
         return 'FRA';
       }
       return 'VIC';
     },
     getFaction: (s: number) => {
-      if (s < 6) return 'Alleati' as FactionType;
+      if (s < 6 || s >= 12) return 'Alleati' as FactionType;
       return 'Fantoccio' as FactionType;
     },
   },
@@ -4550,6 +4552,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     s7: "Dipartimento d'Oltremare della Martinique. Ottobre 1940: firma dell'Accordo Robert-Greenslade con la US Navy: la Martinica promette di non cedere le navi da guerra e l'oro all'Asse in cambio della revoca del blocco economico americano sui viveri di prima necessità.",
     s8: "Dipartimento d'Oltremare della Martinique. Aprile 1941: rigido regime autoritario dell'ammiraglio Robert ('An tan Robè'); centinaia di marinai e cittadini martinicani tentano la pericolosa fuga via mare (la 'dissidence') verso Saint Lucia per raggiungere le Forces Françaises Libres.",
     getNote: (s: number) => {
+      if (s >= 12) return "Dipartimento d'Oltremare della Martinique. Il 14 luglio 1943, a seguito di un'insurrezione popolare a Fort-de-France e dell'accordo mediato con gli Stati Uniti, l'ammiraglio Georges Robert rassegna i poteri a Henri Hoppenot, delegato del Comité Français de Libération Nationale (CFLN): la Martinica, la portaerei Béarn, l'incrociatore Émile Bertin e le riserve auree della Banca di Francia si uniscono ufficialmente alla Francia Combattente e alla causa degli Alleati.";
       if (s >= 8) return FRANCE_PROVINCES_META['FRY20'].s8;
       if (s >= 7) return FRANCE_PROVINCES_META['FRY20'].s7;
       if (s >= 6) return FRANCE_PROVINCES_META['FRY20'].s6;
@@ -4558,21 +4561,22 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
       return FRANCE_PROVINCES_META['FRY20'].s0_1;
     },
     getHistoricalName: (s: number) => {
-      if (s < 6) return FRANCE_PROVINCES_META['FRY20'].name;
+      if (s < 6 || s >= 12) return FRANCE_PROVINCES_META['FRY20'].name;
       return FRANCE_PROVINCES_META['FRY20'].armisticeName || FRANCE_PROVINCES_META['FRY20'].name;
     },
     getAdminTitle: (s: number) => {
+      if (s >= 12) return 'Comité Français de Libération Nationale (CFLN) — Haut-Commissariat aux Antilles (Henri Hoppenot)';
       if (s < 6) return FRANCE_PROVINCES_META['FRY20'].repAdminTitle || 'Troisième République française';
       return FRANCE_PROVINCES_META['FRY20'].armisticeAdminTitle || 'État français';
     },
     getSovereign: (s: number) => {
-      if (s < 6) {
+      if (s < 6 || s >= 12) {
         return 'FRA';
       }
       return 'VIC';
     },
     getFaction: (s: number) => {
-      if (s < 6) return 'Alleati' as FactionType;
+      if (s < 6 || s >= 12) return 'Alleati' as FactionType;
       return 'Fantoccio' as FactionType;
     },
   },
