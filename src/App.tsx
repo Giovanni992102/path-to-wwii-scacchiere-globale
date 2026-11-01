@@ -4208,8 +4208,10 @@ export default function App() {
           // 2. Italia Peninsulare: Governo Badoglio (formale continuità bellica nell'Asse prima dell'armistizio)
           const roma12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITI43', NAME: 'Roma' } }, 12);
           const napoli12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITF33', NAME: 'Napoli' } }, 12);
+          const ravenna12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITH57', NAME: 'Ravenna' } }, 12);
           if (roma12.o !== 'ITA' || roma12.fac !== 'Asse' || !roma12.note?.includes('Badoglio')) return false;
           if (napoli12.o !== 'ITA' || napoli12.fac !== 'Asse') return false;
+          if (ravenna12.o !== 'ITA' || ravenna12.fac !== 'Asse' || !ravenna12.name.includes('Ravenna')) return false;
 
           // 3. Nordafrica interamente Alleato: Sacca di Tunisi eliminata a metà maggio 1943
           const tunis12 = resolveFeature({ id: 'TN11', properties: { CNTR_CODE: 'TN', NUTS_ID: 'TN11', NAME: 'Tunis' } }, 12);

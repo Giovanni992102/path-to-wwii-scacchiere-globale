@@ -6887,10 +6887,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const cleanId = String(nid || ft.id || '').toUpperCase().trim();
         const normName = nrm;
 
+        // Esclusione geografica: province peninsulari e sarde (NUTS ITC, ITH, ITI, ITF, ITG2) non possono appartenere alla Sicilia (ITG1)
+        const isNonSicilyNuts = /^(ITC|ITH|ITI|ITF|ITG2)/i.test(cleanId);
+
         // Sicilia divisa in due:
         // 1. Zona Asse (Quadrilatero nord-orientale dell'Etna e Messina)
-        const isMessina = cleanId === 'ITG13' || normName.includes('messina');
-        const isCatania = cleanId === 'ITG17' || normName.includes('catania');
+        const isMessina = cleanId === 'ITG13' || (!isNonSicilyNuts && normName.includes('messina'));
+        const isCatania = cleanId === 'ITG17' || (!isNonSicilyNuts && normName.includes('catania'));
 
         if (isMessina) {
           return makeResult(
@@ -6914,13 +6917,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         // 2. Zona Alleata Liberata (Sicilia occidentale, centrale e meridionale)
         // 7ª Armata USA di Patton: Trapani (ITG11), Palermo (ITG12), Agrigento (ITG14), Caltanissetta (ITG15), Enna (ITG16)
         // 8ª Armata Britannica di Montgomery: Ragusa (ITG18), Siracusa (ITG19)
-        const isTrapani = cleanId === 'ITG11' || normName.includes('trapani') || normName.includes('pantelleria');
-        const isPalermo = cleanId === 'ITG12' || normName.includes('palermo');
-        const isAgrigento = cleanId === 'ITG14' || normName.includes('agrigento') || normName.includes('lampedusa') || normName.includes('licata');
-        const isCaltanissetta = cleanId === 'ITG15' || normName.includes('caltanissetta') || normName.includes('gela');
-        const isEnna = cleanId === 'ITG16' || normName.includes('enna') || normName.includes('castrogiovanni');
-        const isRagusa = cleanId === 'ITG18' || normName.includes('ragusa') || normName.includes('comiso');
-        const isSiracusa = cleanId === 'ITG19' || normName.includes('siracusa') || normName.includes('augusta');
+        const isWordEnna = /(?:^|[\s_—\-,.])enna(?:$|[\s_—\-,.])/.test(normName);
+        const isTrapani = cleanId === 'ITG11' || (!isNonSicilyNuts && (normName.includes('trapani') || normName.includes('pantelleria')));
+        const isPalermo = cleanId === 'ITG12' || (!isNonSicilyNuts && normName.includes('palermo'));
+        const isAgrigento = cleanId === 'ITG14' || (!isNonSicilyNuts && (normName.includes('agrigento') || normName.includes('girgenti') || normName.includes('lampedusa') || normName.includes('licata')));
+        const isCaltanissetta = cleanId === 'ITG15' || (!isNonSicilyNuts && (normName.includes('caltanissetta') || normName.includes('gela')));
+        const isEnna = cleanId === 'ITG16' || (!isNonSicilyNuts && (isWordEnna || normName.includes('castrogiovanni') || normName.includes('provincia di enna')) && !normName.includes('ravenna'));
+        const isRagusa = cleanId === 'ITG18' || (!isNonSicilyNuts && (normName.includes('ragusa') || normName.includes('comiso') || normName.includes('modica')));
+        const isSiracusa = cleanId === 'ITG19' || (!isNonSicilyNuts && (normName.includes('siracusa') || normName.includes('syracuse') || normName.includes('augusta')));
 
         if (isPalermo) {
           return makeResult(
