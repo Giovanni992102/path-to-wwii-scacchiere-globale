@@ -359,7 +359,7 @@ body {
 
 .graticule {
   fill: none;
-  stroke: #222a31;
+  stroke: rgba(80, 135, 185, 0.22);
   stroke-width: 0.5px;
   vector-effect: non-scaling-stroke;
 }

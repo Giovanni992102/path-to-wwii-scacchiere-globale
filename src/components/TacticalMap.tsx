@@ -458,9 +458,9 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       .attr('cx', '50%')
       .attr('cy', '45%')
       .attr('r', '75%');
-    og.append('stop').attr('offset', '0%').attr('stop-color', '#0e1620');
-    og.append('stop').attr('offset', '60%').attr('stop-color', '#090d14');
-    og.append('stop').attr('offset', '100%').attr('stop-color', '#040609');
+    og.append('stop').attr('offset', '0%').attr('stop-color', '#1a324b');
+    og.append('stop').attr('offset', '55%').attr('stop-color', '#122437');
+    og.append('stop').attr('offset', '100%').attr('stop-color', '#0c1826');
 
     // Glow Filter for Battles / Selected Items
     const filter = defs.append('filter').attr('id', 'glow-gold').attr('x', '-30%').attr('y', '-30%').attr('width', '160%').attr('height', '160%');
@@ -1535,7 +1535,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-[#07090c]">
+    <div className="absolute inset-0 overflow-hidden bg-[#0c1826]">
       <svg
         ref={svgRef}
         id="map"

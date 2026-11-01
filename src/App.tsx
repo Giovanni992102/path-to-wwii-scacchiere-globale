@@ -4333,7 +4333,7 @@ export default function App() {
   }, [currentStep, handleSelectStep, togglePlay]);
 
   return (
-    <div id="app" className="fixed inset-0 w-full h-full bg-[#07090c] text-[#cfd3d6] select-none overflow-hidden">
+    <div id="app" className="fixed inset-0 w-full h-full bg-[#0c1826] text-[#cfd3d6] select-none overflow-hidden">
       {/* Radar Loading Screen */}
       <RadarLoader
         progress={loadProgress}
