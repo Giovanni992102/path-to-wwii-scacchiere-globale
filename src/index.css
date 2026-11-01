@@ -146,6 +146,89 @@ body {
   stroke-opacity: 0.55;
 }
 
+/* ==========================================================================
+   Tactical City & Capital Markers Layer (Smart LOD & UI/UX-Friendly Typography)
+   ========================================================================== */
+
+.city-marker {
+  cursor: pointer;
+  pointer-events: all;
+  transition: opacity 0.2s ease;
+}
+
+.city-marker .city-hitbox {
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.city-marker .city-dot {
+  pointer-events: none;
+  transition: r 0.15s ease, fill 0.15s ease, stroke 0.15s ease;
+}
+
+.city-marker text.city-label {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.2px;
+  pointer-events: none;
+  user-select: none;
+  transition: fill 0.15s ease;
+}
+
+/* Base / World scale sizing (k ~ 1.0 - 2.5) */
+.city-marker .city-dot-capital {
+  r: 0.85px;
+  fill: #e8c979;
+  stroke: #0c0e10;
+  stroke-width: 0.22px;
+}
+
+.city-marker .city-dot-minor {
+  r: 0.55px;
+  fill: #cfd3d6;
+  stroke: #0c0e10;
+  stroke-width: 0.15px;
+}
+
+.city-marker text.city-label-capital {
+  font-size: 2.6px !important;
+  font-weight: 600;
+  fill: #f0e6c8;
+  stroke: #080a0c;
+  stroke-width: 0.36px !important;
+  paint-order: stroke fill;
+}
+
+.city-marker text.city-label-minor {
+  font-size: 2.0px !important;
+  font-weight: 500;
+  fill: #b0b8c0;
+  stroke: #080a0c;
+  stroke-width: 0.3px !important;
+  paint-order: stroke fill;
+}
+
+/* Hover highlights */
+.city-marker:hover .city-dot-capital {
+  fill: #ffffff !important;
+  stroke: #e8c979 !important;
+  stroke-width: 0.35px !important;
+  filter: drop-shadow(0 0 2px rgba(232, 201, 121, 0.9));
+}
+
+.city-marker:hover .city-dot-minor {
+  fill: #ffffff !important;
+  stroke: #c9a557 !important;
+  stroke-width: 0.25px !important;
+  filter: drop-shadow(0 0 2px rgba(201, 165, 87, 0.8));
+}
+
+.city-marker:hover text.city-label {
+  fill: #ffffff !important;
+  stroke: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Zoom LOD Culling */
 .zoom-out .city-minor {
   display: none !important;
 }
@@ -156,6 +239,72 @@ body {
 
 .zoom-deep .island-beacon-label {
   display: none !important;
+}
+
+/* Continental LOD (k >= 2.5) */
+.zoom-in .city-marker .city-dot-capital {
+  r: 0.6px !important;
+  stroke-width: 0.16px !important;
+}
+.zoom-in .city-marker .city-dot-minor {
+  r: 0.4px !important;
+  stroke-width: 0.12px !important;
+}
+.zoom-in .city-marker text.city-label-capital {
+  font-size: 1.8px !important;
+  stroke-width: 0.25px !important;
+}
+.zoom-in .city-marker text.city-label-minor {
+  font-size: 1.35px !important;
+  stroke-width: 0.2px !important;
+}
+.zoom-in .island-beacon-label {
+  font-size: 3.5px !important;
+  stroke-width: 1.0px !important;
+}
+
+/* National / Regional LOD (k >= 4.5) */
+.zoom-close .city-marker .city-dot-capital {
+  r: 0.38px !important;
+  stroke-width: 0.11px !important;
+}
+.zoom-close .city-marker .city-dot-minor {
+  r: 0.25px !important;
+  stroke-width: 0.08px !important;
+}
+.zoom-close .city-marker text.city-label-capital {
+  font-size: 1.15px !important;
+  stroke-width: 0.16px !important;
+}
+.zoom-close .city-marker text.city-label-minor {
+  font-size: 0.88px !important;
+  stroke-width: 0.13px !important;
+}
+.zoom-close .island-beacon-label {
+  font-size: 2.0px !important;
+  stroke-width: 0.6px !important;
+}
+
+/* Tactical / Macro LOD (k >= 9.0) */
+.zoom-macro .city-marker .city-dot-capital {
+  r: 0.22px !important;
+  stroke-width: 0.06px !important;
+}
+.zoom-macro .city-marker .city-dot-minor {
+  r: 0.15px !important;
+  stroke-width: 0.05px !important;
+}
+.zoom-macro .city-marker text.city-label-capital {
+  font-size: 0.68px !important;
+  stroke-width: 0.1px !important;
+}
+.zoom-macro .city-marker text.city-label-minor {
+  font-size: 0.52px !important;
+  stroke-width: 0.08px !important;
+}
+.zoom-macro .island-beacon-label {
+  font-size: 1.2px !important;
+  stroke-width: 0.4px !important;
 }
 
 /* Dynamic LOD for Regional Zoom-In (k >= 2.5): streamlines secondary lines */

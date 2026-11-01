@@ -100,6 +100,49 @@ function isSameFeature(d: any, target: any): boolean {
   return false;
 }
 
+// Helper to clean city map labels for refined, uncluttered UI/UX
+function getCleanCityLabel(rawHistoricalName: string, fallbackName: string): { primary: string; subtitle: string; fullName: string } {
+  const fullName = rawHistoricalName || fallbackName || '';
+  if (!fullName) {
+    return { primary: fallbackName || '', subtitle: '', fullName: fallbackName || '' };
+  }
+
+  let subtitle = '';
+  let primary = fullName;
+
+  const parenMatch = fullName.match(/\(([^)]+)\)/);
+  if (parenMatch && parenMatch.index !== undefined) {
+    subtitle = parenMatch[1].trim();
+    primary = fullName.substring(0, parenMatch.index).trim();
+  }
+
+  // Refine known composite / historical prefixes on map faces
+  if (primary.startsWith('Freie Stadt ')) {
+    primary = primary.replace('Freie Stadt ', '').trim();
+  } else if (primary.startsWith('Città di ')) {
+    primary = primary.replace('Città di ', '').trim();
+  } else if (primary.startsWith('Città del ')) {
+    primary = primary.replace('Città del ', '').trim();
+  } else if (primary.endsWith(' in Preußen')) {
+    primary = primary.replace(' in Preußen', '').trim();
+  }
+
+  // Handle slashes like "Nice / Nizza" or "Shōnan-tō / Singapore" -> prefer concise localized / era name
+  if (primary.includes(' / ')) {
+    const parts = primary.split(' / ');
+    primary = parts[0].trim();
+  } else if (primary.includes(' & ')) {
+    const parts = primary.split(' & ');
+    primary = parts[0].trim();
+  }
+
+  return {
+    primary: primary || fallbackName,
+    subtitle,
+    fullName,
+  };
+}
+
 // Major historical capitals & strategic cities
 const HISTORICAL_CITIES: {
   id: string;
@@ -849,7 +892,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         }
       });
 
-      // 9. City Labels Layer (Hidden by default, ultra-clean if enabled)
+      // 9. City Labels Layer (Refined, tactical micro-typography with smart LOD)
       const gCities = gCopy
         .append('g')
         .attr('class', 'city-labels-layer')
@@ -862,40 +905,80 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
             .append('g')
             .datum(city)
             .attr('transform', `translate(${pt[0]}, ${pt[1]})`)
-            .attr('class', `city-marker pointer-events-none ${city.isCapital ? 'city-capital' : 'city-minor'}`);
+            .attr('class', `city-marker cursor-pointer ${city.isCapital ? 'city-capital' : 'city-minor'}`)
+            .on('pointerenter', (event) => {
+              hoveredInfoRef.current = null;
+              const step = currentStepRef.current;
+              let rawName = '';
+              for (let st = step; st >= 0; st--) {
+                if (city.historicalNames[`step${st}`]) {
+                  rawName = city.historicalNames[`step${st}`];
+                  break;
+                }
+              }
+              if (!rawName) rawName = city.historicalNames.default || city.name;
+              const { primary, subtitle, fullName } = getCleanCityLabel(rawName, city.name);
 
+              showTooltip(
+                event,
+                `<div class="font-oswald text-[12.5px] font-bold text-[#f0e6c8] uppercase border-b border-[#3a3420] pb-1 mb-1 flex items-center justify-between">
+                  <span>🏛️ ${primary}</span>
+                  <span class="text-[9px] font-mono-tech ${city.isCapital ? 'text-[#e8c979]' : 'text-[#a0a8b0]'}">
+                    ${city.isCapital ? 'CAPITALE NAZIONALE' : 'CENTRO STRATEGICO'}
+                  </span>
+                </div>
+                <div class="text-[11px] text-[#cfd3d6] font-semibold mb-0.5">${fullName}</div>
+                ${subtitle ? `<div class="text-[10px] text-[#c9a557] italic leading-tight mb-1">${subtitle}</div>` : ''}
+                <div class="text-[9px] font-mono-tech text-[#8b9298] mt-1">Controllo: <span class="text-[#cfd3d6] font-bold">${city.ownerKey}</span> • Lat: ${city.coords[1].toFixed(2)}° Lon: ${city.coords[0].toFixed(2)}°</div>`
+              );
+            })
+            .on('pointerleave', hideTooltip);
+
+          // Invisible expanded hit area for effortless hover on micro-dots
           gCity
             .append('circle')
-            .attr('r', city.isCapital ? '1.2' : '0.8')
-            .attr('fill', city.isCapital ? '#e8c979' : '#cfd3d6')
+            .attr('class', 'city-hitbox')
+            .attr('r', city.isCapital ? '3.5' : '2.5')
+            .attr('fill', 'transparent')
             .attr('stroke', 'none');
 
-          let cityName = '';
-          for (let st = currentStep; st >= 0; st--) {
+          // Tactical dot
+          gCity
+            .append('circle')
+            .attr('class', `city-dot ${city.isCapital ? 'city-dot-capital' : 'city-dot-minor'}`)
+            .attr('r', city.isCapital ? '0.85' : '0.55')
+            .attr('fill', city.isCapital ? '#e8c979' : '#cfd3d6')
+            .attr('stroke', '#0c0e10')
+            .attr('stroke-width', city.isCapital ? '0.22' : '0.15');
+
+          const step = currentStepRef.current;
+          let rawName = '';
+          for (let st = step; st >= 0; st--) {
             if (city.historicalNames[`step${st}`]) {
-              cityName = city.historicalNames[`step${st}`];
+              rawName = city.historicalNames[`step${st}`];
               break;
             }
           }
-          if (!cityName) cityName = city.historicalNames.default || city.name;
+          if (!rawName) rawName = city.historicalNames.default || city.name;
+          const { primary } = getCleanCityLabel(rawName, city.name);
+
           gCity
             .append('text')
-            .attr('x', '3')
-            .attr('y', '2')
-            .attr('fill', city.isCapital ? '#f0e6c8' : '#a0a8b0')
-            .attr('stroke', '#000000')
-            .attr('stroke-width', '0.6')
+            .attr('class', `city-label ${city.isCapital ? 'city-label-capital' : 'city-label-minor'}`)
+            .attr('dx', '0.85em')
+            .attr('dy', '0.32em')
+            .attr('fill', city.isCapital ? '#f0e6c8' : '#b0b8c0')
+            .attr('stroke', '#080a0c')
+            .attr('stroke-width', city.isCapital ? '0.36' : '0.28')
             .attr('paint-order', 'stroke fill')
             .style('font-family', 'Oswald, sans-serif')
-            .style('font-size', '6.5px')
-            .style('font-weight', city.isCapital ? '600' : '400')
             .style('letter-spacing', '0.2px')
             .style('pointer-events', 'none')
-            .text(cityName);
+            .text(primary);
         }
       });
 
-      // 10. Tactical Highlight Overlay Layer (Guarantees crisp borders on top without mutating base DOM)
+      // 10. Tactical Highlight Overlay Layer      // 10. Tactical Highlight Overlay Layer (Guarantees crisp borders on top without mutating base DOM)
       const gOverlay = gCopy.append('g').attr('class', 'tactical-overlay-layer pointer-events-none');
       gOverlay
         .append('path')
@@ -942,7 +1025,9 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       const k = t.k || 1;
       gRoot.classed('zoom-out', k < 0.95);
       gRoot.classed('zoom-deep', k < 0.6);
-      gRoot.classed('zoom-in', k >= 2.5);
+      gRoot.classed('zoom-in', k >= 2.5 && k < 4.5);
+      gRoot.classed('zoom-close', k >= 4.5 && k < 9.0);
+      gRoot.classed('zoom-macro', k >= 9.0);
 
       // Infinite conveyor belt update:
       // Position of camera center in world coordinates:
@@ -1037,7 +1122,7 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       const target = event.target as Element | null;
       if (!target) return;
       if (
-        target.closest('.prov, .cty, .hb, .island-beacon, .battle-marker, .naval-base, .fort-line, .sea-lane')
+        target.closest('.prov, .cty, .hb, .island-beacon, .battle-marker, .naval-base, .fort-line, .sea-lane, .city-marker')
       ) {
         return;
       }
@@ -1247,7 +1332,8 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
           }
         }
         if (!cityName) cityName = city.historicalNames.default || city.name;
-        d3.select(this).select('text').text(cityName);
+        const { primary } = getCleanCityLabel(cityName, city.name);
+        d3.select(this).select('text').text(primary);
       }
     });
 
