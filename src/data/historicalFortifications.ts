@@ -1320,6 +1320,16 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     description: 'Grande base navale dell\'Africa Occidentale Francese all\'estremità della penisola di Cap-Vert; ormeggio della corazzata Richelieu e teatro della Battaglia di Dakar (Operazione Menace, settembre 1940).',
   },
   {
+    id: 'fort_de_france_base',
+    name: 'Fort-de-France (Fort Desaix & Fort Saint-Louis)',
+    historicalName: 'Base Navale di Fort-de-France (Martinica) — Riserve Auree della Banque de France',
+    nation: 'Francia',
+    coords: [-61.07, 14.60],
+    type: 'fleet_hq',
+    theater: 'Atlantic',
+    description: 'Rada fortificata e base strategica della Marine Nationale nei Caraibi. Nel giugno 1940 accoglie le 286 tonnellate d\'oro della Banca di Francia (trasportate dall\'incrociatore rapido Émile Bertin) e la portaerei Béarn con oltre 106 caccia americani, rimanendo immobilizzata sotto sorveglianza U.S. Navy fino al ralliement al CFLN del 14 luglio 1943.',
+  },
+  {
     id: 'diego_suarez',
     name: 'Diego-Suarez',
     historicalName: 'Base Navale di Diego-Suarez (Antsiranana, Madagascar)',
@@ -1896,6 +1906,22 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         strokeColor = '#8d77a3';
         fillColor = '#241a29';
         description = 'Roccaforte di Vichy nell\'Africa Occidentale Francese con la corazzata Richelieu; respinse vittoriosamente il tentativo di sbarco anglo-gollista nel settembre 1940 (Operazione Menace).';
+      }
+      break;
+
+    case 'fort_de_france_base':
+      if (step >= 12) {
+        nation = 'Francia / Alleati (CFLN — Henri Hoppenot)';
+        historicalName = 'Base Navale di Fort-de-France (Ralliement CFLN — 14 Luglio 1943)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Il 14 luglio 1943 (Presa della Bastiglia), a seguito dell\'ammutinamento a Fort Desaix e dell\'accordo mediato con gli USA, l\'ammiraglio Robert rassegna i poteri a Henri Hoppenot (CFLN). Le 286 tonnellate d\'oro della Banca di Francia vengono sbloccate per lo sforzo bellico e la flotta (portaerei Béarn, incrociatore Émile Bertin) viene riarmata negli arsenali statunitensi per gli Alleati.';
+      } else if (step >= 6) {
+        nation = 'Francia di Vichy (Ammiraglio Georges Robert)';
+        historicalName = 'Base Navale di Fort-de-France (Vichy — Custodia Oro Banque de France)';
+        strokeColor = '#8d77a3';
+        fillColor = '#241a29';
+        description = 'Quartier generale dell\'Alto Commissario Georges Robert fedele a Vichy. La portaerei Béarn (con 106 aerei da combattimento americani), l\'incrociatore rapido Émile Bertin, l\'incrociatore Jeanne d\'Arc e 286 tonnellate d\'oro della Banque de France sono immobilizzati a Fort Desaix e sorvegliati a vista dalla U.S. Navy (Accordi Greenslade-Robert).';
       }
       break;
 

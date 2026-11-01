@@ -5375,6 +5375,13 @@ export function resolveFrenchColonialToponym(
 
   // 17. MARTINIQUE
   if (normKey.includes('martinique') || normKey.includes('fort_de_france')) {
+    if (step >= 12) {
+      return {
+        name: "Martinique (Fort-de-France — CFLN)",
+        adminTitle: "Comité Français de Libération Nationale (CFLN) — Haut-Commissariat aux Antilles (Henri Hoppenot)",
+        note: "Le 14 juillet 1943, l'amiral Georges Robert remet ses pouvoirs au plénipotentiaire du CFLN Henri Hoppenot (arrivé sur Le Fantasque) ; les 286 tonnes d'or de la Banque de France et la flotte de Fort-de-France (Béarn, Émile Bertin) réintègrent la lutte alliée.",
+      };
+    }
     return isVichyStep
       ? {
           name: "Martinique (Fort-de-France — Vichy)",
@@ -5390,6 +5397,13 @@ export function resolveFrenchColonialToponym(
 
   // 18. GUADELOUPE
   if (normKey.includes('guadeloupe') || normKey.includes('basse_terre') || normKey.includes('pointe_a_pitre')) {
+    if (step >= 12) {
+      return {
+        name: "Guadeloupe (Basse-Terre / Pointe-à-Pitre — CFLN)",
+        adminTitle: "Comité Français de Libération Nationale (CFLN) — Colonie de la Guadeloupe",
+        note: "En juin 1943, le soulèvement populaire et le refus de l'isolement vichyste renversent le gouverneur Constant Sorin ; ralliement au CFLN et engagement des volontaires antillais au sein de la 1ère DFL.",
+      };
+    }
     return isVichyStep
       ? {
           name: "Guadeloupe (Basse-Terre — Vichy)",
@@ -5411,6 +5425,13 @@ export function resolveFrenchColonialToponym(
     normKey.includes('st_barthelemy')
   ) {
     if (normKey.includes('barthelemy')) {
+      if (step >= 12) {
+        return {
+          name: "Saint-Barthélemy (CFLN)",
+          adminTitle: "Comité Français de Libération Nationale (CFLN) — Dépendance de la Guadeloupe",
+          note: "Ralliement au CFLN sous l'autorité d'Henri Hoppenot à Fort-de-France.",
+        };
+      }
       return isVichyStep
         ? {
             name: "Saint-Barthélemy (Antilles — Vichy)",
@@ -5422,6 +5443,13 @@ export function resolveFrenchColonialToponym(
             adminTitle: "Antilles Françaises (Colonie de la Guadeloupe)",
             note: "Île des Petites Antilles rattachée administrativement à la colonie de la Guadeloupe.",
           };
+    }
+    if (step >= 12) {
+      return {
+        name: "Saint-Martin (CFLN)",
+        adminTitle: "Comité Français de Libération Nationale (CFLN) — Dépendance de la Guadeloupe",
+        note: "Partie française de Saint-Martin ralliée au CFLN sous l'autorité d'Henri Hoppenot à Fort-de-France.",
+      };
     }
     return isVichyStep
       ? {
@@ -5438,6 +5466,13 @@ export function resolveFrenchColonialToponym(
 
   // 20. GUYANE FRANÇAISE
   if (normKey.includes('guyane') || normKey.includes('french_guiana') || normKey.includes('cayenne')) {
+    if (step >= 12) {
+      return {
+        name: "Guyane Française (Cayenne — CFLN)",
+        adminTitle: "Comité Français de Libération Nationale (CFLN) — Colonie de la Guyane Française",
+        note: "En mars 1943, le Comité de Salut Public de Cayenne dépose le gouverneur pétainiste René Veber et rallie la colonie au général Giraud puis au CFLN, libérant les déportés politiques du bagne.",
+      };
+    }
     return isVichyStep
       ? {
           name: "Guyane Française (Vichy — Cayenne)",

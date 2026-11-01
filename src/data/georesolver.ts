@@ -6075,9 +6075,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm.includes('guiana francese');
 
   if (isGuiana) {
+    if (s >= 12) {
+      return makeResult(
+        'FRA',
+        'Guyane française (Ralliement CFLN — Comité de Salut Public de Cayenne, Marzo 1943)',
+        'Nel marzo 1943 il Comité de Salut Public di Cayenne depone il governatore pétainista René Veber e sancisce il ralliement al generale Giraud e de Gaulle (CFLN), liberando i detenuti politici e unendosi agli Alleati.',
+        'Alleati',
+        'Comité Français de Libération Nationale (CFLN) — Colonie de la Guyane française'
+      );
+    }
     return s < 6
       ? makeResult('F_COL', 'Guyane française (Cayenne)', 'Colonie de Guyane (France)', 'Alleati', 'Colonie de Guyane — Chef-lieu Cayenne')
-      : makeResult('F_COL', 'Guyane française (Cayenne)', 'Administration coloniale de Vichy', 'Fantoccio', 'Colonie de Guyane — Gouverneur René Veber');
+      : makeResult('F_COL', 'Guyane française (Cayenne — Régime de Vichy)', 'Administration coloniale de Vichy — Gouverneur René Veber', 'Fantoccio', 'Colonie de Guyane — Gouverneur René Veber');
   }
 
   // Granularizzazione province dell'Indocina Francese (Cambogia, Laos, Vietnam)
@@ -8039,6 +8048,12 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             const top = getTop('F_COL');
             return makeResult('F_COL', top.name || 'Guyane française (Cayenne)', top.note, 'Alleati', top.adminTitle || 'Colonie de la Guyane française');
           }
+          if (nid === 'FRY20' || nrm.includes('martinique') || nrm.includes('fort-de-france')) {
+            return makeResult('FRA', 'Martinique (Fort-de-France)', 'Colonie de la Martinique (Troisième République)', 'Alleati', 'Colonie de la Martinique — Fort-de-France');
+          }
+          if (nid === 'FRY10' || nrm.includes('guadeloupe') || nrm.includes('basse-terre')) {
+            return makeResult('FRA', 'Guadeloupe (Basse-Terre)', 'Colonie de la Guadeloupe (Troisième République)', 'Alleati', 'Colonie de la Guadeloupe — Basse-Terre');
+          }
         }
         const top = getTop('FRA');
         return makeResult(
@@ -8053,9 +8068,68 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       // Step >= 6: Giugno 1940 (Post-Armistizio del 22 giugno 1940)
       // Dipartimenti d'Oltremare (DOM-TOM)
       if (nid.startsWith('FRY')) {
+        // Step >= 12: Ralliement al CFLN (Antille 14 Luglio 1943, Guadalupa Giugno 1943, Guyana Marzo 1943)
+        if (s >= 12) {
+          if (nid === 'FRY30' || nrm.includes('guyane') || nrm.includes('french guiana')) {
+            return makeResult(
+              'FRA',
+              'Guyane française (Ralliement CFLN — Comité de Salut Public de Cayenne, Marzo 1943)',
+              'Nel marzo 1943 il comitato di salute pubblica di Cayenne depone il governatore pétainista René Veber e unisce la Guyana alle forze di Giraud e De Gaulle (CFLN).',
+              'Alleati',
+              'Comité Français de Libération Nationale (CFLN) — Colonie de la Guyane française'
+            );
+          }
+          if (nid === 'FRY20' || nrm.includes('martinique') || nrm.includes('fort-de-france')) {
+            return makeResult(
+              'FRA',
+              'Martinica (Ralliement CFLN — Presa della Bastiglia & Henri Hoppenot, 14 Luglio 1943)',
+              'Il 14 luglio 1943, dopo l\'ammutinamento del 3° Reggimento Coloniale a Fort Desaix e la rivolta popolare, l\'ammiraglio Georges Robert rassegna i poteri al delegato del CFLN Henri Hoppenot (sbarcato dal cacciatorpediniere Le Fantasque). Reintegrate le 286 tonnellate d\'oro e mobilitata la flotta (Béarn ed Émile Bertin).',
+              'Alleati',
+              'Comité Français de Libération Nationale (CFLN) — Haut-Commissariat aux Antilles (Henri Hoppenot)'
+            );
+          }
+          if (nid === 'FRY10' || nrm.includes('guadeloupe') || nrm.includes('basse-terre')) {
+            return makeResult(
+              'FRA',
+              'Guadalupa (Ralliement CFLN — Sollevazione Popolare e Rimozione Sorin, Giugno 1943)',
+              'A inizio giugno 1943 l\'insurrezione popolare e delle truppe coloniali rovescia il governatore autoritario di Vichy Constant Sorin ("L\'An Sorin"); la Guadalupa si unisce solennemente al CFLN.',
+              'Alleati',
+              'Comité Français de Libération Nationale (CFLN) — Colonie de la Guadeloupe'
+            );
+          }
+          if (nid === 'FRY40' || nrm.includes('reunion')) {
+            return makeResult(
+              'FRA',
+              'La Réunion (Ralliée à la France Libre — 28 Novembre 1942)',
+              'Operazione navale del cacciatorpediniere gollista Léopard; Réunion unita alla Francia Libera.',
+              'Alleati',
+              'Colonie de la Réunion — France Libre'
+            );
+          }
+        }
+
+        // Steps 6..11: Regime di Vichy nelle Antille e Guyana
         if (nid === 'FRY30' || nrm.includes('guyane') || nrm.includes('french guiana')) {
           const top = getTop('F_COL');
-          return makeResult('F_COL', top.name || 'Guyane française (Cayenne)', top.note, 'Alleati', top.adminTitle || 'Colonie de la Guyane française');
+          return makeResult('F_COL', top.name || 'Guyane française (Cayenne — Régime de Vichy)', top.note, 'Fantoccio', top.adminTitle || 'Colonie de la Guyane française — Gouverneur René Veber');
+        }
+        if (nid === 'FRY20' || nrm.includes('martinique') || nrm.includes('fort-de-france')) {
+          return makeResult(
+            'VIC',
+            'Martinica (Haut-Commissariat de Vichy — Amiral Georges Robert)',
+            'Quartier generale dell\'ammiraglio Georges Robert: 286 tonnellate d\'oro della Banque de France e la flotta francese (portaerei Béarn, incrociatore Émile Bertin) sono immobilizzate sotto sorveglianza della U.S. Navy. Repressione e movimento clandestino della "Dissidence".',
+            'Fantoccio',
+            'Administration coloniale de l\'État français (Haut-Commissariat aux Antilles, Amiral Robert)'
+          );
+        }
+        if (nid === 'FRY10' || nrm.includes('guadeloupe') || nrm.includes('basse-terre')) {
+          return makeResult(
+            'VIC',
+            'Guadalupa (Régime de Vichy — Gouverneur Constant Sorin)',
+            'Isolamento e razionamento sotto l\'amministrazione pétainista di Constant Sorin ("L\'An Sorin"); decine di giovani fuggono verso la vicina colonia britannica di Dominica ("La Dissidence") per arruolarsi nella Francia Libera.',
+            'Fantoccio',
+            'Administration coloniale de l\'État français (Gouverneur Constant Sorin)'
+          );
         }
         if (s >= 11 && (nid === 'FRY40' || nrm.includes('reunion'))) {
           const top = getTop('FRA');

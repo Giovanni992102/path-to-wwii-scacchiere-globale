@@ -4600,6 +4600,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     s7: "Colonia della Guyane française. Ottobre 1940: amministrazione coloniale di Vichy in costante difficoltà economica e dipendenza dalle forniture dal vicino Brasile e dalle colonie olandesi e britanniche della Guyana.",
     s8: "Colonia della Guyane française. Aprile 1941: grave penuria di beni e isolamento; il sentimento della popolazione locale è largamente favorevole alla causa alleata e della Francia Libera, in attesa della liberazione del territorio.",
     getNote: (s: number) => {
+      if (s >= 12) return "Colonia della Guyane française. Nel marzo 1943, il Comité de Salut Public di Cayenne rovescia il governatore pétainista René Veber e proclama il ralliement al generale Henri Giraud e a Charles de Gaulle (CFLN); vengono liberati i detenuti politici del Bagno penale e la Guyana torna pienamente nello schieramento alleato.";
       if (s >= 8) return FRANCE_PROVINCES_META['FRY30'].s8;
       if (s >= 7) return FRANCE_PROVINCES_META['FRY30'].s7;
       if (s >= 6) return FRANCE_PROVINCES_META['FRY30'].s6;
@@ -4608,22 +4609,22 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
       return FRANCE_PROVINCES_META['FRY30'].s0_1;
     },
     getHistoricalName: (s: number) => {
-      if (s < 6) return FRANCE_PROVINCES_META['FRY30'].name;
+      if (s < 6 || s >= 12) return FRANCE_PROVINCES_META['FRY30'].name;
       return FRANCE_PROVINCES_META['FRY30'].armisticeName || FRANCE_PROVINCES_META['FRY30'].name;
     },
     getAdminTitle: (s: number) => {
+      if (s >= 12) return 'Comité Français de Libération Nationale (CFLN) — Colonie de la Guyane française';
       if (s < 6) return FRANCE_PROVINCES_META['FRY30'].repAdminTitle || 'Troisième République française';
       return FRANCE_PROVINCES_META['FRY30'].armisticeAdminTitle || 'État français';
     },
     getSovereign: (s: number) => {
-      if (s < 6) {
-        return 'F_COL';
-      }
+      if (s >= 12) return 'FRA';
+      if (s < 6) return 'F_COL';
       return 'F_COL';
     },
     getFaction: (s: number) => {
-      if (s < 6) return 'Alleati' as FactionType;
-      return 'Alleati' as FactionType;
+      if (s >= 12 || s < 6) return 'Alleati' as FactionType;
+      return 'Fantoccio' as FactionType;
     },
   },
   'FRY40': {

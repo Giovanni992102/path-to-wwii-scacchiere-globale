@@ -797,6 +797,15 @@ export const FRENCH_GUIANA_FEATURE: any = {
 };
 
 FRENCH_GUIANA_FEATURE.__resolve = (step: number): ResolvedTerritory => {
+  if (step >= 12) {
+    return makeResult(
+      'FRA',
+      'Guyane française (Ralliement CFLN — Comité de Salut Public de Cayenne, Marzo 1943)',
+      'Nel marzo 1943 la popolazione e i notabili di Cayenne guidati dal Comité de Salut Public rovesciano il governatore pétainista René Veber e proclamano il ralliement al generale Giraud e de Gaulle (CFLN), chiudendo la pagina della repressione nei bagni penali.',
+      'Alleati',
+      'Comité Français de Libération Nationale (CFLN) — Colonie de la Guyane française'
+    );
+  }
   return step < 6
     ? makeResult(
         'F_COL',
@@ -807,8 +816,8 @@ FRENCH_GUIANA_FEATURE.__resolve = (step: number): ResolvedTerritory => {
       )
     : makeResult(
         'F_COL',
-        'Guyane française (Cayenne)',
-        'Colonie de Guyane (État français)',
+        'Guyane française (Cayenne — Régime de Vichy)',
+        'Colonie de Guyane (État français — Gouverneur René Veber)',
         'Fantoccio',
         'Colonie de Guyane — Gouverneur René Veber'
       );

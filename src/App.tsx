@@ -4417,6 +4417,44 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: 'Test 98: Dinamica Geostorica Territori Francesi in Guyana e Caraibi (Vichy vs CFLN 14 Luglio 1943)',
+        run: () => {
+          // 1. Step 0 (1936): Terza Repubblica Francese (F_COL / FRA, Alleati)
+          const guiana0 = resolveFeature({ properties: { NUTS_ID: 'FRY30', CNTR_CODE: 'FR', NAME: 'French Guiana' } }, 0);
+          const martinique0 = resolveFeature({ properties: { NUTS_ID: 'FRY20', CNTR_CODE: 'FR', NAME: 'Martinique' } }, 0);
+          const guadeloupe0 = resolveFeature({ properties: { NUTS_ID: 'FRY10', CNTR_CODE: 'FR', NAME: 'Guadeloupe' } }, 0);
+          if (guiana0.fac !== 'Alleati') return false;
+          if (martinique0.fac !== 'Alleati' || martinique0.o !== 'FRA') return false;
+          if (guadeloupe0.fac !== 'Alleati' || guadeloupe0.o !== 'FRA') return false;
+
+          // 2. Step 6 (Giu 1940) e Step 10 (Ago 1942): Regime di Vichy (Fantoccio / Amiral Robert / Sorin / Veber)
+          const guiana6 = resolveFeature({ properties: { NUTS_ID: 'FRY30', CNTR_CODE: 'FR', NAME: 'French Guiana' } }, 6);
+          const martinique6 = resolveFeature({ properties: { NUTS_ID: 'FRY20', CNTR_CODE: 'FR', NAME: 'Martinique' } }, 6);
+          const guadeloupe6 = resolveFeature({ properties: { NUTS_ID: 'FRY10', CNTR_CODE: 'FR', NAME: 'Guadeloupe' } }, 6);
+          if (guiana6.fac !== 'Fantoccio') return false;
+          if (martinique6.o !== 'VIC' || martinique6.fac !== 'Fantoccio' || !martinique6.name.includes('Amiral Georges Robert')) return false;
+          if (guadeloupe6.o !== 'VIC' || guadeloupe6.fac !== 'Fantoccio' || !guadeloupe6.name.includes('Constant Sorin')) return false;
+
+          // 3. Step 12 (Lug 1943): Ralliement solenne al CFLN (FRA, Alleati, Henri Hoppenot, 14 Luglio 1943)
+          const guiana12 = resolveFeature({ properties: { NUTS_ID: 'FRY30', CNTR_CODE: 'FR', NAME: 'French Guiana' } }, 12);
+          const martinique12 = resolveFeature({ properties: { NUTS_ID: 'FRY20', CNTR_CODE: 'FR', NAME: 'Martinique' } }, 12);
+          const guadeloupe12 = resolveFeature({ properties: { NUTS_ID: 'FRY10', CNTR_CODE: 'FR', NAME: 'Guadeloupe' } }, 12);
+          if (guiana12.o !== 'FRA' || guiana12.fac !== 'Alleati' || !guiana12.name.includes('CFLN')) return false;
+          if (martinique12.o !== 'FRA' || martinique12.fac !== 'Alleati' || !martinique12.name.includes('14 Luglio 1943')) return false;
+          if (guadeloupe12.o !== 'FRA' || guadeloupe12.fac !== 'Alleati' || !guadeloupe12.name.includes('CFLN')) return false;
+
+          // 4. Base Navale di Fort-de-France (Riserve Auree Banque de France & Flotta)
+          const fdfBase = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'fort_de_france_base');
+          if (!fdfBase || fdfBase.theater !== 'Atlantic') return false;
+          const statusFdf6 = getDynamicNavalBaseStatus(fdfBase, 6);
+          const statusFdf12 = getDynamicNavalBaseStatus(fdfBase, 12);
+          if (!statusFdf6.historicalName.includes('Banque de France') || !statusFdf6.nation.includes('Vichy')) return false;
+          if (!statusFdf12.historicalName.includes('CFLN') || !statusFdf12.nation.includes('CFLN')) return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;
