@@ -1466,6 +1466,76 @@ export function resolveGreenland(s: number, rawName?: string): ResolvedTerritory
   );
 }
 
+/**
+ * Risoluzione Geostorica e Toponomastica Dinamica delle Svalbard (1936-1943+)
+ * Step 0-5 (Marzo 1936 - Maggio 1940): Sovranità norvegese, smilitarizzazione e miniere di carbone (Store Norske & Arktikugol). (NOR, Neutrale).
+ * Step 6-8 (Giugno 1940 - Aprile 1941): Isolamento artico non occupato, autogoverno civile e cooperazione norvegese-sovietica. (NOR, Neutrale).
+ * Step 9 (Dicembre 1941): Operazione Gauntlet — Evacuazione alleata (sovietici e norvegesi) e sabotaggio miniere di carbone. (NOR, Alleati).
+ * Step 10-12 (Agosto 1942 - Luglio 1943+): Guarnigione della Norvegia Libera a Barentsburg (Operazioni Fritham & Gearbox) e difesa convogli artici alleati. (NOR, Alleati).
+ */
+export function resolveSvalbard(s: number, rawName?: string): ResolvedTerritory {
+  if (s <= 5) {
+    return makeResult(
+      'NOR',
+      'Svalbard (Kongeriket Norge — Longyearbyen & Barentsburg)',
+      'Arcipelago artico regolato dal Trattato delle Svalbard del 1920 (sovranità norvegese con clausole di smilitarizzazione e parità di diritti economici). Polo estrattivo carbonifero imperniato sulla Store Norske Spitsbergen Kulkompani a Longyearbyen e Sveagruva e sulle concessioni sovietiche del trust statale Arktikugol a Barentsburg e Grumant, con circa 2.000 minatori sovietici e 900 norvegesi. Rigorosa neutralità diplomatica.',
+      'Neutrale',
+      'Kongeriket Norge — Sysselmannen på Svalbard (Wolmer Marlow / Longyearbyen)'
+    );
+  }
+
+  if (s <= 8) {
+    return makeResult(
+      'NOR',
+      'Svalbard (Amministrazione Civile Autonoma Norvegese-Sovietica)',
+      'All\'invasione tedesca della Norvegia continentale (Operazione Weserübung, aprile-giugno 1940), le Svalbard rimangono non occupate e isolate dalla Wehrmacht grazie alla loro posizione polare. Il Sysselmann Wolmer Marlow preserva l\'amministrazione civile e la cooperazione pacifica con la numerosa comunità mineraria sovietica di Barentsburg; la stazione radio di Longyearbyen trasmette dati meteorologici essenziali per la navigazione artica.',
+      'Neutrale',
+      'Sysselmannen på Svalbard (Wolmer Marlow) & Direzione Sovietica Arktikugol (Barentsburg)'
+    );
+  }
+
+  if (s === 9) {
+    return makeResult(
+      'NOR',
+      'Svalbard (Operazione Gauntlet — Evacuazione Alleata & Sabotaggio Miniere)',
+      'Tra agosto e settembre 1941, dopo l\'invasione dell\'URSS, una forza di spedizione combinata canadese, britannica e della Norvegia Libera (Operazione Gauntlet, brigadiere Arthur Potts) sbarca a Spitsbergen. Vengono evacuati in sicurezza 2.000 cittadini sovietici verso Arcangelo e 800 norvegesi in Gran Bretagna; 450.000 tonnellate di carbone e gli impianti d\'estrazione vengono sistematicamente distrutti e incendiati per negarli alla Kriegsmarine.',
+      'Alleati',
+      'Allied Expeditionary Force (Canadian, British & Free Norwegian Troops — Brig. Arthur Potts)'
+    );
+  }
+
+  return makeResult(
+    'NOR',
+    'Svalbard (Guarnigione della Norvegia Libera — Operazioni Fritham & Gearbox)',
+    'A partire dal maggio-luglio 1942 le forze della Norvegia Libera (Norges Frie Styrker) rioccupano l\'arcipelago (Operazioni Fritham e Gearbox). Nonostante l\'affondamento iniziale delle navi Isbjørn e Selis sotto attacco aereo tedesco, la guarnigione norvegese si fortifica a Barentsburg e Longyearbyen con batterie contraeree Bofors e cannoni costieri, fungendo da postazione meteorologica e base di soccorso per i convogli artici alleati (serie PQ/JW verso Murmansk). Respinge i raid della Kriegsmarine (tra cui l\'incursione navale della Tirpitz del settembre 1943).',
+    'Alleati',
+    'Den Norske Garnison på Svalbard (Barentsburg / Longyearbyen — Norske Hær & Royal Navy)'
+  );
+}
+
+/**
+ * Risoluzione Geostorica e Toponomastica Dinamica di Jan Mayen (1936-1943+)
+ */
+export function resolveJanMayen(s: number, rawName?: string): ResolvedTerritory {
+  if (s <= 5) {
+    return makeResult(
+      'NOR',
+      'Jan Mayen (Kongeriket Norge — Stazione Meteorologica Artica)',
+      'Isola vulcanica desolata e rocciosa nell\'Oceano Artico tra Norvegia e Groenlandia, dominata dal ghiacciaio del vulcano Beerenberg. Sede strategica di una stazione meteorologica norvegese vitale per le previsioni marittime nel Nord Atlantico.',
+      'Neutrale',
+      'Kongeriket Norge — Norsk Meteorologisk Institutt (Jan Mayen)'
+    );
+  }
+
+  return makeResult(
+    'NOR',
+    'Jan Mayen (Stazione Meteo della Norvegia Libera — Norges Frie Styrker)',
+    'Nonostante i ripetuti tentativi di incursione della Luftwaffe, l\'isola artica viene presidiata e difesa da un distaccamento di sciatori e operatori radio delle forze della Norvegia Libera (Norges Frie Styrker), continuando a trasmettere ininterrottamente bollettini meteorologici segreti alla Royal Navy per tutta la guerra.',
+    'Alleati',
+    'Norges Frie Styrker — Secret Arctic Weather Station (Olonkinbyen)'
+  );
+}
+
 export function resolveChinaProvince(
   s: number,
   nid: string,
@@ -1951,7 +2021,10 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
   Belgium: (s) =>
     makeResult('BEL', 'Belgique (Territoires d\'outre-mer)', undefined, s >= 6 ? 'Alleati' : 'Neutrale'),
   Denmark: (s) => resolveGreenland(s),
-  Norway: () => makeResult('NOR', 'Norge (Svalbard og besittelser)'),
+  Norway: (s) => resolveSvalbard(s),
+  Svalbard: (s) => resolveSvalbard(s),
+  Spitsbergen: (s) => resolveSvalbard(s),
+  'Jan Mayen': (s) => resolveJanMayen(s),
   Luxembourg: (s) =>
     s < 6
       ? makeResult('LUX', 'Grand-Duché de Luxembourg', undefined, 'Neutrale', 'Grand-Duché de Luxembourg')
@@ -2179,6 +2252,34 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   if (isGreenland) {
     return resolveGreenland(s, rawName);
+  }
+
+  // 0.e Intercettazione prioritaria Svalbard e Jan Mayen
+  const isSvalbard =
+    cleanId === 'NO0B2' ||
+    cleanId === 'HB_FRAG_NORWAY' ||
+    cleanId === 'SJ' ||
+    cleanId === 'SJM' ||
+    nrm_hb === 'svalbard' ||
+    nrm_hb === 'spitsbergen' ||
+    nrm_hb === 'spitzbergen' ||
+    nrm_hb.includes('svalbard') ||
+    nrm_hb.includes('spitsbergen') ||
+    nrm_hb.includes('spitzbergen') ||
+    (c[0] >= 10 && c[0] <= 35 && c[1] >= 74 && c[1] <= 81 && (rawName === 'Svalbard' || rawName === 'Norway' || subj === 'Norway'));
+
+  if (isSvalbard) {
+    return resolveSvalbard(s, rawName);
+  }
+
+  const isJanMayen =
+    cleanId === 'NO0B1' ||
+    nrm_hb === 'jan mayen' ||
+    nrm_hb.includes('jan mayen') ||
+    (c[0] >= -10 && c[0] <= -7 && c[1] >= 70 && c[1] <= 72 && (rawName === 'Jan Mayen' || rawName === 'Norway' || subj === 'Norway'));
+
+  if (isJanMayen) {
+    return resolveJanMayen(s, rawName);
   }
 
   // Isola di Man (Isle of Man)
@@ -6959,8 +7060,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const cleanId = String(nid || ft.id || '').toUpperCase().trim();
         const normName = nrm;
 
-        // Esclusione geografica: province peninsulari e sarde (NUTS ITC, ITH, ITI, ITF, ITG2) non possono appartenere alla Sicilia (ITG1)
-        const isNonSicilyNuts = /^(ITC|ITH|ITI|ITF|ITG2)/i.test(cleanId);
+        // Esclusione geografica: province peninsulari e sarde (NUTS ITC, ITD, ITE, ITH, ITI, ITF, ITG2) non possono appartenere alla Sicilia (ITG1)
+        const isNonSicilyNuts = /^(ITC|ITD|ITE|ITH|ITI|ITF|ITG2)/i.test(cleanId) || (cleanId.startsWith('IT') && !cleanId.startsWith('ITG1'));
 
         // Sicilia divisa in due:
         // 1. Zona Asse (Quadrilatero nord-orientale dell'Etna e Messina)
@@ -8187,8 +8288,39 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
     }
 
+    case 'SJ':
+    case 'SJM': {
+      const isJanMayen = cleanId === 'NO0B1' || nrm.includes('jan mayen') || (c[0] >= -10 && c[0] <= -7 && c[1] >= 70 && c[1] <= 72);
+      return isJanMayen ? resolveJanMayen(s, rawName) : resolveSvalbard(s, rawName);
+    }
+
     case 'NOR':
-    case 'NO':
+    case 'NO': {
+      const isSvalbard =
+        cleanId === 'NO0B2' ||
+        cleanId === 'HB_FRAG_NORWAY' ||
+        cleanId === 'SJ' ||
+        cleanId === 'SJM' ||
+        nrm.includes('svalbard') ||
+        nrm.includes('spitsbergen') ||
+        nrm.includes('spitzbergen') ||
+        nrm.includes('longyearbyen') ||
+        nrm.includes('barentsburg') ||
+        (c[0] >= 10 && c[0] <= 35 && c[1] >= 74 && c[1] <= 81);
+      if (isSvalbard) {
+        return resolveSvalbard(s, rawName);
+      }
+
+      const isJanMayen =
+        cleanId === 'NO0B1' ||
+        nrm.includes('jan mayen') ||
+        nrm.includes('olonkinbyen') ||
+        nrm.includes('beerenberg') ||
+        (c[0] >= -10 && c[0] <= -7 && c[1] >= 70 && c[1] <= 72);
+      if (isJanMayen) {
+        return resolveJanMayen(s, rawName);
+      }
+
       return s < 6
         ? makeResult('NOR', rawName, 'Kongeriket Norge', undefined, 'Kongeriket Norge')
         : makeResult(
@@ -8198,6 +8330,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Asse',
             'Reichskommissariat Norwegen (Reichskommissar Josef Terboven)'
           );
+    }
 
     case 'BEL':
     case 'BE':

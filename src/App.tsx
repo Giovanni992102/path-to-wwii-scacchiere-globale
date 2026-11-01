@@ -4330,6 +4330,49 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: '96. Audit Integrale Geostorico e Topologico Svalbard & Jan Mayen (Zero Overlapping, Esclusione HB_FRAG_Norway, NUTS-3 NO0B2 & NO0B1, Timeline Dinamica 1936-1943: Autogoverno Civile Wolmer Marlow / Arktikugol 1940, Operazione Gauntlet 1941, Presidio Fritham & Gearbox a Barentsburg)',
+        run: () => {
+          // 1. Zero Overlapping: la feature duplicata HB_FRAG_Norway deve essere completamente assente
+          const hasFragNorway = loadedHbs.some((f: any) => f.id === 'HB_FRAG_Norway');
+          if (hasFragNorway) return false;
+
+          // 2. Presenza univoca delle feature geografiche NUTS-3 NO0B2 (Svalbard) e NO0B1 (Jan Mayen)
+          const svalbardFeat = loadedProvs.find((f: any) => f.id === 'NO0B2' || f.properties?.NUTS_ID === 'NO0B2');
+          const janMayenFeat = loadedProvs.find((f: any) => f.id === 'NO0B1' || f.properties?.NUTS_ID === 'NO0B1');
+          if (!svalbardFeat || !janMayenFeat) return false;
+
+          // 3. Svalbard Step 0 (1936-1939): Sovranità norvegese e miniere (NOR, Neutrale)
+          const sv0 = resolveFeature(svalbardFeat, 0);
+          if (sv0.o !== 'NOR' || sv0.fac !== 'Neutrale' || !sv0.name.includes('Longyearbyen')) return false;
+
+          // 4. Svalbard Step 6-8 (Giu 1940 - Apr 1941): Isolamento artico non occupato, cooperazione Arktikugol (NOR, Neutrale)
+          const sv6 = resolveFeature(svalbardFeat, 6);
+          const sv8 = resolveFeature(svalbardFeat, 8);
+          if (sv6.o !== 'NOR' || sv6.fac !== 'Neutrale' || !sv6.name.includes('Autonoma')) return false;
+          if (sv8.o !== 'NOR' || sv8.fac !== 'Neutrale') return false;
+
+          // 5. Svalbard Step 9 (Dic 1941): Operazione Gauntlet ed evacuazione alleata (NOR, Alleati)
+          const sv9 = resolveFeature(svalbardFeat, 9);
+          if (sv9.o !== 'NOR' || sv9.fac !== 'Alleati' || !sv9.name.includes('Gauntlet')) return false;
+
+          // 6. Svalbard Step 10-12 (Ago 1942 - Lug 1943): Guarnigione Norvegia Libera a Barentsburg (NOR, Alleati)
+          const sv10 = resolveFeature(svalbardFeat, 10);
+          const sv12 = resolveFeature(svalbardFeat, 12);
+          if (sv10.o !== 'NOR' || sv10.fac !== 'Alleati' || !sv10.name.includes('Guarnigione della Norvegia Libera')) return false;
+          if (sv12.o !== 'NOR' || sv12.fac !== 'Alleati') return false;
+
+          // 7. Jan Mayen: Neutrale a Step 0-5, Presidio Norvegia Libera Alleati a Step 6-12
+          const jm0 = resolveFeature(janMayenFeat, 0);
+          const jm6 = resolveFeature(janMayenFeat, 6);
+          const jm12 = resolveFeature(janMayenFeat, 12);
+          if (jm0.o !== 'NOR' || jm0.fac !== 'Neutrale') return false;
+          if (jm6.o !== 'NOR' || jm6.fac !== 'Alleati' || !jm6.name.includes('Norvegia Libera')) return false;
+          if (jm12.o !== 'NOR' || jm12.fac !== 'Alleati') return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;

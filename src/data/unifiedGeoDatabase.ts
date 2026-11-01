@@ -15,7 +15,7 @@
  * Totale: 2.208 entità geocartografiche interamente raccordate con 0 buchi neri e 0 sovrapposizioni.
  */
 
-import { METRO_FRAG, resolveGreenland } from './georesolver';
+import { METRO_FRAG, resolveGreenland, resolveSvalbard, resolveJanMayen } from './georesolver';
 import {
   PRECISION_HISTORICAL_FEATURES,
   DANZIG_FREE_CITY_FEATURE,
@@ -114,6 +114,13 @@ RESOLVER_REGISTRY['GL_GREENLAND'] = (s) => resolveGreenland(s);
 RESOLVER_REGISTRY['Greenland'] = (s) => resolveGreenland(s);
 RESOLVER_REGISTRY['Grønland'] = (s) => resolveGreenland(s);
 RESOLVER_REGISTRY['Groenlandia'] = (s) => resolveGreenland(s);
+
+// 5. Risolutore dedicato Svalbard e Jan Mayen
+RESOLVER_REGISTRY['NO0B2'] = (s) => resolveSvalbard(s);
+RESOLVER_REGISTRY['Svalbard'] = (s) => resolveSvalbard(s);
+RESOLVER_REGISTRY['Spitsbergen'] = (s) => resolveSvalbard(s);
+RESOLVER_REGISTRY['NO0B1'] = (s) => resolveJanMayen(s);
+RESOLVER_REGISTRY['Jan Mayen'] = (s) => resolveJanMayen(s);
 
 /**
  * Carica il Database Geocartografico Unificato.
