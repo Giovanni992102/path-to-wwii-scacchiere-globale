@@ -143,176 +143,186 @@ function getCleanCityLabel(rawHistoricalName: string, fallbackName: string): { p
   };
 }
 
-// Major historical capitals & strategic cities
-const HISTORICAL_CITIES: {
+interface HistoricalCity {
   id: string;
   name: string;
-  historicalNames: Record<string, string>; // By step or owner
   coords: [number, number];
-  isCapital: boolean;
+  isCapital: boolean | ((s: number) => boolean);
   ownerKey: string;
-}[] = [
-  // Grandi Capitali e Metropoli Mondiali
-  { id: 'berlin', name: 'Berlin', historicalNames: { step7: 'Berlin (Patto Tripartito)', default: 'Berlin (Reichshauptstadt)' }, coords: [13.40, 52.52], isCapital: true, ownerKey: 'GER' },
-  { id: 'london', name: 'London', historicalNames: { step7: 'London (The Blitz / RAF HQ)', default: 'London (Whitehall)' }, coords: [-0.12, 51.50], isCapital: true, ownerKey: 'UK' },
-  { id: 'roma', name: 'Roma', historicalNames: { default: 'Roma (Capitale dell\'Impero)' }, coords: [12.49, 41.90], isCapital: true, ownerKey: 'ITA' },
-  { id: 'paris', name: 'Paris', historicalNames: { default: 'Paris', step6: 'Paris (Zone Occupée)' }, coords: [2.35, 48.85], isCapital: true, ownerKey: 'FRA' },
-  { id: 'vichy', name: 'Vichy', historicalNames: { step11: 'Vichy (Occupazione Wehrmacht / Op. Anton)', default: 'Vichy (État Français)' }, coords: [3.42, 46.12], isCapital: true, ownerKey: 'VIC' },
-  { id: 'moscow', name: 'Moskva', historicalNames: { step9: 'Mosca (Stato d\'Assedio / Controffensiva)', default: 'Mosca (Kremlino)' }, coords: [37.61, 55.75], isCapital: true, ownerKey: 'SOV' },
-  { id: 'leningrad', name: 'Leningrad', historicalNames: { step9: 'Leningrado (Città Assediata / Strada della Vita)', default: 'Leningrado (Kirov / Baltico)' }, coords: [30.33, 59.93], isCapital: false, ownerKey: 'SOV' },
-  { id: 'tokyo', name: 'Tokyo', historicalNames: { step9: 'Tokyo (Dichiarazione di Guerra USA & UK)', default: 'Tokyo (Impero Giapponese)' }, coords: [139.69, 35.68], isCapital: true, ownerKey: 'JAP' },
-  { id: 'nanjing', name: 'Nanjing', historicalNames: { step0: 'Nanchino (Capitale Nazionale)', step1: 'Nanchino (Nanjing)', step6: 'Nanchino (Wang Jingwei)', default: 'Nanchino (Nanjing)' }, coords: [118.79, 32.06], isCapital: true, ownerKey: 'CHI' },
-  { id: 'chongqing', name: 'Chongqing', historicalNames: { default: 'Chongqing (Capitale di Guerra Nazionalista)' }, coords: [106.55, 29.56], isCapital: true, ownerKey: 'CHI' },
-  { id: 'beiping', name: 'Beiping', historicalNames: { step2: 'Beiping (Occupazione Giapponese)', step6: 'Beiping (Governo Riorganizzato Wang Jingwei)', default: 'Beiping (Pechino)' }, coords: [116.40, 39.90], isCapital: false, ownerKey: 'CHI' },
-  { id: 'kyzyl', name: 'Kyzyl', historicalNames: { default: 'Kyzyl (Capitale di Tannu Tuva)' }, coords: [94.44, 51.72], isCapital: true, ownerKey: 'TUV' },
-  { id: 'washington', name: 'Washington', historicalNames: { step9: 'Washington, D.C. (Discorso dell\'Infamia)', default: 'Washington, D.C.' }, coords: [-77.03, 38.90], isCapital: true, ownerKey: 'USA' },
+  owners?: Record<string, string>;
+  historicalNames: Record<string, string>;
+}
 
-  // Grandi Metropoli del Pacifico, Asia e Medio Oriente (WWII)
-  { id: 'singapore', name: 'Singapore', historicalNames: { step9: 'Singapore (Fortezza Navale — Assedio Giapponese)', step10: 'Shōnan-tō / Singapore (Occupazione Giapponese)', default: 'Singapore (Sembawang / Fortezza d\'Oriente)' }, coords: [103.82, 1.29], isCapital: false, ownerKey: 'UK' },
-  { id: 'manila', name: 'Manila', historicalNames: { step9: 'Manila (Città Aperta, 26 Dicembre 1941)', step10: 'Manila (Occupazione Militare Giapponese)', default: 'Manila (Commonwealth Filippino / USAFFE HQ)' }, coords: [120.98, 14.60], isCapital: true, ownerKey: 'USA' },
-  { id: 'hong_kong', name: 'Hong Kong', historicalNames: { step9: 'Hong Kong (Occupazione Giapponese, 25 Dicembre 1941)', default: 'Hong Kong (Colonia della Corona Britannica)' }, coords: [114.16, 22.28], isCapital: true, ownerKey: 'UK' },
-  { id: 'honolulu', name: 'Honolulu', historicalNames: { step9: 'Honolulu (Pearl Harbor / Legge Marziale)', default: 'Honolulu (Territorio delle Hawaii / Pacific Fleet)' }, coords: [-157.86, 21.31], isCapital: true, ownerKey: 'USA' },
-  { id: 'bangkok', name: 'Bangkok', historicalNames: { step9: 'Bangkok (Alleanza con il Giappone, 21 Dicembre 1941)', default: 'Bangkok (Regno del Siam / Thailandia)' }, coords: [100.50, 13.75], isCapital: true, ownerKey: 'SIA' },
-  { id: 'saigon', name: 'Saigon', historicalNames: { step7: 'Saigon (Vichy / FNEO)', step9: 'Saigon (Presidio 22ª Flottiglia Aerea IJN)', default: 'Saigon (Capitale della Cocincina)' }, coords: [106.66, 10.76], isCapital: false, ownerKey: 'FRA' },
-  { id: 'hanoi', name: 'Hanoi', historicalNames: { step7: 'Hanoi (Occupazione Militare Giapponese del Tonchino)', default: 'Hanoi (Capitale dell\'Indocina Francese)' }, coords: [105.85, 21.03], isCapital: true, ownerKey: 'FRA' },
-  { id: 'tehran', name: 'Teheran', historicalNames: { step9: 'Teheran (Occupazione Anglosovietica / Trans-Iranian)', default: 'Teheran (Stato Imperiale dell\'Iran)' }, coords: [51.39, 35.69], isCapital: true, ownerKey: 'PER' },
-  { id: 'damascus', name: 'Damasco', historicalNames: { step6: 'Damasco (Mandato di Siria — Vichy)', step9: 'Damasco (Francia Libera & Gran Bretagna)', default: 'Damasco (Mandato Francese di Siria)' }, coords: [36.29, 33.51], isCapital: true, ownerKey: 'SYR' },
-  { id: 'beirut', name: 'Beirut', historicalNames: { step6: 'Beirut (Mandato del Libano — Vichy)', step9: 'Beirut (Francia Libera & Gran Bretagna)', default: 'Beirut (Stato del Grande Libano)' }, coords: [35.50, 33.89], isCapital: true, ownerKey: 'LBN' },
-  { id: 'baghdad', name: 'Baghdad', historicalNames: { step8: 'Baghdad (Guerra Anglo-Irachena / Rashid Ali)', step9: 'Baghdad (Presidio Britannico Paiforce)', default: 'Baghdad (Regno dell\'Iraq)' }, coords: [44.36, 33.31], isCapital: true, ownerKey: 'IRQ' },
-  { id: 'batavia', name: 'Batavia', historicalNames: { step9: 'Batavia (Indie Orientali Olandesi / Mobilitazione)', step10: 'Batavia / Giacarta (Occupazione 16ª Armata Giapponese)', default: 'Batavia (Giacarta / Indie Orientali Olandesi)' }, coords: [106.85, -6.21], isCapital: true, ownerKey: 'HOL' },
-  { id: 'rangoon', name: 'Rangoon', historicalNames: { step9: 'Rangoon (Capolinea Burma Road — Attacchi Aerei Giapponesi)', step10: 'Rangoon (Occupazione Giapponese — 15ª Armata, 8 Marzo 1942)', default: 'Rangoon (Yangon / Capitale Birmana)' }, coords: [96.16, 16.84], isCapital: true, ownerKey: 'UK' },
-  { id: 'port_moresby', name: 'Port Moresby', historicalNames: { step10: 'Port Moresby (Base Alleata / Difesa Pista di Kokoda & Milne Bay)', default: 'Port Moresby (Capitale Territorio di Papua)' }, coords: [147.18, -9.44], isCapital: true, ownerKey: 'AUS' },
-  { id: 'new_delhi', name: 'New Delhi', historicalNames: { default: 'Nuova Delhi (Capitale dell\'Impero Indiano)' }, coords: [77.21, 28.61], isCapital: true, ownerKey: 'IND' },
-  { id: 'calcutta', name: 'Calcutta', historicalNames: { default: 'Calcutta (Porto del Bengala / Rifornimenti)' }, coords: [88.36, 22.57], isCapital: false, ownerKey: 'IND' },
-  { id: 'sydney', name: 'Sydney', historicalNames: { default: 'Sydney (Base Principale Royal Australian Navy)' }, coords: [151.21, -33.87], isCapital: false, ownerKey: 'AUS' },
-  { id: 'canberra', name: 'Canberra', historicalNames: { default: 'Canberra (Capitale del Commonwealth d\'Australia)' }, coords: [149.13, -35.28], isCapital: true, ownerKey: 'AUS' },
-  { id: 'ottawa', name: 'Ottawa', historicalNames: { default: 'Ottawa (Capitale del Dominion del Canada)' }, coords: [-75.70, 45.42], isCapital: true, ownerKey: 'CAN' },
+function getCityIsCapital(city: HistoricalCity, step: number): boolean {
+  if (typeof city.isCapital === 'function') {
+    return city.isCapital(step);
+  }
+  return !!city.isCapital;
+}
 
-  // Città e Centri Strategici Tedeschi / Ostmark / Sudetenland
-  { id: 'munchen', name: 'München', historicalNames: { default: 'München (Hauptstadt der Bewegung)' }, coords: [11.58, 48.14], isCapital: false, ownerKey: 'GER' },
-  { id: 'koln', name: 'Köln', historicalNames: { default: 'Köln (Rheinland)' }, coords: [6.96, 50.94], isCapital: false, ownerKey: 'GER' },
-  { id: 'hamburg', name: 'Hamburg', historicalNames: { default: 'Hamburg (Kriegsmarine Werft)' }, coords: [9.99, 53.55], isCapital: false, ownerKey: 'GER' },
-  { id: 'essen', name: 'Essen', historicalNames: { default: 'Essen (Krupp Werke / Ruhr)' }, coords: [7.01, 51.46], isCapital: false, ownerKey: 'GER' },
-  { id: 'konigsberg', name: 'Königsberg', historicalNames: { default: 'Königsberg in Preußen' }, coords: [20.51, 54.71], isCapital: false, ownerKey: 'GER' },
-  { id: 'breslau', name: 'Breslau', historicalNames: { default: 'Breslau (Schlesien)' }, coords: [17.03, 51.10], isCapital: false, ownerKey: 'GER' },
-  { id: 'wien', name: 'Wien', historicalNames: { step0: 'Wien (Österreich)', step1: 'Wien (Ostmark)', default: 'Wien (Ostmark)' }, coords: [16.37, 48.20], isCapital: true, ownerKey: 'AUS' },
+function getCityOwner(city: HistoricalCity, step: number): string {
+  if (city.owners) {
+    for (let st = step; st >= 0; st--) {
+      if (city.owners[`step${st}`]) return city.owners[`step${st}`];
+    }
+    if (city.owners.default) return city.owners.default;
+  }
+  return city.ownerKey || '';
+}
 
-  // Città e Poli Strategici Italiani & Microstati
-  { id: 'milano', name: 'Milano', historicalNames: { default: 'Milano (Polo Industriale Breda/Alfa)' }, coords: [9.19, 45.46], isCapital: false, ownerKey: 'ITA' },
-  { id: 'torino', name: 'Torino', historicalNames: { default: 'Torino (FIAT Grandi Motori)' }, coords: [7.68, 45.07], isCapital: false, ownerKey: 'ITA' },
-  { id: 'genova', name: 'Genova', historicalNames: { default: 'Genova (Cantieri Ansaldo)' }, coords: [8.93, 44.41], isCapital: false, ownerKey: 'ITA' },
-  { id: 'taranto', name: 'Taranto', historicalNames: { default: 'Taranto (Mar Piccolo — Base Flotta)' }, coords: [17.23, 40.47], isCapital: false, ownerKey: 'ITA' },
-  { id: 'napoli', name: 'Napoli', historicalNames: { default: 'Napoli (Porto d\'Imbarco Oltremare)' }, coords: [14.27, 40.85], isCapital: false, ownerKey: 'ITA' },
-  { id: 'trieste', name: 'Trieste', historicalNames: { default: 'Trieste (Adriatico / Cantieri S. Marco)' }, coords: [13.78, 45.65], isCapital: false, ownerKey: 'ITA' },
-  { id: 'san_marino', name: 'San Marino', historicalNames: { default: 'Città di San Marino (Titano)' }, coords: [12.4617, 43.9406], isCapital: true, ownerKey: 'SMR' },
-  { id: 'vaticano', name: 'Città del Vaticano', historicalNames: { default: 'Città del Vaticano (San Pietro)' }, coords: [12.4507, 41.9041], isCapital: true, ownerKey: 'VAT' },
-  { id: 'andorra_la_vella', name: 'Andorra la Vella', historicalNames: { default: 'Andorra la Vella (Valls d\'Andorra)' }, coords: [1.5218, 42.5063], isCapital: true, ownerKey: 'AND' },
-  {
-    id: 'monaco',
-    name: 'Monaco',
-    historicalNames: {
-      step0: 'Monaco (Principato dei Grimaldi — Monte-Carlo & SBM)',
-      step2: 'Monaco (Neutralità Sovrana — Vigilia Bellica)',
-      step6: 'Monaco (Neutralità tra Vichy e Occupazione di Mentone)',
-      step10: 'Monaco (Oasi Neutrale della Costa Azzurra)',
-      step11: 'Monaco (Presidio 4ª Armata Regio Esercito — Op. Anton)',
-      default: 'Monaco (Principato dei Grimaldi)',
-    },
-    coords: [7.4233, 43.7367],
-    isCapital: true,
-    ownerKey: 'MCO',
-  },
-
-  // Centri Francesi e Linee Difensive
-  { id: 'marseille', name: 'Marseille', historicalNames: { step11: 'Marseille (Occupazione Wehrmacht / Op. Anton)', default: 'Marseille (Grand Port de l\'Empire)' }, coords: [5.37, 43.30], isCapital: false, ownerKey: 'FRA' },
-  { id: 'toulon', name: 'Toulon', historicalNames: { step6: 'Toulon (Base Navale Forces de Haute Mer)', step11: 'Toulon (Autoaffondamento Flotta / Occupazione Italiana, 27 Nov)', default: 'Toulon (Port Militaire de la Méditerranée)' }, coords: [5.93, 43.12], isCapital: false, ownerKey: 'FRA' },
-  { id: 'lyon', name: 'Lyon', historicalNames: { step11: 'Lyon (Occupazione Wehrmacht / Op. Anton)', default: 'Lyon (Zone Libre)' }, coords: [4.83, 45.76], isCapital: false, ownerKey: 'FRA' },
-  { id: 'nice', name: 'Nice', historicalNames: { step11: 'Nizza (Capoluogo Zona Occupazione Italiana — 4ª Armata)', default: 'Nice / Nizza (Alpes-Maritimes)' }, coords: [7.26, 43.71], isCapital: false, ownerKey: 'FRA' },
-  { id: 'bordeaux', name: 'Bordeaux', historicalNames: { default: 'Bordeaux (Base Sommergibili BETASOM)' }, coords: [-0.58, 44.84], isCapital: false, ownerKey: 'FRA' },
-  { id: 'strasbourg', name: 'Strasbourg', historicalNames: { step6: 'Straßburg (Gau Baden-Elsass)', default: 'Strasbourg (Alsazia)' }, coords: [7.75, 48.57], isCapital: false, ownerKey: 'FRA' },
-  { id: 'metz', name: 'Metz', historicalNames: { step6: 'Metz (CdZ-Gebiet Lothringen)', default: 'Metz (Fortificazioni Lorena)' }, coords: [6.18, 49.12], isCapital: false, ownerKey: 'FRA' },
-  { id: 'dunkerque', name: 'Dunkerque', historicalNames: { default: 'Dunkerque (Canale della Manica)' }, coords: [2.38, 51.03], isCapital: false, ownerKey: 'FRA' },
-
-  // Roccaforti Britanniche
-  { id: 'portsmouth', name: 'Portsmouth', historicalNames: { default: 'Portsmouth (Royal Navy Dockyard)' }, coords: [-1.09, 50.80], isCapital: false, ownerKey: 'UK' },
-  { id: 'scapa_flow', name: 'Scapa Flow', historicalNames: { default: 'Scapa Flow (Home Fleet Anchorage)' }, coords: [-3.05, 58.89], isCapital: false, ownerKey: 'UK' },
-  { id: 'gibraltar', name: 'Gibraltar', historicalNames: { default: 'Gibraltar (The Rock / Stretto)' }, coords: [-5.352, 36.134], isCapital: true, ownerKey: 'GIB' },
-  { id: 'valletta', name: 'Valletta', historicalNames: { default: 'Valletta (Fortezza di Malta)' }, coords: [14.51, 35.90], isCapital: false, ownerKey: 'UK' },
-
-  // Polonia e Balcani
-  { id: 'warszawa', name: 'Warszawa', historicalNames: { step5: 'Warschau (Generalgouvernement)', default: 'Warszawa (Varsavia)' }, coords: [21.01, 52.22], isCapital: true, ownerKey: 'POL' },
-  { id: 'krakow', name: 'Kraków', historicalNames: { step5: 'Krakau (Sitz des Generalgouverneurs)', default: 'Kraków (Cracovia)' }, coords: [19.94, 50.06], isCapital: false, ownerKey: 'POL' },
-  { id: 'gdynia', name: 'Gdynia', historicalNames: { step5: 'Gotenhafen (Kriegsmarine)', default: 'Gdynia (Porto del Corridoio)' }, coords: [18.53, 54.52], isCapital: false, ownerKey: 'POL' },
-  { id: 'danzig', name: 'Danzig', historicalNames: { step5: 'Danzig (Reichsgau Danzig-Westpreußen)', default: 'Freie Stadt Danzig' }, coords: [18.64, 54.35], isCapital: false, ownerKey: 'DANZIG' },
-  { id: 'lwow', name: 'Lwów', historicalNames: { step5: 'Lvov (RSS Ucraina)', step9: 'Lemberg (Distrikt Galizien — Generalgouvernement)', default: 'Lwów (Kresy Południowo-Wschodnie)' }, coords: [24.03, 49.84], isCapital: false, ownerKey: 'POL' },
-  { id: 'wilno', name: 'Wilno', historicalNames: { step5: 'Vilnius (Lietuva)', step6: 'Vilnius (RSS Lituana)', step9: 'Wilna (Generalbezirk Litauen — Ostland)', default: 'Wilno (Kresy Północno-Wschodnie)' }, coords: [25.28, 54.69], isCapital: false, ownerKey: 'POL' },
-  { id: 'praha', name: 'Praha', historicalNames: { step3: 'Prag (Protektorat Böhmen-Mähren)', default: 'Praha (Praga)' }, coords: [14.43, 50.07], isCapital: true, ownerKey: 'CZE' },
-  { id: 'bratislava', name: 'Bratislava', historicalNames: { step3: 'Bratislava (Slovenská republika)', default: 'Bratislava (Pressburg)' }, coords: [17.11, 48.14], isCapital: true, ownerKey: 'SLO' },
-  { id: 'budapest', name: 'Budapest', historicalNames: { default: 'Budapest (Regno d\'Ungheria)' }, coords: [19.04, 47.50], isCapital: true, ownerKey: 'HUN' },
-  { id: 'cluj', name: 'Cluj', historicalNames: { step7: 'Kolozsvár (Észak-Erdély — Ungheria)', default: 'Cluj (Transilvania)' }, coords: [23.59, 46.77], isCapital: false, ownerKey: 'ROM' },
-  { id: 'bucuresti', name: 'București', historicalNames: { step7: 'București (Stato Nazionale Legionario)', step8: 'București (Regime di Antonescu)', default: 'București (România Mare)' }, coords: [26.10, 44.43], isCapital: true, ownerKey: 'ROM' },
-  { id: 'ploiesti', name: 'Ploiești', historicalNames: { step7: 'Ploiești (Pozzi Petroliferi / Deutsche Heeresmission)', default: 'Ploiești (Pozzi Petroliferi Astra Română)' }, coords: [26.02, 44.94], isCapital: false, ownerKey: 'ROM' },
-  { id: 'beograd', name: 'Beograd', historicalNames: { step8: 'Belgrado (Bombardamento Op. Castigo / Militärverwaltung)', step9: 'Belgrado (Governo di Salvezza Nazionale Nedić)', default: 'Beograd (Regno di Jugoslavia)' }, coords: [20.46, 44.82], isCapital: true, ownerKey: 'YUG' },
-  { id: 'zagreb', name: 'Zagreb', historicalNames: { step4: 'Zagreb (Banovina Hrvatska)', step8: 'Zagreb (Stato Indipendente di Croazia — NDH)', default: 'Zagreb (Savska Banovina)' }, coords: [15.98, 45.81], isCapital: false, ownerKey: 'YUG' },
-  { id: 'athina', name: 'Athina', historicalNames: { step7: 'Atene ("OXI" — Belligerante Alleato)', step8: 'Atene (Caduta sotto Occupazione Italo-Tedesca, 27 Aprile 1941)', step9: 'Atene (Stato Ellenico Collaborazionista / Occupazione Asse)', default: 'Atene (Regno di Grecia)' }, coords: [23.73, 37.98], isCapital: true, ownerKey: 'GRE' },
-  { id: 'sofia', name: 'Sofia', historicalNames: { step8: 'Sofia (Adesione al Patto Tripartito)', default: 'Sofia (Zarato di Bulgaria)' }, coords: [23.32, 42.70], isCapital: true, ownerKey: 'BUL' },
-  { id: 'tirana', name: 'Tirana', historicalNames: { step4: 'Tirana (Regno d\'Albania — Unione Personale con l\'Italia)', default: 'Tirana (Regno d\'Albania)' }, coords: [19.82, 41.33], isCapital: true, ownerKey: 'ALB' },
-
-  // Europa Settentrionale e Baltici
-  { id: 'helsinki', name: 'Helsinki', historicalNames: { step9: 'Helsinki (Guerra di Continuazione)', default: 'Helsinki (Suomi)' }, coords: [24.93, 60.16], isCapital: true, ownerKey: 'FIN' },
-  { id: 'mariehamn', name: 'Mariehamn', historicalNames: { default: 'Mariehamn / Maarianhamina (Åland)' }, coords: [19.94, 60.10], isCapital: false, ownerKey: 'FIN' },
-  { id: 'stockholm', name: 'Stockholm', historicalNames: { default: 'Stockholm (Sverige)' }, coords: [18.06, 59.33], isCapital: true, ownerKey: 'SWE' },
-  { id: 'oslo', name: 'Oslo', historicalNames: { step6: 'Oslo (Quisling / Terboven)', default: 'Oslo (Norge)' }, coords: [10.75, 59.91], isCapital: true, ownerKey: 'NOR' },
-  { id: 'narvik', name: 'Narvik', historicalNames: { default: 'Narvik (Terminale Ferroviario del Ferro)' }, coords: [17.43, 68.44], isCapital: false, ownerKey: 'NOR' },
-  { id: 'kobenhavn', name: 'København', historicalNames: { default: 'København (Danmark)' }, coords: [12.57, 55.68], isCapital: true, ownerKey: 'DEN' },
-  { id: 'tallinn', name: 'Tallinn', historicalNames: { step6: 'Tallinn (RSS Estone)', step9: 'Reval (Generalbezirk Estland — Ostland)', default: 'Tallinn (Reval)' }, coords: [24.75, 59.44], isCapital: true, ownerKey: 'EST' },
-  { id: 'riga', name: 'Riga', historicalNames: { step6: 'Riga (RSS Lettone)', step9: 'Riga (Reichskommissariat Ostland)', default: 'Riga (Latvija)' }, coords: [24.11, 56.95], isCapital: true, ownerKey: 'LAT' },
-  { id: 'kaunas', name: 'Kaunas', historicalNames: { step6: 'Kaunas (RSS Lituana)', step9: 'Kauen (Generalbezirk Litauen — Ostland)', default: 'Kaunas (Capitale Provvisoria Lituana)' }, coords: [23.90, 54.90], isCapital: true, ownerKey: 'LIT' },
-
-  // Teatri Iberico, Nordafricano e Continentale Africano
-  { id: 'madrid', name: 'Madrid', historicalNames: { step4: 'Madrid (Dittatura Franchista)', default: 'Madrid (No Pasarán)' }, coords: [-3.70, 40.41], isCapital: true, ownerKey: 'SPR' },
-  { id: 'burgos', name: 'Burgos', historicalNames: { default: 'Burgos (Junta de Defensa Nacional)' }, coords: [-3.70, 42.34], isCapital: false, ownerKey: 'SPA' },
-  { id: 'barcelona', name: 'Barcelona', historicalNames: { default: 'Barcelona (Generalitat de Catalunya)' }, coords: [2.17, 41.38], isCapital: false, ownerKey: 'SPR' },
-  { id: 'sevilla', name: 'Sevilla', historicalNames: { default: 'Sevilla (Queipo de Llano)' }, coords: [-5.99, 37.38], isCapital: false, ownerKey: 'SPA' },
-  { id: 'tripoli', name: 'Tripoli', historicalNames: { default: 'Tripoli (Governatorato Generale Libia)' }, coords: [13.19, 32.88], isCapital: true, ownerKey: 'ITA' },
-  { id: 'benghazi', name: 'Bengasi', historicalNames: { step9: 'Bengasi (Occupazione VIII Armata — Crusader)', step10: 'Bengasi (Base Logistica Panzerarmee Afrika)', step11: 'Bengasi (Liberata dall\'8ª Armata Montgomery — 20 Nov)', default: 'Bengasi (Comando Cirenaica)' }, coords: [20.06, 32.11], isCapital: false, ownerKey: 'ITA' },
-  { id: 'tobruk', name: 'Tobruk', historicalNames: { step8: 'Tobruk (Assedio dell\'Afrikakorps)', step9: 'Tobruk (Liberata — Crusader)', step10: 'Tobruk (Presa da Rommel, 21 Giugno 1942)', step11: 'Tobruk (Liberata dall\'8ª Armata — 13 Nov 1942)', default: 'Tobruk (Piazzaforte della Cirenaica)' }, coords: [23.97, 32.08], isCapital: false, ownerKey: 'UK' },
-  { id: 'cairo', name: 'Al-Qahirah', historicalNames: { default: 'Il Cairo (Regno d\'Egitto / HQ Middle East Command)' }, coords: [31.23, 30.04], isCapital: true, ownerKey: 'EGY' },
-  { id: 'alexandria', name: 'Al-Iskandariyah', historicalNames: { default: 'Alessandria d\'Egitto (HQ Mediterranean Fleet)' }, coords: [29.91, 31.20], isCapital: false, ownerKey: 'EGY' },
-  { id: 'port_said', name: 'Porto Said', historicalNames: { default: 'Port Said (Ingresso Canale di Suez)' }, coords: [32.30, 31.26], isCapital: false, ownerKey: 'EGY' },
-  { id: 'suez', name: 'Suez', historicalNames: { default: 'Suez (Sbocco Mar Rosso Canale)' }, coords: [32.55, 29.97], isCapital: false, ownerKey: 'EGY' },
-  { id: 'mersa_matruh', name: 'Mersa Matruh', historicalNames: { step7: 'Mersa Matruh (Fronte Sidi Barrani / Western Desert Force)', step9: 'Mersa Matruh (Base Avanzata VIII Armata — Crusader)', step10: 'Mersa Matruh & El Alamein (Fronte Panzerarmee Afrika)', step11: 'Mersa Matruh (Riconquistata dall\'8ª Armata — 11 Nov)', default: 'Mersa Matruh (Piazzaforte Western Desert)' }, coords: [27.24, 31.35], isCapital: false, ownerKey: 'EGY' },
-  { id: 'aswan', name: 'Aswan', historicalNames: { default: 'Aswan (Diga e Confine Nubiano)' }, coords: [32.90, 24.09], isCapital: false, ownerKey: 'EGY' },
-  { id: 'khartoum', name: 'Khartoum', historicalNames: { default: 'Khartoum (Sudan Anglo-Egiziano)' }, coords: [32.55, 15.50], isCapital: true, ownerKey: 'UK' },
-  { id: 'algiers', name: 'Algeri', historicalNames: { step6: 'Alger (Gouvernement Général — Vichy)', step11: 'Alger (Sbarco Alleato Torch / HQ Darlan-Giraud)', default: 'Alger (Préfecture d\'Alger / AFN)' }, coords: [3.05, 36.75], isCapital: true, ownerKey: 'FRA' },
-  { id: 'tunis', name: 'Tunisi', historicalNames: { step6: 'Tunis (Protectorat de Tunisie — Vichy)', step11: 'Tunis (Testa di Ponte dell\'Asse — Nehring)', default: 'Tunis (Protectorat de Tunisie)' }, coords: [10.18, 36.80], isCapital: true, ownerKey: 'FRA' },
-  { id: 'casablanca', name: 'Casablanca', historicalNames: { step6: 'Casablanca (Maroc — Résidence Générale Vichy)', step11: 'Casablanca (Sbarco Alleato Torch / Patton)', default: 'Casablanca (Port Atlantique du Maroc)' }, coords: [-7.58, 33.57], isCapital: false, ownerKey: 'FRA' },
-  { id: 'dakar', name: 'Dakar', historicalNames: { step6: 'Dakar (Haut-Commissariat AOF — Vichy)', step7: 'Dakar (AOF Vichy — Operazione Menace Respinta)', step11: 'Dakar (Ralliement agli Alleati — Boisson / Darlan)', default: 'Dakar (Capitale Afrique Occidentale Française)' }, coords: [-17.44, 14.69], isCapital: true, ownerKey: 'FRA' },
-  { id: 'brazzaville', name: 'Brazzaville', historicalNames: { step6: 'Brazzaville (Capitale Afrique Française Libre — De Gaulle / Éboué)', default: 'Brazzaville (Capitale Afrique Équatoriale)' }, coords: [15.28, -4.26], isCapital: true, ownerKey: 'FRA' },
-  { id: 'leopoldville', name: 'Léopoldville', historicalNames: { default: 'Léopoldville (Congo Belge / Force Publique)' }, coords: [15.31, -4.32], isCapital: true, ownerKey: 'BEL' },
-  { id: 'addis_ababa', name: 'Addis Ababa', historicalNames: { step8: 'Addis Abeba (Liberazione Alleata / Ritorno Negus)', step9: 'Addis Abeba (Impero d\'Etiopia Ristabilito)', default: 'Addis Abeba (AOI — Sede Viceré)' }, coords: [38.74, 9.02], isCapital: true, ownerKey: 'ITA' },
-  { id: 'asmara', name: 'Asmara', historicalNames: { step8: 'Asmara (Occupazione Militare Britannica - OETA)', step9: 'Asmara (Occupazione Militare Britannica - OETA)', default: 'Asmara (Governatorato dell\'Eritrea)' }, coords: [38.92, 15.33], isCapital: false, ownerKey: 'ITA' },
-  { id: 'massawa', name: 'Massaua', historicalNames: { step8: 'Massaua (Presidio Navale Alleato)', step9: 'Massaua (Base Navale Alleata)', default: 'Massaua (Base Navale Regia Marina Mar Rosso)' }, coords: [39.46, 15.60], isCapital: false, ownerKey: 'ITA' },
-  { id: 'mogadishu', name: 'Mogadiscio', historicalNames: { step8: 'Mogadiscio (Occupazione Britannica)', step9: 'Mogadiscio (Occupazione Britannica)', default: 'Mogadiscio (Somalia Italiana)' }, coords: [45.34, 2.04], isCapital: false, ownerKey: 'ITA' },
-  { id: 'nairobi', name: 'Nairobi', historicalNames: { default: 'Nairobi (Colonia del Kenya / KAR)' }, coords: [36.82, -1.29], isCapital: true, ownerKey: 'UK' },
-  { id: 'pretoria', name: 'Pretoria', historicalNames: { default: 'Pretoria (Unione Sudafricana)' }, coords: [28.18, -25.74], isCapital: true, ownerKey: 'SAF' },
-  { id: 'cape_town', name: 'Città del Capo', historicalNames: { default: 'Cape Town / Simon\'s Town (Rotta del Capo)' }, coords: [18.42, -33.92], isCapital: false, ownerKey: 'SAF' },
-  { id: 'freetown', name: 'Freetown', historicalNames: { default: 'Freetown (Stazione Navale e Convogli Sierra Leone)' }, coords: [-13.23, 8.48], isCapital: true, ownerKey: 'UK' },
-  { id: 'monrovia', name: 'Monrovia', historicalNames: { default: 'Monrovia (Repubblica di Liberia)' }, coords: [-10.79, 6.30], isCapital: true, ownerKey: 'LBR' },
-  { id: 'tangier', name: 'Tangeri', historicalNames: { default: 'Tanger (Zone Internationale / Occupazione Spagnola 1940)' }, coords: [-5.80, 35.77], isCapital: false, ownerKey: 'TANGER' },
-
-  // Teatri URSS Occidentale
-  { id: 'kyiv', name: 'Kyiv', historicalNames: { step9: 'Kiew (Reichskommissariat Ukraine)', default: 'Kiev (Capitale della RSS Ucraina)' }, coords: [30.52, 50.45], isCapital: false, ownerKey: 'SOV' },
-  { id: 'kharkiv', name: 'Kharkiv', historicalNames: { step9: 'Charkow (Heeresgebiet Süd)', default: 'Charkiv (Fabbrica Carri KhPZ n. 183)' }, coords: [36.23, 50.00], isCapital: false, ownerKey: 'SOV' },
-  { id: 'stalingrad', name: 'Stalingrad', historicalNames: { step10: 'Stalingrado (Battaglia sul Volga — Ordine N. 227)', step11: 'Stalingrado (Operazione Uranus — Kessel Tedesco Accerchiato)', default: 'Stalingrado (Fabbrica Trattori Dzeržinskij)' }, coords: [44.51, 48.71], isCapital: false, ownerKey: 'SOV' },
-  { id: 'kalac_na_donu', name: 'Kalač-na-Donu', historicalNames: { step10: 'Kalač-na-Donu (Testa di Ponte 6ª Armata sul Don)', step11: 'Kalač-na-Donu (Saldatura Tenaglie Operazione Uranus — 23 Nov 1942)', default: 'Kalač-na-Donu (Ansa del Don)' }, coords: [43.52, 48.69], isCapital: false, ownerKey: 'SOV' },
-  { id: 'rzhev', name: 'Ržev', historicalNames: { step10: 'Ržev (Saliente Fortificato 9ª Armata Tedesca)', step11: 'Ržev (Operazione Marte / Tritacarne di Ržev — 25 Nov 1942)', default: 'Ržev (Alto Volga)' }, coords: [34.33, 56.26], isCapital: false, ownerKey: 'GER' },
-  { id: 'rostov', name: 'Rostov', historicalNames: { step9: 'Rostov sul Don (Liberata dall\'Armata Rossa — Timoshenko, 29 Nov 1941)', step10: 'Rostov sul Don (Conquistata dal Gruppo d\'Armate A — 24 Luglio 1942)', default: 'Rostov sul Don (Porta del Caucaso)' }, coords: [39.72, 47.23], isCapital: false, ownerKey: 'SOV' },
-  { id: 'sevastopol', name: 'Sevastopol', historicalNames: { step9: 'Sebastopoli (Eroica Difesa sotto Assedio Tedesco)', step10: 'Sebastopoli (Occupata dalla Wehrmacht, 4 Luglio 1942)', default: 'Sebastopoli (Fortezza Principale Mar Nero)' }, coords: [33.52, 44.62], isCapital: false, ownerKey: 'SOV' },
-  { id: 'odessa', name: 'Odessa', historicalNames: { step9: 'Odessa (Capitale del Governatorato di Transnistria)', default: 'Odessa (Base Navale Mar Nero)' }, coords: [30.73, 46.48], isCapital: false, ownerKey: 'SOV' },
-  { id: 'smolensk', name: 'Smolensk', historicalNames: { step9: 'Smolensk (Militärverwaltung Wehrmacht / HGr Mitte)', step11: 'Smolensk (Heeresgruppe Mitte / Allarme Operazione Marte)', default: 'Smolensk (Distretto Militare Occidentale)' }, coords: [32.05, 54.78], isCapital: false, ownerKey: 'SOV' },
-  { id: 'minsk', name: 'Minsk', historicalNames: { step9: 'Minsk (Generalkommissariat Weißruthenien — Ostland)', default: 'Minsk (Capitale della RSS Bielorussa)' }, coords: [27.56, 53.90], isCapital: false, ownerKey: 'SOV' },
+// Major historical capitals & strategic cities (Dynamic Historico-Toponymic Database)
+const HISTORICAL_CITIES: HistoricalCity[] = [
+  { id: 'berlin', name: 'Berlin', coords: [13.4, 52.52], isCapital: true, ownerKey: 'GER', historicalNames: { default: 'Berlin (Reichshauptstadt — Deutsches Reich)', step7: 'Berlin (Reichshauptstadt — Patto Tripartito Asse)' } },
+  { id: 'london', name: 'London', coords: [-0.12, 51.5], isCapital: true, ownerKey: 'UK', historicalNames: { default: 'London (Capital of the British Empire)', step7: 'London (The Blitz / RAF Fighter Command)' } },
+  { id: 'roma', name: 'Roma', coords: [12.49, 41.9], isCapital: true, ownerKey: 'ITA', historicalNames: { default: 'Roma (Capitale dell\'Impero — Regno d\'Italia)' } },
+  { id: 'paris', name: 'Paris', coords: [2.35, 48.85], isCapital: (s: number) => s < 6, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'GER' }, historicalNames: { default: 'Paris (République Française)', step6: 'Paris (Militärbefehlshaber in Frankreich / Zone Occupée)' } },
+  { id: 'vichy', name: 'Vichy', coords: [3.42, 46.12], isCapital: (s: number) => s >= 6, ownerKey: 'VIC', owners: { default: 'FRA', step6: 'VIC', step11: 'GER' }, historicalNames: { default: 'Vichy (Station thermale — France)', step6: 'Vichy (Capitale de l\'État Français — Pétain)', step11: 'Vichy (Occupazione Wehrmacht — Op. Anton)' } },
+  { id: 'moscow', name: 'Moskva', coords: [37.61, 55.75], isCapital: true, ownerKey: 'SOV', historicalNames: { default: 'Moskva (Capitale dell\'URSS — Kremlino)', step9: 'Moskva (Stato d\'Assedio / Controffensiva Invernale dell\'Armata Rossa)' } },
+  { id: 'leningrad', name: 'Leningrad', coords: [30.33, 59.93], isCapital: false, ownerKey: 'SOV', historicalNames: { default: 'Leningrad (Kirov / Polo Navale Baltico — URSS)', step9: 'Leningrad (Città Assediata / Strada della Vita sul Lago Ladoga)' } },
+  { id: 'tokyo', name: 'Tokyo', coords: [139.69, 35.68], isCapital: true, ownerKey: 'JAP', historicalNames: { default: 'Tokyo (Dai Nippon Teikoku)', step9: 'Tokyo (Dichiarazione di Guerra USA & UK — Grande Asia Orientale)' } },
+  { id: 'washington', name: 'Washington', coords: [-77.03, 38.9], isCapital: true, ownerKey: 'USA', historicalNames: { default: 'Washington, D.C. (United States of America)', step9: 'Washington, D.C. (Discorso dell\'Infamia / Arsenal of Democracy)' } },
+  { id: 'nanjing', name: 'Nanjing', coords: [118.79, 32.06], isCapital: (s: number) => s < 2 || s >= 6, ownerKey: 'CHI', owners: { default: 'CHI', step1: 'JAP', step6: 'CHI_WANG' }, historicalNames: { default: 'Nanjing (Capitale della Repubblica di Cina)', step1: 'Nanjing (Occupazione dell\'Armata Giapponese)', step6: 'Nanjing (Capitale Governo Riorganizzato di Wang Jingwei)' } },
+  { id: 'chongqing', name: 'Chongqing', coords: [106.55, 29.56], isCapital: (s: number) => s >= 2, ownerKey: 'CHI', historicalNames: { default: 'Chongqing (Sichuan — Repubblica di Cina)', step2: 'Chongqing (Capitale di Guerra Nazionalista / Peidu Chiang Kai-shek)' } },
+  { id: 'beiping', name: 'Beiping', coords: [116.4, 39.9], isCapital: false, ownerKey: 'CHI', owners: { default: 'CHI', step2: 'JAP' }, historicalNames: { default: 'Beiping (Repubblica di Cina — Nazionalisti)', step2: 'Beijing (Governo Provvisorio Cinese / Impero Giapponese)', step6: 'Beijing (Governo Riorganizzato di Wang Jingwei)' } },
+  { id: 'kyzyl', name: 'Kyzyl', coords: [94.44, 51.72], isCapital: true, ownerKey: 'TUV', historicalNames: { default: 'Kyzyl (Capitale della Repubblica Popolare di Tannu Tuva)' } },
+  { id: 'singapore', name: 'Singapore', coords: [103.82, 1.29], isCapital: false, ownerKey: 'UK', owners: { default: 'UK', step10: 'JAP' }, historicalNames: { default: 'Singapore (Straits Settlements — Impero Britannico)', step9: 'Singapore (Fortezza Navale Britannica sotto Assedio)', step10: 'Shōnan-tō (昭南島 — Occupazione Militare Impero Giapponese)' } },
+  { id: 'manila', name: 'Manila', coords: [120.98, 14.6], isCapital: true, ownerKey: 'USA', owners: { default: 'USA', step10: 'JAP' }, historicalNames: { default: 'Manila (Commonwealth of the Philippines / USAFFE HQ)', step9: 'Manila (Open City, 26 Dicembre 1941)', step10: 'Manila (Occupazione 14ª Armata Giapponese / Repubblica Filippina di Laurel)' } },
+  { id: 'hong_kong', name: 'Hong Kong', coords: [114.16, 22.28], isCapital: true, ownerKey: 'UK', owners: { default: 'UK', step9: 'JAP' }, historicalNames: { default: 'Hong Kong (Colonia della Corona Britannica)', step9: 'Shōkō (香港占領地 — Occupazione Militare Giapponese)' } },
+  { id: 'batavia', name: 'Batavia', coords: [106.85, -6.21], isCapital: true, ownerKey: 'HOL', owners: { default: 'HOL', step10: 'JAP' }, historicalNames: { default: 'Batavia (Capitale Nederlands-Indië)', step9: 'Batavia (Quartier Generale KNIL / Mobilitazione)', step10: 'Jakarta (Gunseikanbu — 16ª Armata Giapponese)' } },
+  { id: 'rangoon', name: 'Rangoon', coords: [96.16, 16.84], isCapital: true, ownerKey: 'UK', owners: { default: 'UK', step10: 'JAP' }, historicalNames: { default: 'Rangoon (Capitale della Birmania Britannica)', step9: 'Rangoon (Capolinea Burma Road — Attacchi Aerei Giapponesi)', step10: 'Yangon (Occupazione 15ª Armata Giapponese / Stato di Birmania)' } },
+  { id: 'bangkok', name: 'Bangkok', coords: [100.5, 13.75], isCapital: true, ownerKey: 'SIA', historicalNames: { default: 'Bangkok (Regno del Siam / Thailandia)', step9: 'Bangkok (Alleanza con il Giappone / Phibunsongkhram)' } },
+  { id: 'saigon', name: 'Saigon', coords: [106.66, 10.76], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step9: 'JAP' }, historicalNames: { default: 'Saigon (Capitale della Cocincina — Indocina Francese)', step7: 'Saigon (Vichy / FNEO)', step9: 'Saigon (Presidio 22ª Flottiglia Aerea Impero Giapponese)' } },
+  { id: 'hanoi', name: 'Hanoi', coords: [105.85, 21.03], isCapital: true, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step7: 'JAP' }, historicalNames: { default: 'Hanoi (Capitale dell\'Indocina Francese)', step7: 'Hanoi (Occupazione Militare Giapponese del Tonchino)' } },
+  { id: 'keijo', name: 'Keijō', coords: [126.97, 37.56], isCapital: true, ownerKey: 'JAP', historicalNames: { default: 'Keijō (京城 — Chōsen Sōtokufu / Governatorato Generale di Corea)' } },
+  { id: 'hsinking', name: 'Hsinking', coords: [125.32, 43.88], isCapital: true, ownerKey: 'MAN', historicalNames: { default: 'Hsinking (新京 — Capitale Imperiale del Manchukuo)' } },
+  { id: 'wuhan', name: 'Wuhan', coords: [114.3, 30.59], isCapital: false, ownerKey: 'CHI', owners: { default: 'CHI', step2: 'JAP' }, historicalNames: { default: 'Wuhan (Hubei — Repubblica di Cina)', step2: 'Wuhan (Presidio Militare Impero Giapponese)' } },
+  { id: 'hiroshima', name: 'Hiroshima', coords: [132.45, 34.38], isCapital: false, ownerKey: 'JAP', historicalNames: { default: 'Hiroshima (Polo Militare Esercito & Base Navale Kure)' } },
+  { id: 'rabaul', name: 'Rabaul', coords: [152.18, -4.2], isCapital: false, ownerKey: 'AUS', owners: { default: 'AUS', step10: 'JAP' }, historicalNames: { default: 'Rabaul (Territory of New Guinea — Mandato Australiano)', step10: 'Rabaul (ラバウル — Roccaforte Navale & Aerea Flotta Combinata Giapponese)' } },
+  { id: 'guadalcanal', name: 'Guadalcanal', coords: [160.05, -9.43], isCapital: false, ownerKey: 'UK', owners: { default: 'UK', step10: 'USA' }, historicalNames: { default: 'Guadalcanal (British Solomon Islands Protectorate)', step10: 'Guadalcanal (Sbarco 1st Marine Division USA / Henderson Field)', step11: 'Guadalcanal (Vittoria Aeronavale USA / Consolidamento Perimetro)' } },
+  { id: 'midway', name: 'Midway', coords: [-177.37, 28.21], isCapital: false, ownerKey: 'USA', historicalNames: { default: 'Midway (Naval Air Station Midway — US Navy)', step10: 'Midway (Vittoria Decisiva delle Portaerei Americane, 4 Giugno 1942)' } },
+  { id: 'honolulu', name: 'Honolulu', coords: [-157.86, 21.31], isCapital: true, ownerKey: 'USA', historicalNames: { default: 'Honolulu (Territory of Hawaii / Pacific Fleet Headquarters)', step9: 'Honolulu (Pearl Harbor / Legge Marziale)' } },
+  { id: 'port_moresby', name: 'Port Moresby', coords: [147.18, -9.44], isCapital: true, ownerKey: 'AUS', historicalNames: { default: 'Port Moresby (Territory of Papua — Australia)', step10: 'Port Moresby (Base Alleata / Difesa Pista di Kokoda & Milne Bay)' } },
+  { id: 'darwin', name: 'Darwin', coords: [130.84, -12.46], isCapital: false, ownerKey: 'AUS', historicalNames: { default: 'Darwin (Northern Territory — Australia)', step10: 'Darwin (Base Navale Alleata / Bombardamento Giapponese Feb 1942)' } },
+  { id: 'sydney', name: 'Sydney', coords: [151.21, -33.87], isCapital: false, ownerKey: 'AUS', historicalNames: { default: 'Sydney (Main Base Royal Australian Navy)' } },
+  { id: 'canberra', name: 'Canberra', coords: [149.13, -35.28], isCapital: true, ownerKey: 'AUS', historicalNames: { default: 'Canberra (Commonwealth of Australia)' } },
+  { id: 'new_delhi', name: 'New Delhi', coords: [77.21, 28.61], isCapital: true, ownerKey: 'IND', historicalNames: { default: 'New Delhi (Capital of the Indian Empire / British Raj)' } },
+  { id: 'calcutta', name: 'Calcutta', coords: [88.36, 22.57], isCapital: false, ownerKey: 'IND', historicalNames: { default: 'Calcutta (Port of Bengal / Rifornimenti)' } },
+  { id: 'ottawa', name: 'Ottawa', coords: [-75.7, 45.42], isCapital: true, ownerKey: 'CAN', historicalNames: { default: 'Ottawa (Dominion of Canada)' } },
+  { id: 'tehran', name: 'Tehran', coords: [51.39, 35.69], isCapital: true, ownerKey: 'PER', owners: { default: 'PER', step9: 'UK' }, historicalNames: { default: 'Tehran (Stato Imperiale dell\'Iran — Reza Shah)', step9: 'Tehran (Occupazione Anglosovietica / Corridoio Persiano)' } },
+  { id: 'baghdad', name: 'Baghdad', coords: [44.36, 33.31], isCapital: true, ownerKey: 'IRQ', historicalNames: { default: 'Baghdad (Regno dell\'Iraq)', step8: 'Baghdad (Guerra Anglo-Irachena / Golden Square di Rashid Ali)', step9: 'Baghdad (Presidio Britannico Paiforce)' } },
+  { id: 'damascus', name: 'Damasco', coords: [36.29, 33.51], isCapital: true, ownerKey: 'SYR', owners: { default: 'SYR', step6: 'VIC', step9: 'FRA' }, historicalNames: { default: 'Damas (Mandat Français de Syrie)', step6: 'Damas (Mandat de Syrie — Vichy)', step9: 'Damas (Francia Libera & Gran Bretagna)' } },
+  { id: 'beirut', name: 'Beirut', coords: [35.5, 33.89], isCapital: true, ownerKey: 'LBN', owners: { default: 'LBN', step6: 'VIC', step9: 'FRA' }, historicalNames: { default: 'Beyrouth (État du Grand Liban)', step6: 'Beyrouth (Mandat du Liban — Vichy)', step9: 'Beyrouth (Francia Libera & Gran Bretagna)' } },
+  { id: 'munchen', name: 'München', coords: [11.58, 48.14], isCapital: false, ownerKey: 'GER', historicalNames: { default: 'München (Hauptstadt der Bewegung — Deutsches Reich)' } },
+  { id: 'koln', name: 'Köln', coords: [6.96, 50.94], isCapital: false, ownerKey: 'GER', historicalNames: { default: 'Köln (Rheinland — Deutsches Reich)' } },
+  { id: 'hamburg', name: 'Hamburg', coords: [9.99, 53.55], isCapital: false, ownerKey: 'GER', historicalNames: { default: 'Hamburg (Kriegsmarine Werft Blohm & Voss)' } },
+  { id: 'essen', name: 'Essen', coords: [7.01, 51.46], isCapital: false, ownerKey: 'GER', historicalNames: { default: 'Essen (Krupp Werke / Arsenale della Ruhr)' } },
+  { id: 'nurnberg', name: 'Nürnberg', coords: [11.08, 49.45], isCapital: false, ownerKey: 'GER', historicalNames: { default: 'Nürnberg (Stadt der Reichsparteitage)' } },
+  { id: 'konigsberg', name: 'Königsberg', coords: [20.51, 54.71], isCapital: false, ownerKey: 'GER', historicalNames: { default: 'Königsberg (Provinz Ostpreußen — Deutsches Reich)' } },
+  { id: 'breslau', name: 'Breslau', coords: [17.03, 51.1], isCapital: false, ownerKey: 'GER', historicalNames: { default: 'Breslau (Provinz Niederschlesien — Deutsches Reich)' } },
+  { id: 'wien', name: 'Wien', coords: [16.37, 48.2], isCapital: (s: number) => s < 1, ownerKey: 'AUS', owners: { default: 'AUS', step1: 'GER' }, historicalNames: { default: 'Wien (Bundesstaat Österreich)', step1: 'Wien (Reichsgau Wien — Deutsches Reich)' } },
+  { id: 'milano', name: 'Milano', coords: [9.19, 45.46], isCapital: false, ownerKey: 'ITA', historicalNames: { default: 'Milano (Polo Industriale Aeronautico Breda/Caproni)' } },
+  { id: 'torino', name: 'Torino', coords: [7.68, 45.07], isCapital: false, ownerKey: 'ITA', historicalNames: { default: 'Torino (Polo Meccanico FIAT Grandi Motori)' } },
+  { id: 'genova', name: 'Genova', coords: [8.93, 44.41], isCapital: false, ownerKey: 'ITA', historicalNames: { default: 'Genova (Cantieri Navali Ansaldo / Mar Ligure)' } },
+  { id: 'taranto', name: 'Taranto', coords: [17.23, 40.47], isCapital: false, ownerKey: 'ITA', historicalNames: { default: 'Taranto (Mar Piccolo — Base Navale Principale Regia Marina)', step7: 'Taranto (Notte di Taranto / Attacco Aerosiluranti Illustrious)' } },
+  { id: 'napoli', name: 'Napoli', coords: [14.27, 40.85], isCapital: false, ownerKey: 'ITA', historicalNames: { default: 'Napoli (Porto d\'Imbarco per l\'Oltremare e la Libia)' } },
+  { id: 'trieste', name: 'Trieste', coords: [13.78, 45.65], isCapital: false, ownerKey: 'ITA', historicalNames: { default: 'Trieste (Cantieri Riuniti dell\'Adriatico)' } },
+  { id: 'rodi', name: 'Rodi', coords: [28.22, 36.43], isCapital: false, ownerKey: 'ITA', historicalNames: { default: 'Rodi (Capoluogo Possedimenti Italiani dell\'Egeo)' } },
+  { id: 'san_marino', name: 'San Marino', coords: [12.4617, 43.9406], isCapital: true, ownerKey: 'SMR', historicalNames: { default: 'San Marino (Serenissima Repubblica — Stato Neutrale)' } },
+  { id: 'vaticano', name: 'Città del Vaticano', coords: [12.4507, 41.9041], isCapital: true, ownerKey: 'VAT', historicalNames: { default: 'Vaticano (Stato della Città del Vaticano — Sovranità Papale Neutrale)' } },
+  { id: 'andorra_la_vella', name: 'Andorra la Vella', coords: [1.5218, 42.5063], isCapital: true, ownerKey: 'AND', historicalNames: { default: 'Andorra la Vella (Principat d\'Andorra — Coprincipato Neutrale)' } },
+  { id: 'monaco', name: 'Monaco', coords: [7.4233, 43.7367], isCapital: true, ownerKey: 'MCO', owners: { default: 'MCO', step11: 'ITA' }, historicalNames: { default: 'Monaco (Principato dei Grimaldi — Monte-Carlo & SBM)', step2: 'Monaco (Neutralità Sovrana — Vigilia Bellica)', step6: 'Monaco (Neutralità tra Vichy e Occupazione di Mentone)', step10: 'Monaco (Oasi Neutrale della Costa Azzurra)', step11: 'Monaco (Presidio 4ª Armata Regio Esercito — Op. Anton)' } },
+  { id: 'marseille', name: 'Marseille', coords: [5.37, 43.3], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'GER' }, historicalNames: { default: 'Marseille (Grand Port de l\'Empire Français)', step6: 'Marseille (Zone Libre / Vichy)', step11: 'Marseille (Occupazione Militare Wehrmacht / Op. Anton)' } },
+  { id: 'toulon', name: 'Toulon', coords: [5.93, 43.12], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'ITA' }, historicalNames: { default: 'Toulon (Port Militaire de la Méditerranée)', step6: 'Toulon (Forces de Haute Mer — Vichy)', step11: 'Tolone (Presidio Militare Italiano & Wehrmacht / Autoaffondamento Flotta)' } },
+  { id: 'lyon', name: 'Lyon', coords: [4.83, 45.76], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'GER' }, historicalNames: { default: 'Lyon (Métropole du Rhône)', step6: 'Lyon (Zone Libre / Capitale della Resistenza)', step11: 'Lyon (Occupazione Wehrmacht / Gestapo Barbie)' } },
+  { id: 'nice', name: 'Nice', coords: [7.26, 43.71], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'ITA' }, historicalNames: { default: 'Nice (Département des Alpes-Maritimes)', step6: 'Nice (Zone Libre / Vichy)', step11: 'Nizza (Capoluogo Zona di Occupazione Italiana — 4ª Armata)' } },
+  { id: 'bordeaux', name: 'Bordeaux', coords: [-0.58, 44.84], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'GER' }, historicalNames: { default: 'Bordeaux (Port Atlantique Français)', step6: 'Bordeaux (Base Sommergibili BETASOM & Kriegsmarine)' } },
+  { id: 'strasbourg', name: 'Strasbourg', coords: [7.75, 48.57], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'GER' }, historicalNames: { default: 'Strasbourg (Département du Bas-Rhin — France)', step6: 'Straßburg (Gau Baden-Elsaß — Deutsches Reich)' } },
+  { id: 'metz', name: 'Metz', coords: [6.18, 49.12], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'GER' }, historicalNames: { default: 'Metz (Fortificazioni Lorena — France)', step6: 'Metz (CdZ-Gebiet Lothringen — Deutsches Reich)' } },
+  { id: 'brest', name: 'Brest', coords: [-4.48, 48.39], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'GER' }, historicalNames: { default: 'Brest (Grand Port Militaire de l\'Atlantique)', step6: 'Brest (U-Boot-Bunker 1. & 9. Flottille — Kriegsmarine)' } },
+  { id: 'dunkerque', name: 'Dunkerque', coords: [2.38, 51.03], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'GER' }, historicalNames: { default: 'Dunkerque (Canale della Manica — France)', step6: 'Dünkirchen (Militärverwaltung Belgien-Nordfrankreich / Evacuazione Dynamo)' } },
+  { id: 'portsmouth', name: 'Portsmouth', coords: [-1.09, 50.8], isCapital: false, ownerKey: 'UK', historicalNames: { default: 'Portsmouth (Royal Navy Dockyard / Spithead)' } },
+  { id: 'scapa_flow', name: 'Scapa Flow', coords: [-3.05, 58.89], isCapital: false, ownerKey: 'UK', historicalNames: { default: 'Scapa Flow (Home Fleet Anchorage / Orcadi)' } },
+  { id: 'gibraltar', name: 'Gibraltar', coords: [-5.352, 36.134], isCapital: true, ownerKey: 'GIB', historicalNames: { default: 'Gibraltar (The Rock / Force H — Stretto di Gibilterra)' } },
+  { id: 'valletta', name: 'Valletta', coords: [14.51, 35.9], isCapital: true, ownerKey: 'UK', historicalNames: { default: 'Valletta (Fortezza Navale di Malta / Bastione del Mediterraneo)' } },
+  { id: 'warszawa', name: 'Warszawa', coords: [21.01, 52.22], isCapital: (s: number) => s < 5, ownerKey: 'POL', owners: { default: 'POL', step5: 'GER' }, historicalNames: { default: 'Warszawa (Rzeczpospolita Polska)', step5: 'Warschau (Generalgouvernement)' } },
+  { id: 'krakow', name: 'Kraków', coords: [19.94, 50.06], isCapital: (s: number) => s >= 5, ownerKey: 'POL', owners: { default: 'POL', step5: 'GER' }, historicalNames: { default: 'Kraków (Druga Rzeczpospolita)', step5: 'Krakau (Sitz des Generalgouverneurs — Frank)' } },
+  { id: 'gdynia', name: 'Gdynia', coords: [18.53, 54.52], isCapital: false, ownerKey: 'POL', owners: { default: 'POL', step5: 'GER' }, historicalNames: { default: 'Gdynia (Porto del Corridoio — Druga Rzeczpospolita)', step5: 'Gotenhafen (Reichsgau Danzig-Westpreußen — Kriegsmarine)' } },
+  { id: 'danzig', name: 'Danzig', coords: [18.64, 54.35], isCapital: false, ownerKey: 'DANZIG', owners: { default: 'DANZIG', step5: 'GER' }, historicalNames: { default: 'Danzig (Freie Stadt Danzig)', step5: 'Danzig (Reichsgau Danzig-Westpreußen)' } },
+  { id: 'lwow', name: 'Lwów', coords: [24.03, 49.84], isCapital: false, ownerKey: 'POL', owners: { default: 'POL', step5: 'SOV', step9: 'GER' }, historicalNames: { default: 'Lwów (Kresy Południowo-Wschodnie — Polonia)', step5: 'L\'vov (RSS Ucraina — URSS)', step9: 'Lemberg (Distrikt Galizien — Generalgouvernement)' } },
+  { id: 'wilno', name: 'Wilno', coords: [25.28, 54.69], isCapital: false, ownerKey: 'POL', owners: { default: 'POL', step5: 'LIT', step6: 'SOV', step9: 'GER' }, historicalNames: { default: 'Wilno (Kresy Północno-Wschodnie — Polonia)', step5: 'Vilnius (Lietuvos Respublika)', step6: 'Vilnius (RSS Lituana — URSS)', step9: 'Wilna (Generalbezirk Litauen — Reichskommissariat Ostland)' } },
+  { id: 'praha', name: 'Praha', coords: [14.43, 50.07], isCapital: true, ownerKey: 'CZE', owners: { default: 'CZE', step3: 'GER' }, historicalNames: { default: 'Praha (Československá republika)', step3: 'Prag (Protektorat Böhmen und Mähren)' } },
+  { id: 'bratislava', name: 'Bratislava', coords: [17.11, 48.14], isCapital: (s: number) => s >= 3, ownerKey: 'SLO', owners: { default: 'CZE', step3: 'SLO' }, historicalNames: { default: 'Bratislava (Československo)', step3: 'Bratislava (Slovenská republika — Tiso)' } },
+  { id: 'budapest', name: 'Budapest', coords: [19.04, 47.5], isCapital: true, ownerKey: 'HUN', historicalNames: { default: 'Budapest (Magyar Királyság — Horthy)' } },
+  { id: 'cluj', name: 'Cluj', coords: [23.59, 46.77], isCapital: false, ownerKey: 'ROM', owners: { default: 'ROM', step7: 'HUN' }, historicalNames: { default: 'Cluj (Regatul României — Transilvania)', step7: 'Kolozsvár (Magyar Királyság — Észak-Erdély)' } },
+  { id: 'bucuresti', name: 'București', coords: [26.1, 44.43], isCapital: true, ownerKey: 'ROM', historicalNames: { default: 'București (România Mare)', step7: 'București (Statul Național Legionar — Antonescu)', step8: 'București (Regimul Antonescu / Patto Tripartito)' } },
+  { id: 'ploiesti', name: 'Ploiești', coords: [26.02, 44.94], isCapital: false, ownerKey: 'ROM', historicalNames: { default: 'Ploiești (Campi Petroliferi Astra Română)', step7: 'Ploiești (Deutsche Heeresmission / Pozzi Strategici Asse)' } },
+  { id: 'beograd', name: 'Beograd', coords: [20.46, 44.82], isCapital: true, ownerKey: 'YUG', owners: { default: 'YUG', step8: 'GER' }, historicalNames: { default: 'Beograd (Regno di Jugoslavia)', step8: 'Belgrad (Militärverwaltung in Serbien / Wehrmacht)', step9: 'Beograd (Governo di Salvezza Nazionale del Gen. Nedić)' } },
+  { id: 'zagreb', name: 'Zagreb', coords: [15.98, 45.81], isCapital: (s: number) => s >= 8, ownerKey: 'YUG', owners: { default: 'YUG', step8: 'CRO' }, historicalNames: { default: 'Zagreb (Savska Banovina — Jugoslavia)', step4: 'Zagreb (Banovina Hrvatska)', step8: 'Zagreb (Glavni grad Nezavisne Države Hrvatske — NDH)' } },
+  { id: 'ljubljana', name: 'Ljubljana', coords: [14.51, 46.05], isCapital: false, ownerKey: 'YUG', owners: { default: 'YUG', step8: 'ITA' }, historicalNames: { default: 'Ljubljana (Dravska Banovina — Jugoslavia)', step8: 'Lubiana (Capoluogo Provincia di Lubiana — Regno d\'Italia)' } },
+  { id: 'split', name: 'Split', coords: [16.44, 43.51], isCapital: false, ownerKey: 'YUG', owners: { default: 'YUG', step8: 'ITA' }, historicalNames: { default: 'Split (Primorska Banovina — Jugoslavia)', step8: 'Spalato (Capoluogo Provincia di Spalato / Dalmazia — Regno d\'Italia)' } },
+  { id: 'athina', name: 'Athina', coords: [23.73, 37.98], isCapital: true, ownerKey: 'GRE', historicalNames: { default: 'Athīna (Vasileion tīs Ellados)', step7: 'Athīna ("OXI" — Belligerante Alleato)', step8: 'Athīna (Ellīnikī Politeia / Occupazione Italo-Tedesca)' } },
+  { id: 'sofia', name: 'Sofia', coords: [23.32, 42.7], isCapital: true, ownerKey: 'BUL', historicalNames: { default: 'Sofia (Zarato di Bulgaria)', step8: 'Sofia (Adesione al Patto Tripartito Asse)' } },
+  { id: 'tirana', name: 'Tirana', coords: [19.82, 41.33], isCapital: true, ownerKey: 'ALB', owners: { default: 'ALB', step4: 'ITA' }, historicalNames: { default: 'Tirana (Regno d\'Albania — Re Zog I)', step4: 'Tirana (Mbretëria Shqiptare — Unione Personale Corona d\'Italia)' } },
+  { id: 'helsinki', name: 'Helsinki', coords: [24.93, 60.16], isCapital: true, ownerKey: 'FIN', historicalNames: { default: 'Helsinki (Suomen Tasavalta)', step5: 'Helsinki (Talvisota / Guerra d\'Inverno)', step9: 'Helsinki (Jatkosota / Guerra di Continuazione)' } },
+  { id: 'mariehamn', name: 'Mariehamn', coords: [19.94, 60.1], isCapital: false, ownerKey: 'FIN', historicalNames: { default: 'Mariehamn (Åland / Demilitariserad Zon)' } },
+  { id: 'stockholm', name: 'Stockholm', coords: [18.06, 59.33], isCapital: true, ownerKey: 'SWE', historicalNames: { default: 'Stockholm (Konungariket Sverige / Neutralitet)' } },
+  { id: 'oslo', name: 'Oslo', coords: [10.75, 59.91], isCapital: true, ownerKey: 'NOR', owners: { default: 'NOR', step6: 'GER' }, historicalNames: { default: 'Oslo (Kongeriket Norge)', step6: 'Oslo (Reichskommissariat Norwegen / Quisling & Terboven)' } },
+  { id: 'narvik', name: 'Narvik', coords: [17.43, 68.44], isCapital: false, ownerKey: 'NOR', owners: { default: 'NOR', step6: 'GER' }, historicalNames: { default: 'Narvik (Terminale Ferroviario del Ferro Svedese)', step6: 'Narvik (Battaglie di Narvik / Presidio Gebirgsjäger Wehrmacht)' } },
+  { id: 'kobenhavn', name: 'København', coords: [12.57, 55.68], isCapital: true, ownerKey: 'DEN', historicalNames: { default: 'København (Kongeriget Danmark)', step6: 'København (Militärbefehlshaber Dänemark / Occupazione Tedesca)' } },
+  { id: 'tallinn', name: 'Tallinn', coords: [24.75, 59.44], isCapital: true, ownerKey: 'EST', owners: { default: 'EST', step6: 'SOV', step9: 'GER' }, historicalNames: { default: 'Tallinn (Eesti Vabariik)', step6: 'Tallin (RSS Estone — URSS)', step9: 'Reval (Generalbezirk Estland — Reichskommissariat Ostland)' } },
+  { id: 'riga', name: 'Riga', coords: [24.11, 56.95], isCapital: true, ownerKey: 'LAT', owners: { default: 'LAT', step6: 'SOV', step9: 'GER' }, historicalNames: { default: 'Riga (Latvijas Republika)', step6: 'Riga (RSS Lettone — URSS)', step9: 'Riga (Reichskommissariat Ostland)' } },
+  { id: 'kaunas', name: 'Kaunas', coords: [23.9, 54.9], isCapital: true, ownerKey: 'LIT', owners: { default: 'LIT', step6: 'SOV', step9: 'GER' }, historicalNames: { default: 'Kaunas (Capitale Provvisoria Lituana)', step6: 'Kaunas (RSS Lituana — URSS)', step9: 'Kauen (Generalbezirk Litauen — Reichskommissariat Ostland)' } },
+  { id: 'madrid', name: 'Madrid', coords: [-3.7, 40.41], isCapital: true, ownerKey: 'SPR', owners: { default: 'SPR', step4: 'SPA' }, historicalNames: { default: 'Madrid (República Española — No Pasarán)', step4: 'Madrid (Capital de España — Dictadura de Franco)' } },
+  { id: 'barcelona', name: 'Barcelona', coords: [2.17, 41.38], isCapital: false, ownerKey: 'SPR', owners: { default: 'SPR', step4: 'SPA' }, historicalNames: { default: 'Barcelona (Generalitat de Catalunya / República Española)', step4: 'Barcelona (Capitanía General de Cataluña — Dictadura de Franco)' } },
+  { id: 'burgos', name: 'Burgos', coords: [-3.7, 42.34], isCapital: (s: number) => s < 4, ownerKey: 'SPA', historicalNames: { default: 'Burgos (Junta de Defensa Nacional / Bando Nazionale)', step4: 'Burgos (Sede del Gobierno Nacional de Franco)' } },
+  { id: 'sevilla', name: 'Sevilla', coords: [-5.99, 37.38], isCapital: false, ownerKey: 'SPA', historicalNames: { default: 'Sevilla (Bando Nazionale — Queipo de Llano)', step4: 'Sevilla (Región Militar Sur — España)' } },
+  { id: 'lisboa', name: 'Lisboa', coords: [-9.14, 38.72], isCapital: true, ownerKey: 'POR', historicalNames: { default: 'Lisboa (Estado Novo — Salazar / Neutralidade)' } },
+  { id: 'tripoli', name: 'Tripoli', coords: [13.19, 32.88], isCapital: true, ownerKey: 'ITA', historicalNames: { default: 'Tripoli (Governatorato Generale della Libia — Italia)' } },
+  { id: 'benghazi', name: 'Bengasi', coords: [20.06, 32.11], isCapital: false, ownerKey: 'ITA', owners: { default: 'ITA', step9: 'UK', step10: 'ITA', step11: 'UK' }, historicalNames: { default: 'Bengasi (Comando Militare Cirenaica — Libia Italiana)', step9: 'Benghazi (Occupazione 8ª Armata Britannica — Crusader)', step10: 'Bengasi (Base Logistica Panzerarmee Afrika)', step11: 'Benghazi (Liberata dall\'8ª Armata di Montgomery, 20 Nov 1942)' } },
+  { id: 'tobruk', name: 'Tobruk', coords: [23.97, 32.08], isCapital: false, ownerKey: 'ITA', owners: { default: 'ITA', step8: 'UK', step10: 'GER', step11: 'UK' }, historicalNames: { default: 'Tobruk (Piazzaforte della Cirenaica — Libia Italiana)', step8: 'Tobruk (Assedio dell\'Afrikakorps / 9th Australian Division)', step9: 'Tobruk (Liberata dall\'Operazione Crusader)', step10: 'Tobruk (Conquistata da Rommel, 21 Giugno 1942)', step11: 'Tobruk (Liberata dall\'8ª Armata Britannica, 13 Nov 1942)' } },
+  { id: 'el_alamein', name: 'El Alamein', coords: [28.95, 30.84], isCapital: false, ownerKey: 'EGY', historicalNames: { default: 'El Alamein (Regno d\'Egitto / Presidio Britannico)', step10: 'El Alamein (Linea Difensiva 8ª Armata / Massima Penetrazione Asse)', step11: 'El Alamein (Sfondamento Decisivo 8ª Armata Montgomery, 4 Nov 1942)' } },
+  { id: 'cairo', name: 'Al-Qahirah', coords: [31.23, 30.04], isCapital: true, ownerKey: 'EGY', historicalNames: { default: 'Al-Qahirah (Regno d\'Egitto / HQ Middle East Command Britannico)' } },
+  { id: 'alexandria', name: 'Al-Iskandariyah', coords: [29.91, 31.2], isCapital: false, ownerKey: 'EGY', historicalNames: { default: 'Al-Iskandariyah (HQ Mediterranean Fleet — Royal Navy)' } },
+  { id: 'port_said', name: 'Port Said', coords: [32.3, 31.26], isCapital: false, ownerKey: 'EGY', historicalNames: { default: 'Port Said (Ingresso Canale di Suez)' } },
+  { id: 'suez', name: 'Suez', coords: [32.55, 29.97], isCapital: false, ownerKey: 'EGY', historicalNames: { default: 'Suez (Sbocco Canale di Suez / Mar Rosso)' } },
+  { id: 'mersa_matruh', name: 'Mersa Matruh', coords: [27.24, 31.35], isCapital: false, ownerKey: 'EGY', owners: { default: 'EGY', step10: 'GER', step11: 'UK' }, historicalNames: { default: 'Mersa Matruh (Piazzaforte Western Desert)', step7: 'Mersa Matruh (Fronte Sidi Barrani / Western Desert Force)', step9: 'Mersa Matruh (Base Avanzata VIII Armata — Crusader)', step10: 'Mersa Matruh (Presa da Rommel — Avanzata Panzerarmee)', step11: 'Mersa Matruh (Riconquistata dall\'8ª Armata, 11 Nov 1942)' } },
+  { id: 'khartoum', name: 'Khartoum', coords: [32.55, 15.5], isCapital: true, ownerKey: 'UK', historicalNames: { default: 'Khartoum (Sudan Anglo-Egiziano / Sudan Defence Force)' } },
+  { id: 'algiers', name: 'Algeri', coords: [3.05, 36.75], isCapital: true, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'USA' }, historicalNames: { default: 'Alger (Préfecture d\'Alger — France)', step6: 'Alger (Gouvernement Général — Vichy)', step11: 'Alger (Sbarco Alleato Torch / Amministrazione Darlan-Giraud)' } },
+  { id: 'oran', name: 'Oran', coords: [-0.63, 35.69], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'USA' }, historicalNames: { default: 'Oran (Département d\'Oran — France)', step6: 'Mers el-Kébir (Attacco Navale Britannico Catapult, 3 Luglio 1940)', step11: 'Oran (Sbarco Alleato Torch / Center Task Force USA)' } },
+  { id: 'tunis', name: 'Tunisi', coords: [10.18, 36.8], isCapital: true, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'GER' }, historicalNames: { default: 'Tunis (Protectorat Français de Tunisie)', step6: 'Tunis (Protectorat de Tunisie — Vichy)', step11: 'Tunisi (Testa di Ponte dell\'Asse — Gen. Walther Nehring)' } },
+  { id: 'bizerte', name: 'Bizerte', coords: [9.87, 37.27], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'GER' }, historicalNames: { default: 'Bizerte (Base Navale della Marine Nationale — Tunisie)', step6: 'Bizerte (Protettorato di Tunisia — Vichy)', step11: 'Biserta (Occupazione Italo-Tedesca / Op. Anton)' } },
+  { id: 'casablanca', name: 'Casablanca', coords: [-7.58, 33.57], isCapital: false, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'USA' }, historicalNames: { default: 'Casablanca (Port Atlantique du Maroc)', step6: 'Casablanca (Résidence Générale Vichy)', step11: 'Casablanca (Sbarco Alleato Torch / Western Task Force Patton)' } },
+  { id: 'dakar', name: 'Dakar', coords: [-17.44, 14.69], isCapital: true, ownerKey: 'FRA', owners: { default: 'FRA', step6: 'VIC', step11: 'FRA' }, historicalNames: { default: 'Dakar (Capitale Afrique Occidentale Française)', step6: 'Dakar (Haut-Commissariat AOF — Vichy)', step7: 'Dakar (Operazione Menace Respinta — Boisson)', step11: 'Dakar (Ralliement agli Alleati — Boisson / Darlan)' } },
+  { id: 'brazzaville', name: 'Brazzaville', coords: [15.28, -4.26], isCapital: true, ownerKey: 'FRA', historicalNames: { default: 'Brazzaville (Capitale Afrique Équatoriale Française)', step6: 'Brazzaville (Capitale de la France Libre — De Gaulle / Éboué)' } },
+  { id: 'leopoldville', name: 'Léopoldville', coords: [15.31, -4.32], isCapital: true, ownerKey: 'BEL', historicalNames: { default: 'Léopoldville (Congo Belge / Force Publique)' } },
+  { id: 'addis_ababa', name: 'Addis Ababa', coords: [38.74, 9.02], isCapital: true, ownerKey: 'ITA', owners: { default: 'ETH', step1: 'ITA', step8: 'ETH' }, historicalNames: { default: 'Addis Abeba (Impero d\'Etiopia)', step1: 'Addis Abeba (Capitale dell\'Africa Orientale Italiana — Sede Viceré)', step8: 'Addis Ababa (Liberazione Alleata / Rientro Trionfale del Negus)' } },
+  { id: 'asmara', name: 'Asmara', coords: [38.92, 15.33], isCapital: false, ownerKey: 'ITA', owners: { default: 'ITA', step8: 'UK' }, historicalNames: { default: 'Asmara (Governatorato dell\'Eritrea — AOI)', step8: 'Asmara (Occupazione Militare Britannica — OETA)' } },
+  { id: 'mogadishu', name: 'Mogadiscio', coords: [45.34, 2.04], isCapital: false, ownerKey: 'ITA', owners: { default: 'ITA', step8: 'UK' }, historicalNames: { default: 'Mogadiscio (Governatorato della Somalia — AOI)', step8: 'Mogadishu (Occupazione Militare Britannica — OETA)' } },
+  { id: 'nairobi', name: 'Nairobi', coords: [36.82, -1.29], isCapital: true, ownerKey: 'UK', historicalNames: { default: 'Nairobi (Colonia del Kenya / King\'s African Rifles)' } },
+  { id: 'pretoria', name: 'Pretoria', coords: [28.18, -25.74], isCapital: true, ownerKey: 'SAF', historicalNames: { default: 'Pretoria (Unione Sudafricana — Union Buildings)' } },
+  { id: 'cape_town', name: 'Città del Capo', coords: [18.42, -33.92], isCapital: false, ownerKey: 'SAF', historicalNames: { default: 'Cape Town (Rotta del Capo / Simon\'s Town Naval Yard)' } },
+  { id: 'tangier', name: 'Tangeri', coords: [-5.8, 35.77], isCapital: false, ownerKey: 'TANGER', owners: { default: 'TANGER', step6: 'SPA' }, historicalNames: { default: 'Tánger (Zona de Control Internacional)', step6: 'Tánger (Ocupación Militar Española / Alto Comisariado)' } },
+  { id: 'kyiv', name: 'Kyiv', coords: [30.52, 50.45], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step9: 'GER' }, historicalNames: { default: 'Kiev (Capitale della RSS Ucraina — URSS)', step9: 'Kiew (Hauptstadt Reichskommissariat Ukraine — Koch)' } },
+  { id: 'kharkiv', name: 'Kharkiv', coords: [36.23, 50.0], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step9: 'GER' }, historicalNames: { default: 'Charkiv (Fabbrica Carri KhPZ n. 183 — URSS)', step9: 'Charkow (Militärverwaltung Wehrmacht / Heeresgebiet Süd)' } },
+  { id: 'stalingrad', name: 'Stalingrad', coords: [44.51, 48.71], isCapital: false, ownerKey: 'SOV', historicalNames: { default: 'Stalingrado (Fabbrica Trattori Dzeržinskij — URSS)', step10: 'Stalingrado (Battaglia Urbana sul Volga — Ordine N. 227)', step11: 'Stalingrado (Operazione Uranus — Kessel 6ª Armata Tedesca Accerchiato)' } },
+  { id: 'kalac_na_donu', name: 'Kalač-na-Donu', coords: [43.52, 48.69], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step10: 'GER', step11: 'SOV' }, historicalNames: { default: 'Kalač-na-Donu (Ansa Strategica del Don)', step10: 'Kalač-na-Donu (Testa di Ponte 6ª Armata Tedesca sul Don)', step11: 'Kalač-na-Donu (Saldatura Tenaglie Operazione Uranus, 23 Nov 1942)' } },
+  { id: 'rzhev', name: 'Ržev', coords: [34.33, 56.26], isCapital: false, ownerKey: 'GER', owners: { default: 'SOV', step9: 'GER' }, historicalNames: { default: 'Ržev (Alto Volga — URSS)', step9: 'Ržev (Militärverwaltung Wehrmacht)', step10: 'Ržev (Saliente Fortificato 9ª Armata Model)', step11: 'Ržev (Operazione Marte / Tritacarne di Ržev, 25 Nov 1942)' } },
+  { id: 'rostov', name: 'Rostov', coords: [39.72, 47.23], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step9: 'SOV', step10: 'GER' }, historicalNames: { default: 'Rostov (Porta del Caucaso — URSS)', step9: 'Rostov (Controffensiva Sovietica Timoshenko, 29 Nov 1941)', step10: 'Rostow (Gruppo d\'Armate A — Wehrmacht, 24 Luglio 1942)' } },
+  { id: 'sevastopol', name: 'Sevastopol', coords: [33.52, 44.62], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step10: 'GER' }, historicalNames: { default: 'Sebastopoli (Fortezza Principale Mar Nero — URSS)', step9: 'Sebastopoli (Eroica Difesa sotto Assedio Tedesco)', step10: 'Sewastopol (Occupata dalla Wehrmacht di Manstein, 4 Luglio 1942)' } },
+  { id: 'odessa', name: 'Odessa', coords: [30.73, 46.48], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step9: 'ROM' }, historicalNames: { default: 'Odessa (Base Navale Mar Nero — URSS)', step9: 'Odesa (Capitale del Governatorato di Transnistria — Romania)' } },
+  { id: 'smolensk', name: 'Smolensk', coords: [32.05, 54.78], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step9: 'GER' }, historicalNames: { default: 'Smolensk (Distretto Militare Occidentale — URSS)', step9: 'Smolensk (Militärverwaltung Wehrmacht / HGr Mitte)', step11: 'Smolensk (Heeresgruppe Mitte / Allarme Operazione Marte)' } },
+  { id: 'minsk', name: 'Minsk', coords: [27.56, 53.9], isCapital: false, ownerKey: 'SOV', owners: { default: 'SOV', step9: 'GER' }, historicalNames: { default: 'Minsk (Capitale della RSS Bielorussa — URSS)', step9: 'Minsk (Generalkommissariat Weißruthenien — Ostland)' } },
+  { id: 'kujbysev', name: 'Kujbyšev', coords: [50.1, 53.2], isCapital: false, ownerKey: 'SOV', historicalNames: { default: 'Kujbyšev (Samara sul Volga — URSS)', step9: 'Kujbyšev (Seconda Capitale di Guerra URSS / Evacuazione Sovnarkom & Corpi Diplomatici)' } },
+  { id: 'lodz', name: 'Łódź', coords: [19.46, 51.76], isCapital: false, ownerKey: 'POL', owners: { default: 'POL', step5: 'GER' }, historicalNames: { default: 'Łódź (Druga Rzeczpospolita)', step5: 'Litzmannstadt (Reichsgau Wartheland — Deutsches Reich)' } },
+  { id: 'amsterdam', name: 'Amsterdam', coords: [4.9, 52.37], isCapital: true, ownerKey: 'HOL', owners: { default: 'HOL', step6: 'GER' }, historicalNames: { default: 'Amsterdam (Koninkrijk der Nederlanden)', step6: 'Amsterdam (Reichskommissariat Niederlande / Seyss-Inquart)' } },
+  { id: 'bruxelles', name: 'Bruxelles', coords: [4.35, 50.85], isCapital: true, ownerKey: 'BEL', owners: { default: 'BEL', step6: 'GER' }, historicalNames: { default: 'Bruxelles (Royaume de Belgique)', step6: 'Brüssel (Militärverwaltung in Belgien und Nordfrankreich)' } },
+  { id: 'rotterdam', name: 'Rotterdam', coords: [4.48, 51.92], isCapital: false, ownerKey: 'HOL', owners: { default: 'HOL', step6: 'GER' }, historicalNames: { default: 'Rotterdam (Haven van Rotterdam)', step6: 'Rotterdam (Bombardamento Luftwaffe / Kriegsmarine Stützpunkt)' } },
+  { id: 'bern', name: 'Bern', coords: [7.44, 46.95], isCapital: true, ownerKey: 'SWI', historicalNames: { default: 'Bern (Schweizerische Eidgenossenschaft / Neutralität)' } },
+  { id: 'new_york', name: 'New York', coords: [-74.0, 40.71], isCapital: false, ownerKey: 'USA', historicalNames: { default: 'New York (Port of New York / Convoy Assembly Point)' } },
+  { id: 'rio_de_janeiro', name: 'Rio de Janeiro', coords: [-43.17, -22.9], isCapital: true, ownerKey: 'BRA', historicalNames: { default: 'Rio de Janeiro (Estado Novo — Getúlio Vargas)', step10: 'Rio de Janeiro (Dichiarazione di Guerra all\'Asse, Agosto 1942)' } },
+  { id: 'mexico_city', name: 'Ciudad de México', coords: [-99.13, 19.43], isCapital: true, ownerKey: 'MEX', historicalNames: { default: 'Ciudad de México (Estados Unidos Mexicanos — Cárdenas / Camacho)', step10: 'Ciudad de México (Dichiarazione di Guerra all\'Asse, Maggio 1942)' } },
 ];
+
 
 export const TacticalMap: React.FC<TacticalMapProps> = ({
   provFeatures,
@@ -901,57 +911,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       HISTORICAL_CITIES.forEach((city) => {
         const pt = projection(city.coords);
         if (pt && !isNaN(pt[0]) && !isNaN(pt[1])) {
-          const gCity = gCities
-            .append('g')
-            .datum(city)
-            .attr('transform', `translate(${pt[0]}, ${pt[1]})`)
-            .attr('class', `city-marker cursor-pointer ${city.isCapital ? 'city-capital' : 'city-minor'}`)
-            .on('pointerenter', (event) => {
-              hoveredInfoRef.current = null;
-              const step = currentStepRef.current;
-              let rawName = '';
-              for (let st = step; st >= 0; st--) {
-                if (city.historicalNames[`step${st}`]) {
-                  rawName = city.historicalNames[`step${st}`];
-                  break;
-                }
-              }
-              if (!rawName) rawName = city.historicalNames.default || city.name;
-              const { primary, subtitle, fullName } = getCleanCityLabel(rawName, city.name);
-
-              showTooltip(
-                event,
-                `<div class="font-oswald text-[12.5px] font-bold text-[#f0e6c8] uppercase border-b border-[#3a3420] pb-1 mb-1 flex items-center justify-between">
-                  <span>🏛️ ${primary}</span>
-                  <span class="text-[9px] font-mono-tech ${city.isCapital ? 'text-[#e8c979]' : 'text-[#a0a8b0]'}">
-                    ${city.isCapital ? 'CAPITALE NAZIONALE' : 'CENTRO STRATEGICO'}
-                  </span>
-                </div>
-                <div class="text-[11px] text-[#cfd3d6] font-semibold mb-0.5">${fullName}</div>
-                ${subtitle ? `<div class="text-[10px] text-[#c9a557] italic leading-tight mb-1">${subtitle}</div>` : ''}
-                <div class="text-[9px] font-mono-tech text-[#8b9298] mt-1">Controllo: <span class="text-[#cfd3d6] font-bold">${city.ownerKey}</span> • Lat: ${city.coords[1].toFixed(2)}° Lon: ${city.coords[0].toFixed(2)}°</div>`
-              );
-            })
-            .on('pointerleave', hideTooltip);
-
-          // Invisible expanded hit area for effortless hover on micro-dots
-          gCity
-            .append('circle')
-            .attr('class', 'city-hitbox')
-            .attr('r', city.isCapital ? '3.5' : '2.5')
-            .attr('fill', 'transparent')
-            .attr('stroke', 'none');
-
-          // Tactical dot
-          gCity
-            .append('circle')
-            .attr('class', `city-dot ${city.isCapital ? 'city-dot-capital' : 'city-dot-minor'}`)
-            .attr('r', city.isCapital ? '0.85' : '0.55')
-            .attr('fill', city.isCapital ? '#e8c979' : '#cfd3d6')
-            .attr('stroke', '#0c0e10')
-            .attr('stroke-width', city.isCapital ? '0.22' : '0.15');
-
           const step = currentStepRef.current;
+          const isCap = getCityIsCapital(city, step);
+          const currentOwner = getCityOwner(city, step);
+
           let rawName = '';
           for (let st = step; st >= 0; st--) {
             if (city.historicalNames[`step${st}`]) {
@@ -960,16 +923,69 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
             }
           }
           if (!rawName) rawName = city.historicalNames.default || city.name;
-          const { primary } = getCleanCityLabel(rawName, city.name);
+          const { primary, subtitle, fullName } = getCleanCityLabel(rawName, city.name);
+
+          const gCity = gCities
+            .append('g')
+            .datum(city)
+            .attr('transform', `translate(${pt[0]}, ${pt[1]})`)
+            .attr('class', `city-marker cursor-pointer ${isCap ? 'city-capital' : 'city-minor'}`)
+            .on('pointerenter', (event) => {
+              hoveredInfoRef.current = null;
+              const curStep = currentStepRef.current;
+              const curCap = getCityIsCapital(city, curStep);
+              const curOwn = getCityOwner(city, curStep);
+
+              let activeRaw = '';
+              for (let st = curStep; st >= 0; st--) {
+                if (city.historicalNames[`step${st}`]) {
+                  activeRaw = city.historicalNames[`step${st}`];
+                  break;
+                }
+              }
+              if (!activeRaw) activeRaw = city.historicalNames.default || city.name;
+              const activeLabel = getCleanCityLabel(activeRaw, city.name);
+
+              showTooltip(
+                event,
+                `<div class="font-oswald text-[12.5px] font-bold text-[#f0e6c8] uppercase border-b border-[#3a3420] pb-1 mb-1 flex items-center justify-between">
+                  <span>🏛️ ${activeLabel.primary}</span>
+                  <span class="text-[9px] font-mono-tech ${curCap ? 'text-[#e8c979]' : 'text-[#a0a8b0]'}">
+                    ${curCap ? 'CAPITALE NAZIONALE' : 'CENTRO STRATEGICO'}
+                  </span>
+                </div>
+                <div class="text-[11px] text-[#cfd3d6] font-semibold mb-0.5">${activeLabel.fullName}</div>
+                ${activeLabel.subtitle ? `<div class="text-[10px] text-[#c9a557] italic leading-tight mb-1">${activeLabel.subtitle}</div>` : ''}
+                <div class="text-[9px] font-mono-tech text-[#8b9298] mt-1">Controllo: <span class="text-[#cfd3d6] font-bold">${curOwn}</span> • Lat: ${city.coords[1].toFixed(2)}° Lon: ${city.coords[0].toFixed(2)}°</div>`
+              );
+            })
+            .on('pointerleave', hideTooltip);
+
+          // Invisible expanded hit area for effortless hover on micro-dots
+          gCity
+            .append('circle')
+            .attr('class', 'city-hitbox')
+            .attr('r', isCap ? '3.5' : '2.5')
+            .attr('fill', 'transparent')
+            .attr('stroke', 'none');
+
+          // Tactical dot
+          gCity
+            .append('circle')
+            .attr('class', `city-dot ${isCap ? 'city-dot-capital' : 'city-dot-minor'}`)
+            .attr('r', isCap ? '0.85' : '0.55')
+            .attr('fill', isCap ? '#e8c979' : '#cfd3d6')
+            .attr('stroke', '#0c0e10')
+            .attr('stroke-width', isCap ? '0.22' : '0.15');
 
           gCity
             .append('text')
-            .attr('class', `city-label ${city.isCapital ? 'city-label-capital' : 'city-label-minor'}`)
+            .attr('class', `city-label ${isCap ? 'city-label-capital' : 'city-label-minor'}`)
             .attr('dx', '0.85em')
             .attr('dy', '0.32em')
-            .attr('fill', city.isCapital ? '#f0e6c8' : '#b0b8c0')
+            .attr('fill', isCap ? '#f0e6c8' : '#b0b8c0')
             .attr('stroke', '#080a0c')
-            .attr('stroke-width', city.isCapital ? '0.36' : '0.28')
+            .attr('stroke-width', isCap ? '0.36' : '0.28')
             .attr('paint-order', 'stroke fill')
             .style('font-family', 'Oswald, sans-serif')
             .style('letter-spacing', '0.2px')
@@ -1321,9 +1337,10 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
       return getStrategicIslandLabel(d.id, currentStep) || d.properties?.NAME || d.id;
     });
 
-    // Update city labels text for current step
+    // Update city labels text & dynamic capital styling for current step
     svg.selectAll<SVGGElement, any>('.city-marker').each(function (city) {
       if (city) {
+        const isCap = getCityIsCapital(city, currentStep);
         let cityName = '';
         for (let st = currentStep; st >= 0; st--) {
           if (city.historicalNames[`step${st}`]) {
@@ -1333,7 +1350,19 @@ export const TacticalMap: React.FC<TacticalMapProps> = ({
         }
         if (!cityName) cityName = city.historicalNames.default || city.name;
         const { primary } = getCleanCityLabel(cityName, city.name);
-        d3.select(this).select('text').text(primary);
+
+        const sel = d3.select(this);
+        sel.classed('city-capital', isCap).classed('city-minor', !isCap);
+        sel.select('.city-dot')
+          .classed('city-dot-capital', isCap)
+          .classed('city-dot-minor', !isCap)
+          .attr('r', isCap ? '0.85' : '0.55')
+          .attr('fill', isCap ? '#e8c979' : '#cfd3d6');
+        sel.select('text')
+          .classed('city-label-capital', isCap)
+          .classed('city-label-minor', !isCap)
+          .attr('fill', isCap ? '#f0e6c8' : '#b0b8c0')
+          .text(primary);
       }
     });
 
