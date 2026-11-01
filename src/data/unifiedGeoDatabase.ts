@@ -15,7 +15,7 @@
  * Totale: 2.208 entità geocartografiche interamente raccordate con 0 buchi neri e 0 sovrapposizioni.
  */
 
-import { METRO_FRAG } from './georesolver';
+import { METRO_FRAG, resolveGreenland } from './georesolver';
 import {
   PRECISION_HISTORICAL_FEATURES,
   DANZIG_FREE_CITY_FEATURE,
@@ -108,6 +108,12 @@ CZECHOSLOVAKIA_REGIONAL_FEATURES.forEach((f) => {
 Object.entries(METRO_FRAG).forEach(([nm, resolver]) => {
   RESOLVER_REGISTRY['METRO_FRAG_' + nm] = resolver;
 });
+
+// 4. Risolutore dedicato Groenlandia
+RESOLVER_REGISTRY['GL_GREENLAND'] = (s) => resolveGreenland(s);
+RESOLVER_REGISTRY['Greenland'] = (s) => resolveGreenland(s);
+RESOLVER_REGISTRY['Grønland'] = (s) => resolveGreenland(s);
+RESOLVER_REGISTRY['Groenlandia'] = (s) => resolveGreenland(s);
 
 /**
  * Carica il Database Geocartografico Unificato.

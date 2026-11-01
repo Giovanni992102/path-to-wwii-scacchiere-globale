@@ -1419,6 +1419,53 @@ export function resolveHatay(step: number, rawName?: string): ResolvedTerritory 
   );
 }
 
+/**
+ * Risoluzione Geostorica e Toponomastica Dinamica della Groenlandia (1936-1943+)
+ * Step 0-5 (Marzo 1936 - Maggio 1940): Colonia autonoma del Regno di Danimarca (DEN, Neutrale).
+ * Step 6-7 (Giugno 1940 - Marzo 1941): Autogoverno di Godhavn (Eske Brun/Kauffmann) e Protezione Monroe USA (DEN, Neutrale).
+ * Step 8 (Aprile 1941): Trattato di Washington Kauffmann-Hull — Protettorato Militare USA (USA, Alleati).
+ * Step 9-12 (Dicembre 1941 - Luglio 1943+): Basi Aeronavali Alleate & Guerra del Meteo nell'Artico (USA, Alleati).
+ */
+export function resolveGreenland(s: number, rawName?: string): ResolvedTerritory {
+  if (s <= 5) {
+    return makeResult(
+      'DEN',
+      'Grønland (Kongeriget Danmark — Landsfoged Nord- og Sydgrønland)',
+      'Colonia e territorio d\'oltremare del Regno di Danimarca retta dai Landsfogeder Aksel Svane (Sydgrønland, Godthåb/Nuuk) ed Eske Brun (Nordgrønland, Godhavn/Qeqertarsuaq) sotto re Cristiano X. Rigorosa neutralità diplomatica; monopolio commerciale statale del KGH e fondamentale miniera di criolite a Ivittuut (minerale insostituibile come fondente elettrolitico per la produzione di alluminio bellico).',
+      'Neutrale',
+      'Kongeriget Danmark — Styrelsen af Kolonierne i Grønland (Godthåb / Nuuk)'
+    );
+  }
+
+  if (s <= 7) {
+    return makeResult(
+      'DEN',
+      'Grønland (Amministrazione Autonoma — Danimarca Libera & Protezione Monroe)',
+      'A seguito dell\'occupazione tedesca della Danimarca metropolitana (Operazione Weserübung, 9 aprile 1940), i governatori Eske Brun e Aksel Svane e l\'ambasciatore a Washington Henrik Kauffmann rifiutano ogni sottomissione al governo controllato dalla Wehrmacht a Copenaghen. Il 3 maggio 1940 a Godhavn i Consigli Regionali proclamano l\'autogoverno e invocano la protezione degli Stati Uniti d\'America ex Dottrina Monroe. La US Coast Guard assume il pattugliamento delle acque territoriali e protegge la miniera di Ivittuut, aprendo un consolato a Godthåb.',
+      'Neutrale',
+      'Grønlands Selvstyrelse (Landsfogeder Eske Brun & Aksel Svane) & Ambasciata Danese a Washington (Henrik Kauffmann)'
+    );
+  }
+
+  if (s === 8) {
+    return makeResult(
+      'USA',
+      'Grønland (Protettorato Militare USA — Accordo di Washington del 9 Aprile 1941)',
+      'Il 9 aprile 1941 l\'ambasciatore danese Henrik Kauffmann firma con il Segretario di Stato USA Cordell Hull lo storico Accordo di Difesa della Groenlandia: gli Stati Uniti assumono la difesa militare dell\'isola e avviano i cantieri per le basi aeree strategiche Bluie West One (Narsarsuaq) e Bluie East Two (Ikateq). Il governo collaborazionista di Copenaghen dichiara Kauffmann colpevole di alto tradimento, ma il presidente Roosevelt rigetta l\'atto confermando Kauffmann quale legittimo rappresentante della Danimarca Libera.',
+      'Alleati',
+      'United States Army & US Coast Guard Greenland Patrol (Comando Basi Nord Atlantico / Henrik Kauffmann)'
+    );
+  }
+
+  return makeResult(
+    'USA',
+    'Grønland (Basi Aeronavali Alleate & Pattuglia Slitte — Guerra dell\'Artico)',
+    'Con l\'entrata in guerra degli Stati Uniti, la Groenlandia diviene il cardine aeronavale per il transito e traghettamento (ferry flights) di migliaia di bombardieri e caccia alleati verso la Gran Bretagna e per la scorta ai convogli polari verso Murmansk. La Nordøstgrønlands Slædepatrulje (pattuglia slitte danese-inuit di Eske Brun) perlustra centinaia di chilometri di banchisa e neutralizza le stazioni meteorologiche clandestine della Wehrmacht (Unternehmen Holzauge a Sabine Island, distrutta nel maggio 1943 dai bombardieri USA di Bluie East Two).',
+    'Alleati',
+    'US Army Air Forces (North Atlantic Division) & Grønlands Landsfoged (Eske Brun)'
+  );
+}
+
 export function resolveChinaProvince(
   s: number,
   nid: string,
@@ -1705,6 +1752,9 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
   Iskenderun: (s) => resolveHatay(s, 'Iskenderun'),
   'İskenderun': (s) => resolveHatay(s, 'İskenderun'),
   'United Kingdom': () => makeResult('UK', 'British Empire (Overseas Territories)'),
+  Greenland: (s) => resolveGreenland(s),
+  Grønland: (s) => resolveGreenland(s),
+  Groenlandia: (s) => resolveGreenland(s),
   France: (s) =>
     s < 6
       ? makeResult('FRA', 'France (Territoires d\'outre-mer)')
@@ -1900,7 +1950,7 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
     makeResult('HOL', 'Nederland (Overzeese Gebiedsdelen)', undefined, s >= 6 ? 'Alleati' : 'Neutrale'),
   Belgium: (s) =>
     makeResult('BEL', 'Belgique (Territoires d\'outre-mer)', undefined, s >= 6 ? 'Alleati' : 'Neutrale'),
-  Denmark: () => makeResult('DEN', 'Danmark (Grønland og besiddelser)'),
+  Denmark: (s) => resolveGreenland(s),
   Norway: () => makeResult('NOR', 'Norge (Svalbard og besittelser)'),
   Luxembourg: (s) =>
     s < 6
@@ -2108,6 +2158,27 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   if (isMexProvince) {
     const resMex = resolveMexicoProvince(f, s);
     if (resMex) return resMex;
+  }
+
+  // 0.d Intercettazione prioritaria Groenlandia (Greenland / Grønland)
+  const isGreenland =
+    cleanId === 'GL_GREENLAND' ||
+    cleanId === 'HB_FRAG_DENMARK' ||
+    cleanId === 'GL' ||
+    cleanId === 'GRL' ||
+    P.CNTR_CODE === 'GL' ||
+    P.CNTR_CODE === 'GRL' ||
+    nrm_hb === 'greenland' ||
+    nrm_hb === 'groenlandia' ||
+    nrm_hb === 'gronland' ||
+    nrm_hb.includes('greenland') ||
+    nrm_hb.includes('groenlandia') ||
+    nrm_hb.includes('gronland') ||
+    nrm_hb.includes('kalaallit') ||
+    (c[0] >= -75 && c[0] <= -10 && c[1] >= 59 && c[1] <= 84 && (rawName === 'Greenland' || rawName === 'Denmark' || subj === 'Denmark'));
+
+  if (isGreenland) {
+    return resolveGreenland(s, rawName);
   }
 
   // Isola di Man (Isle of Man)
@@ -5140,6 +5211,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
   const nrm = normStr(rawName);
   const nid = String(p.NUTS_ID || ft.id || '');
+  const cleanId = String(ft.id || p.id || p.NUTS_ID || nid || '').toUpperCase().trim();
   const c = ft.__cent || [0, 0];
 
   const getTop = (owner: string) => getExtendedToponym(rawName, owner, nid, c, s);
@@ -8060,9 +8132,27 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    case 'GL':
+    case 'GRL':
+      return resolveGreenland(s, rawName);
+
     case 'DEN':
     case 'DNK':
     case 'DK': {
+      const isDkGreenland =
+        cleanId === 'GL_GREENLAND' ||
+        cleanId === 'HB_FRAG_DENMARK' ||
+        cleanId === 'GL' ||
+        cleanId === 'GRL' ||
+        nrm.includes('greenland') ||
+        nrm.includes('gronland') ||
+        nrm.includes('groenland') ||
+        nrm.includes('kalaallit') ||
+        (c[0] >= -75 && c[0] <= -10 && c[1] >= 59 && c[1] <= 84);
+      if (isDkGreenland) {
+        return resolveGreenland(s, rawName);
+      }
+
       const isDkFaroe =
         nrm.includes('faroe') ||
         nrm.includes('faeroe') ||

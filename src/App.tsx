@@ -4286,6 +4286,50 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: '95. Audit Integrale Geostorico e Topologico Groenlandia (Zero Overlapping, Esclusione HB_FRAG_Denmark, Timeline Dinamica 1936-1943: Autogoverno Eske Brun / Dottrina Monroe 1940, Accordo di Difesa Kauffmann-Hull 1941, Basi USA Bluie West One/Two e Guerra del Meteo nell\'Artico)',
+        run: () => {
+          // 1. Zero Overlapping: la feature duplicata HB_FRAG_Denmark deve essere completamente assente
+          const hasFragDenmark = loadedHbs.some((f: any) => f.id === 'HB_FRAG_Denmark');
+          if (hasFragDenmark) return false;
+
+          // 2. Presenza univoca della feature geografica autentica GL_GREENLAND
+          const glFeat = loadedHbs.find((f: any) => f.id === 'GL_GREENLAND');
+          if (!glFeat) return false;
+
+          // 3. Step 0 (1936-1939): Colonia autonoma del Regno di Danimarca (DEN, Neutrale)
+          const gl0 = resolveHB(glFeat, 0);
+          if (gl0.o !== 'DEN' || gl0.fac !== 'Neutrale' || !gl0.name.includes('Landsfoged')) return false;
+
+          // 4. Step 6-7 (Giu-Ott 1940): Invasione Danimarca, Autogoverno di Godhavn e Protezione Monroe USA
+          const gl6 = resolveHB(glFeat, 6);
+          const gl7 = resolveHB(glFeat, 7);
+          if (gl6.o !== 'DEN' || gl6.fac !== 'Neutrale' || !gl6.name.includes('Autonoma')) return false;
+          if (gl7.o !== 'DEN' || gl7.fac !== 'Neutrale') return false;
+
+          // 5. Step 8 (Apr 1941): Accordo di Difesa Kauffmann-Hull (Protettorato Militare USA / Alleati)
+          const gl8 = resolveHB(glFeat, 8);
+          if (gl8.o !== 'USA' || gl8.fac !== 'Alleati' || !gl8.name.includes('Protettorato Militare USA')) return false;
+
+          // 6. Step 9-12 (Dic 1941 - Lug 1943): Basi Aeronavali Alleate & Guerra del Meteo nell'Artico
+          const gl9 = resolveHB(glFeat, 9);
+          const gl12 = resolveHB(glFeat, 12);
+          if (gl9.o !== 'USA' || gl9.fac !== 'Alleati' || !gl9.name.includes('Basi Aeronavali')) return false;
+          if (gl12.o !== 'USA' || gl12.fac !== 'Alleati' || !gl12.name.includes('Pattuglia Slitte')) return false;
+
+          // 7. Coerenza risoluzione resolveFeature con codice ISO / NUTS
+          const glFeat0 = resolveFeature({ properties: { CNTR_CODE: 'GL', NAME: 'Greenland' } }, 0);
+          const glFeat6 = resolveFeature({ properties: { CNTR_CODE: 'GL', NAME: 'Greenland' } }, 6);
+          const glFeat8 = resolveFeature({ properties: { CNTR_CODE: 'GL', NAME: 'Greenland' } }, 8);
+          const glFeat12 = resolveFeature({ properties: { CNTR_CODE: 'GL', NAME: 'Greenland' } }, 12);
+          if (glFeat0.o !== 'DEN' || glFeat0.fac !== 'Neutrale') return false;
+          if (glFeat6.o !== 'DEN' || glFeat6.fac !== 'Neutrale') return false;
+          if (glFeat8.o !== 'USA' || glFeat8.fac !== 'Alleati') return false;
+          if (glFeat12.o !== 'USA' || glFeat12.fac !== 'Alleati') return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;

@@ -1306,3 +1306,5 @@ export {
   BERLIN_DIVIDED_FEATURES,
   BERLIN_DIVIDED_COLLECTION,
 } from './berlinDivided';
+
+export { resolveGreenland } from './georesolver';
