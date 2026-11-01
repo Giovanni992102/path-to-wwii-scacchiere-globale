@@ -27,7 +27,7 @@ body {
 }
 
 .font-oswald {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Oswald', 'Noto Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 .font-mono-tech {
@@ -167,7 +167,7 @@ body {
 }
 
 .city-marker text.city-label {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Oswald', 'Noto Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
   letter-spacing: 0.2px;
   pointer-events: none;
   user-select: none;
