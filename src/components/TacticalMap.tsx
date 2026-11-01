@@ -143,7 +143,7 @@ function getCleanCityLabel(rawHistoricalName: string, fallbackName: string): { p
   };
 }
 
-interface HistoricalCity {
+export interface HistoricalCity {
   id: string;
   name: string;
   coords: [number, number];
@@ -153,14 +153,14 @@ interface HistoricalCity {
   historicalNames: Record<string, string>;
 }
 
-function getCityIsCapital(city: HistoricalCity, step: number): boolean {
+export function getCityIsCapital(city: HistoricalCity, step: number): boolean {
   if (typeof city.isCapital === 'function') {
     return city.isCapital(step);
   }
   return !!city.isCapital;
 }
 
-function getCityOwner(city: HistoricalCity, step: number): string {
+export function getCityOwner(city: HistoricalCity, step: number): string {
   if (city.owners) {
     for (let st = step; st >= 0; st--) {
       if (city.owners[`step${st}`]) return city.owners[`step${st}`];
@@ -171,7 +171,7 @@ function getCityOwner(city: HistoricalCity, step: number): string {
 }
 
 // Major historical capitals & strategic cities (Dynamic Historico-Toponymic Database)
-const HISTORICAL_CITIES: HistoricalCity[] = [
+export const HISTORICAL_CITIES: HistoricalCity[] = [
   { id: 'berlin', name: 'Berlin', coords: [13.4, 52.52], isCapital: true, ownerKey: 'GER', historicalNames: { default: 'Berlin (Reichshauptstadt — Deutsches Reich)', step7: 'Berlin (Reichshauptstadt — Patto Tripartito Asse)' } },
   { id: 'london', name: 'London', coords: [-0.12, 51.5], isCapital: true, ownerKey: 'UK', historicalNames: { default: 'London (Capital of the British Empire)', step7: 'London (The Blitz / RAF Fighter Command)' } },
   { id: 'roma', name: 'Roma', coords: [12.49, 41.9], isCapital: true, ownerKey: 'ITA', historicalNames: { default: 'Roma (Capitale dell\'Impero — Regno d\'Italia)' } },

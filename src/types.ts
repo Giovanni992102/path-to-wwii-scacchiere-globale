@@ -53,6 +53,12 @@ export interface ResolvedTerritory {
 export interface StatsStep {
   own: Record<string, number>;
   fac: Record<string, number>;
+  ownArea: Record<string, number>;
+  facArea: Record<string, number>;
+  ownPop: Record<string, number>;
+  facPop: Record<string, number>;
+  ownCities?: Record<string, number>;
+  facCities?: Record<string, number>;
 }
 
 export interface ToponymMatch {

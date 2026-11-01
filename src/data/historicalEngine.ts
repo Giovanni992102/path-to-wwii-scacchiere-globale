@@ -1,3 +1,4 @@
+import { HISTORICAL_CITIES, getCityOwner } from '../components/TacticalMap';
 import * as d3 from 'd3';
 import { ResolvedTerritory, StatsStep } from '../types';
 import { resolveFeature, resolveHB } from './georesolver';
@@ -436,6 +437,162 @@ export interface PipelineResult {
  * Esegue su tutti i layer geospaziali la sanitizzazione topologica, il calcolo del baricentro,
  * la risoluzione della verità storica sui 7 step e l'aggregazione statistica.
  */
+
+// Funzione per il calcolo dell'area geodetica sferica in km² (formula di Girard / integrale di linea su ellissoide sferico)
+function ringArea(coords: number[][]): number {
+  const n = coords.length;
+  if (n < 3) return 0.0;
+  let area = 0.0;
+  const d2r = Math.PI / 180.0;
+  for (let i = 0; i < n - 1; i++) {
+    const p1 = coords[i];
+    const p2 = coords[i + 1];
+    const lam1 = p1[0] * d2r;
+    const phi1 = p1[1] * d2r;
+    const lam2 = p2[0] * d2r;
+    const phi2 = p2[1] * d2r;
+    area += (lam2 - lam1) * (2.0 + Math.sin(phi1) + Math.sin(phi2));
+  }
+  area = Math.abs(area) / 2.0;
+  if (area > 2 * Math.PI) area = 4 * Math.PI - area;
+  return area;
+}
+
+export function calculateGeodesicAreaKm2(geom: any): number {
+  if (!geom) return 0;
+  const gtype = geom.type;
+  const coords = geom.coordinates;
+  const R = 6371.0;
+  let steradians = 0;
+  if (gtype === 'Polygon') {
+    if (coords && coords.length > 0) {
+      const ext = ringArea(coords[0]);
+      let holes = 0;
+      for (let i = 1; i < coords.length; i++) holes += ringArea(coords[i]);
+      steradians = Math.max(0, ext - holes);
+    }
+  } else if (gtype === 'MultiPolygon') {
+    if (coords) {
+      for (const poly of coords) {
+        if (poly && poly.length > 0) {
+          const ext = ringArea(poly[0]);
+          let holes = 0;
+          for (let i = 1; i < poly.length; i++) holes += ringArea(poly[i]);
+          steradians += Math.max(0, ext - holes);
+        }
+      }
+    }
+  }
+  return steradians * R * R;
+}
+
+// Stime demografiche storiche autentiche 1938-1942 (in milioni di abitanti)
+export const HISTORICAL_POP_MILLIONS: Record<string, number> = {
+  GER: 79.5,
+  SOV: 188.0,
+  USA: 132.1,
+  UK: 47.8,
+  JAP: 72.8,
+  FRA: 41.9,
+  ITA: 44.4,
+  CHI: 260.0,
+  CHI_WANG: 160.0,
+  CCP_CHI: 25.0,
+  MAN: 38.0,
+  MEN: 5.5,
+  KOR: 24.0,
+  TWN: 5.8,
+  RAJ: 382.0,
+  CAN: 11.5,
+  AST: 7.0,
+  NZL: 1.6,
+  SAF: 10.2,
+  EGY: 16.5,
+  IRQ: 4.2,
+  IRN: 14.5,
+  PER: 14.5,
+  TUR: 17.5,
+  BRA: 42.0,
+  MEX: 19.8,
+  ARG: 14.0,
+  SPA: 25.5,
+  SPR: 25.5,
+  POR: 7.6,
+  SWE: 6.3,
+  SWI: 4.2,
+  IRE: 3.0,
+  POL: 35.1,
+  FIN: 3.7,
+  ROM: 19.9,
+  HUN: 9.1,
+  BUL: 6.3,
+  YUG: 15.4,
+  GRE: 7.2,
+  ALB: 1.1,
+  BEL: 8.4,
+  HOL: 8.7,
+  DEN: 3.8,
+  NOR: 3.0,
+  THA: 15.0,
+  SIA: 15.0,
+  BUR: 16.0,
+  PHL: 16.0,
+  HOL_IND: 68.5,
+  F_INDO: 24.5,
+  F_AOF: 15.0,
+  VIC_AOF: 15.0,
+  F_AEF: 3.5,
+  VIC_AEF: 3.5,
+  FFL_AEF: 3.5,
+  F_NAF: 16.5,
+  VIC_NAF: 16.5,
+  VIC: 40.0,
+  ETH: 14.0,
+  AOI: 16.0,
+  LIBYA: 0.9,
+  BEL_CONGO: 10.5,
+  MALAYA: 5.5,
+  MON: 0.8,
+  TUV: 0.1,
+  AFG: 11.0,
+  SAU: 3.5,
+  YEM: 3.0,
+  CHL: 5.0,
+  COL: 8.7,
+  PERU: 6.9,
+  VEN: 3.8,
+  BOL: 2.7,
+  PRY: 1.0,
+  URY: 2.1,
+  ECU: 2.4,
+  CUB: 4.2,
+  DOM: 1.6,
+  HAI: 2.7,
+  GTM: 2.2,
+  HND: 1.1,
+  SLV: 1.7,
+  NIC: 0.9,
+  CRI: 0.6,
+  PAN: 0.6,
+  OMN: 0.6,
+  TIB: 2.5,
+  SUD: 6.5,
+  KEN: 4.5,
+  UGA: 3.8,
+  TZA: 5.2,
+  NGA: 20.0,
+  GHA: 3.7,
+  ANG: 3.7,
+  MOZ: 5.0,
+  MDG: 3.9,
+  SMR: 0.01,
+  VAT: 0.001,
+  AND: 0.005,
+  MCO: 0.02,
+  LIE: 0.01,
+  DANZIG: 0.4,
+};
+
 export function processHistoricalCartographyPipeline(
   provs: any[],
   hbs: any[],
@@ -447,7 +604,18 @@ export function processHistoricalCartographyPipeline(
 
   const all = provs.concat(isHB ? hbs : cntrs);
   const newStats: StatsStep[] = [];
-  for (let s = 0; s < STEPS.length; s++) newStats.push({ own: {}, fac: {} });
+  for (let s = 0; s < STEPS.length; s++) {
+    newStats.push({
+      own: {},
+      fac: {},
+      ownArea: {},
+      facArea: {},
+      ownPop: {},
+      facPop: {},
+      ownCities: {},
+      facCities: {},
+    });
+  }
 
   for (const f of all) {
     const p = f.properties || (f.properties = {});
@@ -471,6 +639,8 @@ export function processHistoricalCartographyPipeline(
     }
 
     // 3. Risoluzione Verità Storica per tutti gli 11 passaggi
+    const area = calculateGeodesicAreaKm2(f.geometry);
+    f.__areaKm2 = area;
     f.__res = [];
     for (let s = 0; s < STEPS.length; s++) {
       const r = resolveHistoricalTruth(f, s);
@@ -480,11 +650,35 @@ export function processHistoricalCartographyPipeline(
         newStats[s].own[r.o] = (newStats[s].own[r.o] || 0) + 1;
         const fac = r.fac || getOwnerMeta(r.o).f;
         newStats[s].fac[fac] = (newStats[s].fac[fac] || 0) + 1;
+
+        newStats[s].ownArea[r.o] = (newStats[s].ownArea[r.o] || 0) + area;
+        newStats[s].facArea[fac] = (newStats[s].facArea[fac] || 0) + area;
       } else {
         blackHolesFixed++;
       }
     }
   }
+
+  // Calcolo demografia e centri strategici per ciascuno step temporale
+  for (let s = 0; s < STEPS.length; s++) {
+    for (const o in newStats[s].ownArea) {
+      const pop = HISTORICAL_POP_MILLIONS[o] || 1.5;
+      newStats[s].ownPop[o] = pop;
+      const fac = getOwnerMeta(o).f;
+      newStats[s].facPop[fac] = (newStats[s].facPop[fac] || 0) + pop;
+    }
+  }
+
+  HISTORICAL_CITIES.forEach((city) => {
+    for (let s = 0; s < STEPS.length; s++) {
+      const owner = getCityOwner(city, s);
+      if (owner) {
+        newStats[s].ownCities![owner] = (newStats[s].ownCities![owner] || 0) + 1;
+        const fac = getOwnerMeta(owner).f;
+        newStats[s].facCities![fac] = (newStats[s].facCities![fac] || 0) + 1;
+      }
+    }
+  });
 
   return {
     allFeatures: all,
