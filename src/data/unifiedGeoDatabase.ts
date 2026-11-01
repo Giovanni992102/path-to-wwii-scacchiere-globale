@@ -15,7 +15,7 @@
  * Totale: 2.208 entità geocartografiche interamente raccordate con 0 buchi neri e 0 sovrapposizioni.
  */
 
-import { METRO_FRAG, resolveGreenland, resolveSvalbard, resolveJanMayen } from './georesolver';
+import { METRO_FRAG, resolveGreenland, resolveSvalbard, resolveJanMayen, resolveEcuadorOriente, resolveEcuador, resolvePeru } from './georesolver';
 import {
   PRECISION_HISTORICAL_FEATURES,
   DANZIG_FREE_CITY_FEATURE,
@@ -121,6 +121,16 @@ RESOLVER_REGISTRY['Svalbard'] = (s) => resolveSvalbard(s);
 RESOLVER_REGISTRY['Spitsbergen'] = (s) => resolveSvalbard(s);
 RESOLVER_REGISTRY['NO0B1'] = (s) => resolveJanMayen(s);
 RESOLVER_REGISTRY['Jan Mayen'] = (s) => resolveJanMayen(s);
+
+// 6. Risolutore dedicato Ecuador, Oriente Amazzonico e Perù
+RESOLVER_REGISTRY['Ecuador (Oriente)'] = (s) => resolveEcuadorOriente(s);
+RESOLVER_REGISTRY['Oriente (Ecuador)'] = (s) => resolveEcuadorOriente(s);
+RESOLVER_REGISTRY['Oriente'] = (s) => resolveEcuadorOriente(s);
+RESOLVER_REGISTRY['EC_ORI'] = (s) => resolveEcuadorOriente(s);
+RESOLVER_REGISTRY['ECU_ORIENTE'] = (s) => resolveEcuadorOriente(s);
+RESOLVER_REGISTRY['Ecuador'] = (s) => resolveEcuador(s);
+RESOLVER_REGISTRY['Peru'] = (s) => resolvePeru(s);
+RESOLVER_REGISTRY['Perú'] = (s) => resolvePeru(s);
 
 /**
  * Carica il Database Geocartografico Unificato.

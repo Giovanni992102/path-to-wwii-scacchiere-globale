@@ -4373,6 +4373,50 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: '97. Audit Geostorico Integrale della Guerra Ecuador-Perù e Timeline dell\'Oriente Amazzonico (1936-1943: Status Quo di Washington a Step 0-8, Guerra di Zarumilla a Step 9 con occupazione militare PRU, Protocollo di Rio de Janeiro a Step 10-12 con sovranità peruviana confermata e concessione basi USA a Baltra/Salinas, battaglie e basi aeronavali geolocalizzate)',
+        run: () => {
+          // 1. Step 0 (1936): Status Quo di Washington — Ecuador (Oriente) a ECU, Ecuador a ECU, Perù a PRU
+          const ecuMain0 = resolveHB({ properties: { NAME: 'Ecuador' } }, 0);
+          const ecuOriente0 = resolveHB({ properties: { NAME: 'Ecuador (Oriente)' } }, 0);
+          const pru0 = resolveHB({ properties: { NAME: 'Peru' } }, 0);
+          if (ecuMain0.o !== 'ECU' || ecuMain0.fac !== 'Neutrale' || !ecuMain0.name.includes('Ecuador')) return false;
+          if (ecuOriente0.o !== 'ECU' || ecuOriente0.fac !== 'Neutrale' || !ecuOriente0.name.includes('Oriente')) return false;
+          if (pru0.o !== 'PRU' || pru0.fac !== 'Neutrale' || !pru0.name.includes('Peruana')) return false;
+
+          // 2. Step 8 (Apr 1941): Vigilia del conflitto — Status Quo mantenuto
+          const ecuOriente8 = resolveHB({ properties: { NAME: 'Ecuador (Oriente)' } }, 8);
+          if (ecuOriente8.o !== 'ECU' || ecuOriente8.fac !== 'Neutrale') return false;
+
+          // 3. Step 9 (Dic 1941): Guerra del 1941 — Battaglia di Zarumilla, occupazione peruviana dell'Oriente e di El Oro
+          const ecuMain9 = resolveHB({ properties: { NAME: 'Ecuador' } }, 9);
+          const ecuOriente9 = resolveHB({ properties: { NAME: 'Ecuador (Oriente)' } }, 9);
+          const pru9 = resolveHB({ properties: { NAME: 'Peru' } }, 9);
+          if (ecuMain9.o !== 'ECU' || !ecuMain9.name.includes('El Oro')) return false;
+          if (ecuOriente9.o !== 'PRU' || !ecuOriente9.name.includes('Occupazione Militare')) return false;
+          if (pru9.o !== 'PRU' || !pru9.name.includes('Zarumilla')) return false;
+
+          // 4. Step 10 (Ago 1942): Protocollo di Rio de Janeiro (29 Gennaio 1942) — Sovranità PRU su Maynas/Loreto e Basi USA alle Galápagos
+          const ecuMain10 = resolveHB({ properties: { NAME: 'Ecuador' } }, 10);
+          const ecuOriente10 = resolveHB({ properties: { NAME: 'Ecuador (Oriente)' } }, 10);
+          const pru10 = resolveHB({ properties: { NAME: 'Peru' } }, 10);
+          if (ecuMain10.o !== 'ECU' || !ecuMain10.name.includes('Basi USA')) return false;
+          if (ecuOriente10.o !== 'PRU' || !ecuOriente10.name.includes('Protocollo di Rio')) return false;
+          if (pru10.o !== 'PRU' || !pru10.name.includes('Rio de Janeiro')) return false;
+
+          // 5. Presenza e correttezza della Battaglia di Zarumilla geolocalizzata a Step 9
+          const zarumilla = HISTORICAL_BATTLES.find((b) => b.id === 'zarumilla_1941');
+          if (!zarumilla || zarumilla.step !== 9 || zarumilla.theater !== 'Americas' || !zarumilla.name.includes('Zarumilla')) return false;
+
+          // 6. Presenza e dinamismo della Base Beta (Seymour Army Airfield / Baltra, Galápagos)
+          const baseBeta = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'base_beta_galapagos');
+          if (!baseBeta || baseBeta.theater !== 'Pacific') return false;
+          const statusBeta10 = getDynamicNavalBaseStatus(baseBeta, 10);
+          if (!statusBeta10.historicalName.includes('Base Beta') || !statusBeta10.nation.includes('USA')) return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;

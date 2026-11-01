@@ -1105,6 +1105,19 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Contramm. Sadamichi Kajioka / Magg. Gen. Tomitarō Horii',
     commanderB: 'Cap. George J. McMillin (Guam) / Com. Winfield S. Cunningham & Magg. James P.S. Devereux (Wake)',
   },
+  {
+    id: 'zarumilla_1941',
+    name: 'Battaglia di Zarumilla & Occupazione di El Oro (Guerra Ecuador-Perù)',
+    historicalDate: '23 - 31 luglio 1941',
+    step: 9,
+    theater: 'Americas',
+    coords: [-80.24, -3.50], // Río Zarumilla / Chacras / Puerto Bolívar
+    belligerents: 'Repubblica Peruviana (Agrupamiento del Norte & CAP) vs Repubblica dell\'Ecuador',
+    result: 'Decisivo sfondamento peruviano sul fiume Zarumilla, occupazione integrale della provincia costiera di El Oro (Machala, Arenillas, Santa Rosa) e primo lancio operativo di paracadutisti militari nelle Americhe a Puerto Bolívar (31 luglio).',
+    significance: 'Scontro culminante della Guerra del 1941: il Gen. Eloy Ureta impiega carri armati leggeri ČKD LTP e l\'aviazione CAP (immolazione dell\'Eroe Nazionale José Abelardo Quiñones a Quebrada Seca), costringendo l\'Ecuador al cessate il fuoco e alle trattative che porteranno al Protocollo di Rio de Janeiro del 1942.',
+    commanderA: 'Gen. Brig. Eloy Gaspar Ureta / Ten. Pilota José Abelardo Quiñones †',
+    commanderB: 'Col. Luis Rodríguez / Magg. César Edmundo Chiriboga †',
+  },
 
   // --- STEP 10: AGO 1942 (31 AGOSTO 1942) ---
   {

@@ -1536,6 +1536,108 @@ export function resolveJanMayen(s: number, rawName?: string): ResolvedTerritory 
   );
 }
 
+/**
+ * RISOLUTORE DINAMICO ORIENTE AMAZONICO (ECUADOR / PERÙ)
+ * Step 0-8 (1936 - Apr 1941): Status Quo di Washington del 1936 tra Ecuador e Perù (ECU, Neutrale).
+ * Step 9 (Dic 1941): Guerra del 1941 — Offensiva di Zarumilla e occupazione militare peruviana del bacino fluviale (PRU, Neutrale).
+ * Step 10-12 (Ago 1942 - Lug 1943+): Protocollo di Rio de Janeiro (29 Gennaio 1942) — Sovranità peruviana internazionalmente confermata su 200.000 km² (PRU, Neutrale).
+ */
+export function resolveEcuadorOriente(s: number, _rawName?: string): ResolvedTerritory {
+  if (s < 9) {
+    return makeResult(
+      'ECU',
+      'Oriente Amazzònico Conteso (Ecuador / Perù)',
+      'Vasto bacino fluviale amazzonico dei fiumi Marañón, Pastaza, Napo e Curaray. Territorio rivendicato dall\'Ecuador in base alla Real Cédula del 1563 e conteso dal Perù, amministrato sotto lo status quo provvisorio dell\'Accordo di Washington del 1936, prima del conflitto armato del 1941 e del Protocollo di Rio de Janeiro del 1942.',
+      'Neutrale',
+      'Provincia del Oriente — Zona Contesa Ecuador-Perù (Maynas y Marañón)'
+    );
+  }
+  if (s === 9) {
+    return makeResult(
+      'PRU',
+      'Oriente Amazzonico & Maynas (Occupazione Militare Peruviana)',
+      'Durante la Guerra del 1941, le truppe peruviane e le cannoniere fluviali della Marina de Guerra occupano i presidi ecuadoriani lungo il Río Napo (Rocafuerte) e il Pastaza, stabilendo il controllo totale del bacino fluviale fino alle pendici andine.',
+      'Neutrale',
+      'Comandancia General de Maynas (Perú) — Occupazione Militare Fluviale del Napo e Pastaza'
+    );
+  }
+  return makeResult(
+    'PRU',
+    'Dipartimento di Loreto / Maynas (Sovranità Peruviana — Protocollo di Rio 1942)',
+    'Territorio amazzonico di circa 200.000 km² internazionalmente riconosciuto alla sovranità del Perù con il Protocollo di Rio de Janeiro del 29 gennaio 1942, garantito da USA, Brasile, Argentina e Cile. L\'Ecuador rinuncia al controllo del Marañón.',
+    'Neutrale',
+    'República Peruana — Departamento de Loreto (Maynas, Marañón y Amazonas)'
+  );
+}
+
+/**
+ * RISOLUTORE DINAMICO REPUBBLICA DELL'ECUADOR
+ * Step 0-8 (1936 - Apr 1941): Instabilità politica (Páez / Enríquez Gallo / Arroyo del Río) e contesa di frontiera (ECU, Neutrale).
+ * Step 9 (Dic 1941): Crisi Bellica della Guerra del 1941 — Invasione peruviana e occupazione della provincia costiera di El Oro (ECU, Neutrale).
+ * Step 10-12 (Ago 1942 - Lug 1943+): Protocollo di Rio de Janeiro, rottura con l'Asse e concessione delle basi aeronavali USA di Baltra (Galápagos / Base Beta) e Salinas (ECU, Neutrale).
+ */
+export function resolveEcuador(s: number, _rawName?: string): ResolvedTerritory {
+  if (s < 9) {
+    return makeResult(
+      'ECU',
+      'República del Ecuador (Quito)',
+      'Fase di instabilità politica ed economica; contesa confinaria aperta con il Perù secondo lo status quo provvisorio di Washington del 1936 e presidio sovrano delle Isole Galápagos nell\'Oceano Pacifico.',
+      'Neutrale',
+      'República del Ecuador — Pres. Federico Páez / Carlos Arroyo del Río'
+    );
+  }
+  if (s === 9) {
+    return makeResult(
+      'ECU',
+      'República del Ecuador (Crisi Bellica & Occupazione di El Oro)',
+      'Invasione militare peruviana a seguito della guerra scoppiata nel luglio 1941; la provincia costiera di El Oro (Machala, Puerto Bolívar) e le valli andine di Loja sono sotto occupazione peruviana. Quito affronta gravi disordini interni mentre accetta la mediazione di USA, Brasile, Argentina e Cile.',
+      'Neutrale',
+      'República del Ecuador — Pres. Carlos Arroyo del Río (Stato d\'Emergenza Nazionale)'
+    );
+  }
+  return makeResult(
+    'ECU',
+    'República del Ecuador (Protocollo di Rio — Basi USA a Baltra & Salinas)',
+    'Firma del Protocollo di Rio de Janeiro (29 gennaio 1942); rottura delle relazioni con l\'Asse. Concessione della base aerea strategica di Baltra nelle Isole Galápagos (Base Beta) e di Salinas agli Stati Uniti per la difesa del Canale di Panama contro attacchi aeronavali e sottomarini nel Pacifico.',
+    'Neutrale',
+    'República del Ecuador — Cooperazione Emisferica Alleata & Basi USA'
+  );
+}
+
+/**
+ * RISOLUTORE DINAMICO REPUBBLICA DEL PERÙ
+ * Step 0-8 (1936 - Apr 1941): Governi Benavides e Prado Ugarteche, presidio di Maynas e guarnigione fluviale di Iquitos (PRU, Neutrale).
+ * Step 9 (Dic 1941): Guerra del 1941 — Travolgente vittoria di Zarumilla dell\'Agrupamiento del Norte (Gen. Ureta), carri LTP e lancio paracadutisti a Puerto Bolívar (PRU, Neutrale).
+ * Step 10-12 (Ago 1942 - Lug 1943+): Consolidamento del Protocollo di Rio, sgombero di El Oro, rottura con l'Asse e fornitura di materie prime strategiche agli Alleati (PRU, Neutrale).
+ */
+export function resolvePeru(s: number, _rawName?: string): ResolvedTerritory {
+  if (s < 9) {
+    return makeResult(
+      'PRU',
+      'República Peruana (Lima)',
+      'Regime autoritario e conservatore con capitale Lima; governo del generale Óscar R. Benavides (fino al 1939) e di Manuel Prado Ugarteche (dal 1939). Tensioni di confine latenti e mai sopite con l\'Ecuador per il bacino amazzonico (fiume Marañón e regione di Maynas).',
+      'Neutrale',
+      'República Peruana — Pres. Óscar R. Benavides / Manuel Prado Ugarteche'
+    );
+  }
+  if (s === 9) {
+    return makeResult(
+      'PRU',
+      'República Peruana (Vittoria di Zarumilla — Agrupamiento del Norte)',
+      'Vittoria schiacciante nella Guerra del 1941 contro l\'Ecuador sotto il comando del Gen. Eloy Ureta; le forze peruviane (con carri armati leggeri ČKD LTP e il primo lancio operativo di paracadutisti militari a Puerto Bolívar) occupano la provincia di El Oro e consolidano il controllo sul Marañón; sacrificio dell\'Eroe Nazionale José Quiñones.',
+      'Neutrale',
+      'República Peruana — Pres. Manuel Prado Ugarteche / Gen. Eloy Ureta'
+    );
+  }
+  return makeResult(
+    'PRU',
+    'República Peruana (Riconoscimento di Rio de Janeiro & Cooperazione Emisferica)',
+    'Sovranità confermata sul bacino amazzonico del Marañón e Maynas in base al Protocollo di Rio (29 gennaio 1942); ritiro delle truppe da El Oro; rottura delle relazioni con le potenze dell\'Asse e fornitura massiccia di petrolio da Talara e minerali per lo sforzo bellico alleato.',
+    'Neutrale',
+    'República Peruana — Pres. Manuel Prado Ugarteche (Forniture Strategiche Alleate)'
+  );
+}
+
 export function resolveChinaProvince(
   s: number,
   nid: string,
@@ -3495,6 +3597,16 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
 
   if (ov) {
+    if (name === 'Ecuador (Oriente)' || name === 'Oriente (Ecuador)' || name === 'Oriente' || nid === 'EC_ORI' || nid === 'ECU_ORIENTE' || normStr(name).includes('oriente')) {
+      return resolveEcuadorOriente(s, name);
+    }
+    if (name === 'Ecuador' || ov.o === 'ECU') {
+      return resolveEcuador(s, name);
+    }
+    if (name === 'Peru' || name === 'Perú' || ov.o === 'PRU') {
+      return resolvePeru(s, name);
+    }
+
     const top = getExtendedToponym(name, ov.o, nid, c, s);
     if (ov.o === 'FRA') {
       return s < 6
@@ -8600,7 +8712,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'PRU':
     case '604':
     case 'XPE':
-      return makeResult('PRU', getTop('PRU').name, 'Repubblica Peruviana');
+      return resolvePeru(s, ft.properties?.NAME);
     case 'CO':
     case 'COL':
     case '170':
@@ -8618,9 +8730,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '218':
     case 'XEC':
       if (nid === 'EC_ORI' || nid === 'ECU_ORIENTE' || (ft.properties?.NAME && ft.properties.NAME.includes('Oriente'))) {
-        return makeResult('ECU', getExtendedToponym('Oriente (Ecuador)', 'ECU', nid, c, s).name, 'Región del Oriente (Zona Contesa Ecuador-Perù)');
+        return resolveEcuadorOriente(s, ft.properties?.NAME);
       }
-      return makeResult('ECU', getTop('ECU').name, 'Repubblica dell\'Ecuador');
+      return resolveEcuador(s, ft.properties?.NAME);
     case 'BO':
     case 'BOL':
     case '068':

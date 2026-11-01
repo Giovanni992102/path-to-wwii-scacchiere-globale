@@ -1307,4 +1307,4 @@ export {
   BERLIN_DIVIDED_COLLECTION,
 } from './berlinDivided';
 
-export { resolveGreenland, resolveSvalbard, resolveJanMayen } from './georesolver';
+export { resolveGreenland, resolveSvalbard, resolveJanMayen, resolveEcuadorOriente, resolveEcuador, resolvePeru } from './georesolver';

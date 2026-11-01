@@ -1779,6 +1779,16 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     theater: 'Pacific',
     description: 'Principale arsenale e base operativa della US Asiatic Fleet nella Baia di Manila a protezione delle Filippine, sostenuto dalla formidabile fortezza insulare di Corregidor.',
   },
+  {
+    id: 'base_beta_galapagos',
+    name: 'Base Beta (Galápagos / Baltra)',
+    historicalName: 'U.S. Army Air Forces / USN — Base Beta (Seymour Army Airfield / Baltra Island)',
+    nation: 'USA / Ecuador',
+    coords: [-90.28, -0.45],
+    type: 'major_base',
+    theater: 'Pacific',
+    description: 'Base aeronavale strategica statunitense istituita sull\'isola di Baltra (Ecuador) nel 1942 per la protezione dell\'accesso occidentale al Canale di Panama contro incursioni sottomarine e aeronavali dell\'Asse nel Pacifico.',
+  },
 ];
 
 export function getDynamicNavalBaseStatus(base: NavalBase, step: number): DynamicBaseStatus {
@@ -2198,6 +2208,22 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
     case 'vladivostok':
       strokeColor = '#d9534f';
       fillColor = '#291212';
+      break;
+
+    case 'base_beta_galapagos':
+      if (step >= 10) {
+        nation = 'USA / Ecuador';
+        historicalName = 'Base Beta — Seymour Army Airfield (Baltra, Galápagos)';
+        description = 'Presidio aeronavale della Sixth Air Force e US Navy istituito nel 1942: bombardieri B-17, B-24 e idrovolanti PBY Catalina pattugliano il Pacifico orientale a protezione dell\'accesso occidentale al Canale di Panama contro sommergibili dell\'Asse.';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+      } else {
+        nation = 'Ecuador';
+        historicalName = 'Isla Seymour Sur / Baltra (Isole Galápagos)';
+        description = 'Territorio insulare sovrano dell\'Ecuador nell\'Oceano Pacifico; prima degli accordi panamericani del 1942 non ospita installazioni militari permanenti.';
+        strokeColor = '#b59e5b';
+        fillColor = '#211e15';
+      }
       break;
 
     case 'ceuta_naval_base':

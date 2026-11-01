@@ -17466,13 +17466,46 @@ export function getExtendedToponym(
     };
   }
 
-  if (owner === 'PRU' || owner === 'PE' || owner === 'PERU') {
+  if (owner === 'PRU' || owner === 'PE' || owner === 'PER' || owner === 'PERU' || owner === 'PERÙ') {
+    const s = yearStep !== undefined ? yearStep : 0;
+    if (normKey.includes('oriente') || id.toLowerCase().includes('oriente') || (rawName && rawName.toLowerCase().includes('oriente'))) {
+      if (s === 9) {
+        return {
+          name: 'Oriente Amazzonico & Maynas (Occupazione Militare Peruviana)',
+          adminTitle: 'Comandancia General de Maynas (Perú) — Occupazione Militare Fluviale del Napo e Pastaza',
+          note: 'Durante la Guerra del 1941, le truppe peruviane e le cannoniere fluviali della Marina de Guerra occupano i presidi ecuadoriani lungo il Río Napo (Rocafuerte) e il Pastaza, stabilendo il controllo totale del bacino fluviale fino alle pendici andine.',
+        };
+      }
+      return {
+        name: 'Dipartimento di Loreto / Maynas (Sovranità Peruviana — Protocollo di Rio 1942)',
+        adminTitle: 'República Peruana — Departamento de Loreto (Maynas, Marañón y Amazonas)',
+        note: 'Territorio amazzonico di circa 200.000 km² internazionalmente riconosciuto alla sovranità del Perù con il Protocollo di Rio de Janeiro del 29 gennaio 1942, garantito da USA, Brasile, Argentina e Cile. L\'Ecuador rinuncia al controllo del Marañón.',
+      };
+    }
+    if (s < 9) {
+      return {
+        name: (normKey === 'peru' || normKey === 'perù' || normKey.includes('country'))
+          ? 'República Peruana (Lima)'
+          : `${rawName} (Perú)`,
+        adminTitle: 'República Peruana — Pres. Óscar R. Benavides / Manuel Prado Ugarteche',
+        note: 'Regime autoritario e conservatore con capitale Lima; governo del generale Óscar R. Benavides (fino al 1939) e di Manuel Prado Ugarteche (dal 1939). Tensioni di confine latenti e mai sopite con l\'Ecuador per il bacino amazzonico (fiume Marañón e regione di Maynas).',
+      };
+    }
+    if (s === 9) {
+      return {
+        name: (normKey === 'peru' || normKey === 'perù' || normKey.includes('country'))
+          ? 'República Peruana (Vittoria di Zarumilla — Agrupamiento del Norte)'
+          : `${rawName} (Perú)`,
+        adminTitle: 'República Peruana — Pres. Manuel Prado Ugarteche / Gen. Eloy Ureta',
+        note: 'Vittoria schiacciante nella Guerra del 1941 contro l\'Ecuador sotto il comando del Gen. Eloy Ureta; le forze peruviane (con carri armati leggeri ČKD LTP e il primo lancio operativo di paracadutisti militari a Puerto Bolívar) occupano la provincia di El Oro e consolidano il controllo sul Marañón; sacrificio dell\'Eroe Nazionale José Quiñones.',
+      };
+    }
     return {
       name: (normKey === 'peru' || normKey === 'perù' || normKey.includes('country'))
-        ? 'República Peruana (Lima)'
+        ? 'República Peruana (Riconoscimento di Rio de Janeiro & Cooperazione Emisferica)'
         : `${rawName} (Perú)`,
-      adminTitle: 'República Peruana — Pres. Óscar R. Benavides / Manuel Prado Ugarteche',
-      note: 'Regime autoritario e conservatore con capitale Lima; governo del generale Óscar R. Benavides (fino al 1939) e di Manuel Prado Ugarteche (dal 1939). Tensioni di confine latenti e mai sopite con l\'Ecuador per il bacino amazzonico (fiume Marañón e regione di Maynas).',
+      adminTitle: 'República Peruana — Pres. Manuel Prado Ugarteche (Forniture Strategiche Alleate)',
+      note: 'Sovranità confermata sul bacino amazzonico del Marañón e Maynas in base al Protocollo di Rio (29 gennaio 1942); ritiro delle truppe da El Oro; rottura delle relazioni con le potenze dell\'Asse e fornitura massiccia di petrolio da Talara e minerali per lo sforzo bellico alleato.',
     };
   }
 
@@ -17497,19 +17530,52 @@ export function getExtendedToponym(
   }
 
   if (owner === 'ECU' || owner === 'EC' || owner === 'ECUADOR') {
+    const s = yearStep !== undefined ? yearStep : 0;
     if (normKey.includes('oriente') || id.toLowerCase().includes('oriente') || (rawName && rawName.toLowerCase().includes('oriente'))) {
+      if (s < 9) {
+        return {
+          name: 'Oriente Amazzònico Conteso (Ecuador / Perù)',
+          adminTitle: 'Provincia del Oriente — Zona Contesa Ecuador-Perù (Maynas y Marañón)',
+          note: 'Vasto bacino fluviale amazzonico dei fiumi Marañón, Pastaza, Napo e Curaray. Territorio rivendicato dall\'Ecuador in base alla Real Cédula del 1563 e conteso dal Perù, amministrato sotto lo status quo provvisorio dell\'Accordo di Washington del 1936, prima del conflitto armato del 1941 e del Protocollo di Rio de Janeiro del 1942.',
+        };
+      }
+      if (s === 9) {
+        return {
+          name: 'Oriente Amazzonico & Maynas (Occupazione Militare Peruviana)',
+          adminTitle: 'Comandancia General de Maynas (Perú) — Occupazione Militare Fluviale del Napo e Pastaza',
+          note: 'Durante la Guerra del 1941, le truppe peruviane e le cannoniere fluviali della Marina de Guerra occupano i presidi ecuadoriani lungo il Río Napo (Rocafuerte) e il Pastaza, stabilendo il controllo totale del bacino fluviale fino alle pendici andine.',
+        };
+      }
       return {
-        name: 'Oriente Amazzònico Conteso (Ecuador / Perù)',
-        adminTitle: 'Provincia del Oriente — Zona Contesa Ecuador-Perù (Maynas y Marañón)',
-        note: 'Vasto bacino fluviale amazzonico dei fiumi Marañón, Pastaza, Napo e Curaray. Territorio rivendicato dall\'Ecuador in base alla Real Cédula del 1563 e conteso dal Perù, sfociato nel conflitto armato del 1941 e nel Protocollo di Rio de Janeiro del 1942.',
+        name: 'Dipartimento di Loreto / Maynas (Sovranità Peruviana — Protocollo di Rio 1942)',
+        adminTitle: 'República Peruana — Departamento de Loreto (Maynas, Marañón y Amazonas)',
+        note: 'Territorio amazzonico di circa 200.000 km² internazionalmente riconosciuto alla sovranità del Perù con il Protocollo di Rio de Janeiro del 29 gennaio 1942, garantito da USA, Brasile, Argentina e Cile. L\'Ecuador rinuncia al controllo del Marañón.',
+      };
+    }
+    if (s < 9) {
+      return {
+        name: (normKey === 'ecuador' || normKey.includes('country'))
+          ? 'República del Ecuador (Quito)'
+          : `${rawName} (Ecuador)`,
+        adminTitle: 'República del Ecuador — Pres. Federico Páez / Carlos Arroyo del Río',
+        note: 'Fase di instabilità politica ed economica; contesa confinaria secolare con il Perù sull\'Oriente amazzonico secondo lo status quo di Washington del 1936 e presidio sovrano delle Isole Galápagos nell\'Oceano Pacifico.',
+      };
+    }
+    if (s === 9) {
+      return {
+        name: (normKey === 'ecuador' || normKey.includes('country'))
+          ? 'República del Ecuador (Crisi Bellica & Occupazione di El Oro)'
+          : `${rawName} (Ecuador)`,
+        adminTitle: 'República del Ecuador — Pres. Carlos Arroyo del Río (Stato d\'Emergenza Nazionale)',
+        note: 'Invasione militare peruviana a seguito della guerra scoppiata nel luglio 1941; la provincia costiera di El Oro (Machala, Puerto Bolívar) e le valli andine di Loja sono sotto occupazione peruviana. Quito affronta gravi disordini interni mentre accetta la mediazione di USA, Brasile, Argentina e Cile.',
       };
     }
     return {
       name: (normKey === 'ecuador' || normKey.includes('country'))
-        ? 'República del Ecuador (Quito)'
+        ? 'República del Ecuador (Protocollo di Rio — Basi USA a Baltra & Salinas)'
         : `${rawName} (Ecuador)`,
-      adminTitle: 'República del Ecuador — Pres. Federico Páez / Carlos Arroyo del Río',
-      note: 'Fase di instabilità politica ed economica; contesa confinaria secolare con il Perù sull\'Oriente amazzonico e presidio sovrano delle Isole Galápagos nell\'Oceano Pacifico.',
+      adminTitle: 'República del Ecuador — Cooperazione Emisferica Alleata & Basi USA',
+      note: 'Firma del Protocollo di Rio de Janeiro (29 gennaio 1942); rottura delle relazioni con l\'Asse. Concessione della base aerea strategica di Baltra nelle Isole Galápagos (Base Beta) e di Salinas agli Stati Uniti per la difesa del Canale di Panama contro attacchi aeronavali e sottomarini nel Pacifico.',
     };
   }
 
