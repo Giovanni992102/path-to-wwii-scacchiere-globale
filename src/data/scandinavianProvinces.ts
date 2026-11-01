@@ -27,6 +27,11 @@ export interface ScandinavianDistrictDef {
   postNote?: string;
   postOwner?: string;
   transitionStep?: number; // Step al quale si attiva la transizione (es. step 6 = giu 1940 post-Weserübung / Trattato di Mosca)
+  phase3Step?: number;
+  phase3Name?: string;
+  phase3AdminTitle?: string;
+  phase3Note?: string;
+  phase3Owner?: string;
 }
 
 export const SCANDINAVIAN_DISTRICTS_CATALOG: ScandinavianDistrictDef[] = [
@@ -257,6 +262,11 @@ export const SCANDINAVIAN_DISTRICTS_CATALOG: ScandinavianDistrictDef[] = [
     postNote: 'Il 10 maggio 1940, dopo l\'invasione tedesca della Danimarca e della Francia, le truppe britanniche sbarcarono a sorpresa a Reykjavík con l\'Operazione Fork per prevenire un colpo di mano nazista. L\'Alþingi protestò formalmente per la violazione della neutralità ma cooperò de facto; la baia di Hvalfjörður divenne una base navale cruciale per la scorta dei convogli atlantici e artici verso l\'URSS.',
     postOwner: 'UK',
     transitionStep: 6,
+    phase3Step: 9,
+    phase3Name: 'Höfuðborgarsvæði (Reykjavík — Presidio e Basi USA / Reggenza Sveinn Björnsson)',
+    phase3AdminTitle: 'United States Army & Navy Iceland Base Command (Maj. Gen. Charles H. Bonesteel Jr. / Reggenza Sveinn Björnsson)',
+    phase3Note: 'Il 7 luglio 1941, su accordo negoziato con il presidente Roosevelt, la 1st Provisional Marine Brigade sbarca a Reykjavík assumendo la difesa militare dell\'isola cinque mesi prima di Pearl Harbor. L\'Alþingi elegge Sveinn Björnsson Reggente d\'Islanda. L\'incredibile espansione edilizia e le commesse militari spazzano via la disoccupazione aprendo l\'era del "Blessað stríðið" (La Benedetta Guerra).',
+    phase3Owner: 'USA',
   },
   {
     nuts: 'IS002',
@@ -268,11 +278,16 @@ export const SCANDINAVIAN_DISTRICTS_CATALOG: ScandinavianDistrictDef[] = [
     keys: ['is002', 'landsbyggd', 'akureyri', 'isafjordur', 'seydisfjordur', 'keflavik', 'hvalfjordur', 'vestfirdir'],
     preAdminTitle: 'Konungsríkið Ísland — Distretti rurali e fiordi settentrionali',
     preNote: 'Territorio rurale dell\'Islanda che copre i fiordi occidentali (Vestfirðir), la costa settentrionale con la capitale del nord Akureyri e i fiordi orientali. Economia dominata da allevamento di ovini, pesca dell\'aringa ed essiccazione del merluzzo.',
-    postName: 'Landsbyggð (Basi di Convoglio Atlantico & Stazioni Radar Alleate)',
-    postAdminTitle: 'British Northern Patrol & Convoy Escort Base (Seyðisfjörður / Akureyri)',
+    postName: 'Landsbyggð (Base Navale Falcon a Hvalfjörður & Pattugliamento Nord Atlantico)',
+    postAdminTitle: 'Royal Navy Base Falcon (Hvalfjörður) & Northern Patrol (Akureyri / Seyðisfjörður)',
     postNote: 'I fiordi riparati di Hvalfjörður e Seyðisfjörður divennero stazioni di raccolta e bunkeraggio della Royal Navy e poi dell\'US Navy per i convogli artici (serie PQ e QP) diretti a Murmansk e Arcangelo.',
     postOwner: 'UK',
     transitionStep: 6,
+    phase3Step: 9,
+    phase3Name: 'Landsbyggð (Basi Aeronavali USA — Meeks Field / Keflavík & Base Navale Cacapon a Hvalfjörður)',
+    phase3AdminTitle: 'United States Navy Task Force 24 & USAAF Meeks Field (Keflavík / Hvalfjörður)',
+    phase3Note: 'L\'US Army Air Forces edifica le gigantesche piste di Meeks Field e Patterson Field a Keflavík nella penisola di Reykjanes per i bombardieri di pattugliamento marittimo B-24 Liberator e i caccia P-38. L\'US Navy attiva la base navale Cacapon a Hvalfjörður (Task Force 24) come punto di raduno e scorta per i convogli atlantici e artici diretti in Russia.',
+    phase3Owner: 'USA',
   },
 
   // =========================================================================
@@ -1156,6 +1171,15 @@ export function resolveScandinavianToponym(
   }
 
   if (!def) return null;
+
+  // Gestione dinamica temporale phase 3 (step >= 9: dic 1941 - lug 1943+ USA in Islanda)
+  if (def.phase3Step !== undefined && yearStep >= def.phase3Step && def.phase3Name) {
+    return {
+      name: def.phase3Name,
+      adminTitle: def.phase3AdminTitle || def.postAdminTitle || def.preAdminTitle,
+      note: def.phase3Note || def.postNote || def.preNote,
+    };
+  }
 
   // Gestione dinamica temporale post-transizione (step >= 6: giu 1940 post-Weserübung / Mosca)
   const isPost = def.transitionStep !== undefined && yearStep >= def.transitionStep;

@@ -939,14 +939,15 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
   },
   ICE: {
     id: 'ICE',
-    c: '#b3c7d6',
+    c: '#4a80b0',
     f: 'Neutrale',
-    l: () => 'Regno d\'Islanda (in unione con la Danimarca)',
+    l: (s) => (s >= 9 ? 'Regno d\'Islanda (Protezione Militare USA / Reggenza Sveinn Björnsson)' : s >= 6 ? 'Regno d\'Islanda (Occupazione Britannica / Operazione Fork)' : 'Regno d\'Islanda (Konungsríkið Ísland — Unione con la Danimarca)'),
     shortName: 'Islanda',
+    leader: 'Re Cristiano X / Hermann Jónasson (1936-41) · Sveinn Björnsson (Reggente, 1941-43)',
     capital: 'Reykjavík',
     tier: 'autonomous',
     overlordCode: 'DEN',
-    aliases: ['IS', 'ISL', 'ICE', 'ISLANDA', 'ICELAND'],
+    aliases: ['IS', 'ISL', 'ICE', 'ISLANDA', 'ICELAND', 'ISLAND'],
     isSubject: true,
   },
   BEL: {

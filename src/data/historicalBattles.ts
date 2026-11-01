@@ -697,6 +697,19 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Generale d\'Armata Georgij Žukov / Vjačeslav Molotov',
     commanderB: 'Re Carol II / Maresciallo Ion Antonescu',
   },
+  {
+    id: 'operation_fork_1940',
+    name: 'Operazione Fork (Occupazione Britannica dell\'Islanda)',
+    historicalDate: '10 maggio 1940',
+    step: 6,
+    theater: 'Europe',
+    coords: [-21.94, 64.15], // Reykjavík
+    belligerents: 'Regno Unito (Royal Navy & Royal Marines) vs Regno d\'Islanda (Neutralità Violata)',
+    result: 'Sbarco a sorpresa a Reykjavík di Force Sturges; occupazione preventiva pacifica e cooperazione de facto con l\'Alþingi.',
+    significance: 'Winston Churchill sbarra il varco atlantico GIUK (Groenlandia-Islanda-UK) prevenendo l\'installazione di basi di U-Boot e bombardieri nazisti a guardia delle rotte marittime.',
+    commanderA: 'Colonnello Robert Sturges (Royal Marines) / Magg. Gen. Henry Curtis',
+    commanderB: 'Primo Ministro Hermann Jónasson (Protesta formale di neutralità)',
+  },
   // ---------------- STEP 7: OTT 1940 ----------------
   {
     id: 'battle_of_britain_1940',
@@ -934,8 +947,34 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Vjačeslav Molotov / Iosif Stalin',
     commanderB: 'Ministro degli Esteri Yōsuke Matsuoka / Amb. Yoshitsugu Tatekawa',
   },
+  {
+    id: 'denmark_strait_1941',
+    name: 'Battaglia dello Stretto di Danimarca (Affondamento della HMS Hood)',
+    historicalDate: '24 maggio 1941',
+    step: 8,
+    theater: 'Europe',
+    coords: [-25.50, 66.30], // Stretto di Danimarca a nord-ovest dell'Islanda
+    belligerents: 'Kriegsmarine (Bismarck & Prinz Eugen) vs Royal Navy (HMS Hood & HMS Prince of Wales)',
+    result: 'Affondamento del leggendario incrociatore da battaglia britannico HMS Hood e danneggiamento della corazzata Bismarck.',
+    significance: 'Lo scontro navale più celebre al largo delle coste islandesi; la perdita della Hood sconvolge l\'Ammiragliato e scatena la caccia totale della Royal Navy alla Bismarck nell\'Atlantico.',
+    commanderA: 'Ammiraglio Günther Lütjens / Kpt. Ernst Lindemann',
+    commanderB: 'Viceammiraglio Lancelot Holland † / Kpt. John Leach',
+  },
 
   // ---------------- STEP 9: DIC 1941 ----------------
+  {
+    id: 'operation_indigo_1941',
+    name: 'Operazione Indigo (Sbarco e Difesa Militare USA dell\'Islanda)',
+    historicalDate: '7 luglio 1941',
+    step: 9,
+    theater: 'Europe',
+    coords: [-21.65, 64.33], // Hvalfjörður / Reykjavík
+    belligerents: 'Stati Uniti d\'America & Regno d\'Islanda vs Minaccia Sommergibili dell\'Asse',
+    result: 'La 1st Provisional Marine Brigade e l\'US Navy assumono la difesa militare dell\'isola su accordo Roosevelt-Jónasson.',
+    significance: 'Gli Stati Uniti estendono la linea di difesa emisferica al Nord Atlantico cinque mesi prima di Pearl Harbor, trasformando Hvalfjörður (NOB Cacapon) e Keflavík (Meeks Field) nella roccaforte dei convogli alleati e artici.',
+    commanderA: 'Brig. Gen. John Marston (USMC) / Magg. Gen. Charles H. Bonesteel Jr.',
+    commanderB: 'Reggente Sveinn Björnsson / Primo Ministro Hermann Jónasson',
+  },
   {
     id: 'battle_of_moscow_1941',
     name: 'Battaglia di Mosca e Controffensiva Invernale Sovietica',

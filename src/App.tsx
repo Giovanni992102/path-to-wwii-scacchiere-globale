@@ -4464,6 +4464,66 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: "99. Audit Geostorico e Topologico Integrale dell'Islanda (Zero Overlapping, NUTS-3 IS001 Höfuðborgarsvæði & IS002 Landsbyggð, Timeline Dinamica 1936-1943: Regno d'Islanda e Neutralità Costituzionale 1936-39, Invasione della Danimarca e Operazione Fork Britannica 1940 con Base Falcon a Hvalfjörður, Operazione Indigo e Presidio Militare USA 1941 con Task Force 24, Meeks Field Keflavík, Reggenza Sveinn Björnsson, Convogli Artici e Blessað stríðið)",
+        run: () => {
+          // 1. Risoluzione feature insulari e neutralità costituzionale (Step 0)
+          const r0_1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, 0);
+          const r0_2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, 0);
+          const hb0 = resolveHB({ properties: { NAME: 'Iceland' } }, 0);
+
+          if (r0_1.o !== 'ICE' || r0_1.fac !== 'Neutrale' || !r0_1.name.includes('Reykjavík')) return false;
+          if (r0_2.o !== 'ICE' || r0_2.fac !== 'Neutrale' || !r0_2.name.includes('Landsbyggð')) return false;
+          if (hb0.o !== 'ICE' || hb0.fac !== 'Neutrale') return false;
+
+          // 2. Timeline Step 6 (Giugno 1940: Operazione Fork — Occupazione preventiva britannica)
+          const r6_1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, 6);
+          const r6_2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, 6);
+          const hb6 = resolveHB({ properties: { NAME: 'Iceland' } }, 6);
+
+          if (r6_1.o !== 'UK' || r6_1.fac !== 'Alleati' || !r6_1.name.includes('Fork') || !r6_1.note?.includes('Sturges')) return false;
+          if (r6_2.o !== 'UK' || r6_2.fac !== 'Alleati' || !r6_2.name.includes('Hvalfjörður') || !r6_2.note?.includes('Falcon')) return false;
+          if (hb6.o !== 'UK' || hb6.fac !== 'Alleati') return false;
+
+          // 3. Timeline Step 9 (Dicembre 1941: Presidio e Difesa USA — Operazione Indigo, Reggenza Sveinn Björnsson)
+          const r9_1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, 9);
+          const r9_2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, 9);
+          const hb9 = resolveHB({ properties: { NAME: 'Iceland' } }, 9);
+
+          if (r9_1.o !== 'USA' || r9_1.fac !== 'Alleati' || !r9_1.name.includes('Sveinn Björnsson') || !r9_1.note?.includes('Indigo')) return false;
+          if (r9_2.o !== 'USA' || r9_2.fac !== 'Alleati' || !r9_2.name.includes('Meeks Field') || !r9_2.note?.includes('Task Force 24')) return false;
+          if (hb9.o !== 'USA' || hb9.fac !== 'Alleati') return false;
+
+          // 4. Timeline Step 12 (Luglio 1943: Scorta Convogli Artici, Keflavík & Blessað stríðið)
+          const r12_1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, 12);
+          const r12_2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, 12);
+
+          if (r12_1.o !== 'USA' || r12_1.fac !== 'Alleati' || !r12_1.note?.includes('Blessað stríðið')) return false;
+          if (r12_2.o !== 'USA' || r12_2.fac !== 'Alleati' || !r12_2.name.includes('Keflavík')) return false;
+
+          // 5. Presidio Base Navale Hvalfjörður (Base Falcon / Cacapon)
+          const hvalBase = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'hvalfjordur_base');
+          if (!hvalBase || hvalBase.theater !== 'Atlantic') return false;
+          if (hvalBase.getDynamicStatus && hvalBase.getDynamicStatus(0).fillColor !== '#b3c7d6') return false;
+          if (hvalBase.getDynamicStatus && hvalBase.getDynamicStatus(6).fillColor !== '#8a4b38') return false;
+          if (hvalBase.getDynamicStatus && hvalBase.getDynamicStatus(9).fillColor !== '#2b4c7e') return false;
+
+          // 6. Eventi e Operazioni Militari Georeferenziate (Fork, Denmark Strait, Indigo)
+          const forkBattle = HISTORICAL_BATTLES.find((b) => b.id === 'operation_fork_1940');
+          const denmarkStrait = HISTORICAL_BATTLES.find((b) => b.id === 'denmark_strait_1941');
+          const indigoEvent = HISTORICAL_BATTLES.find((b) => b.id === 'operation_indigo_1941');
+
+          if (!forkBattle || forkBattle.step !== 6 || !forkBattle.coords) return false;
+          if (!denmarkStrait || denmarkStrait.step !== 8 || !denmarkStrait.name.includes('Hood')) return false;
+          if (!indigoEvent || indigoEvent.step !== 9 || !indigoEvent.significance.includes('Pearl Harbor')) return false;
+
+          // 7. Vessillo Nazionale Islandese (autentica croce scandinava rossa e bianca su sfondo blu)
+          const iceFlagSvg = getCountryFlagSvg('ICE', 0);
+          if (!iceFlagSvg.includes('#02529c') || !iceFlagSvg.includes('#dc1e35')) return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;

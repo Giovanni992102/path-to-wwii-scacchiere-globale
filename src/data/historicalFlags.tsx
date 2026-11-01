@@ -923,7 +923,13 @@ HISTORICAL_FLAGS['LUX'] = () =>
     `<image href="${LUX_FLAG_DATA_URL}" xlink:href="${LUX_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
     '0 0 1024 614'
   );
-HISTORICAL_FLAGS['ICE'] = HISTORICAL_FLAGS['NOR'];
+HISTORICAL_FLAGS['ICE'] = () =>
+  svgWrap(
+    `<rect width="25" height="18" fill="#02529c"/>` +
+    `<path d="M0,7h25v4H0z M7,0h4v18H7z" fill="#ffffff"/>` +
+    `<path d="M0,8h25v2H0z M8,0h2v18H8z" fill="#dc1e35"/>`,
+    '0 0 25 18'
+  );
 HISTORICAL_FLAGS['NEP'] = () =>
   svgWrap(
     `<image href="${NEP_FLAG_DATA_URL}" xlink:href="${NEP_FLAG_DATA_URL}" width="692" height="1024" preserveAspectRatio="none" />`,

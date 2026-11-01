@@ -1537,6 +1537,100 @@ export function resolveJanMayen(s: number, rawName?: string): ResolvedTerritory 
 }
 
 /**
+ * Risoluzione Geostorica e Toponomastica Dinamica dell'Islanda (1936-1943+)
+ *
+ * Step 0-5 (Gennaio 1936 - Settembre 1939):
+ *   Regno d'Islanda (Konungsríkið Ísland), stato sovrano e indipendente dall'Atto di Unione del 1° dicembre 1918
+ *   in unione personale con la Corona di Danimarca sotto re Cristiano X (Kristján X).
+ *   Sede del parlamento millenario dell'Alþingi a Reykjavík, governo di coalizione progressista di Hermann Jónasson,
+ *   politica costituzionale di neutralità perpetua e disarmata (ævarandi hlutleysi). Solo guardia costiera civile (Landhelgisgæslan).
+ *   (ICE, Neutrale).
+ *
+ * Step 6-8 (Giugno 1940 - Aprile 1941):
+ *   Invasione tedesca della Danimarca (9 aprile 1940) -> l'Alþingi assume temporaneamente il potere esecutivo reale (10 aprile).
+ *   Il 10 maggio 1940 Winston Churchill sferra l'Operazione Fork (Aðgerðin Fork): la Royal Navy e i Royal Marines (Force Sturges)
+ *   sbarcano a sorpresa a Reykjavík per prevenire l'occupazione tedesca e blindare il varco GIUK.
+ *   L'Alþingi protesta formalmente ma coopera de facto considerando gli Alleati "ospiti" (gestir).
+ *   Arrivo della 49th (West Riding) Infantry Division ("The Polar Bears", Magg. Gen. Henry Curtis); costruzione della base navale
+ *   "Falcon" a Hvalfjörður (ancoraggio protetto flotta) e degli aeroporti di Reykjavík e Kaldaðarnes.
+ *   (UK, Alleati).
+ *
+ * Step 9-12 (Dicembre 1941 - Luglio 1943+):
+ *   Il 7 luglio 1941 gli Stati Uniti assumono la difesa militare dell'Islanda su accordo bilaterale Roosevelt-Jónasson (Operazione Indigo),
+ *   schierando la 1st Provisional Marine Brigade (Brig. Gen. John Marston) e la Task Force 19 dell'US Navy cinque mesi prima di Pearl Harbor.
+ *   Il 17 giugno 1941 l'Alþingi nomina Sveinn Björnsson Reggente d'Islanda (Ríkisstjóri Íslands).
+ *   L'esercito statunitense subentra al comando con l'Iceland Base Command (Magg. Gen. Charles H. Bonesteel Jr.); l'USAAF costruisce il grande
+ *   aeroporto di Meeks Field a Keflavík (futuro aeroporto internazionale e snodo dei bombardieri transatlantici) e Patterson Field;
+ *   l'US Navy attiva la base navale Cacapon a Hvalfjörður come perno della scorta dei convogli atlantici e artici (serie PQ e QP per Murmansk).
+ *   L'imponente afflusso di risorse edili ed economiche trasforma radicalmente l'isola, battezzando l'era come "Blessað stríðið" (La Benedetta Guerra).
+ *   (USA, Alleati).
+ */
+export function resolveIceland(s: number, nid?: string, rawName?: string): ResolvedTerritory {
+  const normNid = String(nid || '').trim().toUpperCase();
+  const nrm = String(rawName || '').toLowerCase();
+  const isReykjavik = normNid === 'IS001' || (!normNid.startsWith('IS002') && (nrm.includes('reykjavik') || nrm.includes('höfuðborg') || nrm.includes('hofudborg')));
+  const isRural = normNid === 'IS002' || nrm.includes('landsbyggð') || nrm.includes('landsbyggd') || nrm.includes('akureyri') || nrm.includes('hvalfjordur') || nrm.includes('keflavik');
+
+  // FASE 1: Step 0-5 (1936 - Settembre 1939) -> Regno d'Islanda sovrano neutrale in unione con la Danimarca
+  if (s <= 5) {
+    if (isRural) {
+      return makeResult(
+        'ICE',
+        'Landsbyggð (Islanda Rurale, Fiordi & Akureyri)',
+        'Vasto territorio rurale del Regno d\'Islanda comprendente i fiordi occidentali (Vestfirðir), la costa settentrionale con Akureyri, i fiordi orientali (Seyðisfjörður) e la penisola di Reykjanes. Economia agricolo-pastorale di ovini e pesca d\'altura del merluzzo e delle aringhe; totale assenza di fortificazioni e basi militari conformemente alla neutralità perpetua costituzionale sancita dall\'Atto di Unione con la Danimarca del 1918.',
+        'Neutrale',
+        'Konungsríkið Ísland — Distretti rurali e fiordi costieri (Unione Personale Re Christian X)'
+      );
+    }
+    return makeResult(
+      'ICE',
+      isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Capitale del Regno d\'Islanda)' : 'Regno d\'Islanda (Konungsríkið Ísland — Neutralità Costituzionale)',
+      'Capitale e cuore politico del Regno d\'Islanda (Konungsríkið Ísland), stato sovrano e indipendente dall\'Atto di Unione del 1° dicembre 1918 in unione personale con la Corona di Danimarca sotto re Cristiano X (Kristján X). Sede del parlamento millenario dell\'Alþingi e del Primo Ministro Hermann Jónasson (Framsóknarflokkurinn / Partito Progressista). Politica di rigorosa neutralità perpetua e disarmata (ævarandi hlutleysi); sicurezza marittima affidata esclusivamente ai piccoli pattugliatori civili della Guardia Costiera (Landhelgisgæslan). A settembre 1939 il governo respinge categoricamente ogni richiesta tedesca della Lufthansa di acquisire diritti di scalo aereo o basi navali per preservare l\'integrità neutrale.',
+      'Neutrale',
+      'Konungsríkið Ísland — Hovedstad (Unione Personale Re Christian X / Alþingi)'
+    );
+  }
+
+  // FASE 2: Step 6-8 (Giugno 1940 - Aprile 1941) -> Operazione Fork e Occupazione Britannica
+  if (s <= 8) {
+    if (isRural) {
+      return makeResult(
+        'UK',
+        'Landsbyggð (Base Navale Falcon a Hvalfjörður & Pattugliamento Nord Atlantico)',
+        'In seguito allo sbarco britannico, la Royal Navy stabilisce la base navale fortificata "Falcon" nelle acque profonde e riparate di Hvalfjörður (a nord di Reykjavík), munita di reti parasiluri e depositi di carburante per corazzate, incrociatori e scorte di convoglio. Postazioni di avvistamento, idrovolanti e stazioni radiogoniometriche britanniche vengono dislocate ad Akureyri, Seyðisfjörður e Ísafjörður per dare la caccia agli U-Boot della Kriegsmarine nel varco GIUK.',
+        'Alleati',
+        'Royal Navy Base Falcon (Hvalfjörður) & Northern Patrol (Akureyri / Seyðisfjörður)'
+      );
+    }
+    return makeResult(
+      'UK',
+      isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Operazione Fork / Occupazione Britannica)' : 'Islanda (Operazione Fork — Occupazione Preventiva Britannica)',
+      'Il 10 maggio 1940, dopo l\'invasione tedesca della Danimarca e in concomitanza con l\'attacco alla Francia, il nuovo governo di Winston Churchill lancia l\'Operazione Fork (Aðgerðin Fork): la Royal Navy e i Royal Marines del colonnello Robert Sturges sbarcano a sorpresa nel porto di Reykjavík per prevenire un colpo di mano della Germania nazista nello strategico varco GIUK (Groenlandia-Islanda-Regno Unito). L\'Alþingi e il premier Hermann Jónasson protestano per la violazione della neutralità ma invitano la popolazione alla calma, qualificando le truppe alleate come "ospiti" (gestir). La guarnigione britannica viene potenziata con la 49ª Divisione di Fanteria (West Riding "The Polar Bears") del Magg. Gen. Henry Curtis, che avvia la costruzione dell\'aeroporto di Reykjavík e della base aerea di Kaldaðarnes.',
+      'Alleati',
+      'British Occupation of Iceland (Force Sturges & 49th West Riding Division "The Polar Bears")'
+    );
+  }
+
+  // FASE 3: Step 9-12 (Dicembre 1941 - Luglio 1943+) -> Presidio e Difesa USA, Meeks Field Keflavík, Reggenza Sveinn Björnsson e Blessað stríðið
+  if (isRural) {
+    return makeResult(
+      'USA',
+      'Landsbyggð (Basi Aeronavali USA — Meeks Field / Keflavík & Base Navale Cacapon a Hvalfjörður)',
+      'Il genio militare e le forze aeronavali statunitensi trasformano l\'Islanda rurale nel perno strategico della Battaglia dell\'Atlantico: l\'US Army Air Forces edifica l\'immenso complesso di Meeks Field e Patterson Field nella penisola di Reykjanes (la futura Keflavík, dotata di piste in calcestruzzo per i bombardieri B-24 Liberator a lungo raggio e i caccia P-38 Lightning), mentre l\'US Navy gestisce la Naval Operating Base "Cacapon" a Hvalfjörður con la Task Force 24 dell\'ammiraglio Bristol. Da Hvalfjörður salpano e si riorganizzano le scorte per i leggendari convogli artici (serie PQ e QP) diretti ai porti sovietici di Murmansk e Arcangelo, mentre gli idrovolanti PBY Catalina chiudono il famigerato "Mid-Atlantic Gap" sterminando gli U-Boot tedeschi.',
+      'Alleati',
+      'United States Navy Task Force 24 & USAAF Meeks Field (Keflavík / Hvalfjörður)'
+    );
+  }
+  return makeResult(
+    'USA',
+    isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Presidio e Basi USA / Reggenza Sveinn Björnsson)' : 'Islanda (Protezione Militare USA — Operazione Indigo & Reggenza Sveinn Björnsson)',
+    'Il 7 luglio 1941, in base allo storico accordo di difesa negoziato dal premier Hermann Jónasson con il presidente Franklin D. Roosevelt, gli Stati Uniti assumono la difesa militare dell\'Islanda (Operazione Indigo) cinque mesi prima di Pearl Harbor. La 1st Provisional Marine Brigade del brigadiere generale John Marston sbarca a Reykjavík rilevando i contingenti britannici, seguita dalle divisioni dell\'US Army inquadrate nell\'Iceland Base Command sotto il Magg. Gen. Charles H. Bonesteel Jr. Sul piano costituzionale, il 17 giugno 1941 l\'Alþingi elegge all\'unanimità Sveinn Björnsson quale Reggente d\'Islanda (Ríkisstjóri Íslands), sancendo la separazione de facto dalla Danimarca occupata. L\'imponente flusso di dollari, le opere pubbliche, la costruzione di strade, ospedali e caserme azzerano la disoccupazione e portano una prosperità economica senza precedenti, tanto che la popolazione ribattezza quegli anni come "Blessað stríðið" (La Benedetta Guerra).',
+    'Alleati',
+    'United States Army & Navy Iceland Base Command (Maj. Gen. Charles H. Bonesteel Jr. / Reggenza Sveinn Björnsson)'
+  );
+}
+
+/**
  * RISOLUTORE DINAMICO ORIENTE AMAZONICO (ECUADOR / PERÙ)
  * Step 0-8 (1936 - Apr 1941): Status Quo di Washington del 1936 tra Ecuador e Perù (ECU, Neutrale).
  * Step 9 (Dic 1941): Guerra del 1941 — Offensiva di Zarumilla e occupazione militare peruviana del bacino fluviale (PRU, Neutrale).
@@ -1927,6 +2021,9 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
   Greenland: (s) => resolveGreenland(s),
   Grønland: (s) => resolveGreenland(s),
   Groenlandia: (s) => resolveGreenland(s),
+  Iceland: (s) => resolveIceland(s, undefined, 'Iceland'),
+  Islanda: (s) => resolveIceland(s, undefined, 'Islanda'),
+  'Ísland': (s) => resolveIceland(s, undefined, 'Ísland'),
   France: (s) =>
     s < 6
       ? makeResult('FRA', 'France (Territoires d\'outre-mer)')
@@ -2382,6 +2479,29 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   if (isJanMayen) {
     return resolveJanMayen(s, rawName);
+  }
+
+  // 0.f Intercettazione prioritaria Islanda (Iceland / Ísland)
+  const isIceland =
+    cleanId === 'IS001' ||
+    cleanId === 'IS002' ||
+    cleanId === 'IS' ||
+    cleanId === 'ISL' ||
+    cleanId === 'ICE' ||
+    P.CNTR_CODE === 'IS' ||
+    P.CNTR_CODE === 'ISL' ||
+    nrm_hb === 'iceland' ||
+    nrm_hb === 'islanda' ||
+    nrm_hb === 'island' ||
+    nrm_hb.includes('höfuðborg') ||
+    nrm_hb.includes('hofudborg') ||
+    nrm_hb.includes('landsbyggð') ||
+    nrm_hb.includes('landsbyggd') ||
+    nrm_hb.includes('reykjavik') ||
+    (c[0] >= -25 && c[0] <= -13 && c[1] >= 63 && c[1] <= 67 && (rawName === 'Iceland' || rawName === 'Islanda' || subj === 'Iceland' || subj === 'Denmark'));
+
+  if (isIceland) {
+    return resolveIceland(s, cleanId, rawName);
   }
 
   // Isola di Man (Isle of Man)
@@ -6041,6 +6161,27 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
   }
 
+  // Islanda (IS001 Höfuðborgarsvæði, IS002 Landsbyggð, ICE, ISL)
+  const isIcelandFeature =
+    cleanId === 'IS001' ||
+    cleanId === 'IS002' ||
+    nid === 'IS001' ||
+    nid === 'IS002' ||
+    cntr === 'IS' ||
+    cntr === 'ISL' ||
+    cntr === 'ICE' ||
+    nrm === 'iceland' ||
+    nrm === 'islanda' ||
+    nrm === 'island' ||
+    nrm === 'höfuðborgarsvæði' ||
+    nrm === 'hofudborgarsvaedi' ||
+    nrm === 'landsbyggð' ||
+    nrm === 'landsbyggd';
+
+  if (isIcelandFeature) {
+    return resolveIceland(s, nid || cleanId, rawName);
+  }
+
   // Isola di Man (Isle of Man)
   const isMan =
     cntr === 'IM' ||
@@ -8654,9 +8795,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'ICE':
     case 'ISL':
     case 'IS':
-      return s < 6
-        ? makeResult('ICE', rawName, 'Konungsríkið Ísland')
-        : makeResult('UK', 'Kingdom of Iceland', 'British Occupation / Operation Fork (May 1940)');
+      return resolveIceland(s, nid || cleanId, rawName);
 
     case 'GBR':
     case 'UK':

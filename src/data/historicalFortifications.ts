@@ -1799,6 +1799,46 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     theater: 'Pacific',
     description: 'Base aeronavale strategica statunitense istituita sull\'isola di Baltra (Ecuador) nel 1942 per la protezione dell\'accesso occidentale al Canale di Panama contro incursioni sottomarine e aeronavali dell\'Asse nel Pacifico.',
   },
+  {
+    id: 'hvalfjordur_base',
+    name: 'Hvalfjörður (Base Falcon / Cacapon)',
+    historicalName: 'Base Navale di Hvalfjörður (Base Falcon / NOB Cacapon — Islanda)',
+    nation: 'Islanda / UK / USA',
+    coords: [-21.65, 64.33],
+    type: 'fleet_hq',
+    theater: 'Atlantic',
+    description: 'Profondo fiordo protetto a nord di Reykjavík, convertito nel maggio 1940 nella base navale "Falcon" della Royal Navy e nel luglio 1941 nel Naval Operating Base "Cacapon" dell\'US Navy (Task Force 24). Punto di raduno e rifornimento per i convogli artici (serie PQ/QP verso Murmansk) e bastione della caccia agli U-Boot nel GIUK gap.',
+    getDynamicStatus: (step: number) => {
+      if (step <= 5) {
+        return {
+          nation: 'Islanda (Neutrale)',
+          historicalName: 'Hvalfjörður — Fiordo Naturale del Regno d\'Islanda (Smilitarizzato)',
+          theater: 'Atlantic',
+          description: 'Fiordo naturale disarmato del Regno neutrale d\'Islanda sotto re Cristiano X.',
+          fillColor: '#b3c7d6',
+          strokeColor: '#3a4450',
+        };
+      }
+      if (step <= 8) {
+        return {
+          nation: 'Regno Unito (Royal Navy Base Falcon)',
+          historicalName: 'Royal Navy Base Falcon (Hvalfjörður — Base Navale Convogli)',
+          theater: 'Atlantic',
+          description: 'Base navale fortificata britannica con reti parasiluri, rifornimento carburante e stazione di scorta convogli per l\'Atlantico del Nord.',
+          fillColor: '#8a4b38',
+          strokeColor: '#ffbb88',
+        };
+      }
+      return {
+        nation: 'Stati Uniti (US Navy Task Force 24 / NOB Cacapon)',
+        historicalName: 'United States Naval Operating Base Cacapon (Task Force 24 — Hvalfjörður)',
+        theater: 'Atlantic',
+        description: 'Principale ancoraggio navale dell\'US Navy e della Royal Navy per la protezione dei convogli atlantici e l\'assemblaggio dei convogli artici per la Russia (PQ/QP).',
+        fillColor: '#2b4c7e',
+        strokeColor: '#88bbff',
+      };
+    },
+  },
 ];
 
 export function getDynamicNavalBaseStatus(base: NavalBase, step: number): DynamicBaseStatus {
@@ -2249,6 +2289,28 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         description = 'Territorio insulare sovrano dell\'Ecuador nell\'Oceano Pacifico; prima degli accordi panamericani del 1942 non ospita installazioni militari permanenti.';
         strokeColor = '#b59e5b';
         fillColor = '#211e15';
+      }
+      break;
+
+    case 'hvalfjordur_base':
+      if (step <= 5) {
+        nation = 'Islanda (Neutrale)';
+        historicalName = 'Hvalfjörður — Fiordo Naturale del Regno d\'Islanda (Smilitarizzato)';
+        description = 'Fiordo naturale disarmato del Regno neutrale d\'Islanda sotto re Cristiano X.';
+        fillColor = '#b3c7d6';
+        strokeColor = '#3a4450';
+      } else if (step <= 8) {
+        nation = 'Regno Unito (Royal Navy Base Falcon)';
+        historicalName = 'Royal Navy Base Falcon (Hvalfjörður — Base Navale Convogli)';
+        description = 'Base navale fortificata britannica con reti parasiluri, rifornimento carburante e stazione di scorta convogli per l\'Atlantico del Nord.';
+        fillColor = '#8a4b38';
+        strokeColor = '#ffbb88';
+      } else {
+        nation = 'Stati Uniti (US Navy Task Force 24 / NOB Cacapon)';
+        historicalName = 'United States Naval Operating Base Cacapon (Task Force 24 — Hvalfjörður)';
+        description = 'Principale ancoraggio navale dell\'US Navy e della Royal Navy per la protezione dei convogli atlantici e l\'assemblaggio dei convogli artici per la Russia (PQ/QP).';
+        fillColor = '#2b4c7e';
+        strokeColor = '#88bbff';
       }
       break;
 
