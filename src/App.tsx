@@ -24,7 +24,7 @@ import { TacticalMap } from './components/TacticalMap';
 import { processHistoricalCartographyPipeline } from './data/historicalEngine';
 import { MapLayerControls, LayerVisibilityState } from './components/MapLayerControls';
 import { tacticalAudio } from './data/audioSynthesizer';
-import { HistoricalBattle } from './data/historicalBattles';
+import { HistoricalBattle, HISTORICAL_BATTLES } from './data/historicalBattles';
 import {
   HISTORICAL_FORTIFICATION_LINES,
   HISTORICAL_NAVAL_BASES,
@@ -4078,7 +4078,7 @@ export default function App() {
       {
         name: "93. Audit Geostorico e Topologico Integrale Step 11 (NOV 1942 · LA GRANDE SVOLTA — Uranus, Torch, El Alamein & Operazione Anton: Sacca di Stalingrado / Kessel accerchiato a Kalač-na-Donu; Sfondamento ad El Alamein e Cirenaica liberata con Tobruk e Bengasi fino ad El Agheila; Operazione Torch con Marocco e Algeria agli Alleati; Presa di Biserta e Tunisi come testa di ponte Asse; Collasso di Vichy metropolitana con Operazione Anton, occupazione italiana estesa di Nizza/Tolone/Corsica/Monaco e Wehrmacht nel resto della Francia; Autoaffondamento della Flotta a Tolone; Ralliement di AOF/Dakar e Resa di Madagascar; Vittoria Aeronavale USA a Guadalcanal; Fortificazioni Kessel e Rotte di Convoglio Dinamiche)",
         run: () => {
-          if (STEPS.length !== 12 || STEPS[11].d !== 'NOV 1942') return false;
+          if (STEPS.length < 12 || STEPS[11].d !== 'NOV 1942') return false;
 
           // 1. Fronte Orientale: Operazione Uranus e la Sacca di Stalingrado (Kessel)
           const kessel10 = resolveSovietProvince('SOV_STALINGRAD_KESSEL', 10);
@@ -4173,6 +4173,113 @@ export default function App() {
           if (!medLane11.statusNote?.includes('Stoneage')) return false;
           if (!axisLane11.statusNote?.includes('Tunisia')) return false;
           if (!pacLane11.statusNote?.includes('Guadalcanal')) return false;
+
+          return true;
+        },
+      },
+      {
+        name: "94. Audit Geostorico e Topologico Integrale Step 12 (LUG 1943 — La Fortezza Europa Assediata: Sbarco Alleato in Sicilia / Husky con Patton a Palermo, Montgomery a Siracusa, e Catania/Messina all'Asse; Italia Peninsulare sotto Governo Badoglio; Eliminazione Sacca di Tunisi e Nordafrica Interamente Alleato; Fronte Orientale con Cancellazione Sacca di Stalingrado, Liberazione Caucaso e Rostov, Gotenkopf del Kuban'/Taman', Saliente di Kursk e Controffensiva Kutuzov su Orel; Operazione Cartwheel nella Nuova Georgia / Munda ed Evacuazione Giapponese delle Aleutine ad Attu e Kiska)",
+        run: () => {
+          if (STEPS.length < 13 || STEPS[12].d !== 'LUG 1943') return false;
+          if (!STEPS[12].t.includes('Husky') || !STEPS[12].t.includes('Kursk')) return false;
+
+          // 1. Sicilia divisa in due: Zona Alleata (AMGOT / Patton & Montgomery) vs Zona Asse (Etna & Stretto di Messina)
+          const trapani12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG11', NAME: 'Trapani' } }, 12);
+          const palermo12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG12', NAME: 'Palermo' } }, 12);
+          const agrigento12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG14', NAME: 'Agrigento' } }, 12);
+          const caltanissetta12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG15', NAME: 'Caltanissetta' } }, 12);
+          const enna12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG16', NAME: 'Enna' } }, 12);
+          const ragusa12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG18', NAME: 'Ragusa' } }, 12);
+          const siracusa12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG19', NAME: 'Siracusa' } }, 12);
+          const messina12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG13', NAME: 'Messina' } }, 12);
+          const catania12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITG17', NAME: 'Catania' } }, 12);
+
+          if (trapani12.o !== 'USA' || trapani12.fac !== 'Alleati') return false;
+          if (palermo12.o !== 'USA' || palermo12.fac !== 'Alleati' || !palermo12.name.includes('Patton')) return false;
+          if (agrigento12.o !== 'USA' || agrigento12.fac !== 'Alleati') return false;
+          if (caltanissetta12.o !== 'USA' || caltanissetta12.fac !== 'Alleati') return false;
+          if (enna12.o !== 'USA' || enna12.fac !== 'Alleati') return false;
+          if (ragusa12.o !== 'UK' || ragusa12.fac !== 'Alleati') return false;
+          if (siracusa12.o !== 'UK' || siracusa12.fac !== 'Alleati' || !siracusa12.name.includes('Montgomery')) return false;
+
+          if (messina12.o !== 'ITA' || messina12.fac !== 'Asse' || !messina12.name.includes('Messina')) return false;
+          if (catania12.o !== 'ITA' || catania12.fac !== 'Asse' || !catania12.name.includes('Etna')) return false;
+
+          // 2. Italia Peninsulare: Governo Badoglio (formale continuità bellica nell'Asse prima dell'armistizio)
+          const roma12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITI43', NAME: 'Roma' } }, 12);
+          const napoli12 = resolveFeature({ properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITF33', NAME: 'Napoli' } }, 12);
+          if (roma12.o !== 'ITA' || roma12.fac !== 'Asse' || !roma12.note?.includes('Badoglio')) return false;
+          if (napoli12.o !== 'ITA' || napoli12.fac !== 'Asse') return false;
+
+          // 3. Nordafrica interamente Alleato: Sacca di Tunisi eliminata a metà maggio 1943
+          const tunis12 = resolveFeature({ id: 'TN11', properties: { CNTR_CODE: 'TN', NUTS_ID: 'TN11', NAME: 'Tunis' } }, 12);
+          const bizerte12 = resolveFeature({ id: 'TN_BIZ', properties: { CNTR_CODE: 'TN', NUTS_ID: 'TN_BIZ', NAME: 'Bizerte' } }, 12);
+          const tripoli12 = resolveFeature({ id: 'LYTR', properties: { CNTR_CODE: 'LY', NUTS_ID: 'LYTR', NAME: 'Tripoli' } }, 12);
+          const benghazi12 = resolveFeature({ id: 'LYBA', properties: { CNTR_CODE: 'LY', NUTS_ID: 'LYBA', NAME: 'Benghazi' } }, 12);
+          if ((tunis12.o !== 'F_NAF' && tunis12.o !== 'FRA') || tunis12.fac !== 'Alleati') return false;
+          if ((bizerte12.o !== 'F_NAF' && bizerte12.o !== 'FRA') || bizerte12.fac !== 'Alleati') return false;
+          if (tripoli12.o !== 'UK' || tripoli12.fac !== 'Alleati') return false;
+          if (benghazi12.o !== 'UK' || benghazi12.fac !== 'Alleati') return false;
+
+          // 4. Fronte Orientale (URSS): Stalingrado cancellata, Caucaso & Rostov liberati, Kuban' testa di ponte, Kursk & Orel
+          const kessel12 = resolveSovietProvince('SOV_STALINGRAD_KESSEL', 12);
+          const rostov12 = resolveSovietProvince('SOV_ADM1_RUS_17_Rostov_Oblast', 12);
+          const kursk12 = resolveSovietProvince('SOV_ADM1_RUS_40_Kursk_Oblast', 12);
+          const orel12 = resolveSovietProvince('SOV_ADM1_RUS_48_Oryol_Oblast', 12);
+          const krasnodar12 = resolveSovietProvince('SOV_ADM1_RUS_39_Krasnodar_Krai', 12);
+          const kabardino12 = resolveSovietProvince('SOV_ADM1_RUS_38_Kabardino_Balkaria', 12);
+          const stavropol12 = resolveSovietProvince('SOV_ADM1_RUS_54_Stavropol_Krai', 12);
+
+          if (!kessel12 || kessel12.o !== 'SOV' || kessel12.fac !== 'Comintern' || !kessel12.name.includes('Cancellata')) return false;
+          if (!rostov12 || rostov12.o !== 'SOV' || rostov12.fac !== 'Comintern' || !rostov12.name.includes('Liberata')) return false;
+          if (!kursk12 || kursk12.o !== 'SOV' || kursk12.fac !== 'Comintern' || !kursk12.name.includes('Kursk')) return false;
+          if (!orel12 || orel12.o !== 'GER' || orel12.fac !== 'Asse' || !orel12.note?.includes('Kutuzov')) return false;
+          if (!krasnodar12 || krasnodar12.o !== 'GER' || krasnodar12.fac !== 'Asse' || !krasnodar12.name.includes('Kuban')) return false;
+          if (!kabardino12 || kabardino12.o !== 'SOV' || kabardino12.fac !== 'Comintern') return false;
+          if (!stavropol12 || stavropol12.o !== 'SOV' || stavropol12.fac !== 'Comintern') return false;
+
+          // 5. Pacifico & Isole Aleutine: Riconquista di Attu ed Evacuazione di Kiska; Operazione Cartwheel (Munda / New Georgia)
+          const aleutFeat = loadedProvs.find((f: any) => f.id === 'US_AK_ALEUTIANS_WEST');
+          if (!aleutFeat) return false;
+          const aleut12 = resolveFeature(aleutFeat, 12);
+          if (aleut12.o !== 'USA' || aleut12.fac !== 'Alleati' || !aleut12.name.includes('Attu & Kiska')) return false;
+          if (getStrategicIslandLabel('US_AK_ALEUTIANS_WEST', 12) !== 'Attu & Kiska (USA)') return false;
+
+          const solom12 = resolveFeature({ id: 'SB', properties: { CNTR_CODE: 'SB', NUTS_ID: 'SB', NAME: 'Solomon Islands' } }, 12);
+          if (solom12.o !== 'UK' || solom12.fac !== 'Alleati' || !solom12.note?.includes('Cartwheel')) return false;
+
+          // 6. Battaglie Tattiche Step 12
+          const huskyBattle = HISTORICAL_BATTLES.find((b: any) => b.id === 'operation_husky_sicily_1943');
+          const kurskBattle = HISTORICAL_BATTLES.find((b: any) => b.id === 'battle_of_kursk_prokhorovka_1943');
+          const cartwheelBattle = HISTORICAL_BATTLES.find((b: any) => b.id === 'operation_cartwheel_new_georgia_1943');
+          const aleutBattle = HISTORICAL_BATTLES.find((b: any) => b.id === 'battle_of_attu_and_kiska_evacuation_1943');
+          if (!huskyBattle || huskyBattle.step !== 12) return false;
+          if (!kurskBattle || kurskBattle.step !== 12) return false;
+          if (!cartwheelBattle || cartwheelBattle.step !== 12) return false;
+          if (!aleutBattle || aleutBattle.step !== 12) return false;
+
+          // 7. Linee di Fortificazione e Basi Navali Step 12
+          const etnaLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'etna_quadrilateral_line');
+          const kubanLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'gotenkopf_kuban_line');
+          const kurskLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'kursk_salient_defenses');
+          if (!etnaLine || !etnaLine.activeSteps.includes(12)) return false;
+          if (!kubanLine || !kubanLine.activeSteps.includes(12)) return false;
+          if (!kurskLine || !kurskLine.activeSteps.includes(12)) return false;
+
+          const bizBase12 = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'bizerte')!, 12);
+          const augBase12 = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'augusta_messina')!, 12);
+          if (!bizBase12.nation.includes('Francia') || !bizBase12.historicalName?.includes('Maggio 1943')) return false;
+          if (!augBase12.nation.includes('Regno Unito') || !augBase12.historicalName?.includes('Augusta')) return false;
+
+          // 8. Rotte Marittime Step 12
+          const medLane12 = getDynamicSeaLaneStatus(HISTORICAL_SEA_LANES.find((l) => l.id === 'mediterranean_suez_lifeline')!, 12);
+          const axisLane12 = getDynamicSeaLaneStatus(HISTORICAL_SEA_LANES.find((l) => l.id === 'axis_libya_convoy')!, 12);
+          const atlLane12 = getDynamicSeaLaneStatus(HISTORICAL_SEA_LANES.find((l) => l.id === 'north_atlantic_convoy')!, 12);
+          const pacLane12 = getDynamicSeaLaneStatus(HISTORICAL_SEA_LANES.find((l) => l.id === 'transpacific_us_hawaii')!, 12);
+          if (!medLane12.statusNote?.includes('Canale di Sicilia') || medLane12.isContested) return false;
+          if (!axisLane12.statusNote?.includes('Interrotte') || axisLane12.isContested) return false;
+          if (!atlLane12.statusNote?.includes('Maggio Nero') || atlLane12.isContested) return false;
+          if (!pacLane12.statusNote?.includes('Cartwheel')) return false;
 
           return true;
         },

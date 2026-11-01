@@ -1045,6 +1045,73 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     ],
     activeSteps: [11],
   },
+  {
+    id: 'etna_quadrilateral_line',
+    name: 'Quadrilatero Difensivo dell\'Etna (Linea San Fratello - Troina - Randazzo - Acireale - Catania)',
+    nation: 'Italia / Germania (Asse)',
+    builder: 'XIV. Panzerkorps (Gen. Hans-Valentin Hube) & 6ª Armata Italiana (Gen. Alfredo Guzzoni)',
+    description:
+      'Cintura fortificata naturale e di trincee campali scaglionata sulle pendici laviche dell\'Etna e lungo i rilievi dei Monti Nebrodi. Presidiata dalla Divisione corazzata paracadutisti Hermann Göring, dalla 15. Panzergrenadier, dalla 29. Panzergrenadier e dalla Divisione Livorno per bloccare l\'avanzata della 7ª Armata di Patton a nord (Troina/San Fratello) e dell\'8ª Armata di Montgomery a sud (Piana di Catania / Ponte Primosole), proteggendo la via di evacuazione verso lo Stretto di Messina.',
+    type: 'field',
+    color: '#d9534f',
+    coordinates: [
+      [14.60, 38.01], // San Fratello (costa tirrenica)
+      [14.59, 37.78], // Troina
+      [14.90, 37.91], // Randazzo (nodo settentrionale Etna)
+      [15.16, 37.61], // Acireale (costa jonica)
+      [15.08, 37.45], // Piana di Catania / Fiume Simeto (Ponte Primosole)
+    ],
+    keyForts: [
+      { name: 'Rocca di Troina', coords: [14.59, 37.78], desc: 'Baluardo montano aspramente difeso dalla 15. Panzergrenadier contro la 1ª Divisione USA.' },
+      { name: 'Nodo Stradale di Randazzo', coords: [14.90, 37.91], desc: 'Perno centrale di ritirata alle falde nord dell\'Etna.' },
+      { name: 'Sbarramento del Ponte Primosole', coords: [15.08, 37.45], desc: 'Ponte sul Simeto a sud di Catania difeso dai paracadutisti tedeschi contro i parà britannici.' },
+      { name: 'Batterie Costiere dello Stretto di Messina', coords: [15.55, 38.20], desc: 'Potente concentrazione di contraerea e artiglieria costiera a copertura dei traghetti di evacuazione.' },
+    ],
+    activeSteps: [12],
+  },
+  {
+    id: 'gotenkopf_kuban_line',
+    name: 'Gotenkopf-Stellung (Testa di Ponte del Kuban\' & Penisola di Taman\')',
+    nation: 'Germania (Wehrmacht)',
+    builder: '17. Armee (General der Gebirgstruppe Rudolf Konrad / Erwin Jaenecke)',
+    description:
+      'Linea fortificata ("Gotenkopf") trincerata lungo la penisola di Taman\' tra il Mar d\'Azov e il Mar Nero a est dello Stretto di Kerč\'. Costituita da una fitta trama di campi minati, fossati anticarro e capisaldi nei centri di Novorossijsk, Krymskaja e Temrjuk; permise alla 17ª Armata di resistere per mesi alle offensive sovietiche nel Caucaso fino all\'evacuazione in Crimea (Operazione Krimhild).',
+    type: 'field',
+    color: '#8b8f94',
+    coordinates: [
+      [37.38, 45.32], // Temrjuk (Mar d\'Azov)
+      [37.78, 44.92], // Krymskaja
+      [37.78, 44.72], // Novorossijsk (porto del Mar Nero)
+    ],
+    keyForts: [
+      { name: 'Porto e Piazzaforte di Novorossijsk', coords: [37.78, 44.72], desc: 'Base navale del Mar Nero contesa casa per casa tra fanti di marina sovietici della "Malaja Zemlja" e Wehrmacht.' },
+      { name: 'Snodo di Krymskaja', coords: [37.78, 44.92], desc: 'Perno logistico e ferroviario fortificato della Gotenkopf-Stellung.' },
+      { name: 'Presidio Costiero di Temrjuk', coords: [37.38, 45.32], desc: 'Ancoraggio settentrionale della linea fortificata sul delta del Kuban\' e Mar d\'Azov.' },
+    ],
+    activeSteps: [12],
+  },
+  {
+    id: 'kursk_salient_defenses',
+    name: 'Cinture Difensive del Saliente di Kursk (Fronte Centrale & Voronež)',
+    nation: 'Unione Sovietica (Armata Rossa)',
+    builder: 'Fronti Centrale, Voronež e della Steppa (Žukov, Rokossovskij, Vatutin)',
+    description:
+      'La più formidabile concentrazione difensiva campale della storia militare: 8 cinture fortificate scaglionate fino a 300 km in profondità, con oltre 500.000 mine anticarro e antiuomo (densità fino a 2.000 per km di fronte), trincee per 10.000 km e zone di sbarramento d\'artiglieria PAK-front sulle quali si è infranta la manovra tedesca Zitadelle a Prochorovka.',
+    type: 'field',
+    color: '#d9534f',
+    coordinates: [
+      [35.30, 52.30], // Settore settentrionale (fianco di Ponyri / Maloarchangel\'sk)
+      [36.19, 51.73], // Kursk centro del saliente
+      [36.83, 51.04], // Prochorovka
+      [36.58, 50.60], // Settore meridionale (Belgorod / Tomarovka)
+    ],
+    keyForts: [
+      { name: 'Nodo Fortificato di Ponyri', coords: [36.30, 52.32], desc: '"La Stalingrado di Kursk" a nord: caposaldo ferroviario dove la 9ª Armata di Model fu arrestata.' },
+      { name: 'Campo di Battaglia Corazzato di Prochorovka', coords: [36.83, 51.04], desc: 'Scontro titanico del 12 luglio tra 1. SS-Panzerkorps e la 5ª Armata Corazzata delle Guardie di Rotmistrov.' },
+      { name: 'Perno Difensivo di Obojan\'', coords: [36.28, 51.21], desc: 'Sbarramento anticarro che impedì alla 4ª Armata Panzer di raggiungere Kursk da sud.' },
+    ],
+    activeSteps: [12],
+  },
 ];
 
 export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
@@ -1786,7 +1853,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'bizerte':
-      if (step >= 11) {
+      if (step >= 12) {
+        nation = 'Francia / Alleati (Marine Nationale & Royal Navy)';
+        historicalName = 'Piazzaforte Navale di Biserta (Liberata dagli Alleati — Maggio 1943)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Il 7 maggio 1943 le truppe del II Corpo d\'Armata USA entrano a Biserta; la base navale e l\'arsenale del lago interno tornano sotto bandiera alleata e vengono impiegati per allestire l\'Operazione Husky in Sicilia.';
+      } else if (step >= 11) {
         nation = 'Germania / Asse (Kriegsmarine & Regia Marina)';
         historicalName = 'Piazzaforte Navale di Biserta (Testa di Ponte dell\'Asse in Tunisia)';
         strokeColor = '#8b8f94';
@@ -2087,11 +2160,23 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
     case 'taranto':
     case 'la_spezia':
     case 'pola_naval':
-    case 'augusta_messina':
     case 'leros_aegean':
     case 'sazan_naval_base':
       strokeColor = '#6f7a3f';
       fillColor = '#1e2418';
+      break;
+
+    case 'augusta_messina':
+      if (step >= 12) {
+        nation = 'Regno Unito / Italia (Asse a Messina, Alleati ad Augusta)';
+        historicalName = 'Piazzaforte dello Stretto e Base di Augusta (Occupata dall\'8ª Armata Britannica a Luglio 1943)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'A metà luglio 1943 la piazzaforte navale di Augusta viene conquistata intatta dall\'8ª Armata di Montgomery (13 luglio), mentre la base navale di Messina e le batterie dello Stretto restano presidiate dalle forze italo-tedesche per coprire l\'evacuazione in Calabria.';
+      } else {
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+      }
       break;
 
     case 'wilhelmshaven':

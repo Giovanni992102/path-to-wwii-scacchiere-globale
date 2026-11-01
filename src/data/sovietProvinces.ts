@@ -8312,7 +8312,24 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getOwner = (step: number): string => {
     if (step < 9) return origGetOwner(step);
-    if (step >= 11 && isKessel) return 'GER';
+    if (step >= 12) {
+      if (isKessel) return 'SOV'; // Sacca di Stalingrado cancellata (resa 2 Feb 1943)
+      if (pid === 'SOV_ADM1_RUS_40_Kursk_Oblast') return 'SOV'; // Saliente di Kursk liberato e difeso dall'Armata Rossa
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') return 'SOV'; // Rostov liberata a febbraio 1943
+      if (
+        pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' ||
+        pid === 'SOV_ADM1_RUS_19_Adygea' ||
+        pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia' ||
+        pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria' ||
+        pid === 'SOV_ADM1_RUS_70_Kalmykia'
+      ) {
+        return 'SOV'; // Caucaso interamente liberato
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'GER'; // Testa di ponte del Kuban' / Penisola di Taman' (Gotenkopf)
+      }
+    }
+    if (step === 11 && isKessel) return 'GER';
     if (pid === 'SOV_ADM1_RUS_55_Tuva') return 'TUV';
     if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid) || SOVIET_ROM_BUKOVINA_IDS.has(pid)) return 'ROM';
     if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) return 'FIN';
@@ -8340,6 +8357,32 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getAdminTitle = (step: number): string => {
     if (step < 9) return origGetAdmin(step);
+    if (step >= 12) {
+      if (isKessel) {
+        return 'Stalingradskij Oblispolkom — RSFSR (URSS) — Sacca di Stalingrado Cancellata (Resa della 6ª Armata di Paulus, 2 Febbraio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Stalingradskij Oblispolkom — RSFSR (URSS) — Controllo Sovietico sul Volga e Don Pienamente Ristabilito';
+      }
+      if (pid === 'SOV_ADM1_RUS_40_Kursk_Oblast') {
+        return 'Saliente di Kursk — Fronte Centrale (Gen. Konstantin Rokossovskij) & Fronte di Voronež (Gen. Nikolaj Vatutin) — Vittoria Difensiva di Prochorovka';
+      }
+      if (pid === 'SOV_ADM1_RUS_48_Oryol_Oblast') {
+        return 'Saliente di Orel — 2. Panzerarmee & 9. Armee (Walter Model) sotto Controffensiva Sovietica Operazione Kutuzov';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Kuban-Brückenkopf (Gotenkopf-Stellung) — 17. Armee Wehrmacht (General der Gebirgstruppe Rudolf Konrad / Erwin Jaenecke)';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+        return 'Rostovskij Oblispolkom — RSFSR (URSS) — Liberata dall\'Armata Rossa il 14 Febbraio 1943';
+      }
+      if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria') {
+        return 'Kabardino-Balkarskij Oblispolkom — Caucaso Liberato (Rimozione della Bandiera Nazista dall\'Elbrus, Febbraio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' || pid === 'SOV_ADM1_RUS_19_Adygea' || pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return 'Amministrazione Regionale Sovietica — Caucaso Settentrionale Liberato dall\'Armata Rossa';
+      }
+    }
     if (step >= 11) {
       if (isKessel) {
         return 'Festung Stalingrad — 6. Armee accerchiata (Gen. Friedrich Paulus) \u0026 resti 4. Panzerarmee e 4ª Armata Romena — Rifornimento aereo Luftflotte 4 (Pitomnik / Gumrak)';
@@ -8415,6 +8458,32 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
   item.getHistoricalName = (step: number): string => {
     if (step < 9) return origGetHistName(step);
     const base = origGetHistName(8);
+    if (step >= 12) {
+      if (isKessel) {
+        return 'Sacca di Stalingrado (Cancellata — Capitolazione 6ª Armata di Paulus, 2 Febbraio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Oblast di Stalingrado (Fiume Volga e Ansa del Don — Pienamente Ristabilita sotto Controllo Sovietico)';
+      }
+      if (pid === 'SOV_ADM1_RUS_40_Kursk_Oblast') {
+        return 'Saliente di Kursk (Vittoria Difensiva di Prochorovka contro Operazione Zitadelle, Luglio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_48_Oryol_Oblast') {
+        return 'Saliente di Orel (2. Panzerarmee sotto Controffensiva Sovietica Operazione Kutuzov, Luglio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+        return 'Rostov sul Don (Liberata Definitivamente dall\'Armata Rossa — 14 Febbraio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Testa di Ponte del Kuban\' — Penisola di Taman\' (Gotenkopf-Stellung Wehrmacht, Luglio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria') {
+        return 'Kabardino-Balkaria & Monte Elbrus (Caucaso Liberato — Bandiera Sovietica sulla Vetta, Febbraio 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' || pid === 'SOV_ADM1_RUS_19_Adygea' || pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return `${item.capital} e Territori Caucasici (Liberati dall\'Armata Rossa, Inverno-Primavera 1943)`;
+      }
+    }
     if (step >= 11) {
       if (isKessel) {
         return 'Sacca di Stalingrado — Kessel (6ª Armata Tedesca Accerchiata, 23 Novembre 1942)';
@@ -8521,6 +8590,29 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getNote = (step: number): string => {
     if (step < 9) return origGetNote(step);
+    if (step >= 12) {
+      if (isKessel) {
+        return 'Sacca di Stalingrado cancellata (febbraio 1943): dopo il fallimento del ponte aereo della Luftwaffe e il collasso dell\'Operazione Tempesta Invernale di Manstein, il 2 febbraio 1943 il Generalfeldmarschall Friedrich Paulus e gli ultimi 91.000 soldati della 6ª Armata si sono arresi all\'Armata Rossa nel centro e nella fabbrica Barrikady. Il territorio è tornato integralmente sotto la sovranità sovietica e i lavori di ricostruzione della città distrutta sono avviati.';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Al 31 luglio 1943 l\'intera regione del Volga e l\'ansa del Don sono saldamente sotto controllo sovietico. La vittoria epocale di Stalingrado ha segnato l\'inizio della ritirata irreversibile della Wehrmacht verso ovest e il pieno ripristino delle linee logistiche sul grande fiume russo.';
+      }
+      if (pid === 'SOV_ADM1_RUS_40_Kursk_Oblast') {
+        return 'Al 31 luglio 1943 il saliente di Kursk ha resistito alla più imponente concentrazione corazzata della Wehrmacht (Operazione Zitadelle, 5-17 luglio). La formidabile difesa in profondità sovietica (Fronti Centrale di Rokossovskij e di Voronež di Vatutin) e lo scontro corazzato di Prochorovka (12 luglio) hanno stroncato l\'offensiva tedesca; l\'Armata Rossa prepara lo sfondamento meridionale verso Belgorod e Char\'kov (Operazione Rumjancev).';
+      }
+      if (pid === 'SOV_ADM1_RUS_48_Oryol_Oblast') {
+        return 'Nel luglio 1943 il saliente di Orel difeso dalla 2ª Armata Panzer e dalla 9ª Armata tedesche del generale Walter Model è investito in pieno dalla controffensiva sovietica Operazione Kutuzov (scattata il 12 luglio dai Fronti di Brjansk, Occidentale e Centrale), costringendo le forze tedesche a un sanguinoso ripiegamento verso la linea Hagen.';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Al 31 luglio 1943 la 17ª Armata della Wehrmacht è asserragliata nella penisola di Taman\' lungo la fortificata linea Gotenkopf (Testa di ponte del Kuban\') a est dello Stretto di Kerč\', unico settore del Caucaso ancora sotto controllo dell\'Asse, sotto il martellamento costante delle truppe e dell\'aviazione sovietica del Fronte del Caucaso Settentrionale.';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+        return 'Liberata definitivamente dall\'Armata Rossa il 14 febbraio 1943 (Fronte Meridionale di Malinovskij), la porta del Caucaso funge ora da retrovia logistica primaria per sostenere la pressione sovietica contro la linea del Mius e verso il Donbass.';
+      }
+      if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria' || pid === 'SOV_ADM1_RUS_19_Adygea' || pid === 'SOV_ADM1_RUS_54_Stavropol_Krai' || pid === 'SOV_ADM1_RUS_72_Karachay_Cherkessia' || pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return 'Regione caucasica interamente liberata tra gennaio e febbraio 1943: le truppe da montagna dell\'Armata Rossa hanno rimosso la bandiera nazista dalla vetta dell\'Elbrus (febbraio 1943) e ricacciato i reparti dell\'Asse verso la penisola di Taman\', ripristinando la sicurezza delle raffinerie e dei campi petroliferi di Majkop e Groznyj.';
+      }
+    }
     if (step >= 11) {
       if (isKessel) {
         return 'Al 30 novembre 1942 la sacca di Stalingrado è un\'enclave isolata in territorio controllato dall\'Armata Rossa: il 19 novembre l\'Operazione Uranus ha sfondato a nord-ovest le linee della 3ª Armata romena sul Don (Fronte Sud-Occidentale di Vatutin e Fronte del Don di Rokossovskij) e il 20 novembre a sud quelle della 4ª Armata romena (Fronte di Stalingrado di Erëmenko); il 23 novembre il 4° Corpo Corazzato e il 4° Corpo Meccanizzato sovietici si sono ricongiunti a Kalač-na-Donu e Sovetskij. Nel Kessel (circa 60 × 40 km, tra il Volga, Gumrak, Pitomnik, Karpovka e Marinovka) sono intrappolati 250.000-300.000 uomini della 6ª Armata del Gen. Friedrich Paulus, di parte della 4ª Armata corazzata (IV Corpo d\'Armata), di due divisioni romene e di reparti croati. Hitler ha vietato lo sfondamento proclamando la "Festung Stalingrad" e affidando a Göring un ponte aereo che non raggiungerà mai le 300 tonnellate giornaliere necessarie, mentre il Gruppo d\'Armate Don di von Manstein prepara l\'Operazione Tempesta Invernale (Wintergewitter) per soccorrere la sacca.';

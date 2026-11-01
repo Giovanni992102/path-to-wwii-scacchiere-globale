@@ -41,7 +41,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [-3.00, 53.40],  // Liverpool
     ],
     description: 'La fondamentale linea di rifornimento vitale per la sopravvivenza della Gran Bretagna (armi, petrolio, cibo).',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   },
   {
     id: 'mediterranean_suez_lifeline',
@@ -63,7 +63,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [45.00, 12.80],  // Aden (Oceano Indiano)
     ],
     description: 'Il corridoio imperiale britannico più rapido per collegare la madrepatria con l\'India Britannica e Singapore.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   },
   {
     id: 'cape_route',
@@ -85,7 +85,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [72.85, 18.95],  // Bombay (India)
     ],
     description: 'Rotta strategica di riserva usata dai convogli alleati per evitare i pericoli aero-navali del Mediterraneo.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   },
   {
     id: 'pacific_singapore_tokyo',
@@ -104,7 +104,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [139.70, 35.65], // Tokyo
     ],
     description: 'L\'arteria vitale per l\'Impero Giapponese: trasporto di gomma, petrolio, bauxite e riso verso le industrie della madrepatria.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   },
   {
     id: 'transpacific_us_hawaii',
@@ -128,7 +128,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       ],
     ],
     description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor e alle Filippine attraverso l\'Oceano Pacifico.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   },
 
   // Nuove rotte strategiche per il conflitto bellico (1940-1942)
@@ -148,7 +148,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [40.50, 64.55],  // Arcangelo (Golfo di Dvina / Mar Bianco)
     ],
     description: 'La via navale più estrema della guerra: convogli alleati carichi di carri armati, aerei e munizioni affrontano ghiacci polari, tempeste e gli attacchi di U-Boot e bombardieri della Luftwaffe dai fiordi norvegesi per rifornire l\'URSS.',
-    activeSteps: [9, 10, 11], // Attivata dall'agosto 1941 (Operazione Dervish)
+    activeSteps: [9, 10, 11, 12], // Attivata dall'agosto 1941 (Operazione Dervish)
   },
   {
     id: 'axis_libya_convoy',
@@ -166,7 +166,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [20.06, 32.11], // Bengasi
     ],
     description: 'Cordone ombelicale logistico essenziale per il sostentamento del Regio Esercito e dell\'Afrikakorps di Rommel in Nordafrica, costantemente bersagliato dalla Force K e dai sommergibili britannici basati a Malta.',
-    activeSteps: [6, 7, 8, 9, 10, 11], // Dal giugno 1940
+    activeSteps: [6, 7, 8, 9, 10, 11, 12], // Dal giugno 1940
   },
   {
     id: 'persian_corridor_sealane',
@@ -185,7 +185,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [47.80, 30.50],  // Bassora (Iraq)
     ],
     description: 'Arteria marittima oceanica aperta dagli Alleati dopo l\'invasione congiunta anglo-sovietica dell\'Iran nell\'agosto-settembre 1941. Convogliava autocarri Studebaker, munizioni e materiale bellico del Lend-Lease verso la Russia tramite la Ferrovia Trans-Iraniana.',
-    activeSteps: [9, 10, 11],
+    activeSteps: [9, 10, 11, 12],
   },
 ];
 
@@ -214,10 +214,15 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
         statusNote = 'Battaglia dell\'Atlantico & Lend-Lease (Black Pit)';
         isContested = true;
         description = 'Espansione delle scorte statunitensi e canadesi a tutela dei mercantili; i branchi di lupi di Dönitz colpiscono nel Mid-Atlantic Gap privo di copertura aerea.';
-      } else {
+      } else if (step === 10 || step === 11) {
         statusNote = 'Seconda Epoca Felice (Operazione Paukenschlag / Drumbeat)';
         isContested = true;
         description = 'Nel gennaio-agosto 1942 gli U-Boot di Dönitz (Operazione Paukenschlag) colpiscono lungo la costa orientale degli Stati Uniti, nel Golfo del Messico e nei Caraibi, oltre che nel Mid-Atlantic Gap, provocando l\'entrata in guerra di Messico (maggio 1942) e Brasile (agosto 1942).';
+      } else {
+        statusNote = 'Punto di Svolta dell\'Atlantico (Maggio Nero 1943 & Radar Centimetrico)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Nel maggio 1943 ("Maggio Nero"), la tecnologia alleata (radar a microonde H2S a 10 cm, decrittazione Enigma con Ultra, portaerei di scorta escort carrier e pattugliatori a lunghissimo raggio B-24 Liberator) infligge perdite insostenibili agli U-Boot (43 battelli affondati in un solo mese): l\'ammiraglio Dönitz è costretto a ritirare i branchi di lupi dalle rotte centrali del Nord Atlantico. I convogli alleati viaggiano in sicurezza garantita verso la Gran Bretagna.';
       }
       break;
 
@@ -235,11 +240,16 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
         isContested = true;
         color = '#e07a5f';
         description = 'Con il transito ordinario deviato sulla Rotta del Capo e la Panzerarmee Afrika ferma a El Alamein, nell\'agosto 1942 i convogli britannici affrontano la furiosa Battaglia di Mezzo Agosto (Operazione Pedestal, 10-15 agosto 1942): a caro prezzo (perdita della portaerei HMS Eagle), la petroliera SS Ohio raggiunge La Valletta garantendo la sopravvivenza di Malta.';
-      } else {
+      } else if (step === 11) {
         statusNote = 'Operazione Torch & Sblocco Definitivo di Malta (Convoglio Stoneage)';
         isContested = true;
         color = '#5aa0c2';
         description = 'Gli sbarchi alleati in Algeria e Marocco (Operazione Torch, 8 novembre 1942) e la riconquista della Cirenaica consentono l\'arrivo a Malta del convoglio MW 13 (Operazione Stoneage, 20 novembre 1942) senza alcuna perdita: l\'assedio di Malta è infranto definitivamente e le forze aeronavali alleate dominano il Mediterraneo centrale.';
+      } else {
+        statusNote = 'Riapertura del Canale di Sicilia & Controllo Totale Alleato';
+        isContested = false;
+        color = '#5aa0c2';
+        description = 'Con la capitolazione totale delle forze dell\'Asse in Tunisia (13 maggio 1943) e l\'invasione anfibia alleata della Sicilia (Operazione Husky, 10 luglio 1943), il Canale di Sicilia e l\'intero bacino del Mediterraneo sono definitivamente riaperti alla libera navigazione delle flotte alleate, ripristinando la rotta marittima più rapida verso il Canale di Suez e l\'India.';
       }
       break;
 
@@ -284,11 +294,16 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
         isContested = true;
         color = '#d9534f';
         description = 'Sebbene il segmento occidentale (Manila-Guam-Wake) sia in mano giapponese dopo la caduta di Corregidor (6 maggio 1942), la decisiva vittoria delle portaerei americane a Midway (4-7 giugno 1942) blinda Pearl Harbor e consente agli USA di aprire la controffensiva nel Pacifico meridionale a Guadalcanal (7 agosto 1942).';
-      } else {
+      } else if (step === 11) {
         statusNote = 'Consolidamento Alleato nelle Salomone & Difesa di Guadalcanal';
         isContested = true;
         color = '#5aa0c2';
         description = 'Dopo la vittoria nella Battaglia navale di Guadalcanal (12-15 novembre 1942), la marina e l\'aviazione degli Stati Uniti controllano saldamente le vie d\'accesso marittime all\'arcipelago, garantendo i rifornimenti a Henderson Field e bloccando i rinforzi dell\'Impero Giapponese.';
+      } else {
+        statusNote = 'Operazione Cartwheel & Offensiva nelle Salomone Centrali (New Georgia)';
+        isContested = true;
+        color = '#5aa0c2';
+        description = 'Dopo la riconquista totale di Guadalcanal (febbraio 1943), le forze combinate alleate avviano l\'Operazione Cartwheel (fine giugno 1943), risalendo la catena delle Salomone verso la Nuova Georgia per neutralizzare l\'aeroporto di Munda e isolare la base giapponese di Rabaul.';
       }
       break;
 
@@ -305,7 +320,12 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'axis_libya_convoy':
-      if (step >= 11) {
+      if (step >= 12) {
+        statusNote = 'Rotte dell\'Asse Interrotte (Caduta della Tunisia e Invasione della Sicilia)';
+        isContested = false;
+        color = '#7a7a7a';
+        description = 'Con la capitolazione di 250.000 soldati dell\'Asse in Tunisia (13 maggio 1943) e lo sbarco alleato in Sicilia (Operazione Husky, luglio 1943), le linee marittime italo-tedesche verso il Nordafrica cessano completamente: gli Alleati controllano incontrastati le acque del Canale di Sicilia.';
+      } else if (step === 11) {
         statusNote = 'Perdita della Cirenaica & Riorientamento Convogli sulla Tunisia';
         isContested = true;
         color = '#c25a5a';

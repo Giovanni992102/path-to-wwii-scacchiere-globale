@@ -18,6 +18,7 @@ import {
   HISTORICAL_NAVAL_BASES,
   getDynamicNavalBaseStatus,
 } from '../src/data/historicalFortifications';
+import { HISTORICAL_BATTLES } from '../src/data/historicalBattles';
 import {
   HISTORICAL_SEA_LANES,
   getDynamicSeaLaneStatus,
@@ -42,7 +43,7 @@ async function verifyAll() {
     'getExtendedToponym', 'getCountryFlagSvg', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
     'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince', 'SPAIN_PROVINCES_META', 'resolveSpainProvince', 'SOVIET_PROVINCES_META', 'resolveSovietProvince',
     'HISTORICAL_FORTIFICATION_LINES', 'HISTORICAL_NAVAL_BASES', 'getDynamicNavalBaseStatus',
-    'HISTORICAL_SEA_LANES', 'getDynamicSeaLaneStatus', 'getStrategicIslandLabel',
+    'HISTORICAL_SEA_LANES', 'getDynamicSeaLaneStatus', 'getStrategicIslandLabel', 'HISTORICAL_BATTLES',
     `${jsCode}; return tests;`
   );
 
@@ -51,7 +52,7 @@ async function verifyAll() {
     getExtendedToponym, getCountryFlagSvg, getOwnerMeta, getOverlord, isSubjectOf,
     BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince, SOVIET_PROVINCES_META, resolveSovietProvince,
     HISTORICAL_FORTIFICATION_LINES, HISTORICAL_NAVAL_BASES, getDynamicNavalBaseStatus,
-    HISTORICAL_SEA_LANES, getDynamicSeaLaneStatus, getStrategicIslandLabel
+    HISTORICAL_SEA_LANES, getDynamicSeaLaneStatus, getStrategicIslandLabel, HISTORICAL_BATTLES
   );
 
   console.log(`Esecuzione di ${tests.length} test da App.tsx...`);

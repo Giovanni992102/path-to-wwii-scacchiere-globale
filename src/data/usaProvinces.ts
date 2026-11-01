@@ -2230,17 +2230,22 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
   const origNote = meta.getNote.bind(meta);
 
   meta.getSovereign = (s: number) => {
+    if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'USA';
     if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'JAP';
     if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'JAP';
     return origSov(s);
   };
   meta.getFaction = (s: number) => {
+    if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'Alleati';
     if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'Asse';
     if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'Asse';
     if (s >= 9) return 'Alleati';
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') {
+      return 'Western Aleutian Islands — Attu & Kiska (Riconquista di Attu & Evacuazione Giapponese di Kiska, Luglio 1943)';
+    }
     if (s >= 10) {
       if (meta.id === 'US_AK_ALEUTIANS_WEST') {
         return 'Atsuta-tō & Narukami-tō / Attu e Kiska (Aleutine Occidentali Occupate dal Giappone — Giugno 1942)';
@@ -2262,6 +2267,9 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origHist(s);
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') {
+      return 'United States of America — Territory of Alaska (7th Infantry Division USA & US Navy North Pacific Force)';
+    }
     if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') {
       return 'Impero Giapponese — 5ª Flotta Imperiale (Viceamm. Boshirō Hosogaya — Guarnigioni di Narukami-tō / Kiska e Atsuta-tō / Attu)';
     }
@@ -2273,6 +2281,9 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origAdmin(s);
   };
   meta.getNote = (s: number) => {
+    if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') {
+      return "Isole Aleutine Occidentali (Attu e Kiska liberate — Luglio 1943) · Con l'Operazione Landcrab (maggio 1943) la 7ª Divisione di Fanteria dell'esercito statunitense riconquista l'isola di Attu dopo aspri combattimenti e la carica suicida banzai finale della guarnigione giapponese del Col. Yamazaki. Di fronte all'imminente attacco alleato, il 28 luglio 1943 la Marina imperiale giapponese (Operazione Ke-Gō) evacua segretamente nella fitta nebbia estiva l'intero presidio di 5.183 uomini dall'isola di Kiska, ponendo fine all'occupazione dell'arcipelago nordamericano.";
+    }
     if (s >= 10) {
       if (meta.id === 'US_AK_ALEUTIANS_WEST') {
         return "Attu e Kiska (Aleutine Occidentali occupate dal Giappone — Giugno 1942) · Nell'ambito dell'Operazione AL (braccio settentrionale dell'offensiva di Midway guidato dalla 5ª Flotta del Viceamm. Boshirō Hosogaya), dopo il bombardamento aereo di Dutch Harbor (3-4 giugno 1942), il 6 giugno 1942 la 3ª Forza da Sbarco Navale Speciale di Maizuru ha occupato l'isola di Kiska (catturando la stazione meteo della U.S. Navy e ribattezzando l'isola 'Narukami-tō') e il 7 giugno il Distaccamento dei Mari del Nord del Magg. Matsutoshi Hozumi è sbarcato ad Attu ('Atsuta-tō'): è la prima e unica occupazione militare straniera di suolo nordamericano statunitense dai tempi della Guerra del 1812.";

@@ -2839,6 +2839,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Africa Orientale Italiana (AOI — Etiopia)', 'Impero proclamato il 9 maggio 1936');
   }
   if (nrm_hb.includes('libya') || nrm_hb.includes('cyrenaica') || nrm_hb.includes('tripolitania')) {
+    if (s >= 12) {
+      return makeResult(
+        'UK',
+        'Libia (Amministrazione Militare Alleata — Tripolitania, Cirenaica e Fezzan)',
+        'Caduta definitiva della Quarta Sponda fascista: nel gennaio 1943 l\'8ª Armata britannica entra a Tripoli e le forze della Francia Libera di Leclerc liberano il Fezzan. L\'intero territorio libico è sotto piena amministrazione militare alleata.',
+        'Alleati',
+        'British Military Administration (Tripolitania & Cyrenaica) / Territoire Militaire du Fezzan (France)'
+      );
+    }
     if (s >= 11 && (nrm_hb.includes('cyrenaica') || nrm_hb.includes('tobruk') || nrm_hb.includes('bengasi') || nrm_hb.includes('benghazi') || nrm_hb.includes('derna') || nrm_hb.includes('bardia'))) {
       return makeResult(
         'UK',
@@ -3410,6 +3419,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           );
         }
         if (vicKey === 'VIC_NAF' && s >= 11) {
+          if (s >= 12) {
+            return makeResult(
+              'FRA',
+              'Afrique du Nord Française (Litorale Interamente Alleato — Maggio 1943)',
+              'Con l\'eliminazione della sacca di Tunisi e Capo Bon a metà maggio 1943, l\'intero litorale nordafricano (Marocco, Algeria, Tunisia) è sotto controllo degli Alleati e del Comitato Francese di Liberazione Nazionale (CFLN).',
+              'Alleati',
+              'Comité Français de la Libération Nationale (CFLN — Général Henri Giraud & Général Charles de Gaulle)'
+            );
+          }
           if (nrm_hb.includes('tunis') || nrm_hb.includes('bizerte')) {
             return makeResult(
               'GER',
@@ -3609,6 +3627,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             : 'Operazione B (16-25 dicembre 1941): il Distaccamento Kawaguchi sbarca a Miri, conquista i campi petroliferi di Seria in Brunei e occupa Kuching (Sarawak) il 24 dicembre 1941.',
           'Asse',
           'Dai Nippon Teikoku — Occupazione Militare Giapponese'
+        );
+      }
+      if (s >= 12 && (nrm_hb.includes('solomon') || nrm_hb.includes('salomone'))) {
+        return makeResult(
+          'UK',
+          'British Solomon Islands Protectorate (Operazione Cartwheel — Campagna della Nuova Georgia & Munda, Luglio 1943)',
+          'Dopo l\'evacuazione giapponese di Guadalcanal (febbraio 1943), il 30 giugno 1943 gli Alleati lanciano l\'Operazione Cartwheel: a fine luglio infuriano i combattimenti nell\'isola di Nuova Georgia per espugnare l\'aeroporto strategico di Munda Point e isolare la base giapponese di Rabaul.',
+          'Alleati',
+          'British Solomon Islands Protectorate — Allied South Pacific Area (Admiral William F. Halsey Jr.)'
         );
       }
       if (s >= 11 && (nrm_hb.includes('solomon') || nrm_hb.includes('salomone'))) {
@@ -5361,6 +5388,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isTunisiaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^TN_/, 'TN').toUpperCase();
     const tnMeta = (TUNISIA_PROVINCES_META as any)?.[cleanId];
+    if (s >= 12) {
+      return makeResult(
+        'F_NAF',
+        tnMeta?.historicalName || 'Protectorat français de Tunisie (Liberazione Alleata — Resa di Capo Bon)',
+        (tnMeta?.note || 'Protectorat français de Tunisie') + ' A metà maggio 1943 la sacca dell\'Asse di Biserta, Tunisi e Capo Bon è stata interamente eliminata dalle forze alleate; l\'intero litorale nordafricano è sotto pieno controllo alleato (CFLN).',
+        'Alleati',
+        'Protectorat français de Tunisie — Comité Français de la Libération Nationale (CFLN / Henri Giraud & Charles de Gaulle)'
+      );
+    }
     const owner = s >= 11 ? 'GER' : s >= 6 ? 'VIC_NAF' : 'F_NAF';
     const top = getTop(owner);
     const faction = s >= 11 ? 'Asse' : s >= 6 ? 'Fantoccio' : 'Alleati';
@@ -6847,7 +6883,124 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'IT':
     case 'ITA': {
-      // Risoluzione esaustiva delle 107 province del Regno d'Italia e possedimenti speciali
+      if (s >= 12) {
+        const cleanId = String(nid || ft.id || '').toUpperCase().trim();
+        const normName = nrm;
+
+        // Sicilia divisa in due:
+        // 1. Zona Asse (Quadrilatero nord-orientale dell'Etna e Messina)
+        const isMessina = cleanId === 'ITG13' || normName.includes('messina');
+        const isCatania = cleanId === 'ITG17' || normName.includes('catania');
+
+        if (isMessina) {
+          return makeResult(
+            'ITA',
+            'Messina e Stretto (Quadrilatero Difensivo dell\'Etna — Presidio Asse)',
+            'Presidio italo-tedesco trincerato nel quadrilatero nord-orientale a protezione dello Stretto di Messina; batterie costiere e contraeree coprono il traghettamento dei reparti verso la Calabria.',
+            'Asse',
+            'Regno d\'Italia — Presidio dello Stretto di Messina (6ª Armata / XIV. Panzerkorps)'
+          );
+        }
+        if (isCatania) {
+          return makeResult(
+            'ITA',
+            'Catania e Pendici dell\'Etna (Linea Difensiva dell\'Asse — Hermann Göring & Livorno)',
+            'Fronte italo-tedesco attestato a sud di Catania e sulle pendici dell\'Etna; le divisioni corazzate Hermann Göring e 15. Panzergrenadier e la Divisione Livorno fronteggiano l\'8ª Armata britannica di Montgomery.',
+            'Asse',
+            'Regno d\'Italia — Fronte dell\'Etna (XIV. Panzerkorps / Divisione Hermann Göring)'
+          );
+        }
+
+        // 2. Zona Alleata Liberata (Sicilia occidentale, centrale e meridionale)
+        // 7ª Armata USA di Patton: Trapani (ITG11), Palermo (ITG12), Agrigento (ITG14), Caltanissetta (ITG15), Enna (ITG16)
+        // 8ª Armata Britannica di Montgomery: Ragusa (ITG18), Siracusa (ITG19)
+        const isTrapani = cleanId === 'ITG11' || normName.includes('trapani') || normName.includes('pantelleria');
+        const isPalermo = cleanId === 'ITG12' || normName.includes('palermo');
+        const isAgrigento = cleanId === 'ITG14' || normName.includes('agrigento') || normName.includes('lampedusa') || normName.includes('licata');
+        const isCaltanissetta = cleanId === 'ITG15' || normName.includes('caltanissetta') || normName.includes('gela');
+        const isEnna = cleanId === 'ITG16' || normName.includes('enna') || normName.includes('castrogiovanni');
+        const isRagusa = cleanId === 'ITG18' || normName.includes('ragusa') || normName.includes('comiso');
+        const isSiracusa = cleanId === 'ITG19' || normName.includes('siracusa') || normName.includes('augusta');
+
+        if (isPalermo) {
+          return makeResult(
+            'USA',
+            'Palermo (Liberata dalla 7ª Armata USA di Patton, 22 Luglio 1943)',
+            'Il 22 luglio 1943 la 7ª Armata statunitense del generale George S. Patton entra trionfalmente a Palermo dopo aver travolto le difese dell\'Asse nella Sicilia occidentale; l\'isola è tagliata in due e il grande porto tirrenico è aperto alla logistica alleata.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army (Lt. Gen. George S. Patton)'
+          );
+        }
+        if (isTrapani) {
+          return makeResult(
+            'USA',
+            'Trapani e Pantelleria (Liberata dalla 7ª Armata USA — Operazione Husky)',
+            'Sicilia occidentale interamente liberata dalle truppe americane di Patton; le isole-fortezza di Pantelleria e Pelagie sono state conquistate a giugno (Operazione Corkscrew). Sotto amministrazione militare alleata AMGOT.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army'
+          );
+        }
+        if (isAgrigento) {
+          return makeResult(
+            'USA',
+            'Agrigento e Licata (Liberata dalla 7ª Armata USA — Joss Force)',
+            'Sbarco della 3ª Divisione di Fanteria USA a Licata (10 luglio 1943); liberazione fulminea di Agrigento e Porto Empedocle e avanzata verso Palermo.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army'
+          );
+        }
+        if (isCaltanissetta) {
+          return makeResult(
+            'USA',
+            'Caltanissetta e Gela (Liberata dalla 7ª Armata USA — Dime Force)',
+            'Dopo aver respinto a Gela il feroce contrattacco corazzato italo-tedesco (10-12 luglio 1943), la 1ª Divisione USA e le colonne corazzate liberano Caltanissetta e le zolfare interne.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army'
+          );
+        }
+        if (isEnna) {
+          return makeResult(
+            'USA',
+            'Enna (Cuore della Sicilia Liberata — 1ª Divisione Canadese & USA)',
+            'Espugnato a fine luglio 1943 il baluardo montano di Enna (Leonforte e Assoro) ad opera della 1ª Divisione canadese e dei reparti USA, saldando l\'avanzata alleata centrale.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — 15th Army Group'
+          );
+        }
+        if (isSiracusa) {
+          return makeResult(
+            'UK',
+            'Siracusa e Augusta (Presa dall\'8ª Armata Britannica di Montgomery)',
+            'Sbarco del XIII Corpo d\'Armata britannico il 10 luglio 1943: cattura rapida e intatta del porto di Siracusa e della base navale di Augusta (13 luglio); le forze britanniche avanzano verso Catania.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — British Eighth Army (General Bernard Montgomery)'
+          );
+        }
+        if (isRagusa) {
+          return makeResult(
+            'UK',
+            'Ragusa e Modica (Liberata dall\'8ª Armata Britannica — XXX Corps)',
+            'Sbarco della 51ª Divisione Highland e della 1ª Divisione canadese a Pachino e Pozzallo; cattura degli aeroporti di Comiso e Biscari e liberazione dell\'altopiano ibleo.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — British Eighth Army (XXX Corps)'
+          );
+        }
+
+        // 3. Italia Peninsulare e Isole (Governo Badoglio — Regno d'Italia)
+        const itProv = resolveItalyProvince(nid || ft.id || rawName, s, rawName);
+        const top = getTop('ITA');
+        const histTitle = (itProv?.name || top.name || rawName) + ' (Governo Badoglio — "La guerra continua")';
+        const noteBadoglio = (itProv?.note || top.note || '') + ' Al 31 luglio 1943 il Regno d\'Italia è guidato dal maresciallo Pietro Badoglio dopo la sfiducia del Gran Consiglio e l\'arresto di Mussolini (25 luglio); il governo dichiara formalmente che la guerra continua al fianco dell\'Asse, mentre avvia trattative segrete con gli Alleati e la Wehrmacht ammassa divisioni corazzate ai valichi alpini in vista dell\'occupazione (Operazione Alarico).';
+        return makeResult(
+          'ITA',
+          histTitle,
+          noteBadoglio,
+          'Asse',
+          'Regno d\'Italia — Governo Militare del Maresciallo Pietro Badoglio'
+        );
+      }
+
+      // Risoluzione esaustiva delle 107 province del Regno d'Italia e possedimenti speciali (Step < 12)
       const itProv = resolveItalyProvince(nid || ft.id || rawName, s, rawName);
       if (itProv) {
         return itProv;
@@ -9600,6 +9753,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Occupied Enemy Territory Administration (OETA) — British Military Administration in Somalia'
           );
         }
+        if (s >= 12 && (cntr === 'LY' || cntr === 'LBY' || nid.startsWith('LY') || nrm.includes('libya') || nrm.includes('libia'))) {
+          return makeResult(
+            'UK',
+            'Libia Sotto Amministrazione Militare Alleata (Tripolitania, Cirenaica e Fezzan)',
+            'Caduta definitiva della Quarta Sponda fascista: nel gennaio 1943 l\'8ª Armata britannica entra a Tripoli e le forze della Francia Libera di Leclerc liberano il Fezzan. L\'intero territorio libico è sotto piena amministrazione militare alleata.',
+            'Alleati',
+            'British Military Administration (Tripolitania & Cyrenaica) / Territoire Militaire du Fezzan (France)'
+          );
+        }
         if (
           s >= 11 &&
           (nid === 'LYBU' ||
@@ -9876,6 +10038,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Occupazione giapponese delle Isole Salomone (Shortland, Tulagi, Guadalcanal — marzo-maggio 1942): nonostante lo sbarco della 1ª Divisione Marines USA a Guadalcanal e Tulagi il 7 agosto 1942 (Operazione Watchtower) per catturare l\'aeroporto in costruzione (Henderson Field), la vittoria navale giapponese a Savo Island (8-9 agosto) e gli sbarchi del Tokyo Express mantengono l\'arcipelago delle Salomone al centro dell\'aspra battaglia aeronavale e terrestre dell\'agosto 1942.',
             'Asse',
             'Dai Nippon Teikoku — 8ª Flotta (Rabaul, Viceamm. Gunichi Mikawa) & 17ª Armata (Ten. Gen. Harukichi Hyakutake)'
+          );
+        }
+        if (s >= 12 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {
+          return makeResult(
+            'UK',
+            'British Solomon Islands Protectorate (Operazione Cartwheel — Campagna della Nuova Georgia & Munda, Luglio 1943)',
+            'Dopo l\'evacuazione giapponese di Guadalcanal (febbraio 1943), il 30 giugno 1943 gli Alleati lanciano l\'Operazione Cartwheel: a fine luglio infuriano i combattimenti nell\'isola di Nuova Georgia per espugnare l\'aeroporto strategico di Munda Point e isolare la base giapponese di Rabaul.',
+            'Alleati',
+            'British Solomon Islands Protectorate — Allied South Pacific Area (Admiral William F. Halsey Jr.)'
           );
         }
         if (s >= 11 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {

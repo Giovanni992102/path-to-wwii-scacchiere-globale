@@ -1367,6 +1367,58 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Gen. Douglas MacArthur / Gen. Thomas Blamey / Magg. Gen. George Alan Vasey / Magg. Gen. Edwin F. Harding',
     commanderB: 'Magg. Gen. Tomitarō Horii † / Ten. Gen. Hatazō Adachi / Col. Hiroshi Yamamoto',
   },
+  {
+    id: 'operation_husky_sicily_1943',
+    name: 'Operazione Husky: Sbarco Alleato in Sicilia, Presa di Palermo e Caduta del Fascismo',
+    historicalDate: '10 - 22 luglio 1943',
+    step: 12,
+    theater: 'Europe',
+    coords: [14.25, 37.05], // Sicilia (Gela / Licata / costa meridionale)
+    belligerents: 'Alleati (15° Gruppo d\'Armate: 7ª Armata USA & 8ª Armata Britannica) vs Asse (6ª Armata Italiana & XIV. Panzerkorps Tedesco)',
+    result: 'Oltre 160.000 soldati alleati sbarcano in Sicilia (Licata, Gela, Pachino). Patton avanza fulmineamente a ovest e il 22 luglio entra trionfalmente a Palermo tagliando l\'isola in due, mentre Montgomery conquista Siracusa e Augusta e fronteggia la linea dell\'Etna; l\'invasione provoca la destituzione e l\'arresto di Mussolini il 25 luglio a Roma.',
+    significance: 'Primo sbarco anfibio alleato sul territorio metropolitano dell\'Asse in Europa; determina il crollo del regime fascista dopo vent\'anni di dittatura e costringe Hitler a preparare l\'occupazione militare dell\'Italia.',
+    commanderA: 'Gen. Dwight D. Eisenhower / Gen. Sir Harold Alexander / Ten. Gen. George S. Patton / Ten. Gen. Bernard Montgomery',
+    commanderB: 'Generale d\'Armata Alfredo Guzzoni / Generalfeldmarschall Albert Kesselring / Gen. Hans-Valentin Hube',
+  },
+  {
+    id: 'battle_of_kursk_prokhorovka_1943',
+    name: 'Battaglia di Kursk: Operazione Zitadelle e Scontro Corazzato di Prochorovka',
+    historicalDate: '5 - 17 luglio 1943',
+    step: 12,
+    theater: 'Europe',
+    coords: [36.83, 51.04], // Prochorovka / Kursk
+    belligerents: 'Armata Rossa (Fronti Centrale, di Voronež e della Steppa) vs Wehrmacht (Heeresgruppe Süd & Heeresgruppe Mitte)',
+    result: 'La più grande battaglia di carri armati della storia: oltre 6.000 carri armati e cannoni d\'assalto si scontrano nel saliente di Kursk. L\'offensiva a tenaglia tedesca di Zitadelle viene arrestata dalle 8 cinture difensive sovietiche; il 12 luglio a Prochorovka le Waffen-SS e la 5ª Armata Corazzata delle Guardie si scontrano a distanza ravvicinata, inducendo Hitler ad annullare l\'operazione.',
+    significance: 'Svolta irreversibile sul Fronte Orientale: la Germania perde definitivamente l\'iniziativa strategica all\'Est e l\'Armata Rossa lancia la gigantesca controffensiva estiva verso Orel (Operazione Kutuzov) e Char\'kov (Operazione Rumjancev).',
+    commanderA: 'Maresciallo Georgij Žukov / Maresciallo Aleksandr Vasilevskij / Gen. Konstantin Rokossovskij / Gen. Nikolaj Vatutin / Gen. Pavel Rotmistrov',
+    commanderB: 'Generalfeldmarschall Erich von Manstein / Generalfeldmarschall Günther von Kluge / Generaloberst Walter Model / Generaloberst Hermann Hoth',
+  },
+  {
+    id: 'operation_cartwheel_new_georgia_1943',
+    name: 'Operazione Cartwheel: Campagna della Nuova Georgia e Assedio di Rabaul',
+    historicalDate: '30 giugno - 31 luglio 1943',
+    step: 12,
+    theater: 'Asia',
+    coords: [157.26, -8.33], // Munda / Nuova Georgia (Salomone)
+    belligerents: 'Stati Uniti & Alleati (43ª Divisione USA, Marines, US Navy SOPAC) vs Marina ed Esercito Imperiale Giapponese (8ª Flotta & 17ª Armata)',
+    result: 'Avvio dell\'Operazione Cartwheel per isolare la grande base giapponese di Rabaul: truppe americane sbarcano a Rendova e sull\'isola di Nuova Georgia stringendo d\'assedio l\'aeroporto di Munda Point; la US Navy vince le battaglie notturne del Golfo di Kula e di Kolombangara bloccando il Tokyo Express.',
+    significance: 'Inaugurazione della strategia del "salto della cavallina" (Island Hopping) nel Pacifico sud-occidentale: le piazzeforti giapponesi vengono isolate e neutralizzate dal cielo e dal mare senza bisogno di assalti frontali a costo elevato.',
+    commanderA: 'Amm. William F. Halsey Jr. / Magg. Gen. John H. Hester / Contramm. Richmond K. Turner',
+    commanderB: 'Ten. Gen. Harukichi Hyakutake / Magg. Gen. Minoru Sasaki / Contramm. Teruo Akiyama †',
+  },
+  {
+    id: 'battle_of_attu_and_kiska_evacuation_1943',
+    name: 'Campagna delle Aleutine: Riconquista di Attu ed Evacuazione Giapponese di Kiska',
+    historicalDate: '11 maggio - 28 luglio 1943',
+    step: 12,
+    theater: 'Asia',
+    coords: [172.87, 52.98], // Attu / Kiska (Aleutine Occidentali)
+    belligerents: 'Stati Uniti d\'America & Canada vs Marina ed Esercito Imperiale Giapponese',
+    result: 'Con l\'Operazione Landcrab la 7ª Divisione di Fanteria USA espugna Attu dopo 19 giorni di aspri scontri nella tundra e la carica banzai del Col. Yamazaki (29 maggio). Il 28 luglio 1943, di fronte all\'imminente attacco alleato, la Marina imperiale (Operazione Ke-Gō) evacua segretamente nella nebbia tutti i 5.183 uomini della guarnigione di Kiska in sole tre ore.',
+    significance: 'Liberazione completa delle isole Aleutine e rimozione definitiva dell\'unica presenza militare nemica sul suolo del continente nordamericano durante la seconda guerra mondiale.',
+    commanderA: 'Magg. Gen. Albert E. Brown / Magg. Gen. Eugene M. Landrum / Amm. Thomas C. Kinkaid',
+    commanderB: 'Col. Yasuyo Yamazaki † / Contramm. Masatomi Kimura',
+  },
 ];
 
 
