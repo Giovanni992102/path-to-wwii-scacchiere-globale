@@ -41,7 +41,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [-3.00, 53.40],  // Liverpool
     ],
     description: 'La fondamentale linea di rifornimento vitale per la sopravvivenza della Gran Bretagna (armi, petrolio, cibo).',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
   },
   {
     id: 'mediterranean_suez_lifeline',
@@ -63,7 +63,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [45.00, 12.80],  // Aden (Oceano Indiano)
     ],
     description: 'Il corridoio imperiale britannico più rapido per collegare la madrepatria con l\'India Britannica e Singapore.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
   },
   {
     id: 'cape_route',
@@ -85,7 +85,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [72.85, 18.95],  // Bombay (India)
     ],
     description: 'Rotta strategica di riserva usata dai convogli alleati per evitare i pericoli aero-navali del Mediterraneo.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
   },
   {
     id: 'pacific_singapore_tokyo',
@@ -104,7 +104,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [139.70, 35.65], // Tokyo
     ],
     description: 'L\'arteria vitale per l\'Impero Giapponese: trasporto di gomma, petrolio, bauxite e riso verso le industrie della madrepatria.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
   },
   {
     id: 'transpacific_us_hawaii',
@@ -128,7 +128,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       ],
     ],
     description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor e alle Filippine attraverso l\'Oceano Pacifico.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
   },
 
   // Nuove rotte strategiche per il conflitto bellico (1940-1942)
@@ -148,7 +148,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [40.50, 64.55],  // Arcangelo (Golfo di Dvina / Mar Bianco)
     ],
     description: 'La via navale più estrema della guerra: convogli alleati carichi di carri armati, aerei e munizioni affrontano ghiacci polari, tempeste e gli attacchi di U-Boot e bombardieri della Luftwaffe dai fiordi norvegesi per rifornire l\'URSS.',
-    activeSteps: [9, 10, 11, 12], // Attivata dall'agosto 1941 (Operazione Dervish)
+    activeSteps: [9, 10, 11, 12, 13], // Attivata dall'agosto 1941 (Operazione Dervish)
   },
   {
     id: 'axis_libya_convoy',
@@ -166,7 +166,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [20.06, 32.11], // Bengasi
     ],
     description: 'Cordone ombelicale logistico essenziale per il sostentamento del Regio Esercito e dell\'Afrikakorps di Rommel in Nordafrica, costantemente bersagliato dalla Force K e dai sommergibili britannici basati a Malta.',
-    activeSteps: [6, 7, 8, 9, 10, 11, 12], // Dal giugno 1940
+    activeSteps: [6, 7, 8, 9, 10, 11, 12, 13], // Dal giugno 1940
   },
   {
     id: 'persian_corridor_sealane',
@@ -185,7 +185,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [47.80, 30.50],  // Bassora (Iraq)
     ],
     description: 'Arteria marittima oceanica aperta dagli Alleati dopo l\'invasione congiunta anglo-sovietica dell\'Iran nell\'agosto-settembre 1941. Convogliava autocarri Studebaker, munizioni e materiale bellico del Lend-Lease verso la Russia tramite la Ferrovia Trans-Iraniana.',
-    activeSteps: [9, 10, 11, 12],
+    activeSteps: [9, 10, 11, 12, 13],
   },
 ];
 

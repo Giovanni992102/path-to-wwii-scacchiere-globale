@@ -1471,6 +1471,85 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     commanderA: 'Magg. Gen. Albert E. Brown / Magg. Gen. Eugene M. Landrum / Amm. Thomas C. Kinkaid',
     commanderB: 'Col. Yasuyo Yamazaki † / Contramm. Masatomi Kimura',
   },
+  // ---------------- STEP 13: SET 1943 ----------------
+  {
+    id: 'operation_avalanche_salerno_1943',
+    name: 'Sbarco a Salerno (Operazione Avalanche)',
+    historicalDate: '9 - 18 settembre 1943',
+    step: 13,
+    theater: 'Europe',
+    coords: [14.76, 40.68], // Golfo di Salerno
+    belligerents: '5ª Armata USA & X Corpo Britannico vs 10ª Armata Tedesca (XIV. & LXXVI. Panzerkorps)',
+    result: 'Sbarco anfibio alleato nel golfo di Salerno per catturare il porto di Napoli. Di fronte ai feroci contrattacchi corazzati della 16. Panzer-Division e della Hermann Göring, che rischiano di ributtare a mare gli americani, il tiro dei cannoni navali e i bombardamenti aerei salvano la testa di ponte, costringendo i tedeschi a ripiegare verso la linea del Volturno.',
+    significance: 'Apertura del fronte peninsulare italiano; consolidamento della testa di ponte alleata a sud di Napoli e avvio della risalita della penisola.',
+    commanderA: 'Ten. Gen. Mark W. Clark / Ten. Gen. Richard L. McCreery / Amm. Sir Andrew Cunningham',
+    commanderB: 'Generalfeldmarschall Albert Kesselring / Generaloberst Heinrich von Vietinghoff / Gen. Rudolf Sieckenius',
+  },
+  {
+    id: 'four_days_of_naples_1943',
+    name: 'Quattro Giornate di Napoli (Insurrezione Popolare)',
+    historicalDate: '27 - 30 settembre 1943',
+    step: 13,
+    theater: 'Europe',
+    coords: [14.26, 40.85], // Napoli
+    belligerents: 'Popolazione di Napoli & Partigiani vs Wehrmacht & Reparti d\'Occupazione Tedeschi',
+    result: 'Spontanea insurrezione di massa della popolazione civile napoletana (scugnizzi, operai, donne e militari sbandati) contro le violenze e le deportazioni della guarnigione tedesca del colonnello Walter Scholl. Dopo quattro giorni di combattimenti urbani barricata per barricata, la Wehrmacht è costretta ad abbandonare la città prima dell\'arrivo delle avanguardie alleate il 1° ottobre.',
+    significance: 'Prima grande città europea a liberarsi con le proprie sole forze dall\'occupazione nazista; insignita della Medaglia d\'Oro al Valor Militare.',
+    commanderA: 'Comitato d\'Insurrezione Popolare / Capitano Enzo Stimolo / Scugnizzi napoletani (Gennaro Capuozzo †)',
+    commanderB: 'Oberst Walter Scholl (Stadtkommandant di Napoli)',
+  },
+  {
+    id: 'cephalonia_massacre_1943',
+    name: 'Battaglia ed Eccidio di Cefalonia',
+    historicalDate: '15 - 24 settembre 1943',
+    step: 13,
+    theater: 'Europe',
+    coords: [20.50, 38.18], // Cefalonia (Isole Ionie)
+    belligerents: '33ª Divisione da Montagna "Acqui" (Regio Esercito) vs 1. Gebirgs-Division (Wehrmacht)',
+    result: 'In seguito all\'armistizio dell\'8 settembre, la guarnigione italiana di Cefalonia rifiuta con plebiscito la resa e la consegna delle armi ai tedeschi. Dopo nove giorni di combattimenti sanguinosi e senza supporto aereo o navale, sopraffatti dalla 1. Gebirgs-Division, oltre 5.000 soldati e ufficiali italiani vengono trucidati sul posto per ordine di Hitler.',
+    significance: 'Il più grande massacro di militari italiani perpetrato dalla Wehrmacht durante la guerra; atto fondativo della Resistenza militare italiana all\'estero.',
+    commanderA: 'Generale di Divisione Antonio Gandin †',
+    commanderB: 'Generalmajor Hubert Lanz / Generalmajor Walter von Hirschfeld',
+  },
+  {
+    id: 'smolensk_operation_suvorov_1943',
+    name: 'Battaglia di Smolensk (Operazione Suvorov)',
+    historicalDate: '7 agosto - 2 ottobre 1943 (Presa di Smolensk: 25 settembre)',
+    step: 13,
+    theater: 'Europe',
+    coords: [32.05, 54.78], // Smolensk (Fiume Dniepr)
+    belligerents: 'Armata Rossa (Fronte Occidentale & Kalinin) vs Wehrmacht (4. Armee & 3. Panzerarmee / Heeresgruppe Mitte)',
+    result: 'L\'Armata Rossa sferra una colossale offensiva frontale per sfondare la formidabile linea fortificata Hagen a ovest di Ržev e Vjaz\'ma. Il 25 settembre 1943 le truppe del generale Vasilij Sokolovskij espugnano la storica città-fortezza di Smolensk e Roslavl\', spezzando la spina dorsale difensiva del Gruppo d\'Armate Centro.',
+    significance: 'Riconquista della storica porta d\'accesso a ovest di Mosca sul Dniepr e crollo del bastione fortificato centrale tedesco verso la Bielorussia.',
+    commanderA: 'Gen. Vasilij Danilovič Sokolovskij / Gen. Andrej Ivanovič Erëmenko',
+    commanderB: 'Generalfeldmarschall Günther von Kluge / Generaloberst Gotthard Heinrici',
+  },
+  {
+    id: 'battle_of_the_dnieper_1943',
+    name: 'Battaglia del Dniepr e Liberazione del Donbass',
+    historicalDate: '26 agosto - 30 settembre 1943',
+    step: 13,
+    theater: 'Europe',
+    coords: [35.15, 47.85], // Zaporož'e / Dniepr bend
+    belligerents: 'Armata Rossa (Fronti Centrale, Voronež, della Steppa, Sud-Occidentale e Meridionale) vs Wehrmacht (Heeresgruppe Süd & 6. Armee)',
+    result: 'L\'Armata Rossa libera la conca carbonifera del Donbass (Stalino liberata l\'8 settembre) e scatena una corsa titanica lungo un fronte di 1.400 km verso il fiume Dniepr. Entro fine settembre le avanguardie sovietiche attraversano il grande fiume con mezzi di fortuna, aprendo oltre 20 teste di ponte sulla riva destra e demolendo la barriera difensiva dell\'Ostwall (Linea Panther-Wotan).',
+    significance: 'Frantumazione irreversibile del perimetro difensivo tedesco all\'Est e liberazione dell\'Ucraina orientale e del centro industriale del Donbass.',
+    commanderA: 'Maresciallo Georgij Žukov / Gen. Nikolaj Vatutin / Gen. Ivan Konev / Gen. Rodion Malinovskij / Gen. Fëdor Tolbuchin',
+    commanderB: 'Generalfeldmarschall Erich von Manstein / Generalfeldmarschall Ewald von Kleist',
+  },
+  {
+    id: 'lae_salamaua_campaign_1943',
+    name: 'Campagna di Lae e Salamaua (Operazione Cartwheel)',
+    historicalDate: '4 - 16 settembre 1943',
+    step: 13,
+    theater: 'Asia',
+    coords: [146.99, -6.72], // Lae / Golfo di Huon (Nuova Guinea)
+    belligerents: 'Australia & Stati Uniti (7ª & 9ª Divisione Australiana, 503º Reggimento Paracadutisti USA) vs Impero Giapponese (18ª Armata)',
+    result: 'Manovra a tenaglia aeronavale: la 9ª Divisione australiana sbarca a est di Lae mentre il 503º Paracadutisti USA compie lo storico lancio sulla valle di Nadzab; il 16 settembre le forze australiane entrano a Lae dopo aver occupato Salamaua (11 settembre), costringendo i resti della guarnigione nipponica a una disastrosa ritirata attraverso la catena montuosa dei Finisterre verso la penisola di Huon.',
+    significance: 'Cattura della principale base aeronavale giapponese nel Golfo di Huon e apertura della via per l\'isolamento definitivo della grande piazzaforte di Rabaul.',
+    commanderA: 'Gen. Sir Thomas Blamey / Magg. Gen. George Wootten / Magg. Gen. George Alan Vasey',
+    commanderB: 'Ten. Gen. Hatazō Adachi / Ten. Gen. Hidemitsu Nakano',
+  },
 ];
 
 

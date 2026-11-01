@@ -4524,6 +4524,158 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: 'Test 100: Audit Geostorico e Topologico Integrale Step 13 (SET 1943 — Settembre 1943: Armistizio di Cassibile, Crollo Linea Panther-Wotan & Spaccatura d\'Italia)',
+        run: () => {
+          // 1. Validazione Step 13 e Cronologia Globale
+          if (STEPS.length < 14) return false;
+          const s13 = STEPS[13];
+          if (s13.d !== 'SET 1943' || !s13.theaterEvents?.europe || !s13.theaterEvents?.asia || !s13.theaterEvents?.africa || !s13.theaterEvents?.americas) return false;
+
+          // 2. Italia: Regno del Sud (Badoglio / Alleati)
+          const palermo = resolveFeature({ properties: { NUTS_ID: 'ITG11', CNTR_CODE: 'IT', NAME: 'Palermo' } }, 13);
+          const cagliari = resolveFeature({ properties: { NUTS_ID: 'ITG27', CNTR_CODE: 'IT', NAME: 'Cagliari' } }, 13);
+          const brindisi = resolveFeature({ properties: { NUTS_ID: 'ITF44', CNTR_CODE: 'IT', NAME: 'Brindisi' } }, 13);
+          const reggioCal = resolveFeature({ properties: { NUTS_ID: 'ITF65', CNTR_CODE: 'IT', NAME: 'Reggio Calabria' } }, 13);
+          const matera = resolveFeature({ properties: { NUTS_ID: 'ITF52', CNTR_CODE: 'IT', NAME: 'Matera' } }, 13);
+          const salerno = resolveFeature({ properties: { NUTS_ID: 'ITF35', CNTR_CODE: 'IT', NAME: 'Salerno' } }, 13);
+          const napoli = resolveFeature({ properties: { NUTS_ID: 'ITF33', CNTR_CODE: 'IT', NAME: 'Napoli' } }, 13);
+
+          if (palermo.o !== 'USA' || palermo.fac !== 'Alleati') return false;
+          if (cagliari.o !== 'ITA' || cagliari.fac !== 'Alleati' || !cagliari.note?.includes('Antonio Basso')) return false;
+          if (brindisi.o !== 'ITA' || brindisi.fac !== 'Alleati' || !brindisi.name.includes('Capitale Provvisoria')) return false;
+          if (reggioCal.o !== 'ITA' || reggioCal.fac !== 'Alleati' || !reggioCal.note?.includes('Baytown')) return false;
+          if (matera.o !== 'ITA' || matera.fac !== 'Alleati' || !matera.name.includes('Insurrezione')) return false;
+          if (salerno.o !== 'USA' || salerno.fac !== 'Alleati' || !salerno.name.includes('Avalanche')) return false;
+          if (napoli.o !== 'ITA' || napoli.fac !== 'Alleati' || !napoli.name.includes('Quattro Giornate')) return false;
+
+          // 3. Italia Centro-Nord: Repubblica Sociale Italiana (RSI / Asse)
+          const caserta = resolveFeature({ properties: { NUTS_ID: 'ITF31', CNTR_CODE: 'IT', NAME: 'Caserta' } }, 13);
+          const roma = resolveFeature({ properties: { NUTS_ID: 'ITI43', CNTR_CODE: 'IT', NAME: 'Roma' } }, 13);
+          const milano = resolveFeature({ properties: { NUTS_ID: 'ITC4C', CNTR_CODE: 'IT', NAME: 'Milano' } }, 13);
+          const torino = resolveFeature({ properties: { NUTS_ID: 'ITC11', CNTR_CODE: 'IT', NAME: 'Torino' } }, 13);
+          const ravenna = resolveFeature({ properties: { NUTS_ID: 'ITH57', CNTR_CODE: 'IT', NAME: 'Ravenna' } }, 13);
+
+          if (caserta.o !== 'RSI' || caserta.fac !== 'Asse' || !caserta.name.includes('Volturno')) return false;
+          if (roma.o !== 'RSI' || roma.fac !== 'Asse') return false;
+          if (milano.o !== 'RSI' || milano.fac !== 'Asse') return false;
+          if (torino.o !== 'RSI' || torino.fac !== 'Asse') return false;
+          if (ravenna.o !== 'RSI' || ravenna.fac !== 'Asse') return false; // Verifica anti-regressione Ravenna
+
+          // 4. Zone sottratte alla sovranità italiana: OZAV e OZAK
+          const bolzano = resolveFeature({ properties: { NUTS_ID: 'ITH10', CNTR_CODE: 'IT', NAME: 'Bolzano' } }, 13);
+          const trento = resolveFeature({ properties: { NUTS_ID: 'ITH20', CNTR_CODE: 'IT', NAME: 'Trento' } }, 13);
+          const belluno = resolveFeature({ properties: { NUTS_ID: 'ITH37', CNTR_CODE: 'IT', NAME: 'Belluno' } }, 13);
+
+          if (bolzano.o !== 'OZAV' || bolzano.fac !== 'Asse' || !bolzano.note?.includes('Franz Hofer')) return false;
+          if (trento.o !== 'OZAV' || trento.fac !== 'Asse') return false;
+          if (belluno.o !== 'OZAV' || belluno.fac !== 'Asse') return false;
+
+          const udine = resolveFeature({ properties: { NUTS_ID: 'ITH42', CNTR_CODE: 'IT', NAME: 'Udine' } }, 13);
+          const trieste = resolveFeature({ properties: { NUTS_ID: 'ITH44', CNTR_CODE: 'IT', NAME: 'Trieste' } }, 13);
+          const goriziaSI = resolveFeature({ properties: { NUTS_ID: 'SI043', CNTR_CODE: 'SI', NAME: 'Goriška' } }, 13);
+          const koperSI = resolveFeature({ properties: { NUTS_ID: 'SI044', CNTR_CODE: 'SI', NAME: 'Obalno-kraška' } }, 13);
+          const ljubljanaSI = resolveFeature({ properties: { NUTS_ID: 'SI041', CNTR_CODE: 'SI', NAME: 'Osrednjeslovenska' } }, 13);
+          const pulaHR = resolveFeature({ properties: { NUTS_ID: 'HR036', CNTR_CODE: 'HR', NAME: 'Istarska' } }, 13);
+          const rijekaHR = resolveFeature({ properties: { NUTS_ID: 'HR031', CNTR_CODE: 'HR', NAME: 'Primorsko-goranska' } }, 13);
+
+          if (udine.o !== 'OZAK' || udine.fac !== 'Asse') return false;
+          if (trieste.o !== 'OZAK' || trieste.fac !== 'Asse' || !trieste.note?.includes('Friedrich Rainer')) return false;
+          if (goriziaSI.o !== 'OZAK' || goriziaSI.fac !== 'Asse') return false;
+          if (koperSI.o !== 'OZAK' || koperSI.fac !== 'Asse') return false;
+          if (ljubljanaSI.o !== 'OZAK' || ljubljanaSI.fac !== 'Asse' || !ljubljanaSI.note?.includes('Domobranci')) return false;
+          if (pulaHR.o !== 'OZAK' || pulaHR.fac !== 'Asse') return false;
+          if (rijekaHR.o !== 'OZAK' || rijekaHR.fac !== 'Asse') return false;
+
+          // 5. Corsica liberata (1er Département de France libéré) e Francia Continentale Wehrmacht
+          const corseSud = resolveFeature({ properties: { NUTS_ID: 'FRM01', CNTR_CODE: 'FR', NAME: 'Corse-du-Sud' } }, 13);
+          const corseHaute = resolveFeature({ properties: { NUTS_ID: 'FRM02', CNTR_CODE: 'FR', NAME: 'Haute-Corse' } }, 13);
+          const nice = resolveFeature({ properties: { NUTS_ID: 'FRL03', CNTR_CODE: 'FR', NAME: 'Alpes-Maritimes' } }, 13);
+
+          if (corseSud.o !== 'FRA' || corseSud.fac !== 'Alleati' || !corseSud.note?.includes('Casabianca')) return false;
+          if (corseHaute.o !== 'FRA' || corseHaute.fac !== 'Alleati') return false;
+          if (nice.o !== 'GER' || nice.fac !== 'Asse') return false;
+
+          // 6. Balcani ed Egeo: Fine occupazione italiana & subentro germanico
+          const cephalonia = resolveFeature({ properties: { NUTS_ID: 'EL622', CNTR_CODE: 'EL', NAME: 'Kefallinia' } }, 13);
+          const dodecanese = resolveFeature({ properties: { NUTS_ID: 'EL421', CNTR_CODE: 'EL', NAME: 'Dodekanisos' } }, 13);
+          const lasithi = resolveFeature({ properties: { NUTS_ID: 'EL432', CNTR_CODE: 'EL', NAME: 'Lasithi' } }, 13);
+          const tirana = resolveFeature({ properties: { NUTS_ID: 'AL011', CNTR_CODE: 'AL', NAME: 'Tiranë' } }, 13);
+          const montenegro = resolveFeature({ properties: { NUTS_ID: 'ME000', CNTR_CODE: 'ME', NAME: 'Crna Gora' } }, 13);
+          const zara = resolveFeature({ properties: { NUTS_ID: 'HR033', CNTR_CODE: 'HR', NAME: 'Zadarska' } }, 13);
+          const split = resolveFeature({ properties: { NUTS_ID: 'HR035', CNTR_CODE: 'HR', NAME: 'Splitsko-dalmatinska' } }, 13);
+
+          if (cephalonia.o !== 'GER' || cephalonia.fac !== 'Asse' || !cephalonia.name.includes('Eccidio della Divisione Acqui')) return false;
+          if (dodecanese.o !== 'GER' || dodecanese.fac !== 'Asse' || !dodecanese.name.includes('Campagna dell\'Egeo')) return false;
+          if (lasithi.o !== 'GER' || lasithi.fac !== 'Asse') return false;
+          if (tirana.o !== 'GER' || tirana.fac !== 'Asse') return false;
+          if (montenegro.o !== 'GER' || montenegro.fac !== 'Asse') return false;
+          if (zara.o !== 'GER' || zara.fac !== 'Asse') return false;
+          if (split.o !== 'CRO' || split.fac !== 'Asse') return false;
+
+          // 7. Fronte Orientale: Crollo della linea Panther-Wotan e liberazioni
+          const smolensk = resolveFeature({ properties: { NUTS_ID: 'RU-SMO', CNTR_CODE: 'RU', NAME: 'Smolensk' } }, 13);
+          const stalino = resolveFeature({ properties: { NUTS_ID: 'UA14', CNTR_CODE: 'UA', NAME: 'Donetsk' } }, 13);
+          const zaporozhye = resolveFeature({ properties: { NUTS_ID: 'UA23', CNTR_CODE: 'UA', NAME: 'Zaporozhye' } }, 13);
+          const poltava = resolveFeature({ properties: { NUTS_ID: 'UA53', CNTR_CODE: 'UA', NAME: 'Poltava' } }, 13);
+          const krasnodar = resolveFeature({ properties: { NUTS_ID: 'RU-KDA', CNTR_CODE: 'RU', NAME: 'Krasnodar Krai' } }, 13);
+
+          if (smolensk.o !== 'SOV' || smolensk.fac !== 'Comintern' || !smolensk.note?.includes('Suvorov')) return false;
+          if (stalino.o !== 'SOV' || stalino.fac !== 'Comintern' || !stalino.note?.includes('Donbass')) return false;
+          if (zaporozhye.o !== 'SOV' || zaporozhye.fac !== 'Comintern') return false;
+          if (poltava.o !== 'SOV' || poltava.fac !== 'Comintern') return false;
+          if (krasnodar.o !== 'GER' || krasnodar.fac !== 'Asse' || !krasnodar.note?.includes('Taman')) return false;
+
+          // 8. Pacifico e Sud-Est Asiatico: Nuova Guinea (Lae e Salamaua ad AST)
+          const morobe = resolveFeature({ properties: { NUTS_ID: 'PGMPL', CNTR_CODE: 'PG', NAME: 'Morobe' } }, 13);
+          if (morobe.o !== 'AST' || morobe.fac !== 'Alleati' || !morobe.note?.includes('16 settembre 1943')) return false;
+
+          // 9. Battaglie storiche georeferenziate di Step 13
+          const bSalerno = HISTORICAL_BATTLES.find((b) => b.id === 'operation_avalanche_salerno_1943');
+          const bNapoli = HISTORICAL_BATTLES.find((b) => b.id === 'four_days_of_naples_1943');
+          const bAcqui = HISTORICAL_BATTLES.find((b) => b.id === 'cephalonia_massacre_1943');
+          const bSuvorov = HISTORICAL_BATTLES.find((b) => b.id === 'smolensk_operation_suvorov_1943');
+          const bDnieper = HISTORICAL_BATTLES.find((b) => b.id === 'battle_of_the_dnieper_1943');
+          const bLae = HISTORICAL_BATTLES.find((b) => b.id === 'lae_salamaua_campaign_1943');
+
+          if (!bSalerno || bSalerno.step !== 13 || !bSalerno.name.includes('Avalanche')) return false;
+          if (!bNapoli || bNapoli.step !== 13 || !bNapoli.name.includes('Quattro Giornate')) return false;
+          if (!bAcqui || bAcqui.step !== 13 || !bAcqui.name.includes('Cefalonia')) return false;
+          if (!bSuvorov || bSuvorov.step !== 13 || !bSuvorov.name.includes('Suvorov')) return false;
+          if (!bDnieper || bDnieper.step !== 13 || !bDnieper.name.includes('Dniepr')) return false;
+          if (!bLae || bLae.step !== 13 || !bLae.name.includes('Lae')) return false;
+
+          // 10. Fortificazioni, Linee Difensive e Basi Navali
+          const lineVolturno = HISTORICAL_FORTIFICATION_LINES.find((l) => l.id === 'volturno_line_1943');
+          const lineOstwall = HISTORICAL_FORTIFICATION_LINES.find((l) => l.id === 'panther_wotan_line_1943');
+          const lineKuban = HISTORICAL_FORTIFICATION_LINES.find((l) => l.id === 'gotenkopf_kuban_line');
+
+          if (!lineVolturno || !lineVolturno.activeSteps.includes(13)) return false;
+          if (!lineOstwall || !lineOstwall.activeSteps.includes(13)) return false;
+          if (!lineKuban || !lineKuban.activeSteps.includes(13)) return false;
+
+          const baseTaranto = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'taranto');
+          const baseSpezia = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'la_spezia');
+          if (!baseTaranto || !baseSpezia) return false;
+          const statusTaranto13 = getDynamicNavalBaseStatus(baseTaranto, 13);
+          const statusSpezia13 = getDynamicNavalBaseStatus(baseSpezia, 13);
+          if (!statusTaranto13.nation.includes('Alleati') || !statusTaranto13.historicalName.includes('Slapstick')) return false;
+          if (!statusSpezia13.nation.includes('Wehrmacht') || !statusSpezia13.historicalName.includes('Occupazione Militare Tedesca')) return false;
+
+          // 11. Araldica e Gerarchia Politica
+          const rsiFlag = getCountryFlagSvg('RSI', 13);
+          const ozavFlag = getCountryFlagSvg('OZAV', 13);
+          const ozakFlag = getCountryFlagSvg('OZAK', 13);
+          if (!rsiFlag || !ozavFlag || !ozakFlag) return false;
+
+          if (getOverlord('RSI', 13)?.id !== 'GER') return false;
+          if (getOverlord('OZAV', 13)?.id !== 'GER') return false;
+          if (getOverlord('OZAK', 13)?.id !== 'GER') return false;
+          if (getOverlord('ALB', 13)?.id !== 'GER') return false;
+
+          return true;
+        },
+      },
     ];
 
     let passed = 0;

@@ -8312,6 +8312,21 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getOwner = (step: number): string => {
     if (step < 9) return origGetOwner(step);
+    if (step >= 13) {
+      if (
+        pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast' ||
+        pid === 'SOV_ADM1_UKR_87_Donetsk_Oblast' ||
+        pid === 'SOV_ADM1_UKR_86_Luhansk_Oblast' ||
+        pid === 'SOV_ADM1_UKR_95_Poltava_Oblast' ||
+        pid === 'SOV_ADM1_UKR_88_Zaporizhia_Oblast' ||
+        pid === 'SOV_ADM1_RUS_48_Oryol_Oblast' ||
+        pid === 'SOV_ADM1_RUS_29_Bryansk_Oblast' ||
+        pid === 'SOV_ADM1_RUS_28_Belgorod_Oblast' ||
+        pid === 'SOV_ADM1_UKR_85_Kharkiv_Oblast'
+      ) {
+        return 'SOV';
+      }
+    }
     if (step >= 12) {
       if (isKessel) return 'SOV'; // Sacca di Stalingrado cancellata (resa 2 Feb 1943)
       if (pid === 'SOV_ADM1_RUS_40_Kursk_Oblast') return 'SOV'; // Saliente di Kursk liberato e difeso dall'Armata Rossa
@@ -8357,6 +8372,35 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getAdminTitle = (step: number): string => {
     if (step < 9) return origGetAdmin(step);
+    if (step >= 13) {
+      if (pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast') {
+        return 'Smolenskij Oblispolkom — RSFSR (URSS) — Liberata dall\'Armata Rossa il 25 Settembre 1943 (Operazione Suvorov)';
+      }
+      if (pid === 'SOV_ADM1_UKR_87_Donetsk_Oblast') {
+        return 'Stalinskij Oblispolkom — RSS Ucraina (URSS) — Bacino del Donbass Liberato l\'8 Settembre 1943';
+      }
+      if (pid === 'SOV_ADM1_UKR_86_Luhansk_Oblast') {
+        return 'Vorošilovgradskij Oblispolkom — RSS Ucraina (URSS) — Donbass Orientale Liberato';
+      }
+      if (pid === 'SOV_ADM1_UKR_95_Poltava_Oblast') {
+        return 'Poltavskij Oblispolkom — RSS Ucraina (URSS) — Liberata il 23 Settembre 1943 nella Corsa al Dniepr';
+      }
+      if (pid === 'SOV_ADM1_UKR_88_Zaporizhia_Oblast') {
+        return 'Zaporožskij Oblispolkom — RSS Ucraina (URSS) — Avanguardie Sovietiche sul Dniepr & Teste di Ponte';
+      }
+      if (pid === 'SOV_ADM1_RUS_48_Oryol_Oblast') {
+        return 'Orlovskij Oblispolkom — RSFSR (URSS) — Saliente di Orel Liberato (Operazione Kutuzov)';
+      }
+      if (pid === 'SOV_ADM1_RUS_29_Bryansk_Oblast') {
+        return 'Brjanskij Oblispolkom — RSFSR (URSS) — Riconquista Sovietica di Brjansk (17 Settembre 1943)';
+      }
+      if (pid === 'SOV_ADM1_UKR_85_Kharkiv_Oblast') {
+        return 'Char\'kovskij Oblispolkom — RSS Ucraina (URSS) — Liberazione Definitiva di Char\'kov (23 Agosto 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Kuban-Brückenkopf (Penisola di Taman\') — Evacuazione Marittima Tedesca in Crimea (Operazione Krimhild, Settembre 1943)';
+      }
+    }
     if (step >= 12) {
       if (isKessel) {
         return 'Stalingradskij Oblispolkom — RSFSR (URSS) — Sacca di Stalingrado Cancellata (Resa della 6ª Armata di Paulus, 2 Febbraio 1943)';
@@ -8461,6 +8505,35 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
   item.getHistoricalName = (step: number): string => {
     if (step < 9) return origGetHistName(step);
     const base = origGetHistName(8);
+    if (step >= 13) {
+      if (pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast') {
+        return 'Oblast di Smolensk (Liberata dall\'Armata Rossa — Operazione Suvorov, 25 Settembre 1943)';
+      }
+      if (pid === 'SOV_ADM1_UKR_87_Donetsk_Oblast') {
+        return 'Oblast di Stalino / Donbass (Liberata dall\'Armata Rossa — 8 Settembre 1943)';
+      }
+      if (pid === 'SOV_ADM1_UKR_86_Luhansk_Oblast') {
+        return 'Oblast di Vorošilovgrad (Donbass Orientale Liberato)';
+      }
+      if (pid === 'SOV_ADM1_UKR_95_Poltava_Oblast') {
+        return 'Oblast di Poltava (Liberata — Corsa al Dniepr, 23 Settembre 1943)';
+      }
+      if (pid === 'SOV_ADM1_UKR_88_Zaporizhia_Oblast') {
+        return 'Oblast di Zaporož\'e (Avanguardie Sovietiche & Teste di Ponte sul Dniepr)';
+      }
+      if (pid === 'SOV_ADM1_RUS_48_Oryol_Oblast') {
+        return 'Oblast di Orel (Liberata — Operazione Kutuzov, Agosto 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_29_Bryansk_Oblast') {
+        return 'Oblast di Brjansk (Liberata dall\'Armata Rossa — 17 Settembre 1943)';
+      }
+      if (pid === 'SOV_ADM1_UKR_85_Kharkiv_Oblast') {
+        return 'Oblast di Char\'kov (Liberazione Definitiva — 23 Agosto 1943)';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Testa di Ponte del Kuban\' (Taman\' — Evacuazione Marittima Tedesca Operazione Krimhild)';
+      }
+    }
     if (step >= 12) {
       if (isKessel) {
         return 'Sacca di Stalingrado (Cancellata — Capitolazione 6ª Armata di Paulus, 2 Febbraio 1943)';
@@ -8596,6 +8669,26 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getNote = (step: number): string => {
     if (step < 9) return origGetNote(step);
+    if (step >= 13) {
+      if (pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast') {
+        return 'Il 25 settembre 1943 l\'Armata Rossa libera la storica porta d\'accesso a ovest di Mosca (Operazione Suvorov): le armate del Fronte Occidentale di Sokolovskij travolgono la linea Hagen della Wehrmacht e riprendono Smolensk sul Dniepr.';
+      }
+      if (pid === 'SOV_ADM1_UKR_87_Donetsk_Oblast') {
+        return 'L\'8 settembre 1943 le truppe sovietiche liberano Stalino (Donetsk) e la conca carbonifera del Donbass, privando la Germania del suo principale bacino minerario all\'Est e accelerando la ritirata tedesca verso il Dniepr.';
+      }
+      if (pid === 'SOV_ADM1_UKR_95_Poltava_Oblast') {
+        return 'Liberata il 23 settembre 1943 dal Fronte della Steppa del generale Konev; le divisioni corazzate sovietiche raggiungono il Dniepr a Kremenčuk e allestiscono le prime teste di ponte sulla riva destra contro la linea Panther-Wotan.';
+      }
+      if (pid === 'SOV_ADM1_UKR_88_Zaporizhia_Oblast') {
+        return 'Entro fine settembre 1943 le avanguardie dei fronti sovietici raggiungono il Dniepr da Poltava a Zaporož\'e, attraversando il fiume con zattere e mezzi di fortuna per creare oltre venti teste di ponte sulla riva destra contro cui i tedeschi non riescono a consolidare una linea d\'arresto.';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Settembre 1943: le ultime forze della 17ª Armata tedesca stanno completando l\'evacuazione marittima dalla testa di ponte del Kuban\' (Taman\') verso la Crimea attraverso lo stretto di Kerč\' (Operazione Krimhild), ponendo fine alla presenza della Wehrmacht nel Caucaso.';
+      }
+      if (pid === 'SOV_ADM1_RUS_48_Oryol_Oblast') {
+        return 'Liberata il 5 agosto 1943 durante l\'Operazione Kutuzov; il saliente di Orel è stato interamente cancellato e la Wehrmacht è stata costretta a ripiegare oltre Brjansk.';
+      }
+    }
     if (step >= 12) {
       if (isKessel) {
         return 'Sacca di Stalingrado cancellata (febbraio 1943): dopo il fallimento del ponte aereo della Luftwaffe e il collasso dell\'Operazione Tempesta Invernale di Manstein, il 2 febbraio 1943 il Generalfeldmarschall Friedrich Paulus e gli ultimi 91.000 soldati della 6ª Armata si sono arresi all\'Armata Rossa nel centro e nella fabbrica Barrikady. Il territorio è tornato integralmente sotto la sovranità sovietica e i lavori di ricostruzione della città distrutta sono avviati.';

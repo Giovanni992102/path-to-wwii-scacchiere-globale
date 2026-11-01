@@ -622,6 +622,37 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
       '0 0 1024 412'
     ),
 
+  // REPUBBLICA SOCIALE ITALIANA (RSI, 1943-1945) — Bandiera di combattimento della RSI con Aquila e Fascio littorio
+  RSI: () =>
+    svgWrap(`
+      <rect width="200" height="400" fill="#009246"/>
+      <rect x="200" width="200" height="400" fill="#ffffff"/>
+      <rect x="400" width="200" height="400" fill="#ce2b37"/>
+      <g transform="translate(300, 195) scale(0.9)">
+        <path d="M-50,-35 C-35,-65 35,-65 50,-35 C85,-10 120,5 95,45 C75,30 55,20 40,25 C45,50 25,70 0,80 C-25,70 -45,50 -40,25 C-55,20 -75,30 -95,45 C-120,5 -85,-10 -50,-35 Z" fill="#151515"/>
+        <circle cx="0" cy="-42" r="14" fill="#151515"/>
+        <rect x="-42" y="52" width="84" height="12" rx="3" fill="#c49a45"/>
+        <line x1="-30" y1="52" x2="-30" y2="64" stroke="#151515" stroke-width="2"/>
+        <line x1="0" y1="52" x2="0" y2="64" stroke="#151515" stroke-width="2"/>
+        <line x1="30" y1="52" x2="30" y2="64" stroke="#151515" stroke-width="2"/>
+        <path d="M12,46 L26,43 L29,52 L23,58 Z" fill="#999999"/>
+      </g>
+    `),
+
+  // OPERATIONSZONE ALPENVORLAND (OZAV, 1943-1945) — Annessione de facto al Terzo Reich
+  OZAV: () =>
+    svgWrap(
+      `<image href="${GER_FLAG_DATA_URL}" xlink:href="${GER_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
+      '0 0 1024 614'
+    ),
+
+  // OPERATIONSZONE ADRIATISCHES KÜSTENLAND (OZAK, 1943-1945) — Annessione de facto al Terzo Reich
+  OZAK: () =>
+    svgWrap(
+      `<image href="${GER_FLAG_DATA_URL}" xlink:href="${GER_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
+      '0 0 1024 614'
+    ),
+
   // REGNO HASHEMITA DELL'IRAQ (1921-1959) — Tricolore arabo nero-bianco-verde con trapezio rosso all'asta e due stelle bianche a sette punte
   IRQ: () =>
     svgWrap(`

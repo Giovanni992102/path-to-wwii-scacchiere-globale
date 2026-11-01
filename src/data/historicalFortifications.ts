@@ -1088,7 +1088,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Snodo di Krymskaja', coords: [37.78, 44.92], desc: 'Perno logistico e ferroviario fortificato della Gotenkopf-Stellung.' },
       { name: 'Presidio Costiero di Temrjuk', coords: [37.38, 45.32], desc: 'Ancoraggio settentrionale della linea fortificata sul delta del Kuban\' e Mar d\'Azov.' },
     ],
-    activeSteps: [12],
+    activeSteps: [12, 13],
   },
   {
     id: 'kursk_salient_defenses',
@@ -1111,6 +1111,52 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Perno Difensivo di Obojan\'', coords: [36.28, 51.21], desc: 'Sbarramento anticarro che impedì alla 4ª Armata Panzer di raggiungere Kursk da sud.' },
     ],
     activeSteps: [12],
+  },
+  {
+    id: 'volturno_line_1943',
+    name: 'Linea del Volturno (Volturno-Stellung & Linea Viktor)',
+    nation: 'Germania (Wehrmacht)',
+    builder: 'Generalfeldmarschall Albert Kesselring / 10. Armee (Gen. von Vietinghoff)',
+    description:
+      'Prima linea difensiva campale allestita dalla Wehrmacht a sud di Roma per sbarrare l\'avanzata alleata dopo lo sbarco a Salerno e l\'insurrezione di Napoli. Corre dalla foce del fiume Volturno sul Tirreno attraverso Capua, le gole montane del Matese e Termoli sull\'Adriatico.',
+    type: 'field',
+    color: '#8b8f94',
+    coordinates: [
+      [13.95, 41.03], // Foce del Volturno (Castel Volturno)
+      [14.21, 41.11], // Capua
+      [14.37, 41.35], // Matese / Piedimonte d'Alife
+      [14.99, 41.99], // Termoli (Adriatico)
+    ],
+    keyForts: [
+      { name: 'Sbarramento Fluviale di Capua', coords: [14.21, 41.11], desc: 'Ponti minati e capisaldi d\'artiglieria a blocco della Via Appia e della ferrovia per Roma.' },
+      { name: 'Bastione Montano del Matese', coords: [14.37, 41.35], desc: 'Trincee d\'alta quota e postazioni per mitragliatrici MG-42 dominanti la valle del Volturno.' },
+      { name: 'Caposaldo Costiero di Termoli', coords: [14.99, 41.99], desc: 'Ancoraggio adriatico della linea, teatro di feroci contrattacchi della 16. Panzer-Division contro i commando britannici.' },
+    ],
+    activeSteps: [13],
+  },
+  {
+    id: 'panther_wotan_line_1943',
+    name: 'Ostwall — Linea Panther-Wotan sul Dniepr',
+    nation: 'Germania (Wehrmacht)',
+    builder: 'Generalfeldmarschall Erich von Manstein / Heeresgruppe Süd & Mitte',
+    description:
+      'Imponente barriera difensiva strategica voluta da Hitler lungo il grande corso del fiume Dniepr e la riva della Moločna per arrestare l\'offensiva generale dell\'Armata Rossa dopo la sconfitta di Kursk. Nonostante la poderosa barriera naturale dell\'alto argine destro, a fine settembre 1943 le avanguardie sovietiche sfondano la linea creando oltre 20 teste di ponte sulla riva occidentale.',
+    type: 'field',
+    color: '#a89d34',
+    coordinates: [
+      [31.05, 51.50], // Černigov / Desna
+      [30.52, 50.45], // Kiev / Dniepr
+      [31.46, 49.75], // Kanev / Bukrin
+      [33.42, 49.07], // Kremenčuk
+      [35.15, 47.85], // Zaporož'e
+      [35.37, 46.85], // Linea Wotan (fiume Moločna / Melitopol')
+    ],
+    keyForts: [
+      { name: 'Testa di Ponte di Bukrin', coords: [31.46, 49.75], desc: 'Spettacolare traversata d\'assalto del Dniepr a sud di Kiev con zattere e gommoni sotto il fuoco tedesco.' },
+      { name: 'Piazzaforte Fluviale di Kremenčuk', coords: [33.42, 49.07], desc: 'Nodo logistico e ferroviario dell\'ansa del Dniepr espugnato dalle forze del generale Konev a fine settembre.' },
+      { name: 'Sbarramento Wotan di Melitopol\'', coords: [35.37, 46.85], desc: 'Linea fortificata sul fiume Moločna a protezione dell\'accesso terrestre alla Crimea.' },
+    ],
+    activeSteps: [13],
   },
 ];
 
@@ -2234,16 +2280,78 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'taranto':
+      if (step >= 13) {
+        nation = 'Regno Unito / Italia (Regno del Sud — Alleati)';
+        historicalName = 'Arsenale e Base Navale di Taranto (Occupata dagli Alleati — Op. Slapstick, 9 Settembre 1943)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Il 9 settembre 1943 la 1ª Divisione Aviotrasportata britannica sbarca nel porto di Taranto senza incontrare resistenza; la base navale passa sotto il controllo alleato mentre le navi da battaglia della Regia Marina salpano per Malta in ottemperanza alle clausole dell\'armistizio.';
+      } else {
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+      }
+      break;
+
     case 'la_spezia':
+      if (step >= 13) {
+        nation = 'Germania (Wehrmacht — Occupazione Op. Achse)';
+        historicalName = 'Arsenale di La Spezia (Occupazione Militare Tedesca — 9 Settembre 1943)';
+        strokeColor = '#4a545c';
+        fillColor = '#1e2124';
+        description = 'All\'indomani dell\'annuncio dell\'armistizio, la flotta italiana dell\'ammiraglio Bergamini lascia precipitosamente La Spezia diretta all\'Asinara/Malta; l\'arsenale e la base navale vengono occupati dalla Wehrmacht.';
+      } else {
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+      }
+      break;
+
     case 'pola_naval':
+      if (step >= 13) {
+        nation = 'Germania (OZAK — Occupazione Militare Wehrmacht)';
+        historicalName = 'Base Navale di Pola (Operationszone Adriatisches Küstenland)';
+        strokeColor = '#4a545c';
+        fillColor = '#1e2124';
+        description = 'La base navale di Pola in Istria viene occupata dai reparti della Wehrmacht e integrata nell\'Operationszone Adriatisches Küstenland sotto il controllo del Gauleiter Friedrich Rainer.';
+      } else {
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+      }
+      break;
+
     case 'leros_aegean':
+      if (step >= 13) {
+        nation = 'Regno Unito / Italia (Resistenza Mista Italo-Britannica nel Dodecaneso)';
+        historicalName = 'Base Navale di Portolago a Lero (Battaglia del Dodecaneso, Settembre 1943)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Dopo la caduta di Rodi a metà settembre, la formidabile base navale fortificata di Portolago a Lero e l\'isola di Samo resistono presidiate da guarnigioni congiunte della Regia Marina italiana (Amm. Luigi Mascherpa) e dell\'esercito britannico sotto i bombardamenti della Luftwaffe.';
+      } else {
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+      }
+      break;
+
     case 'sazan_naval_base':
-      strokeColor = '#6f7a3f';
-      fillColor = '#1e2418';
+      if (step >= 13) {
+        nation = 'Germania (Wehrmacht — Occupazione Albania)';
+        historicalName = 'Isola di Saseno (Occupazione Militare Tedesca dell\'Adriatico)';
+        strokeColor = '#4a545c';
+        fillColor = '#1e2124';
+        description = 'Con l\'armistizio e l\'occupazione tedesca dell\'Albania, l\'avamposto navale di Saseno all\'imbocco della baia di Valona viene presidiato dalla Wehrmacht e dalla Kriegsmarine.';
+      } else {
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+      }
       break;
 
     case 'augusta_messina':
-      if (step >= 12) {
+      if (step >= 13) {
+        nation = 'Regno Unito / Stati Uniti (Sicilia Interamente Liberata — AMGOT)';
+        historicalName = 'Piazzaforte dello Stretto e Base Navale di Augusta (Base Logistica Alleata)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Con l\'evacuazione italo-tedesca di metà agosto 1943 e la cattura di Messina, l\'intera Sicilia e le basi navali dello Stretto e di Augusta operano a pieno regime sotto il comando dell\'ammiraglio Cunningham per supportare gli sbarchi in Calabria, a Taranto e a Salerno.';
+      } else if (step === 12) {
         nation = 'Regno Unito / Italia (Asse a Messina, Alleati ad Augusta)';
         historicalName = 'Piazzaforte dello Stretto e Base di Augusta (Occupata dall\'8ª Armata Britannica a Luglio 1943)';
         strokeColor = '#3a82c4';

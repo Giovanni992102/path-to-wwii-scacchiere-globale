@@ -766,14 +766,19 @@ for (const meta of Object.values(PNG_PROVINCES_META)) {
   const isJap10 = PNG_JAP_OCCUPIED_AUG1942.has(meta.id);
 
   meta.getSovereign = (s: number) => {
+    if (s >= 13 && meta.id === 'PGMPL') return 'AST';
     if (s >= 10 && isJap10) return 'JAP';
     return meta.sovereign;
   };
   meta.getFaction = (s: number) => {
+    if (s >= 13 && meta.id === 'PGMPL') return 'Alleati';
     if (s >= 10 && isJap10) return 'Asse';
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 13 && meta.id === 'PGMPL') {
+      return 'Morobe (Liberazione di Lae e Salamaua — 16 Settembre 1943)';
+    }
     if (s >= 10) {
       if (meta.id === 'PGEBR') return 'Rabaul / Nuova Britannia (Piazzaforte Aeronavale Giapponese dell\'8ª Flotta — Gennaio-Agosto 1942)';
       if (meta.id === 'PGNPP') return 'Buna-Gona & Sentiero di Kokoda (Offensiva del Distaccamento dei Mari del Sud — Agosto 1942)';
@@ -785,6 +790,9 @@ for (const meta of Object.values(PNG_PROVINCES_META)) {
     return meta.historicalName;
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 13 && meta.id === 'PGMPL') {
+      return 'Mandated Territory of New Guinea — Allied SWPA (Gen. Douglas MacArthur / New Guinea Force)';
+    }
     if (s >= 10) {
       if (isJap10) {
         return 'Impero Giapponese — 8ª Flotta Imperiale (Viceamm. Gunichi Mikawa) & 17ª Armata / Distaccamento dei Mari del Sud (Rabaul)';
@@ -794,6 +802,9 @@ for (const meta of Object.values(PNG_PROVINCES_META)) {
     return meta.adminTitle;
   };
   meta.getNote = (s: number) => {
+    if (s >= 13 && meta.id === 'PGMPL') {
+      return 'Il 16 settembre 1943 le forze alleate australiane e statunitensi (7ª e 9ª Divisione australiana, aviolancio del 503º Reggimento Paracadutisti USA a Nadzab) espugnano la grande base aeronavale giapponese di Lae dopo la caduta di Salamaua (11 settembre), cacciando i resti della 18ª Armata imperiale verso la penisola di Huon nell\'ambito dell\'Operazione Cartwheel.';
+    }
     if (s >= 10) {
       if (meta.id === 'PGEBR') {
         return "Rabaul (Nuova Britannia) · Conquistata il 23 gennaio 1942 dal Distaccamento dei Mari del Sud (Magg. Gen. Tomitarō Horii) dopo aver travolto la Lark Force australiana, la caldera di Rabaul (Simpson Harbour) è stata trasformata nella più formidabile roccaforte aeronavale dell'Impero Giapponese nel Pacifico meridionale, sede dell'8ª Flotta del Viceamm. Gunichi Mikawa e della 17ª Armata del Ten. Gen. Harukichi Hyakutake, da cui partono le operazioni contro Guadalcanal e Port Moresby.";

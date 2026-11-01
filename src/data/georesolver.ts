@@ -3302,9 +3302,27 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Colonia Eritrea (Asmara)', 'Africa Orientale Italiana');
   }
   if (nrm_hb.includes('dodecanese') || (nrm_hb.includes('rhodes') && !nrm_hb.includes('rhodesia'))) {
+    if (s >= 13) {
+      return makeResult(
+        'GER',
+        'Rodi e Dodecaneso (Occupazione Militare Tedesca — Campagna dell\'Egeo)',
+        'Settembre 1943: dopo l\'armistizio di Cassibile, la divisione tedesca Rhodos cattura il comando italiano di Rodi; Wehrmacht Heeresgruppe E assume il presidio militare dell\'Egeo.',
+        'Asse',
+        'Wehrmacht — Militärverwaltung Dodekanes (Rodos)'
+      );
+    }
     return makeResult('ITA', 'Isole Italiane dell\'Egeo (Rodi)', 'Possedimento dell\'Egeo');
   }
   if (nrm_hb === 'albania') {
+    if (s >= 13) {
+      return makeResult(
+        'GER',
+        'Regno d\'Albania (Occupazione Militare Tedesca — Këshilli i Naltë i Regjencës)',
+        'Operazione Achse (settembre 1943): la Wehrmacht occupa l\'Albania dopo la resa italiana, disarmando le truppe italiane e insediando un governo di reggenza collaborazionista.',
+        'Asse',
+        'Wehrmacht — Militärbefehlshaber Albanien'
+      );
+    }
     return s < 4
       ? makeResult('ALB', 'Mbretëria Shqiptare (Tiranë)', 'Shtet i Pavarur')
       : makeResult('ITA', 'Regno d\'Albania', 'Unione Personale con la Corona d\'Italia (aprile 1939)');
@@ -3605,6 +3623,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   ) {
     if (s >= 8) {
       if (nrm_hb.includes('kosovo') || nrm_hb.includes('kosova') || nrm_hb.includes('metohija')) {
+        if (s >= 13) {
+          return makeResult(
+            'GER',
+            'Kosovë e Metohi (Prishtinë / Prizren — Occupazione Militare Tedesca)',
+            'Settembre 1943 (Operazione Achse): a seguito dell\'armistizio italiano, la Wehrmacht assume il controllo militare del Kosovo.',
+            'Asse',
+            'Wehrmacht — Militärbefehlshaber Albanien'
+          );
+        }
         return makeResult(
           'ITA',
           'Kosovë e Metohi (Prishtinë / Prizren — Grande Albania)',
@@ -3614,6 +3641,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         );
       }
       if (nrm_hb.includes('montenegro') || nrm_hb.includes('crna gora') || nrm_hb.includes('zeta')) {
+        if (s >= 13) {
+          return makeResult(
+            'GER',
+            'Montenegro (Occupazione Militare Tedesca — Cettigne)',
+            'Settembre 1943 (Operazione Achse): la Wehrmacht assume il controllo militare del Montenegro dopo l\'armistizio di Cassibile.',
+            'Asse',
+            'Wehrmacht — Militärverwaltung Montenegro'
+          );
+        }
         return makeResult(
           'ITA',
           'Governatorato del Montenegro e Provincia di Cattaro (Cettigne)',
@@ -6150,12 +6186,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'principality of monaco';
 
   if (isMonaco) {
-    const ownerCode = s >= 11 ? 'ITA' : 'MCO';
+    const ownerCode = s >= 13 ? 'GER' : s >= 11 ? 'ITA' : 'MCO';
     const top = getExtendedToponym(rawName || 'Monaco', ownerCode, nid || 'MCO_HIST', [7.4233, 43.7367], s);
+    const monacoNote = s >= 13
+      ? 'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio italiano, le truppe tedesche della Wehrmacht occupano il Principato di Monaco, subentrando alle autorità d\'occupazione del Regio Esercito.'
+      : s >= 11
+      ? 'Operazione Anton (novembre 1942): truppe italiane occupano il Principato di Monaco.'
+      : 'Antico principato sovrano retto dalla dinastia Grimaldi.';
     return makeResult(
       ownerCode,
       top.name || 'Principauté de Monaco',
-      top.note || 'Antico principato sovrano retto dalla dinastia Grimaldi.',
+      top.note || monacoNote,
       s >= 11 ? 'Asse' : 'Neutrale',
       top.adminTitle || 'Principauté de Monaco'
     );
@@ -7377,7 +7418,206 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'IT':
     case 'ITA': {
-      if (s >= 12) {
+      if (s >= 13) {
+        const cleanId = String(nid || ft.id || '').toUpperCase().trim();
+        const normName = nrm;
+
+        // 1. Zone sottratte alla sovranità italiana (Annessione de facto al Terzo Reich)
+        // Operationszone Alpenvorland (OZAV): Bolzano (ITH10/ITH1), Trento (ITH20/ITH2), Belluno (ITH33)
+        const isOzav =
+          cleanId === 'ITH10' || cleanId === 'ITH1' || cleanId === 'ITH20' || cleanId === 'ITH2' || cleanId === 'ITH33' ||
+          normName.includes('bolzano') || normName.includes('bozen') || normName.includes('trento') || normName.includes('trient') || normName.includes('belluno');
+
+        if (isOzav) {
+          const isBz = cleanId.startsWith('ITH1') || normName.includes('bolzano') || normName.includes('bozen');
+          const isTn = cleanId.startsWith('ITH2') || normName.includes('trento') || normName.includes('trient');
+          const provName = isBz ? 'Bolzano / Bozen' : isTn ? 'Trento' : 'Belluno';
+          return makeResult(
+            'OZAV',
+            `${provName} (Operationszone Alpenvorland — Annessione de facto al Terzo Reich)`,
+            'Istituita da Hitler il 10 settembre 1943 a seguito dell\'armistizio italiano (Operazione Achse), la Zona d\'operazione delle Prealpi (OZAV) comprende le province di Bolzano, Trento e Belluno, poste sotto il controllo diretto del Gauleiter del Tirolo Franz Hofer in qualità di Commissario Supremo. L\'amministrazione civile e militare viene sottratta alla sovranità italiana e de facto incorporata nel Grande Reich tedesco.',
+            'Asse',
+            'Operationszone Alpenvorland (Gauleiter Franz Hofer — Bozen / Innsbruck)'
+          );
+        }
+
+        // Operationszone Adriatisches Küstenland (OZAK): Udine (ITH42), Gorizia (ITH43), Trieste (ITH44), Pordenone (ITH41), Pola / Istria, Fiume, Lubiana
+        const isOzak =
+          cleanId === 'ITH41' || cleanId === 'ITH42' || cleanId === 'ITH43' || cleanId === 'ITH44' || cleanId.startsWith('ITH4') ||
+          normName.includes('trieste') || normName.includes('gorizia') || normName.includes('udine') || normName.includes('pordenone') || normName.includes('friuli') ||
+          normName.includes('pola') || normName.includes('fiume') || normName.includes('istria');
+
+        if (isOzak) {
+          const isTs = cleanId === 'ITH44' || normName.includes('trieste');
+          const isGo = cleanId === 'ITH43' || normName.includes('gorizia');
+          const isUd = cleanId === 'ITH42' || normName.includes('udine') || normName.includes('friuli');
+          const provName = isTs ? 'Trieste' : isGo ? 'Gorizia' : isUd ? 'Udine' : 'Litorale Adriatico';
+          return makeResult(
+            'OZAK',
+            `${provName} (Operationszone Adriatisches Küstenland — Annessione de facto al Terzo Reich)`,
+            'Istituita da Hitler il 10 settembre 1943 a seguito dell\'armistizio italiano, la Zona d\'operazione del Litorale Adriatico (OZAK) comprende le province di Udine, Gorizia, Trieste, Pola, Fiume e la Provincia di Lubiana, affidate al Gauleiter della Carinzia Friedrich Rainer come Commissario Supremo. Sotto l\'autorità dell\'HSSPF Odilo Globočnik si intensifica la repressione antipartigiana e viene istituito il campo della Risiera di San Sabba.',
+            'Asse',
+            'Operationszone Adriatisches Küstenland (Gauleiter Friedrich Rainer — Trieste / Klagenfurt)'
+          );
+        }
+
+        // 2. Regno del Sud (Sotto controllo alleato / Governo Badoglio a Brindisi)
+        // a) Sicilia intera (ora liberata anche a Catania e Messina): Trapani (ITG11), Palermo (ITG12), Messina (ITG13), Agrigento (ITG14), Caltanissetta (ITG15), Enna (ITG16), Catania (ITG17), Ragusa (ITG18), Siracusa (ITG19)
+        const isSicily = cleanId.startsWith('ITG1') || normName.includes('sicil') || normName.includes('palermo') || normName.includes('catania') || normName.includes('messina') || normName.includes('trapani') || normName.includes('agrigento') || normName.includes('siracusa') || normName.includes('ragusa') || normName.includes('caltanissetta') || (normName.includes('enna') && !normName.includes('ravenna'));
+        if (isSicily) {
+          const itProv = resolveItalyProvince(cleanId, 8, rawName);
+          const pName = itProv?.name || rawName || 'Sicilia';
+          return makeResult(
+            'USA',
+            `${pName} (Sicilia Interamente Liberata — AMGOT)`,
+            'Con la presa di Messina a metà agosto 1943 e la firma dell\'armistizio di Cassibile (3 settembre 1943), l\'intera isola di Sicilia è sotto piena amministrazione e logistica alleata (AMGOT), fungendo da perno di proiezione per gli sbarchi nel Mezzogiorno continentale.',
+            'Alleati',
+            'Allied Military Government of Occupied Territory (AMGOT) — 15th Army Group'
+          );
+        }
+
+        // b) Sardegna: Sassari (ITG25), Nuoro (ITG26), Cagliari (ITG27), Oristano (ITG28), ecc.
+        const isSardinia = cleanId.startsWith('ITG2') || normName.includes('sardegn') || normName.includes('cagliari') || normName.includes('sassari') || normName.includes('nuoro') || normName.includes('oristano') || normName.includes('olbia');
+        if (isSardinia) {
+          const itProv = resolveItalyProvince(cleanId, 8, rawName);
+          return makeResult(
+            'ITA',
+            `${itProv?.name || 'Sardegna'} (Regno del Sud — Evacuazione Tedesca & Controllo Governativo)`,
+            'Tra il 9 e il 18 settembre 1943 la 90ª Divisione corazzata tedesca evacua la Sardegna trasferendosi in Corsica; le forze italiane del generale Antonio Basso mantengono il controllo totale dell\'isola per il Regno d\'Italia di Vittorio Emanuele III e Badoglio (Regno del Sud), ponendola a disposizione degli Alleati senza distruzioni.',
+            'Alleati',
+            'Regno d\'Italia — Comando Militare della Sardegna (Generale Antonio Basso — Regno del Sud)'
+          );
+        }
+
+        // c) Calabria: Cosenza (ITF61), Crotone (ITF62), Catanzaro (ITF63), Vibo Valentia (ITF64), Reggio Calabria (ITF65)
+        const isCalabria = cleanId.startsWith('ITF6') || normName.includes('calabria') || normName.includes('reggio calabria') || normName.includes('catanzaro') || normName.includes('cosenza') || normName.includes('crotone') || normName.includes('vibo');
+        if (isCalabria) {
+          const itProv = resolveItalyProvince(cleanId, 8, rawName);
+          return makeResult(
+            'ITA',
+            `${itProv?.name || 'Calabria'} (Regno del Sud — Liberazione Operazione Baytown)`,
+            'Il 3 settembre 1943 l\'8ª Armata britannica del generale Montgomery sbarca a Reggio Calabria (Operazione Baytown); entro fine settembre l\'intera Calabria è liberata e integrata nella giurisdizione del Regno del Sud cobelligerante con gli Alleati.',
+            'Alleati',
+            'Regno d\'Italia — Governo Badoglio (Regno del Sud) / British Eighth Army'
+          );
+        }
+
+        // d) Basilicata / Lucania: Potenza (ITF51), Matera (ITF52)
+        const isBasilicata = cleanId.startsWith('ITF5') || normName.includes('potenza') || normName.includes('matera') || normName.includes('basilicata') || normName.includes('lucania');
+        if (isBasilicata) {
+          const itProv = resolveItalyProvince(cleanId, 8, rawName);
+          const isMatera = cleanId === 'ITF52' || normName.includes('matera');
+          return makeResult(
+            'ITA',
+            isMatera ? 'Matera (Insurrezione del 21 Settembre 1943 — Regno del Sud)' : `${itProv?.name || 'Potenza'} (Regno del Sud — Liberata)`,
+            isMatera
+              ? 'Il 21 settembre 1943 Matera insorge contro le truppe di occupazione tedesche divenendo la prima città del Mezzogiorno a sollevarsi in armi contro l\'oppressione nazista, prima di ricongiungersi alle colonne alleate del Regno del Sud.'
+              : 'Liberata a metà settembre 1943 dall\'avanzata alleata e passata sotto l\'autorità del governo Badoglio nel Regno del Sud.',
+            'Alleati',
+            'Regno d\'Italia — Governo Badoglio (Regno del Sud)'
+          );
+        }
+
+        // e) Puglia: Foggia (ITF41), Bari (ITF42), Taranto (ITF43), Brindisi (ITF44), Lecce (ITF45), BAT
+        const isPuglia = cleanId.startsWith('ITF4') || normName.includes('puglia') || normName.includes('bari') || normName.includes('brindisi') || normName.includes('taranto') || normName.includes('foggia') || normName.includes('lecce') || normName.includes('barletta');
+        if (isPuglia) {
+          const itProv = resolveItalyProvince(cleanId, 8, rawName);
+          const isBrindisi = cleanId === 'ITF44' || normName.includes('brindisi');
+          const isTaranto = cleanId === 'ITF43' || normName.includes('taranto');
+          const isFoggia = cleanId === 'ITF41' || normName.includes('foggia');
+          return makeResult(
+            'ITA',
+            isBrindisi
+              ? 'Brindisi (Capitale Provvisoria del Regno d\'Italia — Re Vittorio Emanuele III & Badoglio)'
+              : isTaranto
+              ? 'Taranto (Base Navale Alleata — Sbarco Operazione Slapstick)'
+              : isFoggia
+              ? 'Foggia (Presa dall\'8ª Armata Britannica & Grande Polo Aeroportuale Alleato)'
+              : `${itProv?.name || 'Puglia'} (Regno del Sud — Sede Istituzionale del Regno d'Italia)`,
+            isBrindisi
+              ? 'Il 9-10 settembre 1943, fuggiti da Roma a bordo della corvetta Baionetta, Re Vittorio Emanuele III, la famiglia reale e il Maresciallo Pietro Badoglio si insediano a Brindisi, che diviene la Capitale provvisoria del Regno d\'Italia (Regno del Sud cobelligerante con gli Alleati).'
+              : isTaranto
+              ? 'Il 9 settembre 1943 la 1ª Divisione Aviotrasportata britannica sbarca a Taranto (Operazione Slapstick) prendendo possesso della grande base navale; la flotta della Regia Marina salpa per consegnarsi a Malta.'
+              : isFoggia
+              ? 'Il 27 settembre 1943 l\'8ª Armata di Montgomery conquista la piana di Foggia con il suo strategico complesso di 30 aeroporti (Foggia Airfield Complex), aprendo il corridoio aereo per i bombardamenti strategici nell\'Europa centro-orientale.'
+              : 'Interamente presidiata dalle forze del Regno del Sud e dalle avanguardie alleate; retrovia primaria logistica per le operazioni sulla linea del fronte.',
+            'Alleati',
+            'Regno d\'Italia — Governo Badoglio a Brindisi (Regno del Sud)'
+          );
+        }
+
+        // f) Campania:
+        // Salerno (ITF35): Operazione Avalanche
+        // Avellino (ITF34), Benevento (ITF32): liberate
+        // Napoli (ITF33): Quattro Giornate di Napoli (27-30 settembre 1943)
+        // Caserta (ITF31): Wehrmacht / Linea del Volturno (Asse)
+        const isCampania = cleanId.startsWith('ITF3') || normName.includes('campania') || normName.includes('napoli') || normName.includes('salerno') || normName.includes('caserta') || normName.includes('avellino') || normName.includes('benevento');
+        if (isCampania) {
+          const isSalerno = cleanId === 'ITF35' || normName.includes('salerno');
+          const isNapoli = cleanId === 'ITF33' || normName.includes('napoli');
+          const isAvellino = cleanId === 'ITF34' || normName.includes('avellino');
+          const isBenevento = cleanId === 'ITF32' || normName.includes('benevento');
+          const isCaserta = cleanId === 'ITF31' || normName.includes('caserta');
+
+          if (isSalerno) {
+            return makeResult(
+              'USA',
+              'Salerno (Testa di Ponte Operazione Avalanche — 5ª Armata USA)',
+              'Il 9 settembre 1943 la 5ª Armata statunitense del generale Mark Clark (VI Corpo USA e X Corpo britannico) sbarca nel golfo di Salerno; dopo aver respinto i violenti contrattacchi corazzati tedeschi della 16. Panzer-Division, consolida la testa di ponte aprendo la strada verso Napoli.',
+              'Alleati',
+              'Allied 5th Army (Lt. Gen. Mark W. Clark / AMGOT)'
+            );
+          }
+          if (isNapoli) {
+            return makeResult(
+              'ITA',
+              'Napoli (Quattro Giornate di Napoli — Città Insorta e Liberata, 27-30 Settembre 1943)',
+              'Tra il 27 e il 30 settembre 1943 la popolazione civile di Napoli insorge compattamente contro le truppe di occupazione tedesche del colonnello Walter Scholl: dopo quattro giorni di combattimenti strada per strada la guarnigione della Wehrmacht viene scacciata dalla città prima dell\'ingresso formale delle truppe alleate il 1° ottobre.',
+              'Alleati',
+              'Regno d\'Italia — Città di Napoli Liberata dall\'Insurrezione Popolare (Medaglia d\'Oro al Valor Militare)'
+            );
+          }
+          if (isAvellino || isBenevento) {
+            const cName = isAvellino ? 'Avellino' : 'Benevento';
+            return makeResult(
+              'ITA',
+              `${cName} (Campania Meridionale — Avanzata Alleata del Regno del Sud)`,
+              'Liberata a fine settembre 1943 dalle forze alleate risalite da Salerno e dalle valli lucane, ricongiungendosi alla fascia meridionale controllata dal governo Badoglio.',
+              'Alleati',
+              'Regno d\'Italia — Governo Badoglio (Regno del Sud)'
+            );
+          }
+          if (isCaserta) {
+            return makeResult(
+              'RSI',
+              'Caserta (Linea Difensiva del Volturno — Occupazione Wehrmacht & RSI)',
+              'Attestata lungo il fiume Volturno, Caserta e la pianura a nord di Napoli costituiscono la prima linea difensiva tedesca (Volturno-Stellung) presidiata dalla 10ª Armata della Wehrmacht e incorporata nella neonata Repubblica Sociale Italiana.',
+              'Asse',
+              'Repubblica Sociale Italiana / Wehrmacht 10. Armee (Volturno-Linie)'
+            );
+          }
+        }
+
+        // 3. Zona sotto occupazione militare tedesca e RSI (Tutto il Centro-Nord dalla Campania settentrionale/Molise fino alle Alpi)
+        // Regioni: Molise, Lazio, Abruzzo, Umbria, Marche, Toscana, Emilia-Romagna, Liguria, Piemonte, Valle d'Aosta, Lombardia, Veneto (eccetto Belluno che è OZAV)
+        const itProv = resolveItalyProvince(cleanId, 8, rawName);
+        const provName = itProv?.name || rawName || 'Provincia Italiana';
+        const isRome = cleanId === 'ITI43' || normName.includes('roma');
+
+        return makeResult(
+          'RSI',
+          isRome
+            ? 'Roma (Occupazione Militare Wehrmacht & Governo della RSI — Fuga a Brindisi)'
+            : `${provName} (Repubblica Sociale Italiana — Occupazione Wehrmacht)`,
+          isRome
+            ? 'Dall\'8 al 10 settembre 1943, dopo l\'annuncio dell\'armistizio, i reparti italiani e i civili resistono disperatamente a Porta San Paolo e alla Montagnola prima della capitolazione; Re Vittorio Emanuele III e il governo fuggono a Brindisi e la Wehrmacht dichiara Roma città aperta sotto ferrea occupazione militare. Il 23 settembre Benito Mussolini proclama la nascita della Repubblica Sociale Italiana.'
+            : 'A seguito dell\'armistizio dell\'8 settembre 1943 e dell\'Operazione Achse della Wehrmacht, il territorio è sottoposto a occupazione militare tedesca. Il 23 settembre 1943 Benito Mussolini, liberato dai paracadutisti tedeschi al Gran Sasso (Operazione Quercia), insedia formalmente il governo repubblicano fascista (Repubblica Sociale Italiana con sede a Salò).',
+          'Asse',
+          isRome
+            ? 'Wehrmacht — Militärkommandant Rom / Repubblica Sociale Italiana'
+            : 'Repubblica Sociale Italiana — Governo di Salò (Sotto Tutela Militare della Wehrmacht)'
+        );
+      } else if (s === 12) {
         const cleanId = String(nid || ft.id || '').toUpperCase().trim();
         const normName = nrm;
 
@@ -7515,8 +7755,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'HR': {
-      // 1. Provincia di Pola (Istria Italiana - Trattato di Rapallo 1920: 100% sovranità italiana)
+      // 1. Provincia di Pola (Istria Italiana - Trattato di Rapallo 1920: 100% sovranità italiana / OZAK a Step 13)
       if (nid === 'HR036' || nrm.includes('istarska') || nrm.includes('pula') || nrm.includes('pola')) {
+        if (s >= 13) {
+          return makeResult(
+            'OZAK',
+            'Provincia di Pola (Operationszone Adriatisches Küstenland — Provinz Pola)',
+            'Istituita il 10 settembre 1943 da Hitler a seguito dell\'armistizio italiano, l\'Operationszone Adriatisches Küstenland comprende l\'Istria e la Provincia di Pola (con la strategica base navale) sotto il controllo del Gauleiter Friedrich Rainer.',
+            'Asse',
+            'Operationszone Adriatisches Küstenland — Provinz Pola'
+          );
+        }
         const top = getTop('ITA');
         return makeResult(
           'ITA',
@@ -7540,8 +7789,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
 
-        // 2b. Litorale Croato / Sušak e Veglia (HR031) -> Annessione italiana alla Provincia del Carnaro (Fiume)
+        // 2b. Litorale Croato / Sušak e Veglia (HR031) -> Annessione italiana alla Provincia del Carnaro (Fiume) / OZAK a Step 13
         if (nid === 'HR031' || nrm.includes('primorsko') || nrm.includes('rijeka') || nrm.includes('fiume') || nrm.includes('susak')) {
+          if (s >= 13) {
+            return makeResult(
+              'OZAK',
+              'Fiume e Carnaro (Operationszone Adriatisches Küstenland)',
+              'Istituita il 10 settembre 1943 a seguito dell\'armistizio italiano, l\'Operationszone Adriatisches Küstenland comprende la Provincia di Fiume e il Carnaro sotto il controllo diretto del Gauleiter Friedrich Rainer.',
+              'Asse',
+              'Operationszone Adriatisches Küstenland — Provinz Fiume'
+            );
+          }
           return makeResult(
             'ITA',
             'Provincia del Carnaro — Fiume, Sušak, Castua, Cabar e Veglia',
@@ -7551,7 +7809,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
 
-        // 2c. Dalmazia annessa al Regno d'Italia (HR033 Zara/Benkovac, HR034 Sebenico/Šibenik, HR035 Spalato/Split) -> Governatorato della Dalmazia
+        // 2c. Dalmazia annessa al Regno d'Italia (HR033 Zara/Benkovac, HR034 Sebenico/Šibenik, HR035 Spalato/Split) -> Governatorato della Dalmazia / GER & CRO a Step 13
         if (
           nid === 'HR033' ||
           nid === 'HR034' ||
@@ -7564,6 +7822,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           nrm.includes('spalato') ||
           nrm.includes('dalmat')
         ) {
+          if (s >= 13) {
+            const isZara = nid === 'HR033' || nrm.includes('zadar') || nrm.includes('zara');
+            return makeResult(
+              isZara ? 'GER' : 'CRO',
+              isZara
+                ? 'Zara (Occupazione Militare Tedesca — Wehrmacht & RSI)'
+                : 'Dalmazia (Annessione allo Stato Indipendente di Croazia / Presidio Wehrmacht)',
+              'Con l\'armistizio dell\'8 settembre 1943 (Operazione Achse), la Wehrmacht disarma la 2ª Armata italiana. Il Poglavnik Ante Pavelić dichiara nulli i Patti di Roma proclamando l\'annessione della Dalmazia allo Stato Indipendente di Croazia (NDH), mentre la città di Zara è presidiata militarmente dalla Wehrmacht.',
+              'Asse',
+              isZara ? 'Deutsche Wehrmacht — Militärverwaltung Zara' : 'Nezavisna Država Hrvatska (NDH) & Deutsche Wehrmacht'
+            );
+          }
           const dalmTitle =
             nid === 'HR033' || nrm.includes('zadar') || nrm.includes('zara')
               ? 'Governatorato della Dalmazia — Provincia di Zara (Zara, Benkovac, Biograd, Arbe)'
@@ -7629,8 +7899,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'SI': {
-      // 1. Gorizia / Goriška (Venezia Giulia Orientale - Trattato di Rapallo 1920: Isonzo, Tolmino, Caporetto, Idria -> Italia)
+      // 1. Gorizia / Goriška (Venezia Giulia Orientale - Trattato di Rapallo 1920: Isonzo, Tolmino, Caporetto, Idria -> Italia; OZAK a Step 13)
       if (nid === 'SI043' || nrm.includes('goriska') || nrm.includes('gorizia')) {
+        if (s >= 13) {
+          return makeResult(
+            'OZAK',
+            'Gorizia (Operationszone Adriatisches Küstenland)',
+            'Istituita il 10 settembre 1943 a seguito dell\'armistizio italiano, l\'Operationszone Adriatisches Küstenland comprende la Provincia di Gorizia sotto il controllo diretto del Gauleiter Friedrich Rainer.',
+            'Asse',
+            'Operationszone Adriatisches Küstenland — Provinz Görz'
+          );
+        }
         const top = getTop('ITA');
         return makeResult(
           'ITA',
@@ -7641,8 +7920,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
 
-      // 2. Obalno-kraška (Capodistria, Pirano, Isola, Sesana, Carso - Trattato di Rapallo 1920: 100% sovranità italiana)
+      // 2. Obalno-kraška (Capodistria, Pirano, Isola, Sesana, Carso - Trattato di Rapallo 1920: 100% sovranità italiana; OZAK a Step 13)
       if (nid === 'SI044' || nrm.includes('obalno') || nrm.includes('koper') || nrm.includes('capodistria')) {
+        if (s >= 13) {
+          return makeResult(
+            'OZAK',
+            'Capodistria e Carso (Operationszone Adriatisches Küstenland)',
+            'Istituita il 10 settembre 1943 a seguito dell\'armistizio italiano, l\'Operationszone Adriatisches Küstenland comprende l\'Istria settentrionale e il Carso sotto il controllo del Gauleiter Friedrich Rainer.',
+            'Asse',
+            'Operationszone Adriatisches Küstenland — Provinz Pola / Triest'
+          );
+        }
         const top = getTop('ITA');
         return makeResult(
           'ITA',
@@ -7666,7 +7954,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
 
-        // 3b. Provincia Italiana di Lubiana (SI041 Osrednjeslovenska/Ljubljana, SI037 Jugovzhodna/Novo Mesto/Dolenjska, SI038 Primorsko-notranjska/Kočevje)
+        // 3b. Provincia Italiana di Lubiana (SI041 Osrednjeslovenska/Ljubljana, SI037 Jugovzhodna/Novo Mesto/Dolenjska, SI038 Primorsko-notranjska/Kočevje) / OZAK a Step 13
         if (
           nid === 'SI041' ||
           nid === 'SI037' ||
@@ -7680,6 +7968,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           nrm.includes('novo mesto') ||
           nrm.includes('postojn')
         ) {
+          if (s >= 13) {
+            return makeResult(
+              'OZAK',
+              'Provincia di Lubiana (Operationszone Adriatisches Küstenland — Provinz Laibach)',
+              'Istituita il 10 settembre 1943 da Hitler a seguito dell\'armistizio italiano, la Provincia di Lubiana (Provinz Laibach) viene annessa all\'Operationszone Adriatisches Küstenland sotto il Gauleiter Friedrich Rainer; viene istituito il corpo collaborazionista dei Domobranci (Guardia Civica Slovena del generale Leon Rupnik).',
+              'Asse',
+              'Operationszone Adriatisches Küstenland — Provinz Laibach (Gauleiter Friedrich Rainer & Leon Rupnik)'
+            );
+          }
           return makeResult(
             'ITA',
             nid === 'SI041' || nrm.includes('ljubljan') || nrm.includes('osrednje')
@@ -7877,6 +8174,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'ME':
     case 'MNE': {
+      if (s >= 13) {
+        return makeResult(
+          'GER',
+          'Montenegro (Occupazione Militare Tedesca — Militärverwaltung Montenegro)',
+          'Operazione Achse (settembre 1943): a seguito dell\'armistizio di Cassibile, la Wehrmacht disarma il presidio italiano a Cettigne e Podgorica e assume il controllo militare del territorio contro i partigiani di Tito, mentre Cattaro viene integrata nell\'OZAK.',
+          'Asse',
+          'Wehrmacht — Militärverwaltung Montenegro (Feldkommandantur Cetinje)'
+        );
+      }
       if (s >= 8) {
         return makeResult(
           'ITA',
@@ -7912,6 +8218,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           nrm.includes('struga') ||
           nrm.includes('kicev')
         ) {
+          if (s >= 13) {
+            return makeResult(
+              'GER',
+              nid === 'MK006' || nrm.includes('poloski') || nrm.includes('tetov')
+                ? 'Prefettura di Tetovo e Gostivar (Occupazione Militare Tedesca — Wehrmacht)'
+                : 'Prefettura di Dibra e Struga (Occupazione Militare Tedesca — Wehrmacht)',
+              'Operazione Achse (settembre 1943): a seguito dell\'armistizio di Cassibile, la Wehrmacht assume il controllo militare diretto della Macedonia occidentale precedentemente presidiata dall\'Italia.',
+              'Asse',
+              'Wehrmacht — Militärbefehlshaber Albanien & Südost'
+            );
+          }
           return makeResult(
             'ITA',
             nid === 'MK006' || nrm.includes('poloski') || nrm.includes('tetov')
@@ -7964,6 +8281,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Wehrmacht — Militärbefehlshaber in Serbien'
           );
         }
+        if (s >= 13) {
+          return makeResult(
+            'GER',
+            'Kosovo e Metohija (Pristina / Prizren / Peć — Occupazione Militare Tedesca)',
+            'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio di Cassibile, la Wehrmacht disarma le truppe italiane e occupa l\'intero distretto del Kosovo e della Metohija sotto il comando militare dell\'Heeresgruppe E.',
+            'Asse',
+            'Wehrmacht — Militärbefehlshaber Albanien & Südost'
+          );
+        }
         return makeResult(
           'ITA',
           'Kosovo e Metohija (Pristina / Prizren / Peć — Grande Albania)',
@@ -7995,6 +8321,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           bTop?.adminTitle || 'Mbretëria Shqiptare'
         );
       } else {
+        if (s >= 13) {
+          return makeResult(
+            'GER',
+            `${bTop?.name || 'Mbretëria Shqiptare'} (Occupazione Militare Tedesca — Wehrmacht Heeresgruppe E)`,
+            'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio di Cassibile, la Wehrmacht disarma il IX Corpo d\'Armata italiano in Albania, occupa Tirana, Durazzo e Valona e istituisce un Consiglio Nazionale di Reggenza (Këshilli i Naltë i Regjencës guidato da Mehdi Frashëri) proclamando una formale indipendenza collaborazionista sotto occupazione germanica.',
+            'Asse',
+            'Wehrmacht — Militärbefehlshaber Albanien & Këshilli i Naltë i Regjencës'
+          );
+        }
         const isSouthernFront = nid === 'AL033' || nid === 'AL034' || nid === 'AL036' || nrm.includes('gjirokast') || nrm.includes('korc') || nrm.includes('vlor');
         const albNote =
           s === 7 && isSouthernFront
@@ -8056,6 +8391,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('megisti');
 
       if (isDodecanese) {
+        if (s >= 13) {
+          return makeResult(
+            'GER',
+            'Rodi e Dodecaneso (Occupazione Militare Tedesca — Campagna dell\'Egeo)',
+            'Campagna del Dodecaneso (settembre 1943): in seguito all\'armistizio di Cassibile, la divisione d\'assalto tedesca "Rhodos" (Gen. Ulrich Kleemann) cattura Rodi e disarma il comando italiano (Amm. Inigo Campioni). Guarnigioni miste italo-britanniche resistono temporaneamente a Lero, Coo e Samo prima della riconquista da parte della Wehrmacht.',
+            'Asse',
+            'Wehrmacht — Militärverwaltung Dodekanes (Rodos)'
+          );
+        }
         const top = getTop('ITA');
         return makeResult(
           'ITA',
@@ -8084,6 +8428,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           if (s >= 9) {
             const isLasithi = nid === 'EL432' || nrm.includes('lasith') || nrm.includes('sitia') || nrm.includes('agios nikolaos');
             if (isLasithi) {
+              if (s >= 13) {
+                return makeResult(
+                  'GER',
+                  `${rawName || 'Lasithi'} (Festung Kreta — Subentro Militare Tedesco alla Divisione Siena)`,
+                  'Operazione Achse (settembre 1943): a seguito dell\'armistizio di Cassibile, la 22. Infanterie-Division tedesca disarma la 51ª Divisione fanteria "Siena" italiana e occupa l\'intera provincia di Lasithi, unificando Creta sotto l\'amministrazione della Festung Kreta.',
+                  'Asse',
+                  'Wehrmacht — Kommandant der Festung Kreta (Chania)'
+                );
+              }
               return makeResult(
                 'ITA',
                 `${rawName || 'Lasithi'} (Creta Orientale — Occupazione Militare Italiana, Divisione Siena)`,
@@ -8184,6 +8537,29 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
         // 2d. Zona di Occupazione Italiana in Grecia e Isole Ionie (Epiro EL54, Macedonia Occidentale EL531-532, Tessaglia EL61, Isole Ionie EL62, Grecia Centrale EL63-64, Peloponneso EL65, Cicladi EL422, Samo/Icaria EL412)
         const isIonian = nid.startsWith('EL62') || nrm.includes('kerkyr') || nrm.includes('corfu') || nrm.includes('kefallin') || nrm.includes('zakynth') || nrm.includes('lefkad');
+        if (s >= 13) {
+          const isCephalonia = nid === 'EL622' || nrm.includes('kefallin') || nrm.includes('cefalonia') || nrm.includes('argostoli');
+          if (isCephalonia) {
+            return makeResult(
+              'GER',
+              'Cefalonia e Itaca (Occupazione Militare Tedesca — Eccidio della Divisione Acqui)',
+              'Settembre 1943 (Eccidio di Cefalonia): dopo l\'annuncio dell\'armistizio dell\'8 settembre, la 33ª Divisione fanteria da montagna "Acqui" (Gen. Antonio Gandin) rifiuta la resa alla 1. Gebirgs-Division tedesca. Al termine di nove giorni di sanguinosa resistenza (13-22 settembre), i tedeschi massacrano oltre 5.000 soldati e ufficiali italiani arresi.',
+              'Asse',
+              'Wehrmacht — Befehlshaber Südgriechenland (1. Gebirgs-Division)'
+            );
+          }
+          return makeResult(
+            'GER',
+            isIonian
+              ? `Isole Ionie (${rawName || 'Corfù, Cefalonia, Zante'} — Occupazione Militare Tedesca)`
+              : `${rawName || 'Grecia Continentale ed Egeo'} (Zona Occupata dalla Wehrmacht — Subentro all'11ª Armata)`,
+            isIonian
+              ? 'Operazione Achse (settembre 1943): la Wehrmacht occupa le Isole Ionie dopo la resa dei presidi italiani, insediando l\'amministrazione di sicurezza germanica.'
+              : 'Operazione Achse (settembre 1943): a seguito dell\'armistizio di Cassibile, le forze tedesche dell\'Heeresgruppe E (Gen. Alexander Löhr) disarmano l\'11ª Armata del Regio Esercito in Tessaglia, Epiro, Peloponneso e nelle Cicladi, assumendo il controllo militare esclusivo dell\'intera Grecia.',
+            'Asse',
+            'Wehrmacht — Militärverwaltung Griechenland (Heeresgruppe E)'
+          );
+        }
         return makeResult(
           'ITA',
           isIonian
@@ -8357,6 +8733,29 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           top.note || 'Territoire d\'outre-mer sous autorité du régime de Vichy.',
           'Fantoccio',
           top.adminTitle || 'Administration coloniale de l\'État français (Vichy)'
+        );
+      }
+
+      // Step >= 13: Settembre 1943 — Liberazione della Corsica e Occupazione Tedesca Integrale della Francia Continentale
+      if (s >= 13) {
+        const isCorsica = nid === 'FRM01' || nid === 'FRM02' || nrm.includes('corse') || nrm.includes('corsica') || nrm.includes('ajaccio') || nrm.includes('bastia');
+        if (isCorsica) {
+          return makeResult(
+            'FRA',
+            `${rawName || 'Corse'} (Libération de la Corse — 1er Département Français Libéré)`,
+            'Settembre 1943: all\'indomani dell\'armistizio di Cassibile, le truppe italiane del VII Corpo d\'Armata del generale Giovanni Magli cooperano attivamente con i partigiani del Fronte Nazionale corso e i commandos della Francia Libera (1er Bataillon de Choc giunto a bordo del sottomarino Casabianca), costringendo la Wehrmacht a evacuare verso Bastia. La Corsica è il primo dipartimento della Francia metropolitana liberato dal giogo dell\'Asse.',
+            'Alleati',
+            'Comité Français de la Libération Nationale (CFLN — Général Charles de Gaulle) / Résistance Corse & VII Corpo d\'Armata'
+          );
+        }
+        // Francia metropolitana continentale interamente occupata dalla Wehrmacht (annessa la precedente zona italiana di Nizza e Savoia)
+        const top = getTop('GER');
+        return makeResult(
+          'GER',
+          top.name || (rawName + ' (Zone Occupée — Wehrmacht)'),
+          'Operazione Achse (settembre 1943): in seguito all\'armistizio italiano, la Wehrmacht disarma la 4ª Armata del Regio Esercito e occupa direttamente anche Nizza, la Savoia e la Provenza orientale. L\'intera Francia continentale è sottoposta all\'amministrazione militare tedesca.',
+          'Asse',
+          'Zone occupée — Militärbefehlshaber in Frankreich'
         );
       }
 
@@ -8943,12 +9342,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'MC':
     case 'MCO': {
-      const ownerCode = s >= 11 ? 'ITA' : 'MCO';
+      const ownerCode = s >= 13 ? 'GER' : s >= 11 ? 'ITA' : 'MCO';
       const top = getExtendedToponym(rawName || 'Monaco', ownerCode, nid || 'MCO_HIST', [7.4233, 43.7367], s);
+      const monacoNote = s >= 13
+        ? 'Operazione Achse (settembre 1943): le truppe tedesche della Wehrmacht occupano il Principato di Monaco, subentrando all\'occupazione italiana.'
+        : s >= 11
+        ? 'Operazione Anton (novembre 1942): occupazione militare italiana del Principato di Monaco.'
+        : 'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).';
       return makeResult(
         ownerCode,
         top.name || 'Principauté de Monaco',
-        top.note || 'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).',
+        top.note || monacoNote,
         s >= 11 ? 'Asse' : 'Neutrale',
         top.adminTitle || 'Principauté de Monaco'
       );

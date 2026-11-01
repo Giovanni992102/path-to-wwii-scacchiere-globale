@@ -38,13 +38,13 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'ITA',
     c: '#6f7a3f',
     f: 'Asse',
-    l: (s) => (s >= 1 ? 'Regno d\'Italia (Impero AOI)' : 'Regno d\'Italia'),
+    l: (s) => (s >= 13 ? 'Regno d\'Italia (Regno del Sud — Cobelligerante con gli Alleati)' : s >= 1 ? 'Regno d\'Italia (Impero AOI)' : 'Regno d\'Italia'),
     shortName: 'Italia',
-    leader: 'Benito Mussolini / Vittorio Emanuele III',
-    capital: 'Roma',
+    leader: 'Benito Mussolini (1936-43) / Re Vittorio Emanuele III & Pietro Badoglio (1943)',
+    capital: 'Roma / Brindisi',
     tier: 'sovereign',
     overlordCode: null,
-    aliases: ['IT', 'ITA', 'ITALIA', 'ITALY', 'REGNO D\'ITALIA'],
+    aliases: ['IT', 'ITA', 'ITALIA', 'ITALY', 'REGNO D\'ITALIA', 'REGNO DEL SUD', 'REGNO_DEL_SUD'],
     isSubject: false,
   },
   JAP: {
@@ -595,6 +595,45 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     tier: 'puppet',
     overlordCode: 'GER',
     aliases: ['NDH', 'HRV', 'CROATIA', 'CROAZIA', 'STATO INDIPENDENTE DI CROAZIA', 'NEZAVISNA DRŽAVA HRVATSKA', 'NEZAVISNA DRZAVA HRVATSKA'],
+    isSubject: true,
+  },
+  RSI: {
+    id: 'RSI',
+    c: '#536848',
+    f: 'Fantoccio',
+    l: () => 'Repubblica Sociale Italiana (RSI — Governo di Salò)',
+    shortName: 'RSI (Salò)',
+    leader: 'Benito Mussolini / Rodolfo Graziani',
+    capital: 'Salò / Gargnano / Milano',
+    tier: 'puppet',
+    overlordCode: 'GER',
+    aliases: ['RSI', 'REPUBBLICA SOCIALE ITALIANA', 'REPUBBLICA_SOCIALE_ITALIANA', 'REPUBBLICA DI SALO', 'REPUBBLICA_DI_SALO', 'ITALIAN SOCIAL REPUBLIC', 'SALO'],
+    isSubject: true,
+  },
+  OZAV: {
+    id: 'OZAV',
+    c: '#3d4449',
+    f: 'Asse',
+    l: () => 'Operationszone Alpenvorland (OZAV — Annessione de facto al Reich)',
+    shortName: 'Alpenvorland (OZAV)',
+    leader: 'Franz Hofer (Gauleiter del Tirolo-Vorarlberg & Commissario Supremo)',
+    capital: 'Bozen / Innsbruck',
+    tier: 'puppet',
+    overlordCode: 'GER',
+    aliases: ['OZAV', 'ALPENVORLAND', 'OPERATIONSZONE ALPENVORLAND', 'OPERATIONSZONE_ALPENVORLAND', 'ZONA D\'OPERAZIONE PREALPI'],
+    isSubject: true,
+  },
+  OZAK: {
+    id: 'OZAK',
+    c: '#363d42',
+    f: 'Asse',
+    l: () => 'Operationszone Adriatisches Küstenland (OZAK — Annessione de facto al Reich)',
+    shortName: 'Litorale Adriatico (OZAK)',
+    leader: 'Friedrich Rainer (Gauleiter della Carinzia & Commissario Supremo)',
+    capital: 'Trieste / Klagenfurt',
+    tier: 'puppet',
+    overlordCode: 'GER',
+    aliases: ['OZAK', 'ADRIATISCHES KUSTENLAND', 'ADRIATISCHES_KUSTENLAND', 'OPERATIONSZONE ADRIATISCHES KUSTENLAND', 'OPERATIONSZONE_ADRIATISCHES_KUSTENLAND', 'ZONA D\'OPERAZIONE LITORALE ADRIATICO'],
     isSubject: true,
   },
   MAN: {
@@ -1835,8 +1874,9 @@ export function getOverlord(o: string, step: number = 0): OwnerConfig | null {
     return step === 8 ? null : getOwnerMeta('UK');
   }
   if (canon === 'ALB') {
-    // Prima dell'invasione e unione personale (aprile 1939 / step 4), l'Albania era indipendente
-    return step >= 4 ? getOwnerMeta('ITA') : null;
+    // Prima dell'invasione e unione personale (aprile 1939 / step 4), l'Albania era indipendente;
+    // dopo l'armistizio italiano (settembre 1943 / step 13), l'Albania passa sotto occupazione della Wehrmacht tedesca
+    return step >= 13 ? getOwnerMeta('GER') : step >= 4 ? getOwnerMeta('ITA') : null;
   }
   if (canon === 'HAT') {
     // Annesso alla Turchia nel luglio 1939 (step 4)
