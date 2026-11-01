@@ -2839,7 +2839,25 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Africa Orientale Italiana (AOI — Etiopia)', 'Impero proclamato il 9 maggio 1936');
   }
   if (nrm_hb.includes('libya') || nrm_hb.includes('cyrenaica') || nrm_hb.includes('tripolitania')) {
-    if (s >= 10) {
+    if (s >= 11 && (nrm_hb.includes('cyrenaica') || nrm_hb.includes('tobruk') || nrm_hb.includes('bengasi') || nrm_hb.includes('benghazi') || nrm_hb.includes('derna') || nrm_hb.includes('bardia'))) {
+      return makeResult(
+        'UK',
+        'Cirenaica Liberata (Bengasi / Tobruk / Derna — British Eighth Army)',
+        'Inseguimento della Panzerarmee Afrika dopo El Alamein (novembre 1942): l\'8ª Armata britannica del Generale Montgomery riconquista Bardia, Tobruk (13 novembre) e Bengasi (20 novembre), costringendo le forze dell\'Asse ad attestarsi sulla linea di El Agheila.',
+        'Alleati',
+        'British 8th Army — Military Administration of Cyrenaica (General Bernard Montgomery)'
+      );
+    }
+    if (s >= 11) {
+      return makeResult(
+        'ITA',
+        'Libia Italiana (Tripolitania e Sirtica — Linea difensiva di El Agheila)',
+        'Dopo la rottura del fronte di El Alamein e la ritirata dalla Cirenaica, la Panzerarmee Afrika del Feldmaresciallo Rommel e le forze italiane si attestano a difesa della Tripolitania sulla linea di El Agheila.',
+        'Asse',
+        'Governo Generale della Libia (Maresciallo Ettore Bastico) & Panzerarmee Afrika (Generalfeldmarschall Erwin Rommel)'
+      );
+    }
+    if (s === 10) {
       return makeResult(
         'ITA',
         'Libia Italiana (Riconquista di Tobruk e Avanzata fino a El Alamein)',
@@ -3373,6 +3391,42 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             'Délégation Générale de la France Libre au Levant (Gén. Georges Catroux) & British 9th Army'
           );
         }
+        if (vicKey === 'VIC_MAD' && s >= 11) {
+          return makeResult(
+            'UK',
+            'Madagascar (British Military Administration / Capitulation de Vichy)',
+            'Operazione Stream Line Jane e Armistizio di Ambalavao (5-6 novembre 1942): le truppe britanniche ed est-africane completano la conquista dell\'isola; il Governatore Armand Annet firma la resa, ponendo fine alla sovranità di Vichy in Madagascar.',
+            'Alleati',
+            'British Military Administration of Madagascar (Gen. William Platt) & Forces Françaises Libres'
+          );
+        }
+        if (vicKey === 'VIC_AOF' && s >= 11) {
+          return makeResult(
+            'F_AOF',
+            'Afrique Occidentale Française (AOF — Ralliement agli Alleati, Dakar)',
+            'Accordo di Dakar (23 novembre 1942): il Governatore Generale Pierre Boisson riconosce l\'autorità dell\'Ammiraglio Darlan e dell\'Alto Commissariato Francese ad Algeri, integrando l\'intera AOF e la base navale di Dakar nello schieramento alleato.',
+            'Alleati',
+            'Gouvernement Général de l\'Afrique Occidentale Française (Gouverneur Général Pierre Boisson — Schieramento Alleato)'
+          );
+        }
+        if (vicKey === 'VIC_NAF' && s >= 11) {
+          if (nrm_hb.includes('tunis') || nrm_hb.includes('bizerte')) {
+            return makeResult(
+              'GER',
+              'Tunisie occupée — Testa di ponte dell\'Asse',
+              'Occupazione italo-tedesca di Biserta e Tunisi a metà novembre 1942 per creare la testa di ponte dell\'Asse in Nordafrica dopo lo sbarco alleato in Algeria e Marocco (Operazione Torch).',
+              'Asse',
+              'XC. Armeekorps / Generalleutnant Walther Nehring — 5. Panzerarmee'
+            );
+          }
+          return makeResult(
+            'FRA',
+            'Afrique du Nord Française (Liberazione Alleata — Operazione Torch)',
+            'Operazione Torch (8-11 novembre 1942): le forze anglo-americane sbarcano ad Algeri, Orano e Casablanca. Con il cessate il fuoco concordato con l\'Ammiraglio Darlan, l\'amministrazione civile e militare francese si unisce agli Alleati.',
+            'Alleati',
+            'Commandement en Chef Français Civil et Militaire (Amiral François Darlan / Général Henri Giraud)'
+          );
+        }
         if (vicKey === 'VIC_IND' && s >= 9) {
           return makeResult(
             'JAP',
@@ -3555,6 +3609,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             : 'Operazione B (16-25 dicembre 1941): il Distaccamento Kawaguchi sbarca a Miri, conquista i campi petroliferi di Seria in Brunei e occupa Kuching (Sarawak) il 24 dicembre 1941.',
           'Asse',
           'Dai Nippon Teikoku — Occupazione Militare Giapponese'
+        );
+      }
+      if (s >= 11 && (nrm_hb.includes('solomon') || nrm_hb.includes('salomone'))) {
+        return makeResult(
+          'USA',
+          'British Solomon Islands Protectorate (Guadalcanal & Henderson Field — US Forces)',
+          'Svolta nella Campagna di Guadalcanal (novembre 1942): dopo la vittoria nella Battaglia navale di Guadalcanal (12-15 novembre 1942), le forze aeronavali statunitensi (Ammiraglio William Halsey) e la 1ª Divisione Marines consolidano il controllo strategico su Henderson Field e sull\'arcipelago meridionale delle Salomone, respingendo definitivamente l\'ultimo grande tentativo giapponese di sbarcare rinforzi pesanti.',
+          'Alleati',
+          'South Pacific Area (SOPAC — Admiral William F. Halsey Jr.) & 1st Marine Division'
         );
       }
       if (
@@ -5231,18 +5294,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isAlgeriaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^DZ_/, 'DZ').toUpperCase();
     const dzMeta = (ALGERIA_PROVINCES_META as any)?.[cleanId];
-    const owner = s >= 6 ? 'VIC_NAF' : 'F_NAF';
+    const owner = s >= 11 ? 'FRA' : s >= 6 ? 'VIC_NAF' : 'F_NAF';
     const top = getTop(owner);
-    const faction = s >= 6 ? 'Fantoccio' : 'Alleati';
-    const defaultAdmin = s >= 6
+    const faction = s >= 11 ? 'Alleati' : s >= 6 ? 'Fantoccio' : 'Alleati';
+    const defaultAdmin = s >= 11
+      ? 'Algérie française — Commandement en Chef Français Civil et Militaire (Amiral François Darlan / Général Henri Giraud)'
+      : s >= 6
       ? 'Algérie française — Régime de Vichy (Yves Châtel / Maxime Weygand)'
       : 'Algérie française — Gouvernement Général de l\'Algérie (Georges Le Beau)';
+    const noteSuffix = s >= 11
+      ? ' A seguito dell\'Operazione Torch (8-10 novembre 1942) e del cessate il fuoco dell\'Ammiraglio Darlan, l\'Algeria si schiera a fianco degli Alleati come base strategica del Commandement en Chef Français Civil et Militaire.'
+      : '';
     return makeResult(
       owner,
       dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
-      dzMeta?.note || top.note || p.HISTORICAL_NOTE || 'Départements français d\'Algérie et Territoires du Sud',
+      (dzMeta?.note || top.note || p.HISTORICAL_NOTE || 'Départements français d\'Algérie et Territoires du Sud') + noteSuffix,
       faction,
-      dzMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin
+      s >= 11 ? defaultAdmin : (dzMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin)
     );
   }
 
@@ -5261,18 +5329,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isMoroccoFranceProv) {
     const cleanId = String(ft.id || nid || '').replace(/^MA_/, 'MA').toUpperCase();
     const maMeta = (MOROCCO_PROVINCES_META as any)?.[cleanId];
-    const owner = s >= 6 ? 'VIC_NAF' : 'F_NAF';
+    const owner = s >= 11 ? 'FRA' : s >= 6 ? 'VIC_NAF' : 'F_NAF';
     const top = getTop(owner);
-    const faction = s >= 6 ? 'Fantoccio' : 'Alleati';
-    const defaultAdmin = s >= 6
+    const faction = s >= 11 ? 'Alleati' : s >= 6 ? 'Fantoccio' : 'Alleati';
+    const defaultAdmin = s >= 11
+      ? 'Protectorat français au Maroc — Commandement en Chef Français Civil et Militaire (Général Charles Noguès)'
+      : s >= 6
       ? 'Protectorat français au Maroc — Régime de Vichy (Général Charles Noguès)'
       : 'Protectorat français au Maroc — Résidence Générale de la République Française (Général Charles Noguès)';
+    const noteSuffix = s >= 11
+      ? ' Dopo lo sbarco alleato in Marocco (Operazione Torch, 8-11 novembre 1942 a Casablanca, Safi e Port-Lyautey) e il cessate il fuoco negoziato con il Gen. Patton e l\'Amm. Darlan, il Marocco francese si unisce allo sforzo bellico degli Alleati.'
+      : '';
     return makeResult(
       owner,
       maMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
-      maMeta?.note || top.note || p.HISTORICAL_NOTE || 'Protectorat français au Maroc',
+      (maMeta?.note || top.note || p.HISTORICAL_NOTE || 'Protectorat français au Maroc') + noteSuffix,
       faction,
-      maMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin
+      s >= 11 ? defaultAdmin : (maMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin)
     );
   }
 
@@ -5286,18 +5359,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isTunisiaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^TN_/, 'TN').toUpperCase();
     const tnMeta = (TUNISIA_PROVINCES_META as any)?.[cleanId];
-    const owner = s >= 6 ? 'VIC_NAF' : 'F_NAF';
+    const owner = s >= 11 ? 'GER' : s >= 6 ? 'VIC_NAF' : 'F_NAF';
     const top = getTop(owner);
-    const faction = s >= 6 ? 'Fantoccio' : 'Alleati';
-    const defaultAdmin = s >= 6
+    const faction = s >= 11 ? 'Asse' : s >= 6 ? 'Fantoccio' : 'Alleati';
+    const defaultAdmin = s >= 11
+      ? 'Tunisie occupée — Testa di ponte dell\'Asse (XC. Armeekorps / Generalleutnant Walther Nehring — 5. Panzerarmee)'
+      : s >= 6
       ? 'Protectorat français de Tunisie — Régime de Vichy (Marcel Peyrouton / Amiral Jean-Pierre Esteva)'
       : 'Protectorat français de Tunisie — Résidence Générale de la République Française (Armand Guillon / Eirik Labonne)';
+    const noteSuffix = s >= 11
+      ? ' Occupazione italo-tedesca di Biserta e Tunisi a metà novembre 1942 per creare la testa di ponte dell\'Asse in Nordafrica dopo lo sbarco alleato in Algeria e Marocco (Operazione Torch).'
+      : '';
     return makeResult(
       owner,
       tnMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
-      tnMeta?.note || top.note || p.HISTORICAL_NOTE || 'Protectorat français de Tunisie',
+      (tnMeta?.note || top.note || p.HISTORICAL_NOTE || 'Protectorat français de Tunisie') + noteSuffix,
       faction,
-      tnMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin
+      s >= 11 ? defaultAdmin : (tnMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin)
     );
   }
 
@@ -5327,13 +5405,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         'Western Desert Governorate — Frontline of Sidi Barrani & Mersa Matruh (British Middle East Command)'
       );
     }
-    if (cleanId === 'EGMT' && s >= 10) {
+    if (cleanId === 'EGMT' && s === 10) {
       return makeResult(
         'ITA',
         'Matruh e Marmarica Egiziana Occupata (Mersa Matruh, Sollum, Oasi di Siwa — Fronte di El Alamein)',
         'Massima penetrazione dell\'Asse in Egitto (giugno-agosto 1942): dopo la caduta di Tobruk (21 giugno 1942), la Panzerarmee Afrika del Generalfeldmarschall Erwin Rommel e le divisioni italiane ("Ariete", "Littorio", "Trieste", "Folgore") sfondano a Mersa Matruh (28-29 giugno), occupano l\'Oasi di Siwa (20 luglio) e si arrestano a soli 106 km da Alessandria sulla linea fortificata di El Alamein tra il Mediterraneo e la Depressione di Qattara (Prima Battaglia di El Alamein, 1-27 luglio; Battaglia di Alam el Halfa, 30-31 agosto 1942).',
         'Asse',
         'Panzerarmee Afrika (Generalfeldmarschall Erwin Rommel) & Delegazione Comando Supremo in Africa Settentrionale'
+      );
+    }
+    if (cleanId === 'EGMT' && s >= 11) {
+      return makeResult(
+        'EGY',
+        'Muḥāfaẓat al-Ṣaḥrāʾ al-Gharbiyyah (Mersa Matruh e Frontiera Marmarica Liberata)',
+        'Riconquista alleata della Marmarica (novembre 1942): a seguito dello sfondamento ad El Alamein (Operazione Supercharge, 2-4 novembre 1942), l\'8ª Armata britannica del Generale Montgomery riconquista Mersa Matruh (11 novembre), Sollum e il Passo di Halfaya, cacciando definitivamente le forze italo-tedesche dal territorio egiziano e inseguendole in Cirenaica.',
+        'Alleati',
+        'Western Desert Governorate — Liberated Egyptian Territory (British Eighth Army & Middle East Command)'
       );
     }
     if (cleanId === 'EGMT' && s === 9) {
@@ -7499,6 +7586,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           const top = getTop('F_COL');
           return makeResult('F_COL', top.name || 'Guyane française (Cayenne)', top.note, 'Alleati', top.adminTitle || 'Colonie de la Guyane française');
         }
+        if (s >= 11 && (nid === 'FRY40' || nrm.includes('reunion'))) {
+          const top = getTop('FRA');
+          return makeResult(
+            'FRA',
+            'La Réunion (Ralliée à la France Libre — 28 Novembre 1942)',
+            'Operazione della marina francese libera: il cacciatorpediniere Léopard sbarca truppe golliste a Saint-Denis; il governatore Pierre Émile Aubert capitola e La Réunion si unisce alla Francia Libera.',
+            'Alleati',
+            'Colonie de la Réunion — France Libre (Gouverneur Jean Capagorry)'
+          );
+        }
+        if (s >= 10 && (nid === 'FRY50' || nrm.includes('mayotte'))) {
+          return makeResult(
+            'UK',
+            'Mayotte (Occupazione Britannica — Luglio 1942)',
+            'Occupazione britannica dell\'isola di Mayotte e delle Comore nell\'ambito delle operazioni navali nel canale di Mozambico.',
+            'Alleati',
+            'British Military Administration of Mayotte'
+          );
+        }
         const top = getTop('VIC');
         return makeResult(
           'VIC',
@@ -7506,6 +7612,55 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           top.note || 'Territoire d\'outre-mer sous autorité du régime de Vichy.',
           'Fantoccio',
           top.adminTitle || 'Administration coloniale de l\'État français (Vichy)'
+        );
+      }
+
+      // Step >= 11: Operazione Anton (11 novembre 1942) - Fine della Zone libre metropolitana
+      if (s >= 11) {
+        const ITALIAN_OCC_ZONE_NUTS = new Set([
+          'FRM01', 'FRM02', // Corsica (Ajaccio, Bastia)
+          'FRK27', 'FRK28', // Savoie (Chambéry), Haute-Savoie (Annecy)
+          'FRK24',          // Isère (Grenoble)
+          'FRL02',          // Hautes-Alpes (Gap)
+          'FRK23',          // Drôme (Valence)
+          'FRL01',          // Basses-Alpes / Alpes-de-Haute-Provence (Digne)
+          'FRL03',          // Alpes-Maritimes (Nice)
+          'FRL05',          // Var (Toulon)
+          'FRL06',          // Vaucluse (Avignon)
+        ]);
+        const isItalianZone =
+          (nid && ITALIAN_OCC_ZONE_NUTS.has(nid)) ||
+          nrm.includes('alpes-maritimes') ||
+          nrm.includes('nice') ||
+          nrm.includes('nizza') ||
+          nrm.includes('toulon') ||
+          nrm.includes('corse') ||
+          nrm.includes('corsica') ||
+          nrm.includes('savoie') ||
+          nrm.includes('isere') ||
+          nrm.includes('grenoble') ||
+          nrm.includes('vaucluse') ||
+          nrm.includes('avignon') ||
+          nrm.includes('drome');
+
+        if (isItalianZone) {
+          const top = getTop('ITA');
+          return makeResult(
+            'ITA',
+            top.name || (rawName + ' (Zona di Occupazione Militare Italiana — 4ª Armata)'),
+            'Operazione Anton (novembre 1942): occupazione militare italiana della Francia sud-orientale a est del Rodano e della Corsica da parte della 4ª Armata del Gen. Mario Vercellino.',
+            'Asse',
+            'Zone d\'occupation italienne en France — 4ª Armata del Regio Esercito (Gen. Mario Vercellino)'
+          );
+        }
+        // Tutta la restante Francia metropolitana occupata dalla Wehrmacht
+        const top = getTop('GER');
+        return makeResult(
+          'GER',
+          top.name || (rawName + ' (Zone Occupée — Wehrmacht)'),
+          'Operazione Anton (11 novembre 1942): invasione della Zona libera metropolitana da parte della Wehrmacht e crollo del regime di Vichy come entità territoriale autonoma; autoaffondamento della flotta a Tolone (27 novembre 1942).',
+          'Asse',
+          'Zone occupée — Militärbefehlshaber in Frankreich (Heeresgruppe Felber)'
         );
       }
 
@@ -7990,6 +8145,26 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           : 'Principato del Liechtenstein — Principe Franz Josef II (Neutrale / Zollunion Schweiz).'),
         'Neutrale',
         topLie?.adminTitle || 'Fürstentum Liechtenstein (Souveränes Fürstentum)'
+      );
+    }
+
+    case 'MC':
+    case 'MCO': {
+      if (s >= 11) {
+        return makeResult(
+          'ITA',
+          'Principauté de Monaco (Occupazione Italiana — Regio Esercito)',
+          'Operazione Anton (11 novembre 1942): le truppe del Regio Esercito italiano (4ª Armata del Gen. Mario Vercellino) occupano il Principato di Monaco, integrato nella zona di occupazione militare italiana della Francia meridionale.',
+          'Asse',
+          'Principauté de Monaco — Zona di Occupazione Militare Italiana (Regio Esercito)'
+        );
+      }
+      return makeResult(
+        'MC',
+        'Principauté de Monaco',
+        'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).',
+        'Neutrale',
+        'Principauté de Monaco (État Souverain)'
       );
     }
 
@@ -9294,6 +9469,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('comores') ||
         nrm.includes('reunion')
       ) {
+        if (s >= 11) {
+          return makeResult(
+            'UK',
+            'Madagascar (British Military Administration / Capitulation de Vichy)',
+            'Operazione Stream Line Jane e Armistizio di Ambalavao (5-6 novembre 1942): le truppe britanniche ed est-africane completano la conquista dell\'isola; il Governatore Armand Annet firma la resa, ponendo fine alla sovranità di Vichy in Madagascar.',
+            'Alleati',
+            'British Military Administration of Madagascar (Gen. William Platt) & Forces Françaises Libres'
+          );
+        }
         if (s >= 6) {
           const top = getTop('VIC_MAD');
           return makeResult(
@@ -9359,6 +9543,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
         if (
+          s >= 11 &&
+          (nid === 'LYBU' ||
+            nid === 'LYDR' ||
+            nid === 'LYJA' ||
+            nid === 'LYMJ' ||
+            nid === 'LYBA' ||
+            nid === 'LYWA' ||
+            nrm.includes('cyrenaic') ||
+            nrm.includes('cirenaic') ||
+            nrm.includes('tobruk') ||
+            nrm.includes('benghazi') ||
+            nrm.includes('bengasi') ||
+            nrm.includes('derna') ||
+            nrm.includes('bardia'))
+        ) {
+          return makeResult(
+            'UK',
+            'Cirenaica Liberata (Bengasi / Tobruk / Derna — British Eighth Army)',
+            'Inseguimento della Panzerarmee Afrika dopo El Alamein (novembre 1942): l\'8ª Armata britannica del Generale Bernard Montgomery travolge le retroguardie italo-tedesche, rioccupa Bardia (11 novembre), Tobruk (13 novembre) e Bengasi (20 novembre). Le forze superstiti del Feldmaresciallo Rommel ripiegano verso la linea trincerata di El Agheila al confine della Sirtica.',
+            'Alleati',
+            'British 8th Army — Military Administration of Cyrenaica (General Bernard Montgomery)'
+          );
+        }
+        if (
           s === 9 &&
           (nid === 'LYBU' ||
             nid === 'LYDR' ||
@@ -9387,7 +9595,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'ITA',
           itTop.name || ITA_COL[cntr] || rawName,
           itTop.note ||
-            (s >= 10
+            (s >= 11
+              ? 'Governo Generale della Libia (Tripolitania e Sirtica — Maresciallo Ettore Bastico) & Panzerarmee Afrika (Generalfeldmarschall Erwin Rommel): dopo la sconfitta di El Alamein e la caduta della Cirenaica, le forze italo-tedesche si attestano sulla linea difensiva di El Agheila e preparano l\'ulteriore ripiegamento verso Tripoli e la Tunisia.'
+              : s === 10
               ? 'Governo Generale della Libia (Maresciallo Ettore Bastico) & Panzerarmee Afrika (Feldmaresciallo Erwin Rommel): dopo la riconquista della Cirenaica occidentale (gennaio-febbraio 1942), la vittoria di Gazala (26 maggio - 21 giugno 1942) e l\'espugnazione della piazzaforte di Tobruk (21 giugno 1942), l\'intera Libia funge da retrovia logistica per l\'offensiva italo-tedesca fino alla linea di El Alamein in Egitto.'
               : s >= 9
               ? 'Governo Generale della Libia (Tripolitania e Fezzan — Maresciallo Ettore Bastico) & Panzergruppe Afrika (Gen. Erwin Rommel): dopo l\'Operazione Crusader (novembre-dicembre 1941), le forze italo-tedesche ripiegano ordinatamente sulla stretta di El Agheila al confine tra Cirenaica e Tripolitania, preparando la controffensiva del gennaio 1942.'
@@ -9459,6 +9669,42 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               ? 'VIC_IND'
               : 'VIC';
           const vicTop = getTop(vicKey);
+          if (vicKey === 'VIC_MAD' && s >= 11) {
+            return makeResult(
+              'UK',
+              'Madagascar (British Military Administration / Capitulation de Vichy)',
+              'Operazione Stream Line Jane e Armistizio di Ambalavao (5-6 novembre 1942): le truppe britanniche ed est-africane completano la conquista dell\'isola; il Governatore Armand Annet firma la resa, ponendo fine alla sovranità di Vichy in Madagascar.',
+              'Alleati',
+              'British Military Administration of Madagascar (Gen. William Platt) & Forces Françaises Libres'
+            );
+          }
+          if (vicKey === 'VIC_AOF' && s >= 11) {
+            return makeResult(
+              'F_AOF',
+              'Afrique Occidentale Française (AOF — Ralliement agli Alleati, Dakar)',
+              'Accordo di Dakar (23 novembre 1942): il Governatore Generale Pierre Boisson riconosce l\'autorità dell\'Ammiraglio Darlan e dell\'Alto Commissariato Francese ad Algeri, integrando l\'intera AOF e la base navale di Dakar nello schieramento alleato.',
+              'Alleati',
+              'Gouvernement Général de l\'Afrique Occidentale Française (Gouverneur Général Pierre Boisson — Schieramento Alleato)'
+            );
+          }
+          if (vicKey === 'VIC_NAF' && s >= 11) {
+            if (lbl.toLowerCase().includes('tunis') || lbl.toLowerCase().includes('bizerte')) {
+              return makeResult(
+                'GER',
+                'Tunisie occupée — Testa di ponte dell\'Asse',
+                'Occupazione italo-tedesca di Biserta e Tunisi a metà novembre 1942 per creare la testa di ponte dell\'Asse in Nordafrica dopo lo sbarco alleato in Algeria e Marocco (Operazione Torch).',
+                'Asse',
+                'XC. Armeekorps / Generalleutnant Walther Nehring — 5. Panzerarmee'
+              );
+            }
+            return makeResult(
+              'FRA',
+              'Afrique du Nord Française (Liberazione Alleata — Operazione Torch)',
+              'Operazione Torch (8-11 novembre 1942): le forze anglo-americane sbarcano ad Algeri, Orano e Casablanca. Con il cessate il fuoco concordato con l\'Ammiraglio Darlan, l\'amministrazione civile e militare francese si unisce agli Alleati.',
+              'Alleati',
+              'Commandement en Chef Français Civil et Militaire (Amiral François Darlan / Général Henri Giraud)'
+            );
+          }
           if (vicKey === 'VIC_SYR' && s >= 9) {
           return makeResult(
             'F_SYR',
@@ -9565,13 +9811,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Dai Nippon Teikoku — Borneo Defence Force (Ten. Gen. Marquis Toshinari Maeda)'
           );
         }
-        if (s >= 10 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {
+        if (s === 10 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {
           return makeResult(
             'JAP',
             'Isole Salomone (Perimetro Difensivo Giapponese & Campagna di Guadalcanal — Agosto 1942)',
             'Occupazione giapponese delle Isole Salomone (Shortland, Tulagi, Guadalcanal — marzo-maggio 1942): nonostante lo sbarco della 1ª Divisione Marines USA a Guadalcanal e Tulagi il 7 agosto 1942 (Operazione Watchtower) per catturare l\'aeroporto in costruzione (Henderson Field), la vittoria navale giapponese a Savo Island (8-9 agosto) e gli sbarchi del Tokyo Express mantengono l\'arcipelago delle Salomone al centro dell\'aspra battaglia aeronavale e terrestre dell\'agosto 1942.',
             'Asse',
             'Dai Nippon Teikoku — 8ª Flotta (Rabaul, Viceamm. Gunichi Mikawa) & 17ª Armata (Ten. Gen. Harukichi Hyakutake)'
+          );
+        }
+        if (s >= 11 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {
+          return makeResult(
+            'USA',
+            'British Solomon Islands Protectorate (Guadalcanal & Henderson Field — US Forces)',
+            'Svolta nella Campagna di Guadalcanal (novembre 1942): dopo la vittoria nella Battaglia navale di Guadalcanal (12-15 novembre 1942), le forze aeronavali statunitensi (Ammiraglio William Halsey) e la 1ª Divisione Marines consolidano il controllo strategico su Henderson Field e sull\'arcipelago meridionale delle Salomone, respingendo definitivamente l\'ultimo grande tentativo giapponese di sbarcare rinforzi pesanti.',
+            'Alleati',
+            'South Pacific Area (SOPAC — Admiral William F. Halsey Jr.) & 1st Marine Division'
           );
         }
         const ukTop = getTop('UK');

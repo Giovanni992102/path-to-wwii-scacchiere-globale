@@ -96,7 +96,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Bastione di Aquisgrana (Aachen)', coords: [6.12, 50.77], desc: 'Nodo settentrionale fortificato con campi di denti di drago e bunker Regelbau.' },
       { name: 'Sbarramento della Saar (Pirmasens)', coords: [7.60, 49.20], desc: 'Settore centrale ad altissima densità difensiva lungo il Reno.' },
     ],
-    activeSteps: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'ostwall_line',
@@ -119,7 +119,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Panzerwerk 717 (Werkgruppe Scharnhorst)', coords: [15.48, 52.42], desc: 'Complesso corazzato ipogeo a tre piani con cupole d\'acciaio da 200 mm, mitragliatrici binate e lanciafiamme M19.' },
       { name: 'Burschener Schleife', coords: [15.50, 52.47], desc: 'Sistema idraulico strategico con chiuse mobili e canali allagabili per creare fossati anticarro invalicabili.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'heilsberg_line',
@@ -142,7 +142,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Stützpunkt Heilsberg', coords: [20.58, 54.18], desc: 'Centro d\'arresto dell\'artiglieria pesante alla confluenza delle valli dell\'Alle e del Simser.' },
       { name: 'Sperrwerk Braunsberg', coords: [19.85, 54.42], desc: 'Sbarramento costiero di bunker e sbarre d\'acciaio a protezione dell\'accesso marittimo alla Laguna della Vistola.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'mannerheim_line',
@@ -274,7 +274,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Forte Bramafam & Chaberton', coords: [6.75, 44.96], desc: 'Batterie corazzate a 3.130 metri di quota dominanti Briançon.' },
       { name: 'Sbarramento Passo Monte Croce', coords: [12.42, 46.68], desc: 'Opere sotterranee blindate per il blocco delle direttrici verso il Friuli.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'benes_line',
@@ -336,7 +336,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Linea d\'Arresto del Medway', coords: [0.52, 51.35], desc: 'Bunker e fossati a protezione degli accessi meridionali all\'arsenale di Chatham e a Londra.' },
       { name: 'Wiltshire Stop Line (Kennet & Avon)', coords: [-1.98, 51.35], desc: 'Linea di pillbox scaglionata lungo il canale navigabile per tagliare fuori il South West.' },
     ],
-    activeSteps: [6, 7, 8, 9, 10], // Eretta nel giugno 1940 e presidiata durante la difesa della Gran Bretagna
+    activeSteps: [6, 7, 8, 9, 10, 11], // Eretta nel giugno 1940 e presidiata durante la difesa della Gran Bretagna
   },
 
   // --- BENELUX (Belgio, Paesi Bassi, Lussemburgo) ---
@@ -498,7 +498,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Festung Sargans', coords: [9.44, 47.05], desc: 'Forti Magletsch, Schollberg e Kastels: perno orientale del Ridotto a sbarramento della valle del Reno contro le divisioni del Terzo Reich.' },
       { name: 'Fortezza di Crestawald', coords: [9.42, 46.57], desc: 'Opera fortificata a sbarramento del Passo del San Bernardino verso il Grigioni e il Ticino.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'limmatstellung_ch',
@@ -523,7 +523,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Posizione fortificata di Dietikon-Zurigo', coords: [8.42, 47.41], desc: 'Centinaia di bunker in calcestruzzo a protezione della periferia e delle arterie ferroviarie zurighesi.' },
       { name: 'Sbarramento della Piana della Linth', coords: [8.96, 47.19], desc: 'Casematte e canali allagabili tra il Lago di Zurigo e il Walensee per bloccare l\'avanzata verso le Prealpi.' },
     ],
-    activeSteps: [5, 6, 7, 8, 9, 10],
+    activeSteps: [5, 6, 7, 8, 9, 10, 11],
   },
 
   // --- REGNO D'ITALIA (Vallo Alpino del Littorio) ---
@@ -553,7 +553,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento del Moncenisio', coords: [6.90, 45.26], desc: 'Batterie in caverna del Forte Malamot, Ronce e Varisello a protezione della discesa verso la Val di Susa.' },
       { name: 'Sbarramento di Ventimiglia e Balzi Rossi', coords: [7.53, 43.78], desc: 'Casematte e fossati anticarro a controllo della costa ligure e della via Aurelia.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'vallo_alpino_orientale',
@@ -578,7 +578,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento di Postumia', coords: [14.21, 45.77], desc: 'Bunker d\'arresto sulla strada maestra e sulla ferrovia Trieste-Lubiana.' },
       { name: 'Piazza di Fiume e Monte Calvario', coords: [14.44, 45.33], desc: 'Cintura fortificata a protezione dell\'enclave del Carnaro e del porto mercantile.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'maginot_alpine',
@@ -727,7 +727,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Bastione dell\'Uadi Zigzaou', coords: [10.22, 33.52], desc: 'Profondo letto fluviale secco trasformato in imponente fossato anticarro con casematte d\'artiglieria a tiro incrociato.' },
       { name: 'Ridotta Costiera di Mareth', coords: [10.35, 33.68], desc: 'Postazioni corazzate e sbarramenti di mine a protezione del fianco marittimo della linea sul Golfo di Gabès.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'frontier_wire_libya',
@@ -774,7 +774,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Oscarsborg Hovedfort (Kaholmen)', coords: [10.61, 59.67], desc: 'Batteria principale con cannoni pesanti da 28 cm Krupp e stazione lanciasiluri ipogea sommersa.' },
       { name: 'Kopås batteri', coords: [10.64, 59.68], desc: 'Batteria d\'appoggio rapido da 15 cm a protezione del passaggio est.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'boden_fortress',
@@ -797,7 +797,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Rödbergsfortet', coords: [21.68, 65.82], desc: 'Il più grande forte ipogeo d\'artiglieria pesante in caverna granitica armato di cannoni da 15 cm.' },
       { name: 'Degerbergsfortet', coords: [21.64, 65.84], desc: 'Forte corazzato a sbarramento della ferrovia verso Luleå e la costa.' },
     ],
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'hegra_fortress',
@@ -842,7 +842,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Batteri Helsingborg', coords: [12.68, 56.05], desc: 'Batterie pesanti d\'artiglieria a sbarramento della strozzatura dell\'Øresund verso la Danimarca occupata.' },
       { name: 'Skanör-Falsterbo Kustspärr', coords: [12.85, 55.40], desc: 'Sbarramento bunker e campi minati sulla punta sud-occidentale della Scania.' },
     ],
-    activeSteps: [5, 6, 7, 8, 9, 10],
+    activeSteps: [5, 6, 7, 8, 9, 10, 11],
   },
   {
     id: 'salpa_line',
@@ -873,7 +873,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Sbarramento Granitico di Luumäki', coords: [27.75, 60.95], desc: 'Quattro file ininterrotte di monoliti granitici da 3 tonnellate ciascuno posizionati per bloccare i carri armati pesanti sovietici.' },
       { name: 'Caposaldo di Joensuu & Pielisjoki', coords: [29.80, 62.45], desc: 'Opere d\'arresto fluviali e bunker d\'artiglieria a protezione del corridoio della Carelia Settentrionale.' },
     ],
-    activeSteps: [6, 7, 8, 9, 10], // Costruita a partire dalla primavera 1940 e presidiata
+    activeSteps: [6, 7, 8, 9, 10, 11], // Costruita a partire dalla primavera 1940 e presidiata
   },
   {
     id: 'mozhaysk_line',
@@ -896,7 +896,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Baluardo Corazzato di Tula', coords: [37.60, 54.20], desc: 'Roccaforte operaia e anticarro che bloccò l\'accerchiamento meridionale del 2º Gruppo Corazzato di Guderian.' },
       { name: 'Sbarramento di Volokolamsk', coords: [35.95, 56.03], desc: 'Trincee e cannoni anticarro della 316ª Divisione di Panfilov lungo l\'autostrada per Mosca.' },
     ],
-    activeSteps: [9, 10],
+    activeSteps: [9, 10, 11],
   },
   {
     id: 'kaur_leningrad_line',
@@ -919,7 +919,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Alture di Pulkovo', coords: [30.32, 59.77], desc: 'Baluardo strategico dell\'artiglieria navale della Flotta del Baltico che impedì ai cannoni d\'assedio tedeschi di conquistare la città.' },
       { name: 'Forte Krasnaja Gorka', coords: [29.35, 59.97], desc: 'Gigantesche batterie costiere da 305 mm a protezione della sacca di Oranienbaum sul Golfo di Finlandia.' },
     ],
-    activeSteps: [9, 10],
+    activeSteps: [9, 10, 11],
   },
   {
     id: 'el_alamein_line',
@@ -994,7 +994,54 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Caposaldo Costiero di Dieppe (Widerstandsnest)', coords: [1.08, 49.93], desc: 'Falesie fortificate e bunker in cemento che il 19 agosto 1942 infransero il raid anfibio della 2ª Divisione Canadese (Operazione Jubilee).' },
       { name: 'Festung Saint-Nazaire & Chiusa Normandie', coords: [-2.21, 47.27], desc: 'Base U-Boot e grande bacino di carenaggio (Forme Joubert) assaltato dal cacciatorpediniere britannico HMS Campbeltown il 28 marzo 1942.' },
     ],
-    activeSteps: [10],
+    activeSteps: [10, 11],
+  },
+  {
+    id: 'stalingrad_kessel_line',
+    name: 'Perimetro della Sacca di Stalingrado (Kessel della 6ª Armata Tedesca)',
+    nation: 'Germania / Asse',
+    builder: '6. Armee (Generaloberst Friedrich Paulus) & 4. Panzerarmee',
+    description:
+      'Perimetro difensivo circolare lungo circa 170 km stretto d\'assedio da sette armate sovietiche (Fronti del Don e di Stalingrado) dopo la chiusura della tenaglia dell\'Operazione Uranus a Kalač-na-Donu (23 novembre 1942). Nel Kessel rimasero intrappolati oltre 250.000 soldati dell\'Asse (20 divisioni tedesche e 2 romene), riforniti solo parzialmente dal precario ponte aereo della Luftwaffe (aeroporti di Pitomnik e Gumrak).',
+    type: 'heavy',
+    color: '#333333',
+    coordinates: [
+      [43.60, 48.70], // Marinovka (vertice occidentale)
+      [43.85, 48.85], // Vertyachy / Baburkin
+      [44.20, 48.95], // Rynok / Spartakovka
+      [44.55, 48.75], // Volga / Stalingrado centro
+      [44.40, 48.50], // Beketovka / Tsybenko
+      [43.90, 48.55], // Karpovka / Kravtsov
+      [43.60, 48.70], // Marinovka
+    ],
+    keyForts: [
+      { name: 'Aeroporto Principale di Pitomnik', coords: [44.18, 48.74], desc: 'Principale scalo d\'atterraggio per i rifornimenti aerei della Luftwaffe e l\'evacuazione dei feriti del Kessel.' },
+      { name: 'Aeroporto Ausiliario di Gumrak', coords: [44.35, 48.78], desc: 'Base di riserva per gli Heinkel He 111 e Ju 52 e quartier generale avanzato della 6ª Armata.' },
+      { name: 'Perno Difensivo di Marinovka', coords: [43.60, 48.70], desc: 'Settore occidentale della sacca presidiato dal 3º e 29º reggimento motorizzato contro il Fronte del Don sovietico.' },
+    ],
+    activeSteps: [11],
+  },
+  {
+    id: 'el_agheila_line',
+    name: 'Linea Difensiva di El Agheila — Mersa el Brega (Stretta della Sirtica)',
+    nation: 'Italia / Germania (Asse)',
+    builder: 'Deutsch-Italienische Panzerarmee (Generalfeldmarschall Erwin Rommel)',
+    description:
+      'Stretta difensiva naturale e fortificata tra il Golfo della Sirte e le saline impraticabili (Sebcha di Chebira e Mugtaa) all\'estremità occidentale della Cirenaica. Dopo la ritirata da El Alamein e l\'abbandono di Tobruk e Bengasi (novembre 1942), Rommel attesta le provate divisioni dell\'Asse ("Ariete", "Trieste", "Littorio", 15ª e 21ª Panzer) su questa linea per sbarrare l\'avanzata dell\'8ª Armata di Montgomery verso Tripoli.',
+    type: 'field',
+    color: '#d9a74a',
+    coordinates: [
+      [19.57, 30.42], // Mersa el Brega (costa mediterranea)
+      [19.26, 30.25], // El Agheila
+      [19.05, 30.08], // Sebcha Mugtaa
+      [18.80, 29.85], // Depressione desertica meridionale
+    ],
+    keyForts: [
+      { name: 'Caposaldo Costiero di Mersa el Brega', coords: [19.57, 30.42], desc: 'Perno settentrionale fortificato a controllo della Via Balbia con estesi campi minati ("Devil\'s gardens").' },
+      { name: 'Perno Difensivo di El Agheila', coords: [19.26, 30.25], desc: 'Quartier generale tattico e sbarramento carraio delle divisioni corazzate italo-tedesche.' },
+      { name: 'Chiusura delle Saline (Sebcha di Chebira)', coords: [19.05, 30.08], desc: 'Bacini di sabbie mobili e depressioni salmastre che proteggevano il fianco meridionale dell\'Asse.' },
+    ],
+    activeSteps: [11],
   },
 ];
 
@@ -1705,7 +1752,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'toulon':
-      if (step >= 6) {
+      if (step >= 11) {
+        nation = 'Francia (Flotta Autoaffondata) / Occupazione Asse';
+        historicalName = 'Arsenale di Tolone (Autoaffondamento della Flotta Francese — 27 Novembre 1942)';
+        strokeColor = '#505357';
+        fillColor = '#1c1e20';
+        description = 'A seguito dell\'invasione tedesca della Zona libera (Operazione Anton) e dell\'assalto dei panzer del Kampfgruppe von Broich all\'arsenale (Operazione Lila), la Marine Nationale autoaffonda nel porto 77 unità da guerra (3 corazzate, 7 incrociatori, 32 cacciatorpediniere e 16 sommergibili) per impedirne la cattura da parte dell\'Asse.';
+      } else if (step >= 6) {
         nation = 'Francia di Vichy';
         historicalName = 'Arsenale Navale di Tolone (Forces de Haute Mer — Vichy)';
         strokeColor = '#8d77a3';
@@ -1715,7 +1768,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'mers_el_kebir':
-      if (step >= 6) {
+      if (step >= 11) {
+        nation = 'Francia / Alleati (Operazione Torch)';
+        historicalName = 'Base Navale di Mers-el-Kébir (Controllo Alleato / Torch)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Dopo lo sbarco alleato a Orano (Operazione Torch) e il cessate il fuoco dell\'ammiraglio Darlan, la grande rada e base navale passa al servizio delle operazioni congiunte alleate nel Mediterraneo.';
+      } else if (step >= 6) {
         nation = 'Francia di Vichy';
         historicalName = 'Base Navale di Mers-el-Kébir (Vichy / Op. Catapult)';
         strokeColor = '#8d77a3';
@@ -1725,7 +1784,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'bizerte':
-      if (step >= 6) {
+      if (step >= 11) {
+        nation = 'Germania / Asse (Kriegsmarine & Regia Marina)';
+        historicalName = 'Piazzaforte Navale di Biserta (Testa di Ponte dell\'Asse in Tunisia)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Occupata fulmineamente a metà novembre 1942 dalle truppe italo-tedesche del generalleutnant Walther Nehring per costituire la testa di ponte navale e aerea dell\'Asse a protezione del Canale di Sicilia contro l\'avanzata alleata dall\'Algeria.';
+      } else if (step >= 6) {
         nation = 'Francia di Vichy';
         strokeColor = '#8d77a3';
         fillColor = '#241a29';
@@ -1734,7 +1799,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'dakar_naval':
-      if (step >= 6) {
+      if (step >= 11) {
+        nation = 'Francia / Alleati (Accordo Boisson-Darlan)';
+        historicalName = 'Base Navale di Dakar (Ralliement agli Alleati — 23 Novembre 1942)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Il 23 novembre 1942 il Governatore Boisson schiera l\'AOF con gli Alleati; la base atlantica di Dakar e la corazzata Richelieu vengono messe a disposizione delle rotte navali alleate.';
+      } else if (step >= 6) {
         nation = 'Francia di Vichy';
         historicalName = 'Base Navale di Dakar (AOF — Vichy)';
         strokeColor = '#8d77a3';
@@ -1809,12 +1880,18 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         strokeColor = '#5aa0c2';
         fillColor = '#102434';
         description = 'Presa dagli Alleati nel gennaio 1941; presidiata dai leggendari "Topi di Tobruk" (9ª Divisione Australiana e truppe polacche/britanniche) durante 240 giorni d\'assedio italo-tedesco e liberata nel dicembre 1941 (Operazione Crusader).';
-      } else {
+      } else if (step === 10) {
         nation = 'Italia / Asse (Panzerarmee Afrika)';
         historicalName = 'Piazzaforte Navale di Tobruk (Espugnata da Rommel — 21 Giugno 1942)';
         strokeColor = '#6f7a3f';
         fillColor = '#1e2418';
         description = 'Espugnata il 21 giugno 1942 dalla Panzerarmee Afrika di Erwin Rommel con la cattura di 33.000 prigionieri alleati e immensi depositi di carburante e viveri; trasformata nella principale base logistica navale avanzata dell\'Asse per l\'offensiva su El Alamein.';
+      } else {
+        nation = 'Regno Unito / Alleati (British 8th Army)';
+        historicalName = 'Piazzaforte Navale di Tobruk (Riconquista Alleata — 13 Novembre 1942)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Riconquistata definitivamente il 13 novembre 1942 dall\'8ª Armata britannica del generale Montgomery dopo la disfatta italo-tedesca di El Alamein; riattivata immediatamente come porto logistico di sbarco rifornimenti per l\'inseguimento della Panzerarmee Afrika verso la Tripolitania.';
       }
       break;
 

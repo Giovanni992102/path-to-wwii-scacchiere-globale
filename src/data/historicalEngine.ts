@@ -3,6 +3,7 @@ import { ResolvedTerritory, StatsStep } from '../types';
 import { resolveFeature, resolveHB } from './georesolver';
 import { getOwnerMeta } from './owners';
 import { getExtendedToponym } from './historicalToponyms';
+import { STEPS } from './historySteps';
 
 /**
  * HISTORICAL CARTOGRAPHY BACKEND ENGINE
@@ -446,7 +447,7 @@ export function processHistoricalCartographyPipeline(
 
   const all = provs.concat(isHB ? hbs : cntrs);
   const newStats: StatsStep[] = [];
-  for (let s = 0; s < 11; s++) newStats.push({ own: {}, fac: {} });
+  for (let s = 0; s < STEPS.length; s++) newStats.push({ own: {}, fac: {} });
 
   for (const f of all) {
     const p = f.properties || (f.properties = {});
@@ -471,7 +472,7 @@ export function processHistoricalCartographyPipeline(
 
     // 3. Risoluzione Verità Storica per tutti gli 11 passaggi
     f.__res = [];
-    for (let s = 0; s < 11; s++) {
+    for (let s = 0; s < STEPS.length; s++) {
       const r = resolveHistoricalTruth(f, s);
       f.__res.push(r);
 
@@ -495,7 +496,7 @@ export function processHistoricalCartographyPipeline(
       totalFeatures: all.length,
       blackHolesFixed,
       topologiesSanitized,
-      stepsAnalyzed: 11,
+      stepsAnalyzed: STEPS.length,
     },
   };
 }

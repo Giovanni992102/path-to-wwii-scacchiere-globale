@@ -424,6 +424,26 @@ AOF_PROVINCES_META['AOF_NER_HV'] = AOF_PROVINCES_META['AOF_NER'];
 /**
  * Risolutore timeline-sensitive per le Colonie e i Territori dell'AOF (1936-1941).
  */
+// Wrapper dinamico per l'adesione dell'AOF agli Alleati (23 novembre 1942, accordo Boisson-Darlan)
+for (const item of Object.values(AOF_PROVINCES_META)) {
+  const origSov = item.getSovereign.bind(item);
+  const origFac = item.getFaction.bind(item);
+  const origHist = item.getHistoricalName.bind(item);
+  const origAdmin = item.getAdminTitle.bind(item);
+  const origNote = item.getNote.bind(item);
+
+  item.getSovereign = (s: number) => (s >= 11 ? 'F_AOF' : origSov(s));
+  item.getFaction = (s: number) => (s >= 11 ? ('Alleati' as FactionType) : origFac(s));
+  item.getHistoricalName = (s: number) =>
+    s >= 11 ? `${item.name} (AOF — Rallié aux Alliés / Accord Boisson, 23 Novembre 1942)` : origHist(s);
+  item.getAdminTitle = (s: number) =>
+    s >= 11 ? 'Haut-Commissariat de France en Afrique (Dakar — Pierre Boisson rallié aux Alliés)' : origAdmin(s);
+  item.getNote = (s: number) =>
+    s >= 11
+      ? `Il 23 novembre 1942, a seguito degli sbarchi alleati dell'Operazione Torch in Nordafrica e dell'accordo Darlan-Clark ad Algeri, il Governatore Generale dell'AOF Pierre Boisson a Dakar annuncia l'adesione ufficiale dell'intera Africa Occidentale Francese allo schieramento alleato, aprendo il porto strategico e le basi aeree di Dakar alla marina e all'aviazione alleata per la caccia antisommergibile nell'Atlantico.`
+      : origNote(s);
+}
+
 export function resolveAOFProvince(
   arg1: any,
   arg2?: any,

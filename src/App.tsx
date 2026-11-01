@@ -3551,8 +3551,8 @@ export default function App() {
       {
         name: "89. Censimento Geocartografico, Toponomastico e Cronologico Integrale dell'Unione Sovietica (239 Entità Territoriali: RSFSR, RSS Ucraina, RSS Bielorussa, RSS Kazaka, RSS Uzbeka, RSS Turkmena, RSS Tagika, RSS Kirghisa, Transcaucasia & Tannu Tuva; Denominazioni Storico-Sovietiche: Stalingrado, Leningrado, Kujbyšev, Gor'kij, Sverdlovsk, Molotov, Čkalov, Kalinin, Kirov, Ordžonikidze, Stalino, Vorošilovgrad, Dnepropetrovsk, Stalinabad, Leninabad, Frunze, Krasnogvardejsk, Ostiachia-Vogulia; Timeline Dinamica 1936-1941: Costituzione 1936, Purghe 1938, Lago Chasan, Chalchin Gol, Patto Molotov-Ribbentrop, Guerra d'Inverno, Annessione Baltici e Bucovina Settentrionale, Patto Neutralità Giappone)",
         run: () => {
-          // 1. Audit Censimento Metadata (239 entità territoriali censite)
-          if (!SOVIET_PROVINCES_META || Object.keys(SOVIET_PROVINCES_META).length !== 239) return false;
+          // 1. Audit Censimento Metadata (239-240 entità territoriali censite inclusa la Sacca di Stalingrado Kessel)
+          if (!SOVIET_PROVINCES_META || (Object.keys(SOVIET_PROVINCES_META).length !== 239 && Object.keys(SOVIET_PROVINCES_META).length !== 240)) return false;
 
           // 2. Denominazioni storiche sovietiche ufficiali dell'epoca
           const pStal = resolveSovietProvince('SOV_ADM1_RUS_13_Volgograd_Oblast', 0);
@@ -3647,9 +3647,9 @@ export default function App() {
           const pMos8 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 8);
           if (!pMos8 || !pMos8.note?.includes('Patto di Neutralità')) return false;
 
-          // 5. Audit Geografico Database Unificato (239 feature del layer prov)
+          // 5. Audit Geografico Database Unificato (239-240 feature del layer prov inclusa la Sacca di Stalingrado Kessel)
           const sovProvs = loadedProvs.filter((f: any) => String(f.id || '').startsWith('SOV_'));
-          if (sovProvs.length !== 239) return false;
+          if (sovProvs.length !== 239 && sovProvs.length !== 240) return false;
 
           let s0Count = 0;
           let s8Count = 0;
@@ -3663,8 +3663,8 @@ export default function App() {
             if (r8.o === 'SOV') s8Count++;
           }
 
-          if (s0Count !== 237) return false;
-          if (s8Count !== 238) return false;
+          if (s0Count !== 237 && s0Count !== 238) return false;
+          if (s8Count !== 238 && s8Count !== 239) return false;
 
           return true;
         }
@@ -3925,7 +3925,7 @@ export default function App() {
       {
         name: "92. Audit Geostorico e Topologico Integrale Step 10 (AGO 1942 — Situazione al 31 agosto 1942: Fall Blau al Picco dell'Avanzata con Crimea/Sebastopoli, Rostov, Kuban', Majkop, Vetta dell'Elbrus e Arrivo sul Volga a Stalingrado; Avanzata di Rommel in Egitto fino a El Alamein / Alam el Halfa; Massima Estensione Storica dell'Impero Giapponese con Caduta di Singapore e Malesia, Resa delle Indie Orientali Olandesi, Capitolazione Americana a Bataan/Corregidor nelle Filippine, Conquista della Birmania e Taglio della Burma Road, Occupazione di Attu e Kiska nelle Aleutine e Perimetro Difensivo di Rabaul/Nuova Guinea/Salomone/Guadalcanal; Europa Occidentale e Nordafrica ancora divisi tra Zona Occupata e Vichy; Entrata in Guerra di Brasile e Messico)",
         run: () => {
-          if (STEPS.length !== 11 || STEPS[10].d !== 'AGO 1942') return false;
+          if (STEPS.length < 11 || STEPS[10].d !== 'AGO 1942') return false;
 
           // 1. Fronte Orientale al picco dell'avanzata (Fall Blau — Estate 1942)
           // a) Crimea completamente sotto controllo tedesco (Sebastopoli caduta il 4 luglio 1942)
@@ -4061,6 +4061,108 @@ export default function App() {
           if (getStrategicIslandLabel('US_AK_ALEUTIANS_WEST', 9) !== 'Attu & Kiska (USA)') return false;
           if (getStrategicIslandLabel('US_AK_ALEUTIANS_WEST', 10) !== 'Attu & Kiska (JAP)') return false;
           if (getStrategicIslandLabel('NR_NAURU', 10) !== 'Nauru (JAP)') return false;
+
+          return true;
+        },
+      },
+      {
+        name: "93. Audit Geostorico e Topologico Integrale Step 11 (NOV 1942 · LA GRANDE SVOLTA — Uranus, Torch, El Alamein & Operazione Anton: Sacca di Stalingrado / Kessel accerchiato a Kalač-na-Donu; Sfondamento ad El Alamein e Cirenaica liberata con Tobruk e Bengasi fino ad El Agheila; Operazione Torch con Marocco e Algeria agli Alleati; Presa di Biserta e Tunisi come testa di ponte Asse; Collasso di Vichy metropolitana con Operazione Anton, occupazione italiana estesa di Nizza/Tolone/Corsica/Monaco e Wehrmacht nel resto della Francia; Autoaffondamento della Flotta a Tolone; Ralliement di AOF/Dakar e Resa di Madagascar; Vittoria Aeronavale USA a Guadalcanal; Fortificazioni Kessel e Rotte di Convoglio Dinamiche)",
+        run: () => {
+          if (STEPS.length !== 12 || STEPS[11].d !== 'NOV 1942') return false;
+
+          // 1. Fronte Orientale: Operazione Uranus e la Sacca di Stalingrado (Kessel)
+          const kessel10 = resolveSovietProvince('SOV_STALINGRAD_KESSEL', 10);
+          const kessel11 = resolveSovietProvince('SOV_STALINGRAD_KESSEL', 11);
+          const stalOblast11 = resolveSovietProvince('SOV_ADM1_RUS_13_Volgograd_Oblast', 11);
+          if (!kessel10 || kessel10.o !== 'SOV' || kessel10.fac !== 'Comintern') return false;
+          if (!kessel11 || kessel11.o !== 'GER' || kessel11.fac !== 'Asse' || !kessel11.name.includes('Kessel')) return false;
+          if (!stalOblast11 || stalOblast11.o !== 'SOV' || stalOblast11.fac !== 'Comintern' || !stalOblast11.name.includes('Uranus')) return false;
+
+          const elbrus11 = resolveSovietProvince('SOV_ADM1_RUS_38_Kabardino_Balkaria', 11);
+          const northOssetia11 = resolveSovietProvince('SOV_ADM1_RUS_35_North_Ossetia_Alania', 11);
+          if (!elbrus11 || elbrus11.o !== 'GER' || !elbrus11.note?.includes('Nal\'čik')) return false;
+          if (!northOssetia11 || northOssetia11.o !== 'SOV' || !northOssetia11.note?.includes('Gizel')) return false;
+
+          // 2. Nordafrica & Mediterraneo: El Alamein infranta, Cirenaica liberata, Torch in Marocco e Algeria, Tunisia all'Asse
+          const matruh10 = resolveFeature({ id: 'EGMT', properties: { CNTR_CODE: 'EG', NUTS_ID: 'EGMT', NAME: 'Matrouh' } }, 10);
+          const matruh11 = resolveFeature({ id: 'EGMT', properties: { CNTR_CODE: 'EG', NUTS_ID: 'EGMT', NAME: 'Matrouh' } }, 11);
+          const tobruk11 = resolveFeature({ id: 'LYBU', properties: { CNTR_CODE: 'LY', NUTS_ID: 'LYBU', NAME: 'Al Butnan' } }, 11);
+          const benghazi11 = resolveFeature({ id: 'LYBA', properties: { CNTR_CODE: 'LY', NUTS_ID: 'LYBA', NAME: 'Benghazi' } }, 11);
+          const sirte11 = resolveFeature({ id: 'LYSR', properties: { CNTR_CODE: 'LY', NUTS_ID: 'LYSR', NAME: 'Sirte' } }, 11);
+          if (matruh10.o !== 'ITA' || matruh11.o !== 'EGY' || matruh11.fac !== 'Alleati') return false;
+          if (tobruk11.o !== 'UK' || tobruk11.fac !== 'Alleati' || !tobruk11.name.includes('Liberata')) return false;
+          if (benghazi11.o !== 'UK' || benghazi11.fac !== 'Alleati' || !benghazi11.name.includes('Liberata')) return false;
+          if (sirte11.o !== 'ITA' || sirte11.fac !== 'Asse') return false;
+
+          const algiers10 = resolveFeature({ id: 'DZ16', properties: { CNTR_CODE: 'DZ', NUTS_ID: 'DZ16', NAME: 'Alger' } }, 10);
+          const algiers11 = resolveFeature({ id: 'DZ16', properties: { CNTR_CODE: 'DZ', NUTS_ID: 'DZ16', NAME: 'Alger' } }, 11);
+          const casablanca10 = resolveFeature({ id: 'MA06', properties: { CNTR_CODE: 'MA', NUTS_ID: 'MA06', NAME: 'Casablanca' } }, 10);
+          const casablanca11 = resolveFeature({ id: 'MA06', properties: { CNTR_CODE: 'MA', NUTS_ID: 'MA06', NAME: 'Casablanca' } }, 11);
+          const tunis10 = resolveFeature({ id: 'TN11', properties: { CNTR_CODE: 'TN', NUTS_ID: 'TN11', NAME: 'Tunis' } }, 10);
+          const tunis11 = resolveFeature({ id: 'TN11', properties: { CNTR_CODE: 'TN', NUTS_ID: 'TN11', NAME: 'Tunis' } }, 11);
+          if (algiers10.o !== 'VIC_NAF' || algiers11.o !== 'FRA' || algiers11.fac !== 'Alleati') return false;
+          if (casablanca10.o !== 'VIC_NAF' || casablanca11.o !== 'FRA' || casablanca11.fac !== 'Alleati') return false;
+          if (tunis10.o !== 'VIC_NAF' || tunis11.o !== 'GER' || tunis11.fac !== 'Asse' || !tunis11.adminEntity?.includes('Nehring')) return false;
+
+          // 3. Europa occidentale: Operazione Anton, occupazione italiana estesa a Nizza/Tolone/Corsica/Monaco e Wehrmacht nel resto della Francia
+          const nice11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRL03', NAME: 'Alpes-Maritimes' } }, 11);
+          const toln11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRL05', NAME: 'Var' } }, 11);
+          const cors11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRM01', NAME: 'Corse-du-Sud' } }, 11);
+          const sav11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK27', NAME: 'Savoie' } }, 11);
+          const monaco10 = resolveFeature({ properties: { CNTR_CODE: 'MC', NAME: 'Monaco' } }, 10);
+          const monaco11 = resolveFeature({ properties: { CNTR_CODE: 'MC', NAME: 'Monaco' } }, 11);
+          if (nice11.o !== 'ITA' || nice11.fac !== 'Asse') return false;
+          if (toln11.o !== 'ITA' || toln11.fac !== 'Asse') return false;
+          if (cors11.o !== 'ITA' || cors11.fac !== 'Asse') return false;
+          if (sav11.o !== 'ITA' || sav11.fac !== 'Asse') return false;
+          if (monaco10.o !== 'MC' || monaco11.o !== 'ITA' || monaco11.fac !== 'Asse') return false;
+
+          const vichy10 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK11', NAME: 'Allier' } }, 10);
+          const vichy11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK11', NAME: 'Allier' } }, 11);
+          const mars11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRL04', NAME: 'Bouches-du-Rhône' } }, 11);
+          const paris11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FR101', NAME: 'Paris' } }, 11);
+          if (vichy10.o !== 'VIC' || vichy11.o !== 'GER' || vichy11.fac !== 'Asse') return false;
+          if (mars11.o !== 'GER' || mars11.fac !== 'Asse') return false;
+          if (paris11.o !== 'GER' || paris11.fac !== 'Asse') return false;
+
+          const reunion10 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRY40', NAME: 'La Réunion' } }, 10);
+          const reunion11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRY40', NAME: 'La Réunion' } }, 11);
+          if (reunion10.o !== 'VIC' || reunion11.o !== 'FRA' || reunion11.fac !== 'Alleati') return false;
+
+          // 4. Africa Sub-sahariana & Madagascar
+          const dakar10 = resolveFeature({ id: 'SN_DAK', properties: { CNTR_CODE: 'SN', NUTS_ID: 'SN_DAK', NAME: 'Dakar' } }, 10);
+          const dakar11 = resolveFeature({ id: 'SN_DAK', properties: { CNTR_CODE: 'SN', NUTS_ID: 'SN_DAK', NAME: 'Dakar' } }, 11);
+          const mad10 = resolveFeature({ id: 'MDG', properties: { CNTR_CODE: 'MG', NAME: 'Madagascar' } }, 10);
+          const mad11 = resolveFeature({ id: 'MDG', properties: { CNTR_CODE: 'MG', NAME: 'Madagascar' } }, 11);
+          if (dakar10.o !== 'VIC_AOF' || dakar11.o !== 'F_AOF' || dakar11.fac !== 'Alleati') return false;
+          if (mad10.o !== 'VIC_MAD' || mad11.o !== 'UK' || mad11.fac !== 'Alleati') return false;
+
+          // 5. Pacifico: Svolta a Guadalcanal
+          const solom10 = resolveFeature({ id: 'SB', properties: { CNTR_CODE: 'SB', NUTS_ID: 'SB', NAME: 'Solomon Islands' } }, 10);
+          const solom11 = resolveFeature({ id: 'SB', properties: { CNTR_CODE: 'SB', NUTS_ID: 'SB', NAME: 'Solomon Islands' } }, 11);
+          if (solom10.o !== 'JAP' || solom11.o !== 'USA' || solom11.fac !== 'Alleati') return false;
+
+          // 6. Layer Tattici Dinamici Step 11
+          const kesselLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'stalingrad_kessel_line');
+          const elAgheila = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'el_agheila_line');
+          if (!kesselLine || !kesselLine.activeSteps.includes(11)) return false;
+          if (!elAgheila || !elAgheila.activeSteps.includes(11)) return false;
+
+          const tolnBase = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'toulon')!, 11);
+          const tobBase11 = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'tobruk_naval')!, 11);
+          const bizBase11 = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'bizerte')!, 11);
+          const dakBase11 = getDynamicNavalBaseStatus(HISTORICAL_NAVAL_BASES.find((b) => b.id === 'dakar_naval')!, 11);
+          if (!tolnBase.historicalName?.includes('Autoaffondamento')) return false;
+          if (!tobBase11.nation.includes('Regno Unito') || !tobBase11.historicalName?.includes('13 Novembre 1942')) return false;
+          if (!bizBase11.nation.includes('Germania') || !bizBase11.historicalName?.includes('Biserta')) return false;
+          if (!dakBase11.nation.includes('Alleati') || !dakBase11.historicalName?.includes('23 Novembre 1942')) return false;
+
+          const medLane11 = getDynamicSeaLaneStatus(HISTORICAL_SEA_LANES.find((l) => l.id === 'mediterranean_suez_lifeline')!, 11);
+          const axisLane11 = getDynamicSeaLaneStatus(HISTORICAL_SEA_LANES.find((l) => l.id === 'axis_libya_convoy')!, 11);
+          const pacLane11 = getDynamicSeaLaneStatus(HISTORICAL_SEA_LANES.find((l) => l.id === 'transpacific_us_hawaii')!, 11);
+          if (!medLane11.statusNote?.includes('Stoneage')) return false;
+          if (!axisLane11.statusNote?.includes('Tunisia')) return false;
+          if (!pacLane11.statusNote?.includes('Guadalcanal')) return false;
 
           return true;
         },

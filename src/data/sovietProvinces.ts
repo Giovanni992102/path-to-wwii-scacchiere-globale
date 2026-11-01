@@ -8182,6 +8182,18 @@ export const SOVIET_PROVINCES_META: Record<string, SovietProvinceInfo> = {
 };
 
 // ============================================================================
+// STEP 11 (NOV 1942): SACCA DI STALINGRADO (KESSEL)
+// Enclave scorporata topologicamente dall'Oblast di Stalingrado nel GeoJSON unificato
+// (skill historical-geojson-border-aligner). Fino allo Step 10 eredita integralmente
+// lo stato storico dell'oblast madre (zero regressioni), dallo Step 11 è un'isola dell'Asse.
+// ============================================================================
+SOVIET_PROVINCES_META['SOV_STALINGRAD_KESSEL'] = {
+  ...SOVIET_PROVINCES_META['SOV_ADM1_RUS_13_Volgograd_Oblast'],
+  id: 'SOV_STALINGRAD_KESSEL',
+  keys: ['sov_stalingrad_kessel', 'stalingrad_kessel', 'kessel_stalingrad'],
+};
+
+// ============================================================================
 // STEP 9 (DIC 1941 — 31 DICEMBRE 1941): ASSETTO GEOPOLITICO E MILITARE FRONTE DELL'EST
 // ============================================================================
 const SOVIET_ROM_TRANSNISTRIA_IDS = new Set<string>([
@@ -8294,10 +8306,13 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
   const origGetHistName = item.getHistoricalName.bind(item);
   const origGetAdmin = item.getAdminTitle.bind(item);
   const origGetNote = item.getNote.bind(item);
-  const pid = item.id;
+  // Il Kessel di Stalingrado eredita l'identità storica dell'oblast madre fino allo Step 10
+  const isKessel = item.id === 'SOV_STALINGRAD_KESSEL';
+  const pid = isKessel ? 'SOV_ADM1_RUS_13_Volgograd_Oblast' : item.id;
 
   item.getOwner = (step: number): string => {
     if (step < 9) return origGetOwner(step);
+    if (step >= 11 && isKessel) return 'GER';
     if (pid === 'SOV_ADM1_RUS_55_Tuva') return 'TUV';
     if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid) || SOVIET_ROM_BUKOVINA_IDS.has(pid)) return 'ROM';
     if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) return 'FIN';
@@ -8325,6 +8340,17 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getAdminTitle = (step: number): string => {
     if (step < 9) return origGetAdmin(step);
+    if (step >= 11) {
+      if (isKessel) {
+        return 'Festung Stalingrad — 6. Armee accerchiata (Gen. Friedrich Paulus) \u0026 resti 4. Panzerarmee e 4ª Armata Romena — Rifornimento aereo Luftflotte 4 (Pitomnik / Gumrak)';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Operazione Uranus — Fronte del Don (Gen. Konstantin Rokossovskij), Fronte di Stalingrado (Gen. Andrej Erëmenko) \u0026 Fronte Sud-Occidentale (Gen. Nikolaj Vatutin) — Rappresentanti Stavka Žukov e Vasilevskij';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+        return 'Heeresgruppe Don (Generalfeldmarschall Erich von Manstein — Quartier Generale di Novočerkassk, 27 novembre 1942)';
+      }
+    }
     if (step >= 10) {
       if (pid === 'SOV_ADM1_UKR_99_Sevastopol' || pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
         return 'Operationsgebiet Krim — AOK 11 (Generalfeldmarschall Erich von Manstein — Crimea conquistata il 4 luglio 1942)';
@@ -8389,6 +8415,20 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
   item.getHistoricalName = (step: number): string => {
     if (step < 9) return origGetHistName(step);
     const base = origGetHistName(8);
+    if (step >= 11) {
+      if (isKessel) {
+        return 'Sacca di Stalingrado — Kessel (6ª Armata Tedesca Accerchiata, 23 Novembre 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Stalingrad e Ansa del Don (Operazione Uranus — Ricongiungimento a Kalač-na-Donu, 23 Novembre 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return 'Elista e Steppa della Kalmuckia (Schermo della 16ª Divisione Motorizzata Tedesca — Novembre 1942)';
+      }
+      if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria') {
+        return 'Kabardino-Balkaria, Nal\'čik \u0026 Monte Elbrus (Occupazione Tedesca — Nal\'čik espugnata il 28 Ottobre 1942)';
+      }
+    }
     if (step >= 10) {
       if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
         return 'Sevastopol\' (Fortezza Conquistata dalla 11. Armee di Manstein — 4 Luglio 1942)';
@@ -8481,6 +8521,26 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getNote = (step: number): string => {
     if (step < 9) return origGetNote(step);
+    if (step >= 11) {
+      if (isKessel) {
+        return 'Al 30 novembre 1942 la sacca di Stalingrado è un\'enclave isolata in territorio controllato dall\'Armata Rossa: il 19 novembre l\'Operazione Uranus ha sfondato a nord-ovest le linee della 3ª Armata romena sul Don (Fronte Sud-Occidentale di Vatutin e Fronte del Don di Rokossovskij) e il 20 novembre a sud quelle della 4ª Armata romena (Fronte di Stalingrado di Erëmenko); il 23 novembre il 4° Corpo Corazzato e il 4° Corpo Meccanizzato sovietici si sono ricongiunti a Kalač-na-Donu e Sovetskij. Nel Kessel (circa 60 × 40 km, tra il Volga, Gumrak, Pitomnik, Karpovka e Marinovka) sono intrappolati 250.000-300.000 uomini della 6ª Armata del Gen. Friedrich Paulus, di parte della 4ª Armata corazzata (IV Corpo d\'Armata), di due divisioni romene e di reparti croati. Hitler ha vietato lo sfondamento proclamando la "Festung Stalingrad" e affidando a Göring un ponte aereo che non raggiungerà mai le 300 tonnellate giornaliere necessarie, mentre il Gruppo d\'Armate Don di von Manstein prepara l\'Operazione Tempesta Invernale (Wintergewitter) per soccorrere la sacca.';
+      }
+      if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
+        return 'Operazione Uranus (19-23 novembre 1942): ideata dai generali Georgij Žukov e Aleksandr Vasilevskij e preparata nel più assoluto segreto (maskirovka) con oltre un milione di uomini, 900 carri armati e 13.500 pezzi d\'artiglieria, la controffensiva sovietica ha travolto i fianchi romeni della 6ª Armata tedesca a Kletskaja, Serafimovič e a sud di Stalingrado, saldando il 23 novembre le tenaglie a Kalač-na-Donu. Al 30 novembre l\'oblast, ad eccezione dell\'enclave accerchiata del Kessel, è tornato sotto il controllo dell\'Armata Rossa, che fronteggia lungo il fiume Čir e a Kotel\'nikovo i resti del fronte dell\'Asse; nei quartieri settentrionali e lungo la riva del Volga la 62ª Armata di Vasilij Čujkov continua a resistere tra le rovine della Fabbrica di Trattori, delle Barrikady e dell\'Ottobre Rosso.';
+      }
+      if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
+        return 'Al 30 novembre 1942 la regione di Rostov è ancora presidiata dall\'Asse ma è diventata la retrovia minacciata dell\'intero fronte meridionale tedesco: dopo il disastro della 3ª Armata romena sul Don, Hitler ha costituito il 27 novembre il Gruppo d\'Armate Don del Feldmaresciallo Erich von Manstein con quartier generale a Novočerkassk, incaricato di stabilizzare la linea del Čir e di aprire un varco verso la 6ª Armata accerchiata a Stalingrado. Una nuova offensiva sovietica verso Rostov rischierebbe di tagliare fuori il Gruppo d\'Armate A nel Caucaso.';
+      }
+      if (pid === 'SOV_ADM1_RUS_70_Kalmykia') {
+        return 'Nel novembre 1942 la steppa calmucca è il fianco scoperto più esteso del fronte tedesco: la sola 16ª Divisione Motorizzata (Gen. Sigfrid Henrici), dislocata a Elista e Chulchuta, sorveglia centinaia di chilometri di deserto tra il Gruppo d\'Armate A nel Caucaso e la 4ª Armata corazzata, mentre la 28ª Armata sovietica preme da Astrachan\'. Elista sarà liberata dall\'Armata Rossa il 31 dicembre 1942.';
+      }
+      if (pid === 'SOV_ADM1_RUS_38_Kabardino_Balkaria') {
+        return 'Al 30 novembre 1942 la Kabardino-Balkaria è interamente occupata dal Gruppo d\'Armate A: dopo l\'ascensione dell\'Elbrus (21 agosto), il 28 ottobre 1942 il III Corpo Corazzato tedesco e le truppe romene della 2ª Divisione da Montagna hanno espugnato Nal\'čik. L\'ultima spinta di von Kleist verso Ordžonikidze (Vladikavkaz) e la Strada Militare Georgiana si è però infranta a Gizel\' (2-11 novembre 1942), dove la 13ª Divisione Panzer è stata quasi accerchiata dal contrattacco del Gruppo Settentrionale del Fronte Transcaucasico.';
+      }
+      if (pid === 'SOV_ADM1_RUS_35_North_Ossetia_Alania') {
+        return 'Ordžonikidze (Vladikavkaz), chiave della Strada Militare Georgiana, ha retto all\'assalto finale della 1ª Armata Panzer di von Kleist: le avanguardie della 13ª Divisione Panzer giunte a Gizel\', a soli 8 km dalla città, sono state respinte e quasi annientate dai contrattacchi sovietici tra il 6 e l\'11 novembre 1942. È il punto più meridionale raggiunto dalla Wehrmacht in Unione Sovietica.';
+      }
+    }
     if (step >= 10) {
       if (pid === 'SOV_ADM1_UKR_99_Sevastopol' || pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
         return 'Al 31 agosto 1942 la Crimea è interamente sotto il controllo della Wehrmacht: dopo aver annientato il Fronte di Crimea sovietico nella penisola di Kerč\' (Operazione Trappenjagd, maggio 1942), l\'11ª Armata tedesca di Erich von Manstein ha sferrato l\'assalto finale contro la fortezza di Sebastopoli (Operazione Störfang) supportata da un parco d\'assedio senza precedenti (tra cui il gigantesco cannone ferroviario da 800 mm "Schwerer Gustav" e i mortai Karl-Gerät da 600 mm). Dopo 250 giorni di eroica resistenza, Sebastopoli è caduta il 4 luglio 1942 e Hitler ha promosso Manstein al grado di Generalfeldmarschall.';

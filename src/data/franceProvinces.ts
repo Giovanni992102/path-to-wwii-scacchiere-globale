@@ -4716,6 +4716,112 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
   },
 };
 
+export const FRANCE_ITALIAN_OCCUPATION_ZONE_1942 = new Set<string>([
+  'FRM01', // Corse-du-Sud (Ajaccio)
+  'FRM02', // Haute-Corse (Bastia)
+  'FRK27', // Savoie (Chambéry)
+  'FRK28', // Haute-Savoie (Annecy)
+  'FRK24', // Isère (Grenoble)
+  'FRL02', // Hautes-Alpes (Gap)
+  'FRK23', // Drôme (Valence)
+  'FRL01', // Basses-Alpes / Alpes-de-Haute-Provence (Digne)
+  'FRL03', // Alpes-Maritimes (Nice / Menton)
+  'FRL05', // Var (Toulon)
+  'FRL06', // Vaucluse (Avignon)
+]);
+
+// Wrapper dinamico per l'evoluzione storica a partire dallo Step 11 (Operazione Anton, 11 novembre 1942)
+for (const item of Object.values(FRANCE_PROVINCES_META)) {
+  const origSov = item.getSovereign.bind(item);
+  const origFac = item.getFaction.bind(item);
+  const origHist = item.getHistoricalName.bind(item);
+  const origAdmin = item.getAdminTitle.bind(item);
+  const origNote = item.getNote.bind(item);
+  const nuts = item.nuts;
+
+  item.getSovereign = (s: number): string => {
+    if (s < 11) return origSov(s);
+    if (nuts === 'FRY40') return 'FRA'; // La Réunion ralliée à la France Libre (28 nov 1942)
+    if (nuts === 'FRY50') return 'UK';  // Mayotte occupata dagli Alleati
+    if (item.partition1940 === 'dom_tom') return origSov(s); // Guadalupa, Martinica, Guyana restano sotto l'amm. Robert (Vichy)
+    if (FRANCE_ITALIAN_OCCUPATION_ZONE_1942.has(nuts)) return 'ITA'; // Zona d'occupazione italiana estesa (Savoia, Delfinato, Provenza, Corsica)
+    return 'GER'; // Tutta la restante Francia metropolitana occupata dalla Wehrmacht (fine della Zone libre)
+  };
+
+  item.getFaction = (s: number): FactionType => {
+    if (s < 11) return origFac(s);
+    if (nuts === 'FRY40' || nuts === 'FRY50') return 'Alleati';
+    if (item.partition1940 === 'dom_tom') return origFac(s);
+    return 'Asse';
+  };
+
+  item.getHistoricalName = (s: number): string => {
+    if (s < 11) return origHist(s);
+    if (nuts === 'FRY40') {
+      return 'La Réunion (Ralliée à la France Libre — 28 Novembre 1942)';
+    }
+    if (FRANCE_ITALIAN_OCCUPATION_ZONE_1942.has(nuts)) {
+      if (nuts === 'FRM01' || nuts === 'FRM02') {
+        return `${item.name} (Occupazione Militare Italiana — VII Corpo d'Armata, Novembre 1942)`;
+      }
+      if (nuts === 'FRL05') {
+        return 'Var (Toulon — Occupazione Italiana & Autoaffondamento della Flotta, 27 Novembre 1942)';
+      }
+      return `${item.name} (Zona d'Occupazione Italiana in Francia — 4ª Armata, Novembre 1942)`;
+    }
+    if (item.partition1940 === 'zone_libre') {
+      if (nuts === 'FRK11') {
+        return "Allier (Vichy — Sede dell'État Français sotto Occupazione Militare Tedesca, 11 Novembre 1942)";
+      }
+      if (nuts === 'FRL04') {
+        return 'Bouches-du-Rhône (Marseille — Occupazione Wehrmacht, Operazione Anton)';
+      }
+      if (nuts === 'FRK26') {
+        return 'Rhône (Lyon — Occupazione Wehrmacht, Operazione Anton)';
+      }
+      return `${item.name} (Zone Occupée — Operazione Anton, 11 Novembre 1942)`;
+    }
+    return origHist(s);
+  };
+
+  item.getAdminTitle = (s: number): string => {
+    if (s < 11) return origAdmin(s);
+    if (nuts === 'FRY40') {
+      return 'France Libre — Territoire rallié (Capitaine de corvette Marais / Contre-torpilleur Léopard)';
+    }
+    if (FRANCE_ITALIAN_OCCUPATION_ZONE_1942.has(nuts)) {
+      if (nuts === 'FRM01' || nuts === 'FRM02') {
+        return "Zona d'Occupazione Italiana della Corsica — VII Corpo d'Armata (Gen. Giacomo Carboni)";
+      }
+      return "Zona d'Occupazione Italiana in Francia — 4ª Armata del Regio Esercito (Gen. Mario Vercellino)";
+    }
+    if (item.partition1940 === 'zone_libre') {
+      return 'Zone occupée (Opération Anton) — Militärbefehlshaber in Frankreich (Heeresgruppe Felber / 1. Armee)';
+    }
+    return origAdmin(s);
+  };
+
+  item.getNote = (s: number): string => {
+    if (s < 11) return origNote(s);
+    if (nuts === 'FRY40') {
+      return "Il 28 novembre 1942 il cacciatorpediniere Léopard delle Forces Navales Françaises Libres (FNFL) sbarca a Saint-Denis; dopo una breve resistenza del governatore Pierre-Émile Aubert, l'isola della Riunione passa ufficialmente sotto l'autorità della Francia Libera del generale de Gaulle.";
+    }
+    if (FRANCE_ITALIAN_OCCUPATION_ZONE_1942.has(nuts)) {
+      if (nuts === 'FRL05') {
+        return "Operazione Anton e Autoaffondamento della Flotta francese a Tolone (novembre 1942): in risposta agli sbarchi alleati in Nordafrica, le truppe italiane occupano il dipartimento del Var; all'alba del 27 novembre 1942 (Operazione Lila), mentre i carri armati tedeschi tentano di impadronirsi delle navi da guerra nell'arsenale di Tolone, gli ammiragli Jean de Laborde e André Marquis danno ordine di autoaffondare 77 navi (tra cui le corazzate Strasbourg, Dunkerque e Provence), impedendo che cadano nelle mani dell'Asse.";
+      }
+      if (nuts === 'FRM01' || nuts === 'FRM02') {
+        return "Operazione Anton in Corsica (11 novembre 1942): circa 80.000 soldati del VII Corpo d'Armata del Regio Esercito (Gen. Giacomo Carboni) sbarcano a Bastia e Ajaccio, occupando militarmente l'intera isola di Corsica come rivendicazione storica e punto d'appoggio navale nel Tirreno.";
+      }
+      return "Operazione Anton (11 novembre 1942): le truppe della 4ª Armata italiana del generale Mario Vercellino varcano la frontiera alpina e la linea d'armistizio, estendendo l'occupazione militare italiana a tutti i territori a est del fiume Rodano (Savoia, Alta Savoia, Isère, Hautes-Alpes, Basses-Alpes, Alpes-Maritimes con Nizza, Var e Vaucluse).";
+    }
+    if (item.partition1940 === 'zone_libre') {
+      return "Operazione Anton (11 novembre 1942): in risposta all'invasione alleata del Nordafrica francese (Operazione Torch), la Wehrmacht (1ª Armata del generale von Blaskowitz e Heeresgruppe Felber) invade la Zona Libera di Vichy. La linea di demarcazione cessa di esistere: l'intera Francia metropolitana passa sotto occupazione militare diretta, le facoltà governative di Vichy vengono ridotte a pura finzione collaborazionista e l'Armée de l'Armistice viene ufficialmente sciolta il 27 novembre.";
+    }
+    return `${origNote(10)} Al 30 novembre 1942 l'intera Francia metropolitana è occupata militarmente (Operazione Anton).`;
+  };
+}
+
 /**
  * Risolve una provincia/dipartimento della Francia metropolitana o d'oltremare per uno specifico timeline step.
  */
