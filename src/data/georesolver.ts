@@ -7423,9 +7423,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const normName = nrm;
 
         // 1. Zone sottratte alla sovranità italiana (Annessione de facto al Terzo Reich)
-        // Operationszone Alpenvorland (OZAV): Bolzano (ITH10/ITH1), Trento (ITH20/ITH2), Belluno (ITH33)
+        // Operationszone Alpenvorland (OZAV): Bolzano (ITH10/ITH1), Trento (ITH20/ITH2), Belluno (ITH37)
         const isOzav =
-          cleanId === 'ITH10' || cleanId === 'ITH1' || cleanId === 'ITH20' || cleanId === 'ITH2' || cleanId === 'ITH33' ||
+          cleanId === 'ITH10' || cleanId === 'ITH1' || cleanId === 'ITH20' || cleanId === 'ITH2' || cleanId === 'ITH37' ||
           normName.includes('bolzano') || normName.includes('bozen') || normName.includes('trento') || normName.includes('trient') || normName.includes('belluno');
 
         if (isOzav) {
@@ -7518,13 +7518,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
 
-        // e) Puglia: Foggia (ITF41), Bari (ITF42), Taranto (ITF43), Brindisi (ITF44), Lecce (ITF45), BAT
+        // e) Puglia: Foggia (ITF46/ITF41), Bari (ITF47/ITF42), Taranto (ITF43), Brindisi (ITF44), Lecce (ITF45), BAT (ITF48)
         const isPuglia = cleanId.startsWith('ITF4') || normName.includes('puglia') || normName.includes('bari') || normName.includes('brindisi') || normName.includes('taranto') || normName.includes('foggia') || normName.includes('lecce') || normName.includes('barletta');
         if (isPuglia) {
           const itProv = resolveItalyProvince(cleanId, 8, rawName);
           const isBrindisi = cleanId === 'ITF44' || normName.includes('brindisi');
           const isTaranto = cleanId === 'ITF43' || normName.includes('taranto');
-          const isFoggia = cleanId === 'ITF41' || normName.includes('foggia');
+          const isFoggia = cleanId === 'ITF46' || cleanId === 'ITF41' || normName.includes('foggia');
           return makeResult(
             'ITA',
             isBrindisi
