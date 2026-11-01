@@ -4916,6 +4916,13 @@ export function resolveFrenchColonialToponym(
           : "Quartier Viénot et berceau historique de la Légion Étrangère.",
       };
     }
+    if (step >= 11) {
+      return {
+        name: "Départements Français d'Algérie (Liberazione Alleata — Operazione Torch / Alger, Oran, Constantine)",
+        adminTitle: "Algérie française — Commandement en Chef Français Civil et Militaire (Amiral François Darlan / Général Henri Giraud)",
+        note: "A seguito dell'Operazione Torch (8-10 novembre 1942), i tre dipartimenti algerini passano sotto il controllo alleato e costituiscono il quartier generale del comando civile e militare francese.",
+      };
+    }
     return isVichyStep
       ? {
           name: "Départements Français d'Algérie (Vichy)",
@@ -4941,6 +4948,13 @@ export function resolveFrenchColonialToponym(
         note: isVichyStep
           ? "Base de stationnement du puissant cuirassé Jean Bart inachevé, évacué de Saint-Nazaire en juin 1940."
           : "Plus grand port moderne du Maghreb et grand centre industriel atlantique.",
+      };
+    }
+    if (step >= 11) {
+      return {
+        name: "Protectorat du Maroc (Liberazione Alleata — Operazione Torch / Casablanca & Rabat)",
+        adminTitle: "Protectorat français au Maroc — Commandement Français Civil et Militaire (Général Charles Noguès)",
+        note: "A seguito degli sbarchi dell'Operazione Torch e del cessate il fuoco concordato con il generale Patton, il protettorato marocchino si unisce agli Alleati.",
       };
     }
     return isVichyStep
@@ -6419,8 +6433,14 @@ export function resolveAfricanToponym(
     }
     if (normKey.includes('rabat')) {
       return {
-        name: step >= 6 ? 'Rabat (Résidence Générale — Vichy)' : 'Rabat (Capitale Administrative du Protectorat)',
-        adminTitle: step >= 6
+        name: step >= 11
+          ? 'Rabat (Commandement Civil et Militaire — Rallié aux Alliés)'
+          : step >= 6
+          ? 'Rabat (Résidence Générale — Vichy)'
+          : 'Rabat (Capitale Administrative du Protectorat)',
+        adminTitle: step >= 11
+          ? 'Résidence Générale de France au Maroc (Général Charles Noguès — Allié)'
+          : step >= 6
           ? "Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)"
           : "Résidence Générale de la République Française au Maroc (Général Charles Noguès)",
         note: "Capitale amministrativa del protettorato francese e sede della Résidence Générale nonché della corte imperiale del Sultano alawide Sidi Mohammed ben Youssef (futuro Re Mohammed V).",
@@ -6441,13 +6461,19 @@ export function resolveAfricanToponym(
       };
     }
     return {
-      name: step >= 6
+      name: step >= 11
+        ? 'Protectorat du Maroc (Liberazione Alleata — Operazione Torch / Casablanca & Rabat)'
+        : step >= 6
         ? 'Protectorat du Maroc (Maroc Français — Vichy)'
         : 'Protectorat Français du Maroc (Maroc Français — Rabat)',
-      adminTitle: step >= 6
+      adminTitle: step >= 11
+        ? 'Protectorat français au Maroc — Commandement Français Civil et Militaire (Général Charles Noguès)'
+        : step >= 6
         ? "Résidence Générale de France au Maroc (Général Charles Noguès — Vichy)"
         : "Résidence Générale de la République Française (Général Charles Noguès / Sultan Sidi Mohammed)",
-      note: step >= 6
+      note: step >= 11
+        ? "Operazione Torch (8-11 novembre 1942): sbarco della Western Task Force americana (Gen. George S. Patton) a Fedala, Mehdia e Safi, e combattimenti navali a Casablanca contro la corazzata Jean Bart. Con il cessate il fuoco concordato tra il Gen. Noguès e il comando alleato, il Marocco francese si unisce allo sforzo bellico alleato."
+        : step >= 6
         ? "Protettorato francese (esteso sul 90% del territorio marocchino, distinto dal Rif spagnolo a nord). Il Résident Général Charles Noguès, comandante in capo del teatro dell'Africa del Nord, rifiutò di passare alla dissidenza con De Gaulle dopo l'armistizio del 22 giugno 1940 e mantenne il Marocco fedele al regime di Vichy sotto la sorveglianza delle commissioni d'armistizio tedesca e italiana, ospitando a Casablanca la corazzata Jean Bart fino allo sbarco alleato di Torch nel novembre 1942."
         : "Istituito con il Trattato di Fez del 30 marzo 1912 sotto sovranità imperiale alawide del Sultano Sidi Mohammed ben Youssef e tutela della Repubblica Francese (Résidence Générale a Rabat guidata dal generale Charles Noguès). Comprende la quasi totalità del territorio marocchino con le grandi città imperiali (Fès, Marrakech, Meknès), la capitale amministrativa Rabat, la metropoli industriale atlantica di Casablanca, la ferrovia dei fosfati e le divisioni coloniali dei Tirailleurs Marocains, Spahis e Goumiers dell'Armée d'Afrique.",
     };
@@ -6472,23 +6498,37 @@ export function resolveAfricanToponym(
   ) {
     if (normKey.includes('oran') && !normKey.includes('oranienbaum')) {
       return {
-        name: step >= 6 ? 'Oran (Mers-el-Kébir — Base Navale Vichy)' : 'Oran (Département d\'Oran — Mers-el-Kébir)',
-        adminTitle: step >= 6
+        name: step >= 11
+          ? 'Oran (Mers-el-Kébir — Sbarco Alleato Operazione Torch)'
+          : step >= 6
+          ? 'Oran (Mers-el-Kébir — Base Navale Vichy)'
+          : 'Oran (Département d\'Oran — Mers-el-Kébir)',
+        adminTitle: step >= 11
+          ? 'Base Navale de Mers-el-Kébir / US Center Task Force (Gen. Fredendall)'
+          : step >= 6
           ? "Base Navale de Mers-el-Kébir / Préfecture d'Oran (Vichy)"
           : "Département d'Oran (République Française) — Base Navale de Mers-el-Kébir",
-        note: step >= 6
+        note: step >= 11
+          ? "Operazione Torch (8-10 novembre 1942): sbarco della Center Task Force americana del maggior generale Lloyd Fredendall nella baia di Arzew e a Les Andalouses. Dopo intensi combattimenti e il fallimento del raid britannico Reservist nel porto di Orano, la guarnigione francese capitola il 10 novembre e la base navale di Mers-el-Kébir passa sotto il controllo alleato."
+          : step >= 6
           ? "Grande rada e base navale fortificata della Marine Nationale. Il 3 luglio 1940 la Royal Navy britannica (Force H dell'ammiraglio Somerville) scatenò l'Operazione Catapult affondando la corazzata Bretagne e danneggiando la Dunkerque e la Provence per impedire che la flotta cadesse in mano tedesca, causando 1.297 marinai francesi caduti."
           : "Dipartimento costiero occidentale dell'Algeria francese dotato della moderna base navale militare di Mers-el-Kébir e di un popoloso centro commerciale ed europeo.",
       };
     }
     return {
-      name: step >= 6
+      name: step >= 11
+        ? 'Départements Français d\'Algérie (Liberazione Alleata — Operazione Torch / Alger, Oran, Constantine)'
+        : step >= 6
         ? 'Départements Français d\'Algérie (Alger, Oran, Constantine — Vichy)'
         : 'Départements Français d\'Algérie (Alger, Oran, Constantine)',
-      adminTitle: step >= 6
+      adminTitle: step >= 11
+        ? 'Algérie française — Commandement en Chef Français Civil et Militaire (Amiral François Darlan / Général Henri Giraud)'
+        : step >= 6
         ? "Gouvernement Général de l'Algérie (Yves Châtel / Maxime Weygand — Vichy)"
         : "Gouvernement Général de l'Algérie (Gouverneur Général Georges Le Beau — Alger)",
-      note: step >= 6
+      note: step >= 11
+        ? "Operazione Torch (8-10 novembre 1942): sbarco anfibio anglo-americano guidato dal generale Eisenhower ad Algeri e Orano, coordinato con il colpo di stato antinazista della resistenza francese ad Algeri (Gruppo dei 180 guidato da José Aboulker). L'Ammiraglio François Darlan firma il cessate il fuoco e istituisce il Commandement en Chef Français Civil et Militaire con il generale Giraud, allineando l'Algeria agli Alleati."
+        : step >= 6
         ? "Territorio metropolitano d'oltremare rimasto sotto il regime di Vichy dopo l'armistizio di Compiègne. Sotto il Governatore Yves Châtel e poi il Delegato Generale Maxime Weygand, vi vennero applicate rigidamente le leggi del governo di Vichy e l'abrogazione del decreto Crémieux fino all'Operazione Torch."
         : "Territorio metropolitano d'oltremare formalmente annesso alla Repubblica Francese e suddiviso nei tre dipartimenti di Alger (capitale Algeri), Oran e Constantine, oltre ai Territoires du Sud sahariani (XIX Corpo d'Armata). Popolazione di coloni europei (Pieds-Noirs) e truppe coloniali Zouaves, Tirailleurs Algériens e Chasseurs d'Afrique.",
     };
@@ -6514,13 +6554,19 @@ export function resolveAfricanToponym(
       };
     }
     return {
-      name: step >= 6
+      name: step >= 11
+        ? 'Tunisie occupée — Testa di Ponte dell\'Asse (Tunis)'
+        : step >= 6
         ? 'Protectorat de Tunisie (Vichy — Tunis)'
         : 'Protectorat Français de Tunisie (Tunis)',
-      adminTitle: step >= 6
+      adminTitle: step >= 11
+        ? 'Tunisie occupée — Testa di ponte dell\'Asse (XC. Armeekorps / Gen. Walther Nehring — 5. Panzerarmee)'
+        : step >= 6
         ? "Résidence Générale de France en Tunisie (Amiral Jean-Pierre Esteva — Vichy)"
         : "Résidence Générale de la République Française (Armand Guillon / Eirik Labonne — Tunis)",
-      note: step >= 6
+      note: step >= 11
+        ? "In risposta agli sbarchi di Torch, Hitler e Mussolini inviano truppe d'assalto per via aerea e marittima (XC Corpo d'Armata di Nehring) occupando Tunisi e Biserta; l'Ammiraglio Esteva obbedisce a Vichy e consegna le basi all'Asse, mentre il generale Georges Barré ritira le truppe francesi verso ovest unendosi alla 1ª Armata britannica."
+        : step >= 6
         ? "Protettorato francese sotto l'amministrazione dell'ammiraglio Jean-Pierre Esteva, fedele al maresciallo Pétain, sotto il controllo diretto della Commissione d'armistizio italiana (CIAF) e a ridosso del confine con la Libia italiana."
         : "Protettorato francese istituito con il Trattato del Bardo (1881) sotto la dinastia husseinite del Bey di Tunisi (Ahmad II Bey) e la guida del Résident Général. A sud, la Ligne Mareth fortificata presidiava il confine contro la Libia italiana.",
     };

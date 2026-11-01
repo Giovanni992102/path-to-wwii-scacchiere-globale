@@ -5352,9 +5352,11 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   // Protectorat français de Tunisie (24 Gouvernorats et Territoires du Sud 1936-1940)
   const isTunisiaProv =
     p.REGION_KIND === 'TUNISIA_PROVINCE' ||
+    ft.id === 'HB_TUNISIA' ||
+    nid === 'HB_TUNISIA' ||
     (ft.id && (TUNISIA_PROVINCES_META as any)?.[ft.id]) ||
     (nid && (TUNISIA_PROVINCES_META as any)?.[nid]) ||
-    ((cntr === 'TN' || cntr === 'TUN') && (String(ft.id || '').startsWith('TN') || nid.startsWith('TN')));
+    ((cntr === 'TN' || cntr === 'TUN') && (String(ft.id || '').startsWith('TN') || nid.startsWith('TN') || nid.includes('TUNIS')));
 
   if (isTunisiaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^TN_/, 'TN').toUpperCase();
@@ -5372,7 +5374,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       : '';
     return makeResult(
       owner,
-      tnMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
+      tnMeta?.historicalName || (s >= 11 ? 'Tunisie occupée — Testa di ponte dell\'Asse (Tunis)' : (top.name || p.HISTORICAL_NAME || rawName)),
       (tnMeta?.note || top.note || p.HISTORICAL_NOTE || 'Protectorat français de Tunisie') + noteSuffix,
       faction,
       s >= 11 ? defaultAdmin : (tnMeta?.adminTitle || top.adminTitle || p.ADMIN_TITLE || defaultAdmin)
@@ -8740,6 +8742,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '504':
     case 'XMA':
     case 'FR_MOROCCO': {
+      if (s >= 11) {
+        return makeResult(
+          'FRA',
+          'Protectorat du Maroc (Liberazione Alleata — Operazione Torch)',
+          'Operazione Torch (8-11 novembre 1942): le forze della Western Task Force americana (Gen. Patton) sbarcano a Casablanca, Safi e Port-Lyautey; con il cessate il fuoco dell\'ammiraglio Darlan, il Marocco francese si unisce agli Alleati.',
+          'Alleati',
+          'Protectorat français au Maroc — Commandement Français Civil et Militaire (Général Charles Noguès)'
+        );
+      }
       if (s >= 6) {
         return makeResult(
           'VIC_NAF',
@@ -9463,11 +9474,38 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult('SAF', getTop('SAF').name || rawName, 'Unione Sudafricana');
       }
 
+      if (nrm.includes('reunion') || nid === 'RE_REUNION' || nid === 'FRY40') {
+        if (s >= 11) {
+          return makeResult(
+            'FRA',
+            'La Réunion (Ralliée à la France Libre — 28 Novembre 1942)',
+            'Il 28 novembre 1942 il cacciatorpediniere Léopard delle Forces Navales Françaises Libres (FNFL) sbarca a Saint-Denis; l\'isola della Riunione passa ufficialmente sotto l\'autorità della Francia Libera del generale de Gaulle.',
+            'Alleati',
+            'Colonie de la Réunion — France Libre (Gouverneur Jean Capagorry)'
+          );
+        }
+        if (s >= 6) {
+          return makeResult(
+            'VIC_MAD',
+            'La Réunion (Colonie sous autorité de Vichy — Saint-Denis)',
+            'Colonia d\'oltremare di Vichy nell\'Oceano Indiano sotto il governatore Pierre-Émile Aubert fino al ralliement gollista del 28 novembre 1942.',
+            'Fantoccio',
+            'Colonie de la Réunion (Gouverneur Pierre-Émile Aubert — Vichy)'
+          );
+        }
+        return makeResult(
+          'F_MAD',
+          'La Réunion (Colonie Française — Saint-Denis)',
+          'Colonia insulare francese nell\'Oceano Indiano amministrata congiuntamente con il Madagascar.',
+          'Alleati',
+          'Colonie de la Réunion (Troisième République française)'
+        );
+      }
+
       if (
         nrm.includes('madagascar') ||
         nrm.includes('comoros') ||
-        nrm.includes('comores') ||
-        nrm.includes('reunion')
+        nrm.includes('comores')
       ) {
         if (s >= 11) {
           return makeResult(

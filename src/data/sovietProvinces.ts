@@ -8540,6 +8540,12 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       if (pid === 'SOV_ADM1_RUS_35_North_Ossetia_Alania') {
         return 'Ordžonikidze (Vladikavkaz), chiave della Strada Militare Georgiana, ha retto all\'assalto finale della 1ª Armata Panzer di von Kleist: le avanguardie della 13ª Divisione Panzer giunte a Gizel\', a soli 8 km dalla città, sono state respinte e quasi annientate dai contrattacchi sovietici tra il 6 e l\'11 novembre 1942. È il punto più meridionale raggiunto dalla Wehrmacht in Unione Sovietica.';
       }
+      if (pid === 'SOV_ADM1_RUS_56_Tver_Oblast') {
+        return 'Nel novembre 1942 l\'Oblast di Kalinin è il teatro dell\'Operazione Marte (25 novembre 1942): sferrata dal generale Georgij Žukov con le armate dei Fronti Occidentale (Konëv) e di Kalinin (Purkaev), la massiccia offensiva attacca simultaneamente il saliente fortificato di Ržev difeso dalla 9ª Armata del generale Walter Model per inchiodare le riserve corazzate del Gruppo d\'Armate Centro e impedirne il trasferimento a soccorso di Stalingrado.';
+      }
+      if (pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast') {
+        return 'Al 30 novembre 1942 la regione di Smolensk è la roccaforte logistica del Gruppo d\'Armate Centro (Heeresgruppe Mitte, Feldmaresciallo Günther von Kluge): le retrovie della 9ª Armata di Model sono sotto massima allerta a causa dell\'Operazione Marte scatenata il 25 novembre contro il saliente di Ržev-Syčëvka e dell\'offensiva sovietica di Velikie Luki a nord.';
+      }
     }
     if (step >= 10) {
       if (pid === 'SOV_ADM1_UKR_99_Sevastopol' || pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {

@@ -434,8 +434,9 @@ for (const item of Object.values(AOF_PROVINCES_META)) {
 
   item.getSovereign = (s: number) => (s >= 11 ? 'F_AOF' : origSov(s));
   item.getFaction = (s: number) => (s >= 11 ? ('Alleati' as FactionType) : origFac(s));
+  const histBase = item.historicalName || item.historicalToponym || item.name;
   item.getHistoricalName = (s: number) =>
-    s >= 11 ? `${item.name} (AOF — Rallié aux Alliés / Accord Boisson, 23 Novembre 1942)` : origHist(s);
+    s >= 11 ? `${histBase} (AOF — Rallié aux Alliés / Accord Boisson, 23 Novembre 1942)` : origHist(s);
   item.getAdminTitle = (s: number) =>
     s >= 11 ? 'Haut-Commissariat de France en Afrique (Dakar — Pierre Boisson rallié aux Alliés)' : origAdmin(s);
   item.getNote = (s: number) =>

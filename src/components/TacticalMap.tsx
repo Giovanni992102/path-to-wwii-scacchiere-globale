@@ -168,7 +168,8 @@ const HISTORICAL_CITIES: {
   // Centri Francesi e Linee Difensive
   { id: 'marseille', name: 'Marseille', historicalNames: { step11: 'Marseille (Occupazione Wehrmacht / Op. Anton)', default: 'Marseille (Grand Port de l\'Empire)' }, coords: [5.37, 43.30], isCapital: false, ownerKey: 'FRA' },
   { id: 'toulon', name: 'Toulon', historicalNames: { step6: 'Toulon (Base Navale Forces de Haute Mer)', step11: 'Toulon (Autoaffondamento Flotta / Occupazione Italiana, 27 Nov)', default: 'Toulon (Port Militaire de la Méditerranée)' }, coords: [5.93, 43.12], isCapital: false, ownerKey: 'FRA' },
-  { id: 'lyon', name: 'Lyon', historicalNames: { default: 'Lyon (Zone Libre)' }, coords: [4.83, 45.76], isCapital: false, ownerKey: 'FRA' },
+  { id: 'lyon', name: 'Lyon', historicalNames: { step11: 'Lyon (Occupazione Wehrmacht / Op. Anton)', default: 'Lyon (Zone Libre)' }, coords: [4.83, 45.76], isCapital: false, ownerKey: 'FRA' },
+  { id: 'nice', name: 'Nice', historicalNames: { step11: 'Nizza (Capoluogo Zona Occupazione Italiana — 4ª Armata)', default: 'Nice / Nizza (Alpes-Maritimes)' }, coords: [7.26, 43.71], isCapital: false, ownerKey: 'FRA' },
   { id: 'bordeaux', name: 'Bordeaux', historicalNames: { default: 'Bordeaux (Base Sommergibili BETASOM)' }, coords: [-0.58, 44.84], isCapital: false, ownerKey: 'FRA' },
   { id: 'strasbourg', name: 'Strasbourg', historicalNames: { step6: 'Straßburg (Gau Baden-Elsass)', default: 'Strasbourg (Alsazia)' }, coords: [7.75, 48.57], isCapital: false, ownerKey: 'FRA' },
   { id: 'metz', name: 'Metz', historicalNames: { step6: 'Metz (CdZ-Gebiet Lothringen)', default: 'Metz (Fortificazioni Lorena)' }, coords: [6.18, 49.12], isCapital: false, ownerKey: 'FRA' },
@@ -246,10 +247,12 @@ const HISTORICAL_CITIES: {
   { id: 'kyiv', name: 'Kyiv', historicalNames: { step9: 'Kiew (Reichskommissariat Ukraine)', default: 'Kiev (Capitale della RSS Ucraina)' }, coords: [30.52, 50.45], isCapital: false, ownerKey: 'SOV' },
   { id: 'kharkiv', name: 'Kharkiv', historicalNames: { step9: 'Charkow (Heeresgebiet Süd)', default: 'Charkiv (Fabbrica Carri KhPZ n. 183)' }, coords: [36.23, 50.00], isCapital: false, ownerKey: 'SOV' },
   { id: 'stalingrad', name: 'Stalingrad', historicalNames: { step10: 'Stalingrado (Battaglia sul Volga — Ordine N. 227)', step11: 'Stalingrado (Operazione Uranus — Kessel Tedesco Accerchiato)', default: 'Stalingrado (Fabbrica Trattori Dzeržinskij)' }, coords: [44.51, 48.71], isCapital: false, ownerKey: 'SOV' },
+  { id: 'kalac_na_donu', name: 'Kalač-na-Donu', historicalNames: { step10: 'Kalač-na-Donu (Testa di Ponte 6ª Armata sul Don)', step11: 'Kalač-na-Donu (Saldatura Tenaglie Operazione Uranus — 23 Nov 1942)', default: 'Kalač-na-Donu (Ansa del Don)' }, coords: [43.52, 48.69], isCapital: false, ownerKey: 'SOV' },
+  { id: 'rzhev', name: 'Ržev', historicalNames: { step10: 'Ržev (Saliente Fortificato 9ª Armata Tedesca)', step11: 'Ržev (Operazione Marte / Tritacarne di Ržev — 25 Nov 1942)', default: 'Ržev (Alto Volga)' }, coords: [34.33, 56.26], isCapital: false, ownerKey: 'GER' },
   { id: 'rostov', name: 'Rostov', historicalNames: { step9: 'Rostov sul Don (Liberata dall\'Armata Rossa — Timoshenko, 29 Nov 1941)', step10: 'Rostov sul Don (Conquistata dal Gruppo d\'Armate A — 24 Luglio 1942)', default: 'Rostov sul Don (Porta del Caucaso)' }, coords: [39.72, 47.23], isCapital: false, ownerKey: 'SOV' },
   { id: 'sevastopol', name: 'Sevastopol', historicalNames: { step9: 'Sebastopoli (Eroica Difesa sotto Assedio Tedesco)', step10: 'Sebastopoli (Occupata dalla Wehrmacht, 4 Luglio 1942)', default: 'Sebastopoli (Fortezza Principale Mar Nero)' }, coords: [33.52, 44.62], isCapital: false, ownerKey: 'SOV' },
   { id: 'odessa', name: 'Odessa', historicalNames: { step9: 'Odessa (Capitale del Governatorato di Transnistria)', default: 'Odessa (Base Navale Mar Nero)' }, coords: [30.73, 46.48], isCapital: false, ownerKey: 'SOV' },
-  { id: 'smolensk', name: 'Smolensk', historicalNames: { step9: 'Smolensk (Militärverwaltung Wehrmacht / HGr Mitte)', default: 'Smolensk (Distretto Militare Occidentale)' }, coords: [32.05, 54.78], isCapital: false, ownerKey: 'SOV' },
+  { id: 'smolensk', name: 'Smolensk', historicalNames: { step9: 'Smolensk (Militärverwaltung Wehrmacht / HGr Mitte)', step11: 'Smolensk (Heeresgruppe Mitte / Allarme Operazione Marte)', default: 'Smolensk (Distretto Militare Occidentale)' }, coords: [32.05, 54.78], isCapital: false, ownerKey: 'SOV' },
   { id: 'minsk', name: 'Minsk', historicalNames: { step9: 'Minsk (Generalkommissariat Weißruthenien — Ostland)', default: 'Minsk (Capitale della RSS Bielorussa)' }, coords: [27.56, 53.90], isCapital: false, ownerKey: 'SOV' },
 ];
 
