@@ -1231,18 +1231,45 @@ export const MONACO_FEATURE: any = {
     if (s >= 11) {
       return makeResult(
         'ITA',
-        'Principauté de Monaco (Occupazione Italiana — Regio Esercito)',
-        "Operazione Anton (11 novembre 1942): le truppe del Regio Esercito italiano (4ª Armata del Gen. Mario Vercellino) occupano il Principato di Monaco, integrato nella zona di occupazione militare italiana della Francia meridionale.",
+        'Principauté de Monaco (Occupazione Militare Italiana — Regio Esercito)',
+        "L'11 novembre 1942, in risposta allo sbarco alleato in Nordafrica (Operazione Torch), scatta l'Operazione Anton: la 4ª Armata del Regio Esercito italiano (Gen. Mario Vercellino) varca il confine e occupa militarmente il Principato di Monaco, insediando guarnigioni e requisendo hotel storici (Hôtel de Paris, Hermitage). Nonostante l'occupazione dell'Asse e le pressioni naziste, le autorità militari e consolari italiane rifiutano di applicare le direttive di deportazione razziale, trasformando temporaneamente Monaco in una vitale isola di salvezza per centinaia di rifugiati ed ebrei fino all'arrivo della Wehrmacht e della Gestapo nel settembre 1943.",
         'Asse',
-        'Principauté de Monaco — Zona di Occupazione Militare Italiana (Regio Esercito)'
+        'Presidio Militare Italiano di Monaco — 4ª Armata del Regio Esercito (Gen. Mario Vercellino) & Comando di Piazza'
+      );
+    }
+    if (s === 10) {
+      return makeResult(
+        'MCO',
+        'Principauté de Monaco (Oasi Neutrale tra Francia di Vichy e Occupazione Italiana)',
+        "All'apice dell'espansione dell'Asse (agosto 1942), mentre nella Francia metropolitana infuriano le retate antisemite di Vichy (come la retata del Vél d'Hiv di luglio), Monaco preserva la propria sovranità neutrale retta dal Principe Luigi II e dal ministro filo-francese Émile Roblot. Nonostante le pesanti pressioni diplomatiche dell'Asse e l'emanazione di ordinanze restrittive, la polizia e i funzionari monegaschi rilasciano segretamente lasciapassare e documenti d'identità a centinaia di profughi braccati in cerca di scampo sulla Costa Azzurra.",
+        'Neutrale',
+        'Principauté de Monaco — Governo del Principe Luigi II (Ministro di Stato Émile Roblot)'
+      );
+    }
+    if (s >= 6) {
+      return makeResult(
+        'MCO',
+        'Principauté de Monaco (Stato Sovrano Neutrale — Protettorato Consolare)',
+        "Dopo la caduta della Francia e l'armistizio del giugno 1940, Monaco si ritrova incastonata tra il dipartimento delle Alpi Marittime (governato dal regime di Vichy di Philippe Pétain) e l'enclave di Mentone occupata dall'Italia. Il Principe Luigi II (\"il Principe soldato\", veterano e generale di brigata francese) mantiene una stretta neutralità e ottime relazioni personali con Pétain, tutelando l'integrità del Principato sancita dal trattato franco-monegasco del 1918 e facendo di Monaco un vivace snodo per scambi finanziari e rifugio per perseguitati.",
+        'Neutrale',
+        "Principauté de Monaco — Dinastia Grimaldi (Principe Luigi II & Ministre d'État Émile Roblot)"
+      );
+    }
+    if (s >= 2) {
+      return makeResult(
+        'MCO',
+        'Principauté de Monaco (Neutralità Sovrana — Vigilia Bellica)',
+        "Dalla Conferenza di Monaco (settembre 1938) allo scoppio della guerra (settembre 1939), il Principato si prepara alla crisi bellica. Con l'apertura delle ostilità, Luigi II proclama la rigorosa neutralità di Monaco, mentre circa 300 cittadini monegaschi e i riservisti francesi residenti vengono mobilitati; il turismo d'élite e le grandi manifestazioni internazionali (Gran Premio automobilistico e rally) si interrompono per far posto a misure di difesa passiva e rifornimenti d'emergenza.",
+        'Neutrale',
+        'Principauté de Monaco — Trattato Franco-Monegasco del 1918 (Principe Luigi II & Émile Roblot)'
       );
     }
     return makeResult(
       'MCO',
-      'Principauté de Monaco',
-      "Antico principato sovrano retto dalla dinastia Grimaldi (Principe Luigi II di Monaco). Legato alla Francia dal trattato franco-monegasco del 17 luglio 1918, mantenne la propria neutralità fino all'11 novembre 1942, quando a seguito dell'Operazione Anton fu occupato militarmente dal Regio Esercito italiano.",
+      'Principauté de Monaco (Monaco-Ville, Monte-Carlo, La Condamine)',
+      "Antico principato sovrano retto dalla dinastia Grimaldi nella persona del Principe Luigi II di Monaco (succeduto ad Alberto I nel 1922). Fondato sul Trattato del 17 luglio 1918 con la Repubblica Francese, il Principato è un polo mondiale del turismo d'élite, dell'alta finanza e del gioco d'azzardo (Casinò di Monte-Carlo e Société des Bains de Mer), celebre per il Gran Premio automobilistico e il Rallye de Monte-Carlo, in una condizione di prospera neutralità mediterranea.",
       'Neutrale',
-      'Principauté de Monaco (État Souverain Neutre)'
+      "Principauté de Monaco — Dinastia Grimaldi (Principe Luigi II & Ministre d'État Maurice Bouilloux-Lafont / Émile Roblot)"
     );
   },
 };

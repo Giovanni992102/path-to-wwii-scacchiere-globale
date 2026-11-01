@@ -5650,21 +5650,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'principality of monaco';
 
   if (isMonaco) {
-    if (s >= 11) {
-      return makeResult(
-        'ITA',
-        'Principauté de Monaco (Occupazione Italiana — Regio Esercito)',
-        'Operazione Anton (11 novembre 1942): le truppe del Regio Esercito italiano (4ª Armata del Gen. Mario Vercellino) occupano il Principato di Monaco, integrato nella zona di occupazione militare italiana della Francia meridionale.',
-        'Asse',
-        'Principauté de Monaco — Zona di Occupazione Militare Italiana (Regio Esercito)'
-      );
-    }
+    const ownerCode = s >= 11 ? 'ITA' : 'MCO';
+    const top = getExtendedToponym(rawName || 'Monaco', ownerCode, nid || 'MCO_HIST', [7.4233, 43.7367], s);
     return makeResult(
-      'MCO',
-      'Principauté de Monaco',
-      'Antico principato sovrano retto dalla dinastia Grimaldi (Principe Luigi II di Monaco). Legato alla Francia dal trattato franco-monegasco del 17 luglio 1918, mantenne la propria neutralità fino all\'11 novembre 1942, quando a seguito dell\'Operazione Anton fu occupato militarmente dal Regio Esercito italiano.',
-      'Neutrale',
-      'Principauté de Monaco (État Souverain Neutre)'
+      ownerCode,
+      top.name || 'Principauté de Monaco',
+      top.note || 'Antico principato sovrano retto dalla dinastia Grimaldi.',
+      s >= 11 ? 'Asse' : 'Neutrale',
+      top.adminTitle || 'Principauté de Monaco'
     );
   }
 
@@ -8186,21 +8179,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'MC':
     case 'MCO': {
-      if (s >= 11) {
-        return makeResult(
-          'ITA',
-          'Principauté de Monaco (Occupazione Italiana — Regio Esercito)',
-          'Operazione Anton (11 novembre 1942): le truppe del Regio Esercito italiano (4ª Armata del Gen. Mario Vercellino) occupano il Principato di Monaco, integrato nella zona di occupazione militare italiana della Francia meridionale.',
-          'Asse',
-          'Principauté de Monaco — Zona di Occupazione Militare Italiana (Regio Esercito)'
-        );
-      }
+      const ownerCode = s >= 11 ? 'ITA' : 'MCO';
+      const top = getExtendedToponym(rawName || 'Monaco', ownerCode, nid || 'MCO_HIST', [7.4233, 43.7367], s);
       return makeResult(
-        'MCO',
-        'Principauté de Monaco',
-        'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).',
-        'Neutrale',
-        'Principauté de Monaco (État Souverain Neutre)'
+        ownerCode,
+        top.name || 'Principauté de Monaco',
+        top.note || 'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).',
+        s >= 11 ? 'Asse' : 'Neutrale',
+        top.adminTitle || 'Principauté de Monaco'
       );
     }
 
