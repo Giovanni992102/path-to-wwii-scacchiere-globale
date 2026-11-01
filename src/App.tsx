@@ -735,15 +735,16 @@ export default function App() {
           resolveHB({ properties: { NAME: 'Iran' } }, 0).o === 'IRN',
       },
       {
-        name: 'Integrità Territoriale Guiana Francese (F_COL 1936-39 -> VIC dal giu 1940)',
+        name: 'Integrità Territoriale Guiana Francese (F_COL 1936-39 -> VIC_COL dal giu 1940)',
         run: () => {
           const frg = loadedProvs.find((f: any) => f.id === 'French Guiana' || f.properties?.NAME === 'French Guiana');
+          const f6 = resolveFeature({ properties: { NUTS_ID: 'FRY30', NAME: 'French Guiana' } }, 6);
           return (
             resolveFeature({ properties: { NUTS_ID: 'FRY30', NAME: 'French Guiana' } }, 0).o === 'F_COL' &&
-            resolveFeature({ properties: { NUTS_ID: 'FRY30', NAME: 'French Guiana' } }, 6).o === 'F_COL' &&
+            (f6.o === 'VIC_COL' || f6.o === 'VIC') &&
+            f6.fac === 'Fantoccio' &&
             resolveHB({ properties: { NAME: 'French Guiana' } }, 0).o === 'F_COL' &&
-            frg && frg.__resolve(0).o === 'F_COL' &&
-            frg && frg.__resolve(6).o === 'F_COL'
+            (!frg || (frg.__resolve(0).o === 'F_COL' && (frg.__resolve(6).o === 'VIC_COL' || frg.__resolve(6).o === 'VIC')))
           );
         },
       },
@@ -1962,7 +1963,7 @@ export default function App() {
             uru.o === 'URU' && uru.name.includes('Uruguay') && (uruMeta.leader || '').includes('Terra') &&
             guy.o === 'UK' && guy.name.includes('British Guiana') &&
             sur.o === 'HOL' && sur.name.includes('Suriname') &&
-            gf0.o === 'F_COL' && gf6.o === 'VIC' &&
+            gf0.o === 'F_COL' && (gf6.o === 'VIC_COL' || gf6.o === 'VIC') && gf6.fac === 'Fantoccio' &&
             tri.o === 'UK' && tri.name.includes('Trinidad')
           );
         },
@@ -4432,7 +4433,7 @@ export default function App() {
           const guiana6 = resolveFeature({ properties: { NUTS_ID: 'FRY30', CNTR_CODE: 'FR', NAME: 'French Guiana' } }, 6);
           const martinique6 = resolveFeature({ properties: { NUTS_ID: 'FRY20', CNTR_CODE: 'FR', NAME: 'Martinique' } }, 6);
           const guadeloupe6 = resolveFeature({ properties: { NUTS_ID: 'FRY10', CNTR_CODE: 'FR', NAME: 'Guadeloupe' } }, 6);
-          if (guiana6.fac !== 'Fantoccio') return false;
+          if (guiana6.o !== 'VIC_COL' || guiana6.fac !== 'Fantoccio') return false;
           if (martinique6.o !== 'VIC' || martinique6.fac !== 'Fantoccio' || !martinique6.name.includes('Amiral Georges Robert')) return false;
           if (guadeloupe6.o !== 'VIC' || guadeloupe6.fac !== 'Fantoccio' || !guadeloupe6.name.includes('Constant Sorin')) return false;
 
@@ -4443,6 +4444,14 @@ export default function App() {
           if (guiana12.o !== 'FRA' || guiana12.fac !== 'Alleati' || !guiana12.name.includes('CFLN')) return false;
           if (martinique12.o !== 'FRA' || martinique12.fac !== 'Alleati' || !martinique12.name.includes('14 Luglio 1943')) return false;
           if (guadeloupe12.o !== 'FRA' || guadeloupe12.fac !== 'Alleati' || !guadeloupe12.name.includes('CFLN')) return false;
+
+          // 3.b Verifica sui layer storici HB (Martinique e Guadeloupe senza NUTS)
+          const martHB12 = resolveHB({ properties: { NAME: 'Martinique' }, __layer: 'hb' }, 12);
+          const guadHB12 = resolveHB({ properties: { NAME: 'Guadeloupe' }, __layer: 'hb' }, 12);
+          const guianaHB6 = resolveHB({ properties: { NAME: 'French Guiana' }, __layer: 'hb' }, 6);
+          if (martHB12.o !== 'FRA' || martHB12.fac !== 'Alleati') return false;
+          if (guadHB12.o !== 'FRA' || guadHB12.fac !== 'Alleati') return false;
+          if (guianaHB6.o !== 'VIC_COL' || guianaHB6.fac !== 'Fantoccio') return false;
 
           // 4. Base Navale di Fort-de-France (Riserve Auree Banque de France & Flotta)
           const fdfBase = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'fort_de_france_base');

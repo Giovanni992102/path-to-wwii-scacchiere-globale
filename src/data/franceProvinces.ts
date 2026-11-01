@@ -4620,7 +4620,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     getSovereign: (s: number) => {
       if (s >= 12) return 'FRA';
       if (s < 6) return 'F_COL';
-      return 'F_COL';
+      return 'VIC_COL';
     },
     getFaction: (s: number) => {
       if (s >= 12 || s < 6) return 'Alleati' as FactionType;

@@ -3609,6 +3609,10 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
     const top = getExtendedToponym(name, ov.o, nid, c, s);
     if (ov.o === 'FRA') {
+      const nrmFra = name.toLowerCase();
+      if (s >= 12 && (nrmFra.includes('martinique') || nrmFra.includes('guadeloupe') || nrmFra.includes('guyane') || nrmFra.includes('french guiana') || nrmFra.includes('saint-martin') || nrmFra.includes('saint-barthelemy'))) {
+        return makeResult('FRA', top.name, top.note, 'Alleati', top.adminTitle || 'Comité Français de Libération Nationale (CFLN)');
+      }
       return s < 6
         ? makeResult('FRA', top.name, top.note, undefined, top.adminTitle || 'Troisième République française')
         : makeResult('VIC', top.name, top.note, 'Fantoccio', top.adminTitle || 'État français (Régime de Vichy)');
@@ -3638,9 +3642,64 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           );
         }
 
-        // Ralliement de l'Empire (Océanie & Inde) à la France Libre à partir de Step 7 (OTT 1940)
+        // Ralliement o amministrazione Colonie Francesi (F_COL)
         if (ov.o === 'F_COL') {
           const nrmCol = name.toLowerCase();
+
+          // 1. Antille Francesi (Martinica, Guadalupa, Saint-Barthélemy, Saint-Martin) e Guyana
+          const isAntillesOrGuiana =
+            nrmCol.includes('martinique') ||
+            nrmCol.includes('guadeloupe') ||
+            nrmCol.includes('saint-martin') ||
+            nrmCol.includes('saint-barthelemy') ||
+            nrmCol.includes('st-martin') ||
+            nrmCol.includes('st-barthelemy') ||
+            nrmCol.includes('guyane') ||
+            nrmCol.includes('french guiana') ||
+            nrmCol.includes('cayenne');
+
+          if (isAntillesOrGuiana) {
+            if (s >= 12) {
+              // Step 12 (Luglio 1943): Ralliement solenne al CFLN (Henri Hoppenot, 14 Luglio 1943)
+              const cflnTop = getExtendedToponym(name, 'FRA', nid, c, s);
+              return makeResult(
+                'FRA',
+                cflnTop.name || top.name,
+                cflnTop.note || "Territoire rallié au Comité Français de Libération Nationale (CFLN) en 1943.",
+                'Alleati',
+                cflnTop.adminTitle || 'Comité Français de Libération Nationale (CFLN) — Haut-Commissariat aux Antilles'
+              );
+            }
+            // Steps 6..11: Amministrazione coloniale di Vichy (Grigio / Fantoccio)
+            const vicKey = (nrmCol.includes('guyane') || nrmCol.includes('guiana') || nrmCol.includes('cayenne')) ? 'VIC_COL' : 'VIC';
+            const vicTop = getExtendedToponym(name, vicKey, nid, c, s);
+            return makeResult(
+              vicKey,
+              vicTop.name || top.name,
+              vicTop.note || top.note || "Administration coloniale sous tutelle de Vichy (Amiral Georges Robert)",
+              'Fantoccio',
+              vicTop.adminTitle || "Administration coloniale de l'État français (Amiral Robert)"
+            );
+          }
+
+          // 2. Ralliement de Saint-Pierre-et-Miquelon (24 Dicembre 1941 / Step >= 9)
+          const isStPierre = nrmCol.includes('miquelon') || nrmCol.includes('saint-pierre') || nrmCol.includes('saint pierre') || nrmCol.includes('st pierre');
+          if (isStPierre) {
+            if (s >= 9) {
+              const spmTop = getExtendedToponym(name, 'FRA', nid, c, s);
+              return makeResult(
+                'FRA',
+                spmTop.name || 'Saint-Pierre-et-Miquelon (France Libre — Amiral Muselier)',
+                spmTop.note || 'Libéré le 24 décembre 1941 par les Forces Navales Françaises Libres (FNFL) de l\'amiral Muselier.',
+                'Alleati',
+                spmTop.adminTitle || 'France Libre — Territoire de Saint-Pierre-et-Miquelon'
+              );
+            }
+            const spmVic = getExtendedToponym(name, 'VIC', nid, c, s);
+            return makeResult('VIC', spmVic.name || top.name, spmVic.note || top.note, 'Fantoccio', spmVic.adminTitle || 'Administration coloniale de Vichy');
+          }
+
+          // 3. Ralliement de l'Empire (Océanie & Inde) à la France Libre à partir de Step 7 (OTT 1940)
           const isRallied =
             nrmCol.includes('hebrid') ||
             nrmCol.includes('caledon') ||
@@ -6086,7 +6145,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
     return s < 6
       ? makeResult('F_COL', 'Guyane française (Cayenne)', 'Colonie de Guyane (France)', 'Alleati', 'Colonie de Guyane — Chef-lieu Cayenne')
-      : makeResult('F_COL', 'Guyane française (Cayenne — Régime de Vichy)', 'Administration coloniale de Vichy — Gouverneur René Veber', 'Fantoccio', 'Colonie de Guyane — Gouverneur René Veber');
+      : makeResult('VIC_COL', 'Guyane française (Cayenne — Régime de Vichy)', 'Administration coloniale de Vichy — Gouverneur René Veber', 'Fantoccio', 'Colonie de Guyane — Gouverneur René Veber');
   }
 
   // Granularizzazione province dell'Indocina Francese (Cambogia, Laos, Vietnam)
@@ -8110,8 +8169,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
         // Steps 6..11: Regime di Vichy nelle Antille e Guyana
         if (nid === 'FRY30' || nrm.includes('guyane') || nrm.includes('french guiana')) {
-          const top = getTop('F_COL');
-          return makeResult('F_COL', top.name || 'Guyane française (Cayenne — Régime de Vichy)', top.note, 'Fantoccio', top.adminTitle || 'Colonie de la Guyane française — Gouverneur René Veber');
+          const top = getTop('VIC_COL');
+          return makeResult('VIC_COL', top.name || 'Guyane française (Cayenne — Régime de Vichy)', top.note, 'Fantoccio', top.adminTitle || 'Colonie de la Guyane française — Gouverneur René Veber');
         }
         if (nid === 'FRY20' || nrm.includes('martinique') || nrm.includes('fort-de-france')) {
           return makeResult(

@@ -815,7 +815,7 @@ FRENCH_GUIANA_FEATURE.__resolve = (step: number): ResolvedTerritory => {
         'Colonie de Guyane — Chef-lieu Cayenne'
       )
     : makeResult(
-        'F_COL',
+        'VIC_COL',
         'Guyane française (Cayenne — Régime de Vichy)',
         'Colonie de Guyane (État français — Gouverneur René Veber)',
         'Fantoccio',
