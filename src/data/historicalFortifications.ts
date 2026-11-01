@@ -948,9 +948,9 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     id: 'stalingrad_volga_line',
     name: 'Anello Difensivo di Stalingrado & Fronte del Volga (Stalingradskij Obvod)',
     nation: 'URSS',
-    builder: 'Fronte di Stalingrado (62ª e 64ª Armata) & Comitato di Difesa Urbano',
+    builder: 'Fronte di Stalingrado (62ª e 64ª Armata) & Comitato di Difesa Urbano (A. S. Čujanov)',
     description:
-      'Complesso di quattro anelli fortificati concentrici (Esterno, Medio, Interno e Urbano — Obvody "O", "S", "V", "G") per oltre 2.500 km di trincee, fossati anticarro e capisaldi industriali edificati attorno a Stalingrado tra il Don e il Volga. Il 23 agosto 1942 il XIV Corpo Panzer tedesco raggiunse il Volga a Rynok a nord della città, dando inizio all\'epica battaglia urbana (Ordine N. 227 di Stalin "Né un passo indietro!") difesa dalla 62ª Armata di Čujkov tra il Mamajev Kurgan e le grandi fabbriche sul Volga.',
+      'Complesso di quattro anelli fortificati concentrici (Esterno, Medio, Interno e Urbano — Obvody "O", "S", "V", "G") per oltre 2.500 km di trincee, fossati anticarro e capisaldi industriali edificati tra il Don e il Volga. Il 23 agosto 1942 il XIV Corpo Panzer tedesco raggiunse il Volga a Rynok a nord della città, mentre a fine agosto la 4ª Armata Panzer di Hoth sfondò ad Abganerovo da sud. Sotto la vigenza dell\'Ordine N. 227 di Stalin ("Né un passo indietro!"), la 62ª Armata sovietica (guidata dal Ten. Gen. Anton Lopatin e, dalla battaglia urbana di settembre, dal Gen. Vasilij Čujkov) e la 64ª Armata del Gen. Šumilov difendono i perimetri d\'accesso e i colossi industriali lungo la sponda del Volga.',
     type: 'heavy',
     color: '#d9534f',
     coordinates: [
@@ -962,9 +962,11 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       [44.55, 48.51], // Krasnoarmejsk (Sbocco del futuro canale Volga-Don a sud)
     ],
     keyForts: [
-      { name: 'Mamajev Kurgan (Quota 102,0)', coords: [44.54, 48.74], desc: 'Collina strategica dominante l\'intera città e gli attraversamenti sul Volga, contesa metro per metro in sanguinosi assalti all\'arma bianca.' },
-      { name: 'Complesso Industriale STZ, Barrikady & Krasnyj Oktjabr\'', coords: [44.58, 48.79], desc: 'I giganteschi stabilimenti metallurgici e di trattori sul Volga trasformati in fortezze inespugnabili dai fucilieri della 62ª Armata.' },
-      { name: 'Silo Granario & Caposaldo Sud (64ª Armata)', coords: [44.43, 48.59], desc: 'Enorme edificio in cemento armato difeso eroicamente dai marinai e fucilieri sovietici contro la 4ª Armata Panzer di Hoth.' },
+      { name: 'Caposaldo di Rynok & Spartakovka (Corridoio Settentrionale)', coords: [44.62, 48.83], desc: 'Punto di contatto dove la 16ª Panzer-Division raggiunse il Volga il 23 agosto 1942; difeso all\'estremo dal 1077º Reggimento contraereo (giovani volontarie sovietiche che spararono ad alzo zero contro i panzer) e dagli operai armati della STZ.' },
+      { name: 'Complesso Industriale STZ, Barrikady & Krasnyj Oktjabr\'', coords: [44.58, 48.79], desc: 'I colossali stabilimenti di trattori (STZ, produttori dei carri T-34), officine per cannoni (Barrikady) e acciaierie (Ottobre Rosso) fortificati per la difesa a oltranza.' },
+      { name: 'Mamajev Kurgan (Quota 102,0)', coords: [44.54, 48.74], desc: 'Collina strategica dominante l\'intera città, la stazione ferroviaria e gli attraversamenti sul Volga, contesa metro per metro in sanguinosi assalti all\'arma bianca.' },
+      { name: 'Imbarcadero Centrale e Traghetti sul Volga', coords: [44.52, 48.71], desc: 'Cordone ombelicale della difesa sovietica garantito dalla Flottiglia Militare del Volga (Contramm. Rogachev), indispensabile per il traghettamento continuo di munizioni, viveri e rinforzi sotto costante bombardamento aereo e d\'artiglieria.' },
+      { name: 'Silo Granario & Beketovka (Caposaldo Sud della 64ª Armata)', coords: [44.43, 48.59], desc: 'Mastodontica torre granaria in cemento armato e perno difensivo meridionale retto dalla 64ª Armata del Gen. Šumilov contro la 4ª Armata Panzer di Hoth.' },
     ],
     activeSteps: [10],
   },

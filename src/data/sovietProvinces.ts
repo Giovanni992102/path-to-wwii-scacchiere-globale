@@ -8362,7 +8362,7 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
         return 'Operationsgebiet Kaukasus — Heeresgruppe A (Generalfeldmarschall Wilhelm List / 1. Panzerarmee von Kleist & 17. Armee Ruoff)';
       }
       if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
-        return 'Fronte di Stalingrado & 62ª Armata Sovietica (Gen. Andrej Erëmenko / Ordine n. 227 "Né un passo indietro!" — Difesa sul Volga)';
+        return 'Fronte di Stalingrado & 62ª/64ª Armata (Col. Gen. Andrej Erëmenko / Ten. Gen. Anton Lopatin — Ordine N. 227 "Né un passo indietro!")';
       }
       if (pid === 'SOV_ADM1_RUS_65_Voronezh_Oblast') {
         return 'Fronte di Voronež dell\'Armata Rossa (Gen. Nikolaj Vatutin — Linea difensiva dell\'Alto Don)';
@@ -8461,7 +8461,7 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
         return 'Vorošilovgrad / Luhans\'k (Occupazione Operazione Blu — 17 Luglio 1942)';
       }
       if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
-        return 'Stalingrad (6ª Armata sul Volga a Nord della Città il 23 Agosto 1942 — Inizio della Battaglia Urbana)';
+        return 'Stalingrad (6ª Armata sul Volga a Nord il 23 Agosto 1942 — Bombardamento e Preludio alla Battaglia Urbana)';
       }
       if (pid === 'SOV_ADM1_RUS_65_Voronezh_Oblast') {
         return 'Voronež (Fronte dell\'Alto Don — Battaglia Difensiva contro l\'Operazione Blu, Luglio-Agosto 1942)';
@@ -8552,7 +8552,7 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
         return 'Al 31 agosto 1942 la Crimea è interamente sotto il controllo della Wehrmacht: dopo aver annientato il Fronte di Crimea sovietico nella penisola di Kerč\' (Operazione Trappenjagd, maggio 1942), l\'11ª Armata tedesca di Erich von Manstein ha sferrato l\'assalto finale contro la fortezza di Sebastopoli (Operazione Störfang) supportata da un parco d\'assedio senza precedenti (tra cui il gigantesco cannone ferroviario da 800 mm "Schwerer Gustav" e i mortai Karl-Gerät da 600 mm). Dopo 250 giorni di eroica resistenza, Sebastopoli è caduta il 4 luglio 1942 e Hitler ha promosso Manstein al grado di Generalfeldmarschall.';
       }
       if (pid === 'SOV_ADM1_RUS_13_Volgograd_Oblast') {
-        return 'Epicentro strategico mondiale al 31 agosto 1942: nell\'ambito dell\'Operazione Blu (Fall Blau), la 6ª Armata tedesca del Gen. Friedrich Paulus ha forzato il Don a Kalac il 21 agosto e il 23 agosto 1942 la 16ª Divisione Panzer ha raggiunto la riva occidentale del Volga a Rynok, alla periferia settentrionale di Stalingrado, mentre i bombardieri della Luftflotte 4 (Gen. Wolfram von Richthofen) scatenavano sulla città un rogo apocalittico con oltre 40.000 vittime civili. Sotto la vigenza dell\'Ordine n. 227 di Stalin ("Né un passo indietro!", 28 luglio 1942), la 62ª e la 64ª Armata sovietiche e le milizie operaie della Fabbrica di Trattori Dzeržinskij si preparano all\'imminente battaglia urbana casa per casa, mentre l\'Armata Rossa non è ancora in grado di sferrare una controffensiva strategica.';
+        return 'Epicentro strategico mondiale al 31 agosto 1942: nell\'ambito dell\'Operazione Blu (Fall Blau), la 6ª Armata tedesca del Gen. Friedrich Paulus ha forzato il Don a Kalač e Vertyachij il 21 agosto e il 23 agosto 1942 il XIV Corpo Panzer (16ª Divisione Panzer del Gen. Hans Hube) ha raggiunto la sponda occidentale del Volga a Rynok e Spartakovka, alla periferia nord di Stalingrado, mentre la Luftflotte 4 (Gen. Wolfram von Richthofen) scatenava sulla città un apocalittico bombardamento a tappeto (oltre 1.600 sortite). A sud la 4ª Armata Panzer del Gen. Hermann Hoth ha sfondato a fine agosto la linea difensiva di Abganerovo e Zety, stringendo la tenaglia verso i quartieri meridionali. Sotto la vigenza dell\'Ordine N. 227 di Stalin ("Ни шагу назад!" — "Né un passo indietro!", 28 luglio 1942), il Fronte di Stalingrado del Col. Gen. Andrej Erëmenko, la 62ª Armata del Ten. Gen. Anton Lopatin (che difende gli accessi con le milizie operaie della Fabbrica di Trattori STZ e i cannoni contraerei del 1077º Reggimento) e la 64ª Armata del Gen. Michail Šumilov a Beketovka si preparano all\'imminente battaglia urbana casa per casa. I collegamenti sul Volga sono garantiti dai battelli della Flottiglia del Volga, mentre l\'Armata Rossa non dispone ancora delle riserve per contrattaccare.';
       }
       if (pid === 'SOV_ADM1_RUS_17_Rostov_Oblast') {
         return 'Riconquistata il 24 luglio 1942 dalle truppe d\'assalto della 1ª Armata Corazzata e della 17ª Armata tedesche durante l\'Operazione Blu (Fall Blau): la caduta di Rostov sul Don ha aperto al Gruppo d\'Armate A la via della steppa del Kuban\' e del Caucaso e ha spinto Stalin ad emanare il celebre Ordine n. 227 ("Ни шагу назад!" — "Né un passo indietro!") il 28 luglio 1942. Lungo il medio corso del Don sono schierate a protezione del fianco sinistro tedesco l\'8ª Armata Italiana (ARMIR) e la 3ª Armata Romena.';

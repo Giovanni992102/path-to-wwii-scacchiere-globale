@@ -1140,9 +1140,9 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
     step: 10,
     theater: 'Europe',
     coords: [44.51, 48.70], // Stalingrado
-    belligerents: 'Heeresgruppe B (6ª Armata, 4ª Armata Panzer & Luftflotte 4) vs Fronte di Stalingrado (62ª e 64ª Armata Sovietica)',
-    result: 'Dopo i duri combattimenti nell\'ansa del Don (Kalach) ed l\'emanazione dell\'Ordine N. 227 di Stalin ("Ни шагу назад!" — "Né un passo indietro!", 28 luglio), il 23 agosto 1942 la 16ª Panzer-Division raggiunge il Volga a nord di Stalingrado mentre la Luftwaffe rade al suolo la città.',
-    significance: 'La battaglia urbana tra le macerie di Stalingrado sta per iniziare: il Gruppo d\'Armate B ha toccato il fiume Volga tagliando la principale via fluviale del petrolio caucasico, mentre l\'Armata Rossa si batte disperatamente per tenere le teste di ponte urbane.',
+    belligerents: 'Heeresgruppe B (6ª Armata, 4ª Armata Panzer & Luftflotte 4) vs Fronte di Stalingrado (62ª e 64ª Armata Sovietica, Flottiglia del Volga & Milizie Operaie)',
+    result: 'Dopo i duri combattimenti nell\'ansa del Don (Kalač) e l\'emanazione dell\'Ordine N. 227 di Stalin ("Ни шагу назад!" — "Né un passo indietro!", 28 luglio), il 23 agosto 1942 la 16ª Panzer-Division raggiunge il Volga a Rynok a nord di Stalingrado, mentre la Luftflotte 4 rade al suolo la città (oltre 1.600 sortite). A fine agosto la 4ª Armata Panzer di Hoth sfonda ad Abganerovo stringendo la tenaglia da sud: la 62ª Armata di Lopatin e la 64ª Armata di Šumilov ripiegano sui perimetri interni a ridosso del fiume.',
+    significance: 'La battaglia urbana tra le macerie di Stalingrado è imminente: il Gruppo d\'Armate B ha raggiunto il Volga minacciando la principale via fluviale del petrolio caucasico, ma l\'Armata Rossa conserva le teste di ponte e i traghetti sul fiume, mentre la Wehrmacht non è ancora riuscita a penetrare nel cuore della città.',
     commanderA: 'Gen. Friedrich Paulus / Gen. Hermann Hoth / Gen. Wolfram von Richthofen',
     commanderB: 'Col. Gen. Andrej Erëmenko / Ten. Gen. Anton Lopatin / Ten. Gen. Michail Šumilov',
   },
