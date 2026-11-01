@@ -5634,6 +5634,40 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
   }
 
+  // Principato di Monaco (MCO) - Principato sovrano della Costa Azzurra
+  const isMonaco =
+    ft.id === 'MCO_HIST' ||
+    ft.__kind === 'MONACO' ||
+    cntr === 'MC' ||
+    cntr === 'MCO' ||
+    nid === 'MC' ||
+    nid === 'MCO' ||
+    nid === 'MCO_HIST' ||
+    nrm === 'monaco' ||
+    nrm === 'principato di monaco' ||
+    nrm === 'principaute de monaco' ||
+    nrm === 'principauté de monaco' ||
+    nrm === 'principality of monaco';
+
+  if (isMonaco) {
+    if (s >= 11) {
+      return makeResult(
+        'ITA',
+        'Principauté de Monaco (Occupazione Italiana — Regio Esercito)',
+        'Operazione Anton (11 novembre 1942): le truppe del Regio Esercito italiano (4ª Armata del Gen. Mario Vercellino) occupano il Principato di Monaco, integrato nella zona di occupazione militare italiana della Francia meridionale.',
+        'Asse',
+        'Principauté de Monaco — Zona di Occupazione Militare Italiana (Regio Esercito)'
+      );
+    }
+    return makeResult(
+      'MCO',
+      'Principauté de Monaco',
+      'Antico principato sovrano retto dalla dinastia Grimaldi (Principe Luigi II di Monaco). Legato alla Francia dal trattato franco-monegasco del 17 luglio 1918, mantenne la propria neutralità fino all\'11 novembre 1942, quando a seguito dell\'Operazione Anton fu occupato militarmente dal Regio Esercito italiano.',
+      'Neutrale',
+      'Principauté de Monaco (État Souverain Neutre)'
+    );
+  }
+
   // Isola di Man (Isle of Man)
   const isMan =
     cntr === 'IM' ||
@@ -8162,11 +8196,11 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
       return makeResult(
-        'MC',
+        'MCO',
         'Principauté de Monaco',
         'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).',
         'Neutrale',
-        'Principauté de Monaco (État Souverain)'
+        'Principauté de Monaco (État Souverain Neutre)'
       );
     }
 

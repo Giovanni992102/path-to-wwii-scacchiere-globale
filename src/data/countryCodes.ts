@@ -371,6 +371,16 @@ export const CANONICAL_COUNTRY_CODES: Record<string, string> = {
   '438': 'LIE',
   XLI: 'LIE',
 
+  // Monaco (solo MCO)
+  MC: 'MCO',
+  MCO: 'MCO',
+  MONACO: 'MCO',
+  'PRINCIPATO DI MONACO': 'MCO',
+  'PRINCIPAUTÉ DE MONACO': 'MCO',
+  'PRINCIPAUTE DE MONACO': 'MCO',
+  '492': 'MCO',
+  XMC: 'MCO',
+
   // Canada (solo CAN)
   CA: 'CAN',
   CAN: 'CAN',

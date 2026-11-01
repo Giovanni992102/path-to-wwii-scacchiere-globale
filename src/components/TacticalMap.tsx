@@ -164,6 +164,7 @@ const HISTORICAL_CITIES: {
   { id: 'san_marino', name: 'San Marino', historicalNames: { default: 'Città di San Marino (Titano)' }, coords: [12.4617, 43.9406], isCapital: true, ownerKey: 'SMR' },
   { id: 'vaticano', name: 'Città del Vaticano', historicalNames: { default: 'Città del Vaticano (San Pietro)' }, coords: [12.4507, 41.9041], isCapital: true, ownerKey: 'VAT' },
   { id: 'andorra_la_vella', name: 'Andorra la Vella', historicalNames: { default: 'Andorra la Vella (Valls d\'Andorra)' }, coords: [1.5218, 42.5063], isCapital: true, ownerKey: 'AND' },
+  { id: 'monaco', name: 'Monaco', historicalNames: { step11: 'Monaco (Occupazione Regio Esercito / Op. Anton)', default: 'Monaco (Principato dei Grimaldi)' }, coords: [7.4233, 43.7367], isCapital: true, ownerKey: 'MCO' },
 
   // Centri Francesi e Linee Difensive
   { id: 'marseille', name: 'Marseille', historicalNames: { step11: 'Marseille (Occupazione Wehrmacht / Op. Anton)', default: 'Marseille (Grand Port de l\'Empire)' }, coords: [5.37, 43.30], isCapital: false, ownerKey: 'FRA' },

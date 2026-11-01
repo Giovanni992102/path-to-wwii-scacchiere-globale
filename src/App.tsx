@@ -1191,26 +1191,30 @@ export default function App() {
         },
       },
       {
-        name: 'Integrità Territoriale Microstati: San Marino (SMR Neutrale), Vaticano (VAT Neutrale), Gibilterra (GIB Alleati) e Andorra (AND Neutrale)',
+        name: 'Integrità Territoriale Microstati: San Marino (SMR Neutrale), Vaticano (VAT Neutrale), Gibilterra (GIB Alleati), Andorra (AND Neutrale) e Monaco (MCO Neutrale / ITA 1942)',
         run: () => {
           const findF = (id: string) => loadedProvs.find((f: any) => f.id === id || f.properties?.NAME === id);
           const smrFeat = findF('San Marino');
           const vatFeat = findF('Vatican City');
           const gibFeat = findF('Gibraltar');
           const andFeat = findF('Andorra');
-          if (!smrFeat || !vatFeat || !gibFeat || !andFeat) return false;
+          const mcoFeat = findF('Monaco');
+          if (!smrFeat || !vatFeat || !gibFeat || !andFeat || !mcoFeat) return false;
 
           const smr = resolveFeature(smrFeat, 0);
           const vat0 = resolveFeature(vatFeat, 0);
           const vat5 = resolveFeature(vatFeat, 5);
           const gib = resolveFeature(gibFeat, 0);
           const and0 = resolveFeature(andFeat, 0);
+          const mco0 = resolveFeature(mcoFeat, 0);
+          const mco11 = resolveFeature(mcoFeat, 11);
 
           // Verifica anti-inglobamento: le province confinanti NON devono essere toccate
           const rimini = resolveFeature({ properties: { NUTS_ID: 'ITH59', CNTR_CODE: 'IT', NAME_LATN: 'Rimini' }, __cent: [12.43, 43.96] }, 0);
           const pesaro = resolveFeature({ properties: { NUTS_ID: 'ITI31', CNTR_CODE: 'IT', NAME_LATN: 'Pesaro e Urbino' }, __cent: [12.68, 43.70] }, 0);
           const roma = resolveFeature({ properties: { NUTS_ID: 'ITI43', CNTR_CODE: 'IT', NAME_LATN: 'Roma' }, __cent: [12.51, 41.85] }, 0);
           const cadiz = resolveFeature({ properties: { NUTS_ID: 'ES612', CNTR_CODE: 'ES', NAME_LATN: 'Cádiz' }, __cent: [-5.9, 36.5] }, 0);
+          const alpesMaritimes = resolveFeature({ properties: { NUTS_ID: 'FRL03', CNTR_CODE: 'FR', NAME_LATN: 'Alpes-Maritimes' }, __cent: [7.12, 43.93] }, 0);
 
           return (
             smr.o === 'SMR' &&
@@ -1227,10 +1231,16 @@ export default function App() {
             and0.o === 'AND' &&
             and0.fac === 'Neutrale' &&
             and0.name.includes('Andorra') &&
+            mco0.o === 'MCO' &&
+            mco0.fac === 'Neutrale' &&
+            mco0.name.includes('Monaco') &&
+            mco11.o === 'ITA' &&
+            mco11.fac === 'Asse' &&
             rimini.o === 'ITA' &&
             pesaro.o === 'ITA' &&
             roma.o === 'ITA' &&
-            (cadiz.o === 'SPR' || cadiz.o === 'SPA')
+            (cadiz.o === 'SPR' || cadiz.o === 'SPA') &&
+            alpesMaritimes.o === 'FRA'
           );
         },
       },
@@ -4115,7 +4125,7 @@ export default function App() {
           if (toln11.o !== 'ITA' || toln11.fac !== 'Asse') return false;
           if (cors11.o !== 'ITA' || cors11.fac !== 'Asse') return false;
           if (sav11.o !== 'ITA' || sav11.fac !== 'Asse') return false;
-          if (monaco10.o !== 'MC' || monaco11.o !== 'ITA' || monaco11.fac !== 'Asse') return false;
+          if ((monaco10.o !== 'MC' && monaco10.o !== 'MCO') || monaco11.o !== 'ITA' || monaco11.fac !== 'Asse') return false;
 
           const vichy10 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK11', NAME: 'Allier' } }, 10);
           const vichy11 = resolveFeature({ properties: { CNTR_CODE: 'FR', NUTS_ID: 'FRK11', NAME: 'Allier' } }, 11);
