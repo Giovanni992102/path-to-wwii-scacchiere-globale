@@ -31,3 +31,7 @@ Per evitare deviazioni in task complessi, l'agente segue rigorosamente questa ma
 ## Regola Obbligatoria Modifiche GeoJSON e Confini Storici (geojsonskill.md)
 - Per qualsiasi modifica, adattamento, taglio, divisione o unione di confini di province o entità GeoJSON storiche, l'agente DEVE seguire rigorosamente i principi e i pattern definiti in `geojsonskill.md` (`historical-geojson-border-aligner`).
 - Divieto assoluto di stimare o inventare coordinate a mano nel testo: usare split-and-merge topologico deterministico (cut lines prolungate, waypoints verificati, fiumi/OSM, snap, split e unary_union con validazione d'area e watertight).
+
+## Regola Obbligatoria Risoluzione Bandiere Storiche (historicalflagskill.md)
+- Per qualsiasi risoluzione, aggiunta, verifica cronologica o aggiornamento di bandiere e insegne di stato per entità o tappe della timeline, l'agente DEVE seguire rigorosamente i principi e i guardrail definiti in `historicalflagskill.md` (`historical-flag-resolver`).
+- Obbligo di verifica temporale (start time / end time), selezione della variante di stato (State/War flag), e divieto assoluto di anacronismi (es. stelle premature, stemmi comunisti ante-costituzione, repubbliche ante-decreto) o file araldici di fantasia/utopici.
