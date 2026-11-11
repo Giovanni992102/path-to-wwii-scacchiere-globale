@@ -19,7 +19,7 @@
  * 13. Kresy Wschodnie — Województwo Lwowskie Orientale (Lwów, Drohobycz, Borysław, Sambor, Rawa Ruska)
  */
 
-import { makeResult } from './georesolver';
+import { makeResult, resolveKoperZoneB, resolveBuieZoneB } from './georesolver';
 import { resolveGermanyProvince } from './germanyProvinces';
 import { ResolvedTerritory } from '../types';
 import {
@@ -37,6 +37,7 @@ import {
 // ----------------------------------------------------------------------------
 export const CARPATHIAN_RUTHENIA_FEATURE: any = {
   type: 'Feature',
+  id: 'CARPATHIAN_RUTHENIA_FEATURE',
   properties: {
     NAME: 'Carpathian Ruthenia',
     NUTS_NAME: 'Rutenia Subcarpatica (Podkarpatská Rus / Kárpátalja)',
@@ -300,6 +301,15 @@ export const CARPATHIAN_RUTHENIA_FEATURE: any = {
   __layer: 'prov',
   __kind: 'CARPATHIAN_RUTHENIA',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 16) {
+      return makeResult(
+        'SOV',
+        "Zakarpatska Ukraina (Carpato-Ucraina — Liberata dall'Armata Rossa)",
+        "Autunno 1944: la Rutenia Subcarpatica viene liberata dal 4° Fronte Ucraino dell'Armata Rossa durante l'Offensiva dei Carpazi Orientali (presa di Užhorod e Mukačevo il 27-28 ottobre 1944); il 26 novembre 1944 il Congresso dei Comitati Popolari di Mukačevo proclama solennemente la riunificazione con l'Ucraina sovietica.",
+        'Comintern',
+        'SSSR — Zakarpatska Ukrajina (4° Fronte Ucraino)'
+      );
+    }
     if (s < 2) {
       return makeResult(
         'CZE',
@@ -317,7 +327,9 @@ export const CARPATHIAN_RUTHENIA_FEATURE: any = {
     return makeResult(
       'HUN',
       'Kárpátalja',
-      'Kárpátaljai Kormányzóság (Magyar Királyság, 1939)'
+      'Kárpátaljai Kormányzóság (Magyar Királyság, 1939)',
+      'Asse',
+      'Magyar Királyság — Kárpátaljai Kormányzóság'
     );
   },
 };
@@ -346,6 +358,15 @@ export const DANZIG_FREE_CITY_FEATURE: any = {
   __layer: 'prov',
   __kind: 'DANZIG_CITY',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 17) {
+      return makeResult(
+        'POL',
+        'Gdańsk / Danzica (Espugnata dal 2° Fronte Bielorusso — 30 Marzo 1945)',
+        'Il 30 marzo 1945 le armate del 2° Fronte Bielorusso (Maresciallo Rokossovskij) espugnano Danzica e la penisola della Westerplatte, ponendo fine al dominio nazista e reintegrando la città marittima nello stato polacco.',
+        'Alleati',
+        'Rzeczpospolita Polska — Województwo Gdańskie'
+      );
+    }
     if (s < 5) {
       return makeResult(
         'DANZIG',
@@ -389,6 +410,15 @@ export const MEMEL_TERRITORY_FEATURE: any = {
   __layer: 'prov',
   __kind: 'MEMEL_TERRITORY',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 17) {
+      return makeResult(
+        'SOV',
+        'Klaipėda / Memel (Liberata dal 1° Fronte Baltico — 28 Gennaio 1945)',
+        'Il 28 gennaio 1945 le truppe del 1° Fronte Baltico del generale Bagramjan liberano il porto strategico di Klaipėda (Memel), reintegrando il territorio nella RSS Lituana.',
+        'Comintern',
+        'Lietuvos TSR — Memel / Klaipėda'
+      );
+    }
     if (s < 3) {
       return makeResult(
         'LIT',
@@ -414,6 +444,7 @@ export const MEMEL_TERRITORY_FEATURE: any = {
 // ----------------------------------------------------------------------------
 export const ZARA_ENCLAVE_FEATURE: any = {
   type: 'Feature',
+  id: 'IT_ZARA',
   properties: {
     NAME: 'Zara',
     NUTS_NAME: 'Provincia di Zara (Dalmazia Italiana)',
@@ -431,10 +462,30 @@ export const ZARA_ENCLAVE_FEATURE: any = {
   __layer: 'prov',
   __kind: 'ZARA_ENCLAVE',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 16) {
+      return makeResult(
+        'DFJ',
+        'Zadar / Zara (Liberata dalla NOVJ — 31 Ottobre 1944)',
+        'Il 31 ottobre 1944 i partigiani dell\'8° Corpo della NOVJ liberano Zara ponendo fine all\'amministrazione militare tedesca e integrando la città nella Jugoslavia federale.',
+        'Alleati',
+        'DFJ — Demokratska Federativna Jugoslavija (ZAVNOH)'
+      );
+    }
+    if (s >= 13) {
+      return makeResult(
+        'GER',
+        'Zara (Occupazione Militare Tedesca — Wehrmacht Militärverwaltung Zara)',
+        'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio di Cassibile, la Wehrmacht disarma il presidio italiano e instaura la Militärverwaltung Zara.',
+        'Asse',
+        'Wehrmacht — Militärverwaltung Zara'
+      );
+    }
     return makeResult(
       'ITA',
-      'Provincia di Zara (Enclave Italiana in Dalmazia)',
-      'Regno d\'Italia — Trattato di Rapallo 1920 (Prefettura di Zara, Lagosta, Pelagosa e Saseno)'
+      'Provincia di Zara (Dalmazia Italiana)',
+      'Trattato di Rapallo (12 novembre 1920) — Enclave italiana sulla costa dalmata e isole adriatiche.',
+      'Asse',
+      'Regno d\'Italia — Provincia di Zara'
     );
   },
 };
@@ -446,6 +497,7 @@ export const ZARA_ENCLAVE_FEATURE: any = {
 // ----------------------------------------------------------------------------
 export const FIUME_CARNARO_FEATURE: any = {
   type: 'Feature',
+  id: 'IT_FIUME',
   properties: {
     NAME: 'Fiume and Carnaro',
     NUTS_NAME: 'Provincia del Carnaro (Fiume, Cherso e Lussino)',
@@ -463,12 +515,94 @@ export const FIUME_CARNARO_FEATURE: any = {
   __layer: 'prov',
   __kind: 'FIUME_CARNARO',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 17) {
+      return makeResult(
+        'DFJ',
+        'Fiume e Carnaro (Liberata dalla 4ª Armata Jugoslava — Maggio 1945)',
+        'Nell\'aprile-maggio 1945 le truppe della 4ª Armata jugoslava della NOVJ (generale Petar Drapšin) sfondano le linee difensive tedesche dell\'OZAK e liberano la città di Fiume e le isole di Cherso e Lussino, integrandole nella nuova Jugoslavia federale.',
+        'Alleati',
+        'Demokratska Federativna Jugoslavija — Rijeka'
+      );
+    }
+    if (s >= 13) {
+      return makeResult(
+        'OZAK',
+        'Fiume e Carnaro (Operationszone Adriatisches Küstenland)',
+        'Operazione Achse (settembre 1943): la Provincia del Carnaro (Fiume, Abbazia, Cherso e Lussino) viene annessa de facto al Terzo Reich nella Zona d\'operazione del Litorale Adriatico (OZAK) sotto il Gauleiter Friedrich Rainer.',
+        'Asse',
+        'Operationszone Adriatisches Küstenland — Provinz Fiume'
+      );
+    }
     return makeResult(
       'ITA',
       'Provincia del Carnaro (Fiume, Abbazia, Cherso e Lussino)',
-      'Regno d\'Italia — Trattato di Roma 1924 (Prefettura del Carnaro)'
+      'Regno d\'Italia — Trattato di Roma 1924 (Prefettura del Carnaro)',
+      'Asse',
+      'Regno d\'Italia — Provincia del Carnaro'
     );
   },
+};
+
+// ----------------------------------------------------------------------------
+// 5b. CAPODISTRIA / ZONA B NORD (SI_HIST_KOPER — Territorio Libero di Trieste)
+// Koper/Capodistria, Isola d'Istria, Pirano, Marezige, Pomjan, Villa Decani
+// ----------------------------------------------------------------------------
+export const KOPER_ZONE_B_FEATURE: any = {
+  type: 'Feature',
+  id: 'SI_HIST_KOPER',
+  properties: {
+    id: 'SI_HIST_KOPER',
+    NUTS_ID: 'SI_HIST_KOPER',
+    NAME: 'Koper (Capodistria)',
+    NUTS_NAME: 'Capodistria / Slovenska Istra',
+    NAME_LATN: 'Koper (Capodistria)',
+    CNTR_CODE: 'SI',
+    CNTR_ID: 'SI_HIST_KOPER',
+    ADMIN: 'Provincia di Pola / Trieste',
+    HISTORICAL_NAME: 'Capodistria (Slovenska Istra)',
+    HISTORICAL_NOTE:
+      'Trattato di Rapallo (1920) e spartizione post-bellica del Territorio Libero di Trieste (Zona B Settentrionale: Capodistria, Isola d\'Istria, Pirano, Marezige, Monte di Capodistria e Villa Decani).',
+    SOVEREIGNT: 'Kingdom of Italy',
+    CAPITAL: 'Capodistria (Koper)',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[[13.77647853395657,45.46265075813827],[13.651892176664468,45.45430497397234],[13.648524977818731,45.45743464303456],[13.641790580127271,45.45952108907605],[13.621587387052877,45.46369398115901],[13.613169389938541,45.464737204179755],[13.603067793401344,45.467866873241974],[13.601384193978483,45.467866873241974],[13.587915398595548,45.47725588042864],[13.592966196864147,45.48664488761531],[13.586231799172687,45.49812034084347],[13.587915398595548,45.500206786884945],[13.594649796287023,45.50333645594718],[13.594649796287023,45.50750934803014],[13.592966196864147,45.51272546313385],[13.591282597441285,45.514811909175336],[13.591282597441285,45.51689835521681],[13.591282597441285,45.52002802427903],[13.592966196864147,45.52211447032052],[13.594649796287023,45.524200916362005],[13.598016995132745,45.525244139382735],[13.599700594555621,45.52628736240348],[13.606434992247081,45.52837380844497],[13.606434992247081,45.53150347750719],[13.601384193978483,45.53254670052793],[13.601384193978483,45.53671959261089],[13.614852989361417,45.53984926167311],[13.628321784744337,45.533589923548675],[13.64010698070441,45.53254670052793],[13.64684137839587,45.533589923548675],[13.656942974933067,45.53567636959015],[13.656942974933067,45.5419357077146],[13.668728170893125,45.53984926167311],[13.673778969161724,45.5419357077146],[13.680513366853198,45.54506537677682],[13.693982162236118,45.54819504583905],[13.707450957619052,45.54715182281831],[13.71923615357911,45.54402215375609],[13.732704948962045,45.55132471490127],[13.732704948962045,45.55654083000498],[13.74112294607638,45.55758405302572],[13.734388548384906,45.559670499067195],[13.734388548384906,45.561756945108684],[13.736072147807782,45.56384339115017],[13.74617374434498,45.565929837191646],[13.74617374434498,45.56905950625388],[13.725970551270585,45.58053495948202],[13.72428695184771,45.58157818250277],[13.722603352424848,45.583664628544255],[13.720919753001986,45.586794297606474],[13.720919753001986,45.58888074364795],[13.722603352424848,45.59201041271018],[13.722603352424848,45.5951400817724],[13.837088113179753,45.586794297606474],[13.846,45.552],[13.842,45.518],[13.838,45.495],[13.818,45.474],[13.77647853395657,45.46265075813827]]],
+  },
+  __layer: 'prov',
+  __kind: 'KOPER_ZONE_B',
+  __resolve: (s: number): ResolvedTerritory => resolveKoperZoneB(s),
+};
+
+// ----------------------------------------------------------------------------
+// 5c. BUIE E UMAGO / ZONA B SUD (HR_HIST_BUIE — Territorio Libero di Trieste)
+// Buje d'Istria, Umago, Cittanova d'Istria, Grisignana, Verteneglio a nord del Quieto
+// ----------------------------------------------------------------------------
+export const BUIE_ZONE_B_FEATURE: any = {
+  type: 'Feature',
+  id: 'HR_HIST_BUIE',
+  properties: {
+    id: 'HR_HIST_BUIE',
+    NUTS_ID: 'HR_HIST_BUIE',
+    NAME: 'Buje (Buiese)',
+    NUTS_NAME: 'Buie e Umago (Buiese)',
+    NAME_LATN: 'Buje (Buiese)',
+    CNTR_CODE: 'HR',
+    CNTR_ID: 'HR_HIST_BUIE',
+    ADMIN: 'Provincia di Pola',
+    HISTORICAL_NAME: 'Buie e Umago (Buiese)',
+    HISTORICAL_NOTE:
+      'Trattato di Rapallo (1920) e spartizione post-bellica del Territorio Libero di Trieste (Zona B Meridionale: Buie d\'Istria, Umago, Cittanova d\'Istria, Grisignana e Verteneglio a nord del fiume Quieto/Mirna).',
+    SOVEREIGNT: 'Kingdom of Italy',
+    CAPITAL: 'Buie d\'Istria (Buje)',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[[13.564657632692079,45.315],[13.513837023989446,45.48664488761531],[13.61148579051568,45.46369398115901],[13.651892176664468,45.45430497397234],[13.77647853395657,45.46265075813827],[13.766,45.412],[13.754,45.382],[13.74,45.353],[13.705,45.345],[13.665,45.332],[13.625,45.318],[13.578,45.315],[13.564657632692079,45.315]]],
+  },
+  __layer: 'prov',
+  __kind: 'BUIE_ZONE_B',
+  __resolve: (s: number): ResolvedTerritory => resolveBuieZoneB(s),
 };
 
 // ----------------------------------------------------------------------------
@@ -537,6 +671,15 @@ export const POLISH_CORRIDOR_GDYNIA_FEATURE: any = {
   __kind: 'POLISH_CORRIDOR',
 };
 POLISH_CORRIDOR_GDYNIA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 17) {
+    return makeResult(
+      'POL',
+      'Gdynia e Litorale Polacco (Liberata — 28 Marzo 1945)',
+      'Il 28 marzo 1945 le forze corazzate sovietiche e polacche liberano il porto di Gdynia e la costa baltica, cacciando le forze tedesche verso la penisola di Hel.',
+      'Alleati',
+      'Rzeczpospolita Polska — Województwo Pomorskie (Gdynia)'
+    );
+  }
   if (s < 5) {
     return makeResult(
       'POL',
@@ -578,6 +721,24 @@ export const KOSOVO_METOHIJA_FEATURE: any = {
   __kind: 'KOSOVO',
 };
 KOSOVO_METOHIJA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 16) {
+    return makeResult(
+      'DFJ',
+      'Kosovo e Metochia (Liberato dai Partigiani della NOVJ — Novembre 1944)',
+      'Novembre 1944: l\'Armata di Liberazione Nazionale (NOVJ) di Tito libera Pristina, Prizren e l\'intero bacino del Kosovo dal presidio della Wehrmacht e delle milizie collaborazioniste, reintegrandolo nella Jugoslavia Federale Democratica.',
+      'Alleati',
+      'Demokratska Federativna Jugoslavija — Kosovo i Metohija'
+    );
+  }
+  if (s >= 13) {
+    return makeResult(
+      'GER',
+      'Kosovo e Metochia (Occupazione Militare Tedesca — Wehrmacht & Milizie Albanesi Vulnetari)',
+      "Operazione Achse (settembre 1943): all'indomani dell'armistizio italiano, la Wehrmacht e le Waffen-SS assumono il controllo diretto del Kosovo per proteggere le strategiche miniere di Trepča e le linee ferroviarie di Mitrovica.",
+      'Asse',
+      'Deutsche Wehrmacht (Militärverwaltung Serbien & Albanien)'
+    );
+  }
   if (s >= 8) {
     return makeResult(
       'ITA',
@@ -622,6 +783,15 @@ export const KONIGSBERG_OSTPREUSSEN_FEATURE: any = {
   __kind: 'KONIGSBERG',
 };
 KONIGSBERG_OSTPREUSSEN_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 17) {
+    return makeResult(
+      'SOV',
+      "Königsberg (Espugnata dall'Armata Rossa — 9 Aprile 1945)",
+      "Il 9 aprile 1945 le truppe del 3° Fronte Bielorusso (Maresciallo Vasilevskij) espugnano la fortezza storica di Königsberg dopo un violento assalto, costringendo il generale Otto Lasch alla resa.",
+      'Comintern',
+      'SSSR — 3° Fronte Bielorusso (Maresciallo Aleksandr Vasilevskij)'
+    );
+  }
   return resolveGermanyProvince(KONIGSBERG_OSTPREUSSEN_FEATURE, s);
 };
 
@@ -662,6 +832,15 @@ export const LITHUANIA_PALANGA_FEATURE: any = {
   __kind: 'PALANGA',
 };
 LITHUANIA_PALANGA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 16) {
+    return makeResult(
+      'SOV',
+      'Palanga ir Kretinga (Liberata dal 1° Fronte Baltico — Ottobre 1944)',
+      "SSSR — Il 10 ottobre 1944 le truppe corazzate del 1° Fronte Baltico del generale Ivan Bagramjan raggiungono la costa baltica a Palanga nel corso dell'Operazione di Memel, tagliando le vie di ritirata al Gruppo d'Armate Nord tedesco nella Sacca di Curlandia e reintegrando definitivamente il litorale settentrionale nella RSS Lituana.",
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
   if (s >= 9) {
     return makeResult(
       'GER',
@@ -849,6 +1028,24 @@ export const CROATIAN_LITTORAL_FEATURE: any = {
   __kind: 'CROATIAN_LITTORAL',
 };
 CROATIAN_LITTORAL_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 17) {
+    return makeResult(
+      'DFJ',
+      'Litorale Quarnarino e Gorski Kotar (Liberato dalla 4ª Armata — Aprile 1945)',
+      'Nell\'aprile 1945 la 4ª Armata della NOVJ (generale Petar Drapšin) risale la costa adriatica e libera Sušak, Senj e le isole di Veglia (Krk) e Arbe (Rab), ricongiungendosi alle forze che avanzano verso Fiume, l\'Istria e Trieste.',
+      'Alleati',
+      'Demokratska Federativna Jugoslavija — ZAVNOH'
+    );
+  }
+  if (s >= 13) {
+    return makeResult(
+      'OZAK',
+      'Litorale Croato e Isole del Quarnaro (Operationszone Adriatisches Küstenland)',
+      'Settembre 1943: le isole di Veglia (Krk), Arbe (Rab) e la fascia costiera di Sušak vengono occupate dalla Wehrmacht e integrate nell\'Operationszone Adriatisches Küstenland (OZAK) con forte scontro antipartigiano.',
+      'Asse',
+      'Operationszone Adriatisches Küstenland (OZAK)'
+    );
+  }
   if (s >= 8) {
     return makeResult(
       'ITA',
@@ -893,6 +1090,24 @@ export const ZADAR_DALMATIA_FEATURE: any = {
   __kind: 'ZADAR_DALMATIA',
 };
 ZADAR_DALMATIA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 16) {
+    return makeResult(
+      'DFJ',
+      'Dalmazia Settentrionale (Liberata dall\'8° Corpo della NOVJ — 31 Ottobre 1944)',
+      'Autunno 1944: con la campagna di Dalmazia dell\'8° Corpo d\'Armata della NOVJ (generale Drapšin), le formazioni partigiane liberano Dubrovnik, Spalato, Zara, Sebenico e l\'entroterra di Benkovac e Knin, cacciando le forze dell\'Asse.',
+      'Alleati',
+      'Demokratska Federativna Jugoslavija — Dalmacija'
+    );
+  }
+  if (s >= 13) {
+    return makeResult(
+      'CRO',
+      'Dalmazia Settentrionale (Annessione allo Stato Indipendente di Croazia / Presidio Wehrmacht)',
+      'Con l\'armistizio dell\'8 settembre 1943 (Operazione Achse), la Wehrmacht disarma la 2ª Armata italiana. Il Poglavnik Ante Pavelić dichiara nulli i Patti di Roma proclamando l\'annessione della Dalmazia allo Stato Indipendente di Croazia (NDH), con presidi congiunti ustaša e tedeschi.',
+      'Asse',
+      'Nezavisna Država Hrvatska (NDH) & Deutsche Wehrmacht'
+    );
+  }
   if (s >= 8) {
     return makeResult(
       'ITA',
@@ -1237,6 +1452,24 @@ export const MONACO_FEATURE: any = {
   __layer: 'prov',
   __kind: 'MONACO',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 15) {
+      return makeResult(
+        'MCO',
+        'Principauté de Monaco (Libérée — Restauration Souveraine)',
+        'Il 3 settembre 1944 le truppe alleate franco-americane (First Special Service Force / FFI) liberano Monaco dall\'occupazione tedesca. Il Principe Luigi II e le istituzioni monegasche riassumono la piena sovranità neutrale a fianco degli Alleati.',
+        'Neutrale',
+        'Principauté de Monaco — Prince Louis II'
+      );
+    }
+    if (s >= 13) {
+      return makeResult(
+        'GER',
+        'Principauté de Monaco (Occupazione Militare Tedesca — Wehrmacht & Gestapo)',
+        "Operazione Achse (settembre 1943): all'indomani dell'armistizio di Cassibile, le truppe corazzate della Wehrmacht e agenti della Gestapo occupano Monaco, ponendo fine al periodo di rifugio e scatenando arresti e deportazioni sotto l'amministrazione militare diretta tedesca.",
+        'Asse',
+        'Deutsche Wehrmacht — Wehrmacht Befehlshaber Südfrankreich / Gestapo Monte-Carlo'
+      );
+    }
     if (s >= 11) {
       return makeResult(
         'ITA',

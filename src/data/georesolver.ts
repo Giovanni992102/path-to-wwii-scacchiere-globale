@@ -1,4 +1,5 @@
 import { toCanonicalCountryCode } from './countryCodes';
+import { getGreeceFirstPhaseContextNote } from './greeceCivilWarTimeline';
 import { resolveIranProvince } from './iranProvinces';
 import { resolveBritishRajProvince } from './britishRajProvinces';
 import { resolveKoreaProvince, KOREA_PROVINCES_META } from './koreaProvinces';
@@ -21,6 +22,14 @@ import {
   resolveFrenchIndochinaProvince,
   FRENCH_INDOCHINA_PROVINCES_META,
 } from './frenchIndochinaProvinces';
+import {
+  isFrenchPacificProvince,
+  resolveFrenchPacificProvince,
+} from './frenchPacificProvinces';
+import {
+  isCyprusProvince,
+  resolveCyprusProvince,
+} from './cyprusProvinces';
 import {
   resolveUSAProvince,
   USA_PROVINCES_META,
@@ -58,13 +67,19 @@ import {
   FRANCE_PROVINCES_META,
 } from './franceProvinces';
 import {
+  resolveNorwayProvince,
+  resolveDenmarkProvince,
+} from './nordicProvinces';
+import {
   resolveUKProvince,
   UK_PROVINCES_META,
 } from './ukProvinces';
 import {
   resolveItalyProvince,
+  findItalyProvinceMeta,
   IT_PROVINCES_META,
 } from './italyProvinces';
+import { resolveItalyExtendedStep } from './italyTimelineExtension';
 import {
   resolveSpainProvince,
   SPAIN_PROVINCES_META,
@@ -1426,6 +1441,105 @@ export function resolveHatay(step: number, rawName?: string): ResolvedTerritory 
  * Step 8 (Aprile 1941): Trattato di Washington Kauffmann-Hull — Protettorato Militare USA (USA, Alleati).
  * Step 9-12 (Dicembre 1941 - Luglio 1943+): Basi Aeronavali Alleate & Guerra del Meteo nell'Artico (USA, Alleati).
  */
+/**
+ * Risoluzione Geostorica Territorio Libero di Trieste (TLT / FTT) — Zona B
+ * 1. Settore Settentrionale (SI_HIST_KOPER): Capodistria, Isola d'Istria, Pirano.
+ * 2. Settore Meridionale (HR_HIST_BUIE): Buie d'Istria, Umago, Cittanova d'Istria, Grisignana.
+ */
+/**
+ * Risoluzione Geostorica La Réunion (RE_REUNION & FRY40)
+ * s0..5: FRA (Colonie) -> s6..10: VIC (Vichy) -> s11+: FRA (Ralliement France Libre 28 Nov 1942)
+ */
+export function resolveReunion(s: number): ResolvedTerritory {
+  if (s >= 11) {
+    return makeResult(
+      'FRA',
+      s >= 19
+        ? 'La Réunion (Département d\'outre-mer — Saint-Denis)'
+        : 'La Réunion (Ralliement alla France Libre — 28 Novembre 1942)',
+      'Il 28 novembre 1942 il cacciatorpediniere Léopard delle Forze Navali Francesi Libere (FNFL) sbarca a Saint-Denis; la guarnigione di Vichy si arrende e l\'isola si unisce alla Francia combattente sotto il Governatore André Capagorry.',
+      'Alleati',
+      'France Libre / CFLN (Gouverneur André Capagorry, Saint-Denis)'
+    );
+  }
+  if (s >= 6) {
+    return makeResult(
+      'VIC',
+      'La Réunion (Régime de Vichy — Saint-Denis)',
+      'Territoire d\'outre-mer sous le contrôle du régime de Vichy (Gouverneur Pierre Émile Aubert)',
+      'Fantoccio',
+      'Administration coloniale de Vichy (Gouverneur Pierre Émile Aubert)'
+    );
+  }
+  return makeResult(
+    'FRA',
+    'Colonie de La Réunion (Saint-Denis)',
+    'Colonie française de l\'Océan Indien',
+    'Neutrale',
+    'Colonie de La Réunion — Ministère des Colonies'
+  );
+}
+
+export function resolveKoperZoneB(s: number): ResolvedTerritory {
+  if (s >= 18) {
+    return makeResult(
+      'DFJ',
+      s >= 19
+        ? 'Territorio Libero di Trieste — Zona B (Capodistria / Slovenska Istra — VUJA)'
+        : 'Zona B del Territorio di Trieste (Capodistria / Slovenska Istra — Amministrazione Militare Jugoslava VUJA)',
+      'Accordo di Belgrado (9 giugno 1945) e Trattato di Pace di Parigi (15 settembre 1947): la fascia costiera settentrionale da Capodistria a Pirano e Isola d\'Istria costituisce il settore nord della Zona B del Territorio Libero di Trieste (TLT / FTT), amministrato militarmente dall\'Esercito Popolare Jugoslavo (VUJA).',
+      'Alleati',
+      'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
+    );
+  }
+  if (s >= 13) {
+    return makeResult(
+      'OZAK',
+      'Capodistria / Koper (Operationszone Adriatisches Küstenland)',
+      'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio italiano, l\'Istria settentrionale viene occupata dalla Wehrmacht e incorporata nella Zona d\'Operazioni del Litorale Adriatico (OZAK) sotto il Supremo Commissario Friedrich Rainer.',
+      'Asse',
+      'Operationszone Adriatisches Küstenland (OZAK — Friedrich Rainer)'
+    );
+  }
+  return makeResult(
+    'ITA',
+    'Provincia di Pola / Trieste — Circondario di Capodistria',
+    'Regno d\'Italia — Trattato di Rapallo (1920). Territorio italiano della Venezia Giulia (Capodistria, Isola d\'Istria, Pirano).',
+    s >= 7 ? 'Asse' : 'Neutrale',
+    'Regno d\'Italia — Prefettura di Pola / Trieste'
+  );
+}
+
+export function resolveBuieZoneB(s: number): ResolvedTerritory {
+  if (s >= 18) {
+    return makeResult(
+      'DFJ',
+      s >= 19
+        ? 'Territorio Libero di Trieste — Zona B (Buie e Umago / Buiese — VUJA)'
+        : 'Zona B del Territorio di Trieste (Buie e Umago / Buiese — Amministrazione Militare Jugoslava VUJA)',
+      'Accordo di Belgrado (9 giugno 1945) e Trattato di Pace di Parigi (15 settembre 1947): il Buiese (Buie d\'Istria, Umago, Cittanova d\'Istria, Grisignana e Verteneglio a nord del Quieto) costituisce il settore meridionale della Zona B del Territorio Libero di Trieste (TLT / FTT) sotto amministrazione militare jugoslava (VUJA).',
+      'Alleati',
+      'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
+    );
+  }
+  if (s >= 13) {
+    return makeResult(
+      'OZAK',
+      'Buie e Umago (Operationszone Adriatisches Küstenland)',
+      'Settembre 1943: occupazione tedesca della penisola istriana e inclusione del distretto del Buiese nella Zona d\'Operazioni del Litorale Adriatico (OZAK) sotto amministrazione militare della Wehrmacht e della Polizia d\'Ordine.',
+      'Asse',
+      'Operationszone Adriatisches Küstenland (OZAK — Friedrich Rainer)'
+    );
+  }
+  return makeResult(
+    'ITA',
+    'Provincia di Pola — Distretto di Buie',
+    'Regno d\'Italia — Trattato di Rapallo (1920). Mandamento di Buie d\'Istria, Umago e Cittanova.',
+    s >= 7 ? 'Asse' : 'Neutrale',
+    'Regno d\'Italia — Prefettura di Pola'
+  );
+}
+
 export function resolveGreenland(s: number, rawName?: string): ResolvedTerritory {
   if (s <= 5) {
     return makeResult(
@@ -1454,6 +1568,26 @@ export function resolveGreenland(s: number, rawName?: string): ResolvedTerritory
       'Il 9 aprile 1941 l\'ambasciatore danese Henrik Kauffmann firma con il Segretario di Stato USA Cordell Hull lo storico Accordo di Difesa della Groenlandia: gli Stati Uniti assumono la difesa militare dell\'isola e avviano i cantieri per le basi aeree strategiche Bluie West One (Narsarsuaq) e Bluie East Two (Ikateq). Il governo collaborazionista di Copenaghen dichiara Kauffmann colpevole di alto tradimento, ma il presidente Roosevelt rigetta l\'atto confermando Kauffmann quale legittimo rappresentante della Danimarca Libera.',
       'Alleati',
       'United States Army & US Coast Guard Greenland Patrol (Comando Basi Nord Atlantico / Henrik Kauffmann)'
+    );
+  }
+
+  if (s >= 19) {
+    return makeResult(
+      'DEN',
+      'Grønland (Kongeriget Danmark — Re Federico IX & Accordi Difensivi Artici)',
+      'Sovranità civile danese pienamente ristabilita su tutta la Groenlandia sotto Re Federico IX (asceso al trono nell\'aprile 1947). Pur restando territorio del Regno di Danimarca (Amministrazione Eske Brun / Axel Svane a Godthåb), gli Stati Uniti mantengono il presidio aeronavale strategico sulle basi di Narsarsuaq (Bluie West One) e Søndre Strømfjord nel quadro dei negoziati sul Trattato di Difesa del 1941.',
+      'Alleati',
+      'Kongeriget Danmark — Grønlands Styrelse (Godthåb / Nuuk) & US Air Bases (Narsarsuaq)'
+    );
+  }
+
+  if (s === 18) {
+    return makeResult(
+      'DEN',
+      'Grønland (Restaurazione Sovranità Danese & Smobilitazione Postbellica)',
+      'Dopo la liberazione della Danimarca (maggio 1945) e la revoca della dichiarazione d\'emergenza bellica, il Governo danese ristabilisce la piena autorità costituzionale sulla Groenlandia (Landsfogeder Eske Brun e Aksel Svane) pur proseguendo le conversazioni con Washington sulla presenza militare USA nelle basi artiche.',
+      'Alleati',
+      'Kongeriget Danmark — Grønlands Styrelse (Godthåb / Nuuk)'
     );
   }
 
@@ -1740,12 +1874,198 @@ export function resolveChinaProvince(
 ): ResolvedTerritory {
   const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
   const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
+  const pidUp = String(p?.id || p?.NUTS_ID || '').toUpperCase().trim();
+  const nidUp = String(nid || '').toUpperCase().trim();
+  const chnId = nidUp.startsWith('CHN_')
+    ? nidUp
+    : pidUp.startsWith('CHN_')
+    ? pidUp
+    : nidUp;
+
+  // Step >= 19 (Settembre 1947): Guerra Civile Cinese — Controffensiva Strategica dell'EPL (Zhanlüe Jingong)
+  if (s >= 19) {
+    switch (chnId) {
+      case 'CHN_HEILONGJIANG':
+        return makeResult(
+          'CCP_CHI',
+          'Heilongjiang / Harbin (Capitale Nord-Orientale dell\'EPL — Lin Biao)',
+          'Settembre 1947: Harbin e l\'Heilongjiang formano il quartier generale e retrovia industriale dell\'Esercito Popolare di Liberazione del Nord-Est guidato da Lin Biao e Luo Ronghuan.',
+          'Comintern',
+          'Esercito Popolare di Liberazione — Comando del Nord-Est (Lin Biao · Harbin)'
+        );
+      case 'CHN_JILIN':
+        return makeResult(
+          'CCP_CHI',
+          'Jilin (Offensiva dell\'EPL — Assedio di Changchun)',
+          'Settembre 1947: le colonne dell\'Esercito Popolare di Liberazione controllano la provincia di Jilin e stringono d\'assedio la guarnigione nazionalista di Changchun.',
+          'Comintern',
+          'Esercito Popolare di Liberazione — Comando del Nord-Est (Lin Biao)'
+        );
+      case 'CHN_MANCHUKUO_XINGAN_NORTH':
+        return makeResult(
+          'CCP_CHI',
+          'Xing\'an Settentrionale / Hulunbuir (Governo Autonomo della Mongolia Interna — Ulanhu)',
+          '1° maggio 1947: Ulanhu istituisce il Governo Autonomo della Mongolia Interna a Ulanhot in stretto coordinamento con il Partito Comunista Cinese e le forze di Lin Biao.',
+          'Comintern',
+          'Governo Autonomo della Mongolia Interna (Ulanhu)'
+        );
+      case 'CHN_MANCHUKUO_XINGAN_SOUTH':
+        return makeResult(
+          'CCP_CHI',
+          'Xing\'an Meridionale & Hinggan (Mongolia Interna — Ulanhu / EPL)',
+          'Settembre 1947: settore meridionale del Governo Autonomo della Mongolia Interna guidato da Ulanhu a sostegno dell\'offensiva dell\'EPL in Manciuria.',
+          'Comintern',
+          'Governo Autonomo della Mongolia Interna (Ulanhu)'
+        );
+      case 'CHN_SHANDONG':
+        return makeResult(
+          'CCP_CHI',
+          'Shandong Liberato (Vittoria di Menglianggu — Armata della Cina Orientale)',
+          'Maggio-Settembre 1947: dopo il trionfo nella battaglia di Menglianggu (annientamento della 74ª Divisione nazionalista), i comandanti Chen Yi e Su Yu consolidano lo Shandong sotto il controllo dell\'EPL.',
+          'Comintern',
+          'Esercito Popolare di Liberazione — Armata della Cina Orientale (Chen Yi · Su Yu)'
+        );
+      case 'CHN_SHAANXI':
+        return makeResult(
+          'CCP_CHI',
+          'Shaan-Gan-Ning (Shaanxi Settentrionale — Vittoria di Shajiadian)',
+          'Agosto-Settembre 1947: l\'Armata da Campo del Nord-Ovest di Peng Dehuai capovolge le sorti della campagna nello Shaanxi sconfiggendo le forze nazionaliste nella battaglia di Shajiadian (18-20 agosto 1947).',
+          'Comintern',
+          'Esercito Popolare di Liberazione — Armata del Nord-Ovest (Peng Dehuai)'
+        );
+      case 'CHN_LIAONING':
+        return makeResult(
+          'CHI',
+          'Liaoning — Sacche Nazionaliste Isolate (Shenyang & Jinzhou)',
+          'Settembre 1947: il generale Chen Cheng difende le guarnigioni nazionaliste di Shenyang e Jinzhou, sempre più isolate dalle offensive di Lin Biao lungo la ferrovia Beining.',
+          'Alleati',
+          'Repubblica di Cina — Comando del Nord-Est (Gen. Chen Cheng · Shenyang)'
+        );
+      case 'CHN_HENAN':
+        return makeResult(
+          'CHI',
+          'Henan (Offensiva di Liu Bocheng & Deng Xiaoping Verso i Monti Dabie)',
+          'Agosto-Settembre 1947: l\'Armata da Campo della Pianura Centrale guidata da Liu Bocheng e Deng Xiaoping sfonda attraverso l\'Henan marciando fino ai Monti Dabie (Dabie Shan) nel cuore della Cina centrale.',
+          'Alleati',
+          'Repubblica di Cina — Zona di Guerra della Cina Centrale'
+        );
+      case 'CHN_HUBEI':
+        return makeResult(
+          'CHI',
+          'Hubei / Wuhan (Difesa Strategica dello Yangtze — Gen. Bai Chongxi)',
+          'Settembre 1947: il generale Bai Chongxi appronta la difesa strategica di Wuhan e della valle dello Yangtze contro la nuova testa di ponte dell\'EPL di Liu-Deng sui Monti Dabie.',
+          'Alleati',
+          'Repubblica di Cina — Quartier Generale di Wuhan (Gen. Bai Chongxi)'
+        );
+      case 'CHN_ANHUI':
+        return makeResult(
+          'CHI',
+          'Anhui Occidentale & Settentrionale (Fronte dei Monti Dabie — Minaccia su Nanchino)',
+          'Settembre 1947: la spinta di Liu Bocheng e Deng Xiaoping nei Monti Dabie (Dabie Shan) porta i reparti dell\'EPL lungo il confine occidentale dell\'Anhui alle porte dello Yangtze.',
+          'Alleati',
+          'Repubblica di Cina — Governo Nazionalista'
+        );
+      case 'CHN_JIANGSU':
+        return makeResult(
+          'CHI',
+          'Nanjing / Jiangsu (Capitale Nazionalista — Crisi Economica del Fabi)',
+          'Settembre 1947: Nanchino (Nanjing) è capitale della Repubblica di Cina sotto Chiang Kai-shek, gravata dalla galoppante iperinflazione della valuta cartacea Fabi mentre infuria la guerra civile.',
+          'Alleati',
+          'Zhōnghuá Mínguó — Governo Nazionalista (Nanjing)'
+        );
+      case 'CHN_TAIWAN':
+        return makeResult(
+          'CHI',
+          'Taiwan — Governatorato di Wei Tao-ming (Post Incidente del 28 Febbraio 1947)',
+          'Settembre 1947: dopo il sanguinoso Incidente del 28 Febbraio (Incidente 228) e il giro di vite militare, l\'ex ambasciatore Wei Tao-ming assume la carica di Governatore civile di Taiwan.',
+          'Alleati',
+          'Zhōnghuá Mínguó — Táiwān Shěng (Wei Tao-ming)'
+        );
+      case 'CHN_XINJIANG':
+        return makeResult(
+          'CHI',
+          'Xinjiang / Ürümqi (Crisi della Coalizione & Seconda Repubblica del Turkestan Orientale)',
+          'Settembre 1947: nello Xinjiang convive la precaria autorità nazionalista a Ürümqi con la Seconda Repubblica del Turkestan Orientale nei tre distretti dell\'Ili guidata da Ehmetjan Qasim.',
+          'Alleati',
+          'Repubblica di Cina — Provincia dello Xinjiang / Ili (Ehmetjan Qasim)'
+        );
+      case 'CHN_TIBET':
+        return makeResult('TIB', 'Bod (Tibet — Lhasa)', 'Stato teocratico tibetano de facto indipendente sotto il Kashag di Lhasa.', 'Neutrale', 'Kashag — Bod (Lhasa)');
+      case 'CHN_HONGKONG':
+        return makeResult('UK', 'Crown Colony of Hong Kong', 'Colonia della Corona Britannica nel dopoguerra (Governatore Sir Alexander Grantham).', 'Alleati', 'British Empire — Hong Kong');
+      case 'CHN_MACAU':
+        return makeResult('POR', 'Macau Português (Província Ultramarina)', 'Provincia d\'oltremare portoghese neutrale.', 'Neutrale', 'República Portuguesa — Macau');
+      default:
+        return makeResult(
+          'CHI',
+          `${histName} (Repubblica di Cina — KMT)`,
+          'Settembre 1947: provincia controllata dal Governo Nazionalista della Repubblica di Cina.',
+          'Alleati',
+          'Zhōnghuá Mínguó Guómín Zhèngfǔ (Nanjing)'
+        );
+    }
+  }
+
+  // Step 18 (Settembre 1945): Capitolazione Giapponese, Ritorno di Taiwan & Hong Kong, Unione Yan'an-KMT Pre-Conflitto
+  if (s === 18) {
+    if (nid === 'CHN_TIBET') return makeResult('TIB', 'Bod (Tibet — Lhasa)', 'Stato teocratico tibetano de facto indipendente.', 'Neutrale', 'Kashag — Bod (Lhasa)');
+    if (nid === 'CHN_MACAU') return makeResult('POR', 'Macau Português', 'Provincia d\'oltremare portoghese neutrale.', 'Neutrale', 'República Portuguesa — Macau');
+    if (nid === 'CHN_HONGKONG') {
+      return makeResult(
+        'UK',
+        'Crown Colony of Hong Kong (Ripristino Sovranità Britannica)',
+        '30 agosto 1945: la Task Force navale dell\'ammiraglio Sir Cecil Harcourt rientra a Victoria Harbour ristabilendo l\'amministrazione britannica su Hong Kong.',
+        'Alleati',
+        'British Empire — Hong Kong Military Administration'
+      );
+    }
+    if (nid === 'CHN_TAIWAN') {
+      return makeResult(
+        'CHI',
+        'Taiwan / Formosa (Restituzione alla Repubblica di Cina)',
+        'Settembre 1945: resa del governatorato giapponese di Formosa e preparazione della cerimonia di retrocessione alla Repubblica di Cina.',
+        'Alleati',
+        'Zhōnghuá Mínguó — Provincia di Taiwan'
+      );
+    }
+    if (nid === 'CHN_SHAANXI') {
+      return makeResult(
+        'CCP_CHI',
+        'Shaan-Gan-Ning Bianqu (Yan\'an — Base Centrale PCC)',
+        'Settembre 1945: quartier generale di Mao Zedong e dell\'Armata Rossa Cinese a Yan\'an mentre si svolgono i negoziati di Chongqing con il Kuomintang.',
+        'Comintern',
+        'Zhongguo Gongchandang (Yan\'an)'
+      );
+    }
+    if (
+      nid === 'CHN_HEILONGJIANG' ||
+      nid === 'CHN_JILIN' ||
+      nid === 'CHN_LIAONING' ||
+      nid === 'CHN_MANCHUKUO_XINGAN_NORTH' ||
+      nid === 'CHN_MANCHUKUO_XINGAN_SOUTH'
+    ) {
+      return makeResult(
+        'SOV',
+        `${histName} (Occupazione Sovietica della Manciuria)`,
+        'Agosto-Settembre 1945: Operazione Tempesta d\'Agosto dell\'Armata Rossa sovietica contro l\'Armata del Kwantung; amministrazione militare sovietica transitoria in Manciuria.',
+        'Comintern',
+        'Armata Rossa Sovietica — Comando dell\'Estremo Oriente (Mareciallo Vasilevskij)'
+      );
+    }
+    return makeResult(
+      'CHI',
+      `${histName} (Repubblica di Cina — Vittorio Governo Nazionalista)`,
+      'Settembre 1945: resa dell\'Esercito di Spedizione Giapponese in Cina (Gen. Okamura) al governo nazionalista di Chiang Kai-shek (Nanchino / Chongqing).',
+      'Alleati',
+      'Zhōnghuá Mínguó Guómín Zhèngfǔ (Chiang Kai-shek)'
+    );
+  }
 
   // Calcolo proprietario e fazione geopolitica storicamente accurata per step s (1936-1940)
   let owner = 'CHI';
   let faction: FactionType = 'Alleati';
 
-  switch (nid) {
+  switch (chnId) {
     // 1-3. Cina settentrionale (Beiping, Tianjin, Hebei)
     case 'CHN_BEIJING':
     case 'CHN_TIANJIN':
@@ -1881,10 +2201,15 @@ export function resolveChinaProvince(
       }
       break;
 
-    // 14. Hunan (Changsha — 9ª Zona di Guerra di Xue Yue, vittoriosa difesa)
+    // 14. Hunan (Changsha — 9ª Zona di Guerra / Operazione Ichi-Go & Zhijiang 1944-1945)
     case 'CHN_HUNAN':
-      owner = 'CHI';
-      faction = 'Alleati';
+      if (s >= 14 && s <= 17) {
+        owner = 'JAP';
+        faction = 'Asse';
+      } else {
+        owner = 'CHI';
+        faction = 'Alleati';
+      }
       break;
 
     // 15. Zhejiang (Hangzhou / Ningbo)
@@ -1898,10 +2223,15 @@ export function resolveChinaProvince(
       }
       break;
 
-    // 16. Guangxi (Li Zongren / Bai Chongxi / Vittoria del Passo di Kunlun)
+    // 16. Guangxi (Li Zongren / Bai Chongxi / Operazione Ichi-Go autunno 1944)
     case 'CHN_GUANGXI':
-      owner = 'CHI';
-      faction = 'Alleati';
+      if (s >= 16 && s <= 17) {
+        owner = 'JAP';
+        faction = 'Asse';
+      } else {
+        owner = 'CHI';
+        faction = 'Alleati';
+      }
       break;
 
     // 17. Fujian
@@ -1997,7 +2327,7 @@ export function resolveChinaProvince(
       break;
   }
 
-  const top = resolveChinaToponym(nid, histName, nrm, owner, s);
+  const top = resolveChinaToponym(chnId, histName, nrm, owner, s);
   const name = top?.name || histName;
   const note = top?.note || (p.ADMIN_TITLE ? `${p.ADMIN_TITLE}` : undefined);
   const adminEntity = top?.adminTitle || p.ADMIN_TITLE || 'Zhōnghuá Mínguó';
@@ -2145,31 +2475,45 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
       ? makeResult('SPR', 'Melilla (Plaza de Soberanía)', 'Segunda República Española')
       : makeResult('SPA', 'Melilla (Plaza de Soberanía)', 'Bando Nacional — Cuna del Alzamiento del 17 de julio de 1936'),
   Tangier: (s) =>
-    s < 6
+    s >= 18
+      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
+      : s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   'International Zone of Tangier': (s) =>
-    s < 6
+    s >= 18
+      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
+      : s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   'Tangier International Zone': (s) =>
-    s < 6
+    s >= 18
+      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
+      : s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   'Zona Internacional de Tanger': (s) =>
-    s < 6
+    s >= 18
+      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
+      : s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   'Zona Internazionale di Tangeri': (s) =>
-    s < 6
+    s >= 18
+      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
+      : s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   Tanger: (s) =>
-    s < 6
+    s >= 18
+      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
+      : s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   Tangeri: (s) =>
-    s < 6
+    s >= 18
+      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
+      : s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
   Menorca: (s) =>
@@ -2430,6 +2774,11 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   if (isMexProvince) {
     const resMex = resolveMexicoProvince(f, s);
     if (resMex) return resMex;
+  }
+
+  // 0.c5 Intercettazione prioritaria Pacifico Francese (EFO, Nuova Caledonia, Nuove Ebridi, Wallis e Futuna)
+  if (isFrenchPacificProvince(cleanId, name, nrm_hb)) {
+    return resolveFrenchPacificProvince(f, s);
   }
 
   // 0.d Intercettazione prioritaria Groenlandia (Greenland / Grønland)
@@ -2789,6 +3138,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   if (isSyriaLebanon) {
     const isLeb = nrm_hb.includes('lebanon') || nrm_hb.includes('libano') || P.CNTR_CODE === 'LB';
+    if (s >= 19) {
+      if (isLeb) {
+        return makeResult(
+          'LEB',
+          'Repubblica Libanese (Indipendenza & Ritiro Truppe Alleate — Beirut)',
+          'Il 31 dicembre 1946 si completa l\'evacuazione definitiva di tutte le truppe francesi e britanniche dal territorio libanese. La Repubblica Libanese è pienamente indipendente e sovrana sotto la presidenza di Béchara El Khoury e il governo di Riad Al Solh (Patto Nazionale del 1943), membro fondatore dell\'ONU e della Lega Araba.',
+          'Neutrale',
+          'Repubblica Libanese (Presidente Béchara El Khoury & Primo Ministro Riad Al Solh — Beirut)'
+        );
+      }
+      return makeResult(
+        'SYR',
+        'Repubblica Siriana (Indipendenza & Evacuazione Franco-Britannica — Damasco)',
+        'Il 17 aprile 1946 (Giorno dell\'Evacuazione, Eid al-Jalaa) le ultime truppe francesi e britanniche lasciano la Siria: la Repubblica Siriana è pienamente sovrana, guidata dal Presidente Shukri al-Quwatli e dal Primo Ministro Jamil Mardam Bey, membro fondatore della Lega Araba e delle Nazioni Unite.',
+        'Neutrale',
+        'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco)'
+      );
+    }
     if (s >= 9) {
       return makeResult(
         'F_SYR',
@@ -2829,6 +3196,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     P.ADM0_A3 === 'IRN';
 
   if (isIran) {
+    if (s >= 19) {
+      return makeResult(
+        'IRN',
+        'Keshvar-e Shāhanshāhi-ye Irān (Stato Imperiale dell\'Iran — Sovranità Restaurata)',
+        "Piena sovranità iraniana restaurata dopo lo sgombero delle forze britanniche e sovietiche nel 1946 e lo scioglimento delle repubbliche separatiste di Azerbaigian e Mahabad (dicembre 1946). Sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam, l'Iran difende l'integrità nazionale e discute al Majlis il rifiuto delle concessioni petrolifere sovietiche.",
+        'Neutrale',
+        'Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell\'Iran (Mohammad Reza Pahlavi · P.M. Ahmad Qavam)'
+      );
+    }
     if (s >= 9) {
       return makeResult(
         'IRN',
@@ -2869,6 +3245,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
 
   if (isMesopotamia) {
+    if (s >= 19) {
+      return makeResult(
+        'IRQ',
+        'Al-Mamlakah al-‘Irāqiyyah (Regno dell\'Iraq — Sovranità Costituzionale, Baghdad)',
+        "Regno Hashemita dell'Iraq pienamente sovrano dopo la fine dell'occupazione militare bellica PAIFORCE (1946). Governato dal Reggente ‘Abd al-Ilah per conto del giovane Re Faysal II e dal Primo Ministro Salih Jabr, membro fondatore della Lega Araba e delle Nazioni Unite.",
+        'Neutrale',
+        'Al-Mamlakah al-‘Irāqiyyah — Re Faysal II · Reggente ‘Abd al-Ilah · P.M. Salih Jabr (Baghdad)'
+      );
+    }
     if (s >= 9) {
       return makeResult(
         'UK',
@@ -2990,9 +3375,36 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Africa: Indipendenti, Colonie, AOI
   if (nrm_hb.includes('liberia') || nrm_hb.includes('monrovia')) {
-    return makeResult('LBR', getTop('LBR').name || 'Republic of Liberia (Monrovia)', 'Independent African State');
+    if (s >= 19) {
+      return makeResult(
+        'LBR',
+        'Republic of Liberia (Monrovia — Presidenza William V.S. Tubman)',
+        'Repubblica sovrana dell\'Africa occidentale, membro fondatore delle Nazioni Unite (1945). Sotto la presidenza di William V.S. Tubman, la Liberia avvia la politica "Open Door", estende il diritto di voto e inaugura il Porto Franco strategico di Monrovia.',
+        'Neutrale',
+        'Republic of Liberia — President William V.S. Tubman (Monrovia)'
+      );
+    }
+    if (s >= 14) {
+      return makeResult(
+        'LBR',
+        'Republic of Liberia (Monrovia — Belligerante Alleato)',
+        'Il 27 gennaio 1944, sotto il nuovo Presidente William V.S. Tubman, la Liberia dichiara guerra a Germania e Giappone concedendo basi aeree (Roberts Field) e l\'accesso strategico per i rifornimenti alleati.',
+        'Alleati',
+        'Republic of Liberia — President William V.S. Tubman (Monrovia)'
+      );
+    }
+    return makeResult('LBR', getTop('LBR').name || 'Republic of Liberia (Monrovia)', 'Independent African State', 'Neutrale', 'Republic of Liberia — President Edwin Barclay');
   }
   if ((nrm_hb.includes('egypt') || nrm_hb.includes('egitto')) && !nrm_hb.includes('sudan')) {
+    if (s >= 19) {
+      return makeResult(
+        'EGY',
+        "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Sovranità & Crisi del Canale di Suez)",
+        "Nel marzo 1947 le truppe britanniche completano il ritiro dal Cairo, da Alessandria e dal Delta del Nilo concentrandosi nella sola Zona del Canale di Suez. Nell'estate-settembre 1947 il Primo Ministro Mahmoud an-Nukrashi Pasha porta la vertenza anglo-egiziana sull'evacuazione totale e sull'unità della Valle del Nilo davanti al Consiglio di Sicurezza dell'ONU.",
+        'Neutrale',
+        "Al-Mamlakah al-Miṣriyyah — Re Faruq I · Primo Ministro Mahmoud an-Nukrashi Pasha (Il Cairo)"
+      );
+    }
     const top = getExtendedToponym(name, 'EGY', nid, c, s);
     return makeResult('EGY', top.name || 'Kingdom of Egypt (British Military Sphere — Cairo)', top.note || (s >= 1 ? "Regno d'Egitto (Trattato Anglo-Egiziano del 1936)" : "Regno d'Egitto (Occupazione/Influenza Britannica)"), 'Alleati', top.adminTitle || 'Kingdom of Egypt (Anglo-Egyptian Treaty of 1936)');
   }
@@ -3047,6 +3459,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.note || 'Conquista italiana della Somalia Britannica (3-19 agosto 1940: Battaglia di Tug Argan e presa di Berbera da parte delle truppe del Gen. Guglielmo Nasi). Territorio annesso all\'Africa Orientale Italiana.',
         'Asse',
         top.adminTitle || 'Governo Militare della Somalia Britannica (AOI — Gen. Guglielmo Nasi)'
+      );
+    }
+    if (s >= 19) {
+      return makeResult(
+        'UK',
+        'British Somaliland Protectorate (Hargeisa & Berbera — BMA)',
+        'Nel dopoguerra il Protettorato della Somalia Britannica è retto dalla British Military Administration (sede ad Hargeisa e porto a Berbera), avviando i primi consigli consultivi somali prima del ritorno al Colonial Office.',
+        'Alleati',
+        'British Military Administration of Somaliland (Governor Brig. Sir Gerald Fisher)'
       );
     }
     if (s >= 8) {
@@ -3135,6 +3556,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   ) {
     const resAOF = resolveAOFProvince(f, s);
     if (resAOF) return resAOF;
+    if (s >= 19) {
+      return makeResult(
+        'FRA',
+        'Afrique-Occidentale Française (Territoires d\'Outre-Mer — Union Française, Dakar)',
+        'Territori d\'Oltremare dell\'AOF integrati nella Quarta Repubblica e nell\'Union Française (Costituzione dell\'ottobre 1946; Legge Houphouët-Boigny contro il lavoro forzato e ricostituzione dell\'Alta Volta il 4 settembre 1947) sotto l\'Alto Commissario René Barthes a Dakar.',
+        'Alleati',
+        'Quatrième République (Union Française) — Haut-Commissariat de l\'AOF (Dakar · René Barthes)'
+      );
+    }
+    if (s >= 11) {
+      return makeResult(
+        'F_AOF',
+        'Afrique-Occidentale française (AOF — Ralliée aux Alliés / Dakar)',
+        'Accordo Boisson-Darlan (23 novembre 1942): l\'AOF rientra nello schieramento alleato mettendo il porto strategico di Dakar al servizio delle Nazioni Unite.',
+        'Alleati',
+        'Haut-Commissariat de France en Afrique (Dakar — Pierre Boisson rallié aux Alliés)'
+      );
+    }
     if (s >= 6) {
       const top = getExtendedToponym(name, 'VIC_AOF', nid, c, s);
       return makeResult(
@@ -3185,6 +3624,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           top.adminTitle || 'Colonie du Gabon (Vichy — Libreville)'
         );
       }
+      if (s >= 19) {
+        return makeResult(
+          'FRA',
+          'Gabon (Territoire d\'Outre-Mer de l\'AEF — Union Française, Libreville)',
+          'Territoire d\'Outre-Mer del Gabon nella Quarta Repubblica e nell\'Union Française (Costituzione del 27 ottobre 1946), dopo l\'abolizione del lavoro forzato con la Legge Houphouët-Boigny (1946).',
+          'Alleati',
+          'Quatrième République (Union Française) — Territoire du Gabon (Libreville)'
+        );
+      }
       if (s >= 7) {
         const top = getExtendedToponym(name, 'FFL_AEF', nid, c, s);
         return makeResult(
@@ -3195,6 +3643,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           top.adminTitle || 'Colonie du Gabon (France Libre — De Gaulle / Leclerc)'
         );
       }
+    }
+    if (s >= 19) {
+      return makeResult(
+        'FRA',
+        'Afrique-Équatoriale Française (Territoires d\'Outre-Mer — Union Française, Brazzaville)',
+        'Territori d\'Oltremare dell\'AEF nella Quarta Repubblica e nell\'Union Française (Costituzione del 27 ottobre 1946; Alto Commissariato di Charles Luizet a Brazzaville).',
+        'Alleati',
+        'Quatrième République (Union Française) — Gouvernement Général de l\'AEF (Brazzaville · Charles Luizet)'
+      );
     }
     if (s >= 6) {
       const top = getExtendedToponym(name, 'FFL_AEF', nid, c, s);
@@ -3221,6 +3678,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     if (s === 0) {
       return makeResult('ETH', 'Mängəśtä Ityop’p’ya (Addis Ababa)', 'Yä-Ityop’ya Qəññ Gəzat Torənnät');
     }
+    if (s >= 19) {
+      return makeResult(
+        'ETH',
+        "Impero d'Etiopia (Addis Abeba — Sovranità Restaurata, Negus Hailé Selassié I)",
+        "Impero d'Etiopia pienamente indipendente e membro fondatore dell'ONU sotto il Negus Hailé Selassié I e il Primo Ministro Makonnen Endelkachew. Con l'entrata in vigore del Trattato di Pace di Parigi (15 settembre 1947, Articoli 23 e 33-38) l'Italia riconosce irrevocabilmente la sovranità etiopica.",
+        'Neutrale',
+        "Ye’Ityōṗṗyā Nigūsa Negest Mengist — Imperatore Hailé Selassié I (Addis Abeba)"
+      );
+    }
     if (s >= 8) {
       return makeResult(
         'ETH',
@@ -3233,6 +3699,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Africa Orientale Italiana (AOI — Etiopia)', 'Impero proclamato il 9 maggio 1936');
   }
   if (nrm_hb.includes('libya') || nrm_hb.includes('cyrenaica') || nrm_hb.includes('tripolitania')) {
+    if (s >= 19) {
+      return makeResult(
+        'UK',
+        'Libia (Amministrazione Militare Alleata — Tripolitania, Cirenaica e Fezzan)',
+        'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia formalmente e irrevocabilmente a ogni titolo e sovranità sulla Libia. Tripolitania e Cirenaica sono sotto Amministrazione Militare Britannica (BMA con sedi a Tripoli e Bengasi), mentre il Fezzan è retto dall\'amministrazione militare francese.',
+        'Alleati',
+        'British Military Administration (Tripolitania & Cyrenaica) / Territoire Militaire du Fezzan (France)'
+      );
+    }
     if (s >= 12) {
       return makeResult(
         'UK',
@@ -3291,6 +3766,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
   if (nrm_hb.includes('eritrea')) {
     if (s >= 8) {
+      if (s >= 19) {
+        return makeResult(
+          'UK',
+          'Eritrea (Amministrazione Militare Britannica — Asmara)',
+          'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia a ogni diritto e titolo sull\'Eritrea. Il territorio rimane retto dalla British Military Administration (BMA Eritrea) con sede ad Asmara sotto l\'egida alleata provvisoria in attesa delle decisioni delle Nazioni Unite.',
+          'Alleati',
+          'British Military Administration of Eritrea (BMA — Brigadier F.G. Drew, Asmara)'
+        );
+      }
       return makeResult(
         'UK',
         'Eritrea (Occupazione Militare Alleata — Cheren, Asmara e Massaua)',
@@ -3314,6 +3798,21 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Isole Italiane dell\'Egeo (Rodi)', 'Possedimento dell\'Egeo');
   }
   if (nrm_hb === 'albania') {
+    if (s >= 16) {
+      return makeResult(
+        'ALB',
+        s >= 19
+          ? 'Repubblica Popolare d\'Albania (Republika Popullore e Shqipërisë)'
+          : 'Shqipëria (Liberata dal Fronte di Liberazione Nazionale — Enver Hoxha)',
+        s >= 19
+          ? 'Settembre 1947: Repubblica Popolare d\'Albania guidata da Enver Hoxha nel blocco sovietico.'
+          : 'Novembre 1944: i partigiani albanesi di Enver Hoxha liberano Tirana e Scutari, instaurando il Governo Democratico dell\'Albania.',
+        s >= 19 ? 'Comintern' : 'Alleati',
+        s >= 19
+          ? 'Republika Popullore e Shqipërisë (Enver Hoxha)'
+          : 'Qeveria Demokratike e Shqipërisë (Enver Hoxha — UNÇ)'
+      );
+    }
     if (s >= 13) {
       return makeResult(
         'GER',
@@ -3329,6 +3828,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
   if (nrm_hb.includes('somali') && (nrm_hb.includes('ital') || subj === 'Italy' || name.includes('(Italy)'))) {
     if (s >= 8) {
+      if (s >= 19) {
+        return makeResult(
+          'UK',
+          'Somalia (Amministrazione Militare Britannica — Mogadiscio)',
+          'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia a ogni diritto e titolo sulla Somalia Italiana. Il territorio rimane sotto l\'Amministrazione Militare Britannica (BMA Somalia) in attesa delle risoluzioni dell\'ONU sul futuro assetto dell\'ex colonia.',
+          'Alleati',
+          'British Military Administration of Somalia (BMA — Mogadishu)'
+        );
+      }
       return makeResult(
         'UK',
         'Somalia (Occupazione Militare Alleata — Mogadiscio e Giuba)',
@@ -3385,6 +3893,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'Segunda República Española — Alta Comisaría (Arturo Álvarez-Buylla)'
       );
     }
+    if (s >= 19) {
+      return makeResult(
+        'SPA',
+        'Protectorado Español de Marruecos (Tetuán)',
+        'Estado Español — Alta Comisaría en Marruecos (Tte. Gen. José Enrique Varela) e Jalifato de Tetuán nell\'isolamento diplomatico postbellico.',
+        'Neutrale',
+        'Estado Español — Alta Comisaría en Marruecos (Tetuán)'
+      );
+    }
     if (s < 3) {
       return makeResult(
         'SPA',
@@ -3395,18 +3912,19 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult(
       'SPA',
       'Protectorado Español de Marruecos (Tetuán)',
-      'Estado Español — Alta Comisaría de España en Marruecos / Delegación Jalifiana'
+      'Estado Español — Alta Comisaría de España en Marruecos / Delegación Jalifiana',
+      s >= 18 ? 'Neutrale' : undefined
     );
   }
   if (nrm_hb.includes('ceuta')) {
     return s === 0
       ? makeResult('SPR', 'Ceuta (Plaza de Soberanía)', 'Segunda República Española')
-      : makeResult('SPA', 'Ceuta (Plaza de Soberanía)', 'Bando Nacional — Base del Ejército de África');
+      : makeResult('SPA', 'Ceuta (Plaza de Soberanía)', s >= 19 ? 'Plaza de Soberanía de España en el Estrecho de Gibraltar (Estado Español)' : 'Bando Nacional — Base del Ejército de África', s >= 18 ? 'Neutrale' : undefined);
   }
   if (nrm_hb.includes('melilla')) {
     return s === 0
       ? makeResult('SPR', 'Melilla (Plaza de Soberanía)', 'Segunda República Española')
-      : makeResult('SPA', 'Melilla (Plaza de Soberanía)', 'Bando Nacional — Cuna del Alzamiento del 17 de julio de 1936');
+      : makeResult('SPA', 'Melilla (Plaza de Soberanía)', s >= 19 ? 'Plaza de Soberanía de España en el Norte de África (Estado Español)' : 'Bando Nacional — Cuna del Alzamiento del 17 de julio de 1936', s >= 18 ? 'Neutrale' : undefined);
   }
   if (
     nrm_hb.includes('rio de oro') ||
@@ -3416,7 +3934,9 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   ) {
     return s === 0
       ? makeResult('SPR', 'Sáhara Español (Río de Oro)', 'Segunda República Española')
-      : makeResult('SPA', 'Sáhara Español (Río de Oro)', 'Bando Nacional (Franco)');
+      : s >= 19
+      ? makeResult('SPA', 'África Occidental Española — Sáhara Español (Villa Cisneros / Cabo Juby)', 'Gobierno del África Occidental Española (Decreto del 20 luglio 1946: unione amministrativa di Sáhara Español e Ifni sotto Sidi Ifni).', 'Neutrale', 'Gobierno del África Occidental Española (Gen. José Bermejo López)')
+      : makeResult('SPA', 'Sáhara Español (Río de Oro)', 'Bando Nacional (Franco)', s >= 18 ? 'Neutrale' : undefined);
   }
   if (
     nrm_hb.includes('spanish guinea') ||
@@ -3427,19 +3947,31 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   ) {
     return s === 0
       ? makeResult('SPR', 'Guinea Española (Santa Isabel / Fernando Poo y Río Muni)', 'Segunda República Española — Territorios Españoles del Golfo de Guinea')
-      : makeResult('SPA', 'Guinea Española (Santa Isabel / Fernando Poo y Río Muni)', 'Bando Nacional / Estado Español — Territorios Españoles del Golfo de Guinea');
+      : s >= 19
+      ? makeResult('SPA', 'Territorios Españoles del Golfo de Guinea (Santa Isabel / Bata)', 'Colonia spagnola del Golfo di Guinea (Fernando Poo e Río Muni) retta dal Governatore Juan María Bonelli Rubio.', 'Neutrale', 'Estado Español — Gobernador del Golfo de Guinea')
+      : makeResult('SPA', 'Guinea Española (Santa Isabel / Fernando Poo y Río Muni)', 'Bando Nacional / Estado Español — Territorios Españoles del Golfo de Guinea', s >= 18 ? 'Neutrale' : undefined);
   }
   if (nrm_hb.includes('ifni')) {
     return s === 0
       ? makeResult('SPR', 'Territorio de Ifni (Sidi Ifni)', 'Segunda República Española')
-      : makeResult('SPA', 'Territorio de Ifni (Sidi Ifni)', 'Bando Nacional (Franco)');
+      : s >= 19
+      ? makeResult('SPA', 'África Occidental Española — Territorio de Ifni (Sidi Ifni)', 'Sede del Gobierno del África Occidental Española istituito nel luglio 1946 (Ifni e Sahara Spagnolo).', 'Neutrale', 'Gobierno del África Occidental Española (Sidi Ifni)')
+      : makeResult('SPA', 'Territorio de Ifni (Sidi Ifni)', 'Bando Nacional (Franco)', s >= 18 ? 'Neutrale' : undefined);
   }
   if (nrm_hb.includes('canary islands') || nrm_hb.includes('canarias')) {
     return s === 0
       ? makeResult('SPR', 'Islas Canarias (Tenerife / Las Palmas)', 'Segunda República Española')
-      : makeResult('SPA', 'Islas Canarias (Tenerife / Las Palmas)', 'Bando Nacional (Franco)');
+      : makeResult('SPA', 'Islas Canarias (Tenerife / Las Palmas)', s >= 19 ? 'Arcipelago Atlantico dell\'Estado Español (Santa Cruz de Tenerife / Las Palmas)' : 'Bando Nacional (Franco)', s >= 18 ? 'Neutrale' : undefined);
   }
   if (nid === 'TANGER' || nrm_hb.includes('tangier') || nrm_hb.includes('tanger') || nrm_hb.includes('tangeri')) {
+    if (s >= 18) {
+      return makeResult(
+        'TANGER',
+        'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)',
+        'L\'11 ottobre 1945 le truppe spagnole di Franco evacuano la città su intimazione delle potenze alleate: viene restaurato il regime di amministrazione internazionale (Comitato di Controllo internazionale)',
+        'Neutrale'
+      );
+    }
     return s < 6
       ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
       : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)');
@@ -3473,6 +4005,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Medio Oriente
   if (cleanId === 'HB_YEMEN' || (nrm_hb.includes('yemen') && !nrm_hb.includes('aden') && !nrm_hb.includes('uk'))) {
+    if (s >= 19) {
+      return makeResult(
+        'YEM',
+        'Regno Mutawakkilita dello Yemen (Sana\'a — Ammissione ONU, 30 Settembre 1947)',
+        'Sotto l\'Imam Yahya Muhammad Hamid ed-Din, il Regno Mutawakkilita dello Yemen — membro fondatore della Lega Araba — è ammesso formalmente alle Nazioni Unite proprio il 30 settembre 1947 (insieme al Pakistan), consolidando la sovranità dello Stato yemenita.',
+        'Neutrale',
+        'Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Imam Yahya — Sana\'a)'
+      );
+    }
     const top = getTop('YEM');
     return makeResult(
       'YEM',
@@ -3493,6 +4034,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
   }
   if (nrm_hb.includes('iraq')) {
+    if (s >= 19) {
+      return makeResult(
+        'IRQ',
+        'Al-Mamlakah al-‘Irāqiyyah (Regno dell\'Iraq — Sovranità Costituzionale, Baghdad)',
+        "Regno Hashemita dell'Iraq pienamente sovrano dopo la fine dell'occupazione militare bellica PAIFORCE (1946). Governato dal Reggente ‘Abd al-Ilah per conto di Re Faysal II e dal Primo Ministro Salih Jabr, membro fondatore della Lega Araba e delle Nazioni Unite.",
+        'Neutrale',
+        'Al-Mamlakah al-‘Irāqiyyah — Re Faysal II · Reggente ‘Abd al-Ilah · P.M. Salih Jabr (Baghdad)'
+      );
+    }
     if (s >= 9) {
       return makeResult(
         'UK',
@@ -3514,12 +4064,39 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('UK', 'Kingdom of Iraq (Baghdad)', 'British Sphere of Influence (Anglo-Iraqi Treaty of 1930)');
   }
   if (nrm_hb.includes('transjordan')) {
+    if (s >= 19) {
+      return makeResult(
+        'JOR',
+        'Regno Hashemita di Transgiordania (Sovereign Kingdom — Amman)',
+        'Il 25 maggio 1946 la Transgiordania diviene pienamente indipendente come Regno Hashemita di Transgiordania sotto Re Abd Allah I ibn Husayn. Le forze della Legione Araba (al-Jaysh al-Arabi) sono addestrate e guidate da Glubb Pasha (Sir John Bagot Glubb). Stato sovrano arabo firmatario del Trattato di Londra (1946).',
+        'Neutrale',
+        'Regno Hashemita di Transgiordania (Re Abd Allah I bin al-Husayn & Glubb Pascià)'
+      );
+    }
     return makeResult('UK', 'Emirate of Transjordan (Amman)', 'League of Nations Mandate');
   }
   if (nrm_hb.includes('palestine')) {
+    if (s >= 19) {
+      return makeResult(
+        'UK',
+        'Mandato di Palestina (UNSCOP & Ritiro Britannico Annunciato — Gerusalemme)',
+        'Il 31 agosto 1947 il comitato speciale UNSCOP raccomanda all\'Assemblea Generale ONU la spartizione della Palestina in uno Stato ebraico, uno Stato arabo e la zona internazionalizzata di Gerusalemme (Corpus Separatum). Nel settembre 1947 il governo laburista britannico di Clement Attlee annuncia formalmente la remissione del mandato e l\'inizio del ritiro delle truppe di Sua Maestà.',
+        'Alleati',
+        'Government of Palestine (British High Commissioner Sir Alan Cunningham / UNSCOP Inquiry)'
+      );
+    }
     return makeResult('UK', 'British Mandate for Palestine (Jerusalem)', 'League of Nations Mandate');
   }
   if (nrm_hb.includes('syria')) {
+    if (s >= 19) {
+      return makeResult(
+        'SYR',
+        'Repubblica Siriana (Indipendenza & Evacuazione Franco-Britannica — Damasco)',
+        'Il 17 aprile 1946 (Giorno dell\'Evacuazione, Eid al-Jalaa) le ultime truppe francesi e britanniche lasciano la Siria: la Repubblica Siriana è pienamente sovrana, guidata dal Presidente Shukri al-Quwatli e dal Primo Ministro Jamil Mardam Bey, membro fondatore della Lega Araba e delle Nazioni Unite.',
+        'Neutrale',
+        'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco)'
+      );
+    }
     if (s >= 9) {
       return makeResult(
         'F_SYR',
@@ -3535,6 +4112,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       : makeResult('VIC_SYR', top.name || 'Syrie (Mandat français — Vichy)', top.note || 'Mandat sous administration du gouvernement de Vichy', 'Fantoccio', top.adminTitle || 'Haut-Commissaire Général Henri Dentz (Vichy — Damas)');
   }
   if (nrm_hb.includes('lebanon')) {
+    if (s >= 19) {
+      return makeResult(
+        'LEB',
+        'Repubblica Libanese (Indipendenza & Ritiro Truppe Alleate — Beirut)',
+        'Il 31 dicembre 1946 si completa l\'evacuazione definitiva di tutte le truppe francesi e britanniche dal territorio libanese. La Repubblica Libanese è pienamente indipendente e sovrana sotto la presidenza di Béchara El Khoury e il governo di Riad Al Solh (Patto Nazionale del 1943), membro fondatore dell\'ONU e della Lega Araba.',
+        'Neutrale',
+        'Repubblica Libanese (Presidente Béchara El Khoury & Primo Ministro Riad Al Solh — Beirut)'
+      );
+    }
     if (s >= 9) {
       return makeResult(
         'F_SYR',
@@ -3558,6 +4144,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('shal\'an') ||
     nrm_hb.includes('shalan')
   ) {
+    if (s >= 19) {
+      return makeResult(
+        'SAU',
+        'Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah (Regno dell\'Arabia Saudita — Re Abdulaziz Al Saud)',
+        'Regno sovrano dell\'Arabia Saudita sotto Re Abdulaziz ibn Saud, membro fondatore della Lega Araba (1945) e delle Nazioni Unite. Rapida espansione estrattiva ARAMCO ad Al-Hasa / Dhahran e accordi del 1947 per il futuro oleodotto Trans-Arabico (TAPLINE).',
+        'Neutrale',
+        'Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah — Malik Abdulaziz Al Saud (Riyadh)'
+      );
+    }
     let topName = name;
     if (!topName && c) {
       if (c[0] >= 38 && c[0] <= 44 && c[1] >= 28 && c[1] <= 32) {
@@ -3587,7 +4182,50 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('bahrain') ||
     nrm_hb.includes('qatar')
   ) {
-    return makeResult('UK', 'British Persian Gulf Protectorates', 'Trucial States, Kuwait, Bahrain & Qatar');
+    const gFac = s >= 4 ? 'Alleati' : 'Neutrale';
+    if (nrm_hb.includes('kuwait')) {
+      return makeResult(
+        'UK',
+        'Sheikhdom of Kuwait (Protettorato Britannico — Al-Kuwait)',
+        "Sceiccato del Kuwait sotto protettorato britannico (Emiro Ahmad Al-Jaber Al-Sabah): dal giugno 1946 è avviata l'esportazione commerciale su vasta scala di petrolio dal giacimento gigante di Burgan (Kuwait Oil Company).",
+        gFac,
+        'British Persian Gulf Residency — Political Agency Kuwait (Ahmad Al-Jaber Al-Sabah)'
+      );
+    }
+    if (nrm_hb.includes('bahrain')) {
+      return makeResult(
+        'UK',
+        'Sheikhdom of Bahrain (Sede della British Persian Gulf Residency — Manama)',
+        "Protettorato britannico del Bahrein sotto lo Sceicco Salman bin Hamad Al Khalifa. Nel 1946 la sede principale della British Political Residency in the Persian Gulf viene trasferita da Bushehr (Iran) a Manama, accanto alla base navale HMS Jufair.",
+        gFac,
+        'British Political Residency in the Persian Gulf (Manama, Bahrain — Sir Rupert Hay)'
+      );
+    }
+    if (nrm_hb.includes('qatar')) {
+      return makeResult(
+        'UK',
+        'Sheikhdom of Qatar (Protettorato Britannico — Doha)',
+        "Protettorato britannico del Qatar (Trattato Anglo-Qatariota del 1916) sotto l'Emiro Abdullah bin Jassim Al Thani, sotto la giurisdizione della British Political Residency del Golfo Persico.",
+        gFac,
+        'British Persian Gulf Residency — Sheikhdom of Qatar (Abdullah bin Jassim Al Thani)'
+      );
+    }
+    if (nrm_hb.includes('trucial')) {
+      return makeResult(
+        'UK',
+        'Trucial States / Trucial Oman (Stati della Tregua — Sharjah & Dubai)',
+        "I sette emirati della Costa della Tregua (Abu Dhabi, Dubai, Sharjah, Ajman, Umm al-Quwain, Ras al-Khaimah, Fujairah) sotto protettorato britannico, con scalo strategico RAF Sharjah verso l'India.",
+        gFac,
+        'British Political Residency in the Persian Gulf — Trucial States (Sharjah & Dubai)'
+      );
+    }
+    return makeResult(
+      'UK',
+      'Sultanate of Muscat and Oman (Protettorato & Sfera Britannica — Mascate)',
+      "Sultanato di Mascate e Oman sotto il Sultano Said bin Taimur e il Trattato di Seeb, legato da accordi esclusivi alla Corona britannica e coordinato con la British Political Residency nel Golfo Persico.",
+      gFac,
+      'Sultanate of Muscat and Oman — British Political Agency (Said bin Taimur)'
+    );
   }
 
   // Jugoslavia (Bosnia, Kosovo, Serbia, Montenegro, Croazia, Slovenia, Macedonia)
@@ -3900,6 +4538,34 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           );
         }
         if (vicKey === 'VIC_MAD' && s >= 11) {
+          const isComoros = nid === 'KM' || nid === 'COM' || nid === 'KM_COMOROS' || nrm_hb.includes('comor');
+          if (s >= 19) {
+            if (isComoros) {
+              return makeResult(
+                'FRA',
+                'Archipel des Comores (Territoire d\'Outre-Mer des Comores — Dzaoudzi)',
+                'Con la legge francese del 9 maggio 1946 l\'arcipelago delle Comore (Grande Comore, Anjouan, Mohéli e Mayotte) è separato amministrativamente dal Madagascar ed eretto in Territoire d\'Outre-Mer (TOM) autonomo della Quarta Repubblica nell\'Union Française, rappresentato al Parlamento di Parigi (Saïd Mohamed Cheikh).',
+                'Alleati',
+                'Quatrième République (Union Française) — Territoire des Comores (Dzaoudzi)'
+              );
+            }
+            return makeResult(
+              'FRA',
+              'Madagascar (Union Française — Territoire d\'outre-mer & Insurrezione del 1947)',
+              'Nel 1946 il Madagascar diviene Territoire d\'outre-mer (TOM) dell\'Unione Francese. Il 29 marzo 1947 scoppia l\'Insurrezione Malgascia (Insurrection malgache) guidata dal Movimento Democratico di Rinnovamento Malgascio (MDRM) contro l\'amministrazione coloniale francese: violenti scontri e durissima repressione militare guidata dall\'Alto Commissario Marcel de Coppet con rinforzi di tirailleurs senegalesi e Legione Straniera.',
+              'Alleati',
+              'Haut-Commissariat de France à Madagascar (Marcel de Coppet, Antananarivo)'
+            );
+          }
+          if (s >= 12) {
+            return makeResult(
+              'FRA',
+              isComoros ? 'Archipel des Comores (Francia Libera — CFLN / GPRF)' : 'Madagascar (Francia Libera — CFLN / GPRF)',
+              'A seguito dell\'armistizio di Ambalavao (novembre 1942) e degli accordi Eden-De Gaulle del 14 dicembre 1942, nel gennaio 1943 l\'amministrazione civile e militare di Madagascar e Comore viene ufficialmente trasferita dal Regno Unito alla Francia Libera (CFLN / GPRF) sotto l\'Alto Commissario generale Paul Legentilhomme.',
+              'Alleati',
+              'Gouvernement Général de Madagascar — CFLN / GPRF (Général Paul Legentilhomme)'
+            );
+          }
           return makeResult(
             'UK',
             'Madagascar (British Military Administration / Capitulation de Vichy)',
@@ -3908,7 +4574,43 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             'British Military Administration of Madagascar (Gen. William Platt) & Forces Françaises Libres'
           );
         }
+        if ((vicKey === 'VIC_SOM' || nrm_hb.includes('french somaliland') || nrm_hb.includes('somalia francese') || nrm_hb.includes('djibouti')) && s >= 6) {
+          if (s >= 19) {
+            return makeResult(
+              'FRA',
+              'Côte Française des Somalis (Union Française — Djibouti)',
+              'Territoire d\'outre-mer della Quarta Repubblica Francese (Unione Francese). Base aeronavale e scalo ferroviario strategico franco-etiope verso Addis Abeba sotto il Governatore Paul-Henri Siriex.',
+              'Alleati',
+              'Territoire de la Côte Française des Somalis (Djibouti — Gouverneur Paul-Henri Siriex)'
+            );
+          }
+          if (s >= 12) {
+            return makeResult(
+              'FRA',
+              'Côte Française des Somalis (Ralliement alla Francia Libera — Dicembre 1942)',
+              'Il 28 dicembre 1942 la guarnigione di Vichy a Gibuti si arrende senza spargimento di sangue alle forze alleate e della Francia Libera, integrando la colonia nello schieramento alleato sotto il Governatore André Bayardelle.',
+              'Alleati',
+              'Côte Française des Somalis — CFLN / GPRF (Gouverneur André Bayardelle)'
+            );
+          }
+          return makeResult(
+            'VIC_SOM',
+            'Côte Française des Somalis (Vichy — Djibouti)',
+            'Administration autoritaire de Pierre Nouailhetas sous le régime de Vichy',
+            'Fantoccio',
+            'Administration de Pierre Nouailhetas (Régime de Vichy — Djibouti)'
+          );
+        }
         if (vicKey === 'VIC_AOF' && s >= 11) {
+          if (s >= 19) {
+            return makeResult(
+              'FRA',
+              'Afrique Occidentale Française (Territoires d\'Outre-Mer — Union Française, Dakar)',
+              'Territori d\'Oltremare dell\'AOF nella Quarta Repubblica e nell\'Union Française (Costituzione dell\'ottobre 1946; Legge n. 47-1707 del 4 settembre 1947 per la ricostituzione dell\'Alta Volta) sotto l\'Alto Commissario René Barthes a Dakar.',
+              'Alleati',
+              'Quatrième République (Union Française) — Haut-Commissariat de l\'AOF (Dakar · René Barthes)'
+            );
+          }
           return makeResult(
             'F_AOF',
             'Afrique Occidentale Française (AOF — Ralliement agli Alleati, Dakar)',
@@ -3918,6 +4620,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           );
         }
         if (vicKey === 'VIC_NAF' && s >= 11) {
+          if (s >= 19) {
+            return makeResult(
+              'FRA',
+              'Afrique du Nord Française (Union Française & Quatrième République)',
+              'Algeria (Statut Organique de l\'Algérie del 20 settembre 1947 sotto la Quarta Repubblica) e Protettorati di Tunisia (Lamine Bey / Résident Général Jean Mons) e Marocco (Sultano Mohammed V, Discorso di Tangeri dell\'aprile 1947 / Résident Général Alphonse Juin) nell\'ambito dell\'Union Française.',
+              'Alleati',
+              'Quatrième République (Union Française) — Gouvernement Général de l\'Algérie & Résidences Générales (Rabat / Tunis)'
+            );
+          }
           if (s >= 12) {
             return makeResult(
               'FRA',
@@ -3942,6 +4653,21 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             'Operazione Torch (8-11 novembre 1942): le forze anglo-americane sbarcano ad Algeri, Orano e Casablanca. Con il cessate il fuoco concordato con l\'Ammiraglio Darlan, l\'amministrazione civile e militare francese si unisce agli Alleati.',
             'Alleati',
             'Commandement en Chef Français Civil et Militaire (Amiral François Darlan / Général Henri Giraud)'
+          );
+        }
+        if (vicKey === 'VIC_IND' && s >= 18) {
+          return makeResult(
+            'FRA',
+            s >= 19
+              ? 'Indocina Francese (Unione Francese — Conflitto contro la RDV/Việt Minh)'
+              : 'Indocina Francese (Ristabilimento Amministrazione Francese & Resa Giapponese)',
+            s >= 19
+              ? 'Al 30 settembre 1947 la Francia (Union Française) controlla la Cocincina, Cambogia, Laos e le principali arterie e città del Tonchino e dell\'Annam, fronteggiando la Repubblica Democratica del Vietnam guidata da Hồ Chí Minh.'
+              : 'Settembre 1945: capitolazione delle truppe giapponesi della 38ª Armata a Saigon dinanzi al generale britannico Douglas Gracey (SEAC) e ritorno delle truppe francesi del generale Leclerc, mentre nel nord Hồ Chí Minh proclama la Repubblica Democratica del Vietnam.',
+            'Alleati',
+            s >= 19
+              ? 'Union Française — Haut-Commissariat de France en Indochine (Émile Bollaert)'
+              : 'Gouvernement Provisoire (GPRF — Amiral Thierry d\'Argenlieu / Gén. Leclerc)'
           );
         }
         if (vicKey === 'VIC_IND' && s >= 9) {
@@ -3976,6 +4702,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       if (
         ov.o === 'HOL' &&
         s >= 10 &&
+        s < 18 &&
         (nrm_hb.includes('east indies') ||
           nrm_hb.includes('indies') ||
           nrm_hb.includes('indonesia') ||
@@ -3996,7 +4723,22 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       return makeResult(ov.o, top.name, top.adminTitle, s >= 6 ? 'Alleati' : 'Neutrale');
     }
     if (ov.o === 'POR') {
-      if (s >= 10 && (nrm_hb.includes('timor') || (c && c[0] > 120 && c[1] < 0))) {
+      if (s >= 18 && (nrm_hb.includes('timor') || (c && c[0] > 120 && c[1] < 0))) {
+        return makeResult(
+          'POR',
+          s >= 19
+            ? 'Timor Português (Província Ultramarina de Timor — Amministrazione Portoghese)'
+            : 'Timor Português (Restaurazione della Sovranità Portoghese — Settembre 1945)',
+          s >= 19
+            ? 'Al 30 settembre 1947 Timor Est è amministrata dal Portogallo come Província Ultramarina de Timor sotto il Governatore Óscar Freire de Vasconcelos Ruas, impegnata nella ricostruzione di Díli e delle infrastrutture coloniali dopo l\'occupazione giapponese.'
+            : 'Settembre 1945: resa delle truppe giapponesi a Timor e ripristino della sovranità dell\'Império Colonial Português a Díli sotto il Governatore Manuel Ferreira de Carvalho.',
+          'Neutrale',
+          s >= 19
+            ? 'República Portuguesa — Província Ultramarina de Timor (Governador Óscar Ruas)'
+            : 'República Portuguesa — Província Ultramarina de Timor (Governador Ferreira de Carvalho)'
+        );
+      }
+      if (s >= 10 && s < 18 && (nrm_hb.includes('timor') || (c && c[0] > 120 && c[1] < 0))) {
         return makeResult(
           'JAP',
           'Timor Português (Díli — Occupazione Militare Giapponese)',
@@ -4008,6 +4750,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       return makeResult('POR', top.name, top.note || top.adminTitle, 'Neutrale', top.adminTitle);
     }
     if (ov.o === 'PHL') {
+      if (s >= 19) {
+        return makeResult(
+          'PHL',
+          'Repubblica delle Filippine (Terza Repubblica — Indipendenza del 4 Luglio 1946)',
+          'Il 4 luglio 1946 le Filippine ottengono la piena sovranità e indipendenza dagli Stati Uniti (Trattato di Manila) sotto il Presidente Manuel Roxas, mantenendo stretti accordi difensivi e basi aeronavali statunitensi nel Pacifico.',
+          'Alleati',
+          'Republika ng Pilipinas — Presidente Manuel Roxas (Manila)'
+        );
+      }
+      if (s >= 18) {
+        return makeResult(
+          'USA',
+          'Commonwealth delle Filippine (Liberato — Amministrazione Alleata & Presidente Osmeña)',
+          'Settembre 1945: con la resa del generale Tomoyuki Yamashita a Baguio (2 settembre 1945), l\'intero arcipelago filippino è pienamente liberato dalle forze USA-Filippine e retto dal governo restaurato di Sergio Osmeña in vista dell\'indipendenza del 4 luglio 1946.',
+          'Alleati',
+          'Commonwealth of the Philippines (Pres. Sergio Osmeña) & U.S. Army Forces Pacific (Gen. MacArthur)'
+        );
+      }
       if (s >= 10) {
         return makeResult(
           'JAP',
@@ -4032,6 +4792,69 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         : makeResult('SPA', top.name, top.note || 'Bando Nacional / Estado Español', undefined, top.adminTitle || 'Estado Español (Régimen Franquista)');
     }
     if (ov.o === 'JAP') {
+      const isNanyoHb =
+        nrm_hb.includes('south seas') ||
+        nrm_hb.includes('nanyo') ||
+        nrm_hb.includes('palau') ||
+        nrm_hb.includes('saipan') ||
+        nrm_hb.includes('tinian') ||
+        nrm_hb.includes('rota') ||
+        nrm_hb.includes('mariana') ||
+        nrm_hb.includes('truk') ||
+        nrm_hb.includes('chuuk') ||
+        nrm_hb.includes('ponape') ||
+        nrm_hb.includes('pohnpei') ||
+        nrm_hb.includes('yap') ||
+        nrm_hb.includes('koror') ||
+        nrm_hb.includes('marshall') ||
+        nrm_hb.includes('kwajalein') ||
+        nrm_hb.includes('eniwetok') ||
+        nrm_hb.includes('caroline') ||
+        nrm_hb.includes('micronesia') ||
+        (c && c[0] >= 130 && c[0] <= 175 && c[1] >= 3 && c[1] <= 22);
+      if (isNanyoHb) {
+        if (s >= 18) {
+          return makeResult(
+            'USA',
+            s >= 19
+              ? 'Territorio Fiduciario delle Isole del Pacifico (Ex Mandato Nan\'yō)'
+              : 'Isole del Pacifico / Micronesia (Resa delle Guarnigioni & Amministrazione USA)',
+            s >= 19
+              ? 'Luglio 1947: le Nazioni Unite (Risoluzione 21 del Consiglio di Sicurezza, 18 luglio 1947) affidano formalmente agli Stati Uniti l\'ex Mandato giapponese del Nan\'yō come Trust Territory of the Pacific Islands (Marianne, Caroline e Marshall).'
+              : 'Settembre 1945: capitolazione delle residue guarnigioni giapponesi in Micronesia (Truk, Palau, Yap, Ponape, Marianne e Marshall) e amministrazione navale diretta degli Stati Uniti.',
+            'Alleati',
+            'United States Navy — Trust Territory of the Pacific Islands'
+          );
+        }
+        if (s >= 16 && (nrm_hb.includes('palau') || nrm_hb.includes('koror') || (c && c[0] >= 133 && c[0] <= 136 && c[1] >= 6 && c[1] <= 9))) {
+          return makeResult(
+            'USA',
+            'Palau e Peleliu (Presidio Militare Statunitense)',
+            'Autunno 1944: dopo la battaglia di Peleliu (15 settembre - 27 novembre 1944), gli Stati Uniti controllano le isole principali e gli aeroporti di Palau.',
+            'Alleati',
+            'U.S. Pacific Ocean Areas — Palau Islands'
+          );
+        }
+        if (
+          s >= 14 &&
+          (nrm_hb.includes('saipan') ||
+            nrm_hb.includes('tinian') ||
+            nrm_hb.includes('rota') ||
+            nrm_hb.includes('mariana') ||
+            nrm_hb.includes('marshall') ||
+            nrm_hb.includes('kwajalein') ||
+            nrm_hb.includes('eniwetok') ||
+            (c && c[0] >= 144.5 && c[0] <= 173 && c[1] >= 4 && c[1] <= 21))
+        ) {
+          return makeResult(
+            'USA',
+            'Isole Marianne / Marshall (Basi Aeronavali USA)',
+            'Febbraio-Agosto 1944: conquista statunitense delle Isole Marshall (Kwajalein, Eniwetok) e delle Marianne (Saipan, Tinian) trasformate in basi B-29.',
+            'Alleati',
+            'U.S. Pacific Ocean Areas'
+          );
+        }
+      }
       return makeResult(
         'JAP',
         top.name,
@@ -4106,6 +4929,21 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     if (ov.o === 'UK') {
+      if (s >= 18 && (nrm_hb.includes('hong kong') || name === 'Hong Kong')) {
+        return makeResult(
+          'UK',
+          s >= 19
+            ? 'Crown Colony of Hong Kong (Ricostruzione Postbellica — Gov. Alexander Grantham)'
+            : 'Crown Colony of Hong Kong (Ripristino Sovranità Britannica — 30 Agosto 1945)',
+          s >= 19
+            ? 'Al 30 settembre 1947 Hong Kong è tornata sotto pieno governo coloniale britannico (Governatore Sir Alexander Grantham): il porto franco vive una rapida ripresa commerciale e demografica sullo sfondo della guerra civile cinese.'
+            : 'Il 30 agosto 1945 la squadra navale britannica del contrammiraglio Sir Cecil Harcourt entra a Victoria Harbour liberando Hong Kong dall\'occupazione giapponese (resa formale firmata il 16 settembre 1945).',
+          'Alleati',
+          s >= 19
+            ? 'British Empire — Crown Colony of Hong Kong (Governor Sir Alexander Grantham)'
+            : 'British Military Administration — Hong Kong (Rear-Admiral Sir Cecil Harcourt)'
+        );
+      }
       if (s >= 9 && (nrm_hb.includes('hong kong') || name === 'Hong Kong')) {
         return makeResult(
           'JAP',
@@ -4113,6 +4951,45 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           'Battaglia di Hong Kong (8-25 dicembre 1941): conquista giapponese della colonia britannica nel "Black Christmas" del 25 dicembre 1941.',
           'Asse',
           'Dai Nippon Teikoku — Honkon Senryōchi Sōtokubu'
+        );
+      }
+      if (s >= 13 && nrm_hb.includes('gilbert')) {
+        return makeResult(
+          s === 13 ? 'USA' : 'UK',
+          s >= 18
+            ? 'Gilbert and Ellice Islands Colony (Tarawa — Amministrazione Britannica Restaurata)'
+            : 'Gilbert and Ellice Islands Colony (Tarawa & Makin Liberate dagli Alleati)',
+          s >= 18
+            ? 'Amministrazione coloniale britannica della Western Pacific High Commission ripristinata sugli atolli di Tarawa, Makin (Butaritari), Abemama e sulle Isole Ellice dopo la vittoria di Galatea/Galvanic.'
+            : '20-23 novembre 1943 (Operazione Galvanic): i Marines e la 27ª Divisione USA espugnano Tarawa e Makin eliminando le guarnigioni giapponesi e restituendo le Isole Gilbert agli Alleati.',
+          'Alleati',
+          s === 13
+            ? 'U.S. Pacific Ocean Areas — Tarawa & Makin Garrison'
+            : 'British Western Pacific High Commission — Gilbert & Ellice Islands Colony'
+        );
+      }
+      if (s >= 18 && (nrm_hb.includes('sarawak') || nrm_hb.includes('brunei'))) {
+        const isBrunei = nrm_hb.includes('brunei');
+        return makeResult(
+          'UK',
+          s >= 19
+            ? isBrunei
+              ? 'State of Brunei (Protettorato Britannico — Sultano Ahmad Tajuddin)'
+              : 'Sarawak (Colonia della Corona Britannica del Borneo)'
+            : isBrunei
+            ? 'State of Brunei (Liberazione & Ritorno al Protettorato Britannico — BMA)'
+            : 'Kingdom of Sarawak (Liberazione & Amministrazione Militare Britannica BMA)',
+          s >= 19
+            ? isBrunei
+              ? 'Al 30 settembre 1947 il Sultanato del Brunei è un protettorato britannico retto dal Sultano Ahmad Tajuddin con il Residente Britannico, in rapida ripresa produttiva nei campi petroliferi di Seria.'
+              : 'Dal 1° luglio 1946 Sarawak è formalmente ceduta dall\'ultimo Rajah Bianco Charles Vyner Brooke alla Corona Britannica come Crown Colony.'
+            : 'Settembre 1945: a seguito della liberazione alleata (Operazione Oboe Six della 9ª Divisione australiana) e della resa delle forze giapponesi a Labuan (10 settembre 1945), Brunei e Sarawak tornano sotto controllo britannico (BMA).',
+          'Alleati',
+          s >= 19
+            ? isBrunei
+              ? 'British Protected State of Brunei (Sultan Ahmad Tajuddin / British Resident)'
+              : 'British Empire — Crown Colony of Sarawak (Kuching)'
+            : 'British Military Administration — British Borneo (BMA)'
         );
       }
       if (s >= 9 && (nrm_hb.includes('sarawak') || nrm_hb.includes('brunei') || nrm_hb.includes('gilbert'))) {
@@ -4126,6 +5003,19 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             : 'Operazione B (16-25 dicembre 1941): il Distaccamento Kawaguchi sbarca a Miri, conquista i campi petroliferi di Seria in Brunei e occupa Kuching (Sarawak) il 24 dicembre 1941.',
           'Asse',
           'Dai Nippon Teikoku — Occupazione Militare Giapponese'
+        );
+      }
+      if (s >= 18 && (nrm_hb.includes('solomon') || nrm_hb.includes('salomone'))) {
+        return makeResult(
+          'UK',
+          s >= 19
+            ? 'British Solomon Islands Protectorate (Ricostruzione Postbellica — Honiara)'
+            : 'British Solomon Islands Protectorate (Fine Ostilità & Resa alle Salomone — Settembre 1945)',
+          s >= 19
+            ? 'Al 30 settembre 1947 il protettorato britannico delle Salomone trasferisce progressivamente la capitale da Tulagi a Honiara (Guadalcanal), mentre il movimento locale Maasina Rule chiede maggiore autogoverno a Malaita.'
+            : 'Settembre 1945: con la resa delle ultime forze giapponesi a Bougainville e nelle Salomone settentrionali (8 settembre 1945) terminano tutte le operazioni belliche e si restaura l\'amministrazione britannica.',
+          'Alleati',
+          'British Protectorate — Western Pacific High Commission (Suva)'
         );
       }
       if (s >= 12 && (nrm_hb.includes('solomon') || nrm_hb.includes('salomone'))) {
@@ -4146,8 +5036,22 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           'South Pacific Area (SOPAC — Admiral William F. Halsey Jr.) & 1st Marine Division'
         );
       }
+      if (s >= 18 && nrm_hb.includes('nauru')) {
+        return makeResult(
+          'AST',
+          s >= 19
+            ? 'Nauru (Territorio Fiduciario ONU — Amministrazione Australiana)'
+            : 'Nauru (Resa della Guarnigione Giapponese — 13 Settembre 1945)',
+          s >= 19
+            ? 'Al 30 settembre 1947 l\'isola di Nauru è amministrata dall\'Australia (per conto del Mandato fiduciario congiunto Australia-Regno Unito-Nuova Zelanda), avviando la ripresa dell\'estrazione dei fosfati dopo il rientro dei deportati da Truk.'
+            : 'Il 13 settembre 1945 a bordo della fregata australiana HMAS Diamantina, la guarnigione giapponese di Nauru si arrende formalmente al brigadiere J. R. Stevenson.',
+          'Alleati',
+          'Commonwealth of Australia — Territory of Nauru'
+        );
+      }
       if (
         s >= 10 &&
+        s < 18 &&
         (nrm_hb.includes('malaya') ||
           nrm_hb.includes('malaysia') ||
           nrm_hb.includes('straits') ||
@@ -4190,7 +5094,37 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     if (ov.o === 'AST' || ov.o === 'CAN' || ov.o === 'NZL' || ov.o === 'SAF' || ov.o === 'RAJ') {
       if (
         ov.o === 'AST' &&
+        s >= 18 &&
+        (nrm_hb.includes('new guinea') ||
+          nrm_hb.includes('rabaul') ||
+          nrm_hb.includes('bismarck') ||
+          nrm_hb.includes('bougainville') ||
+          nrm_hb.includes('nauru'))
+      ) {
+        return makeResult(
+          'AST',
+          nrm_hb.includes('nauru')
+            ? s >= 19
+              ? 'Nauru (Territorio Fiduciario ONU — Amministrazione Australiana)'
+              : 'Nauru (Resa della Guarnigione Giapponese — 13 Settembre 1945)'
+            : s >= 19
+            ? 'Territory of Papua-New Guinea (Amministrazione Civile Australiana / Tutela ONU)'
+            : 'Nuova Guinea, Rabaul e Bougainville (Resa Giapponese & Amministrazione Australiana ANGAU)',
+          nrm_hb.includes('nauru')
+            ? 'Dopo la resa giapponese del 13 settembre 1945 a bordo dell\'HMAS Diamantina, l\'Australia ripristina l\'amministrazione su Nauru (sotto accordo fiduciario ONU dal 1947).'
+            : s >= 19
+            ? 'Al 30 settembre 1947 l\'Australia esercita l\'amministrazione civile unificata sul Territorio di Papua e Nuova Guinea (Accordo di Tutela ONU del dicembre 1946; Amministratore Col. J. K. Murray).'
+            : 'Settembre 1945: capitolazione delle armate giapponesi a Rabaul (6 settembre), Torokina/Bougainville (8 settembre) e Wewak (13 settembre) dinanzi alle forze australiane (ANGAU).',
+          'Alleati',
+          s >= 19
+            ? 'Commonwealth of Australia — Territory of Papua-New Guinea (Port Moresby)'
+            : 'Commonwealth of Australia — ANGAU (Australian New Guinea Administrative Unit)'
+        );
+      }
+      if (
+        ov.o === 'AST' &&
         s >= 10 &&
+        s < 18 &&
         (nrm_hb.includes('new guinea') ||
           nrm_hb.includes('rabaul') ||
           nrm_hb.includes('bismarck') ||
@@ -4214,13 +5148,39 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     if (ov.o === 'USA') {
-      if (s >= 10 && (nrm_hb.includes('attu') || nrm_hb.includes('kiska') || nrm_hb.includes('aleutian'))) {
+      if (s >= 10 && s < 12 && (nrm_hb.includes('attu') || nrm_hb.includes('kiska') || nrm_hb.includes('aleutian'))) {
         return makeResult(
           'JAP',
           'Atsuta-tō & Narukami-tō (Isole di Attu e Kiska — Occupazione Imperiale Giapponese nelle Aleutine)',
           'Campagna delle Isole Aleutine (Operazione AL, 6-7 giugno 1942): le forze speciali da sbarco della 5ª Flotta giapponese (Viceamm. Boshiro Hosogaya) occupano le isole statunitensi di Kiska (6 giugno) e Attu (7 giugno) in Alaska, unico territorio nordamericano occupato dall\'Asse nella Seconda Guerra Mondiale.',
           'Asse',
           'Dai Nippon Teikoku Kaigun — 5ª Flotta (Presidi di Attu e Kiska)'
+        );
+      }
+      if (s >= 15 && (name === 'Guam' || nrm_hb.includes('guam'))) {
+        return makeResult(
+          'USA',
+          s >= 19
+            ? 'Territory of Guam (Amministrazione Navale USA — Ricostruzione Postbellica)'
+            : 'Guam (Liberata — Base Aeronavale Strategica USA per B-29)',
+          s >= 19
+            ? 'Al 30 settembre 1947 l\'isola di Guam è un territorio non incorporato degli Stati Uniti amministrato dalla U.S. Navy (Gov. Charles A. Pownall), perno logistico e aeronavale americano nelle Marianne.'
+            : 'Luglio-Agosto 1944: le forze anfibie statunitensi liberano Guam (21 luglio - 10 agosto 1944) trasformando l\'isola in grande base avanzata dei bombardieri B-29 e quartier generale del Pacifico.',
+          'Alleati',
+          'United States Navy — Naval Government of Guam'
+        );
+      }
+      if (s >= 18 && (name === 'Wake Island' || nrm_hb.includes('wake'))) {
+        return makeResult(
+          'USA',
+          s >= 19
+            ? 'Wake Island (Territorio Non Incorporato USA — Civil Aeronautics Administration)'
+            : 'Wake Island (Resa Giapponese del 4 Settembre 1945 — Ritorno agli USA)',
+          s >= 19
+            ? 'Al 30 settembre 1947 l\'atollo di Wake torna a fungere da fondamentale scalo aereo transpacifico sotto amministrazione statunitense (CAA/U.S. Navy).'
+            : 'Il 4 settembre 1945 il contrammiraglio Shigematsu Sakaibara firma la resa incondizionata della guarnigione giapponese di Wake Island dinanzi al generale dei Marines Lawson H. M. Sanderson.',
+          'Alleati',
+          'United States Navy / Civil Aeronautics Administration — Wake Island'
         );
       }
       if (s >= 9 && (name === 'Guam' || nrm_hb.includes('guam') || name === 'Wake Island' || nrm_hb.includes('wake'))) {
@@ -4306,6 +5266,21 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.adminTitle || 'Vasileion tis Ellados'
       );
     }
+    if (ov.o === 'SIA' && s >= 18) {
+      return makeResult(
+        'SIA',
+        s >= 19
+          ? 'Regno di Thailandia (Ratcha-anachak Thai — Post-Trattato di Washington & ONU)'
+          : 'Regno di Thailandia (Governo di Pace Seri Thai — Settembre 1945)',
+        s >= 19
+          ? 'Al 30 settembre 1947 la Thailandia (membro delle Nazioni Unite dal dicembre 1946) ha restituito i territori annessi durante la guerra alla Francia (Trattato di Washington del novembre 1946: Battambang, Siem Reap, Champassak e Sayaboury) e al Regno Unito (quattro sultanati malesi e due stati Shan).'
+          : 'Agosto-Settembre 1945: dopo la resa giapponese, il Reggente Pridi Banomyong (capo della resistenza antigiapponese Seri Thai) dichiara nulla la dichiarazione di guerra del 1942 e affida il governo a Seni Pramoj per la riconciliazione con gli Alleati e la restituzione dei territori occupati.',
+        'Neutrale',
+        s >= 19
+          ? 'Ratcha-anachak Thai — Re Bhumibol Adulyadej (Rama IX) / P.M. Thawan Thamrongnawasawat'
+          : 'Ratcha-anachak Thai — Governo Seri Thai (Reggente Pridi Banomyong / P.M. Seni Pramoj)'
+      );
+    }
     if (ov.o === 'SIA' && s >= 9) {
       return makeResult(
         'SIA',
@@ -4355,6 +5330,17 @@ export function resolveEstonianProvince(
   rawName: string
 ): ResolvedTerritory {
   const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
+  if (s >= 16) {
+    return makeResult(
+      'SOV',
+      `${histName || 'Tallinn'} — Estonskaya SSR`,
+      s >= 19
+        ? 'Settembre 1947: Repubblica Socialista Sovietica Estone (URSS).'
+        : 'Settembre-Novembre 1944: riconquista sovietica di Tallinn (22 settembre) e dell\'Estonia continentale e insulare; ristabilimento della RSS Estone.',
+      'Comintern',
+      'SSSR — Estonskaya SSR (Tallinn)'
+    );
+  }
   if (s >= 9) {
     return makeResult(
       'GER',
@@ -4522,6 +5508,35 @@ export function resolveLatvianProvince(
   rawName: string
 ): ResolvedTerritory {
   const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
+  const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
+  if (s >= 16) {
+    const isCourland =
+      nid === 'LV003' ||
+      nrm.includes('kurzeme') ||
+      nrm.includes('liepaja') ||
+      nrm.includes('ventspils') ||
+      nrm.includes('kuldiga');
+    if ((s === 16 || s === 17) && isCourland) {
+      return makeResult(
+        'GER',
+        'Kurzeme / Sacca di Curlandia (Heeresgruppe Kurland — Wehrmacht)',
+        'Ottobre 1944 - Maggio 1945: l\'Heeresgruppe Nord (poi Heeresgruppe Kurland) resta accerchiato nella penisola di Curlandia fino alla resa generale dell\'8 maggio 1945.',
+        'Asse',
+        'Deutsche Wehrmacht — Heeresgruppe Kurland'
+      );
+    }
+    return makeResult(
+      'SOV',
+      isCourland
+        ? 'Kurzeme (Sacca di Curlandia Liberata — Latviyskaya SSR)'
+        : `${histName || 'Riga'} (Liberata — Latviyskaya SSR)`,
+      s >= 19
+        ? 'Settembre 1947: Repubblica Socialista Sovietica Lettone (URSS).'
+        : 'Ottobre 1944 - 1945: liberazione sovietica di Riga e resa della sacca di Curlandia (maggio 1945); piena reintegrazione nella RSS Lettone.',
+      'Comintern',
+      'SSSR — Latviyskaya SSR (Riga)'
+    );
+  }
   if (s >= 9) {
     return makeResult(
       'GER',
@@ -4531,7 +5546,6 @@ export function resolveLatvianProvince(
       'Reichskommissariat Ostland — Hauptstadt Riga & Generalbezirk Lettland (Reichskommissar Hinrich Lohse / Otto-Heinrich Drechsler)'
     );
   }
-  const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
 
   // 1. Rīga capitale
   if (nid === 'LV006' || nid === 'LV001' || nrm === 'riga' || rawName === 'Rīga' || rawName === 'Riga') {
@@ -4710,7 +5724,19 @@ export function resolveLithuanianProvince(
 ): ResolvedTerritory {
   const histName = p?.HISTORICAL_NAME || p?.NUTS_NAME || rawName;
   const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
-  if (s >= 9 && nid !== 'LT023' && nid !== 'MEMEL' && !nrm.includes('memel') && !nrm.includes('klaipedos krastas')) {
+  const isMemel = nid === 'LT023' || nid === 'MEMEL' || nrm.includes('memel') || nrm.includes('klaipedos krastas');
+  if (s >= 16 && (!isMemel || s >= 17)) {
+    return makeResult(
+      'SOV',
+      `${isMemel ? 'Klaipėda / Memel' : histName || 'Vilnius'} — Lietuvos TSR`,
+      isMemel
+        ? '28 gennaio 1945: conquista sovietica della piazzaforte di Memel (Klaipėda) e integrazione nella RSS Lituana (URSS).'
+        : 'Luglio-Ottobre 1944: liberazione di Vilnius, Kaunas e Palanga da parte dell\'Armata Rossa; reintegrazione nella RSS Lituana.',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Vilnius)'
+    );
+  }
+  if (s >= 9 && !isMemel) {
     return makeResult(
       'GER',
       `Generalbezirk Litauen — ${histName || 'Kauen / Wilna'} (Reichskommissariat Ostland)`,
@@ -5039,6 +6065,27 @@ export function resolveLevantMandateProvince(ft: any, s: number): ResolvedTerrit
     pName.includes('liban') ||
     pName.includes('lebanon') ||
     pName.includes('libano');
+
+  // Step 19 (SET 1947): Sovereign independent Syria and Lebanon post-Allied evacuation
+  if (s >= 19) {
+    const rawTitle = props.HISTORICAL_NAME || props.NAME || props.name || (isLeb ? 'Beirut' : 'Damasco');
+    if (isLeb) {
+      return makeResult(
+        'LEB',
+        `Repubblica Libanese (Indipendenza & Sovranità) — ${rawTitle}`,
+        `${rawTitle} · Piena indipendenza e sovranità della Repubblica Libanese completate dopo l'evacuazione definitiva di tutte le truppe francesi e britanniche il 31 dicembre 1946. Presidenza di Béchara El Khoury e governo di Riad Al Solh retti dal Patto Nazionale del 1943, membro fondatore dell'ONU e della Lega Araba.`,
+        'Neutrale',
+        'Repubblica Libanese (Presidente Béchara El Khoury & Primo Ministro Riad Al Solh — Beirut)'
+      );
+    }
+    return makeResult(
+      'SYR',
+      `Repubblica Siriana (Indipendenza & Sovranità) — ${rawTitle}`,
+      `${rawTitle} · Piena sovranità della Repubblica Siriana celebrata con l'Evacuazione del 17 aprile 1946 (Eid al-Jalaa) delle ultime unità militari francesi e britanniche. Presidenza di Shukri al-Quwatli e governo di Jamil Mardam Bey, membro fondatore della Lega Araba e dell'ONU.`,
+      'Neutrale',
+      'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco)'
+    );
+  }
 
   if (s >= 9) {
     const rawTitle = props.HISTORICAL_NAME || props.NAME || props.name || (isLeb ? 'Beyrouth' : 'Damas');
@@ -5457,7 +6504,10 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
     const subName = `${prefix} — Distretto di Gerusalemme`;
     const adminEntity = "Jerusalem District · Sede dell'Alto Commissario Britannico (Government House, Armon HaNetziv)";
     let note = '';
-    if (s === 0) {
+    if (s >= 19) {
+      note = "Gerusalemme · Il 31 agosto 1947 la commissione speciale UNSCOP consegna all'Assemblea Generale dell'ONU il suo rapporto formale raccomandando la spartizione della Palestina e l'istituzione per Gerusalemme e Betlemme di un Corpus Separatum sotto tutela internazionale dell'ONU. Nel settembre 1947 il governo laburista britannico di Clement Attlee e il Segretario alle Colonie Arthur Creech Jones annunciano ufficialmente la decisione di rimettere il mandato e iniziare l'evacuazione militare del contingente britannico.";
+      return makeResult(ownerCode, `${prefix} — Distretto di Gerusalemme (UNSCOP Proposta Corpus Separatum)`, note, factionCode, "Jerusalem District · UNSCOP Proposed Corpus Separatum & Sede dell'Alto Commissario Britannico (Sir Alan Cunningham)");
+    } else if (s === 0) {
       note = "Gerusalemme (Al-Quds / Yerushalayim) · Capitale mandataria e sede dell'Alto Commissario Sir Arthur Wauchope al Government House e del Secretariat al King David Hotel. Mosaico spirituale millenario delle tre religioni monoteiste (Città Vecchia, Cupola della Roccia, Muro Occidentale, Santo Sepolcro). Centro diplomatico e giudiziario supremo.";
     } else if (s <= 3) {
       note = "Gerusalemme · Epicentro della Grande Rivolta Araba; scioperi e guerriglia urbana. Nell'autunno 1938 i ribelli arabi occupano la Città Vecchia prima di essere espulsi dai battaglioni britannici delle Coldstream Guards con il coprifuoco totale. Fuga del Gran Muftì Amin al-Husseini.";
@@ -5484,6 +6534,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Haifa · Con lo scoppio della guerra Haifa diviene il polmone energetico insostituibile della Mediterranean Fleet britannica e delle forze aeree in Egitto; scalo di convogli armati e idrovolanti.";
     } else if (s <= 7) {
       note = "Haifa · Bersaglio di ripetuti e devastanti bombardamenti della Regia Aeronautica italiana (SM.82 da Rodi) tra luglio e settembre 1940 diretti contro i serbatoi di greggio e il porto. Con la caduta della Francia, la diramazione dell'oleodotto verso Tripoli di Siria/Libano viene sigillata, convogliando tutto il flusso su Haifa.";
+    } else if (s >= 19) {
+      note = "Haifa · Principale porto in acque profonde e polo di raffinazione della Palestina mandataria (CRL / IPC). Nel luglio 1947 la vicenda della nave di profughi Exodus 1947 respinta al porto di Haifa catalizza l'attenzione mondiale; il rapporto UNSCOP del 31 agosto 1947 propone l'inclusione di Haifa nel futuro Stato ebraico.";
     } else {
       note = "Haifa · Blocco temporaneo dei flussi petroliferi dall'Iraq durante il colpo di stato di Rashid Ali ad Habbaniya; porto e base navale di radunata per la flotta alleata e le truppe australiane prima dell'invasione di Siria e Libano.";
     }
@@ -5503,6 +6555,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Tel Aviv · Epicentro delle oceaniche proteste dell'Yishuv contro il Libro Bianco del 1939; sede del comitato esecutivo dell'Agenzia Ebraica e dell'Haganah. Conversione delle fabbriche cittadine alla produzione bellica ausiliaria (munizioni, tessuti, medicinali) per le truppe imperiali britanniche.";
     } else if (s <= 7) {
       note = "Tel Aviv · Tragico bombardamento della Regia Aeronautica italiana il 9 settembre 1940: gli aerei italiani colpiscono quartieri residenziali a nord di Tel Aviv causando 137 morti e oltre 140 feriti civili. La città organizza la difesa antiaerea passiva e rifugi costieri.";
+    } else if (s >= 19) {
+      note = "Tel Aviv e Giaffa · Epicentro politico ed economico dell'Yishuv accanto all'antico porto arabo di Giaffa; nel rapporto di maggioranza UNSCOP (31 agosto 1947) Tel Aviv è assegnata al proposto Stato ebraico e Giaffa designata quale enclave araba alla vigilia del ritiro annunciato britannico (settembre 1947).";
     } else {
       note = "Tel Aviv · Centro di mobilitazione e reclutamento per i volontari ebraici; collaborazione segreta con i comandi britannici per la formazione delle prime compagnie del Palmach destinate a operazioni speciali e di infiltrazione in Siria e Libano.";
     }
@@ -5522,6 +6576,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Galilea · Pacificazione forzata con l'impiego massiccio di truppe britanniche e delle Jewish Settlement Police; consolidamento degli insediamenti fortificati 'Homa U\'Migdal' (Torre e Palizzata) lungo le direttrici strategiche.";
     } else if (s <= 7) {
       note = "Galilea · Con la caduta della Francia e l'allineamento di Siria e Libano al regime di Vichy, la frontiera della Galilea si trasforma improvvisamente nella prima linea difensiva dell'Impero Britannico: trinceramenti, posti di blocco a Naqoura e Metulla, mine anticarro e pattugliamento continuo.";
+    } else if (s >= 19) {
+      note = "Galilea (Al-Jalil / HaGalil) · Nel piano di spartizione raccomandato dall'UNSCOP (31 agosto 1947), la Galilea orientale è inclusa nello Stato ebraico proposto mentre la Galilea occidentale (Acri e Nazareth) è assegnata allo Stato arabo nel clima di crescente tensione dell'autunno 1947.";
     } else {
       note = "Galilea · Piattaforma operativa di lancio per l'Operazione Exporter: concentramento della 7th Australian Division e delle forze alleate che attraversano il confine della Galilea l'8 giugno 1941 penetrando nel Libano meridionale e verso Damasco.";
     }
@@ -5541,6 +6597,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Samaria e Giudea · Fine della rivolta e disarmo delle bande armate; istituzione di presidi permanenti dell'esercito britannico e stazioni di polizia Tegart a Nablus, Jenin e Hebron.";
     } else if (s <= 7) {
       note = "Samaria e Giudea · Calma vigilata sotto rigida amministrazione militare; produzione agricola intensiva di grano e olio per il sostentamento del Mandato e delle guarnigioni britanniche in Medio Oriente durante il blocco del Mediterraneo.";
+    } else if (s >= 19) {
+      note = "Samaria e Giudea (Nablus, Jenin e Hebron) · Dorsale montuosa araba interamente assegnata al proposto Stato arabo palestinese dal rapporto di maggioranza UNSCOP (31 agosto 1947) mentre il governo britannico annuncia a settembre l'abbandono del Mandato.";
     } else {
       note = "Samaria e Giudea · Retrovia strategica per il transito e il dislocamento di truppe britanniche, della Legione Araba transgiordana e delle colonne motorizzate dirette a nord per l'invasione della Siria di Vichy.";
     }
@@ -5560,6 +6618,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Lydda · Con lo scoppio della Seconda Guerra Mondiale la base aerea di Lydda (RAF Station Lydda) viene militarizzata ed espansa come quartier generale aereo strategico per bombardieri e caccia di scorta a difesa del Canale di Suez e della costa palestinese.";
     } else if (s <= 7) {
       note = "Lydda · Installazione di batterie antiaeree e depositi munizioni; la RAF schiera squadriglie da caccia Hurricanes e Gladiators per intercettare i bombardieri italiani della Regia Aeronautica diretti verso Tel Aviv e Haifa.";
+    } else if (s >= 19) {
+      note = "Lydda e Ramle (Piana di Sharon) · Snodo ferroviario e scalo aereo internazionale di Lydda; il rapporto UNSCOP (31 agosto 1947) assegna il litorale ebraico di Sharon allo Stato ebraico e le città arabe interne di Lydda e Ramle allo Stato arabo alla vigilia della smobilitazione mandataria.";
     } else {
       note = "Lydda · Base di partenza fondamentale per le squadriglie della Royal Air Force impegnate nelle operazioni di soccorso ad Habbaniya in Iraq e per la ricognizione sui campi d'aviazione di Vichy a Rayak e Mezzeh prima dell'Operazione Exporter.";
     }
@@ -5579,6 +6639,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Gaza · Militarizzazione del corridoio ferroviario per il trasporto di materiale bellico e truppe dell'esercito imperiale britannico tra l'Egitto e la Palestina; costruzione di campi d'addestramento e depositi logistici.";
     } else if (s <= 7) {
       note = "Gaza · Linea di collegamento vitale per il transito delle divisioni australiane, neozelandesi e indiane tra il teatro nordafricano (fronte di Marsa Matruh e Sidi Barrani) e i presidi del Levante.";
+    } else if (s >= 19) {
+      note = "Gaza (Ghazzah) · Fascia costiera meridionale verso il confine egiziano, inclusa nello Stato arabo palestinese dal piano UNSCOP del 31 agosto 1947 mentre l'amministrazione britannica prepara il disimpegno militare annunciato a settembre 1947.";
     } else {
       note = "Gaza · Retrovia logistica e ospedaliera della British Army; scalo di rifornimento per le colonne corazzate e i convogli di munizioni in movimento verso il fronte siriano.";
     }
@@ -5598,6 +6660,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Beersheba · Il Libro Bianco del 1939 impone il blocco totale alle compravendite di terreni nel Negev (Zona A). L'esercito britannico istituisce stazioni di rifornimento per le pattuglie di ricognizione a lungo raggio nel deserto.";
     } else if (s <= 7) {
       note = "Beersheba · Corridoio strategico terrestre alternativo verso il Mar Rosso in caso di chiusura o danneggiamento del Canale di Suez; installazione di posti di vedetta a Umm Rashrash per controllare la navigazione nel Golfo di Aqaba contro possibili incursioni dei sommergibili italiani della base di Massaua (Mar Rosso).";
+    } else if (s >= 19) {
+      note = "Beersheba (Negev) · Nel piano di maggioranza UNSCOP del 31 agosto 1947 gli ampi spazi desertici del Negev fino ad Aqaba sono proposti per lo Stato ebraico, mentre la città beduina di Beersheba resta destinata allo Stato arabo sotto vigilanza mandataria britannica fino al ritiro annunciato a settembre.";
     } else {
       note = "Beersheba · Sicurezza garantita dalle pattuglie beduine della TJFF; collegamento strategico tra la Palestina e l'Emirato di Transgiordania dell'Emiro Abdullah I per garantire il libero transito delle forze motorizzate alleate verso l'Iraq e la Siria.";
     }
@@ -5641,6 +6705,51 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   const nid = String(p.NUTS_ID || ft.id || '');
   const cleanId = String(ft.id || p.id || p.NUTS_ID || nid || '').toUpperCase().trim();
   const c = ft.__cent || [0, 0];
+
+  if (cleanId === 'RE_REUNION' || cleanId === 'FRY40' || nid === 'RE_REUNION' || nid === 'FRY40' || (p.NAME && p.NAME.includes('Réunion')) || (p.NAME && p.NAME.includes('Reunion'))) {
+    return resolveReunion(s);
+  }
+  if (cleanId === 'SI_HIST_KOPER' || nid === 'SI_HIST_KOPER' || (p.NAME_LATN && p.NAME_LATN.includes('Koper'))) {
+    return resolveKoperZoneB(s);
+  }
+  if (cleanId === 'HR_HIST_BUIE' || nid === 'HR_HIST_BUIE' || (p.NAME_LATN && p.NAME_LATN.includes('Buje'))) {
+    return resolveBuieZoneB(s);
+  }
+  if (
+    cleanId === 'TANGER' ||
+    nid === 'TANGER' ||
+    cntr === 'TANGER' ||
+    cntr === 'TANGIER' ||
+    nrm === 'tangier' ||
+    nrm === 'tanger' ||
+    nrm === 'tangeri' ||
+    nrm.includes('zone internationale de tanger') ||
+    nrm.includes('tangier international zone') ||
+    nrm.includes('international zone of tangier') ||
+    nrm.includes('zona internazionale di tangeri')
+  ) {
+    if (s >= 18) {
+      return makeResult(
+        'TANGER',
+        'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)',
+        "L'11 ottobre 1945 le truppe spagnole di Franco evacuano la città su intimazione delle potenze alleate: viene restaurato il regime di amministrazione internazionale (Comitato di Controllo internazionale)",
+        'Neutrale'
+      );
+    }
+    if (s >= 6) {
+      return makeResult(
+        'SPA',
+        'Tánger (Zona Ocupada por España)',
+        'Ocupación Militar Española (14 de junio de 1940)'
+      );
+    }
+    return makeResult(
+      'TANGER',
+      'Zone Internationale de Tanger',
+      'Administration Internationale (Statut de 1923)',
+      'Neutrale'
+    );
+  }
 
   const getTop = (owner: string) => getExtendedToponym(rawName, owner, nid, c, s);
 
@@ -5821,6 +6930,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isAlgeriaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^DZ_/, 'DZ').toUpperCase();
     const dzMeta = (ALGERIA_PROVINCES_META as any)?.[cleanId];
+    if (s >= 19) {
+      const top = getTop('FRA');
+      return makeResult(
+        'FRA',
+        dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
+        `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · Con la promulgazione dello Statut Organique de l'Algérie (20 settembre 1947), i tre dipartimenti algerini e i Territori del Sud sono retti nell'ambito della Quarta Repubblica e dell'Union Française tramite l'Assemblea Algerina paritaria sotto il Governatore Generale Yves Chataigneau.`,
+        'Alleati',
+        "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Alger · Yves Chataigneau)"
+      );
+    }
     const owner = s >= 11 ? 'FRA' : s >= 6 ? 'VIC_NAF' : 'F_NAF';
     const top = getTop(owner);
     const faction = s >= 11 ? 'Alleati' : s >= 6 ? 'Fantoccio' : 'Alleati';
@@ -5856,6 +6975,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isMoroccoFranceProv) {
     const cleanId = String(ft.id || nid || '').replace(/^MA_/, 'MA').toUpperCase();
     const maMeta = (MOROCCO_PROVINCES_META as any)?.[cleanId];
+    if (s >= 19) {
+      const top = getTop('FRA');
+      return makeResult(
+        'FRA',
+        maMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
+        `${maMeta?.name || rawName} (${maMeta?.capital || 'Maroc'}) · Protettorato francese del Marocco nella Quarta Repubblica e nell'Union Française: dopo lo storico Discorso di Tangeri del Sultano Mohammed V (10 aprile 1947) a favore dell'indipendenza e dell'unità nazionale, Parigi nomina il Generale Alphonse Juin nuovo Résident Général a Rabat (maggio 1947).`,
+        'Alleati',
+        'Quatrième République (Union Française) — Résidence Générale au Maroc (Rabat · Gén. Alphonse Juin)'
+      );
+    }
     const owner = s >= 11 ? 'FRA' : s >= 6 ? 'VIC_NAF' : 'F_NAF';
     const top = getTop(owner);
     const faction = s >= 11 ? 'Alleati' : s >= 6 ? 'Fantoccio' : 'Alleati';
@@ -5888,6 +7017,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isTunisiaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^TN_/, 'TN').toUpperCase();
     const tnMeta = (TUNISIA_PROVINCES_META as any)?.[cleanId];
+    if (s >= 19) {
+      return makeResult(
+        'FRA',
+        tnMeta?.historicalName || 'Protectorat français de Tunisie (Union Française — Tunisi)',
+        `${tnMeta?.name || rawName} (${tnMeta?.capital || 'Tunisie'}) · Protettorato francese di Tunisia sotto la Quarta Repubblica (Union Française), retto da Lamine Bey e dal nuovo Résident Général Jean Mons (nominato nel febbraio 1947), mentre crescono le rivendicazioni nazionali del Neo-Destour e del sindacato UGTT.`,
+        'Alleati',
+        'Quatrième République (Union Française) — Résidence Générale en Tunisie (Tunis · Jean Mons & Lamine Bey)'
+      );
+    }
     if (s >= 12) {
       return makeResult(
         'F_NAF',
@@ -5934,6 +7072,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     const cleanId = String(ft.id || nid || '').replace(/^EG_/, 'EG').toUpperCase();
     const egMeta = (EGYPT_DISTRICTS_META as any)?.[cleanId];
     const egTop = getTop('EGY');
+    if (s >= 19) {
+      return makeResult(
+        'EGY',
+        egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Regno d'Egitto",
+        `${egMeta?.name || rawName} (${egMeta?.capital || 'Egitto'}) · Regno d'Egitto pienamente sovrano dopo il completamento dello sgombero militare britannico dal Cairo, da Alessandria e dal Delta verso la sola Zona del Canale di Suez (marzo 1947). Nell'estate-settembre 1947 il Primo Ministro Mahmoud an-Nukrashi Pasha porta davanti al Consiglio di Sicurezza dell'ONU la richiesta di evacuazione totale e di unità della Valle del Nilo.`,
+        'Neutrale',
+        "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mahmoud an-Nukrashi Pasha)"
+      );
+    }
     if (cleanId === 'EGMT' && s === 7) {
       return makeResult(
         'EGY',
@@ -6107,6 +7254,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'gibraltar crown colony';
 
   if (isGibraltar) {
+    if (s >= 19) {
+      return makeResult(
+        'GIB',
+        'Gibraltar (Crown Colony)',
+        'Gibraltar — Colonia della Corona britannica sullo Stretto (SET 1947: rimpatrio sfollati & Royal Navy postbellica)',
+        'Alleati',
+        'British Empire — Crown Colony of Gibraltar (Attlee Era)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'GIB',
+        'Gibraltar (Crown Colony)',
+        'Gibraltar — Smobilitazione postbellica della fortezza dopo VE Day e rimpatrio civili',
+        'Alleati',
+        'British Empire — Crown Colony of Gibraltar'
+      );
+    }
     return makeResult(
       'GIB',
       'Gibraltar (Crown Colony)',
@@ -6186,18 +7351,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'principality of monaco';
 
   if (isMonaco) {
-    const ownerCode = s >= 13 ? 'GER' : s >= 11 ? 'ITA' : 'MCO';
+    const ownerCode = s >= 16 ? 'MCO' : s >= 13 ? 'GER' : s >= 11 ? 'ITA' : 'MCO';
     const top = getExtendedToponym(rawName || 'Monaco', ownerCode, nid || 'MCO_HIST', [7.4233, 43.7367], s);
-    const monacoNote = s >= 13
-      ? 'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio italiano, le truppe tedesche della Wehrmacht occupano il Principato di Monaco, subentrando alle autorità d\'occupazione del Regio Esercito.'
-      : s >= 11
-      ? 'Operazione Anton (novembre 1942): truppe italiane occupano il Principato di Monaco.'
-      : 'Antico principato sovrano retto dalla dinastia Grimaldi.';
+    const monacoName =
+      s >= 18
+        ? 'Principauté de Monaco (Souveraineté Restaurée)'
+        : s >= 16
+        ? top.name?.includes('Libérée')
+          ? top.name
+          : 'Principauté de Monaco (Libérée — Restauration Souveraine)'
+        : top.name || 'Principauté de Monaco';
+    const monacoFac: FactionType = s >= 18 ? 'Neutrale' : s >= 16 ? 'Alleati' : s >= 11 ? 'Asse' : 'Neutrale';
+    const monacoNote =
+      s >= 16
+        ? 'Il 3 settembre 1944 le truppe alleate liberano il Principato di Monaco dall\'occupazione tedesca; il Principe Luigi II riassume la sovranità costituzionale.'
+        : s >= 13
+        ? 'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio italiano, le truppe tedesche della Wehrmacht occupano il Principato di Monaco, subentrando alle autorità d\'occupazione del Regio Esercito.'
+        : s >= 11
+        ? 'Operazione Anton (novembre 1942): truppe italiane occupano il Principato di Monaco.'
+        : 'Antico principato sovrano retto dalla dinastia Grimaldi.';
     return makeResult(
       ownerCode,
-      top.name || 'Principauté de Monaco',
+      monacoName,
       top.note || monacoNote,
-      s >= 11 ? 'Asse' : 'Neutrale',
+      monacoFac,
       top.adminTitle || 'Principauté de Monaco'
     );
   }
@@ -6240,6 +7417,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     (c[0] >= -5.2 && c[0] <= -4.0 && c[1] >= 53.8 && c[1] <= 54.7);
 
   if (isMan) {
+    if (s >= 9) {
+      const ukMan = resolveUKProvince('IM', s, rawName);
+      if (ukMan) return ukMan;
+    }
     const top = getTop('UK');
     return makeResult(
       'UK',
@@ -6273,7 +7454,12 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
 
   if (isChannel) {
-    if (s >= 6) {
+    const chKey = (nrm.includes('jersey') || nid === 'JE' || cntr === 'JE') ? 'JE' : 'GG';
+    if (s >= 9) {
+      const ukCh = resolveUKProvince(chKey, s, rawName);
+      if (ukCh) return ukCh;
+    }
+    if (s >= 6 && s < 18) {
       const gerTop = getTop('GER');
       return makeResult(
         'GER',
@@ -6481,7 +7667,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   }
 
   // Granularizzazione integrale del Teatro Cinese e Guerra Sino-Giapponese (1936-1940)
-  if (cntr === 'CN_PROV' || nid.startsWith('CHN_') || p.REGION_KIND === 'CHINA_PROVINCE') {
+  if ((cntr === 'CN_PROV' || nid.startsWith('CHN_') || p.REGION_KIND === 'CHINA_PROVINCE') && nid !== 'JP_KANTO_SHU' && fidClean !== 'JP_KANTO_SHU') {
     return resolveChinaProvince(s, nid, p, rawName);
   }
 
@@ -6536,6 +7722,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     (p.NUTS_NAME && p.NUTS_NAME.toLowerCase().includes('tuva'));
 
   if (isTuva) {
+    if (s >= 16) {
+      return makeResult(
+        'SOV',
+        'Tuvinskaya Avtonomnaya Oblast (Tuva — SSSR)',
+        'L\'11 ottobre 1944 il Presidium del Soviet Supremo accoglie la richiesta della Piccola Khural di Tuva: la Repubblica Popolare di Tannu Tuva viene formalmente annessa all\'Unione Sovietica (RSFSR) come Oblast\' Autonoma di Tuva (Tuvinskaya AO con capoluogo Kyzyl).',
+        'Comintern',
+        'SSSR — RSFSR (Tuvinskaya Avtonomnaya Oblast, Kyzyl)'
+      );
+    }
     const histName = p.HISTORICAL_NAME || p.NUTS_NAME || 'Tyva Arat Respublika (Kyzyl)';
     const adminTitle = p.ADMIN_TITLE || 'Tyva Arat Respublika (Tuvan People\'s Republic)';
     return makeResult('TUV', histName, adminTitle, 'Comintern');
@@ -6548,6 +7743,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       const sovProv = resolveSovietProvince(nid || fidClean || rawName, s, rawName);
       if (sovProv) return sovProv;
       if (nid === 'SOV_ADM1_RUS_55_Tuva' || nid.includes('Tuva') || nrm.includes('tuva') || nrm.includes('tannu')) {
+        if (s >= 16) {
+          return makeResult(
+            'SOV',
+            'Tuvinskaya Avtonomnaya Oblast (Tuva — SSSR)',
+            'L\'11 ottobre 1944 il Presidium del Soviet Supremo accoglie la richiesta della Piccola Khural di Tuva: la Repubblica Popolare di Tannu Tuva viene formalmente annessa all\'Unione Sovietica (RSFSR) come Oblast\' Autonoma di Tuva (Tuvinskaya AO con capoluogo Kyzyl).',
+            'Comintern',
+            'SSSR — RSFSR (Tuvinskaya Avtonomnaya Oblast, Kyzyl)'
+          );
+        }
         const histName = p.HISTORICAL_NAME || p.NUTS_NAME || 'Tyva Arat Respublika (Kyzyl)';
         const adminTitle = p.ADMIN_TITLE || 'Tyva Arat Respublika (Tuvan People\'s Republic)';
         return makeResult('TUV', histName, adminTitle, 'Comintern');
@@ -6563,8 +7767,33 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'FIN_HIST': {
       const isPetsamo = nid.includes('Petsamo') || nrm.includes('petsamo') || rawName.includes('Petsamo');
       const isSalla = nid.includes('Salla') || nid.includes('Koutero') || nrm.includes('salla') || rawName.includes('Salla') || rawName.includes('Alakurtti');
+      const isViipuri = nid.includes('VIIPURI') || nid.includes('259') || nrm.includes('viipuri') || nrm.includes('vyborg');
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
       const sovName = p.SOV_NAME || (histName + ' (URSS)');
+
+      if (s >= 16) {
+        return makeResult(
+          'SOV',
+          isPetsamo
+            ? 'Pechenga / Petsamo (Murmanskaya oblast — URSS)'
+            : `${sovName}`,
+          s >= 19
+            ? 'Trattato di Pace di Parigi (1947) e Armistizio di Mosca (19 settembre 1944): cessione definitiva all\'Unione Sovietica.'
+            : 'Armistizio di Mosca (19 settembre 1944): cessione definitiva alla Sovranità Sovietica (Carelia / Salla / Petsamo).',
+          'Comintern',
+          isPetsamo ? 'SSSR — Murmanskaya oblast' : 'SSSR — Karelo-Finskaya SSR / Leningradskaya oblast'
+        );
+      }
+
+      if (s >= 14 && isViipuri) {
+        return makeResult(
+          'SOV',
+          `${sovName} — Vyborg (Offensiva di Carelia, 20 Giugno 1944)`,
+          '20 giugno 1944: nell\'offensiva Vyborg-Petrozavodsk l\'Armata Rossa espugna Viipuri (Vyborg) respingendo l\'esercito finlandese sulla linea d\'arresto VKT (Viipuri-Kuparsaari-Taipale).',
+          'Comintern',
+          'SSSR — Karelo-Finskaya SSR'
+        );
+      }
 
       if (isPetsamo) {
         return makeResult(
@@ -6600,6 +7829,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'FIN_PETSAMO': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || 'Petsamo (Petsamon lääni / Liinahamari)';
+      if (s >= 16) {
+        return makeResult(
+          'SOV',
+          'Pechenga / Petsamo (URSS — Armistizio di Mosca)',
+          s >= 19
+            ? 'Trattato di Pace di Parigi (1947): cessione definitiva di Petsamo (Pechenga) e delle miniere di nichel all\'URSS.'
+            : 'Armistizio di Mosca (19 settembre 1944): la Finlandia cede il corridoio artico di Petsamo all\'URSS.',
+          'Comintern',
+          'SSSR — Murmanskaya oblast (Pechenga)'
+        );
+      }
       if (s < 6) {
         return makeResult(
           'FIN',
@@ -6620,6 +7860,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'FIN_KARELIA': {
       const finName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
       const sovName = p.SOV_NAME || (finName + ' (SSSR)');
+      if (s >= 16 || (s >= 14 && (nrm.includes('viipuri') || nrm.includes('vyborg')))) {
+        return makeResult(
+          'SOV',
+          sovName,
+          s >= 16
+            ? 'Armistizio di Mosca (19 settembre 1944) e Trattato di Parigi (1947): conferma delle frontiere del 1940 e cessione della Carelia all\'URSS.'
+            : '20 giugno 1944: perdita di Viipuri (Vyborg) nell\'offensiva sovietica sull\'Istmo e arretramento finlandese sulla linea VKT.',
+          'Comintern',
+          'SSSR — Leningradskaya oblast / Karelo-Finskaya SSR'
+        );
+      }
       if (s < 6 || s >= 9) {
         return makeResult(
           'FIN',
@@ -6641,6 +7892,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'FIN_SALLA': {
       const finName = p.HISTORICAL_NAME || p.NUTS_NAME || 'Itä-Salla ja Alakurtti (Kuolajärvi / Märkäjärvi)';
       const sovName = p.SOV_NAME || 'Alakurtin piiri (SSSR)';
+      if (s >= 16) {
+        return makeResult(
+          'SOV',
+          sovName,
+          'Armistizio di Mosca (19 settembre 1944): riconferma della cessione del settore di Salla orientale e Alakurtti all\'URSS.',
+          'Comintern',
+          'SSSR — Murmanskaya oblast / Karelo-Finskaya SSR'
+        );
+      }
       if (s < 6 || s >= 9) {
         return makeResult(
           'FIN',
@@ -6690,6 +7950,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'RO_BES':
     case 'MDA_BESSARABIA': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      if (s >= 15) {
+        return makeResult(
+          'SOV',
+          `${histName} — Moldavskaya SSR (Basarabia Liberata)`,
+          'Offensiva Iași-Chișinău (agosto 1944): l\'Armata Rossa libera la Bessarabia dall\'occupazione dell\'Asse, reintegrandola come Repubblica Socialista Sovietica Moldava.',
+          'Comintern',
+          'SSSR — Moldavskaya SSR (Chișinău)'
+        );
+      }
       if (s >= 9) {
         return makeResult(
           'ROM',
@@ -6717,6 +7986,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'RO_BUD': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      if (s >= 15) {
+        return makeResult(
+          'SOV',
+          `${histName} — Ukrainskaya SSR (Bugeac / Izmailskaya oblast)`,
+          'Offensiva Iași-Chișinău (agosto 1944): liberazione sovietica della Bessarabia meridionale (Bugeac, Cetatea Albă e Ismail) e reintegrazione nella RSS Ucraina.',
+          'Comintern',
+          'SSSR — Ukrainskaya SSR (Izmailskaya oblast)'
+        );
+      }
       if (s >= 9) {
         return makeResult(
           'ROM',
@@ -6744,6 +8022,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'RO_BUK': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
+      if (s >= 15) {
+        return makeResult(
+          'SOV',
+          `${histName} — Ukrainskaya SSR (Chernovitskaya oblast)`,
+          'Offensiva dei Carpazi e Bukovina (1944): liberazione sovietica di Cernăuți e della Bucovina settentrionale; reintegrazione nella RSS Ucraina.',
+          'Comintern',
+          'SSSR — Ukrainskaya SSR (Chernovtsy)'
+        );
+      }
       if (s >= 9) {
         return makeResult(
           'ROM',
@@ -6791,8 +8078,44 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             `Rzeczpospolita Polska — Województwo ${voiv}`
           );
         }
+        const nrmVoiv = normStr(voiv + ' ' + nid + ' ' + histName);
+        if (s >= 15) {
+          if (nid.startsWith('PL_KRESY_LTU_')) {
+            return makeResult(
+              'SOV',
+              `${histName} — Lietuvos TSR`,
+              `Luglio 1944 (Operazione Bagration): territorio liberato dall'Armata Rossa e reintegrato nella RSS Lituana.${modern}`,
+              'Comintern',
+              'SSSR — Lietuvos TSR (Vilnius)'
+            );
+          }
+          if (
+            nrmVoiv.includes('lwow') ||
+            nrmVoiv.includes('stanislaw') ||
+            nrmVoiv.includes('tarnopol') ||
+            nrmVoiv.includes('drohobycz') ||
+            nrmVoiv.includes('wolyn') ||
+            nrmVoiv.includes('volhyn') ||
+            nid.startsWith('PL_KRESY_UKR_') ||
+            ssr.includes('Ucrain')
+          ) {
+            return makeResult(
+              'SOV',
+              `${histName} — RSS Ucraina (${ssr})`,
+              `Luglio 1944: offensiva Leopoli-Sandomierz (1° Fronte Ucraino); liberazione di Leopoli (27 luglio 1944) e integrazione nella Repubblica Socialista Sovietica Ucraina.${modern}`,
+              'Comintern',
+              `SSSR — ${ssr}`
+            );
+          }
+          return makeResult(
+            'SOV',
+            `${histName} — ${ssr}`,
+            `Estate 1944: Operazione Bagration dell'Armata Rossa; territorio integrato nella ${ssr}.${modern}`,
+            'Comintern',
+            `SSSR — ${ssr}`
+          );
+        }
         if (s >= 9) {
-          const nrmVoiv = normStr(voiv + ' ' + nid + ' ' + histName);
           // 1. Distretto di Galizia (Distrikt Galizien) annesso al Governatorato Generale il 1° agosto 1941 (Leopoli, Stanisławów, Tarnopol)
           if (
             nrmVoiv.includes('lwow') ||
@@ -6899,12 +8222,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
       // Danzica (PL633 o DANZIG)
       if (nid === 'PL633' || nid === 'DANZIG' || nid === 'FREE_CITY_OF_DANZIG') {
+        if (s >= 17) {
+          return makeResult(
+            'POL',
+            s >= 18
+              ? 'Gdańsk / Danzica (Repubblica di Polonia — Voivodato di Danzica)'
+              : 'Gdańsk / Danzica Liberata (Amministrazione Polacca — Voivodato di Danzica)',
+            s >= 18
+              ? 'Conferenza di Potsdam (agosto 1945): l\'ex Città Libera di Danzica (Gdańsk) è pienamente integrata nella Repubblica di Polonia.'
+              : 'Il 30 marzo 1945 il 2° Fronte Bielorusso e la 1ª Brigata Corazzata Polacca liberano Danzica; istituito il Voivodato polacco di Gdańsk.',
+            'Alleati',
+            s >= 18 ? 'Rzeczpospolita Polska — Województwo Gdańskie' : 'Polonia — Rząd Tymczasowy Rzeczypospolitej Polskiej'
+          );
+        }
         if (s < 5) {
           const top = resolvePolandToponym(nid, rawName, nrm, 'DANZIG', s);
           return makeResult(
             'DANZIG',
             top?.name || 'Freie Stadt Danzig',
-            top?.note || 'Città Libera di Danzica sotto la protezione della Società delle Nazioni.',
+            top?.note || 'Città Libera di Danzig sotto la protezione della Società delle Nazioni.',
             undefined,
             top?.adminTitle || 'Freie Stadt Danzig (Völkerbundskommissar)'
           );
@@ -6922,6 +8258,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
       // Corridoio Polacco / Gdynia (PL_HIST_CORRIDOR)
       if (nid === 'PL_HIST_CORRIDOR' || rawName.includes('Polish Corridor') || nrm.includes('korytarz')) {
+        if (s >= 17) {
+          return makeResult(
+            'POL',
+            'Gdynia / Pomorskie (Corridoio Polacco Liberato)',
+            'Marzo-Aprile 1945: liberazione di Gdynia e del litorale della Pomerania da parte del 2° Fronte Bielorusso e delle forze polacche; ripristino della sovranità nazionale.',
+            'Alleati',
+            'Rzeczpospolita Polska — Województwo Gdańskie / Pomorskie'
+          );
+        }
         if (s < 5) {
           const top = resolvePolandToponym(nid, rawName, nrm, 'POL', s);
           return makeResult(
@@ -6944,7 +8289,6 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       }
 
       // Territori tedeschi pre-1939 (Bassa Slesia, Alta Slesia tedesca, Pomerania occidentale, Grenzmark, Prussia Orientale)
-      // Mantengono la sovranità tedesca (GER) per tutti gli step storici
       const isPreWarGerman = (
         nid.startsWith('PL51') || // Breslau / Niederschlesien
         nid.startsWith('PL52') || // Oppeln / Oberschlesien
@@ -6958,6 +8302,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
 
       if (isPreWarGerman) {
+        if (s >= 18) {
+          const cleanPl = rawName || 'Ziemie Odzyskane';
+          return makeResult(
+            'POL',
+            `${cleanPl} (Ziemie Odzyskane — Linea Oder-Neisse / Polonia)`,
+            'Conferenza di Potsdam (agosto 1945): territori ad est della Linea Oder-Neisse amministrati e ripopolati dalla Repubblica di Polonia (Ziemie Odzyskane).',
+            'Alleati',
+            'Rzeczpospolita Polska — Ministerstwo Ziem Odzyskanych'
+          );
+        }
+        if (s === 17 && (nid === 'PL514' || nrm.includes('wroclaw') || nrm.includes('breslau'))) {
+          return makeResult(
+            'GER',
+            'Breslau (Festung Breslau — Assedio dell\'Armata Rossa)',
+            'Febbraio-Maggio 1945: dichiarata fortezza inespugnabile (Festung Breslau) dal comandante Hermann Niehoff, la capitale della Bassa Slesia resiste all\'assedio sovietico fino al 6 maggio 1945.',
+            'Asse',
+            'Deutsches Reich — Festung Breslau (Gen. Hermann Niehoff)'
+          );
+        }
         const top = resolvePolandToponym(nid, rawName, nrm, 'GER', s);
         return makeResult(
           'GER',
@@ -6977,6 +8340,108 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           top?.note || 'Druga Rzeczpospolita Polska (1918-1939).',
           'Alleati',
           top?.adminTitle || 'Rzeczpospolita Polska'
+        );
+      }
+
+      // Step >= 15 (Agosto 1944 - Settembre 1947): Insurrezione di Varsavia, Manifesto PKWN di Lublino, Fronte della Vistola, Liberazione
+      if (s >= 15) {
+        if (s === 15) {
+          if (nid === 'PL127_WARSZAWA_CITY' || nrm === 'warszawa_city' || nrm.includes('warszawa city')) {
+            return makeResult(
+              'POL',
+              'Varsavia (Insurrezione di Varsavia — Armia Krajowa)',
+              '1° agosto 1944: esplode l\'Insurrezione di Varsavia guidata dal generale Tadeusz Bór-Komorowski e dall\'Armia Krajowa per liberare la capitale polacca prima dell\'arrivo dell\'Armata Rossa.',
+              'Alleati',
+              'Polskie Państwo Podziemne — Armia Krajowa (Gen. Tadeusz Bór-Komorowski)'
+            );
+          }
+          if (nid === 'PL127_WARSZAWA_PRAGA' || nid === 'PL912' || nrm === 'praga') {
+            return makeResult(
+              'SOV',
+              'Warszawa-Praga (Fronte sulla Vistola — 1° Fronte Bielorusso)',
+              'Agosto 1944: le avanguardie corazzate del 1° Fronte Bielorusso del Mareciallo Konstantin Rokossovskij raggiungono i sobborghi orientali di Varsavia (Praga) lungo la riva destra della Vistola.',
+              'Comintern',
+              'Armata Rossa — 1° Fronte Bielorusso (Mareciallo Konstantin Rokossovskij)'
+            );
+          }
+          if (
+            nid === 'PL31' ||
+            nid.startsWith('PL81') ||
+            nid.startsWith('PL82') ||
+            nid.startsWith('PL84') ||
+            nrm.includes('lubel') ||
+            nrm.includes('lublin') ||
+            nrm.includes('bialystok') ||
+            nrm.includes('rzeszow')
+          ) {
+            return makeResult(
+              'SOV',
+              `${rawName || 'Lublino'} (Sede del Comitato Polacco di Liberazione Nazionale — PKWN)`,
+              'Luglio-Agosto 1944: liberazione dei voivodati orientali della Vistola ad opera dell\'Armata Rossa e proclamazione a Lublino del Comitato Polacco di Liberazione Nazionale (PKWN).',
+              'Comintern',
+              'Armata Rossa / Comitato Polacco di Liberazione Nazionale (PKWN)'
+            );
+          }
+          const topGer15 = resolvePolandToponym(nid, rawName, nrm, 'GER', s);
+          return makeResult(
+            'GER',
+            topGer15?.name || rawName,
+            topGer15?.note || 'Occupazione tedesca della Polonia centro-occidentale (agosto 1944).',
+            'Asse',
+            topGer15?.adminTitle || 'Generalgouvernement / Deutsches Reich'
+          );
+        }
+        if (s === 16) {
+          if (
+            nid === 'PL127_WARSZAWA_PRAGA' ||
+            nid === 'PL912' ||
+            nid === 'PL31' ||
+            nid.startsWith('PL81') ||
+            nid.startsWith('PL82') ||
+            nid.startsWith('PL84') ||
+            nrm === 'praga' ||
+            nrm.includes('praga') ||
+            nrm.includes('lublin') ||
+            nrm.includes('lubel') ||
+            nrm.includes('rzeszow') ||
+            nrm.includes('bialystok')
+          ) {
+            return makeResult(
+              'SOV',
+              `${rawName || 'Polonia Orientale'} (Riva Est della Vistola — Armata Rossa & PKWN)`,
+              'Dicembre 1944: il fronte sovietico è attestato sulla riva destra della Vistola (Varsavia-Praga e Lublino) in attesa della grande offensiva invernale.',
+              'Comintern',
+              'PKWN / Armata Rossa (1° Fronte Bielorusso)'
+            );
+          }
+          if (nid === 'PL911' || nid === 'PL127_WARSZAWA_CITY' || nrm.includes('srodmiescie') || nrm.includes('warszawa')) {
+            return makeResult(
+              'GER',
+              'Warschau (Rovine di Varsavia — Fronte sulla Vistola)',
+              'Dopo la capitolazione dell\'Insurrezione di Varsavia (2 ottobre 1944), reparti speciali tedeschi distruggono sistematicamente il centro cittadino sulla riva sinistra della Vistola.',
+              'Asse',
+              'Wehrmacht — Heeresgruppe Mitte (Fronte sulla Vistola)'
+            );
+          }
+          const topGer16 = resolvePolandToponym(nid, rawName, nrm, 'GER', s);
+          return makeResult(
+            'GER',
+            topGer16?.name || rawName,
+            topGer16?.note || 'Occupazione tedesca della Polonia occidentale lungo la linea della Vistola (dicembre 1944).',
+            'Asse',
+            topGer16?.adminTitle || 'Generalgouvernement / Deutsches Reich'
+          );
+        }
+        return makeResult(
+          'POL',
+          `${rawName || 'Polska'} (${s >= 19 ? 'Repubblica di Polonia' : s === 18 ? 'Repubblica di Polonia — Rząd Jedności Narodowej' : 'Polonia Liberata'})`,
+          s >= 19
+            ? 'Settembre 1947: territorio della Repubblica di Polonia entro i nuovi confini postbellici sull\'Oder-Neisse.'
+            : s === 18
+            ? 'Settembre 1945: Repubblica di Polonia restaurata sotto il Governo Provvisorio di Unità Nazionale.'
+            : 'Primavera 1945: liberazione del territorio polacco nell\'Offensiva Vistola-Oder e insediamento del governo provvisorio polacco.',
+          'Alleati',
+          'Rzeczpospolita Polska'
         );
       }
 
@@ -7028,6 +8493,85 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           topAus.adminTitle || 'Bundesstaat Österreich (Ständestaat)'
         );
       }
+      if (s >= 18) {
+        const isSovietZone =
+          nid === 'AT313' ||
+          nid.startsWith('AT1') ||
+          nrm.includes('wien') ||
+          nrm.includes('vienna') ||
+          nrm.includes('niederosterreich') ||
+          nrm.includes('burgenland') ||
+          nrm.includes('muhlviertel');
+        const isFrenchZone =
+          nid.startsWith('AT34') ||
+          nid === 'AT331' ||
+          nid === 'AT332' ||
+          nid === 'AT334' ||
+          nid === 'AT335' ||
+          (nid === 'AT33' && !nrm.includes('osttirol')) ||
+          nrm.includes('innsbruck') ||
+          nrm.includes('vorarlberg') ||
+          (nrm.includes('tirol') && !nrm.includes('osttirol'));
+        const isBritishZone =
+          nid.startsWith('AT2') ||
+          nid === 'AT333' ||
+          nrm.includes('graz') ||
+          nrm.includes('klagenfurt') ||
+          nrm.includes('steiermark') ||
+          nrm.includes('karnten') ||
+          nrm.includes('osttirol');
+        const ausZone = isSovietZone ? 'SOV' : isFrenchZone ? 'FRA' : isBritishZone ? 'UK' : 'USA';
+        const topAusPost = resolveSwissAustrianToponym(nid, rawName, nrm, ausZone, s);
+        const zoneLabel =
+          ausZone === 'SOV'
+            ? 'Zona Sovietica (Austria Orientale / Vienna)'
+            : ausZone === 'FRA'
+            ? 'Zona Francese (Tirolo & Vorarlberg)'
+            : ausZone === 'UK'
+            ? 'Zona Britannica (Stiria, Carinzia, Tirolo Orientale)'
+            : 'Zona Statunitense (Alta Austria & Salisburgo)';
+        return makeResult(
+          ausZone,
+          `${topAusPost?.name || rawName || 'Österreich'} (${zoneLabel})`,
+          topAusPost?.note || `Repubblica d'Austria — ${zoneLabel} sotto il controllo della Commissione Alleata per l'Austria (ACA).`,
+          'Alleati',
+          topAusPost?.adminTitle || `Republik Österreich — ${zoneLabel}`
+        );
+      }
+      if (s === 17) {
+        const isViennaSov =
+          nid.startsWith('AT1') ||
+          nid === 'AT130' ||
+          nrm.includes('wien') ||
+          nrm.includes('vienna') ||
+          nrm.includes('niederosterreich') ||
+          nrm.includes('burgenland');
+        if (isViennaSov) {
+          return makeResult(
+            'SOV',
+            `${rawName && nrm.includes('wien') ? 'Wien' : rawName || 'Wien'} (Liberata dall'Armata Rossa — Offensiva di Vienna)`,
+            'Aprile 1945: offensiva di Vienna del 2° e 3° Fronte Ucraino (Maresciallo Fëdor Tolbuchin); liberazione di Wien (13 aprile 1945) e insediamento del governo provvisorio austriaco di Karl Renner.',
+            'Comintern',
+            'Armata Rossa — 3° Fronte Ucraino (Vienna)'
+          );
+        }
+        const isWestUsa =
+          nid.startsWith('AT3') ||
+          nrm.includes('tirol') ||
+          nrm.includes('innsbruck') ||
+          nrm.includes('vorarlberg') ||
+          nrm.includes('salzburg') ||
+          nrm.includes('linz');
+        if (isWestUsa) {
+          return makeResult(
+            'USA',
+            `${rawName || 'Tirol / Westösterreich'} (Avanzata Alleata — 7ª Armata USA)`,
+            'Fine aprile 1945: le colonne corazzate della 7ª Armata statunitense valicano i passi alpini bavaresi entrando nel Tirolo e nella Ridotta Alpina austriaca.',
+            'Alleati',
+            'U.S. Seventh Army — Alpenfestung Sector'
+          );
+        }
+      }
       const topGer = resolveSwissAustrianToponym(nid, rawName, nrm, 'GER', s) || getTop('GER');
       return makeResult(
         'GER',
@@ -7040,6 +8584,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'CZE':
     case 'CZ': {
+      if (s >= 18) {
+        return makeResult(
+          'CZE',
+          `${rawName || 'Československo'} (Československá republika — Terza Repubblica)`,
+          'Maggio-Settembre 1945: piena restaurazione della Repubblica Cecoslovacca nei confini pre-Monaco (annullamento dell\'Accordo di Monaco) sotto il Presidente Edvard Beneš.',
+          'Alleati',
+          'Československá republika (Prezident Dr. Edvard Beneš)'
+        );
+      }
+      if (s === 17 && (nid === 'CZ080' || nid.startsWith('CZ07') || nrm.includes('ostrav'))) {
+        return makeResult(
+          'SOV',
+          `${rawName || 'Moravská Ostrava'} (Liberata — Offensiva di Ostrava-Opava, Armata Rossa)`,
+          '30 aprile 1945: il 4° Fronte Ucraino e il 1° Corpo d\'Armata Cecoslovacco liberano il bacino industriale di Moravská Ostrava.',
+          'Comintern',
+          'Armata Rossa — 4° Fronte Ucraino'
+        );
+      }
       const sud =
         nid.startsWith('CZ041') ||
         nid.startsWith('CZ042') ||
@@ -7061,6 +8623,61 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (s < 2) {
         const cTop = getTop('CZE');
         return makeResult('CZE', cTop.name || rawName, 'Krajina Slovenská (Československá republika)');
+      }
+
+      // Step >= 17 (Apr 1945 - Set 1947): Programma di Košice e reintegrazione nella Repubblica Cecoslovacca (inclusi SK023 / SK042)
+      if (s >= 17) {
+        return makeResult(
+          'CZE',
+          `${rawName || 'Slovensko'} (${s >= 18 ? 'Československá republika' : 'Programma di Košice — Cecoslovacchia Liberata'})`,
+          s >= 18
+            ? 'Slovacchia pienamente reintegrata nella Terza Repubblica Cecoslovacca nei confini del 1937 (annullamento del Primo Arbitrato di Vienna).'
+            : 'Aprile 1945: proclamazione del Programma di Košice (5 aprile 1945) e liberazione della Slovacchia nel quadro della ricostituita Repubblica Cecoslovacca.',
+          'Alleati',
+          'Československá republika — Slovenská národná rada'
+        );
+      }
+
+      // Step 15 (Agosto 1944): Insurrezione Nazionale Slovacca (SNP a Banská Bystrica) vs Militärverwaltung tedesca a Bratislava
+      if (s === 15) {
+        if (nid === 'SK032' || nrm.includes('bansk') || nrm.includes('bystric')) {
+          return makeResult(
+            'CZE',
+            'Banská Bystrica (Insurrezione Nazionale Slovacca — SNP)',
+            'Il 29 agosto 1944 scoppia a Banská Bystrica l\'Insurrezione Nazionale Slovacca (SNP) guidata dai generali Ján Golian e Rudolf Viest (1ª Armata Cecoslovacca in Slovacchia) contro la Wehrmacht.',
+            'Alleati',
+            'Slovenská národná rada / Prvá československá armáda na Slovensku (Gen. Ján Golian)'
+          );
+        }
+        if (nid === 'SK023' || nid === 'SK042') {
+          const hTop = getTop('HUN');
+          return makeResult(
+            'HUN',
+            hTop.name,
+            nid === 'SK023'
+              ? 'Felvidék / Érsekújvár és Komárom (Primo Arbitrato di Vienna, nov 1938)'
+              : 'Kassa és Abaúj-Torna (Primo Arbitrato di Vienna, nov 1938)',
+            'Asse'
+          );
+        }
+        return makeResult(
+          'GER',
+          `${rawName || 'Bratislava'} — Wehrmacht Militärverwaltung (Invasione Tedesca)`,
+          '29 agosto 1944: in reazione all\'Insurrezione Nazionale Slovacca, le truppe tedesche invadono la Slovacchia occidentale e Bratislava instaurando l\'amministrazione militare della Wehrmacht (Militärverwaltung — Gottlob Berger).',
+          'Asse',
+          'Deutscher Befehlshaber in der Slowakei / Militärverwaltung'
+        );
+      }
+
+      // Step 16 (Dicembre 1944): Slovacchia Orientale liberata dall'Armata Rossa (Prešov / Košice)
+      if (s === 16 && (nid === 'SK041' || nrm.includes('presov'))) {
+        return makeResult(
+          'SOV',
+          `${rawName || 'Prešov'} (Liberata nei Carpazi — Armata Rossa & Corpo Cecoslovacco)`,
+          'Autunno-Inverno 1944: offensiva dei Carpazi-Dukla; liberazione dei distretti orientali della Slovacchia ad opera dell\'Armata Rossa e del 1° Corpo Cecoslovacco.',
+          'Comintern',
+          'Armata Rossa — 4° Fronte Ucraino'
+        );
       }
 
       // Step 2+ (Ott 1938 - Giu 1940): Primo Arbitrato di Vienna (2 novembre 1938)
@@ -7096,6 +8713,11 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'HUN':
     case 'HU': {
       const bTop = resolveBalkansToponym(nid, rawName, nrm, 'HUN', s);
+      if (s >= 16 && bTop?.owner) {
+        const hFac: FactionType =
+          bTop.owner === 'SOV' ? 'Comintern' : s >= 19 ? 'Comintern' : s >= 18 ? 'Alleati' : 'Asse';
+        return makeResult(bTop.owner, bTop.name, bTop.note, hFac, bTop.adminTitle);
+      }
       const top = bTop || getTop('HUN');
       return makeResult(
         'HUN',
@@ -7114,6 +8736,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       const bTop = resolveBalkansToponym(nid, rawName, nrm, 'ROM', s);
       const roOwner = bTop?.owner || 'ROM';
       const top = bTop || getTop(roOwner);
+      if (s >= 16) {
+        return makeResult(
+          'ROM',
+          bTop?.name || getTop('ROM').name,
+          bTop?.note || 'Regatul României — Transilvania riunificata, co-belligeranza alleata e Trattati di Parigi.',
+          s >= 19 ? 'Comintern' : 'Alleati',
+          bTop?.adminTitle || 'Regatul României'
+        );
+      }
       if (roOwner === 'HUN') {
         return makeResult(
           'HUN',
@@ -7121,6 +8752,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           bTop?.note || 'Észak-Erdély — Magyar Királyság (Secondo Arbitrato di Vienna, 30 agosto 1940)',
           'Asse',
           bTop?.adminTitle || 'Magyar Királyság — Észak-Erdély'
+        );
+      }
+      if (s === 15) {
+        return makeResult(
+          'ROM',
+          top.name,
+          `${bTop?.note ? `${bTop.note} — ` : ''}Colpo di Stato del 23 agosto 1944: Re Michele I depone e arresta il maresciallo Ion Antonescu; la Romania rompe con l'Asse, dichiara guerra alla Germania nazista e affianca gli Alleati.`,
+          'Alleati',
+          'Regatul României (Regele Mihai I — Guvernul Constantin Sănătescu)'
         );
       }
       if (s >= 7) {
@@ -7143,6 +8783,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'MD': {
+      if (s >= 15) {
+        return makeResult(
+          'SOV',
+          'Moldavskaya SSR (Chișinău — Bessarabia Liberata)',
+          'Offensiva Iași-Chișinău (20-29 agosto 1944): l\'Armata Rossa libera Chișinău e la Bessarabia dall\'occupazione dell\'Asse, reintegrandola come RSS Moldava nell\'URSS.',
+          'Comintern',
+          'SSSR — Moldavskaya SSR (Chișinău)'
+        );
+      }
       if (s >= 9) {
         return makeResult(
           'ROM',
@@ -7160,6 +8809,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'BUL':
     case 'BGR':
     case 'BG': {
+      if (s >= 16) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'BUL', s);
+        const top = bTop || getTop('BUL');
+        return makeResult(
+          'BUL',
+          top.name,
+          bTop?.note || 'Tsarstvo Balgariya — Otechestven Front (Fronte della Patria)',
+          s >= 19 ? 'Comintern' : 'Alleati',
+          bTop?.adminTitle || 'Tsarstvo Balgariya'
+        );
+      }
       // Dobrugia Meridionale (Cadrilater):
       // Esclusivamente Silistra (BG325 / Județul Durostor) e Dobrich (BG332 / Județul Caliacra).
       // Riacquistata dalla Bulgaria il 7 settembre 1940 col Trattato di Craiova.
@@ -7242,6 +8902,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'Suomen tasavalta — Hangon vuokra-alue Neuvostoliitolle (Moskovan rauha 1940)'
         );
       }
+      if (s >= 17) {
+        const finLabel =
+          rawName || (nid === 'FI1B1' ? 'Uusimaa / Helsinki' : 'Suomen tasavalta');
+        return makeResult(
+          'FIN',
+          s >= 19
+            ? `${finLabel} (Repubblica di Finlandia — Trattato di Pace di Parigi)`
+            : getTop('FIN').name || `${finLabel} (Repubblica di Finlandia)`,
+          s >= 19
+            ? 'Suomen tasavalta — Trattato di Pace di Parigi (10 febbraio / 15 settembre 1947): neutralità sovrana sotto il Presidente Juho Kusti Paasikivi, scioglimento della Commissione di Controllo Alleata, ratifica delle cessioni territoriali (Carelia, Salla, Petsamo) e affitto quinquennale della base navale di Porkkala all\'URSS.'
+            : 'Suomen tasavalta — Conclusione della Guerra di Lapponia (aprile 1945) e ricostruzione postbellica sotto la Presidenza Mannerheim / Paasikivi.',
+          'Neutrale',
+          'Suomen tasavalta (Helsinki)'
+        );
+      }
+      if (s === 16) {
+        return makeResult(
+          'FIN',
+          getTop('FIN').name,
+          'Suomen tasavalta — Armistizio di Mosca (19 settembre 1944) e Guerra di Lapponia (Lapin sota): la Finlandia rompe con il Terzo Reich e combatte per espellere la Wehrmacht dalla Lapponia.',
+          'Alleati',
+          'Suomen tasavalta — Päämaja (Sotamarsalkka C.G.E. Mannerheim)'
+        );
+      }
       if (s >= 9) {
         return makeResult(
           'FIN',
@@ -7303,7 +8987,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           'SPA',
           'Protectorado Español de Marruecos (Tetuán)',
-          'Estado Español — Alta Comisaría de España en Marruecos / Delegación Jalifiana'
+          s >= 19
+            ? 'Estado Español — Alta Comisaría en Marruecos (Tte. Gen. José Enrique Varela) e Jalifato de Tetuán nel secondo dopoguerra.'
+            : 'Estado Español — Alta Comisaría de España en Marruecos / Delegación Jalifiana',
+          s >= 18 ? 'Neutrale' : undefined
         );
       }
 
@@ -7311,12 +8998,12 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (nid === 'ES63' || nid === 'ES630' || nrm.includes('ceuta')) {
         const owner = s === 0 ? 'SPR' : 'SPA';
         const top = getTop(owner);
-        return makeResult(owner, top.name, top.note, undefined, top.adminTitle);
+        return makeResult(owner, top.name, top.note, s >= 18 && owner === 'SPA' ? 'Neutrale' : undefined, top.adminTitle);
       }
       if (nid === 'ES64' || nid === 'ES640' || nrm.includes('melilla')) {
         const owner = s === 0 ? 'SPR' : 'SPA';
         const top = getTop(owner);
-        return makeResult(owner, top.name, top.note, undefined, top.adminTitle);
+        return makeResult(owner, top.name, top.note, s >= 18 && owner === 'SPA' ? 'Neutrale' : undefined, top.adminTitle);
       }
 
       if (s === 0) {
@@ -7418,327 +9105,28 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'IT':
     case 'ITA': {
-      if (s >= 13) {
+      // Risoluzione geostorica per provincia sull'intera timeline 1936-1947 (Step 0-19)
+      if (s >= 9) {
         const cleanId = String(nid || ft.id || '').toUpperCase().trim();
         const normName = nrm;
+        const isLegacyBelluno = cleanId === 'ITH37' && normName.includes('belluno');
+        const lookupId = isLegacyBelluno ? 'ITH33' : (cleanId || normName);
+        const itMeta = findItalyProvinceMeta(lookupId, rawName);
+        const canonicalLookupId = isLegacyBelluno ? 'ITH33' : (itMeta?.nuts || cleanId || lookupId);
+        const provBaseName =
+          itMeta?.getHistoricalName(8) || itMeta?.name || rawName || 'Provincia Italiana';
 
-        // 1. Zone sottratte alla sovranità italiana (Annessione de facto al Terzo Reich)
-        // Operationszone Alpenvorland (OZAV): Bolzano (ITH10/ITH1), Trento (ITH20/ITH2), Belluno (ITH37)
-        const isOzav =
-          cleanId === 'ITH10' || cleanId === 'ITH1' || cleanId === 'ITH20' || cleanId === 'ITH2' || cleanId === 'ITH37' ||
-          normName.includes('bolzano') || normName.includes('bozen') || normName.includes('trento') || normName.includes('trient') || normName.includes('belluno');
-
-        if (isOzav) {
-          const isBz = cleanId.startsWith('ITH1') || normName.includes('bolzano') || normName.includes('bozen');
-          const isTn = cleanId.startsWith('ITH2') || normName.includes('trento') || normName.includes('trient');
-          const provName = isBz ? 'Bolzano / Bozen' : isTn ? 'Trento' : 'Belluno';
-          return makeResult(
-            'OZAV',
-            `${provName} (Operationszone Alpenvorland — Annessione de facto al Terzo Reich)`,
-            'Istituita da Hitler il 10 settembre 1943 a seguito dell\'armistizio italiano (Operazione Achse), la Zona d\'operazione delle Prealpi (OZAV) comprende le province di Bolzano, Trento e Belluno, poste sotto il controllo diretto del Gauleiter del Tirolo Franz Hofer in qualità di Commissario Supremo. L\'amministrazione civile e militare viene sottratta alla sovranità italiana e de facto incorporata nel Grande Reich tedesco.',
-            'Asse',
-            'Operationszone Alpenvorland (Gauleiter Franz Hofer — Bozen / Innsbruck)'
-          );
-        }
-
-        // Operationszone Adriatisches Küstenland (OZAK): Udine (ITH42), Gorizia (ITH43), Trieste (ITH44), Pordenone (ITH41), Pola / Istria, Fiume, Lubiana
-        const isOzak =
-          cleanId === 'ITH41' || cleanId === 'ITH42' || cleanId === 'ITH43' || cleanId === 'ITH44' || cleanId.startsWith('ITH4') ||
-          normName.includes('trieste') || normName.includes('gorizia') || normName.includes('udine') || normName.includes('pordenone') || normName.includes('friuli') ||
-          normName.includes('pola') || normName.includes('fiume') || normName.includes('istria');
-
-        if (isOzak) {
-          const isTs = cleanId === 'ITH44' || normName.includes('trieste');
-          const isGo = cleanId === 'ITH43' || normName.includes('gorizia');
-          const isUd = cleanId === 'ITH42' || normName.includes('udine') || normName.includes('friuli');
-          const provName = isTs ? 'Trieste' : isGo ? 'Gorizia' : isUd ? 'Udine' : 'Litorale Adriatico';
-          return makeResult(
-            'OZAK',
-            `${provName} (Operationszone Adriatisches Küstenland — Annessione de facto al Terzo Reich)`,
-            'Istituita da Hitler il 10 settembre 1943 a seguito dell\'armistizio italiano, la Zona d\'operazione del Litorale Adriatico (OZAK) comprende le province di Udine, Gorizia, Trieste, Pola, Fiume e la Provincia di Lubiana, affidate al Gauleiter della Carinzia Friedrich Rainer come Commissario Supremo. Sotto l\'autorità dell\'HSSPF Odilo Globočnik si intensifica la repressione antipartigiana e viene istituito il campo della Risiera di San Sabba.',
-            'Asse',
-            'Operationszone Adriatisches Küstenland (Gauleiter Friedrich Rainer — Trieste / Klagenfurt)'
-          );
-        }
-
-        // 2. Regno del Sud (Sotto controllo alleato / Governo Badoglio a Brindisi)
-        // a) Sicilia intera (ora liberata anche a Catania e Messina): Trapani (ITG11), Palermo (ITG12), Messina (ITG13), Agrigento (ITG14), Caltanissetta (ITG15), Enna (ITG16), Catania (ITG17), Ragusa (ITG18), Siracusa (ITG19)
-        const isSicily = cleanId.startsWith('ITG1') || normName.includes('sicil') || normName.includes('palermo') || normName.includes('catania') || normName.includes('messina') || normName.includes('trapani') || normName.includes('agrigento') || normName.includes('siracusa') || normName.includes('ragusa') || normName.includes('caltanissetta') || (normName.includes('enna') && !normName.includes('ravenna'));
-        if (isSicily) {
-          const itProv = resolveItalyProvince(cleanId, 8, rawName);
-          const pName = itProv?.name || rawName || 'Sicilia';
-          return makeResult(
-            'USA',
-            `${pName} (Sicilia Interamente Liberata — AMGOT)`,
-            'Con la presa di Messina a metà agosto 1943 e la firma dell\'armistizio di Cassibile (3 settembre 1943), l\'intera isola di Sicilia è sotto piena amministrazione e logistica alleata (AMGOT), fungendo da perno di proiezione per gli sbarchi nel Mezzogiorno continentale.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — 15th Army Group'
-          );
-        }
-
-        // b) Sardegna: Sassari (ITG25), Nuoro (ITG26), Cagliari (ITG27), Oristano (ITG28), ecc.
-        const isSardinia = cleanId.startsWith('ITG2') || normName.includes('sardegn') || normName.includes('cagliari') || normName.includes('sassari') || normName.includes('nuoro') || normName.includes('oristano') || normName.includes('olbia');
-        if (isSardinia) {
-          const itProv = resolveItalyProvince(cleanId, 8, rawName);
-          return makeResult(
-            'ITA',
-            `${itProv?.name || 'Sardegna'} (Regno del Sud — Evacuazione Tedesca & Controllo Governativo)`,
-            'Tra il 9 e il 18 settembre 1943 la 90ª Divisione corazzata tedesca evacua la Sardegna trasferendosi in Corsica; le forze italiane del generale Antonio Basso mantengono il controllo totale dell\'isola per il Regno d\'Italia di Vittorio Emanuele III e Badoglio (Regno del Sud), ponendola a disposizione degli Alleati senza distruzioni.',
-            'Alleati',
-            'Regno d\'Italia — Comando Militare della Sardegna (Generale Antonio Basso — Regno del Sud)'
-          );
-        }
-
-        // c) Calabria: Cosenza (ITF61), Crotone (ITF62), Catanzaro (ITF63), Vibo Valentia (ITF64), Reggio Calabria (ITF65)
-        const isCalabria = cleanId.startsWith('ITF6') || normName.includes('calabria') || normName.includes('reggio calabria') || normName.includes('catanzaro') || normName.includes('cosenza') || normName.includes('crotone') || normName.includes('vibo');
-        if (isCalabria) {
-          const itProv = resolveItalyProvince(cleanId, 8, rawName);
-          return makeResult(
-            'ITA',
-            `${itProv?.name || 'Calabria'} (Regno del Sud — Liberazione Operazione Baytown)`,
-            'Il 3 settembre 1943 l\'8ª Armata britannica del generale Montgomery sbarca a Reggio Calabria (Operazione Baytown); entro fine settembre l\'intera Calabria è liberata e integrata nella giurisdizione del Regno del Sud cobelligerante con gli Alleati.',
-            'Alleati',
-            'Regno d\'Italia — Governo Badoglio (Regno del Sud) / British Eighth Army'
-          );
-        }
-
-        // d) Basilicata / Lucania: Potenza (ITF51), Matera (ITF52)
-        const isBasilicata = cleanId.startsWith('ITF5') || normName.includes('potenza') || normName.includes('matera') || normName.includes('basilicata') || normName.includes('lucania');
-        if (isBasilicata) {
-          const itProv = resolveItalyProvince(cleanId, 8, rawName);
-          const isMatera = cleanId === 'ITF52' || normName.includes('matera');
-          return makeResult(
-            'ITA',
-            isMatera ? 'Matera (Insurrezione del 21 Settembre 1943 — Regno del Sud)' : `${itProv?.name || 'Potenza'} (Regno del Sud — Liberata)`,
-            isMatera
-              ? 'Il 21 settembre 1943 Matera insorge contro le truppe di occupazione tedesche divenendo la prima città del Mezzogiorno a sollevarsi in armi contro l\'oppressione nazista, prima di ricongiungersi alle colonne alleate del Regno del Sud.'
-              : 'Liberata a metà settembre 1943 dall\'avanzata alleata e passata sotto l\'autorità del governo Badoglio nel Regno del Sud.',
-            'Alleati',
-            'Regno d\'Italia — Governo Badoglio (Regno del Sud)'
-          );
-        }
-
-        // e) Puglia: Foggia (ITF46/ITF41), Bari (ITF47/ITF42), Taranto (ITF43), Brindisi (ITF44), Lecce (ITF45), BAT (ITF48)
-        const isPuglia = cleanId.startsWith('ITF4') || normName.includes('puglia') || normName.includes('bari') || normName.includes('brindisi') || normName.includes('taranto') || normName.includes('foggia') || normName.includes('lecce') || normName.includes('barletta');
-        if (isPuglia) {
-          const itProv = resolveItalyProvince(cleanId, 8, rawName);
-          const isBrindisi = cleanId === 'ITF44' || normName.includes('brindisi');
-          const isTaranto = cleanId === 'ITF43' || normName.includes('taranto');
-          const isFoggia = cleanId === 'ITF46' || cleanId === 'ITF41' || normName.includes('foggia');
-          return makeResult(
-            'ITA',
-            isBrindisi
-              ? 'Brindisi (Capitale Provvisoria del Regno d\'Italia — Re Vittorio Emanuele III & Badoglio)'
-              : isTaranto
-              ? 'Taranto (Base Navale Alleata — Sbarco Operazione Slapstick)'
-              : isFoggia
-              ? 'Foggia (Presa dall\'8ª Armata Britannica & Grande Polo Aeroportuale Alleato)'
-              : `${itProv?.name || 'Puglia'} (Regno del Sud — Sede Istituzionale del Regno d'Italia)`,
-            isBrindisi
-              ? 'Il 9-10 settembre 1943, fuggiti da Roma a bordo della corvetta Baionetta, Re Vittorio Emanuele III, la famiglia reale e il Maresciallo Pietro Badoglio si insediano a Brindisi, che diviene la Capitale provvisoria del Regno d\'Italia (Regno del Sud cobelligerante con gli Alleati).'
-              : isTaranto
-              ? 'Il 9 settembre 1943 la 1ª Divisione Aviotrasportata britannica sbarca a Taranto (Operazione Slapstick) prendendo possesso della grande base navale; la flotta della Regia Marina salpa per consegnarsi a Malta.'
-              : isFoggia
-              ? 'Il 27 settembre 1943 l\'8ª Armata di Montgomery conquista la piana di Foggia con il suo strategico complesso di 30 aeroporti (Foggia Airfield Complex), aprendo il corridoio aereo per i bombardamenti strategici nell\'Europa centro-orientale.'
-              : 'Interamente presidiata dalle forze del Regno del Sud e dalle avanguardie alleate; retrovia primaria logistica per le operazioni sulla linea del fronte.',
-            'Alleati',
-            'Regno d\'Italia — Governo Badoglio a Brindisi (Regno del Sud)'
-          );
-        }
-
-        // f) Campania:
-        // Salerno (ITF35): Operazione Avalanche
-        // Avellino (ITF34), Benevento (ITF32): liberate
-        // Napoli (ITF33): Quattro Giornate di Napoli (27-30 settembre 1943)
-        // Caserta (ITF31): Wehrmacht / Linea del Volturno (Asse)
-        const isCampania = cleanId.startsWith('ITF3') || normName.includes('campania') || normName.includes('napoli') || normName.includes('salerno') || normName.includes('caserta') || normName.includes('avellino') || normName.includes('benevento');
-        if (isCampania) {
-          const isSalerno = cleanId === 'ITF35' || normName.includes('salerno');
-          const isNapoli = cleanId === 'ITF33' || normName.includes('napoli');
-          const isAvellino = cleanId === 'ITF34' || normName.includes('avellino');
-          const isBenevento = cleanId === 'ITF32' || normName.includes('benevento');
-          const isCaserta = cleanId === 'ITF31' || normName.includes('caserta');
-
-          if (isSalerno) {
-            return makeResult(
-              'USA',
-              'Salerno (Testa di Ponte Operazione Avalanche — 5ª Armata USA)',
-              'Il 9 settembre 1943 la 5ª Armata statunitense del generale Mark Clark (VI Corpo USA e X Corpo britannico) sbarca nel golfo di Salerno; dopo aver respinto i violenti contrattacchi corazzati tedeschi della 16. Panzer-Division, consolida la testa di ponte aprendo la strada verso Napoli.',
-              'Alleati',
-              'Allied 5th Army (Lt. Gen. Mark W. Clark / AMGOT)'
-            );
-          }
-          if (isNapoli) {
-            return makeResult(
-              'ITA',
-              'Napoli (Quattro Giornate di Napoli — Città Insorta e Liberata, 27-30 Settembre 1943)',
-              'Tra il 27 e il 30 settembre 1943 la popolazione civile di Napoli insorge compattamente contro le truppe di occupazione tedesche del colonnello Walter Scholl: dopo quattro giorni di combattimenti strada per strada la guarnigione della Wehrmacht viene scacciata dalla città prima dell\'ingresso formale delle truppe alleate il 1° ottobre.',
-              'Alleati',
-              'Regno d\'Italia — Città di Napoli Liberata dall\'Insurrezione Popolare (Medaglia d\'Oro al Valor Militare)'
-            );
-          }
-          if (isAvellino || isBenevento) {
-            const cName = isAvellino ? 'Avellino' : 'Benevento';
-            return makeResult(
-              'ITA',
-              `${cName} (Campania Meridionale — Avanzata Alleata del Regno del Sud)`,
-              'Liberata a fine settembre 1943 dalle forze alleate risalite da Salerno e dalle valli lucane, ricongiungendosi alla fascia meridionale controllata dal governo Badoglio.',
-              'Alleati',
-              'Regno d\'Italia — Governo Badoglio (Regno del Sud)'
-            );
-          }
-          if (isCaserta) {
-            return makeResult(
-              'RSI',
-              'Caserta (Linea Difensiva del Volturno — Occupazione Wehrmacht & RSI)',
-              'Attestata lungo il fiume Volturno, Caserta e la pianura a nord di Napoli costituiscono la prima linea difensiva tedesca (Volturno-Stellung) presidiata dalla 10ª Armata della Wehrmacht e incorporata nella neonata Repubblica Sociale Italiana.',
-              'Asse',
-              'Repubblica Sociale Italiana / Wehrmacht 10. Armee (Volturno-Linie)'
-            );
-          }
-        }
-
-        // 3. Zona sotto occupazione militare tedesca e RSI (Tutto il Centro-Nord dalla Campania settentrionale/Molise fino alle Alpi)
-        // Regioni: Molise, Lazio, Abruzzo, Umbria, Marche, Toscana, Emilia-Romagna, Liguria, Piemonte, Valle d'Aosta, Lombardia, Veneto (eccetto Belluno che è OZAV)
-        const itProv = resolveItalyProvince(cleanId, 8, rawName);
-        const provName = itProv?.name || rawName || 'Provincia Italiana';
-        const isRome = cleanId === 'ITI43' || normName.includes('roma');
-
-        return makeResult(
-          'RSI',
-          isRome
-            ? 'Roma (Occupazione Militare Wehrmacht & Governo della RSI — Fuga a Brindisi)'
-            : `${provName} (Repubblica Sociale Italiana — Occupazione Wehrmacht)`,
-          isRome
-            ? 'Dall\'8 al 10 settembre 1943, dopo l\'annuncio dell\'armistizio, i reparti italiani e i civili resistono disperatamente a Porta San Paolo e alla Montagnola prima della capitolazione; Re Vittorio Emanuele III e il governo fuggono a Brindisi e la Wehrmacht dichiara Roma città aperta sotto ferrea occupazione militare. Il 23 settembre Benito Mussolini proclama la nascita della Repubblica Sociale Italiana.'
-            : 'A seguito dell\'armistizio dell\'8 settembre 1943 e dell\'Operazione Achse della Wehrmacht, il territorio è sottoposto a occupazione militare tedesca. Il 23 settembre 1943 Benito Mussolini, liberato dai paracadutisti tedeschi al Gran Sasso (Operazione Quercia), insedia formalmente il governo repubblicano fascista (Repubblica Sociale Italiana con sede a Salò).',
-          'Asse',
-          isRome
-            ? 'Wehrmacht — Militärkommandant Rom / Repubblica Sociale Italiana'
-            : 'Repubblica Sociale Italiana — Governo di Salò (Sotto Tutela Militare della Wehrmacht)'
+        const extRes = resolveItalyExtendedStep(
+          canonicalLookupId,
+          rawName,
+          normName,
+          provBaseName,
+          s
         );
-      } else if (s === 12) {
-        const cleanId = String(nid || ft.id || '').toUpperCase().trim();
-        const normName = nrm;
-
-        // Esclusione geografica: province peninsulari e sarde (NUTS ITC, ITD, ITE, ITH, ITI, ITF, ITG2) non possono appartenere alla Sicilia (ITG1)
-        const isNonSicilyNuts = /^(ITC|ITD|ITE|ITH|ITI|ITF|ITG2)/i.test(cleanId) || (cleanId.startsWith('IT') && !cleanId.startsWith('ITG1'));
-
-        // Sicilia divisa in due:
-        // 1. Zona Asse (Quadrilatero nord-orientale dell'Etna e Messina)
-        const isMessina = cleanId === 'ITG13' || (!isNonSicilyNuts && normName.includes('messina'));
-        const isCatania = cleanId === 'ITG17' || (!isNonSicilyNuts && normName.includes('catania'));
-
-        if (isMessina) {
-          return makeResult(
-            'ITA',
-            'Messina e Stretto (Quadrilatero Difensivo dell\'Etna — Presidio Asse)',
-            'Presidio italo-tedesco trincerato nel quadrilatero nord-orientale a protezione dello Stretto di Messina; batterie costiere e contraeree coprono il traghettamento dei reparti verso la Calabria.',
-            'Asse',
-            'Regno d\'Italia — Presidio dello Stretto di Messina (6ª Armata / XIV. Panzerkorps)'
-          );
-        }
-        if (isCatania) {
-          return makeResult(
-            'ITA',
-            'Catania e Pendici dell\'Etna (Linea Difensiva dell\'Asse — Hermann Göring & Livorno)',
-            'Fronte italo-tedesco attestato a sud di Catania e sulle pendici dell\'Etna; le divisioni corazzate Hermann Göring e 15. Panzergrenadier e la Divisione Livorno fronteggiano l\'8ª Armata britannica di Montgomery.',
-            'Asse',
-            'Regno d\'Italia — Fronte dell\'Etna (XIV. Panzerkorps / Divisione Hermann Göring)'
-          );
-        }
-
-        // 2. Zona Alleata Liberata (Sicilia occidentale, centrale e meridionale)
-        // 7ª Armata USA di Patton: Trapani (ITG11), Palermo (ITG12), Agrigento (ITG14), Caltanissetta (ITG15), Enna (ITG16)
-        // 8ª Armata Britannica di Montgomery: Ragusa (ITG18), Siracusa (ITG19)
-        const isWordEnna = /(?:^|[\s_—\-,.])enna(?:$|[\s_—\-,.])/.test(normName);
-        const isTrapani = cleanId === 'ITG11' || (!isNonSicilyNuts && (normName.includes('trapani') || normName.includes('pantelleria')));
-        const isPalermo = cleanId === 'ITG12' || (!isNonSicilyNuts && normName.includes('palermo'));
-        const isAgrigento = cleanId === 'ITG14' || (!isNonSicilyNuts && (normName.includes('agrigento') || normName.includes('girgenti') || normName.includes('lampedusa') || normName.includes('licata')));
-        const isCaltanissetta = cleanId === 'ITG15' || (!isNonSicilyNuts && (normName.includes('caltanissetta') || normName.includes('gela')));
-        const isEnna = cleanId === 'ITG16' || (!isNonSicilyNuts && (isWordEnna || normName.includes('castrogiovanni') || normName.includes('provincia di enna')) && !normName.includes('ravenna'));
-        const isRagusa = cleanId === 'ITG18' || (!isNonSicilyNuts && (normName.includes('ragusa') || normName.includes('comiso') || normName.includes('modica')));
-        const isSiracusa = cleanId === 'ITG19' || (!isNonSicilyNuts && (normName.includes('siracusa') || normName.includes('syracuse') || normName.includes('augusta')));
-
-        if (isPalermo) {
-          return makeResult(
-            'USA',
-            'Palermo (Liberata dalla 7ª Armata USA di Patton, 22 Luglio 1943)',
-            'Il 22 luglio 1943 la 7ª Armata statunitense del generale George S. Patton entra trionfalmente a Palermo dopo aver travolto le difese dell\'Asse nella Sicilia occidentale; l\'isola è tagliata in due e il grande porto tirrenico è aperto alla logistica alleata.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army (Lt. Gen. George S. Patton)'
-          );
-        }
-        if (isTrapani) {
-          return makeResult(
-            'USA',
-            'Trapani e Pantelleria (Liberata dalla 7ª Armata USA — Operazione Husky)',
-            'Sicilia occidentale interamente liberata dalle truppe americane di Patton; le isole-fortezza di Pantelleria e Pelagie sono state conquistate a giugno (Operazione Corkscrew). Sotto amministrazione militare alleata AMGOT.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army'
-          );
-        }
-        if (isAgrigento) {
-          return makeResult(
-            'USA',
-            'Agrigento e Licata (Liberata dalla 7ª Armata USA — Joss Force)',
-            'Sbarco della 3ª Divisione di Fanteria USA a Licata (10 luglio 1943); liberazione fulminea di Agrigento e Porto Empedocle e avanzata verso Palermo.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army'
-          );
-        }
-        if (isCaltanissetta) {
-          return makeResult(
-            'USA',
-            'Caltanissetta e Gela (Liberata dalla 7ª Armata USA — Dime Force)',
-            'Dopo aver respinto a Gela il feroce contrattacco corazzato italo-tedesco (10-12 luglio 1943), la 1ª Divisione USA e le colonne corazzate liberano Caltanissetta e le zolfare interne.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — 7th U.S. Army'
-          );
-        }
-        if (isEnna) {
-          return makeResult(
-            'USA',
-            'Enna (Cuore della Sicilia Liberata — 1ª Divisione Canadese & USA)',
-            'Espugnato a fine luglio 1943 il baluardo montano di Enna (Leonforte e Assoro) ad opera della 1ª Divisione canadese e dei reparti USA, saldando l\'avanzata alleata centrale.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — 15th Army Group'
-          );
-        }
-        if (isSiracusa) {
-          return makeResult(
-            'UK',
-            'Siracusa e Augusta (Presa dall\'8ª Armata Britannica di Montgomery)',
-            'Sbarco del XIII Corpo d\'Armata britannico il 10 luglio 1943: cattura rapida e intatta del porto di Siracusa e della base navale di Augusta (13 luglio); le forze britanniche avanzano verso Catania.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — British Eighth Army (General Bernard Montgomery)'
-          );
-        }
-        if (isRagusa) {
-          return makeResult(
-            'UK',
-            'Ragusa e Modica (Liberata dall\'8ª Armata Britannica — XXX Corps)',
-            'Sbarco della 51ª Divisione Highland e della 1ª Divisione canadese a Pachino e Pozzallo; cattura degli aeroporti di Comiso e Biscari e liberazione dell\'altopiano ibleo.',
-            'Alleati',
-            'Allied Military Government of Occupied Territory (AMGOT) — British Eighth Army (XXX Corps)'
-          );
-        }
-
-        // 3. Italia Peninsulare e Isole (Governo Badoglio — Regno d'Italia)
-        const itProv = resolveItalyProvince(nid || ft.id || rawName, s, rawName);
-        const top = getTop('ITA');
-        const histTitle = (itProv?.name || top.name || rawName) + ' (Governo Badoglio — "La guerra continua")';
-        const noteBadoglio = (itProv?.note || top.note || '') + ' Al 31 luglio 1943 il Regno d\'Italia è guidato dal maresciallo Pietro Badoglio dopo la sfiducia del Gran Consiglio e l\'arresto di Mussolini (25 luglio); il governo dichiara formalmente che la guerra continua al fianco dell\'Asse, mentre avvia trattative segrete con gli Alleati e la Wehrmacht ammassa divisioni corazzate ai valichi alpini in vista dell\'occupazione (Operazione Alarico).';
-        return makeResult(
-          'ITA',
-          histTitle,
-          noteBadoglio,
-          'Asse',
-          'Regno d\'Italia — Governo Militare del Maresciallo Pietro Badoglio'
-        );
+        if (extRes) return extRes;
       }
 
-      // Risoluzione esaustiva delle 107 province del Regno d'Italia e possedimenti speciali (Step < 12)
+      // Risoluzione esaustiva delle 107 province del Regno d'Italia e possedimenti speciali (Step 0-8)
       const itProv = resolveItalyProvince(nid || ft.id || rawName, s, rawName);
       if (itProv) {
         return itProv;
@@ -7755,8 +9143,38 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'HR': {
-      // 1. Provincia di Pola (Istria Italiana - Trattato di Rapallo 1920: 100% sovranità italiana / OZAK a Step 13)
+      if (s >= 19 && (nid === 'HR031' || nrm.includes('primorsko') || nrm.includes('rijeka') || nrm.includes('fiume') || nrm.includes('susak'))) {
+        return makeResult(
+          'DFJ',
+          'Fiume / Rijeka (Repubblica Popolare di Croazia — FNRJ)',
+          'Trattato di Pace di Parigi (15 settembre 1947): l\'Italia cede definitivamente Fiume e la Provincia del Carnaro alla Repubblica Federativa Popolare di Jugoslavia (FNRJ).',
+          'Comintern',
+          'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska (NRH)'
+        );
+      }
+
+      if (s >= 19 && (nid === 'HR033' || nrm.includes('zadar') || nrm.includes('zara'))) {
+        return makeResult(
+          'DFJ',
+          'Zara / Zadar (Repubblica Popolare di Croazia — FNRJ)',
+          'Trattato di Pace di Parigi (15 settembre 1947): cessione definitiva dell\'ex enclave italiana di Zara e delle isole adriatiche alla Repubblica Popolare di Croazia (FNRJ).',
+          'Comintern',
+          'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska (NRH)'
+        );
+      }
+
+      // 1. Provincia di Pola (Istria Italiana - Trattato di Rapallo 1920: 100% sovranità italiana / OZAK a Step 13-17 / AMG Step 18 / FNRJ Step 19+)
       if (nid === 'HR036' || nrm.includes('istarska') || nrm.includes('pula') || nrm.includes('pola')) {
+        if (s >= 18) {
+          const bTop = resolveBalkansToponym('HR036', rawName, nrm, 'DFJ', s);
+          return makeResult(
+            bTop?.owner || (s >= 19 ? 'DFJ' : 'AMG'),
+            bTop?.name || (s >= 19 ? 'Pola / Pula (Repubblica Popolare di Croazia — Trattato di Parigi 1947)' : 'Pola (Enclave della Zona A — Governo Militare Alleato AMG)'),
+            bTop?.note || 'Trattato di Pace di Parigi (15 settembre 1947): evacuazione alleata di Pola ed esodo sul piroscafo Toscana.',
+            s >= 19 ? 'Comintern' : 'Alleati',
+            bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska' : 'Allied Military Government (AMG Venezia Giulia)')
+          );
+        }
         if (s >= 13) {
           return makeResult(
             'OZAK',
@@ -7774,6 +9192,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           undefined,
           top.adminTitle || 'Provincia di Pola'
         );
+      }
+
+      if (s >= 16) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
+        if (bTop?.owner) {
+          const hrFac: FactionType =
+            bTop.owner === 'CRO' ? 'Fantoccio' : bTop.owner === 'GER' ? 'Asse' : s >= 19 && bTop.owner === 'DFJ' ? 'Comintern' : 'Alleati';
+          return makeResult(bTop.owner, bTop.name, bTop.note, hrFac, bTop.adminTitle);
+        }
       }
 
       // Step >= 8 (Aprile 1941): Smembramento della Jugoslavia, nascita dello Stato Indipendente di Croazia (NDH) e annessioni italiane/ungheresi
@@ -7899,8 +9326,27 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'SI': {
-      // 1. Gorizia / Goriška (Venezia Giulia Orientale - Trattato di Rapallo 1920: Isonzo, Tolmino, Caporetto, Idria -> Italia; OZAK a Step 13)
+      // 1. Gorizia / Goriška (SI043): Isonzo/Tolmino OZAK (13-17) -> DFJ/FNRJ (18-19+)
       if (nid === 'SI043' || nrm.includes('goriska') || nrm.includes('gorizia')) {
+        if (s >= 19) {
+          return makeResult(
+            'DFJ',
+            'Goriška / Alta Valle dell\'Isonzo (Repubblica Popolare di Slovenia — FNRJ)',
+            'Trattato di Pace di Parigi (15 settembre 1947): cessione alla Jugoslavia dell\'alta valle dell\'Isonzo (Tolmino, Caporetto, Idria) e dei quartieri orientali di Gorizia, ove sorge la città nuova di Nova Gorica.',
+            'Comintern',
+            'Repubblica Federativa Popolare di Jugoslavia — Ljudska Republika Slovenija (LRS)'
+          );
+        }
+        if (s >= 18) {
+          const bTop = resolveBalkansToponym('SI043', rawName, nrm, 'DFJ', s);
+          return makeResult(
+            'DFJ',
+            bTop?.name || 'Goriška (Demokratska Federativna Jugoslavija — LRS)',
+            bTop?.note || 'Linea Morgan (Zona B): alta valle dell\'Isonzo sotto amministrazione jugoslava.',
+            'Alleati',
+            bTop?.adminTitle || 'Demokratska Federativna Jugoslavija — Ljudska Republika Slovenija'
+          );
+        }
         if (s >= 13) {
           return makeResult(
             'OZAK',
@@ -7920,8 +9366,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
 
-      // 2. Obalno-kraška (Capodistria, Pirano, Isola, Sesana, Carso - Trattato di Rapallo 1920: 100% sovranità italiana; OZAK a Step 13)
+      // 2. Obalno-kraška (SI044): Capodistria/Sesana/Carso OZAK (13-17) -> DFJ/VUJA Zona B (18-19+)
       if (nid === 'SI044' || nrm.includes('obalno') || nrm.includes('koper') || nrm.includes('capodistria')) {
+        if (s >= 18) {
+          const bTop = resolveBalkansToponym('SI044', rawName, nrm, 'DFJ', s);
+          return makeResult(
+            'DFJ',
+            bTop?.name || (s >= 19 ? 'Obalno-kraška / Zona B Carso (Repubblica Popolare di Slovenia — FNRJ)' : 'Capodistria e Carso (Zona B — Amministrazione VUJA)'),
+            bTop?.note || 'Accordo di Belgrado (1945) e Trattato di Parigi (1947): Carso e litorale istriano nord sotto amministrazione jugoslava.',
+            s >= 19 ? 'Comintern' : 'Alleati',
+            bTop?.adminTitle || 'Repubblica Federativa Popolare di Jugoslavia — Ljudska Republika Slovenija (LRS)'
+          );
+        }
         if (s >= 13) {
           return makeResult(
             'OZAK',
@@ -7939,6 +9395,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           undefined,
           top.adminTitle || 'Provincia di Pola / Trieste'
         );
+      }
+
+      if (s >= 16) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
+        if (bTop?.owner) {
+          return makeResult(
+            bTop.owner,
+            bTop.name,
+            bTop.note,
+            bTop.owner === 'DFJ' ? (s >= 19 ? 'Comintern' : 'Alleati') : 'Asse',
+            bTop.adminTitle
+          );
+        }
       }
 
       // Step >= 8 (Aprile 1941): Tripartizione della Slovenia tra Italia (Provincia di Lubiana), Germania (Untersteiermark / Oberkrain) e Ungheria (Prekmurje)
@@ -8032,6 +9501,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'BA':
     case 'BIH':
     case 'BOS': {
+      if (s >= 17) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
+        return makeResult(
+          'DFJ',
+          bTop?.name || `${rawName || 'Bosna i Hercegovina'} (${s >= 19 ? 'Repubblica Popolare di Bosnia ed Erzegovina — FNRJ' : 'Liberata dalla NOVJ — DFJ'})`,
+          bTop?.note || 'Aprile 1945 - Settembre 1947: Bosnia ed Erzegovina liberata dall\'Esercito Jugoslavo (NOVJ) e integrata nella Federazione Jugoslava (NRBiH).',
+          s >= 19 ? 'Comintern' : 'Alleati',
+          bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Bosna i Hercegovina (NRBiH)' : 'Demokratska Federativna Jugoslavija — ZAVNOBiH')
+        );
+      }
       if (s >= 8) {
         const bTop = resolveBalkansToponym(nid, rawName, nrm, 'CRO', s);
         return makeResult(
@@ -8083,6 +9562,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'RS':
     case 'SRB': {
+      if (s >= 16) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
+        const owner = bTop?.owner || 'DFJ';
+        const rsFac: FactionType =
+          owner === 'CRO' ? 'Fantoccio' : owner === 'GER' ? 'Asse' : s >= 19 && owner === 'DFJ' ? 'Comintern' : 'Alleati';
+        return makeResult(
+          owner,
+          bTop?.name || `${rawName || 'Srbija'} (Demokratska Federativna Jugoslavija)`,
+          bTop?.note || 'Liberazione della Serbia e di Belgrado ad opera della NOVJ e dell\'Armata Rossa.',
+          rsFac,
+          bTop?.adminTitle || 'Demokratska Federativna Jugoslavija (Josip Broz Tito — NOVJ)'
+        );
+      }
       if (s >= 8) {
         // 1. Sirmia / Srem (RS127: Sremska Mitrovica, Zemun, Ruma) -> NDH (Croazia)
         if (nid === 'RS127' || nrm.includes('srem') || nrm.includes('syrmi') || nrm.includes('zemun')) {
@@ -8174,6 +9666,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'ME':
     case 'MNE': {
+      if (s >= 16) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
+        return makeResult(
+          'DFJ',
+          bTop?.name || (s >= 19 ? 'Montenegro (Repubblica Popolare del Montenegro — FNRJ)' : 'Montenegro (Liberato dai Partigiani della NOVJ — Dicembre 1944)'),
+          bTop?.note || 'Dicembre 1944: i reparti della NOVJ liberano Podgorica e il Montenegro.',
+          s >= 19 ? 'Comintern' : 'Alleati',
+          bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Crna Gora (NRCG)' : 'Demokratska Federativna Jugoslavija — Crna Gora')
+        );
+      }
       if (s >= 13) {
         return makeResult(
           'GER',
@@ -8205,6 +9707,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'MK':
     case 'MKD': {
+      if (s >= 16) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
+        return makeResult(
+          'DFJ',
+          bTop?.name || (s >= 19 ? `${rawName || 'Makedonija'} (Repubblica Popolare di Macedonia — FNRJ)` : `${rawName || 'Makedonija'} (Liberata dai Partigiani della NOVJ — Novembre 1944)`),
+          bTop?.note || 'Novembre 1944: liberazione di Skopje e della Macedonia del Vardar nella Jugoslavia Federale.',
+          s >= 19 ? 'Comintern' : 'Alleati',
+          bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Makedonija (NRM)' : 'Demokratska Federativna Jugoslavija — Makedonija (ASNOM)')
+        );
+      }
       if (s >= 8) {
         // 1. Macedonia occidentale albanofona (MK006 Pološki: Tetovo/Gostivar; MK003 Jugozapaden: Debar/Struga/Kičevo) -> Grande Albania (Italia)
         if (
@@ -8271,6 +9783,29 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'KOS':
     case 'YU':
     case 'YUG': {
+      if (s >= 16) {
+        if (cntr === 'YU' || cntr === 'YUG') {
+          return makeResult(
+            'DFJ',
+            s >= 19
+              ? 'Repubblica Federativa Popolare di Jugoslavia (FNRJ — Maresciallo Tito)'
+              : 'Jugoslavia Federale Democratica (Demokratska Federativna Jugoslavija — Maresciallo Tito)',
+            s >= 19
+              ? 'Settembre 1947: Repubblica Federativa Popolare di Jugoslavia (FNRJ) guidata dal Maresciallo Josip Broz Tito.'
+              : 'Dicembre 1944 - 1945: liberazione della Jugoslavia ad opera dell\'Armata di Liberazione Nazionale (NOVJ) di Tito.',
+            s >= 19 ? 'Comintern' : 'Alleati',
+            s >= 19 ? 'Federativna Narodna Republika Jugoslavija (FNRJ)' : 'Demokratska Federativna Jugoslavija (DFJ)'
+          );
+        }
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
+        return makeResult(
+          'DFJ',
+          bTop?.name || (s >= 19 ? 'Kosovo e Metochia (Regione Autonoma AKMO — NRS / FNRJ)' : 'Kosovo e Metohija (Liberato dai Partigiani della NOVJ — Novembre 1944)'),
+          bTop?.note || 'Novembre 1944: liberazione del bacino del Kosovo.',
+          s >= 19 ? 'Comintern' : 'Alleati',
+          bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Autonomna Kosovsko-Metohijska Oblast (AKMO)' : 'Demokratska Federativna Jugoslavija — Kosovo i Metohija')
+        );
+      }
       if (s >= 8) {
         if (cntr === 'YU' || cntr === 'YUG') {
           return makeResult(
@@ -8311,6 +9846,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'ALB':
     case 'AL': {
+      if (s >= 16) {
+        const albTop = resolveBalkansToponym(nid, rawName, nrm, 'ALB', s);
+        return makeResult(
+          'ALB',
+          albTop?.name || (s >= 19 ? `${rawName || 'Albania'} (Repubblica Popolare d'Albania)` : `${rawName || 'Albania'} (Liberata dal Fronte di Liberazione Nazionale — Enver Hoxha)`),
+          albTop?.note || (s >= 19 ? 'Settembre 1947: Repubblica Popolare d\'Albania guidata da Enver Hoxha.' : 'Novembre 1944: i partigiani dell\'UNÇ liberano Tirana e l\'Albania.'),
+          s >= 19 ? 'Comintern' : 'Alleati',
+          albTop?.adminTitle || (s >= 19 ? 'Republika Popullore e Shqipërisë (Enver Hoxha)' : 'Qeveria Demokratike e Shqipërisë (Enver Hoxha — UNÇ)')
+        );
+      }
       const bTop = resolveBalkansToponym(nid, rawName, nrm, s < 4 ? 'ALB' : 'ITA', s);
       if (s < 4) {
         return makeResult(
@@ -8391,6 +9936,26 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('megisti');
 
       if (isDodecanese) {
+        if (s >= 18) {
+          const bTop = resolveBalkansToponym('EL421', rawName, nrm, 'UK', s);
+          const owner = bTop?.owner || (s >= 19 ? 'GRE' : 'UK');
+          return makeResult(
+            owner,
+            bTop?.name || (s >= 19 ? 'Rodi e Dodecaneso (Regno di Grecia — Trattato di Pace di Parigi)' : 'Rodi e Dodecaneso (Amministrazione Militare Britannica — BMA Dodecanese)'),
+            bTop?.note || 'Passaggio del Dodecaneso dalla BMA britannica al Regno di Grecia (Trattato di Parigi 1947).',
+            'Alleati',
+            bTop?.adminTitle || 'Regno di Grecia — Governatorato del Dodecaneso'
+          );
+        }
+        if (s === 16 || s === 17) {
+          return makeResult(
+            'GER',
+            'Festung Rhodos e Dodecaneso (Occupazione Militare Tedesca — Campagna dell\'Egeo)',
+            'Occupazione militare tedesca della Festung Rhodos e del Dodecaneso, presidiata fino alla resa del maggio 1945.',
+            'Asse',
+            'Wehrmacht — Festung Rhodos / Militärverwaltung Dodekanes'
+          );
+        }
         if (s >= 13) {
           return makeResult(
             'GER',
@@ -8407,6 +9972,20 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           top.note || 'Regno d\'Italia — Possedimento delle Isole Italiane dell\'Egeo (Trattato di Losanna 1923)',
           s >= 6 ? 'Asse' : undefined,
           top.adminTitle || 'Provincia di Rodi'
+        );
+      }
+
+      if (s >= 16) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'GRE', s);
+        const greOwner = bTop?.owner || 'GRE';
+        const greCivilFac: FactionType =
+          greOwner === 'GER' ? 'Asse' : greOwner === 'DSE' ? 'Comintern' : 'Alleati';
+        return makeResult(
+          greOwner,
+          bTop?.name || `${rawName || 'Ellas'} (Regno di Grecia Liberato)`,
+          bTop?.note || 'Regno di Grecia liberato dall\'occupazione dell\'Asse nell\'autunno 1944.',
+          greCivilFac,
+          bTop?.adminTitle || 'Vasileion tis Ellados — Regno di Grecia'
         );
       }
 
@@ -8548,6 +10127,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               'Wehrmacht — Befehlshaber Südgriechenland (1. Gebirgs-Division)'
             );
           }
+          const firstPhaseNote = !isIonian ? getGreeceFirstPhaseContextNote(nid) : null;
           return makeResult(
             'GER',
             isIonian
@@ -8555,6 +10135,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               : `${rawName || 'Grecia Continentale ed Egeo'} (Zona Occupata dalla Wehrmacht — Subentro all'11ª Armata)`,
             isIonian
               ? 'Operazione Achse (settembre 1943): la Wehrmacht occupa le Isole Ionie dopo la resa dei presidi italiani, insediando l\'amministrazione di sicurezza germanica.'
+              : firstPhaseNote
+              ? `Operazione Achse (settembre 1943): le forze tedesche dell'Heeresgruppe E (Gen. Alexander Löhr) subentrano all'11ª Armata italiana. ${firstPhaseNote}`
               : 'Operazione Achse (settembre 1943): a seguito dell\'armistizio di Cassibile, le forze tedesche dell\'Heeresgruppe E (Gen. Alexander Löhr) disarmano l\'11ª Armata del Regio Esercito in Tessaglia, Epiro, Peloponneso e nelle Cicladi, assumendo il controllo militare esclusivo dell\'intera Grecia.',
             'Asse',
             'Wehrmacht — Militärverwaltung Griechenland (Heeresgruppe E)'
@@ -8674,12 +10256,39 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (nid === 'FRY40' || nrm.includes('reunion')) {
+            if (s >= 19) {
+              return makeResult(
+                'FRA',
+                'La Réunion (Département d\'Outre-Mer — Quatrième République)',
+                'Con la legge francese del 19 marzo 1946 (Loi de départementalisation) l\'isola di La Réunion diviene ufficialmente Département d\'Outre-Mer (DOM) della Repubblica Francese.',
+                'Alleati',
+                'Quatrième République — Département d\'Outre-Mer de La Réunion (Saint-Denis)'
+              );
+            }
             return makeResult(
               'FRA',
               'La Réunion (Ralliée à la France Libre — 28 Novembre 1942)',
               'Operazione navale del cacciatorpediniere gollista Léopard; Réunion unita alla Francia Libera.',
               'Alleati',
               'Colonie de la Réunion — France Libre'
+            );
+          }
+          if (nid === 'FRY50' || nrm.includes('mayotte')) {
+            if (s >= 19) {
+              return makeResult(
+                'FRA',
+                'Mayotte — Territoire d\'Outre-Mer des Comores (Dzaoudzi)',
+                'Con la legge francese del 9 maggio 1946 l\'arcipelago delle Comore (inclusa Mayotte) è separato amministrativamente dal Madagascar ed elevato a Territoire d\'Outre-Mer (TOM) della Quarta Repubblica nell\'Union Française, con capoluogo a Dzaoudzi.',
+                'Alleati',
+                'Quatrième République (Union Française) — Territoire des Comores (Dzaoudzi)'
+              );
+            }
+            return makeResult(
+              'FRA',
+              'Mayotte et Archipel des Comores (Ralliement CFLN — 1943)',
+              'Nel 1943, contestualmente al passaggio di poteri in Madagascar alla Francia Combattente (Gen. Paul Legentilhomme), Mayotte e le Comore rientrano sotto sovranità francese del CFLN.',
+              'Alleati',
+              'Comité Français de la Libération Nationale (CFLN) — Dépendance de Madagascar'
             );
           }
         }
@@ -8733,6 +10342,191 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           top.note || 'Territoire d\'outre-mer sous autorité du régime de Vichy.',
           'Fantoccio',
           top.adminTitle || 'Administration coloniale de l\'État français (Vichy)'
+        );
+      }
+
+      // Step >= 14 (Giu 1944 - Set 1947): Overlord, Dragoon, Liberazione di Parigi, Sacca di Colmar, Tasche Atlantiche, GPRF e Quarta Repubblica
+      if (s >= 14) {
+        const isCorsica =
+          nid === 'FRM01' ||
+          nid === 'FRM02' ||
+          nrm.includes('corse') ||
+          nrm.includes('corsica') ||
+          nrm.includes('ajaccio') ||
+          nrm.includes('bastia');
+        const isAtlanticPocket =
+          nid === 'FRH04' ||
+          nid === 'FRG01' ||
+          nid === 'FRI32' ||
+          nrm.includes('morbihan') ||
+          nrm.includes('lorient') ||
+          nrm.includes('loire-atlantique') ||
+          nrm.includes('nazaire') ||
+          nrm.includes('charente-maritime') ||
+          nrm.includes('rochelle');
+
+        if (s >= 18) {
+          return makeResult(
+            'FRA',
+            `${rawName || 'France'} (${s >= 19 ? 'Quatrième République' : 'GPRF — France Libérée'})`,
+            s >= 19
+              ? 'Territorio della Quarta Repubblica Francese nell\'assetto postbellico del settembre 1947 (Piano Monnet di ricostruzione e Trattati di Pace di Parigi con rettifiche alpine a Briga e Tenda).'
+              : 'Settembre 1945: l\'intero territorio metropolitano francese (incluse le ex sacche atlantiche di Lorient, Saint-Nazaire e La Rochelle) è liberato sotto il Governo Provvisorio della Repubblica Francese (GPRF).',
+            'Alleati',
+            s >= 19 ? 'Quatrième République Française' : 'Gouvernement Provisoire de la République Française (GPRF)'
+          );
+        }
+
+        if (s === 17) {
+          if (isAtlanticPocket) {
+            return makeResult(
+              'GER',
+              `${rawName || 'Poche Atlantique'} (Festung Atlantica — Assedio Alleato)`,
+              'Aprile 1945: guarnigioni tedesche assediate dalle Forces Françaises de l\'Ouest nelle piazzeforti atlantiche di Lorient, Saint-Nazaire e La Rochelle fino alla resa del maggio 1945.',
+              'Asse',
+              'Deutsche Wehrmacht — Festung Atlantik'
+            );
+          }
+          return makeResult(
+            'FRA',
+            `${rawName || 'France'} (GPRF — Territorio Liberato)`,
+            'Aprile 1945: Francia metropolitana liberata sotto il Governo Provvisorio della Repubblica Francese (GPRF).',
+            'Alleati',
+            'Gouvernement Provisoire de la République Française (GPRF)'
+          );
+        }
+
+        if (s === 16) {
+          if (nid === 'FRF12' || nrm.includes('haut-rhin') || nrm.includes('colmar')) {
+            return makeResult(
+              'GER',
+              'Haut-Rhin — Sacca di Colmar (Poche de Colmar — 19. Armee)',
+              'Dicembre 1944: la 19ª Armata della Wehrmacht presidia la testa di ponte di Colmar in Alsazia meridionale fino al febbraio 1945.',
+              'Asse',
+              'Deutsche Wehrmacht — Heeresgruppe Oberrhein (Sacca di Colmar)'
+            );
+          }
+          if (isAtlanticPocket) {
+            return makeResult(
+              'GER',
+              `${rawName || 'Poche Atlantique'} (Festung Atlantica — Guarnigione Tedesca)`,
+              'Dicembre 1944: sacca costiera atlantica presidiata dalle guarnigioni tedesche accerchiate.',
+              'Asse',
+              'Deutsche Wehrmacht — Festung Atlantik'
+            );
+          }
+          if (nid === 'FRF11' || nrm.includes('bas-rhin') || nrm.includes('strasbourg')) {
+            return makeResult(
+              'FRA',
+              'Bas-Rhin — Strasbourg Liberata (2e DB Gen. Leclerc)',
+              '23 novembre 1944: la 2e Division Blindée francese del Gen. Philippe Leclerc libera Strasburgo compiendo il Giuramento di Koufra.',
+              'Alleati',
+              'Gouvernement Provisoire de la République Française (GPRF — Gen. Leclerc)'
+            );
+          }
+          if (nid === 'FRF33' || nrm.includes('moselle') || nrm.includes('metz')) {
+            return makeResult(
+              'FRA',
+              'Moselle — Metz Liberata (3ª Armata USA Gen. Patton)',
+              'Novembre 1944: la 3ª Armata USA del Gen. George S. Patton espugna Metz liberando la Mosella.',
+              'Alleati',
+              'Gouvernement Provisoire de la République Française (GPRF — 3rd U.S. Army)'
+            );
+          }
+          return makeResult(
+            'FRA',
+            `${rawName || 'France'} (GPRF — Territorio Liberato)`,
+            'Dicembre 1944: territorio francese amministrato dal Governo Provvisorio della Repubblica Francese (GPRF).',
+            'Alleati',
+            'Gouvernement Provisoire de la République Française (GPRF)'
+          );
+        }
+
+        if (s === 15) {
+          const isAxisHoldout15 =
+            nid === 'FRF11' ||
+            nid === 'FRF12' ||
+            nid === 'FRF33' ||
+            nrm.includes('bas-rhin') ||
+            nrm.includes('haut-rhin') ||
+            nrm.includes('moselle') ||
+            nrm.includes('strasbourg') ||
+            nrm.includes('colmar') ||
+            nrm.includes('metz');
+          if (isAxisHoldout15) {
+            return makeResult(
+              'GER',
+              `${rawName || 'Elsass-Lothringen'} (CdZ-Gebiet — Occupazione Tedesca)`,
+              'Agosto 1944: Alsazia e Mosella restano ancora sotto controllo militare tedesco prima delle offensive autunnali.',
+              'Asse',
+              'CdZ-Gebiet — Deutsches Reich'
+            );
+          }
+          if (nid === 'FR101' || nrm.includes('paris') || nrm.includes('parigi')) {
+            return makeResult(
+              'FRA',
+              'Paris (Libération de Paris — 25 Août 1944)',
+              '25 agosto 1944: la 2e Division Blindée del Gen. Philippe Leclerc e gli insorti delle FFI liberano Parigi; il generale Dietrich von Choltitz firma la capitolazione nella capitale alla presenza di Charles de Gaulle.',
+              'Alleati',
+              'Gouvernement Provisoire de la République Française (GPRF — Charles de Gaulle)'
+            );
+          }
+          if (nid === 'FRD11' || nrm.includes('calvados') || nrm.includes('caen') || nrm.includes('falaise')) {
+            return makeResult(
+              'FRA',
+              'Calvados (Vittoria nella Sacca di Falaise — GPRF)',
+              'Agosto 1944: chiusura della Sacca di Falaise, distruzione delle armate tedesche in Normandia e piena restaurazione civile del GPRF.',
+              'Alleati',
+              'Gouvernement Provisoire de la République Française (GPRF)'
+            );
+          }
+          if (
+            nid === 'FRL04' ||
+            nid === 'FRL05' ||
+            nid.startsWith('FRL0') ||
+            nrm.includes('marseille') ||
+            nrm.includes('bouches-du-rhone') ||
+            nrm.includes('toulon') ||
+            nrm.includes('var')
+          ) {
+            return makeResult(
+              'FRA',
+              `${rawName || 'Provence'} (Operazione Dragoon — Liberazione della Provenza)`,
+              '15-28 agosto 1944: Operazione Dragoon e sbarco alleato in Provenza; l\'Armée B del Gen. de Lattre de Tassigny libera Tolone e Marsiglia.',
+              'Alleati',
+              'Gouvernement Provisoire de la République Française (GPRF)'
+            );
+          }
+          return makeResult(
+            'FRA',
+            `${rawName || 'France'} (Libérée — GPRF)`,
+            'Agosto 1944: territorio liberato dall\'avanzata alleata e dalle Forces Françaises de l\'Intérieur sotto l\'autorità del GPRF.',
+            'Alleati',
+            'Gouvernement Provisoire de la République Française (GPRF)'
+          );
+        }
+
+        // s === 14 (GIU 1944 — Overlord / D-Day & Corsica Liberata)
+        const frNormandy = resolveFranceProvince(nid || ft.id || rawName, 14, rawName);
+        if (frNormandy && (frNormandy.o === 'UK' || frNormandy.o === 'USA')) {
+          return frNormandy;
+        }
+        if (isCorsica) {
+          return makeResult(
+            'FRA',
+            `${rawName || 'Corse'} (Libérée — GPRF)`,
+            'Corsica primo dipartimento metropolitano liberato, integrata sotto l\'autorità del Gouvernement Provisoire de la République Française (GPRF).',
+            'Alleati',
+            'Gouvernement Provisoire de la République Française (GPRF)'
+          );
+        }
+        const topGer14 = getTop('GER');
+        return makeResult(
+          'GER',
+          topGer14.name || `${rawName || 'France'} (Zone Occupée — Wehrmacht)`,
+          'Giugno 1944: territorio francese sotto occupazione militare tedesca mentre le forze alleate consolidano le teste di ponte in Normandia.',
+          'Asse',
+          'Zone occupée — Militärbefehlshaber in Frankreich'
         );
       }
 
@@ -9062,15 +10856,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               'Færø Amt (Amtmand Carl Aage Hilbert — Tórshavn) / Løgting'
             );
       }
-      return s < 6
-        ? makeResult('DEN', rawName, 'Kongeriget Danmark', undefined, 'Kongeriget Danmark')
-        : makeResult(
-            'GER',
-            getTop('GER').name || rawName,
-            'Besetztes Dänemark unter Reichsbevollmächtigtem Cecil von Renthe-Fink (Besatzungsregime ab 9. April 1940).',
-            'Asse',
-            'Besetztes Dänemark (Reichsbevollmächtigter Cecil von Renthe-Fink)'
-          );
+      return resolveDenmarkProvince(ft, s, rawName);
     }
 
     case 'SJ':
@@ -9106,19 +10892,49 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return resolveJanMayen(s, rawName);
       }
 
-      return s < 6
-        ? makeResult('NOR', rawName, 'Kongeriket Norge', undefined, 'Kongeriket Norge')
-        : makeResult(
-            'GER',
-            getTop('GER').name || rawName,
-            'Reichskommissariat für die besetzten norwegischen Gebiete unter Josef Terboven (Sitz Oslo).',
-            'Asse',
-            'Reichskommissariat Norwegen (Reichskommissar Josef Terboven)'
-          );
+      return resolveNorwayProvince(ft, s, rawName);
     }
 
     case 'BEL':
     case 'BE':
+      if (s >= 17) {
+        return makeResult(
+          'BEL',
+          `${rawName || 'Belgique'} (${s >= 18 ? 'Royaume de Belgique — Gouvernement d\'Union Nationale' : 'Royaume de Belgique Liberato'})`,
+          s >= 18
+            ? 'Maggio 1945 - Settembre 1947: Regno del Belgio interamente liberato; Eupen-Malmedy reintegrata.'
+            : 'Aprile 1945: l\'intero territorio del Regno del Belgio è liberato.',
+          'Alleati',
+          'Royaume de Belgique / Koninkrijk België'
+        );
+      }
+      if (s === 16) {
+        const isBulgeBe =
+          nid === 'BE342' ||
+          nid === 'BE336' ||
+          nid === 'BE351' ||
+          nrm.includes('bastogne') ||
+          nrm.includes('verviers') ||
+          nrm.includes('dinant');
+        if (isBulgeBe) {
+          return makeResult(
+            'GER',
+            `${rawName || 'Ardennen'} (Controffensiva delle Ardenne — Wacht am Rhein)`,
+            'Dicembre 1944: saliente offensivo della Wehrmacht nelle Ardenne belghe (Bastogne, Dinant, Verviers).',
+            'Asse',
+            'Deutsche Wehrmacht — Heeresgruppe B'
+          );
+        }
+        return makeResult(
+          'BEL',
+          `${rawName || 'Belgique'} (Territorio Liberato)`,
+          nid === 'BE211' || nrm.includes('antwerp')
+            ? 'Porto di Anversa liberato nel settembre 1944 e sbloccato dopo la battaglia della Schelda per i rifornimenti alleati.'
+            : 'Dicembre 1944: territorio belga liberato sotto il Governo d\'Union Nationale.',
+          'Alleati',
+          'Royaume de Belgique / Koninkrijk België'
+        );
+      }
       if (s >= 6) {
         if (nid === 'BE336') {
           const gerTop = getTop('GER');
@@ -9151,6 +10967,68 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'HOL':
     case 'NLD':
     case 'NL':
+      if (s >= 18) {
+        const holPost = getTop('HOL');
+        return makeResult(
+          'HOL',
+          holPost.name || rawName,
+          holPost.note || 'Koninkrijk der Nederlanden — Territorio interamente liberato e restaurato.',
+          'Alleati',
+          holPost.adminTitle || 'Koninkrijk der Nederlanden (Koningin Wilhelmina — Den Haag)'
+        );
+      }
+      if (s === 17) {
+        const isFestungHolland =
+          nid.startsWith('NL31') ||
+          nid.startsWith('NL32') ||
+          nid.startsWith('NL33') ||
+          nrm.includes('amsterdam') ||
+          nrm.includes('utrecht') ||
+          nrm.includes('rotterdam') ||
+          nrm.includes('gravenhage') ||
+          nrm.includes('haarlem');
+        if (isFestungHolland) {
+          return makeResult(
+            'GER',
+            `${rawName || 'Festung Holland'} (Festung Holland — Occupazione Tedesca)`,
+            'Aprile 1945: l\'Olanda occidentale resta assediata nella sacca della Festung Holland fino alla resa di Wageningen (5 maggio 1945).',
+            'Asse',
+            'Reichskommissariat Niederlande — Festung Holland'
+          );
+        }
+        return makeResult(
+          'HOL',
+          `${rawName || 'Nederland'} (Liberata dalla 1ª Armata Canadese)`,
+          'Aprile 1945: liberazione delle province olandesi settentrionali, orientali e meridionali.',
+          'Alleati',
+          'Koninkrijk der Nederlanden'
+        );
+      }
+      if (s === 16) {
+        const isSouthLiberated =
+          nid.startsWith('NL34') ||
+          nid.startsWith('NL4') ||
+          nrm.includes('zeeland') ||
+          nrm.includes('zeeuw') ||
+          nrm.includes('brabant') ||
+          nrm.includes('limburg');
+        if (isSouthLiberated) {
+          return makeResult(
+            'HOL',
+            `${rawName || 'Zuid-Nederland'} (Liberata — Battaglia della Schelda)`,
+            'Autunno-Inverno 1944: Zelanda e Brabante liberati dalle forze alleate dopo la dura battaglia della Schelda.',
+            'Alleati',
+            'Koninkrijk der Nederlanden'
+          );
+        }
+        return makeResult(
+          'GER',
+          `${rawName || 'Noord-Nederland'} (Reichskommissariat Niederlande)`,
+          'Dicembre 1944: le province olandesi a nord dei grandi fiumi patiscono il blocco dei trasporti e l\'inverno della fame (Hongerwinter 1944-1945).',
+          'Asse',
+          'Reichskommissariat für die besetzten niederländischen Gebiete'
+        );
+      }
       if (s >= 6) {
         const gerTop = getTop('GER');
         return makeResult(
@@ -9172,6 +11050,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'LUX':
     case 'LU':
+      if (s >= 17) {
+        const luxPost = getTop('LUX');
+        return makeResult(
+          'LUX',
+          luxPost.name || 'Grand-Duché de Luxembourg',
+          luxPost.note || 'Granducato di Lussemburgo liberato e restaurato nella piena sovranità.',
+          'Alleati',
+          luxPost.adminTitle || 'Grand-Duché de Luxembourg'
+        );
+      }
+      if (s === 16) {
+        return makeResult(
+          'GER',
+          'Luxemburg (Controffensiva delle Ardenne — Wacht am Rhein)',
+          'Dicembre 1944: territorio lussemburghese investito dalla controffensiva invernale della Wehrmacht nelle Ardenne.',
+          'Asse',
+          'Deutsche Wehrmacht — Offensiva delle Ardenne'
+        );
+      }
       if (s >= 6) {
         const gerTop = getTop('GER');
         return makeResult(
@@ -9248,19 +11145,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           ukProv ? ukProv.name : (getTop('UK').name || 'Isola di Man (Douglas)'),
           ukProv ? ukProv.note : 'Dipendenza della Corona Britannica (Isle of Man)',
           'Alleati',
-          'Crown Dependency of the Isle of Man'
+          ukProv?.adminEntity || 'Crown Dependency of the Isle of Man'
         );
       }
       if (isChannel) {
         const chKey = (nrm.includes('jersey') || nid === 'JE' || cntr === 'JE') ? 'JE' : 'GG';
         const ukProv = resolveUKProvince(chKey, s, rawName);
-        if (s >= 6) {
+        if (s >= 6 && s < 18) {
           return makeResult(
             'GER',
             ukProv ? ukProv.name : 'Isole del Canale (Occupazione Tedesca)',
             ukProv ? ukProv.note : 'Militärverwaltung Kanalinseln (giu 1940)',
             'Asse',
-            'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Channel Islands)'
+            ukProv?.adminEntity || 'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Channel Islands)'
           );
         }
         return makeResult(
@@ -9268,8 +11165,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           ukProv ? ukProv.name : (getTop('UK').name || (nrm.includes('jersey') ? 'Baliato di Jersey' : 'Baliato di Guernsey')),
           ukProv ? ukProv.note : 'Dipendenza della Corona Britannica (Isole del Canale)',
           'Alleati',
-          'British Crown Dependency (Channel Islands)'
+          ukProv?.adminEntity || 'British Crown Dependency (Channel Islands)'
         );
+      }
+
+      // Territori speciali e basi sovrane di Cipro (Akrotiri, Dhekelia)
+      if (isCyprusProvince(nid)) {
+        return resolveCyprusProvince(ft, s);
       }
 
       // Risoluzione esaustiva delle province del Regno Unito (NUTS-3 metropolitane)
@@ -9342,18 +11244,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'MC':
     case 'MCO': {
-      const ownerCode = s >= 13 ? 'GER' : s >= 11 ? 'ITA' : 'MCO';
+      const ownerCode = s >= 16 ? 'MCO' : s >= 13 ? 'GER' : s >= 11 ? 'ITA' : 'MCO';
       const top = getExtendedToponym(rawName || 'Monaco', ownerCode, nid || 'MCO_HIST', [7.4233, 43.7367], s);
-      const monacoNote = s >= 13
-        ? 'Operazione Achse (settembre 1943): le truppe tedesche della Wehrmacht occupano il Principato di Monaco, subentrando all\'occupazione italiana.'
-        : s >= 11
-        ? 'Operazione Anton (novembre 1942): occupazione militare italiana del Principato di Monaco.'
-        : 'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).';
+      const monacoName =
+        s >= 18
+          ? 'Principauté de Monaco (Souveraineté Restaurée)'
+          : s >= 16
+          ? top.name?.includes('Libérée')
+            ? top.name
+            : 'Principauté de Monaco (Libérée — Restauration Souveraine)'
+          : top.name || 'Principauté de Monaco';
+      const monacoFac: FactionType = s >= 18 ? 'Neutrale' : s >= 16 ? 'Alleati' : s >= 11 ? 'Asse' : 'Neutrale';
+      const monacoNote =
+        s >= 16
+          ? 'Il 3 settembre 1944 le truppe alleate liberano Monaco dall\'occupazione tedesca; sovranità monegasca restaurata sotto Luigi II.'
+          : s >= 13
+          ? 'Operazione Achse (settembre 1943): le truppe tedesche della Wehrmacht occupano il Principato di Monaco, subentrando all\'occupazione italiana.'
+          : s >= 11
+          ? 'Operazione Anton (novembre 1942): occupazione militare italiana del Principato di Monaco.'
+          : 'Principato di Monaco — Sovrano Luigi II (Stato neutrale sotto protettorato consolare francese).';
       return makeResult(
         ownerCode,
-        top.name || 'Principauté de Monaco',
+        monacoName,
         top.note || monacoNote,
-        s >= 11 ? 'Asse' : 'Neutrale',
+        monacoFac,
         top.adminTitle || 'Principauté de Monaco'
       );
     }
@@ -9580,6 +11494,28 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const resUsa = resolveUSAProvince(ft, s);
         if (resUsa) return resUsa;
       }
+      if (s >= 15 && (cntr === 'GU' || cntr === 'GUM' || cntr === '316' || cntr === 'XGU' || nrm.includes('guam'))) {
+        return makeResult(
+          'USA',
+          'Guam (Isole Marianne — Base Aeronavale USA per B-29 Superfortress)',
+          'Luglio-Agosto 1944: riconquista anfibia di Guam da parte dei Marines e dell\'Esercito USA (21 luglio - 10 agosto 1944); trasformazione in base strategica per i bombardieri B-29 Superfortress e quartier generale del Pacifico.',
+          'Alleati',
+          'United States Navy / XX Bomber & XXI Bomber Command (Guam)'
+        );
+      }
+      if (s >= 18 && (nrm.includes('wake') || nid.includes('WAKE'))) {
+        return makeResult(
+          'USA',
+          s >= 19
+            ? 'Wake Island (Territorio Non Incorporato USA — Civil Aeronautics Administration)'
+            : 'Wake Island (Resa Giapponese del 4 Settembre 1945 — Ritorno agli USA)',
+          s >= 19
+            ? 'Al 30 settembre 1947 l\'atollo di Wake opera come strategico scalo transpacifico dell\'aviazione civile e navale degli Stati Uniti (CAA / U.S. Navy).'
+            : 'Il 4 settembre 1945 il contrammiraglio Shigematsu Sakaibara firma la resa della guarnigione giapponese di Wake Island dinanzi al generale dei Marines Lawson H. M. Sanderson.',
+          'Alleati',
+          'United States Navy / Civil Aeronautics Administration — Wake Island'
+        );
+      }
       if (s >= 9 && (cntr === 'GU' || cntr === 'GUM' || cntr === '316' || cntr === 'XGU' || nrm.includes('guam') || nrm.includes('wake'))) {
         const isWake = nrm.includes('wake') || nid.includes('WAKE');
         return makeResult(
@@ -9655,6 +11591,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'THA':
     case '764':
     case 'SIA':
+      if (s >= 18) {
+        return makeResult(
+          'SIA',
+          s >= 19
+            ? 'Regno di Thailandia (Ratcha-anachak Thai — Post-Trattato di Washington & ONU)'
+            : 'Regno di Thailandia (Governo di Pace Seri Thai — Settembre 1945)',
+          s >= 19
+            ? 'Al 30 settembre 1947 la Thailandia (membro ONU dal dicembre 1946) ha restituito i territori annessi in guerra a Francia (Battambang, Siem Reap, Champassak, Sayaboury — Trattato di Washington) e Regno Unito (stati malesi e Shan).'
+            : 'Settembre 1945: dopo la resa giapponese il Reggente Pridi Banomyong e il P.M. Seni Pramoj guidano il governo Seri Thai, dichiarando nulla la dichiarazione di guerra del 1942 e avviando la restituzione dei territori occupati.',
+          'Neutrale',
+          s >= 19
+            ? 'Ratcha-anachak Thai — Re Bhumibol Adulyadej (Rama IX) / P.M. Thawan Thamrongnawasawat'
+            : 'Ratcha-anachak Thai — Governo Seri Thai (Reggente Pridi Banomyong / P.M. Seni Pramoj)'
+        );
+      }
       if (s >= 9) {
         return makeResult(
           'SIA',
@@ -9696,6 +11647,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'TW':
     case 'TWN':
     case '158': {
+      if (s >= 18) {
+        return makeResult(
+          'CHI',
+          'Taiwan / Provincia di Taiwan (Repubblica di Cina — Restituzione)',
+          '25 ottobre 1945: il governatorato giapponese di Formosa si arrende alle autorità della Repubblica di Cina; retrocessione di Taiwan e delle Pescadores alla sovranità cinese.',
+          'Alleati',
+          'Zhōnghuá Mínguó — Táiwān Shěng (Taipei)'
+        );
+      }
       const jpTop = resolveJapanToponym('JP_TAIWAN', histName, 'taiwan_formosa', 'JAP', s);
       return makeResult(
         'JAP',
@@ -9716,6 +11676,50 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '585':
     case 'MP':
     case 'MNP': {
+      if (cntr === 'MP' || cntr === 'MNP' || nrm.includes('saipan') || nrm.includes('tinian') || nrm.includes('mariana')) {
+        if (s >= 14) {
+          return makeResult(
+            'USA',
+            s === 14
+              ? 'Saipan (Battaglia di Saipan — 15 Giugno 1944, Operazione Forager)'
+              : 'Saipan e Marianne Settentrionali (Basi Strategiche USA per B-29 Superfortress)',
+            s === 14
+              ? 'Il 15 giugno 1944 le forze anfibie statunitensi sbarcano a Saipan (Operazione Forager) spezzando la cintura difensiva interna giapponese nelle Marianne.'
+              : 'Estate 1944 - 1947: le Isole Marianne (Saipan, Tinian) ospitano i grandi aeroporti della XXI Bomber Command per i bombardieri pesanti B-29 Superfortress contro il Giappone.',
+            'Alleati',
+            'U.S. Pacific Ocean Areas — Northern Mariana Islands (Saipan / Tinian)'
+          );
+        }
+      }
+      if (cntr === 'PW' || cntr === 'PLW' || cntr === '585' || nrm.includes('palau') || nrm.includes('peleliu')) {
+        if (s >= 16) {
+          return makeResult(
+            'USA',
+            'Palau e Peleliu (Presidio Statunitense nel Pacifico Occidentale)',
+            'Settembre-Novembre 1944: dopo l\'aspra battaglia di Peleliu (15 settembre - 27 novembre 1944, Operazione Stalemate II), gli Stati Uniti assumono il controllo delle isole principali e degli aeroporti di Palau.',
+            'Alleati',
+            'U.S. Pacific Ocean Areas — Palau Islands (Peleliu / Angaur)'
+          );
+        }
+      }
+      if ((cntr === 'MH' || cntr === 'MHL' || cntr === '584' || nrm.includes('marshall') || nrm.includes('kwajalein')) && s >= 14) {
+        return makeResult(
+          'USA',
+          'Isole Marshall (Kwajalein / Eniwetok — Basi Navali USA)',
+          'Febbraio 1944: conquista statunitense di Kwajalein ed Eniwetok (Operazione Flintlock) e installazione di grandi basi logistiche della U.S. Navy.',
+          'Alleati',
+          'U.S. Pacific Ocean Areas — Marshall Islands'
+        );
+      }
+      if ((cntr === 'FM' || cntr === 'FSM' || cntr === '583' || nrm.includes('micronesia') || nrm.includes('carolin')) && s >= 18) {
+        return makeResult(
+          'USA',
+          'Isole Caroline / Micronesia (Trust Territory of the Pacific Islands)',
+          'Resa delle guarnigioni giapponesi di Truk (Chuuk), Yap e Ponape e amministrazione fiduciaria statunitense del Pacifico.',
+          'Alleati',
+          'U.S. Navy — Trust Territory of the Pacific Islands'
+        );
+      }
       const jpTop = resolveJapanToponym('JP_NANYO', histName, 'nanyo_gunto', 'JAP', s);
       return makeResult(
         'JAP',
@@ -9837,6 +11841,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IRQ':
     case '368':
     case 'XIQ':
+      if (s >= 19) {
+        return makeResult(
+          'IRQ',
+          'Al-Mamlakah al-‘Irāqiyyah (Regno dell\'Iraq — Sovranità Costituzionale, Baghdad)',
+          'Regno Hashemita dell\'Iraq pienamente sovrano dopo la fine dell\'occupazione militare bellica PAIFORCE (1946). Governato dal Reggente \'Abd al-Ilah per conto di Re Faysal II e dal Primo Ministro Salih Jabr, membro fondatore della Lega Araba e dell\'ONU.',
+          'Neutrale',
+          'Al-Mamlakah al-\'Irāqiyyah — Re Faysal II · Reggente \'Abd al-Ilah · P.M. Salih Jabr'
+        );
+      }
       if (s >= 9) {
         return makeResult(
           'UK',
@@ -9860,35 +11873,72 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'EG':
     case 'EGY':
     case '818':
+      if (s >= 19) {
+        return makeResult(
+          'EGY',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Sovranità & Crisi del Canale di Suez)",
+          "Dopo il completamento del ritiro britannico dal Cairo e dal Delta del Nilo nella sola Zona del Canale di Suez (marzo 1947), il governo di Mahmoud an-Nukrashi Pasha porta la controversia anglo-egiziana davanti al Consiglio di Sicurezza dell'ONU (luglio-settembre 1947).",
+          'Neutrale',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mahmoud an-Nukrashi Pasha)"
+        );
+      }
       return makeResult('EGY', "Regno d'Egitto", "Sfera Britannica (Trattato Anglo-Egiziano 1936)", 'Alleati', "Regno d'Egitto (Re Faruq I)");
     case 'JO':
     case 'JOR':
     case '400':
+      if (s >= 19) {
+        return makeResult(
+          'JOR',
+          'Regno Hashemita di Transgiordania (Sovereign Kingdom — Amman)',
+          'Il 25 maggio 1946 la Transgiordania diviene pienamente indipendente come Regno Hashemita di Transgiordania sotto Re Abd Allah I ibn Husayn. Le forze della Legione Araba (al-Jaysh al-Arabi) sono addestrate e guidate da Glubb Pasha (Sir John Bagot Glubb). Stato sovrano arabo firmatario del Trattato di Londra (1946).',
+          'Neutrale',
+          'Regno Hashemita di Transgiordania (Re Abd Allah I bin al-Husayn & Glubb Pascià)'
+        );
+      }
       return makeResult('UK', 'Emirato di Transgiordania', 'Mandato Britannico');
     case 'KW':
     case 'KWT':
     case '414':
+      return makeResult('UK', 'Sheikhdom of Kuwait (Protettorato Britannico — Al-Kuwait)', "Sceiccato del Kuwait sotto l'Emiro Ahmad Al-Jaber Al-Sabah; dal giugno 1946 avviate le esportazioni commerciali di greggio da Burgan (KOC).", s >= 4 ? 'Alleati' : 'Neutrale', 'British Persian Gulf Residency — Political Agency Kuwait');
     case 'QA':
     case 'QAT':
     case '634':
+      return makeResult('UK', 'Sheikhdom of Qatar (Protettorato Britannico — Doha)', "Protettorato britannico del Qatar (Trattato Anglo-Qatariota del 1916) sotto l'Emiro Abdullah bin Jassim Al Thani.", s >= 4 ? 'Alleati' : 'Neutrale', 'British Persian Gulf Residency — Qatar');
     case 'AE':
     case 'ARE':
     case '784':
+      return makeResult('UK', 'Trucial States / Trucial Oman (Stati della Tregua — Sharjah & Dubai)', "I sette emirati della Costa della Tregua sotto protettorato britannico e base strategica RAF Sharjah.", s >= 4 ? 'Alleati' : 'Neutrale', 'British Political Residency — Trucial States');
     case 'OM':
     case 'OMN':
     case '512':
+      return makeResult('UK', 'Sultanate of Muscat and Oman (Protettorato & Sfera Britannica — Mascate)', "Sultanato di Mascate e Oman sotto il Sultano Said bin Taimur (Trattato di Seeb), legato alla Corona britannica.", s >= 4 ? 'Alleati' : 'Neutrale', 'Sultanate of Muscat and Oman (British Agency — Muscat)');
     case 'BH':
     case 'BHR':
     case '048':
-      return makeResult('UK', 'Protettorati Britannici del Golfo');
+      return makeResult('UK', 'Sheikhdom of Bahrain (British Persian Gulf Residency — Manama)', "Protettorato britannico del Bahrein (Salman bin Hamad Al Khalifa); dal 1946 Manama ospita la British Political Residency nel Golfo Persico.", s >= 4 ? 'Alleati' : 'Neutrale', 'British Political Residency in the Persian Gulf (Manama)');
 
     case 'LR':
     case 'LBR':
     case '430':
     case 'XLR':
-      return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano');
+      if (s >= 19) {
+        return makeResult('LBR', 'Repubblica di Liberia (Monrovia — Presidenza William V.S. Tubman)', 'Repubblica sovrana dell\'Africa occidentale, membro fondatore dell\'ONU; politica Open Door e Porto Franco di Monrovia.', 'Neutrale', 'Repubblica di Liberia (Presidente William V.S. Tubman)');
+      }
+      if (s >= 14) {
+        return makeResult('LBR', 'Repubblica di Liberia (Monrovia — Belligerante Alleato)', 'Il 27 gennaio 1944 la Liberia del Presidente William V.S. Tubman dichiara guerra all\'Asse.', 'Alleati', 'Repubblica di Liberia (Presidente William V.S. Tubman)');
+      }
+      return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano', 'Neutrale', 'Repubblica di Liberia (Presidente Edwin Barclay)');
     case 'ETH':
     case 'ET':
+      if (s >= 19) {
+        return makeResult(
+          'ETH',
+          "Impero d'Etiopia (Addis Abeba — Sovranità Restaurata, Negus Hailé Selassié I)",
+          "Impero d'Etiopia pienamente indipendente e membro fondatore delle Nazioni Unite sotto l'Imperatore Hailé Selassié I; con il Trattato di Pace di Parigi (15 settembre 1947, Articoli 23 e 33-38) l'Italia riconosce definitivamente la sovranità etiopica.",
+          'Neutrale',
+          "Ye’Ityōṗṗyā Nigūsa Negest Mengist — Imperatore Hailé Selassié I (Addis Abeba)"
+        );
+      }
       if (s >= 8) {
         const top = getTop('ETH');
         return makeResult(
@@ -9908,21 +11958,50 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'SR':
       return makeResult('HOL', 'Guiana Olandese (Suriname)', undefined, s >= 6 ? 'Alleati' : 'Neutrale');
     case 'GF':
+      if (s >= 12) {
+        return makeResult(
+          'FRA',
+          s >= 19 ? 'Guyane française (Département d\'Outre-Mer — Quatrième République)' : 'Guyane française (Ralliée al CFLN / GPRF)',
+          s >= 19 ? 'Dipartimento d\'Oltremare francese (Loi de départementalisation du 19 mars 1946).' : 'Nel marzo 1943 la Guyana francese rovescia Vichy e si unisce al CFLN.',
+          'Alleati',
+          s >= 19 ? 'Quatrième République — Guyane (Cayenne)' : 'Comité Français de Libération Nationale (CFLN)'
+        );
+      }
       return s < 6
         ? makeResult('F_COL', 'Guiana Francese')
-        : makeResult('F_COL', 'Guiana Francese', 'Amministrazione di Vichy', 'Fantoccio');
+        : makeResult('VIC_COL', 'Guiana Francese', 'Amministrazione di Vichy', 'Fantoccio');
 
     case 'EH':
+      if (s >= 19) {
+        return makeResult(
+          'SPA',
+          'África Occidental Española — Sáhara Español (Villa Cisneros / Cabo Juby)',
+          'Gobierno del África Occidental Española (Decreto del 20 luglio 1946)',
+          'Neutrale',
+          'Gobierno del África Occidental Española (Sidi Ifni)'
+        );
+      }
       return makeResult(
         s === 0 ? 'SPR' : 'SPA',
         'Sahara Spagnolo (Río de Oro)',
-        s === 0 ? 'Fronte Popolare' : 'Bando Nacional'
+        s === 0 ? 'Fronte Popolare' : 'Bando Nacional',
+        s >= 18 ? 'Neutrale' : undefined
       );
     case 'GQ':
+      if (s >= 19) {
+        return makeResult(
+          'SPA',
+          'Territorios Españoles del Golfo de Guinea (Santa Isabel / Bata)',
+          'Colonia spagnola del Golfo di Guinea (Governatore Juan María Bonelli Rubio)',
+          'Neutrale',
+          'Estado Español — Gobernador del Golfo de Guinea'
+        );
+      }
       return makeResult(
         s === 0 ? 'SPR' : 'SPA',
         'Guinea Spagnola',
-        s === 0 ? 'Fronte Popolare' : 'Bando Nacional'
+        s === 0 ? 'Fronte Popolare' : 'Bando Nacional',
+        s >= 18 ? 'Neutrale' : undefined
       );
 
     case 'MA':
@@ -9930,6 +12009,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '504':
     case 'XMA':
     case 'FR_MOROCCO': {
+      if (s >= 19) {
+        return makeResult(
+          'FRA',
+          'Protectorat Français du Maroc (Union Française — Rabat)',
+          'Protettorato francese del Marocco nella Quarta Repubblica e nell\'Union Française; svolta indipendentista con il Discorso di Tangeri del Sultano Mohammed V (10 aprile 1947) sotto il Résident Général Alphonse Juin.',
+          'Alleati',
+          'Quatrième République (Union Française) — Résidence Générale au Maroc (Rabat · Gén. Alphonse Juin)'
+        );
+      }
       if (s >= 11) {
         return makeResult(
           'FRA',
@@ -9959,6 +12047,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'TANGER':
     case 'TANGIER': {
+      if (s >= 18) {
+        return makeResult(
+          'TANGER',
+          'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)',
+          'L\'11 ottobre 1945 le truppe spagnole di Franco evacuano la città su intimazione delle potenze alleate: viene restaurato il regime di amministrazione internazionale (Comitato di Controllo internazionale)',
+          'Neutrale'
+        );
+      }
       if (s >= 6) {
         return makeResult(
           'SPA',
@@ -9984,6 +12080,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           top.note || 'Conquista italiana della Somalia Britannica (3-19 agosto 1940: Battaglia di Tug Argan e presa di Berbera da parte delle truppe del Gen. Guglielmo Nasi). Territorio annesso all\'Africa Orientale Italiana.',
           'Asse',
           top.adminTitle || 'Governo Militare della Somalia Britannica (AOI — Gen. Guglielmo Nasi)'
+        );
+      }
+      if (s >= 19) {
+        return makeResult(
+          'UK',
+          'British Somaliland Protectorate (Hargeisa & Berbera — BMA)',
+          'Nel dopoguerra il Protettorato della Somalia Britannica è retto dalla British Military Administration (Hargeisa e Berbera), con l\'avvio di consigli consultivi locali prima del ritorno al Colonial Office.',
+          'Alleati',
+          'British Military Administration of Somaliland (Governor Brig. Sir Gerald Fisher)'
         );
       }
       if (s >= 8) {
@@ -10018,7 +12123,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nid.startsWith('IM') ||
         (c[1] >= 53.95 && c[1] <= 54.55 && c[0] >= -4.95 && c[0] <= -4.2)
       ) {
-        return makeResult(
+        const ukMan = resolveUKProvince('IM', s, rawName);
+        return ukMan || makeResult(
           'UK',
           getTop('UK').name || 'Isola di Man (Douglas)',
           'Dipendenza della Corona Britannica (Isle of Man)'
@@ -10034,7 +12140,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nid.startsWith('JE') ||
         (c[1] >= 49.1 && c[1] <= 49.8 && c[0] >= -2.8 && c[0] <= -1.8)
       ) {
-        if (s >= 6) {
+        const chKey = (nrm.includes('jersey') || nid === 'JE') ? 'JE' : 'GG';
+        const ukCh = resolveUKProvince(chKey, s, rawName);
+        if (ukCh) return ukCh;
+        if (s >= 6 && s < 18) {
           return makeResult(
             'GER',
             'Isole del Canale (Occupazione Tedesca)',
@@ -10126,7 +12235,13 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nid.includes('LBR') ||
         nid === 'LR'
       ) {
-        return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano');
+        if (s >= 19) {
+          return makeResult('LBR', 'Repubblica di Liberia (Monrovia — Presidenza William V.S. Tubman)', 'Repubblica sovrana dell\'Africa occidentale, membro fondatore dell\'ONU; politica Open Door e Porto Franco di Monrovia.', 'Neutrale', 'Repubblica di Liberia (Presidente William V.S. Tubman)');
+        }
+        if (s >= 14) {
+          return makeResult('LBR', 'Repubblica di Liberia (Monrovia — Belligerante Alleato)', 'Il 27 gennaio 1944 la Liberia del Presidente William V.S. Tubman dichiara guerra all\'Asse.', 'Alleati', 'Repubblica di Liberia (Presidente William V.S. Tubman)');
+        }
+        return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano', 'Neutrale', 'Repubblica di Liberia (Presidente Edwin Barclay)');
       }
 
       if (
@@ -10234,14 +12349,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('saudi-kuwait') ||
         (nrm.includes('neutral zone') && !nrm.includes('tanger')) ||
         (nrm.includes('zona neutrale') && !nrm.includes('tangeri')) ||
-        nid.startsWith('SA') ||
+        nid === 'SA' ||
+        nid.startsWith('SA_') ||
+        nid.startsWith('SA-') ||
+        nid.startsWith('SAU') ||
+        /^SA\d/.test(nid) ||
         nid.startsWith('NT') ||
-        nid === 'SAU' ||
         nid === 'KSA' ||
         nid === '682' ||
         nid === '536'
       ) {
-        return makeResult('SAU', getTop('SAU').name || rawName || 'Regno dell\'Arabia Saudita', 'Regno dell\'Arabia Saudita');
+        return makeResult('SAU', getTop('SAU').name || rawName || 'Regno dell\'Arabia Saudita', s >= 19 ? 'Regno sovrano dell\'Arabia Saudita (Malik Abdulaziz Al Saud), membro fondatore di ONU e Lega Araba; espansione ARAMCO nell\'Hasa.' : 'Regno dell\'Arabia Saudita', 'Neutrale');
       }
 
       if (
@@ -10255,7 +12373,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         if (s >= 9) {
           return resolveIranProvince(ft, s);
         }
-        return makeResult('IRN', getTop('IRN').name || rawName || 'Impero dell\'Iran (Persia)', 'Impero dell\'Iran (Persia)');
+        return makeResult('IRN', getTop('IRN').name || rawName || 'Impero dell\'Iran (Persia)', 'Impero dell\'Iran (Persia)', 'Neutrale');
       }
 
       if (
@@ -10272,6 +12390,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         !nrm.includes('syria') &&
         !nrm.includes('iran')
       ) {
+        if (s >= 19) {
+          return makeResult(
+            'IRQ',
+            'Al-Mamlakah al-‘Irāqiyyah (Regno dell\'Iraq — Sovranità Costituzionale, Baghdad)',
+            'Regno Hashemita dell\'Iraq pienamente sovrano dopo la fine dell\'occupazione militare PAIFORCE (1946), sotto il Reggente \'Abd al-Ilah per Re Faysal II e il Primo Ministro Salih Jabr.',
+            'Neutrale',
+            'Al-Mamlakah al-\'Irāqiyyah — Re Faysal II · Reggente \'Abd al-Ilah · P.M. Salih Jabr'
+          );
+        }
         if (s >= 9) {
           return makeResult(
             'UK',
@@ -10527,6 +12654,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('tunisie') ||
         nrm.includes('bizerte')
       ) {
+        if (s >= 19) {
+          return makeResult(
+            'FRA',
+            'Afrique du Nord Française (Union Française & Quatrième République)',
+            'Algeria (Statut Organique de l\'Algérie del 20 settembre 1947 sotto la Quarta Repubblica) e Protettorati di Tunisia (Jean Mons / Lamine Bey) e Marocco (Alphonse Juin / Mohammed V) nell\'Union Française.',
+            'Alleati',
+            'Quatrième République (Union Française) — Afrique du Nord Française'
+          );
+        }
+        if (s >= 11) {
+          return makeResult(
+            'FRA',
+            rawName ? `${rawName} (Rallié aux Alliés — Operazione Torch)` : 'Afrique du Nord Française (Alleati)',
+            'A seguito dell\'Operazione Torch (novembre 1942) e dell\'eliminazione della testa di ponte dell\'Asse a Tunisi (maggio 1943), il Nordafrica francese combatte al fianco degli Alleati.',
+            'Alleati',
+            'Comité Français de la Libération Nationale (CFLN)'
+          );
+        }
         if (s >= 6) {
           const top = getTop('VIC_NAF');
           return makeResult(
@@ -10573,6 +12718,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       ) {
         const resAOF = resolveAOFProvince(ft, s);
         if (resAOF) return resAOF;
+        if (s >= 19) {
+          return makeResult(
+            'FRA',
+            rawName ? `${rawName} (AOF — Union Française)` : 'Africa Occidentale Francese (Union Française)',
+            'Territori d\'Oltremare dell\'AOF nella Quarta Repubblica e nell\'Union Française (Legge Houphouët-Boigny 1946; ricostituzione dell\'Alta Volta il 4 settembre 1947) sotto René Barthes a Dakar.',
+            'Alleati',
+            'Quatrième République (Union Française) — Haut-Commissariat de l\'AOF (Dakar · René Barthes)'
+          );
+        }
+        if (s >= 11) {
+          return makeResult(
+            'F_AOF',
+            rawName ? `${rawName} (AOF — Alleati)` : 'Africa Occidentale Francese (Ralliement aux Alliés)',
+            'Accordo Boisson-Darlan (23 novembre 1942): l\'AOF si unisce agli Alleati mettendo Dakar a disposizione delle Nazioni Unite.',
+            'Alleati',
+            'Haut-Commissariat de France en Afrique (Dakar)'
+          );
+        }
         if (s >= 6) {
           const top = getTop('VIC_AOF');
           return makeResult(
@@ -10609,6 +12772,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       ) {
         const resAEF = resolveAEFProvince(ft, s);
         if (resAEF) return resAEF;
+        if (s >= 19) {
+          return makeResult(
+            'FRA',
+            rawName ? `${rawName} (AEF — Union Française)` : 'Africa Equatoriale Francese (Union Française)',
+            'Territori d\'Oltremare dell\'AEF nella Quarta Repubblica e nell\'Union Française (Costituzione dell\'ottobre 1946; Brazzaville).',
+            'Alleati',
+            'Quatrième République (Union Française) — Gouvernement Général de l\'AEF (Brazzaville · Charles Luizet)'
+          );
+        }
         if (s >= 6) {
           const top = getTop('FFL_AEF');
           return makeResult(
@@ -10695,6 +12867,34 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('comoros') ||
         nrm.includes('comores')
       ) {
+        const isComoros = nrm.includes('comor') || nid === 'KM' || nid === 'COM' || nid === 'KM_COMOROS';
+        if (s >= 19) {
+          if (isComoros) {
+            return makeResult(
+              'FRA',
+              'Archipel des Comores (Territoire d\'Outre-Mer des Comores — Dzaoudzi)',
+              'Con la legge francese del 9 maggio 1946 l\'arcipelago delle Comore è separato dal Madagascar ed eretto in Territoire d\'Outre-Mer (TOM) della Quarta Repubblica nell\'Union Française (capoluogo Dzaoudzi).',
+              'Alleati',
+              'Quatrième République (Union Française) — Territoire des Comores (Dzaoudzi)'
+            );
+          }
+          return makeResult(
+            'FRA',
+            'Madagascar (Union Française — Territoire d\'outre-mer & Insurrezione del 1947)',
+            'Territoire d\'Outre-Mer della Quarta Repubblica (Union Française). Dal 29 marzo 1947 l\'isola è investita dall\'insurrezione anticoloniale del movimento MDRM, repressa dall\'Alto Commissario Marcel de Coppet.',
+            'Alleati',
+            'Haut-Commissariat de France à Madagascar (Marcel de Coppet, Antananarivo)'
+          );
+        }
+        if (s >= 12) {
+          return makeResult(
+            'FRA',
+            isComoros ? 'Archipel des Comores (Francia Libera — CFLN / GPRF)' : 'Madagascar (Francia Libera — CFLN / GPRF)',
+            'Dopo l\'armistizio di Ambalavao e gli accordi Eden-De Gaulle (dicembre 1942), Madagascar e le Comore passano sotto amministrazione della Francia Libera (Gen. Paul Legentilhomme).',
+            'Alleati',
+            'Gouvernement Général de Madagascar — CFLN / GPRF (Général Paul Legentilhomme)'
+          );
+        }
         if (s >= 11) {
           return makeResult(
             'UK',
@@ -10729,6 +12929,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('french somaliland') ||
         nrm.includes('gibuti')
       ) {
+        if (s >= 19) {
+          return makeResult(
+            'FRA',
+            'Côte Française des Somalis (Union Française — Djibouti)',
+            'Territoire d\'outre-mer della Quarta Repubblica Francese (Unione Francese). Base aeronavale e scalo ferroviario strategico franco-etiope verso Addis Abeba sotto il Governatore Paul-Henri Siriex.',
+            'Alleati',
+            'Territoire de la Côte Française des Somalis (Djibouti — Gouverneur Paul-Henri Siriex)'
+          );
+        }
+        if (s >= 12) {
+          return makeResult(
+            'FRA',
+            'Côte Française des Somalis (Ralliement alla Francia Libera — Dicembre 1942)',
+            'Il 28 dicembre 1942 la guarnigione di Vichy a Gibuti si arrende senza spargimento di sangue alle forze alleate e della Francia Libera, integrando la colonia nello schieramento alleato sotto il Governatore André Bayardelle.',
+            'Alleati',
+            'Côte Française des Somalis — CFLN / GPRF (Gouverneur André Bayardelle)'
+          );
+        }
         if (s >= 6) {
           const top = getTop('VIC_SOM');
           return makeResult(
@@ -10751,6 +12969,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
       if (ITA_COL[cntr] || cntr === 'LY' || cntr === 'LBY' || nid.startsWith('LY')) {
         if (s >= 8 && (cntr === 'ER' || cntr === 'ERI' || nrm.includes('eritrea') || nid.startsWith('ER'))) {
+          if (s >= 19) {
+            return makeResult(
+              'UK',
+              'Eritrea (Amministrazione Militare Britannica — BMA, Asmara)',
+              'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia formalmente a ogni diritto sull\'Eritrea. Il territorio rimane retto dalla British Military Administration (BMA Eritrea, Brigadier F.G. Drew ad Asmara) in attesa delle decisioni delle Potenze Alleate e della Commissione d\'inchiesta delle Quattro Potenze.',
+              'Alleati',
+              'British Military Administration of Eritrea (BMA — Brigadier F.G. Drew, Asmara)'
+            );
+          }
           return makeResult(
             'UK',
             'Eritrea Occupata (Asmara / Massaua / Cheren — British Military Administration)',
@@ -10760,6 +12987,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
         if (s >= 8 && (cntr === 'SO' || cntr === 'SOM' || nrm.includes('somal') || nid.startsWith('SO'))) {
+          if (s >= 19) {
+            return makeResult(
+              'UK',
+              'Somalia Italiana (Amministrazione Militare Britannica — Mogadiscio)',
+              'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia formalmente e irrevocabilmente a ogni diritto e titolo sulla Somalia Italiana. Il territorio rimane retto dalla British Military Administration (BMA Somalia) con sede a Mogadiscio.',
+              'Alleati',
+              'British Military Administration in Somalia (BMA — Mogadishu)'
+            );
+          }
           return makeResult(
             'UK',
             'Somalia Occupata (Mogadiscio / Chisimaio — British Military Administration)',
@@ -10769,6 +13005,47 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
         if (s >= 12 && (cntr === 'LY' || cntr === 'LBY' || nid.startsWith('LY') || nrm.includes('libya') || nrm.includes('libia'))) {
+          const isFezzan = nid === 'LYSB' || nid === 'LYGT' || nid === 'LYMQ' || nid === 'LYWS' || nid === 'LYWD' || nrm.includes('fezzan') || nrm.includes('ghadames') || nrm.includes('gadames') || nrm.includes('sebha') || nrm.includes('murzuch') || nrm.includes('murzuk') || nrm.includes('ghat') || nrm.includes('uadi sciati') || nrm.includes('uadi el-agial');
+          const isCyrenaica = nid === 'LYBA' || nid === 'LYBU' || nid === 'LYDR' || nid === 'LYJA' || nid === 'LYMJ' || nid === 'LYWA' || nid === 'LYKF' || nrm.includes('cyrenaic') || nrm.includes('cirenaic') || nrm.includes('bengasi') || nrm.includes('benghazi') || nrm.includes('tobruk') || nrm.includes('derna') || nrm.includes('bardia') || nrm.includes('cufra') || nrm.includes('barce');
+
+          if (s >= 19) {
+            if (isFezzan) {
+              return makeResult(
+                'FRA',
+                'Fezzan-Ghadamès (Territoire Militaire Français — Sebha)',
+                'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia formalmente a ogni diritto sulla Libia. Il territorio sahariano del Fezzan è amministrato militarmente dalla Francia (Territoire du Fezzan-Ghadamès) con sede del comando a Sebha sotto il Colonnello Delange.',
+                'Alleati',
+                'Territoire Militaire du Fezzan-Ghadamès (Commandant Militaire Français, Sebha)'
+              );
+            }
+            if (isCyrenaica) {
+              return makeResult(
+                'UK',
+                'Cirenaica (British Military Administration — Bengasi)',
+                'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia a ogni sovranità coloniale sulla Libia. La Cirenaica è retta dalla British Military Administration (BMA Cyrenaica) con sede a Bengasi, in cooperazione con l\'Emiro Sayyid Idris al-Senussi.',
+                'Alleati',
+                'British Military Administration of Cyrenaica (BMA, Benghazi — Emiro Idris al-Senussi)'
+              );
+            }
+            return makeResult(
+              'UK',
+              'Tripolitania (British Military Administration — Tripoli)',
+              'Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l\'Italia rinuncia formalmente a ogni diritto sulla Libia. La Tripolitania è retta dalla British Military Administration (BMA Tripolitania) con sede al Castello Rosso di Tripoli.',
+              'Alleati',
+              'British Military Administration of Tripolitania (BMA, Tripoli)'
+            );
+          }
+
+          if (isFezzan) {
+            return makeResult(
+              'FRA',
+              'Fezzan (Occupazione Militare della Francia Libera — Sebha e Murzuch)',
+              'Gennaio 1943: la Force L della Francia Libera risalita dal Ciad sotto il Generale Leclerc espugna i presidi italiani di Sebha, Murzuch e Ghat liberando l\'intero Fezzan e collegandosi all\'8ª Armata britannica a Tripoli.',
+              'Alleati',
+              'Commandement des Forces Françaises Libres du Fezzan (Général Philippe Leclerc / Colonel Delange)'
+            );
+          }
+
           return makeResult(
             'UK',
             'Libia Sotto Amministrazione Militare Alleata (Tripolitania, Cirenaica e Fezzan)',
@@ -10856,6 +13133,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const [lbl, t] = FRA_COL[cntr];
         if (s >= 6) {
           if (t === 'F_AEF') {
+            if (s >= 19) {
+              return makeResult(
+                'FRA',
+                `${lbl} (Territoire d'Outre-Mer de l'AEF — Union Française)`,
+                `Territoire d'Outre-Mer dell'Africa Equatoriale Francese integrato nella Quarta Repubblica e nell'Union Française (Costituzione del 27 ottobre 1946).`,
+                'Alleati',
+                'Quatrième République (Union Française) — Gouvernement Général de l\'AEF (Brazzaville)'
+              );
+            }
             const fflTop = getTop('FFL_AEF');
             return makeResult(
               'FFL_AEF',
@@ -10866,6 +13152,49 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (t === 'F_COL') {
+            if (isFrenchPacificProvince(nid, rawName || lbl, nrm)) {
+              return resolveFrenchPacificProvince(ft, s);
+            }
+            const isAntillesOrGuiana =
+              cntr === 'MQ' ||
+              cntr === 'MTQ' ||
+              cntr === 'GP' ||
+              cntr === 'GLP' ||
+              cntr === 'GF' ||
+              cntr === 'GUF' ||
+              cntr === 'MF' ||
+              cntr === 'BL' ||
+              nrm.includes('martinique') ||
+              nrm.includes('guadeloupe') ||
+              nrm.includes('guyane') ||
+              nrm.includes('french guiana') ||
+              nrm.includes('cayenne');
+            if (isAntillesOrGuiana && s >= 12) {
+              const cflnTop = getExtendedToponym(lbl, 'FRA', nid, c, s);
+              return makeResult(
+                'FRA',
+                cflnTop.name || `${lbl} (CFLN / GPRF)`,
+                cflnTop.note || 'Territorio ralliato al Comité Français de Libération Nationale (CFLN) nel 1943.',
+                'Alleati',
+                cflnTop.adminTitle || 'Comité Français de Libération Nationale (CFLN)'
+              );
+            }
+            const isStPierre =
+              cntr === 'PM' ||
+              cntr === 'SPM' ||
+              nrm.includes('miquelon') ||
+              nrm.includes('saint-pierre') ||
+              nrm.includes('saint pierre');
+            if (isStPierre && s >= 9) {
+              const spmTop = getExtendedToponym(lbl, 'FRA', nid, c, s);
+              return makeResult(
+                'FRA',
+                spmTop.name || 'Saint-Pierre-et-Miquelon (France Libre — Amiral Muselier)',
+                spmTop.note || 'Libéré le 24 décembre 1941 par les Forces Navales Françaises Libres (FNFL) de l\'amiral Muselier.',
+                'Alleati',
+                spmTop.adminTitle || 'France Libre — Territoire de Saint-Pierre-et-Miquelon'
+              );
+            }
             const isRalliedCol =
               cntr === 'VU' ||
               cntr === 'VUT' ||
@@ -10879,13 +13208,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               nrm.includes('tahiti') ||
               nrm.includes('pondicher');
             if (isRalliedCol && s >= 7) {
-              const fflTop = getExtendedToponym(lbl, 'FFL_AEF', nid, c, s);
+              const o = s >= 14 ? 'FRA' : 'FFL_AEF';
+              const fflTop = getExtendedToponym(lbl, o, nid, c, s);
               return makeResult(
-                'FFL_AEF',
-                fflTop.name || `${lbl} (France Libre)`,
-                fflTop.note || 'Territoire d\'outre-mer rallié à la France Libre du Général de Gaulle en 1940',
+                o,
+                fflTop.name || (s >= 14 ? `${lbl} (GPRF)` : `${lbl} (France Libre)`),
+                fflTop.note || (s >= 14 ? 'Territoire de la République Française (GPRF)' : 'Territoire d\'outre-mer rallié à la France Libre du Général de Gaulle en 1940'),
                 'Alleati',
-                fflTop.adminTitle || 'France Libre — Conseil de défense de l\'Empire'
+                fflTop.adminTitle || (s >= 14 ? 'Gouvernement Provisoire de la République Française (GPRF)' : 'France Libre — Conseil de défense de l\'Empire')
               );
             }
           }
@@ -10914,6 +13244,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (vicKey === 'VIC_AOF' && s >= 11) {
+            if (s >= 19) {
+              return makeResult(
+                'FRA',
+                `${lbl} (AOF — Territoire d'Outre-Mer, Union Française)`,
+                'Territori d\'Oltremare dell\'AOF nella Quarta Repubblica e nell\'Union Française (Costituzione del 27 ottobre 1946; Legge n. 47-1707 del 4 settembre 1947) sotto l\'Alto Commissario René Barthes a Dakar.',
+                'Alleati',
+                'Quatrième République (Union Française) — Haut-Commissariat de l\'AOF (Dakar · René Barthes)'
+              );
+            }
             return makeResult(
               'F_AOF',
               'Afrique Occidentale Française (AOF — Ralliement agli Alleati, Dakar)',
@@ -10923,6 +13262,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (vicKey === 'VIC_NAF' && s >= 11) {
+            if (s >= 19) {
+              return makeResult(
+                'FRA',
+                `${lbl} (Afrique du Nord Française — Union Française)`,
+                'Algeria (Statut Organique de l\'Algérie del 20 settembre 1947) e Protettorati di Tunisia e Marocco nell\'Union Française (Quarta Repubblica).',
+                'Alleati',
+                'Quatrième République (Union Française) — Afrique du Nord Française'
+              );
+            }
             if (lbl.toLowerCase().includes('tunis') || lbl.toLowerCase().includes('bizerte')) {
               return makeResult(
                 'GER',
@@ -10941,12 +13289,33 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (vicKey === 'VIC_SYR' && s >= 9) {
+          if (s >= 19) {
+            const isLeb = nrm.includes('leban') || nrm.includes('liban') || cntr === 'LB' || cntr === 'LBN';
+            return isLeb
+              ? makeResult('LEB', 'Repubblica Libanese (Indipendenza Sovrana — Beirut)', 'Evacuazione completata nel dicembre 1946; Repubblica Libanese sovrana (Presidente Béchara El Khoury · P.M. Riad Al Solh).', 'Neutrale', 'Repubblica Libanese — Beirut')
+              : makeResult('SYR', 'Repubblica Siriana (Indipendenza Sovrana — Damasco)', 'Evacuazione completata il 17 aprile 1946; Repubblica Siriana sovrana (Presidente Shukri al-Quwatli · P.M. Jamil Mardam Bey).', 'Neutrale', 'Repubblica Siriana — Damasco');
+          }
           return makeResult(
             'F_SYR',
             vicTop.name || 'Syrie et Liban (Controllo Congiunto Francia Libera e Gran Bretagna)',
             "Operazione Exporter e Armistizio di Saint-Jean-d'Acre (14 luglio 1941): dopo la resa delle forze di Vichy del Gen. Henri Dentz, Siria e Libano passano sotto il controllo congiunto della Francia Libera (Gen. Georges Catroux) e della Gran Bretagna.",
             'Alleati',
             'Délégation Générale de la France Libre au Levant (Gén. Georges Catroux) & British 9th Army'
+          );
+        }
+        if (vicKey === 'VIC_IND' && s >= 18) {
+          return makeResult(
+            'FRA',
+            s >= 19
+              ? 'Indocina Francese (Unione Francese — Conflitto contro la RDV/Việt Minh)'
+              : 'Indocina Francese (Ristabilimento Amministrazione Francese & Resa Giapponese)',
+            s >= 19
+              ? 'Al 30 settembre 1947 la Francia (Union Française) presidia la Cocincina, Cambogia, Laos e le città principali del Tonchino/Annam contro la RDV di Hồ Chí Minh.'
+              : 'Settembre 1945: capitolazione delle truppe giapponesi in Indocina (Gen. Gracey SEAC / Gen. Leclerc).',
+            'Alleati',
+            s >= 19
+              ? 'Union Française — Haut-Commissariat de France en Indochine (Émile Bollaert)'
+              : 'Gouvernement Provisoire (GPRF — Amiral Thierry d\'Argenlieu)'
           );
         }
         if (vicKey === 'VIC_IND' && s >= 9) {
@@ -10981,7 +13350,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (BEL_COL[cntr])
         return makeResult('BEL', BEL_COL[cntr], undefined, s >= 6 ? 'Alleati' : 'Neutrale');
       if (HOL_COL[cntr]) {
-        if (s >= 10 && (cntr === 'ID' || cntr === 'IDN')) {
+        if (s >= 10 && s < 18 && (cntr === 'ID' || cntr === 'IDN')) {
           return makeResult(
             'JAP',
             'Indie Orientali Olandesi (Occupazione Militare Giapponese — Resa di Kalijati, 8-9 Marzo 1942)',
@@ -10998,7 +13367,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
       if (POR_COL[cntr]) {
-        if (s >= 10 && (cntr === 'TL' || cntr === 'TLS')) {
+        if (s >= 18 && (cntr === 'TL' || cntr === 'TLS')) {
+          return makeResult(
+            'POR',
+            s >= 19
+              ? 'Timor Português (Província Ultramarina de Timor — Amministrazione Portoghese)'
+              : 'Timor Português (Restaurazione della Sovranità Portoghese — Settembre 1945)',
+            s >= 19
+              ? 'Al 30 settembre 1947 Timor Est è amministrata dal Portogallo sotto il Governatore Óscar Freire de Vasconcelos Ruas.'
+              : 'Il 5 settembre 1945 le forze giapponesi a Timor firmano la resa a Kupang e viene ripristinata la sovranità portoghese a Díli.',
+            'Neutrale',
+            s >= 19
+              ? 'República Portuguesa — Província Ultramarina de Timor (Governador Óscar Ruas)'
+              : 'República Portuguesa — Província Ultramarina de Timor (Governador Ferreira de Carvalho)'
+          );
+        }
+        if (s >= 10 && s < 18 && (cntr === 'TL' || cntr === 'TLS')) {
           return makeResult(
             'JAP',
             'Timor Portoghese (Occupazione Militare Giapponese — 19-20 Febbraio 1942)',
@@ -11009,7 +13393,20 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         }
         return makeResult('POR', POR_COL[cntr]);
       }
-      if (s >= 10 && (nid === 'NR_NAURU' || cntr === 'NR' || cntr === 'NRU')) {
+      if (s >= 18 && (nid === 'NR_NAURU' || cntr === 'NR' || cntr === 'NRU')) {
+        return makeResult(
+          'AST',
+          s >= 19
+            ? 'Nauru (Territorio Fiduciario ONU — Amministrazione Australiana)'
+            : 'Nauru (Resa della Guarnigione Giapponese — 13 Settembre 1945)',
+          s >= 19
+            ? 'Al 30 settembre 1947 l\'isola di Nauru è amministrata dall\'Australia nel quadro dell\'accordo fiduciario delle Nazioni Unite (Australia, Regno Unito e Nuova Zelanda).'
+            : 'Il 13 settembre 1945 a bordo dell\'HMAS Diamantina la guarnigione giapponese di Nauru capitola davanti alle forze australiane del brigadiere J. R. Stevenson.',
+          'Alleati',
+          'Commonwealth of Australia — Territory of Nauru'
+        );
+      }
+      if (s >= 10 && s < 18 && (nid === 'NR_NAURU' || cntr === 'NR' || cntr === 'NRU')) {
         return makeResult(
           'JAP',
           'Nauru (Occupazione Imperiale Giapponese — Operazione RY, 26 Agosto 1942)',
@@ -11018,7 +13415,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'Dai Nippon Teikoku Kaigun — 67ª Unità di Guardia (Nauru)'
         );
       }
-      if (s >= 9 && (nid === 'KI_GILBERT' || cntr === 'KI' || cntr === 'KIR')) {
+      if (s >= 13 && (nid === 'KI_GILBERT' || cntr === 'KI' || cntr === 'KIR')) {
+        return makeResult(
+          s === 13 ? 'USA' : 'UK',
+          s >= 18
+            ? 'Gilbert and Ellice Islands Colony (Tarawa — Amministrazione Britannica Restaurata)'
+            : 'Gilbert and Ellice Islands Colony (Tarawa & Makin Liberate dagli Alleati)',
+          s >= 18
+            ? 'Colonia britannica della Western Pacific High Commission su Tarawa, Makin, Abemama e le Ellice, in fase di ricostruzione postbellica dopo la liberazione del novembre 1943.'
+            : '20-23 novembre 1943 (Operazione Galvanic): le forze statunitensi conquistano Tarawa e Makin eliminando il presidio giapponese e restituendo le Isole Gilbert al controllo alleato.',
+          'Alleati',
+          s === 13
+            ? 'U.S. Pacific Ocean Areas — Tarawa & Makin Garrison'
+            : 'British Western Pacific High Commission — Gilbert & Ellice Islands Colony'
+        );
+      }
+      if (s >= 9 && s < 13 && (nid === 'KI_GILBERT' || cntr === 'KI' || cntr === 'KIR')) {
         return makeResult(
           'JAP',
           'Isole Gilbert / Tarawa e Makin (Occupazione Imperiale Giapponese — Dicembre 1941 / Agosto 1942)',
@@ -11028,6 +13440,48 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
       if (UK_COL[cntr]) {
+        if (s >= 10 && s <= 16 && (cntr === 'MM' || cntr === 'MMR' || nrm.includes('burma') || nrm.includes('birmania'))) {
+          if (s === 14) {
+            return makeResult(
+              'JAP',
+              'Stato di Birmania — Collasso Offensiva U-Go (Imphal e Kohima, Giugno 1944)',
+              'Giugno 1944: la catastrofica offensiva giapponese U-Go contro le basi anglo-indiane di Imphal e Kohima si infrange il 22 giugno 1944 con la rottura dell\'assedio da parte della 14ª Armata Britannica (Gen. William Slim), segnando la peggiore disfatta terrestre dell\'Esercito Imperiale Giapponese.',
+              'Asse',
+              'Bama Naingngandaw / Armata Regionale Birmana (Operazione U-Go)'
+            );
+          }
+          if (s >= 15) {
+            return makeResult(
+              'JAP',
+              'Stato di Birmania (Bama Naingngandaw — Ritirata dall\'Irrawaddy)',
+              'Estate 1944 - Inizio 1945: dopo il disastroso fallimento dell\'offensiva U-Go a Imphal e Kohima, la 14ª Armata Britannica e le forze sino-americane avanzano nell\'alta Birmania contro le retroguardie giapponesi.',
+              'Asse',
+              'Bama Naingngandaw / Armata Regionale Birmana (Gen. Kimura)'
+            );
+          }
+          return makeResult(
+            'JAP',
+            'Stato di Birmania (Bama Naingngandaw — Occupazione Imperiale Giapponese)',
+            'Occupazione militare giapponese della Birmania (1942-1944) e governo nominale di Ba Maw.',
+            'Asse',
+            'Dai Nippon Teikoku — Armata Regionale Birmana'
+          );
+        }
+        if (s >= 18 && (cntr === 'HK' || cntr === 'HKG' || nrm.includes('hong kong'))) {
+          return makeResult(
+            'UK',
+            s >= 19
+              ? 'Crown Colony of Hong Kong (Ricostruzione Postbellica — Gov. Alexander Grantham)'
+              : 'Crown Colony of Hong Kong (Ripristino Sovranità Britannica)',
+            s >= 19
+              ? 'Al 30 settembre 1947 Hong Kong vive una rapida ripresa commerciale sotto il Governatore Sir Alexander Grantham.'
+              : '30 agosto 1945: la Task Force dell\'ammiraglio Sir Cecil Harcourt entra a Victoria Harbour ristabilendo il governo britannico di Hong Kong.',
+            'Alleati',
+            s >= 19
+              ? 'British Empire — Crown Colony of Hong Kong (Governor Sir Alexander Grantham)'
+              : 'British Empire — Crown Colony of Hong Kong'
+          );
+        }
         if (s >= 9 && (cntr === 'HK' || cntr === 'HKG' || nrm.includes('hong kong'))) {
           return makeResult(
             'JAP',
@@ -11035,6 +13489,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Battaglia di Hong Kong (8-25 dicembre 1941): dopo 18 giorni di combattimenti nei Nuovi Territori, a Kowloon e sull\'isola di Hong Kong contro la 38ª Divisione giapponese, il Governatore Sir Mark Young si arrende nel "Black Christmas" del 25 dicembre 1941.',
             'Asse',
             'Dai Nippon Teikoku — Honkon Senryōchi Sōtokubu (Ten. Gen. Rensuke Isogai)'
+          );
+        }
+        if (s >= 18 && (cntr === 'BN' || cntr === 'BRN' || nrm.includes('brunei'))) {
+          return makeResult(
+            'UK',
+            s >= 19
+              ? 'State of Brunei (Protettorato Britannico — Sultano Ahmad Tajuddin)'
+              : 'Brunei (Protettorato Britannico Restaurato — BMA / British Borneo)',
+            s >= 19
+              ? 'Al 30 settembre 1947 il Sultanato del Brunei è retto dal Sultano Ahmad Tajuddin sotto protettorato britannico e Residente Coloniale.'
+              : 'Settembre 1945: liberazione australiana-britannica (Operazione Oboe Six) e restaurazione del protettorato britannico sul Sultanato del Brunei.',
+            'Alleati',
+            s >= 19
+              ? 'British Protected State of Brunei (Sultan Ahmad Tajuddin / British Resident)'
+              : 'British Empire — British Protectorate of Brunei'
           );
         }
         if (s >= 9 && (cntr === 'BN' || cntr === 'BRN' || nrm.includes('brunei'))) {
@@ -11053,6 +13522,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Occupazione giapponese delle Isole Salomone (Shortland, Tulagi, Guadalcanal — marzo-maggio 1942): nonostante lo sbarco della 1ª Divisione Marines USA a Guadalcanal e Tulagi il 7 agosto 1942 (Operazione Watchtower) per catturare l\'aeroporto in costruzione (Henderson Field), la vittoria navale giapponese a Savo Island (8-9 agosto) e gli sbarchi del Tokyo Express mantengono l\'arcipelago delle Salomone al centro dell\'aspra battaglia aeronavale e terrestre dell\'agosto 1942.',
             'Asse',
             'Dai Nippon Teikoku — 8ª Flotta (Rabaul, Viceamm. Gunichi Mikawa) & 17ª Armata (Ten. Gen. Harukichi Hyakutake)'
+          );
+        }
+        if (s >= 18 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {
+          return makeResult(
+            'UK',
+            s >= 19
+              ? 'British Solomon Islands Protectorate (Ricostruzione Postbellica — Honiara)'
+              : 'British Solomon Islands Protectorate (Fine Ostilità & Resa alle Salomone — Settembre 1945)',
+            s >= 19
+              ? 'Al 30 settembre 1947 il protettorato britannico delle Salomone trasferisce la propria capitale da Tulagi a Honiara (Guadalcanal) sotto la Western Pacific High Commission.'
+              : 'Settembre 1945: resa delle ultime guarnigioni giapponesi nelle Salomone settentrionali (8 settembre 1945) e ripristino dell\'amministrazione britannica.',
+            'Alleati',
+            'British Protectorate — Western Pacific High Commission (Suva)'
           );
         }
         if (s >= 12 && (cntr === 'SB' || cntr === 'SLB' || nrm.includes('solomon') || nrm.includes('salomone'))) {
@@ -11088,12 +13570,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'JAP',
           jpTop?.name || JAP_COL[cntr],
           jpTop?.note || 'Territorio metropolitano o possedimento dell\'Impero Giapponese',
-          'Asse',
-          jpTop?.adminTitle || 'Dai Nippon Teikoku'
+          s >= 18 ? 'Alleati' : 'Asse',
+          jpTop?.adminTitle || (s >= 18 ? 'Supreme Commander for the Allied Powers (SCAP)' : 'Dai Nippon Teikoku')
         );
       }
       if (USA_COL[cntr]) {
         if (cntr === 'PH' || cntr === 'PHL' || cntr === '608') {
+          if (s >= 19) {
+            return makeResult(
+              'PHL',
+              'Repubblica delle Filippine (Terza Repubblica — Indipendenza del 4 Luglio 1946)',
+              'Il 4 luglio 1946 le Filippine ottengono la piena sovranità e indipendenza dagli Stati Uniti (Trattato di Manila) sotto il Presidente Manuel Roxas.',
+              'Alleati',
+              'Republika ng Pilipinas — Presidente Manuel Roxas (Manila)'
+            );
+          }
+          if (s >= 18) {
+            return makeResult(
+              'USA',
+              'Commonwealth delle Filippine (Liberato — Amministrazione Alleata & Presidente Osmeña)',
+              'Settembre 1945: capitolazione del generale Yamashita a Baguio (2 settembre 1945) e ripristino del Commonwealth delle Filippine.',
+              'Alleati',
+              'Commonwealth of the Philippines (Pres. Sergio Osmeña)'
+            );
+          }
           if (s >= 10) {
             return makeResult(
               'JAP',

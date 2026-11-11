@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { Play, Pause } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Play, Pause, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';
 import { tacticalAudio } from '../data/audioSynthesizer';
@@ -19,7 +19,8 @@ export const TimelineController: React.FC<TimelineControllerProps> = ({
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const step = STEPS[currentStep] || STEPS[0];
-  const [activeTheater, setActiveTheater] = React.useState<'all' | 'europe' | 'asia' | 'africa' | 'americas'>('all');
+  const [activeTheater, setActiveTheater] = useState<'all' | 'europe' | 'asia' | 'africa' | 'americas'>('all');
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!trackRef.current) return;
@@ -41,7 +42,7 @@ export const TimelineController: React.FC<TimelineControllerProps> = ({
 
   return (
     <div className="absolute left-1/2 bottom-3.5 -translate-x-1/2 w-[min(1120px,calc(100vw-28px))] z-30 pointer-events-none">
-      <div className="tactical-panel pointer-events-auto p-3 sm:px-5 sm:py-2.5 shadow-2xl backdrop-blur-md">
+      <div className="tactical-panel pointer-events-auto p-2.5 sm:px-4 sm:py-2.5 shadow-2xl backdrop-blur-md transition-all duration-300">
         {/* Row 1: Scrubber and Play Button */}
         <div className="flex items-center gap-3">
           <button
@@ -139,80 +140,141 @@ export const TimelineController: React.FC<TimelineControllerProps> = ({
           </div>
         </div>
 
-        {/* Row 2: Event Briefing & Theater Tabs */}
-        <div className="mt-1 pt-2 border-t border-[#3a3420]/40 flex flex-col gap-1.5">
-          <div className="flex flex-wrap items-center justify-between gap-1.5">
-            <div className="flex items-center gap-2">
-              <span className="font-oswald font-bold text-sm text-[#e8c979] tracking-[1.5px]">
+        {/* Row 2: Event Briefing Header & Controls */}
+        <div className="mt-1 pt-1.5 border-t border-[#3a3420]/50 flex flex-col gap-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <span className="font-oswald font-bold text-xs sm:text-sm text-[#e8c979] tracking-[1.5px] flex-none">
                 {step.d}
               </span>
-              <span className="font-oswald font-semibold text-[13px] sm:text-[14px] text-[#e8dcc0] tracking-[0.8px] uppercase truncate max-w-[280px] sm:max-w-[420px]">
+              <span className="font-oswald font-semibold text-[12px] sm:text-[13.5px] text-[#e8dcc0] tracking-[0.8px] uppercase truncate">
                 · {step.t}
               </span>
             </div>
 
-            {/* Theater Filter Chips */}
-            {step.theaterEvents && (
-              <div className="flex items-center gap-1 font-mono-tech text-[10px]">
-                <button
-                  onClick={() => {
-                    tacticalAudio.playClick();
-                    setActiveTheater('all');
-                  }}
-                  className={`px-1.5 py-0.5 border transition-colors ${
-                    activeTheater === 'all'
-                      ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
-                      : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/30'
-                  }`}
-                >
-                  GENERALE
-                </button>
-                <button
-                  onClick={() => {
-                    tacticalAudio.playClick();
-                    setActiveTheater('europe');
-                  }}
-                  className={`px-1.5 py-0.5 border transition-colors ${
-                    activeTheater === 'europe'
-                      ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
-                      : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/30'
-                  }`}
-                >
-                  EUROPA
-                </button>
-                <button
-                  onClick={() => {
-                    tacticalAudio.playClick();
-                    setActiveTheater('asia');
-                  }}
-                  className={`px-1.5 py-0.5 border transition-colors ${
-                    activeTheater === 'asia'
-                      ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
-                      : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/30'
-                  }`}
-                >
-                  ASIA
-                </button>
-                <button
-                  onClick={() => {
-                    tacticalAudio.playClick();
-                    setActiveTheater('africa');
-                  }}
-                  className={`px-1.5 py-0.5 border transition-colors ${
-                    activeTheater === 'africa'
-                      ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
-                      : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/30'
-                  }`}
-                >
-                  AFRICA
-                </button>
-              </div>
-            )}
+            <div className="flex items-center gap-1.5 flex-none">
+              {/* Theater Filter Chips (Shown when expanded or on click to expand) */}
+              {step.theaterEvents && isExpanded && (
+                <div className="flex items-center gap-1 font-mono-tech text-[9.5px] sm:text-[10px]">
+                  <button
+                    onClick={() => {
+                      tacticalAudio.playClick();
+                      setActiveTheater('all');
+                    }}
+                    className={`px-1.5 py-0.5 border transition-colors ${
+                      activeTheater === 'all'
+                        ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
+                        : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/40'
+                    }`}
+                  >
+                    GENERALE
+                  </button>
+                  <button
+                    onClick={() => {
+                      tacticalAudio.playClick();
+                      setActiveTheater('europe');
+                    }}
+                    className={`px-1.5 py-0.5 border transition-colors ${
+                      activeTheater === 'europe'
+                        ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
+                        : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/40'
+                    }`}
+                  >
+                    EUROPA
+                  </button>
+                  <button
+                    onClick={() => {
+                      tacticalAudio.playClick();
+                      setActiveTheater('asia');
+                    }}
+                    className={`px-1.5 py-0.5 border transition-colors ${
+                      activeTheater === 'asia'
+                        ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
+                        : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/40'
+                    }`}
+                  >
+                    ASIA
+                  </button>
+                  <button
+                    onClick={() => {
+                      tacticalAudio.playClick();
+                      setActiveTheater('africa');
+                    }}
+                    className={`px-1.5 py-0.5 border transition-colors ${
+                      activeTheater === 'africa'
+                        ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
+                        : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/40'
+                    }`}
+                  >
+                    AFRICA
+                  </button>
+                  {step.theaterEvents.americas && (
+                    <button
+                      onClick={() => {
+                        tacticalAudio.playClick();
+                        setActiveTheater('americas');
+                      }}
+                      className={`px-1.5 py-0.5 border transition-colors ${
+                        activeTheater === 'americas'
+                          ? 'bg-[#c9a557] text-black border-[#e8c979] font-bold'
+                          : 'border-[#3a3420] text-[#8b9298] hover:text-white bg-black/40'
+                      }`}
+                    >
+                      AMERICHE
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Toggle Dossier Button */}
+              <button
+                onClick={() => {
+                  tacticalAudio.playClick();
+                  setIsExpanded(!isExpanded);
+                }}
+                title={isExpanded ? 'Riduci dossier per massimizzare la mappa' : 'Espandi dossier storico completo'}
+                className="flex items-center gap-1 px-2 py-0.5 border border-[#6a5a2f]/70 hover:border-[#e8c979] bg-black/50 hover:bg-[#c9a557]/15 text-[#e8c979] font-mono-tech text-[10px] sm:text-[10.5px] transition-all"
+              >
+                <BookOpen className="w-3 h-3 text-[#e8c979]" />
+                <span className="font-semibold">{isExpanded ? 'COMPRIMI' : 'DOSSIER'}</span>
+                {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronUp className="w-3 h-3" />}
+              </button>
+            </div>
           </div>
 
-          <div className="text-[11.5px] sm:text-[12px] text-[#cfd3d6] leading-snug">
-            {getTheaterSummary()}
-          </div>
+          {/* Collapsed State: Single line preview */}
+          {!isExpanded && (
+            <div
+              onClick={() => {
+                tacticalAudio.playClick();
+                setIsExpanded(true);
+              }}
+              title="Clicca per espandere il dossier storico completo di questo step"
+              className="group flex items-center justify-between gap-3 text-[11px] sm:text-[11.5px] text-[#9ba4ab] hover:text-[#e8dcc0] cursor-pointer pt-0.5 transition-colors"
+            >
+              <span className="truncate italic font-sans">
+                {step.headline ? `▸ ${step.headline}` : getTheaterSummary()}
+              </span>
+              <span className="flex-none text-[9.5px] font-mono-tech text-[#c9a557] group-hover:text-[#e8c979] tracking-wider uppercase opacity-80 group-hover:opacity-100 flex items-center gap-1">
+                <span>[LEGGI DETTAGLI]</span>
+                <ChevronUp className="w-2.5 h-2.5" />
+              </span>
+            </div>
+          )}
+
+          {/* Expanded State: Contained scrollable tactical briefing */}
+          {isExpanded && (
+            <div className="mt-0.5 flex flex-col gap-1 transition-all">
+              {step.headline && activeTheater === 'all' && (
+                <div className="text-[10.5px] sm:text-[11px] font-mono-tech text-[#e8c979] font-medium tracking-wide">
+                  ▸ {step.headline}
+                </div>
+              )}
+              <div className="max-h-[85px] sm:max-h-[105px] overflow-y-auto pr-2 text-[11px] sm:text-[11.5px] text-[#cfd3d6] leading-relaxed border-l-2 border-[#c9a557]/50 pl-2.5 py-1 bg-black/35 select-text shadow-inner">
+                {getTheaterSummary()}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -39,6 +39,15 @@ export const BOSNIA_FEDERATION_FEATURE: any = {
   __kind: 'BOSNIA',
 };
 BOSNIA_FEDERATION_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 17) {
+    return makeResult(
+      'DFJ',
+      'Bosna i Hercegovina — Federacija (Sarajevo, Mostar, Tuzla liberata da NOVJ/DFJ, Aprile 1945)',
+      "Nell'aprile 1945 le armate jugoslave (NOVJ) liberano Sarajevo (6 aprile 1945, Operazione Sarajevo), Mostar e Tuzla. L'autorità civile e politica passa al Consiglio Antifascista di Liberazione Popolare della Bosnia ed Erzegovina (ZAVNOBiH), integrato nella Jugoslavia Federale Democratica (DFJ) guidata da Tito.",
+      'Alleati',
+      'Demokratska Federativna Jugoslavija — ZAVNOBiH (Sarajevo)'
+    );
+  }
   if (s >= 8) {
     return makeResult(
       'CRO',
@@ -82,6 +91,15 @@ export const BOSNIA_SRPSKA_FEATURE: any = {
   __kind: 'BOSNIA',
 };
 BOSNIA_SRPSKA_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 17) {
+    return makeResult(
+      'DFJ',
+      'Bosanska Krajina i Podrinje (Banja Luka liberata il 22 Aprile 1945 — DFJ)',
+      "Liberazione della Bosanska Krajina e di Banja Luka (22 aprile 1945) da parte del 5° Corpo d'Armata della Jugoslovenska Armija (NOVJ). Fine dell'amministrazione ustascia della NDH; reintegrazione nella Jugoslavia Federale Democratica (DFJ).",
+      'Alleati',
+      'Demokratska Federativna Jugoslavija — ZAVNOBiH (Banja Luka)'
+    );
+  }
   if (s >= 8) {
     return makeResult(
       'CRO',
@@ -121,6 +139,15 @@ export const BOSNIA_BRCKO_FEATURE: any = {
   __kind: 'BOSNIA',
 };
 BOSNIA_BRCKO_FEATURE.__resolve = (s: number): ResolvedTerritory => {
+  if (s >= 17) {
+    return makeResult(
+      'DFJ',
+      'Posavina (Brčko liberata dal 2° Esercito Jugoslavo — DFJ, 7 Aprile 1945)',
+      "Il corridoio strategico della Posavina lungo la Sava e la città di Brčko vengono liberati il 7 aprile 1945 dalle unità del 2° Esercito della Jugoslovenska Armija durante l'avanzata verso Zagabria contro le truppe della Wehrmacht e della NDH in rotta.",
+      'Alleati',
+      'Demokratska Federativna Jugoslavija — ZAVNOBiH (Brčko)'
+    );
+  }
   if (s >= 8) {
     return makeResult(
       'CRO',

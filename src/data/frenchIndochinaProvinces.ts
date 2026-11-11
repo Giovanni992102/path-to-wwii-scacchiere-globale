@@ -4646,6 +4646,36 @@ for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 17) {
+      if (isThai) {
+        if (k === 'KH2' || k === 'KH1' || k === 'KH24' || k === 'KH9') {
+          return `Changwat Phra Tabong (${meta.historicalToponym} — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'KH17' || k === 'KH22') {
+          return `Changwat Phibunsongkhram (${meta.historicalToponym} — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'KH13') {
+          return `Khao Phra Viharn (${meta.historicalToponym} — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'LAXA') {
+          return `Changwat Lan Chang (Sayaboury — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        if (k === 'LACH') {
+          return `Changwat Nakhon Champassak (Champassak / Bassac — Territorio Annesso dal Regno di Thailandia)`;
+        }
+        return `${origHist(8)} (Regno di Thailandia — Territorio Annesso)`;
+      }
+      if (meta.cntrCode === 'VN') {
+        return 'Đế quốc Việt Nam / Impero del Vietnam (Bảo Đại — Indipendenza sotto Tutela Giapponese, Meigo Sakusen)';
+      }
+      if (meta.cntrCode === 'KH') {
+        return 'Royaume du Cambodge / Regno di Cambogia (Norodom Sihanouk — Indipendenza sotto Tutela Giapponese, Meigo Sakusen)';
+      }
+      if (meta.cntrCode === 'LA') {
+        return 'Regno di Luang Prabang / Laos (Sisavang Vong — Indipendenza sotto Tutela Giapponese, Aprile 1945)';
+      }
+      return `${meta.historicalName} (Indocina — Colpo di Mano del 9 Marzo 1945 / Meigo Sakusen)`;
+    }
     if (s >= 9) {
       if (isThai) {
         if (k === 'KH2' || k === 'KH1' || k === 'KH24' || k === 'KH9') {
@@ -4670,6 +4700,19 @@ for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
     return origHist(s);
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 17) {
+      if (isThai) return 'Regno di Thailandia — Territori Annessi (Trattato di Tokyo 1941 & Movimento Clandestino Seri Thai)';
+      if (meta.cntrCode === 'VN') {
+        return 'Impero del Vietnam — Governo Imperiale di Trần Trọng Kim (Huế / Hanoi) & 38ª Armata Giapponese (Ten. Gen. Yuitsu Tsuchihashi)';
+      }
+      if (meta.cntrCode === 'KH') {
+        return 'Regno di Cambogia (Re Norodom Sihanouk) & Comando di Presidio della 38ª Armata Giapponese (Phnom Penh)';
+      }
+      if (meta.cntrCode === 'LA') {
+        return "Regno di Luang Prabang (Re Sisavang Vong) & Forze d'Occupazione Giapponesi nel Laos";
+      }
+      return 'Dai Nippon Teikoku — 38ª Armata Giapponese (Ten. Gen. Yuitsu Tsuchihashi)';
+    }
     if (s >= 9) {
       if (isThai) return `Regno di Thailandia — Territori Annessi (Trattato di Tokyo del 9 Maggio 1941 & Alleanza Militare Nippo-Thailandese, 21 Dicembre 1941)`;
       return `Impero Giapponese — Gruppo d'Armate di Spedizione Meridionale (Gen. Hisaichi Terauchi, Saigon) / Amministrazione Coloniale Subordinata Vichy (Amm. Jean Decoux)`;
@@ -4677,6 +4720,21 @@ for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
     return origAdmin(s);
   };
   meta.getNote = (s: number) => {
+    if (s >= 17) {
+      if (isThai) {
+        return 'Territorio annesso dalla Thailandia a seguito del Trattato di Tokyo del 9 maggio 1941. Nell\'aprile 1945, mentre le armate alleate avanzano in Birmania e la Marina USA domina il Mar Cinese Meridionale, il governo di Khuang Aphaiwong e il movimento clandestino Seri Thai guidato dal Reggente Pridi Banomyong collaborano in segreto con l\'OSS statunitense e il Force 136 britannico in vista della liberazione.';
+      }
+      if (meta.cntrCode === 'VN') {
+        return 'Il 9 marzo 1945 le truppe giapponesi della 38ª Armata (Ten. Gen. Yuitsu Tsuchihashi) attuano il colpo di mano dell\'Operazione Meigo Sakusen (明号作戦), neutralizzando e internando l\'amministrazione coloniale francese di Vichy (Gov. Gen. Jean Decoux). L\'11 marzo l\'Imperatore Bảo Đại revoca il trattato di protettorato proclamando l\'indipendenza dell\'Impero del Vietnam (Đế quốc Việt Nam) sotto tutela imperiale giapponese, con governo civile presieduto da Trần Trọng Kim insediato il 17 aprile 1945, mentre i partigiani del Viet Minh di Ho Chi Minh estendono le loro basi liberate nel nord (Việt Bắc).';
+      }
+      if (meta.cntrCode === 'KH') {
+        return 'A seguito dell\'Operazione Meigo Sakusen del 9 marzo 1945 e dello smantellamento del controllo coloniale francese, il 12 marzo 1945 il Re Norodom Sihanouk proclama l\'indipendenza del Regno di Cambogia (Kampuchea) sotto la supervisione militare dell\'Impero Giapponese, che mantiene presidi a Phnom Penh e lungo le coste del Golfo del Siam.';
+      }
+      if (meta.cntrCode === 'LA') {
+        return 'A seguito dell\'Operazione Meigo Sakusen (9 marzo 1945), le truppe giapponesi raggiungono Vientiane e Luang Prabang. Sotto pressione nipponica, l\'8 aprile 1945 il Re Sisavang Vong dichiara sciolto il protettorato francese e proclama l\'indipendenza del Regno di Luang Prabang / Laos sotto tutela militare dell\'Impero Giapponese.';
+      }
+      return 'Territorio dell\'Indocina posto sotto diretto controllo militare della 38ª Armata dell\'Impero Giapponese a seguito del Colpo di Mano del 9 marzo 1945 (Meigo Sakusen), con l\'internamento delle autorità coloniali francesi di Vichy.';
+    }
     if (s >= 9) {
       if (isThai) {
         return `${origNote(8)} A seguito della vittoria diplomatica mediata da Tokyo nel Trattato di pace del 9 maggio 1941, la regione è stata formalmente annessa al Regno di Thailandia del Maresciallo Plaek Phibunsongkhram. Dopo l'armistizio dell'8 dicembre e il trattato formale di alleanza militare con l'Impero Giapponese stipulato il 21 dicembre 1941 a Bangkok, il territorio annesso funge da retrovia strategica e logistica per l'offensiva dell'Asse nel Sud-Est Asiatico.`;
@@ -4695,12 +4753,33 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     const targetId = INDOCHINA_THAI_ANNEXED_IDS.has(rawId) ? rawId : (INDOCHINA_THAI_ANNEXED_IDS.has(cleanId) ? cleanId : null);
     if (targetId) {
       const m = FRENCH_INDOCHINA_PROVINCES_META[targetId];
-      if (m) return makeResult('SIA', m.getHistoricalName!(s), m.getNote(s), 'Asse', m.getAdminTitle!(s));
+      if (m) {
+        if (s >= 19) {
+          return makeResult(
+            'FRA',
+            m.getHistoricalName!(s),
+            "Trattato di Washington del 17 novembre 1946: la Thailandia ha retrocesso formalmente e integralmente alla Francia i territori cambogiani e laotiani annessi nel 1941 (Battambang, Siem Reap, Sayaboury e Champassak), ripristinando le frontiere del protettorato francese dell'Indocina sotto l'amministrazione dell'Alto Commissario Émile Bollaert.",
+            'Alleati',
+            'Union Française — Fédération Indochinoise (Haut-Commissaire Émile Bollaert)'
+          );
+        }
+        if (s >= 18) {
+          return makeResult(
+            'SIA',
+            m.getHistoricalName!(s),
+            "Territorio annesso dalla Thailandia col Trattato di Tokyo del maggio 1941. Al 30 settembre 1945, sebbene il nuovo governo di Bangkok (guidato dal reggente Pridi Banomyong e dal primo ministro Seni Pramoj del movimento clandestino Seri Thai) abbia denunciato l'alleanza bellica con Tokyo dichiarandola nulla e priva di valore, la sovranità e l'amministrazione civile thailandese su Battambang, Siem Reap, Sayaboury e Champassak rimangono provvisoriamente in vigore fino alla firma del Trattato di Washington del 17 novembre 1946, quando la Francia ne otterrà la retrocessione totale sotto minaccia del veto all'ammissione alle Nazioni Unite.",
+            'Neutrale',
+            'Regno di Thailandia — Territori Indocinesi Annessi (Amministrazione Civile Thailandese in attesa del Trattato di Washington 1946)'
+          );
+        }
+        return makeResult('SIA', m.getHistoricalName!(s), m.getNote(s), 'Asse', m.getAdminTitle!(s));
+      }
     }
   }
   const p = ft.properties || {};
   const rawId = String(ft.id || p.id || '').trim();
   const rawName = String(p.NAME || p.name || p.NAME_LATN || p.NUTS_NAME || '').trim();
+  const cleanId = rawId.replace(/[^A-Za-z0-9]/g, '');
 
   // 1. Ricerca diretta per ID
   let meta = FRENCH_INDOCHINA_PROVINCES_META[rawId];
@@ -4725,6 +4804,137 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     }
   }
 
+  // 1947 Categorization Sets
+  const FRENCH_TONKIN_DELTA = new Set(['VNHN', 'VNHP', 'VN13', 'VN18', 'VN20', 'VN56', 'VN61', 'VN63', 'VN66', 'VN67', 'VN70']);
+  // Nota storica (30 settembre 1947): Quảng Ngãi (VN29), Bình Định (VN31) e Phú Yên (VN32) costituiscono la Zona Libera dell'Interzona V (Vùng Tự Do Nam-Ngãi-Bình-Phú) saldamente in mano alla RDV/Việt Minh, mai espugnata dalle forze francesi.
+  const FRENCH_ANNAM_COAST_PMSI = new Set(['VN25', 'VN26', 'VNDN', 'VN27', 'VN28', 'VN30', 'VN33', 'VN34', 'VN35', 'VN36', 'VN40', 'VN72']);
+  const FRENCH_COCHINCHINE = new Set(['VN37', 'VN39', 'VN41', 'VN43', 'VN44', 'VN45', 'VN46', 'VN47', 'VN49', 'VN50', 'VN51', 'VN52', 'VN55', 'VN57', 'VN58', 'VN59', 'VN73', 'VNSG', 'VNCT']);
+
+  // STEP 19+ (Settembre 1947): Guerra d'Indocina, Repubblica Autonoma di Cocincina, Delta Tonchinese e Santuario del Việt Bắc
+  if (s >= 19) {
+    const isVietnam = meta?.cntrCode === 'VN' || rawId.startsWith('VN') || cleanId.startsWith('VN');
+    const isCambodia = meta?.cntrCode === 'KH' || rawId.startsWith('KH') || cleanId.startsWith('KH');
+    const isLaos = meta?.cntrCode === 'LA' || rawId.startsWith('LA') || cleanId.startsWith('LA');
+
+    if (isCambodia) {
+      return makeResult(
+        'FRA',
+        `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Unione Francese & Re Norodom Sihanouk)`,
+        "Al 30 settembre 1947 il Regno di Cambogia è uno Stato autonomo associato all'Unione Francese retto da Re Norodom Sihanouk (Costituzione del 6 maggio 1947). Con il Trattato di Washington del 17 novembre 1946 la Thailandia ha restituito integralmente le ricche province nord-occidentali di Battambang e Siem Reap (Angkor), ripristinando l'integrità territoriale cambogiana sotto la protezione della Francia.",
+        'Alleati',
+        'Union Française — Protectorat du Cambodge (Roi Norodom Sihanouk / Haut-Commissariat de France)'
+      );
+    }
+
+    if (isLaos) {
+      return makeResult(
+        'FRA',
+        `${meta ? meta.historicalName : 'Laos'} (Regno del Laos — Unione Francese & Re Sisavang Vong)`,
+        "Al 30 settembre 1947 il Laos costituisce un regno unificato e monarchia costituzionale sotto Re Sisavang Vong (Costituzione del 11 maggio 1947) nell'ambito dell'Unione Francese, a seguito della retrocessione thailandese di Champassak e Sayaboury con il Trattato di Washington del novembre 1946. Mentre il governo indipendentista del Lao Issara è in esilio a Bangkok, la Francia presidia le città lungo il Mekong.",
+        'Alleati',
+        'Union Française — Royaume du Laos (Roi Sisavang Vong / Résidence Supérieure de France)'
+      );
+    }
+
+    if (isVietnam) {
+      const isCochinchine = FRENCH_COCHINCHINE.has(rawId) || FRENCH_COCHINCHINE.has(cleanId) || meta?.subRegion === 'Cochinchine';
+      const isTonkinDelta = FRENCH_TONKIN_DELTA.has(rawId) || FRENCH_TONKIN_DELTA.has(cleanId);
+      const isAnnamCoastPmsi = FRENCH_ANNAM_COAST_PMSI.has(rawId) || FRENCH_ANNAM_COAST_PMSI.has(cleanId);
+
+      // 1. Cocincina (Repubblica Autonoma di Cocincina — Presidio Francese CEFEO)
+      if (isCochinchine) {
+        return makeResult(
+          'FRA',
+          `${meta ? meta.historicalName : 'Cochinchine'} (Repubblica Autonoma di Cocincina — Presidio Francese CEFEO)`,
+          "Al 30 settembre 1947 Saigon e l'intero delta del Mekong sono saldamente controllati dalle forze francesi del CEFEO (generale Jean-Étienne Valluy) e dal governo della Repubblica Autonoma di Cocincina (presieduta da Lê Văn Hoạch). La Francia domina i traffici portuali e le piantagioni di caucciù, cooperando strettamente con le milizie religiose anticomuniste del Cao Đài (Papa Phạm Công Tắc) e dell'Hòa Hảo per reprimere le cellule clandestine del Việt Minh.",
+          'Alleati',
+          'Union Française — République autonome de Cochinchine (Président Lê Văn Hoạch / Haut-Commissaire Émile Bollaert)'
+        );
+      }
+
+      // 2. Delta del Fiume Rosso e grandi porti (Hanoi, Haiphong, Ninh Binh, Nam Dinh)
+      if (isTonkinDelta) {
+        const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+        const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+        const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Tonkin Delta');
+        return makeResult(
+          'FRA',
+          `${cityName} (Delta del Fiume Rosso — Presidio Francese CEFEO)`,
+          "Occupata e pacificata dalle truppe francesi del generale Raoul Salan tra la fine del 1946 (dopo la battaglia di Hanoi e il bombardamento di Haiphong) e l'inizio del 1947 per garantire il controllo del delta del Fiume Rosso, delle comunicazioni ferroviarie e dei grandi porti costieri. Da queste basi il comando supremo francese di Valluy e Salan sta completando i preparativi operativi per l'Operazione Léa (lancio 7 ottobre 1947) contro la dirigenza rivoluzionaria del Việt Minh.",
+          'Alleati',
+          'Union Française — Commandement des Troupes Françaises au Tonkin (Général Raoul Salan / CEFEO)'
+        );
+      }
+
+      // 3. Annam Litoraneo e Altopiani Centrali (PMSI)
+      if (isAnnamCoastPmsi) {
+        return makeResult(
+          'FRA',
+          `${meta ? meta.historicalName : 'Annam'} (Annam Litoraneo e Altopiani Centrali PMSI — Amministrazione Francese)`,
+          "La fascia litoranea centrale (con le basi aeronavali di Tourane/Đà Nẵng, la capitale imperiale di Huế e il porto strategico di Nha Trang/Baia di Cam Ranh) e gli Altopiani Centrali del Sud Indocina (PMSI, comprendenti Đà Lạt, Pleiku e Buôn Ma Thuột) sono presidiati dal corpo di spedizione francese. A Đà Lạt l'Alto Commissario Émile Bollaert conduce colloqui con l'ex imperatore Bảo Đại per creare uno Stato nazionale vietnamita anticomunista associato all'Unione Francese.",
+          'Alleati',
+          'Union Française — Haut-Commissariat de France (Émile Bollaert / Presidio CEFEO Annam)'
+        );
+      }
+
+      // 4. Santuario Rivoluzionario del Việt Bắc e Interzona IV (DRV / Việt Minh — Hồ Chí Minh & Võ Nguyên Giáp)
+      return makeResult(
+        'VIE',
+        `${meta ? meta.historicalName : 'Việt Bắc'} (Santuario Rivoluzionario del Việt Bắc & Interzona IV — DRV / Việt Minh)`,
+        "Cuore montano inespugnato del santuario rivoluzionario del Việt Bắc (Thủ đô Kháng chiến — province di Bắc Kạn, Cao Bằng, Lạng Sơn, Thái Nguyên, Tuyên Quang, Hà Giang e fascia montuosa nord-occidentale) e bastione meridionale dell'Interzona IV (Thanh Hóa, Nghệ An, Hà Tĩnh, Quảng Bình). Dopo l'evacuazione di Hanoi, il presidente Hồ Chí Minh, il comandante supremo Võ Nguyên Giáp e il governo della Repubblica Democratica del Vietnam vi hanno insediato il comando della resistenza antifrancese, le officine belliche clandestine e le divisioni d'élite del Quân Đội Nhân Dân, che tra pochi giorni respingeranno l'assalto dei paracadutisti francesi nell'Operazione Léa (ottobre-novembre 1947).",
+        'Comintern',
+        'Việt Nam Dân chủ Cộng hòa (Chủ tịch Hồ Chí Minh / Tổng tư lệnh Võ Nguyên Giáp — Căn cứ địa Việt Bắc)'
+      );
+    }
+  }
+
+  // STEP 18 (Settembre 1945): Proclamazione della Repubblica Democratica del Vietnam e Ritorno Francese in Cambogia/Laos
+  if (s >= 18) {
+    const isVietnam = meta?.cntrCode === 'VN' || rawId.startsWith('VN') || cleanId.startsWith('VN');
+    const isCambodia = meta?.cntrCode === 'KH' || rawId.startsWith('KH') || cleanId.startsWith('KH');
+    const isLaos = meta?.cntrCode === 'LA' || rawId.startsWith('LA') || cleanId.startsWith('LA');
+
+    if (isVietnam) {
+      const isSouth = meta?.subRegion === 'Cochinchine' || (meta?.historicalName && meta.historicalName.includes('Cochinchine'));
+      if (isSouth) {
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Cochinchine'} (Cocincina — Việt Minh, Presidio Britannico & Sbarco Francese)`,
+          "Al 30 settembre 1945 a Saigon e nel delta del Mekong divampa la resistenza armata (Nam Bộ kháng chiến): dopo lo sbarco della 20ª Divisione Fanteria indiana britannica del maggior generale Douglas Gracey (Operazione Masterdom) e il colpo di mano notturno del 22-23 settembre in cui truppe francesi (5e RIC riarmato) ed elementi giapponesi hanno espulso il Comitato Esecutivo Provvisorio del Việt Minh (Trần Văn Giàu) dal municipio, le forze patriottiche cingono d'assedio l'enclave anglo-francese proclamando lo sciopero generale e il blocco dei rifornimenti, mentre le campagne rimangono saldamente sotto controllo rivoluzionario.",
+          'Alleati',
+          'Việt Minh (Comitato del Sud — Nam Bộ kháng chiến / Trần Văn Giàu) vs Allied Control Commission (Magg. Gen. Douglas Gracey / Jean Cédile)'
+        );
+      }
+      return makeResult(
+        'VIE',
+        `${meta ? meta.historicalName : 'Tonkin / Annam'} (Repubblica Democratica del Vietnam — Proclamazione di Ho Chi Minh, 2 Settembre 1945)`,
+        "Il 2 settembre 1945 in Piazza Ba Đình a Hanoi, Hồ Chí Minh proclama solennemente la Dichiarazione d'Indipendenza della Repubblica Democratica del Vietnam (Việt Nam Dân chủ Cộng hòa) a seguito della Rivoluzione d'Agosto e dell'abdicazione dell'Imperatore Bảo Đại. In attuazione delle deliberazioni di Potsdam, a nord del 16° parallelo le truppe cinesi nazionaliste del 1° Gruppo d'Armate (generale Lu Han, oltre 200.000 effettivi) presidiano il disarmo della 38ª Armata giapponese convivendo de facto con le istituzioni civili del governo rivoluzionario.",
+        'Alleati',
+        'Việt Nam Dân chủ Cộng hòa (Presidente Hồ Chí Minh) / Presidio di disarmo dell\'Esercito Nazionalista Cinese (Gen. Lu Han)'
+      );
+    }
+
+    if (isCambodia) {
+      return makeResult(
+        'FRA',
+        `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Re Norodom Sihanouk, Governo Son Ngoc Thanh & Presidio Britannico)`,
+        "A seguito della resa giapponese, a Phnom Penh Re Norodom Sihanouk preserva l'indipendenza proclamata a marzo guidata dal primo ministro nazionalista Son Ngoc Thanh. A settembre 1945 giungono nella capitale le truppe britanniche della Brigata del Generale E.D. Murray per disarmare le forze nipponiche, affiancate dal commissario francese Jean de Raymond. L'amministrazione coloniale francese verrà restaurata a metà ottobre con l'arresto di Son Ngoc Thanh da parte del Generale Leclerc. Le province occidentali di Battambang e Siem Reap restano amministrate dalla Thailandia fino a novembre 1946.",
+        'Alleati',
+        'Royaume du Cambodge (Re Norodom Sihanouk / P.M. Son Ngoc Thanh) / Presidio Britannico SEAC (Gen. E.D. Murray) & Francia Libera (Jean de Raymond)'
+      );
+    }
+
+    if (isLaos) {
+      return makeResult(
+        'FRA',
+        `${meta ? meta.historicalName : 'Laos'} (Governo Provvisorio del Lao Issara & Occupazione Cinese / Enclave Francese a Champassak)`,
+        "Il 1° settembre 1945 a Vientiane il Primo Ministro Principe Phetsarath Ratanavongsa proclama l'indipendenza e l'unificazione del Laos, fondando il movimento Lao Issara (Laos Libero). A nord del 16° parallelo, le truppe cinesi nazionaliste della 93ª Divisione occupano Luang Prabang e Vientiane per disarmare i reparti nipponici, vietando l'accesso ai funzionari francesi e tutelando l'autogoverno del Lao Issara (che destituirà Re Sisavang Vong il 20 ottobre per le sue simpatie coloniali). L'amministrazione coloniale francese (GPRF) è interamente esclusa dal nord e centro del Paese, mantenendo un presidio unicamente a sud del 16° parallelo nel principato di Champassak (Pakse) grazie all'alleanza con il Principe Boun Oum e i commandos del Force 136.",
+        'Alleati',
+        'Lao Issara (Principe Phetsarath Ratanavongsa) / Presidio di Disarmo dell\'Esercito Nazionalista Cinese (Nord 16°N) & Force 136 a Champassak'
+      );
+    }
+  }
+
   // 4. Risoluzione con meta trovato
   if (meta) {
     const sov = meta.getSovereign ? meta.getSovereign(s) : (s >= 7 ? 'VIC_IND' : 'F_IND');
@@ -4743,6 +4953,15 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     ? "Provincia dell'Indocina Francese sotto l'amministrazione coloniale di Vichy (Jean Decoux) e lo stazionamento militare giapponese a seguito dell'Accordo di Hanoi del settembre 1940."
     : "Territorio della Federazione Indocinese sotto sovranità francese (Gouvernement Général de l'Indochine, Hanoï).";
   const defaultFaction: FactionType = s >= 7 ? 'Fantoccio' : 'Alleati';
+  if (s >= 17) {
+    return makeResult(
+      'JAP',
+      `${defaultHistName} (Indocina — Colpo di Mano del 9 Marzo 1945 / Meigo Sakusen)`,
+      "A seguito dell'Operazione Meigo Sakusen del 9 marzo 1945, la 38ª Armata giapponese ha internato l'amministrazione coloniale francese di Vichy (Gov. Gen. Jean Decoux), ponendo l'Indocina sotto controllo militare diretto nipponico e instaurando i governi fantoccio dell'Impero del Vietnam (Bảo Đại), Regno di Cambogia (Sihanouk) e Luang Prabang (Sisavang Vong).",
+      'Asse',
+      "Dai Nippon Teikoku — 38ª Armata Giapponese (Ten. Gen. Yuitsu Tsuchihashi) & Governi Indocinesi Cooptati"
+    );
+  }
   if (s >= 9) {
     return makeResult(
       'JAP',

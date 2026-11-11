@@ -913,6 +913,32 @@ export function resolveKoreaProvince(ft: any, s: number): ResolvedTerritory {
     }
   }
 
+  // STEP 18+ (Settembre 1945): Divisione della Corea al 38° Parallelo tra Unione Sovietica e Stati Uniti
+  if (s >= 18) {
+    const isNorth38 =
+      fidClean === 'KR41_N' ||
+      fidClean === 'KR42_N' ||
+      ((meta?.cntrCode === 'KP' || fidClean.startsWith('KP') || fidClean.includes('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP') && fidClean !== 'KP05_S' && fidClean !== 'KP06_S');
+
+    if (isNorth38) {
+      return makeResult(
+        'SOV',
+        `${meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || 'Corea del Nord')} (Corea del Nord — Occupazione Sovietica al 38° Parallelo)`,
+        "Agosto-Settembre 1945: l'Armata Rossa (25ª Armata del generale Ivan Čistjakov) occupa la penisola coreana a nord del 38° parallelo a seguito della dichiarazione di guerra al Giappone, istituendo l'Amministrazione Civile Sovietica a Pyongyang con il sostegno dei comitati popolari comunisti guidati da Kim Il-sung.",
+        'Comintern',
+        'Amministrazione Civile Sovietica (25ª Armata Armata Rossa — Gen. Ivan Čistjakov / Pyongyang)'
+      );
+    } else {
+      return makeResult(
+        'USA',
+        `${meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || 'Corea del Sud')} (Corea del Sud — Governo Militare Statunitense USAMGIK)`,
+        "Settembre 1945: l'8 settembre 1945 le truppe statunitensi del XXIV Corpo d'Armata sbarcano a Incheon (Jinsen) guidate dal tenente generale John R. Hodge, assumendo il controllo della Corea a sud del 38° parallelo e instaurando a Seul il Governo Militare dell'Esercito degli Stati Uniti in Corea (USAMGIK).",
+        'Alleati',
+        'United States Army Military Government in Korea (USAMGIK — Lt. Gen. John R. Hodge / Seul)'
+      );
+    }
+  }
+
   if (meta) {
     const sov = meta.getSovereign ? meta.getSovereign(s) : meta.sovereign;
     const fac = meta.getFaction ? meta.getFaction(s) : meta.faction;

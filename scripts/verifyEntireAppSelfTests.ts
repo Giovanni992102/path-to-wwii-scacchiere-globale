@@ -4,7 +4,7 @@ import { loadUnifiedGeoDatabase } from '../src/data/unifiedGeoDatabase';
 import { processHistoricalCartographyPipeline } from '../src/data/historicalEngine';
 import { resolveFeature, resolveHB, HB_NAME } from '../src/data/georesolver';
 import { getExtendedToponym } from '../src/data/historicalToponyms';
-import { getCountryFlagSvg } from '../src/data/historicalFlags';
+import { getCountryFlagSvg, resolveHistoricalFlag, validateFlagAgainstAnachronism } from '../src/data/historicalFlags';
 import { getOwnerMeta, getOverlord, isSubjectOf } from '../src/data/owners';
 import { BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym } from '../src/data/balkanDistricts';
 import { STEPS } from '../src/data/historySteps';
@@ -40,7 +40,7 @@ async function verifyAll() {
   // Evaluate the tests in scope
   const evalFn = new Function(
     'loadedProvs', 'loadedHbs', 'resolveFeature', 'resolveHB', 'HB_NAME',
-    'getExtendedToponym', 'getCountryFlagSvg', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
+    'getExtendedToponym', 'getCountryFlagSvg', 'resolveHistoricalFlag', 'validateFlagAgainstAnachronism', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
     'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince', 'SPAIN_PROVINCES_META', 'resolveSpainProvince', 'SOVIET_PROVINCES_META', 'resolveSovietProvince',
     'HISTORICAL_FORTIFICATION_LINES', 'HISTORICAL_NAVAL_BASES', 'getDynamicNavalBaseStatus',
     'HISTORICAL_SEA_LANES', 'getDynamicSeaLaneStatus', 'getStrategicIslandLabel', 'HISTORICAL_BATTLES',
@@ -49,7 +49,7 @@ async function verifyAll() {
 
   const tests = evalFn(
     loadedProvs, loadedHbs, resolveFeature, resolveHB, HB_NAME,
-    getExtendedToponym, getCountryFlagSvg, getOwnerMeta, getOverlord, isSubjectOf,
+    getExtendedToponym, getCountryFlagSvg, resolveHistoricalFlag, validateFlagAgainstAnachronism, getOwnerMeta, getOverlord, isSubjectOf,
     BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince, SOVIET_PROVINCES_META, resolveSovietProvince,
     HISTORICAL_FORTIFICATION_LINES, HISTORICAL_NAVAL_BASES, getDynamicNavalBaseStatus,
     HISTORICAL_SEA_LANES, getDynamicSeaLaneStatus, getStrategicIslandLabel, HISTORICAL_BATTLES

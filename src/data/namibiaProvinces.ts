@@ -53,6 +53,7 @@ export const NAMIBIA_PROVINCES_META: Record<string, NamibiaProvinceInfo> = {
     s7: 'Autunno 1940: Mobilitazione economica e mineraria totale del Mandato. La Consolidated Diamond Mines (CDM) di Ernest Oppenheimer a Oranjemund, le miniere di piombo, zinco e vanadio di Tsumeb e Grootfontein e l\'allevamento di karakul forniscono valuta pregiata e materiali strategici vitali per lo sforzo bellico dell\'Impero Britannico.',
     s8: 'Aprile 1941: Mentre le divisioni del Sudafrica entrano vittoriose ad Addis Abeba (6 aprile 1941) sconfiggendo le forze dell\'AOI italiana, il South West Africa consolida la propria sicurezza interna. Smuts ribadisce che il Mandato costituisce parte integrante della sfera geostrategica sudafricana, escludendo ogni futura cessione territoriale a potenze straniere.',
     getNote(s: number): string {
+      if (s >= 19) return '1946-1947: Contenzioso sul Mandato dell\'Africa del Sud-Ovest alle Nazioni Unite. L\'Unione Sudafricana di Jan Smuts rifiuta di sottoporre la Namibia al regime di Amministrazione Fiduciaria ONU (Resolution 65 dell\'Assemblea Generale, dicembre 1946) e continua ad amministrare direttamente il territorio tramite l\'Amministratore Petrus Imker Hoogenhout.';
       if (s <= 1) return this.s0_1;
       if (s <= 4) return this.s2_4;
       if (s === 5) return this.s5;
@@ -61,12 +62,14 @@ export const NAMIBIA_PROVINCES_META: Record<string, NamibiaProvinceInfo> = {
       return this.s8;
     },
     getHistoricalName(s: number): string {
+      if (s >= 19) return 'South West Africa / Suidwes-Afrika (Amministrazione Sudafricana — Disputa ONU)';
       if (s <= 3) return 'Suidwes-Afrika / South West Africa (Windhoek)';
       if (s <= 5) return 'South West Africa — Mandated Territory (UDF Wartime Control)';
       if (s <= 7) return 'South West Africa (Allied War Mobilization — Windhoek)';
       return 'South West Africa / Suidwes-Afrika (Allied Base — Jan Smuts Administration)';
     },
     getAdminTitle(s: number): string {
+      if (s >= 19) return 'Union of South Africa Administration of SWA (Administrator P.I. Hoogenhout — Windhoek)';
       if (s <= 3) return 'League of Nations Mandate (Union of South Africa — Administrator David G. Conradie)';
       if (s <= 5) return 'Union of South Africa Mandate (National Emergency Regulations)';
       return 'South African Mandate / Allied Strategic Territory (Gov. David G. Conradie)';
@@ -97,6 +100,7 @@ export const NAMIBIA_PROVINCES_META: Record<string, NamibiaProvinceInfo> = {
     s7: 'Autunno 1940: Potenziamento della base aerea costiera per idrovolanti e aerei da pattugliamento della SAAF (South African Air Force). Il porto gestisce l\'imbarco dei concentrati di minerali strategici e delle scorte alimentari dirette in Gran Bretagna.',
     s8: 'Aprile 1941: Roccaforte atlantica consolidata della marina e dell\'aviazione sudafricana. Walvis Bay garantisce la protezione dei convogli oceanici WS ("Winston Specials") diretti in Medio Oriente attraverso il Capo di Buona Speranza, respingendo ogni minaccia sottomarina dell\'Asse.',
     getNote(s: number): string {
+      if (s >= 19) return '1947: Porto franco e territorio sovrano sudafricano appartenente alla Provincia del Capo, snodo commerciale atlantico per le esportazioni minerarie dell\'Africa del Sud-Ovest nel dopoguerra.';
       if (s <= 1) return this.s0_1;
       if (s <= 4) return this.s2_4;
       if (s === 5) return this.s5;
@@ -105,11 +109,13 @@ export const NAMIBIA_PROVINCES_META: Record<string, NamibiaProvinceInfo> = {
       return this.s8;
     },
     getHistoricalName(s: number): string {
+      if (s >= 19) return 'Walvis Bay (Exclave Portuale dell\'Unione Sudafricana)';
       if (s <= 3) return 'Walvis Bay (Exclave of the Union of South Africa)';
       if (s <= 5) return 'Walvis Bay Naval Station (Cape Province, South Africa)';
       return 'Walvis Bay Fortress & Allied Port (Union of South Africa)';
     },
     getAdminTitle(s: number): string {
+      if (s >= 19) return 'Port of Walvis Bay (Cape Province Administration — Union of South Africa)';
       if (s <= 3) return 'Port and Settlement of Walvis Bay (Cape Province Administration)';
       if (s <= 6) return 'South African Seaward Defence Force & Port Command (Walvis Bay)';
       return 'Union Defence Force — Walvis Bay Fortress Command';

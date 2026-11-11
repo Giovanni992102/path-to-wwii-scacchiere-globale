@@ -53,6 +53,7 @@ export const SUDAN_PROVINCES_META: Record<string, SudanProvinceInfo> = {
     s7: 'Autunno 1940: Nomina del Governatore Generale Sir Hubert Huddleston a Khartoum. Il Sud Sudan diviene retrovia sicura e piattaforma di concentramento truppe: i battaglioni del King\'s African Rifles (KAR) dal Kenya e le forze della Francia Libera (dall\'AEF di Félix Éboué e Saint-Mart) transitano per il Sud Sudan per congiungersi alle forze di difesa dell\'Impero.',
     s8: 'Aprile 1941: Riconquista e vittoria in Africa Orientale. Dalle basi dell\'Upper Nile e dell\'Equatoria, le colonne britannico-sudanesi riprendono Kurmuk, respingono le truppe italiane oltre il confine e avanzano verso l\'altopiano etiope a supporto della rivolta dei patrioti Arbegnoch e dell\'avanzata alleata su Addis Abeba (liberata il 6 aprile 1941). La rotta nilotica Juba-Khartoum è pienamente protetta e consolidata.',
     getNote(s: number): string {
+      if (s >= 19) return 'Giugno - Settembre 1947: Conferenza di Juba (12-13 giugno 1947) convocata dal segretario civile britannico James Robertson con i capi meridionali e i nazionalisti nord-sudanesi; apertura del processo di integrazione delle tre province meridionali (Equatoria, Bahr el Ghazal, Upper Nile) nell\'Assemblea Legislativa di Khartoum in vista dell\'unità del Sudan.';
       if (s <= 1) return this.s0_1;
       if (s <= 4) return this.s2_4;
       if (s === 5) return this.s5;
@@ -61,12 +62,14 @@ export const SUDAN_PROVINCES_META: Record<string, SudanProvinceInfo> = {
       return this.s8;
     },
     getHistoricalName(s: number): string {
+      if (s >= 19) return 'Anglo-Egyptian Sudan — Southern Provinces (Post-Conferenza di Juba 1947)';
       if (s <= 3) return 'Anglo-Egyptian Sudan — Southern Provinces (Juba)';
       if (s <= 5) return 'Southern Sudan — Closed Districts (Wartime Readiness)';
       if (s <= 7) return 'Equatoria & Upper Nile (Frontier Defense — Equatorial Corps)';
       return 'Southern Provinces / Equatoria (Allied Nile Front — Juba Command)';
     },
     getAdminTitle(s: number): string {
+      if (s >= 19) return 'Anglo-Egyptian Condominium — Juba Administration (Gov. Gen. Sir Robert Howe)';
       if (s <= 3) return 'Anglo-Egyptian Condominium — Closed Districts Administration (Juba)';
       if (s <= 5) return 'Condominium Southern Provinces — Equatoria Command (Juba)';
       return 'Sudan Defence Force — Equatorial Corps & Juba District Command';
@@ -97,6 +100,7 @@ export const SUDAN_PROVINCES_META: Record<string, SudanProvinceInfo> = {
     s7: 'Autunno 1940: Ottobre 1940: Sir Hubert Huddleston subentra a Symes come Governatore Generale. Il Sudan diviene la base di lancio della controffensiva britannica nel teatro dell\'Africa Orientale: Platt riceve in rinforzo la 4th e 5th Indian Infantry Division, squadriglie di caccia Hurricane e reparti dell\'AEF della Francia Libera del Ciad.',
     s8: 'Aprile 1941: Storica riscossa e annientamento dell\'AOI: a gennaio le forze anglo-sudanesi di William Platt riconquistano Kassala e Gallabat; tra febbraio e marzo espugnano l\'impervia fortezza di Keren (Cheren) in Eritrea dopo una celebre battaglia d\'assedio. Il 1° aprile cade Asmara e l\'8 aprile cade Massaua sul Mar Rosso, liberando la rotta marittima per i rifornimenti navali statunitensi verso l\'Egitto.',
     getNote(s: number): string {
+      if (s >= 19) return 'Estate - Settembre 1947: Il Condominio Anglo-Egiziano è al centro del contenzioso diplomatico tra Londra e Il Cairo davanti al Consiglio di Sicurezza dell\'ONU (luglio-settembre 1947). Sotto il Governatore Generale britannico Sir Robert Howe, il Congresso dei Diplomati di Ismail al-Azhari (Ashigga) chiede l\'unità della Valle del Nilo mentre il partito Umma rivendica l\'indipendenza separata del Sudan.';
       if (s <= 1) return this.s0_1;
       if (s <= 4) return this.s2_4;
       if (s === 5) return this.s5;
@@ -105,12 +109,14 @@ export const SUDAN_PROVINCES_META: Record<string, SudanProvinceInfo> = {
       return this.s8;
     },
     getHistoricalName(s: number): string {
+      if (s >= 19) return 'Anglo-Egyptian Sudan (Condominio Britannico — Khartoum 1947)';
       if (s <= 3) return 'Anglo-Egyptian Sudan (Khartoum)';
       if (s <= 5) return 'Anglo-Egyptian Sudan (General Mobilization — Khartoum)';
       if (s <= 7) return 'Sudan Front — SDF & Middle East Command (Khartoum)';
       return 'Anglo-Egyptian Sudan (Victory in East Africa — Gen. William Platt)';
     },
     getAdminTitle(s: number): string {
+      if (s >= 19) return 'Anglo-Egyptian Condominium (Gov. Gen. Sir Robert Howe — Khartoum)';
       if (s <= 3) return 'Anglo-Egyptian Condominium (Gov. Gen. Sir Stewart Symes — Khartoum)';
       if (s <= 5) return 'Condominium Administration & Middle East Command';
       return 'Anglo-Egyptian Condominium (Gov. Gen. Sir Hubert Huddleston / Ka\'id William Platt)';

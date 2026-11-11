@@ -371,6 +371,64 @@ export const AOF_PROVINCES_META: Record<string, AOFProvinceInfo> = {
     getSovereign: (s: number) => (s >= 6 ? 'VIC_AOF' : 'F_AOF'),
     getFaction: (s: number) => (s >= 6 ? ('Fantoccio' as FactionType) : ('Alleati' as FactionType)),
   },
+  AOF_TG: {
+    id: 'AOF_TG',
+    iso: 'TG',
+    cntrCode: 'TG',
+    name: 'Togo',
+    modernName: 'République Togolaise',
+    historicalName: 'Territoire du Togo (Mandat de la Société des Nations sous administration française)',
+    adminTitle: 'Commissariat de la République au Togo (Lomé — Mandat SDN)',
+    capital: 'Lomé',
+    region: 'Golfe de Guinée',
+    historicalToponym: 'Lomé / Aného / Kpalimé / Atakpamé / Sokodé / Bassar / Mango',
+    s0_1: "Territorio del Togo sotto mandato di Classe B della Società delle Nazioni affidato alla Francia (capitale Lomé, dotata di grande pontile/wharf atlantico e capolinea delle tre linee ferroviarie per Aného, Blitta e Kpalimé). A seguito del ripristino dell'autonomia amministrativa e finanziaria sotto il Fronte Popolare (1936-1937), il Commissario della Repubblica Montagné e poi Léonce Jore applicano le riforme sociali e tutelano l'economia esportatrice di cacao, caffè, copra e olio di palma.",
+    s2_4: "Territorio del Togo sotto mandato francese. Reazione patriottica contro l'irredentismo e la propaganda coloniale della Germania nazista che reclama la restituzione dell'ex Togo tedesco ('Kolonien zurück'): notabili togolesi, commercianti e veterani fondano a Lomé il 'Cercle des Amitiés Françaises' per ribadire la fedeltà alla Francia democratica e rigettare le dottrine razziali hitleriane.",
+    s5: "Territorio del Togo (settembre 1939 - maggio 1940). Piena mobilitazione bellica: reclutamento di battaglioni di Tirailleurs e riservisti togolesi per la difesa della Repubblica; ferreo controllo statale sulle esportazioni agricole e sorveglianza costiera nel Golfo di Guinea contro possibili incursioni di corsari e sommergibili tedeschi.",
+    s6: "Territorio del Togo (giugno - agosto 1940). Dopo l'armistizio del 22 giugno 1940, il Governatore Léonce Jore si sottomette agli ordini dell'Alto Commissario Pierre Boisson a Dakar e allinea il mandato al Regime di Vichy. Stretto a ovest dalla Gold Coast britannica e dal Togoland britannico, il territorio subisce l'immediata chiusura delle frontiere e il blocco delle rotte commerciali deciso dalle autorità britanniche di Accra.",
+    s7: "Territorio del Togo (autunno 1940 - marzo 1941). Conseguenze della battaglia di Dakar: irrigidimento dell'amministrazione pétainista a Lomé, giuramento di fedeltà al Maresciallo Pétain e rigida sorveglianza poliziesca sui simpatizzanti gollisti e sui commercianti locali. La Royal Navy britannica sigilla il litorale impedendo l'approdo delle navi da carico; penuria di manufatti importati e sviluppo del contrabbando lungo il confine del fiume Volta.",
+    s8: "Territorio del Togo (aprile 1941 - 1942). Fase di massima pressione di Vichy sotto la direzione del governatore Jean-François Saliceti: applicazione della 'Révolution Nationale', requisizioni obbligatorie di mais, olio di palma e cotone per rifornire la piazzaforte di Dakar soggetta al blocco alleato; lavoro forzato coatto e divieto di espatrio. Centinaia di giovani togolesi fuggono nella Gold Coast per arruolarsi nelle Forze della Francia Libera (FFL).",
+    getNote: (s: number) => {
+      if (s >= 19)
+        return "Dal 13 dicembre 1946 il Togo francese è posto sotto Amministrazione Fiduciaria delle Nazioni Unite (Territoire sous Tutelle de l'ONU) affidata alla Francia e integrato come Territoire Associé dell'Union Française, con Assemblea Rappresentativa del Togo guidata da Sylvanus Olympio.";
+      if (s >= 17)
+        return "Territorio del Togo (aprile 1945 — Vittoria Alleata & Verso la Tutela ONU). Con la caduta imminente del Terzo Reich e la conferenza istitutiva delle Nazioni Unite a San Francisco, il Togo francese si prepara alla storica transizione dal Mandato di Classe B della defunta Società delle Nazioni al regime di Tutela ONU. La rinascita della vita politica e civica (in particolare con il Comité de l'Unité Togolaise - CUT guidato da figure di spicco come Sylvanus Olympio) pone le basi per la futura emancipazione e autonomia istituzionale nel quadro della cooperazione con gli Alleati.";
+      if (s >= 15)
+        return "Territorio del Togo (1944 — GPRF & Esercito di Liberazione). Sulla scia della storica Conferenza di Brazzaville (febbraio 1944) e della Liberazione di Parigi (agosto 1944), il Togo è retto dal Governo Provvisorio della Repubblica Francese (GPRF) di Charles de Gaulle. I contingenti di Tirailleurs togolais combattono con la 1ª Armata francese (Armée B del generale de Lattre de Tassigny) nella campagna d'Alsazia e dei Vosgi per la totale liberazione della madrepatria.";
+      if (s >= 12)
+        return "Territorio del Togo (febbraio - novembre 1943 — Amministrazione CFLN). Con la creazione ad Algeri del Comité Français de Libération Nationale (CFLN) presieduto congiuntamente da Charles de Gaulle e Henri Giraud, il nuovo governatore Albert Mercadier assume il governo a Lomé. Riaperti i porti e riprese le relazioni commerciali regolari con la Gran Bretagna e gli Stati Uniti; abrogata la legislazione autoritaria e discriminatoria di Vichy e piena mobilitazione agricola per le forze alleate in Africa e nel Mediterraneo.";
+      if (s >= 11)
+        return "Territorio del Togo (23 novembre 1942 — Ralliement dell'AOF agli Alleati). A seguito degli sbarchi dell'Operazione Torch in Nordafrica e degli accordi Darlan-Clark ad Algeri, il Governatore Generale Pierre Boisson a Dakar annuncia l'adesione ufficiale di tutta l'Africa Occidentale Francese e del mandato del Togo al fronte alleato. Cessano tutte le misure ostili con la confinante Gold Coast britannica, la Royal Navy revoca il blocco navale del litorale e il pontile di Lomé torna a operare a pieno ritmo a supporto dell'Alleanza.";
+      if (s >= 8) return AOF_PROVINCES_META['AOF_TG'].s8;
+      if (s >= 7) return AOF_PROVINCES_META['AOF_TG'].s7;
+      if (s >= 6) return AOF_PROVINCES_META['AOF_TG'].s6;
+      if (s >= 5) return AOF_PROVINCES_META['AOF_TG'].s5;
+      if (s >= 2) return AOF_PROVINCES_META['AOF_TG'].s2_4;
+      return AOF_PROVINCES_META['AOF_TG'].s0_1;
+    },
+    getHistoricalName: (s: number) => {
+      if (s >= 19) return "Togo Français (Territoire sous Tutelle de l'ONU — Union Française, Lomé)";
+      if (s >= 17) return 'Togo Français (GPRF — Mandat SDN & Verso la Tutela ONU)';
+      if (s >= 15) return 'Togo Français (GPRF — Armée de la Libération)';
+      if (s >= 12) return 'Togo Français (CFLN — Rallié aux Alliés / Gouverneur Mercadier)';
+      if (s >= 11) return 'Togo Français (AOF — Rallié aux Alliés / Accord Boisson, 23 Novembre 1942)';
+      if (s >= 6) return 'Togo Français (AOF — Vichy / Mandat SDN & Lomé)';
+      if (s >= 5) return 'Togo Français (Mandat SDN — Mobilitazione Bellica)';
+      if (s >= 2) return 'Togo Français (Mandat SDN — Amitiés Françaises contre Revendications Allemandes)';
+      return 'Togo Français (Mandat de la Société des Nations — Lomé)';
+    },
+    getAdminTitle: (s: number) => {
+      if (s >= 19) return 'Quatrième République (Union Française) — Commissariat de la République au Togo (Lomé)';
+      if (s >= 15) return 'Gouvernement Provisoire de la République Française (GPRF) — Commissariat de la République au Togo';
+      if (s >= 12) return 'Comité Français de Libération Nationale (CFLN) — Territoire du Togo (Lomé)';
+      if (s >= 11) return 'Haut-Commissariat de France en Afrique — Territoire du Togo (Lomé — Rallié aux Alliés)';
+      if (s >= 6) return "Haut-Commissariat de l'Afrique Française — Territoire sous Mandat du Togo (Vichy)";
+      return 'Commissariat de la République Française au Togo (Mandat de la Société des Nations — Lomé)';
+    },
+    getSovereign: (s: number) => (s >= 19 ? 'FRA' : s >= 6 && s < 11 ? 'VIC_AOF' : 'F_AOF'),
+    getFaction: (s: number) => (s >= 6 && s < 11 ? ('Fantoccio' as FactionType) : ('Alleati' as FactionType)),
+  },
+
 };
 
 // Aliases per lookup rapido
@@ -420,27 +478,58 @@ AOF_PROVINCES_META['NER'] = AOF_PROVINCES_META['AOF_NER'];
 AOF_PROVINCES_META['NIGER'] = AOF_PROVINCES_META['AOF_NER'];
 AOF_PROVINCES_META['NIAMEY'] = AOF_PROVINCES_META['AOF_NER'];
 AOF_PROVINCES_META['AOF_NER_HV'] = AOF_PROVINCES_META['AOF_NER'];
+AOF_PROVINCES_META['TG'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['TGO'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['TOGO'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['TOGOLAND'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['FRENCH TOGOLAND'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['FRENCH_TOGOLAND'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['TOGO FRANÇAIS'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['TOGO_FRANÇAIS'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['TOGO FRANCAIS'] = AOF_PROVINCES_META['AOF_TG'];
+AOF_PROVINCES_META['TOGO_FRANCAIS'] = AOF_PROVINCES_META['AOF_TG'];
+
 
 /**
  * Risolutore timeline-sensitive per le Colonie e i Territori dell'AOF (1936-1941).
  */
 // Wrapper dinamico per l'adesione dell'AOF agli Alleati (23 novembre 1942, accordo Boisson-Darlan)
-for (const item of Object.values(AOF_PROVINCES_META)) {
+for (const item of new Set(Object.values(AOF_PROVINCES_META))) {
   const origSov = item.getSovereign.bind(item);
   const origFac = item.getFaction.bind(item);
   const origHist = item.getHistoricalName.bind(item);
   const origAdmin = item.getAdminTitle.bind(item);
   const origNote = item.getNote.bind(item);
 
-  item.getSovereign = (s: number) => (s >= 11 ? 'F_AOF' : origSov(s));
+  item.getSovereign = (s: number) => (s >= 19 ? 'FRA' : s >= 11 ? 'F_AOF' : origSov(s));
   item.getFaction = (s: number) => (s >= 11 ? ('Alleati' as FactionType) : origFac(s));
+  if (item.id === 'AOF_TG') {
+    // Togo dispone di dettagli toponomastici, storici e amministrativi dedicati passo per passo (Step 0-19)
+    continue;
+  }
   const histBase = item.historicalName || item.historicalToponym || item.name;
   item.getHistoricalName = (s: number) =>
-    s >= 11 ? `${histBase} (AOF — Rallié aux Alliés / Accord Boisson, 23 Novembre 1942)` : origHist(s);
+    s >= 19
+      ? item.id === 'AOF_BF'
+        ? 'Territoire de la Haute-Volta (Ricostituito il 4 Settembre 1947 — Union Française, AOF)'
+        : `${histBase} (AOF — Territoire d'Outre-Mer, Union Française)`
+      : s >= 11
+      ? `${histBase} (AOF — Rallié aux Alliés / Accord Boisson, 23 Novembre 1942)`
+      : origHist(s);
   item.getAdminTitle = (s: number) =>
-    s >= 11 ? 'Haut-Commissariat de France en Afrique (Dakar — Pierre Boisson rallié aux Alliés)' : origAdmin(s);
+    s >= 19
+      ? item.id === 'AOF_BF'
+        ? "Quatrième République (Union Française) — Territoire de la Haute-Volta (AOF — Ouagadougou)"
+        : "Quatrième République (Union Française) — Haut-Commissariat de l'AOF (Dakar — René Barthes)"
+      : s >= 11
+      ? 'Haut-Commissariat de France en Afrique (Dakar — Pierre Boisson rallié aux Alliés)'
+      : origAdmin(s);
   item.getNote = (s: number) =>
-    s >= 11
+    s >= 19
+      ? item.id === 'AOF_BF'
+        ? "Con la Legge n. 47-1707 del 4 settembre 1947 il Parlamento francese ricostituisce il Territorio dell'Alta Volta (Territoire de la Haute-Volta) nei confini del 1932, staccandolo da Costa d'Avorio, Sudan Francese e Niger all'interno dell'AOF e dell'Union Française."
+        : `Territoire d'Outre-Mer dell'Africa Occidentale Francese (AOF — ${item.capital}) integrato nell'Union Française ai sensi della Costituzione della Quarta Repubblica (27 ottobre 1946), dopo l'abolizione del lavoro forzato (Legge Houphouët-Boigny, aprile 1946) e dello statuto dell'indigénat sotto l'Alto Commissario René Barthes a Dakar.`
+      : s >= 11
       ? `Il 23 novembre 1942, a seguito degli sbarchi alleati dell'Operazione Torch in Nordafrica e dell'accordo Darlan-Clark ad Algeri, il Governatore Generale dell'AOF Pierre Boisson a Dakar annuncia l'adesione ufficiale dell'intera Africa Occidentale Francese allo schieramento alleato, aprendo il porto strategico e le basi aeree di Dakar alla marina e all'aviazione alleata per la caccia antisommergibile nell'Atlantico.`
       : origNote(s);
 }

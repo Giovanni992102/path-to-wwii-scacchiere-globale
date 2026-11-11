@@ -670,6 +670,71 @@ export function resolveMalaysiaProvince(ft: any, s: number): ResolvedTerritory {
   const p = (ft && ft.properties) ? ft.properties : {};
   const fidClean = String(ft.id || p.id || p.NUTS_ID || '').trim();
 
+  // STEP 19+ (Settembre 1947): Unione Malese, Colonia della Corona di Singapore e Colonie del Borneo
+  if (s >= 19) {
+    let meta = MALAYSIA_PROVINCES_META[fidClean] || (MALAYSIA_ALIASES[fidClean] ? MALAYSIA_PROVINCES_META[MALAYSIA_ALIASES[fidClean]] : undefined);
+    if (!meta) {
+      for (const m of Object.values(MALAYSIA_PROVINCES_META)) {
+        if (fidClean === m.id || fidClean === m.origId || p.id === m.id || p.NUTS_ID === m.id) {
+          meta = m;
+          break;
+        }
+      }
+    }
+    const hist = meta ? meta.historicalName : (p.HISTORICAL_NAME || p.NAME || p.name || 'British Malaya');
+    const isSingapore = fidClean === 'SG' || fidClean === 'SG01' || meta?.cntrCode === 'SG' || meta?.id === 'SG01';
+    const isBorneo = meta?.id === 'MY12' || meta?.id === 'MY13' || fidClean === 'MY12' || fidClean === 'MY13';
+
+    if (isSingapore) {
+      return makeResult(
+        'UK',
+        'Colonia della Corona di Singapore (Base Navale Imperiale di Sembawang)',
+        "Al 30 settembre 1947 Singapore costituisce una Colonia della Corona separata dal resto della penisola malese (status istituito il 1° aprile 1946 con la soppressione della BMA e lo scioglimento degli Straits Settlements). Retta dal Governatore Sir Franklin Gimson, l'isola rappresenta la principale roccaforte imperiale britannica nel Sud-Est Asiatico, imperniata sulla riattivata Base Navale di Sembawang, sui bacini di carenaggio King George VI e sui comandi del British Far East Command, mentre il porto franco riprende i traffici mercantili globali di gomma naturale e stagno.",
+        'Alleati',
+        'Crown Colony of Singapore (Governor Sir Franklin Gimson / British Far East Command)'
+      );
+    }
+
+    if (isBorneo) {
+      return makeResult(
+        'UK',
+        `${meta?.name || 'Borneo Britannico'} (Colonia della Corona Britannica del Borneo)`,
+        "Nel luglio 1946, a seguito dell'abdicazione dell'ultimo Rajah Bianco Charles Vyner Brooke a Sarawak e della cessione da parte della British North Borneo Chartered Company a Sabah, i territori del Borneo settentrionale sono stati formalmente annessi alla Corona Britannica come Colonie della Corona (Crown Colonies), rette dal Governatore Sir Charles Arden-Clarke per accelerare la ricostruzione dei pozzi petroliferi e delle piantagioni distrutte dalla guerra.",
+        'Alleati',
+        'Crown Colony of Sarawak / North Borneo (Governor Sir Charles Arden-Clarke)'
+      );
+    }
+
+    return makeResult(
+      'UK',
+      `${hist} (Unione Malese — Transizione verso la Federazione della Malesia)`,
+      "Istituita il 1° aprile 1946 sotto il governatore Sir Edward Gent per unificare i nove Sultanati malesi, Penang e Malacca in una colonia centralizzata, l'Unione Malese ha suscitato una compatta opposizione dell'aristocrazia e delle comunità malesi guidate dall'UMNO (Dato' Onn Jaafar). Al 30 settembre 1947 il governo britannico e i Sultani hanno concordato la sostituzione dell'Unione con la Federazione della Malesia (Persekutuan Tanah Melayu, formalizzata il 1° febbraio 1948), ripristinando la sovranità dei sovrani tradizionali e la tutela speciale della maggioranza malese, mentre il Partito Comunista Malese (CPM di Chin Peng) si prepara allo scontro clandestino nelle giungle.",
+      'Alleati',
+      'Malayan Union (Governor Sir Edward Gent) / Negoziati Anglo-Malesi con l\'UMNO (Dato\' Onn Jaafar)'
+    );
+  }
+
+  // STEP 18 (Settembre 1945): Resa del Giappone e Ritorno della Sovranità Britannica (BMA)
+  if (s >= 18) {
+    let meta = MALAYSIA_PROVINCES_META[fidClean] || (MALAYSIA_ALIASES[fidClean] ? MALAYSIA_PROVINCES_META[MALAYSIA_ALIASES[fidClean]] : undefined);
+    if (!meta) {
+      for (const m of Object.values(MALAYSIA_PROVINCES_META)) {
+        if (fidClean === m.id || fidClean === m.origId || p.id === m.id || p.NUTS_ID === m.id) {
+          meta = m;
+          break;
+        }
+      }
+    }
+    const hist = meta ? meta.historicalName : (p.HISTORICAL_NAME || p.NAME || p.name || 'British Malaya');
+    return makeResult(
+      'UK',
+      `${hist} (Liberata — Amministrazione Militare Britannica BMA)`,
+      "Settembre 1945: a seguito della resa incondizionata del Giappone (firmata formalmente a Singapore il 12 settembre 1945 dal generale Seishirō Itagaki dinanzi all'Ammiraglio Lord Louis Mountbatten), le forze britanniche del SEAC completano lo sbarco dell'Operazione Zipper (Penang, Singapore, Morib e Port Dickson). Si conclude il celebre 'Interregno' (Tempoh Kekosongan) durante il quale i guerriglieri comunisti dell'MPAJA (Malayan Peoples' Anti-Japanese Army guidati da Chin Peng) avevano assunto il controllo di gran parte delle città e dei distretti rurali. La British Military Administration (BMA) reincorpora l'intera penisola, inclusi i quattro stati settentrionali (Kedah, Perlis, Kelantan e Terengganu) retrocessi pacificamente dalla Thailandia.",
+      'Alleati',
+      'British Military Administration (BMA — Admiral Lord Louis Mountbatten / SEAC)'
+    );
+  }
+
   // 1. Match diretto per ID canonico in MALAYSIA_PROVINCES_META
   let meta = MALAYSIA_PROVINCES_META[fidClean];
 

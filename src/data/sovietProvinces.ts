@@ -44,6 +44,7 @@ export interface SovietProvinceInfo {
     s6: string;
     s7: string;
     s8: string;
+    [key: string]: string;
   };
   getOwner: (step: number) => string;
   getFaction: (step: number) => FactionType;
@@ -3491,9 +3492,9 @@ export const SOVIET_PROVINCES_META: Record<string, SovietProvinceInfo> = {
     id: "SOV_ADM1_RUS_55_Tuva",
     republic: "TANNU_TUVA",
     modernName: "Repubblica di Tuva",
-    historicalName: "Repubblica Popolare di Tuva (Tannu Tuva \u2014 Capitale Kyzyl)",
+    historicalName: "Repubblica Popolare di Tuva (Tannu Tuva — Capitale Kyzyl)",
     russianName: "Tyva Arat Respublika (Tuvinskaja Narodnaja Respublika)",
-    adminTitle: "Malyj Chural Tuvinskoj Narodnoj Respubliki (Sal\u010dak Toka) \u2014 Protettorato Sovietico",
+    adminTitle: "Malyj Chural Tuvinskoj Narodnoj Respubliki (Salčak Toka) — Protettorato Sovietico",
     capital: "Kyzyl",
     keys: ["adm1_rus_55_tuva", "kyzyl", "narodnaja", "repubblica", "respublika", "sov_adm1_rus_55_tuva", "tuva", "tuvinskaja"],
     notes: {
@@ -3505,12 +3506,14 @@ export const SOVIET_PROVINCES_META: Record<string, SovietProvinceInfo> = {
       s6: "Toka dichiara la totale adesione di Tuva alla linea di politica estera di Stalin e alla difesa del campo socialista.",
       s7: "Forniture di migliaia di cavalli da sella tuvani, carne essiccata, pellicce e lana per i magazzini dell'Armata Rossa.",
       s8: "Il 22 giugno 1941, a poche ore dall'attacco tedesco contro l'URSS, la Repubblica Popolare di Tuva sarà il primo stato al mondo a dichiarare formalmente guerra alla Germania nazista al fianco dell'Unione Sovietica, donando l'intera riserva aurea statale a Mosca.",
+      s16_17: "L'11 ottobre 1944 il Presidium del Soviet Supremo dell'URSS accoglie la richiesta della VII sessione del Piccolo Chural di Tuva: la Repubblica Popolare cessa di esistere come stato sovrano e viene formalmente annessa all'Unione Sovietica come Oblast' Autonoma di Tuva (Tuvinskaja Avtonomnaja Oblast') all'interno della RSFSR. Il primo segretario Salčak Toka guida l'integrazione politica ed economica nell'URSS.",
     },
-    getOwner: (_step: number) => 'TUV',
+    getOwner: (step: number) => (step >= 16 ? 'SOV' : 'TUV'),
     getFaction: (_step: number) => 'Comintern',
-    getHistoricalName: (_step: number) => 'Repubblica Popolare di Tuva (Tannu Tuva / Kyzyl)',
-    getAdminTitle: (_step: number) => 'Tyva Arat Respublika — Protettorato Alleato Sovietico',
+    getHistoricalName: (step: number) => (step >= 16 ? "Oblast' Autonoma di Tuva (RSFSR / URSS — Annessione 11 Ottobre 1944)" : 'Repubblica Popolare di Tuva (Tannu Tuva / Kyzyl)'),
+    getAdminTitle: (step: number) => (step >= 16 ? "Tuvinskaya Avtonomnaya Oblast' (RSFSR — Segretario Salčak Toka)" : 'Tyva Arat Respublika — Protettorato Alleato Sovietico'),
     getNote: function(step: number) {
+      if (step >= 16) return (this.notes as any).s16_17;
       if (step <= 0) return this.notes.s0;
       if (step === 1) return this.notes.s1;
       if (step === 2) return this.notes.s2;
@@ -8312,6 +8315,61 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getOwner = (step: number): string => {
     if (step < 9) return origGetOwner(step);
+    if (step >= 14) {
+      if (step >= 16 && pid === 'SOV_ADM1_RUS_55_Tuva') {
+        return 'SOV';
+      }
+      if (pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea' || pid === 'SOV_ADM1_UKR_99_Sevastopol') {
+        return 'SOV'; // Crimea e Sebastopoli interamente liberate il 12 maggio 1944
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'SOV'; // Kuban' interamente liberato
+      }
+      if (
+        SOVIET_RKU_UKRAINE_IDS.has(pid) ||
+        SOVIET_ROM_TRANSNISTRIA_IDS.has(pid) ||
+        SOVIET_ROM_BUKOVINA_IDS.has(pid) ||
+        pid === 'SOV_ADM1_UKR_83_Chernihiv_Oblast' ||
+        pid === 'SOV_ADM1_UKR_84_Sumy_Oblast' ||
+        pid === 'SOV_ADM1_UKR_85_Kharkiv_Oblast' ||
+        pid === 'SOV_ADM1_UKR_86_Luhansk_Oblast' ||
+        pid === 'SOV_ADM1_UKR_87_Donetsk_Oblast' ||
+        pid === 'SOV_ADM1_UKR_88_Zaporizhia_Oblast' ||
+        pid === 'SOV_ADM1_UKR_95_Poltava_Oblast'
+      ) {
+        return 'SOV'; // Ucraina della riva destra e Odessa liberate (offensiva Dniepr-Carpazi)
+      }
+      if (
+        pid === 'SOV_ADM1_RUS_16_Pskov_Oblast' ||
+        pid === 'SOV_ADM1_RUS_45_Novgorod_Oblast' ||
+        pid === 'SOV_NW_RUS_258_Tusina_District' ||
+        pid === 'SOV_NW_RUS_260_Slantsevsky_District' ||
+        pid === 'SOV_NW_RUS_263_Gatchinsky_District' ||
+        pid === 'SOV_NW_RUS_280_Korotka_District' ||
+        pid === 'SOV_NW_RUS_293_Volosovsky_District' ||
+        pid === 'SOV_NW_RUS_304_Kirishsky_District' ||
+        pid === 'SOV_NW_RUS_306_Jaama_District' ||
+        pid === 'SOV_NW_RUS_307_Luzhsky_District'
+      ) {
+        if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast') {
+          return step >= 15 ? 'SOV' : 'GER'; // Pskov liberata il 23 luglio 1944 (Offensiva Pskov-Ostrov, 3° Fronte Baltico)
+        }
+        return 'SOV'; // Settore di Leningrado liberato (fine assedio gennaio 1944)
+      }
+      if (
+        pid === 'SOV_ADM1_BLR_100_Gomel' ||
+        pid === 'SOV_ADM1_BLR_101_Vitebsk' ||
+        pid === 'SOV_ADM1_BLR_102_Mogilev'
+      ) {
+        return 'SOV'; // Operazione Bagration (sacche di Vitebsk e Bobrujsk distrutte)
+      }
+      if (pid === 'SOV_ADM1_BLR_103_Minsk') {
+        return step >= 15 ? 'SOV' : 'GER'; // Minsk cade il 3 luglio 1944 (al 30 giugno ancora tedesca, ad agosto 1944 liberata)
+      }
+      if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+        return 'SOV'; // Carelia Orientale liberata dall'offensiva sovietica
+      }
+    }
     if (step >= 13) {
       if (
         pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast' ||
@@ -8345,7 +8403,7 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       }
     }
     if (step === 11 && isKessel) return 'GER';
-    if (pid === 'SOV_ADM1_RUS_55_Tuva') return 'TUV';
+    if (pid === 'SOV_ADM1_RUS_55_Tuva') return step >= 16 ? 'SOV' : 'TUV';
     if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid) || SOVIET_ROM_BUKOVINA_IDS.has(pid)) return 'ROM';
     if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) return 'FIN';
     if (
@@ -8372,6 +8430,51 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getAdminTitle = (step: number): string => {
     if (step < 9) return origGetAdmin(step);
+    if (step >= 14) {
+      if (step >= 16 && pid === 'SOV_ADM1_RUS_55_Tuva') {
+        return "Tuvinskaya Avtonomnaya Oblast' (RSFSR — Segretario Salčak Toka)";
+      }
+      if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
+        return 'Sevastopol\'skij Gorsovet & Base Principale Flotta del Mar Nero — URSS (Liberata il 9 Maggio 1944)';
+      }
+      if (pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
+        return 'Krymskij Oblispolkom — RSFSR/URSS (Offensiva di Crimea, Resa Asse a Capo Chersoneso, 12 Maggio 1944)';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Krasnodarskij Krajispolkom — RSFSR (URSS) — Kuban\' e Taman\' Completamente Liberati';
+      }
+      if (pid === 'SOV_ADM1_UKR_195_Odessa_City') {
+        return 'Odesskij Gorsovet — RSS Ucraina (URSS) — Liberata il 10 Aprile 1944 (Offensiva Dniepr-Carpazi)';
+      }
+      if (SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
+        return 'Amministrazione Sovietica — RSS Ucraina (URSS) — Governatorato di Transnistria Cancellato';
+      }
+      if (SOVIET_ROM_BUKOVINA_IDS.has(pid)) {
+        return 'Černovickij Oblispolkom — RSS Ucraina (URSS) — Bucovina Settentrionale Liberata (Marzo 1944)';
+      }
+      if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
+        return 'Amministrazione Regionale Sovietica — RSS Ucraina (URSS) — Reichskommissariat Ukraine Cancellato';
+      }
+      if (pid === 'SOV_ADM1_BLR_101_Vitebsk') {
+        return '1° Fronte Baltico (Bagramjan) & 3° Bielorusso (Černjachovskij) — Vitebskij Oblispolkom BSSR (Sacca Distrutta il 27 Giugno 1944)';
+      }
+      if (pid === 'SOV_ADM1_BLR_102_Mogilev') {
+        return '1° Fronte Bielorusso (Rokossovskij) & 2° Bielorusso (Zacharov) — Mogilëvskij Oblispolkom BSSR (Sacca di Bobrujsk Distrutta il 29 Giugno 1944)';
+      }
+      if (pid === 'SOV_ADM1_BLR_103_Minsk') {
+        return step >= 15
+          ? 'Minskij Gorsovet & BSSR — Capitale della Bielorussia Liberata dall\'Armata Rossa (3 Luglio 1944)'
+          : 'Generalkommissar Weißruthenien — Reichskommissariat Ostland (Accerchiamento Sovietico Imminente, Giugno 1944)';
+      }
+      if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+        return 'Karelo-Finskaja SSR (URSS) — Fronte Careliano (Gen. Mereckov — Petrozavodsk Liberata il 28 Giugno 1944)';
+      }
+      if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast') {
+        return step >= 15
+          ? 'Pskovskij Oblispolkom — RSFSR (URSS) — Liberata dal 3° Fronte Baltico il 23 Luglio 1944 (Offensiva Pskov-Ostrov)'
+          : 'Operationsgebiet Ost — Heeresgebiet Nord (Wehrmacht — Linea Panther)';
+      }
+    }
     if (step >= 13) {
       if (pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast') {
         return 'Smolenskij Oblispolkom — RSFSR (URSS) — Liberata dall\'Armata Rossa il 25 Settembre 1943 (Operazione Suvorov)';
@@ -8399,6 +8502,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       }
       if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
         return 'Kuban-Brückenkopf (Penisola di Taman\') — Evacuazione Marittima Tedesca in Crimea (Operazione Krimhild, Settembre 1943)';
+      }
+      if (pid === 'SOV_ADM1_BLR_100_Gomel') {
+        return 'Gomel\'skij Oblispolkom — BSSR (URSS) — Liberata dall\'Armata Rossa (26 Novembre 1943)';
       }
     }
     if (step >= 12) {
@@ -8504,7 +8610,50 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getHistoricalName = (step: number): string => {
     if (step < 9) return origGetHistName(step);
+    if (step >= 16 && pid === 'SOV_ADM1_RUS_55_Tuva') {
+      return "Oblast' Autonoma di Tuva (RSFSR / URSS — Annessione 11 Ottobre 1944)";
+    }
     const base = origGetHistName(8);
+    if (step >= 14) {
+      if (pid === 'SOV_ADM1_UKR_99_Sevastopol') {
+        return 'Sevastopol\' (Città Eroe Liberata — 9-12 Maggio 1944)';
+      }
+      if (pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
+        return 'RSSA di Crimea (Interamente Liberata dall\'Armata Rossa — Maggio 1944)';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Krasnodar e Penisola di Taman\' (Kuban\' Interamente Liberato — URSS)';
+      }
+      if (pid === 'SOV_ADM1_UKR_195_Odessa_City') {
+        return 'Odessa (Città Eroe Liberata — Offensiva Dniepr-Carpazi, 10 Aprile 1944)';
+      }
+      if (pid === 'SOV_MASSR_310_Transnistria' || SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
+        return `${item.capital} (Regione di Odessa / Transnistria Liberata — URSS)`;
+      }
+      if (SOVIET_ROM_BUKOVINA_IDS.has(pid)) {
+        return 'Bucovina Settentrionale (Černivci Liberata — 29 Marzo 1944)';
+      }
+      if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
+        return `${item.modernName} (Ucraina della Riva Destra Liberata — URSS)`;
+      }
+      if (pid === 'SOV_ADM1_BLR_101_Vitebsk') {
+        return 'Oblast di Vitebsk (Operazione Bagration — Sacca Tedesca Distrutta il 27 Giugno 1944)';
+      }
+      if (pid === 'SOV_ADM1_BLR_102_Mogilev') {
+        return 'Oblast di Mogilëv e Bobrujsk (Operazione Bagration — Sacca di Bobrujsk Annientata il 29 Giugno 1944)';
+      }
+      if (pid === 'SOV_ADM1_BLR_103_Minsk') {
+        return step >= 15
+          ? 'Minsk (Capitale della BSSR Liberata — 3 Luglio 1944)'
+          : 'Minsk (RKO Weißruthenien — Accerchiamento Imminente Operazione Bagration)';
+      }
+      if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+        return 'Carelia Orientale (Petrozavodsk Liberata il 28 Giugno 1944 — Fronte Careliano)';
+      }
+      if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast' && step >= 15) {
+        return 'Pskov (Liberata dal 3° Fronte Baltico — 23 Luglio 1944)';
+      }
+    }
     if (step >= 13) {
       if (pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast') {
         return 'Oblast di Smolensk (Liberata dall\'Armata Rossa — Operazione Suvorov, 25 Settembre 1943)';
@@ -8532,6 +8681,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       }
       if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
         return 'Testa di Ponte del Kuban\' (Taman\' — Evacuazione Marittima Tedesca Operazione Krimhild)';
+      }
+      if (pid === 'SOV_ADM1_BLR_100_Gomel') {
+        return 'Oblast di Gomel\' (Liberata dall\'Armata Rossa — 26 Novembre 1943)';
       }
     }
     if (step >= 12) {
@@ -8669,6 +8821,41 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getNote = (step: number): string => {
     if (step < 9) return origGetNote(step);
+    if (step >= 14) {
+      if (pid === 'SOV_ADM1_UKR_99_Sevastopol' || pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
+        return 'La penisola di Crimea e la leggendaria fortezza di Sebastopoli sono state interamente liberate nel maggio 1944 dall\'offensiva congiunta del 4° Fronte Ucraino (gen. Tolbuchin) e dell\'Armata Costiera Indipendente: dopo l\'assalto al monte Sapun il 9 maggio è caduta Sebastopoli e il 12 maggio le ultime truppe dell\'Asse sono state annientate o catturate a Capo Chersoneso, con oltre 60.000 prigionieri.';
+      }
+      if (pid === 'SOV_ADM1_RUS_39_Krasnodar_Krai') {
+        return 'Territorio del Kuban\' e penisola di Taman\' integralmente liberati; le retrovie sovietiche del Caucaso e del Mar Nero sono saldamente pacifiche e operano a pieno regime per sostenere l\'avanzata nei Balcani.';
+      }
+      if (pid === 'SOV_ADM1_UKR_195_Odessa_City' || SOVIET_ROM_TRANSNISTRIA_IDS.has(pid)) {
+        return 'Il 10 aprile 1944 le truppe del 3° Fronte Ucraino del generale Rodion Malinovskij liberano la città eroe di Odessa; il Governatorato romeno della Transnistria è definitivamente cancellato e l\'Armata Rossa raggiunge il fiume Dnestr e il confine romeno.';
+      }
+      if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
+        return 'L\'Ucraina della riva destra è stata completamente liberata tra l\'inverno e la primavera del 1944 durante la grandiosa offensiva strategica Dniepr-Carpazi (Fronti Ucraini di Vatutin, Žukov, Konev, Malinovskij): il Reichskommissariat Ukraine di Erich Koch è stato polverizzato e le armate sovietiche sono giunte ai piedi dei Carpazi e ai confini della Galizia e della Romania.';
+      }
+      if (pid === 'SOV_ADM1_BLR_101_Vitebsk') {
+        return 'Scattata il 22-23 giugno 1944 nel terzo anniversario dell\'Operazione Barbarossa, l\'Operazione Bagration squarcia l\'Heeresgruppe Mitte della Wehrmacht: il 27 giugno 1944 le forze del 1° Fronte Baltico (Bagramjan) e del 3° Fronte Bielorusso (Černjachovskij) distruggono la sacca di Vitebsk annientando cinque divisioni del LIII Corpo d\'Armata tedesco.';
+      }
+      if (pid === 'SOV_ADM1_BLR_102_Mogilev') {
+        return 'Il 28 giugno 1944 il 2° Fronte Bielorusso di Zacharov libera Mogilëv forzando il Dniepr, mentre il 29 giugno 1944 il 1° Fronte Bielorusso di Rokossovskij liquida la sacca di Bobrujsk intrappolando e distruggendo la 9ª Armata tedesca con la cattura di 20.000 prigionieri.';
+      }
+      if (pid === 'SOV_ADM1_BLR_103_Minsk') {
+        if (step >= 15) {
+          return 'Liberata il 3 luglio 1944 dalle forze congiunte del 3° Fronte Bielorusso (Černjachovskij) e del 1° Fronte Bielorusso (Rokossovskij); la 4ª Armata tedesca viene completamente accerchiata e distrutta a est della città (sacca di Minsk con oltre 100.000 soldati della Wehrmacht caduti o catturati), segnando il tracollo irreversibile dell\'Heeresgruppe Mitte.';
+        }
+        return 'Al 30 giugno 1944 le colonne corazzate sovietiche di Černjachovskij da nord e di Rokossovskij da sud-est convergono a tenaglia verso Minsk dopo aver annientato i fianchi dell\'Heeresgruppe Mitte a Vitebsk e Bobrujsk; la capitale bielorussa cadrà il 3 luglio 1944 chiudendo in trappola l\'intera 4ª Armata tedesca a est della città.';
+      }
+      if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+        return 'Offensiva sovietica Vyborg-Petrozavodsk: lanciata il 10 giugno 1944, l\'operazione travolge le difese finlandesi sull\'istmo (Viipuri cade il 20 giugno) e costringe le truppe di Mannerheim a evacuare la Carelia orientale; il 28 giugno 1944 il Fronte Careliano del generale Mereckov libera la capitale Petrozavodsk.';
+      }
+      if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast') {
+        if (step >= 15) {
+          return 'Il 23 luglio 1944 le truppe del 3° Fronte Baltico dell\'Armata Rossa espugnano Pskov e Ostrov (Offensiva Pskov-Ostrov), infrangendo il caposaldo settentrionale della linea fortificata tedesca Panther e aprendo la via di liberazione per gli Stati Baltici.';
+        }
+        return 'Occupata dalla Wehrmacht dal luglio 1941; la fortezza di Pskov costituisce il pilastro settentrionale della Linea Panther a sbarramento delle direttrici verso gli Stati Baltici.';
+      }
+    }
     if (step >= 13) {
       if (pid === 'SOV_ADM1_RUS_53_Smolensk_Oblast') {
         return 'Il 25 settembre 1943 l\'Armata Rossa libera la storica porta d\'accesso a ovest di Mosca (Operazione Suvorov): le armate del Fronte Occidentale di Sokolovskij travolgono la linea Hagen della Wehrmacht e riprendono Smolensk sul Dniepr.';
@@ -8687,6 +8874,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       }
       if (pid === 'SOV_ADM1_RUS_48_Oryol_Oblast') {
         return 'Liberata il 5 agosto 1943 durante l\'Operazione Kutuzov; il saliente di Orel è stato interamente cancellato e la Wehrmacht è stata costretta a ripiegare oltre Brjansk.';
+      }
+      if (pid === 'SOV_ADM1_BLR_100_Gomel') {
+        return 'Liberata il 26 novembre 1943 dalle armate del Fronte Bielorusso del generale Konstantin Rokossovskij (Offensiva di Gomel\'-Rečica); primo capoluogo regionale della Bielorussia liberato dall\'occupazione tedesca e strategico nodo ferroviario riattivato dall\'Armata Rossa.';
       }
     }
     if (step >= 12) {
@@ -8826,6 +9016,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
     }
     if (pid === 'SOV_ADM1_RUS_20_Samara_Oblast') {
       return 'Dall\'ottobre 1941 Kujbyšev (Samara) sul Volga svolge il ruolo di "Capitale di Riserva Bellica dell\'URSS" per decreto del GKO: vi sono stati evacuati il corpo diplomatico straniero, parte del Sovnarkom, il Teatro Bol\'šoj (dove Šostakovič completa il 27 dicembre la Settima Sinfonia "Leningrado") e le grandi fabbriche aeronautiche che producono a ciclo continuo gli aerei d\'attacco corazzati Il\'jušin Il-2 Šturmovik.';
+    }
+    if (pid === 'SOV_ADM1_RUS_55_Tuva' && step >= 16) {
+      return "L'11 ottobre 1944 il Presidium del Soviet Supremo dell'URSS accoglie la richiesta della VII sessione del Piccolo Chural di Tuva: la Repubblica Popolare cessa di esistere come stato sovrano e viene formalmente annessa all'Unione Sovietica come Oblast' Autonoma di Tuva (Tuvinskaja Avtonomnaja Oblast') all'interno della RSFSR. Il primo segretario Salčak Toka guida l'integrazione politica ed economica nell'URSS.";
     }
     return `${ origGetNote(8) } Nel dicembre 1941 la regione partecipa allo sforzo bellico totale della Grande Guerra Patriottica, accogliendo le industrie belliche e i milioni di lavoratori evacuati dall'ovest (Evakuacija) e inviando divisioni fresche, armamenti, carburante e viveri per la controffensiva sovietica davanti a Mosca.`;
   };

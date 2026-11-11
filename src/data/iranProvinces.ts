@@ -553,6 +553,15 @@ const IRAN_UK_SOUTH_ZONE = new Set([
 ]);
 
 function resolveIranMetaAtStep(meta: IranProvinceInfo, s: number): ResolvedTerritory {
+  if (s >= 19) {
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Sovranità Restaurata)`,
+      `${meta.nutsName} · Piena sovranità iraniana restaurata dopo lo sgombero delle truppe britanniche (marzo 1946), il ritiro sovietico dall'Iran settentrionale (maggio 1946) e la riconquista governativa dell'Azerbaigian iraniano e di Mahabad (dicembre 1946). Sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam, l'Iran affronta al Majlis il rifiuto della concessione petrolifera sovietica del nord difendendo la propria integrità territoriale.`,
+      'Neutrale',
+      `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi (P.M. Ahmad Qavam)`
+    );
+  }
   if (s >= 9) {
     if (IRAN_SOV_NORTH_ZONE.has(meta.id)) {
       return makeResult(
@@ -610,16 +619,20 @@ export function resolveIranProvince(ft: any, s: number): ResolvedTerritory {
   }
 
   const fallbackName = p.NAME || p.HISTORICAL_NAME || "Impero dell'Iran (Persia)";
-  const fallbackAdmin = s >= 9
+  const fallbackAdmin = s >= 19
+    ? "Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell'Iran (Mohammad Reza Pahlavi · Ahmad Qavam)"
+    : s >= 9
     ? "Keshvar-e Shāhanshāhi-ye Irān — Corridoio Persiano Anglo-Sovietico (Mohammad Reza Pahlavi)"
     : (p.ADMIN || "Keshvar-e Shāhanshāhi-ye Irān (Impero dell'Iran)");
-  const fallbackNote = s >= 9
+  const fallbackNote = s >= 19
+    ? "Stato Imperiale dell'Iran pienamente sovrano dopo il ritiro delle forze anglo-sovietiche nel 1946 e il ristabilimento dell'autorità di Teheran su tutto il territorio nazionale sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam."
+    : s >= 9
     ? "Impero dell'Iran spartito in zone di sicurezza militare tra Unione Sovietica (settore nord) e Regno Unito (settore sud) dopo l'Operazione Countenance (agosto-settembre 1941) per assicurare il Corridoio Persiano dei rifornimenti Alleati."
     : s >= 8
     ? "Impero dell'Iran sotto il regno di Reza Shah Pahlavi; neutrale all'inizio delle ostilità mondiali."
     : "Impero dell'Iran (Dinastia Pahlavi) — Stato sovrano guidato da Reza Shah Pahlavi con capitale a Teheran; neutrale e impegnato nella modernizzazione infrastrutturale (Ferrovia Trans-Iraniana).";
 
-  return makeResult('IRN', fallbackName, fallbackNote, s >= 9 ? 'Alleati' : 'Neutrale', fallbackAdmin);
+  return makeResult('IRN', fallbackName, fallbackNote, s >= 19 ? 'Neutrale' : s >= 9 ? 'Alleati' : 'Neutrale', fallbackAdmin);
 }
 
 export function _legacyResolveIranProvinceUnused(ft: any, s: number): ResolvedTerritory {

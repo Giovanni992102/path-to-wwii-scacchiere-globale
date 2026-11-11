@@ -1158,6 +1158,331 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
     ],
     activeSteps: [13],
   },
+  {
+    id: 'albert_trasimeno_line_1944',
+    name: 'Linea Albert / Trasimeno (Albert-Linie)',
+    nation: 'Germania (Wehrmacht) / RSI',
+    builder: 'Generalfeldmarschall Albert Kesselring / 14. Armee & 10. Armee',
+    description:
+      'Linea difensiva campale allestita dalla Wehrmacht a fine giugno 1944 dopo la caduta di Roma per ritardare l\'avanzata alleata e guadagnare tempo vitale per il consolidamento della Linea Gotica. Corre dal litorale tirrenico di Cecina attraverso le colline di Siena, Chiusi e il Lago Trasimeno fino ad Ancona sull\'Adriatico.',
+    type: 'field',
+    color: '#8b8f94',
+    coordinates: [
+      [10.52, 43.31], // Foce del Cecina (Tirreno)
+      [11.05, 43.10], // Colline a sud-ovest di Siena / Chiusdino
+      [11.94, 43.01], // Chiusi / Valdichiana
+      [12.10, 43.13], // Lago Trasimeno (Castiglione del Lago - Passignano)
+      [12.60, 43.35], // Dorsale Appenninica / Gubbio
+      [13.51, 43.61], // Ancona / Monte Conero (Adriatico)
+    ],
+    keyForts: [
+      { name: 'Sbarramento del Lago Trasimeno', coords: [12.13, 43.15], desc: 'Posizioni d\'arresto del XIV. Panzerkorps che inchiodarono la British 8th Army e la 6th South African Armoured Division.' },
+      { name: 'Caposaldo di Chiusi', coords: [11.94, 43.01], desc: 'Baluardo collinare difeso con estremo accanimento dal 1. Fallschirmjäger-Regiment contro gli Alleati.' },
+      { name: 'Piazzaforte Costiera di Ancona', coords: [13.51, 43.61], desc: 'Ancoraggio adriatico e porto strategico minato dalla Wehrmacht a sbarramento del 2° Corpo d\'Armata Polacco del gen. Władysław Anders.' },
+    ],
+    activeSteps: [14],
+  },
+  {
+    id: 'vkt_line_finland_1944',
+    name: 'Linea VKT (Viipuri–Kuparsaari–Taipale)',
+    nation: 'Finlandia',
+    builder: 'Maresciallo Carl Gustaf Emil Mannerheim / Suomen maavoimat',
+    description:
+      'Linea difensiva principale allestita dall\'esercito finlandese sull\'istmo di Carelia dopo la rottura delle linee anteriori e la perdita di Viipuri (20 giugno 1944). Si snoda dalla baia di Viipuri attraverso Kuparsaari lungo il sistema fluviale del Vuoksi fino a Taipale sul Lago Ladoga, teatro della decisiva battaglia difensiva di Tali-Ihantala.',
+    type: 'field',
+    color: '#4c6a9c',
+    coordinates: [
+      [28.75, 60.71], // Viipuri (Vyborg)
+      [29.25, 60.65], // Kuparsaari
+      [29.80, 60.60], // Fiume Vuoksi (Vuosalmi)
+      [30.50, 60.62], // Taipale / Lago Ladoga
+    ],
+    keyForts: [
+      { name: 'Sbarramento di Ihantala', coords: [28.84, 60.79], desc: 'Settore a nord di Viipuri dove la massiccia concentrazione dell\'artiglieria finlandese fermò le divisioni corazzate sovietiche nella battaglia di Tali-Ihantala.' },
+      { name: 'Testa di Ponte di Vuosalmi', coords: [29.80, 60.60], desc: 'Tratto conteso del fiume Vuoksi difeso dalla 2ª Divisione finlandese e dalla divisione corazzata del generale Ruben Lagus.' },
+    ],
+    activeSteps: [14],
+  },
+  {
+    id: 'gothic_line_1944',
+    name: 'Linea Gotica (Gotenstellung / Linea Verde)',
+    nation: 'Germania (Wehrmacht) / RSI',
+    builder: 'Generalfeldmarschall Albert Kesselring / Organizzazione Todt',
+    description:
+      'Ultima colossale linea difensiva campale e permanente allestita dalla Wehrmacht in Italia, estesa per oltre 300 km lungo la dorsale dell\'Appennino tosco-emiliano dal Mar Tirreno (Massa, Carrara, Montignoso) attraverso le Alpi Apuane, la Garfagnana, il Passo della Futa e l\'Appennino romagnolo fino a Pesaro e Rimini sull\'Adriatico. Fortificata dall\'Organizzazione Todt con migliaia di bunker in calcestruzzo, torrette di carro armato Panther interrate (Panzerturm), trincee coperte e reticolati anticarro; teatro dell\'offensiva alleata Operazione Olive a fine agosto 1944.',
+    type: 'heavy',
+    color: '#8b8f94',
+    coordinates: [
+      [10.14, 44.04], // Foce del Cinquale / Massa (Tirreno)
+      [10.40, 44.15], // Castelnuovo di Garfagnana / Alpi Apuane
+      [11.00, 44.05], // San Marcello Pistoiese / Porretta Terme
+      [11.27, 44.09], // Passo della Futa / Giogo di Scarperia (Statale 65)
+      [11.60, 44.18], // Firenzuola / Valle del Santerno
+      [12.00, 43.95], // Passo dei Mandrioli / Bagno di Romagna
+      [12.60, 43.85], // Valle del Foglia / Montecchio
+      [12.91, 43.91], // Pesaro / Foglia (Adriatico)
+    ],
+    keyForts: [
+      { name: 'Panzerturm della Valle del Foglia', coords: [12.60, 43.85], desc: 'Torrette corazzate di carro Panther interrate in casematte di cemento armato a sbarramento della valle del Foglia verso Pesaro.' },
+      { name: 'Complesso Fortificato del Passo della Futa', coords: [11.27, 44.09], desc: 'Pilastro centrale della linea a guardia del valico appenninico principale verso Bologna, munito di reticolati, fossati anticarro e nidi di mitragliatrici.' },
+      { name: 'Caposaldo Costiero di Pesaro', coords: [12.91, 43.91], desc: 'Terminale adriatico pesantemente minato investito dall\'8ª Armata britannica e dal 2° Corpo Polacco nell\'Operazione Olive.' },
+      { name: 'Sbarramento del Cinquale e Alpi Apuane', coords: [10.14, 44.04], desc: 'Baluardo costiero tirrenico e postazioni d\'artiglieria scavate nelle vette di marmo apuane a difesa di Massa e Carrara.' },
+    ],
+    activeSteps: [14, 15, 16],
+  },
+  {
+    id: 'shuri_line_okinawa_1945',
+    name: 'Linea Shuri (Okinawa — Baluardo della 32ª Armata Giapponese)',
+    nation: 'Giappone (Dai Nippon Teikoku / 32ª Armata IJA)',
+    builder: 'Ten. Gen. Mitsuru Ushijima / Ten. Gen. Isamu Chō / Col. Hiromichi Yahara',
+    description:
+      'Formidabile sistema fortificato sotterraneo e montano scavato nel calcare corallino del sud di Okinawa, imperniato sul Castello di Shuri e sui crinali di Kakazu, Sugar Loaf e Conical Hill. Dotato di chilometri di gallerie sotterranee, bunker in cemento armato collegati e casematte d\'artiglieria scavate in roccia viva capaci di resistere ai bombardamenti aeronavali americani.',
+    type: 'heavy',
+    color: '#b03030',
+    coordinates: [
+      [127.67, 26.26], // Machinato / Kakazu Ridge
+      [127.71, 26.24], // Sugar Loaf / Naha nord
+      [127.73, 26.22], // Shuri Castle (Quartier Generale)
+      [127.76, 26.21], // Conical Hill / Yonabaru (Baia di Nakagusuku)
+    ],
+    keyForts: [
+      { name: 'Complesso Ipogeo del Castello di Shuri', coords: [127.73, 26.22], desc: 'Quartier generale sotterraneo della 32ª Armata scavato a decine di metri sotto le antiche mura del castello reale delle Ryūkyū.' },
+      { name: 'Crinale di Kakazu (Kakazu Ridge)', coords: [127.67, 26.26], desc: 'Bastione roccioso avanzato a nido d\'aquila dove i difensori giapponesi respinsero ripetuti assalti della 96ª Divisione di Fanteria USA con un massiccio volume di fuoco di mortai pesanti.' },
+      { name: 'Collina Sugar Loaf', coords: [127.71, 26.24], desc: 'Poggio isolato difeso da postazioni incrociate di mitragliatrici che cambiò mano oltre dieci volte durante l\'assalto della 6ª Divisione Marines.' },
+    ],
+    activeSteps: [17],
+  },
+  {
+    id: 'berlin_defense_ring_1945',
+    name: 'Perimetro Difensivo di Berlino (Verteidigungsbereich Berlin)',
+    nation: 'Germania (Wehrmacht / Waffen-SS / Volkssturm)',
+    builder: 'Generale Helmuth Weidling / Gauleiter Joseph Goebbels / Organizzazione Todt',
+    description:
+      'Cintura difensiva concentrica allestita attorno alla capitale del Reich, articolata sull\'anello esterno dei laghi e canali di Havel e Spree, sulla ferrovia circolare urbana (S-Bahn Ring) e sulla cittadella centrale del Settore Z (Regierungsviertel con la Cancelleria del Reich e il Reichstag). Presidiata da reparti regolari, formazioni Waffen-SS straniere (Charlemagne, Nordland), Volkssturm e Hitlerjugend muniti di Panzerfaust e cannoni FlaK da 88 e 128 mm delle gigantesche Torri Flakturm.',
+    type: 'heavy',
+    color: '#63666a',
+    coordinates: [
+      [13.25, 52.55], // Spandau / Havel nord
+      [13.40, 52.58], // Pankow
+      [13.52, 52.52], // Lichtenberg
+      [13.45, 52.45], // Tempelhof / Neukölln
+      [13.25, 52.48], // Schöneberg / Grunewald
+      [13.25, 52.55], // Chiusura anello a Spandau
+    ],
+    keyForts: [
+      { name: 'Flakturm Zoo (Torre Antiaerea del Giardino Zoologico)', coords: [13.33, 52.51], desc: 'Colossale fortezza in cemento armato con 4 torrette binate da 128 mm e rifugi corazzati per 15.000 civili, invulnerabile all\'artiglieria sovietica fino alla resa.' },
+      { name: 'Flakturm Humboldthain', coords: [13.38, 52.54], desc: 'Torre FlaK nel nord di Berlino che fornì fuoco d\'appoggio pesante fino agli ultimi giorni della battaglia urbana.' },
+      { name: 'Baluardo del Reichstag e Piazza Königsplatz', coords: [13.37, 52.51], desc: 'Edificio storico fortificato a fortezza con finestre murate, trincee anticarro e reticolati, teatro dell\'epico assalto della 150ª Divisione Fucilieri sovietica.' },
+      { name: 'Führerbunker della Reichskanzlei', coords: [13.38, 52.51], desc: 'Bunker sotterraneo a due livelli sotto il giardino della Nuova Cancelleria del Reich, ultimo rifugio e luogo del suicidio di Adolf Hitler (30 aprile 1945).' },
+    ],
+    activeSteps: [17],
+  },
+  {
+    id: 'festung_breslau_perimeter_1945',
+    name: 'Cintura Trincerata di Festung Breslau',
+    nation: 'Germania (Wehrmacht / Volkssturm)',
+    builder: 'Generalleutnant Hermann Niehoff / Gauleiter Karl Hanke',
+    description:
+      'Perimetro difensivo circolare fortificato attorno alla città di Breslavia (Bassa Slesia), tagliata fuori e assediata dall\'Armata Rossa dal 15 febbraio al 6 maggio 1945. Barricate di macerie, bunker urbani, casematte improvvisate lungo l\'Oder e pista d\'atterraggio d\'emergenza ricavata radendo al suolo la Kaiserstraße.',
+    type: 'medium',
+    color: '#808080',
+    coordinates: [
+      [16.95, 51.15],
+      [17.10, 51.15],
+      [17.12, 51.05],
+      [16.95, 51.05],
+      [16.95, 51.15],
+    ],
+    keyForts: [
+      { name: 'Pista Aerea Corazzata della Kaiserstraße', coords: [17.06, 51.11], desc: 'Striscia d\'atterraggio d\'emergenza di 1 km ricavata dai genieri demolendo a colpi di dinamite centinaia di palazzi storici sotto il fuoco d\'artiglieria sovietico.' },
+      { name: 'Capisaldi della Festungsfront Oder', coords: [17.03, 51.11], desc: 'Nidi di mitragliatrici pesanti e postazioni anticarro allestiti sui ponti e lungo le sponde del fiume Oder a sbarramento delle colonne corazzate sovietiche.' },
+    ],
+    activeSteps: [17],
+  },
+  {
+    id: 'oder_neisse_line_1945',
+    name: 'Linea Oder-Neisse (Confine Tedesco-Polacco post-Potsdam)',
+    nation: 'Polonia / Repubblica di Polonia & Consiglio di Controllo Alleato',
+    builder: 'Conferenza di Potsdam (Accordi di Truman, Stalin e Attlee — Agosto 1945)',
+    description:
+      'Nuova frontiera di demarcazione tra Germania occupata e Polonia stabilita alla Conferenza di Potsdam: corre lungo i fiumi Oder e Neisse Lusaziano dal Mar Baltico a nord di Stettino fino al confine cecoslovacco. Tutti i territori a est (Pomerania orientale, Slesia e Brandeburgo orientale) passano sotto amministrazione civile polacca.',
+    type: 'heavy',
+    color: '#d44242',
+    coordinates: [
+      [14.28, 53.92],
+      [14.43, 53.55],
+      [14.38, 53.02],
+      [14.24, 52.85],
+      [14.45, 52.62],
+      [14.61, 52.33],
+      [14.73, 52.05],
+      [14.71, 51.75],
+      [14.98, 51.52],
+      [15.02, 51.15],
+      [14.82, 50.88],
+    ],
+    keyForts: [
+      { name: 'Snodo di Świnoujście / Usedom', coords: [14.28, 53.92], desc: 'Sbocco marittimo fortificato sul Baltico e laguna di Stettino presidiato dalla guardia di frontiera polacca.' },
+      { name: 'Confluenza Oder-Neisse a Ratzdorf', coords: [14.73, 52.05], desc: "Punto nevralgico di confluenza tra l'Oder e la Neisse Lusaziana a delimitazione della zona di occupazione sovietica e dei territori polacchi." },
+      { name: 'Triplice Frontiera di Zittau', coords: [14.82, 50.88], desc: "Caposaldo meridionale della linea di confine all'intersezione tra Germania, Polonia e Cecoslovacchia." },
+    ],
+    activeSteps: [18, 19],
+  },
+  {
+    id: 'morgan_line_1945',
+    name: 'Linea Morgan (Demarcazione della Venezia Giulia — Duino 9 Giugno 1945)',
+    nation: 'Governo Militare Alleato (AMG) & Jugoslavia (VUJA)',
+    builder: 'Ten. Gen. Sir William Morgan & Magg. Gen. Vladimir Stojković',
+    description:
+      'Linea di demarcazione provvisoria concordata a Duino il 9 giugno 1945: separa la Zona A sotto amministrazione militare anglo-americana (AMG: Trieste, fascia costiera fino a Duino, Monfalcone, Gorizia e l\'enclave di Pola) dalla Zona B sotto amministrazione militare dell\'Esercito Jugoslavo (VUJA: Capodistria, Buie, Istria interna e Carsica).',
+    type: 'medium',
+    color: '#0088cc',
+    coordinates: [
+      [13.60, 45.77],
+      [13.68, 45.72],
+      [13.82, 45.68],
+      [13.88, 45.63],
+      [13.85, 45.58],
+      [13.72, 45.57],
+    ],
+    keyForts: [
+      { name: 'Posto di Blocco di San Giovanni di Duino', coords: [13.60, 45.77], desc: 'Varco di confine e controllo congiunto della polizia militare alleata lungo la Strada Statale 14 costiera.' },
+      { name: 'Check-Point di Opicina / Villa Opicina', coords: [13.82, 45.68], desc: 'Presidio anglo-americano e jugoslavo lungo la ferrovia Transalpina e le alture sovrastanti la città di Trieste.' },
+    ],
+    activeSteps: [18],
+  },
+  {
+    id: 'ftt_trieste_line_1947',
+    name: 'Confine del Territorio Libero di Trieste (Zona A / Zona B — 15 Settembre 1947)',
+    nation: 'AMG FTT (Zona A) & VUJA (Zona B)',
+    builder: 'Trattato di Pace di Parigi del 10 Febbraio 1947 (In vigore 15 Settembre 1947)',
+    description:
+      'Linea di demarcazione definitiva tra la Zona A anglo-americana (Trieste, Duino, Muggia) e la Zona B jugoslava (Capodistria, Pirano, Umago, Buie) all\'entrata in vigore dello Statuto Permanente del Territorio Libero di Trieste, con evacuazione britannica da Pola e cessione dell\'Istria interna e di Gorizia orientale alla Jugoslavia.',
+    type: 'medium',
+    color: '#00a3cc',
+    coordinates: [
+      [13.60, 45.77],
+      [13.81, 45.67],
+      [13.86, 45.61],
+      [13.79, 45.56],
+      [13.66, 45.55],
+    ],
+    keyForts: [
+      { name: 'Valico di Rabuiese / Škofije', coords: [13.81, 45.58], desc: 'Posto di frontiera tra Zona A anglo-americana (Muggia) e Zona B jugoslava (Capodistria).' },
+      { name: 'Presidio di Duino / San Giovanni', coords: [13.60, 45.77], desc: 'Confine occidentale del TLT con la Repubblica Italiana.' },
+    ],
+    activeSteps: [19],
+  },
+  {
+    id: 'korea_38th_parallel_1945',
+    name: '38° Parallelo Nord (Linea di Demarcazione Sovietico-Americana in Corea)',
+    nation: 'Unione Sovietica (25ª Armata) / Stati Uniti (USAMGIK)',
+    builder: 'Accordi di Yalta e Potsdam / Generale John R. Hodge & Generale Ivan Čistjakov',
+    description:
+      "Linea di demarcazione orizzontale lungo il 38° parallelo stabilita nell'agosto 1945 e irrigidita nel 1947: assegna la penisola coreana a nord del parallelo alla zona sovietica (Pyongyang) e a sud al Governo Militare Statunitense (USAMGIK — Seul).",
+    type: 'heavy',
+    color: '#e67e22',
+    coordinates: [
+      [125.3, 38.0],
+      [126.0, 38.0],
+      [126.7, 38.0],
+      [127.4, 38.0],
+      [128.1, 38.0],
+      [128.8, 38.0],
+    ],
+    keyForts: [
+      { name: 'Snodo di Kaesong (Sud 38°)', coords: [126.55, 37.97], desc: "Antica capitale reale coreana situata a sud del 38° parallelo, presidiata dall'US Army." },
+      { name: 'Fronte dell\'Imjin / Yeoncheon (Nord 38°)', coords: [127.05, 38.08], desc: "Fascia fluviale fortificata a nord del parallelo pattugliata dai reparti di frontiera dell'Armata Rossa." },
+    ],
+    activeSteps: [18, 19],
+  },
+  {
+    id: 'van_mook_line_1947',
+    name: 'Linea Van Mook (Demarcazione Olandese a Giava & Sumatra — 29 Agosto 1947)',
+    nation: 'Regno dei Paesi Bassi (KNIL) vs Repubblica d\'Indonesia (TNI)',
+    builder: 'Luogotenente Governatore Generale Hubertus van Mook (Operatie Product)',
+    description:
+      'Linea di cessate il fuoco proclamata unilateralmente dai Paesi Bassi il 29 agosto 1947 al termine dell\'Operatie Product: congiunge le punte più avanzate raggiunte dalle colonne meccanizzate olandesi, confinando la Repubblica d\'Indonesia a Giava centrale (Yogyakarta/Solo), Banten e alle regioni montane dell\'interno di Sumatra.',
+    type: 'field',
+    color: '#d9534f',
+    coordinates: [
+      [106.75, -6.30], // Sud di Batavia/Buitenzorg
+      [108.56, -6.72], // Cirebon
+      [110.42, -7.02], // Sud di Semarang
+      [112.70, -7.30], // Fronte di Surabaya / Mojokerto
+      [113.80, -7.90], // Estremità Giava Orientale
+    ],
+    keyForts: [
+      { name: 'Settore Semarang–Ambarawa', coords: [110.42, -7.15], desc: 'Cuneo olandese rivolto verso la capitale repubblicana di Yogyakarta.' },
+      { name: 'Sacca Repubblicana di Malang / Giava Est', coords: [112.63, -7.98], desc: 'Linea di arresto dell\'offensiva KNIL davanti al cessate il fuoco imposto dall\'ONU.' },
+    ],
+    activeSteps: [19],
+  },
+  {
+    id: 'radcliffe_kashmir_line_1947',
+    name: 'Linea Radcliffe (Partizione del Raj Britannico nel Punjab — 17 Agosto 1947)',
+    nation: 'Dominion dell\'India vs Dominion del Pakistan',
+    builder: 'Boundary Commission (Sir Cyril Radcliffe)',
+    description:
+      'Linea di confine tracciata nell\'agosto 1947 per spartire le province storiche del Punjab e del Bengala tra l\'Unione Indiana e il Dominion del Pakistan, teatro del grande esodo di profughi dell\'agosto-settembre 1947 e corridoio d\'accesso conteso verso il Jammu e Kashmir.',
+    type: 'heavy',
+    color: '#4ea864',
+    coordinates: [
+      [75.15, 32.35], // Gurdaspur / Pathankot
+      [74.55, 31.60], // Settore Wagah (tra Amritsar e Lahore)
+      [74.18, 30.88], // Kasur / Ferozepur
+      [73.50, 30.05], // Bahawalpur / Confine del Sutlej
+    ],
+    keyForts: [
+      { name: 'Settore di Wagah (Amritsar–Lahore)', coords: [74.57, 31.60], desc: 'Asse ferroviario e stradale centrale del Punjab diviso nell\'agosto 1947.' },
+      { name: 'Corridoio di Gurdaspur–Pathankot', coords: [75.40, 32.15], desc: 'Unico collegamento terrestre assegnato all\'India verso il principato di Jammu e Kashmir.' },
+    ],
+    activeSteps: [19],
+  },
+  {
+    id: 'dekemvriana_athens_perimeter_1944',
+    name: 'Perimetro dei Dekemvriana (Battaglia di Atene — Scobie vs ELAS, Dicembre 1944)',
+    nation: 'Regno di Grecia & Forze Britanniche (Arkforce / Gen. Scobie) vs EAM-ELAS',
+    builder: 'Lt-Gen. Ronald Scobie & Comando Supremo ELAS',
+    description:
+      'Linea del fronte urbano durante i 37 giorni della battaglia di Atene (Dekemvriana, 3 dicembre 1944 – 11 gennaio 1945): le truppe britanniche e la Guardia Nazionale greca mantengono un ristretto perimetro dal centro di Syntagma fino al Pireo e al Falero accerchiato dall\'ELAS.',
+    type: 'field',
+    color: '#d9534f',
+    coordinates: [
+      [23.62, 37.94], // Pireo
+      [23.70, 37.97], // Falero / Makriyannis
+      [23.74, 37.98], // Syntagma / Acropoli
+      [23.81, 38.06], // Kifisia / Monte Penteli
+    ],
+    keyForts: [
+      { name: 'Piazza Syntagma & Quartier Generale Scobie', coords: [23.735, 37.975], desc: 'Fulcro difensivo britannico e del governo Papandreou nel cuore di Atene durante i combattimenti strada per strada.' },
+      { name: 'Corridoio Portuale Pireo–Falero', coords: [23.65, 37.94], desc: 'Unica arteria di afflusso dei rinforzi britannici inviati da Churchill dal fronte italiano.' },
+    ],
+    activeSteps: [16],
+  },
+  {
+    id: 'grammos_vitsi_civil_war_front_1947',
+    name: 'Fronte Montano Grammos–Vitsi & Pindo (Guerra Civile Greca — Settembre 1947)',
+    nation: 'Esercito Democratico di Grecia (DSE) vs Esercito Nazionale Ellenico & AMAG USA',
+    builder: 'Markos Vafiadis (DSE) / Comando Militare Ellenico & Dottrina Truman',
+    description:
+      'Principale fascia fortificata alpina dei bastioni di "Grecia Libera" difesi dall\'Esercito Democratico di Grecia (DSE) lungo i massicci del Monte Grammos, dei Monti Vitsi e del Pindo settentrionale tra i laghi Prespa, Kastoria, Florina e il settore di Konitsa.',
+    type: 'field',
+    color: '#c9302c',
+    coordinates: [
+      [20.75, 40.06], // Konitsa / Pindo
+      [20.84, 40.35], // Massiccio del Monte Grammos
+      [21.08, 40.58], // Passo verso Kastoria
+      [21.25, 40.76], // Monti Vitsi (Vernon)
+      [21.05, 40.88], // Bacino di Prespa (confine Jugoslavia/Albania)
+    ],
+    keyForts: [
+      { name: 'Monte Grammos — QG Markos Vafiadis (2.520 m)', coords: [20.84, 40.35], desc: 'Roccaforte alpina principale e centro logistico-sanitario del DSE lungo la frontiera albanese.' },
+      { name: 'Monti Vitsi & Passo di Florina', coords: [21.25, 40.76], desc: 'Bastione fortificato settentrionale protetto dai laghi Prespa e dalle linee di rifornimento jugoslave.' },
+      { name: 'Sbarramento Governativo di Konitsa', coords: [20.75, 40.05], desc: 'Capisaldo avanzato dell\'Esercito Nazionale in Epiro a guardia dell\'ingresso verso Ioannina.' },
+    ],
+    activeSteps: [19],
+  },
 ];
 
 export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
@@ -1635,6 +1960,16 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
     theater: 'Pacific',
     description: 'Grande base navale all\'imbocco della Baia di Tokyo per la flotta combinata.',
   },
+  {
+    id: 'ryojun_naval',
+    name: 'Port Arthur (Ryojun Keibifu)',
+    historicalName: 'Distretto Navale di Guardia di Ryojun (Port Arthur — Kwantung)',
+    nation: 'Giappone',
+    coords: [121.24, 38.80],
+    type: 'major_base',
+    theater: 'Pacific',
+    description: 'Roccaforte navale e bacino di carenaggio strategico all\'estremità meridionale della penisola di Liaodong, quartier generale del Distretto Navale di Guardia (Ryojun Keibifu) a protezione del Mar Giallo e del Golfo di Bohai.',
+  },
 
   // USA
   {
@@ -1897,7 +2232,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
 
   switch (base.id) {
     case 'brest':
-      if (step >= 6) {
+      if (step >= 18) {
+        nation = 'Francia (Marine Nationale — Arsenale Restaurato)';
+        historicalName = 'Arsenale Navale di Brest (Quatrième République / GPRF)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Dopo la ricostruzione degli impianti portuali distrutti nell\'assedio del 1944, l\'arsenale militare di Brest torna a ospitare le squadre atlantiche della Marine Nationale.';
+      } else if (step >= 15) {
+        nation = 'Francia / Alleati (U.S. VIII Corps)';
+        historicalName = 'Arsenale Navale di Brest (Liberata il 19 Settembre 1944 — U.S. VIII Corps)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Dopo un duro assedio urbano condotto dal generale Middleton con tre divisioni di fanteria e il gruppo speciale di Rangers, il 19 settembre 1944 il generale Hermann-Bernhard Ramcke capitola. I genieri alleati riabilitano la base navale a supporto della logistica alleata in Europa occidentale.';
+      } else if (step >= 6) {
         nation = 'Germania (Kriegsmarine)';
         historicalName = 'Kriegsmarine U-Boot-Stützpunkt Brest';
         strokeColor = '#8b8f94';
@@ -1907,7 +2254,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'lorient':
-      if (step >= 6) {
+      if (step >= 18) {
+        nation = 'Francia (Marine Nationale — Resa Sacca 10 Maggio 1945)';
+        historicalName = 'Arsenale & Base di Lorient-Keroman (Liberata — 10 Maggio 1945)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Il 10 maggio 1945 la guarnigione tedesca della Festung Lorient (Gen. Fahrmbacher) si arrende alle truppe franco-americane; i bunker di Keroman passano alla Marine Nationale francese (Base Ingénieur Général Stocker).';
+      } else if (step >= 6) {
         nation = 'Germania (Kriegsmarine)';
         historicalName = 'Kriegsmarine U-Boot-Stützpunkt Keroman (Lorient)';
         strokeColor = '#8b8f94';
@@ -1917,7 +2270,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'cherbourg':
-      if (step >= 6) {
+      if (step >= 18) {
+        nation = 'Francia (Marine Nationale — Arsenale della Manica)';
+        historicalName = 'Port Militaire de Cherbourg (Marine Nationale — Dopoguerra)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Restituito all\'amministrazione marittima francese dopo la fase logistica alleata (SHAEF/ETOUSA), l\'arsenale militare di Cherbourg riprende il presidio della Manica.';
+      } else if (step >= 14) {
+        nation = 'Stati Uniti / Alleati (1ª Armata USA)';
+        historicalName = 'Cherbourg Naval Base (Liberata il 27 Giugno 1944 — First U.S. Army)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Il 27 giugno 1944, dopo aspri combattimenti casa per casa e l\'espugnazione dei forti costieri, la 1ª Armata USA del generale Omar Bradley ottiene la resa della Festung Cherbourg e del generale Karl-Wilhelm von Schlieben. Il porto d\'acque profonde viene rapidamente ripristinato dai genieri alleati per rifornire la testa di ponte e l\'avanzata in Francia.';
+      } else if (step >= 6) {
         nation = 'Germania (Kriegsmarine)';
         historicalName = 'Seeverteidigung Cherbourg (Kriegsmarine)';
         strokeColor = '#8b8f94';
@@ -1927,7 +2292,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'toulon':
-      if (step >= 11) {
+      if (step >= 18) {
+        nation = 'Francia (Marine Nationale — Escadre de la Méditerranée)';
+        historicalName = 'Grand Arsenal de Toulon (Marine Nationale — Quatrième République)';
+        strokeColor = '#1d5bc4';
+        fillColor = '#0b2866';
+        description = 'Principale base navale mediterranea della Marine Nationale nel dopoguerra, sede dei lavori di recupero e bonifica della rada dopo l\'autoaffondamento del 1942.';
+      } else if (step >= 15) {
+        nation = 'Francia / Alleati (1ère Armée Française)';
+        historicalName = 'Grand Arsenal de Toulon (Liberazione della Provenza — 26-28 Agosto 1944)';
+        strokeColor = '#1d5bc4';
+        fillColor = '#0b2866';
+        description = 'A seguito dello sbarco dell\'Operazione Dragoon, il 26-28 agosto 1944 la 1ère Armée française del generale Jean de Lattre de Tassigny (3ª Divisione di Fanteria Algerina e 1ª Divisione Corazzata) espugna Tolone catturando la guarnigione tedesca dell\'Ammiraglio Heinrich Ruhfus. La rada e i bacini dell\'arsenale tornano alla Marine Nationale della Francia Libera, fungendo da primario hub logistico per le operazioni alleate nel Mediterraneo.';
+      } else if (step >= 11) {
         nation = 'Francia (Flotta Autoaffondata) / Occupazione Asse';
         historicalName = 'Arsenale di Tolone (Autoaffondamento della Flotta Francese — 27 Novembre 1942)';
         strokeColor = '#505357';
@@ -2012,7 +2389,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'gotenhafen':
-      if (step < 5) {
+      if (step >= 17) {
+        nation = 'Polonia / URSS (Liberata — 28 Marzo 1945)';
+        historicalName = 'Port Wojenny Gdynia (Liberato — 2° Fronte Bielorusso, 28 Marzo 1945)';
+        strokeColor = '#ad7e64';
+        fillColor = '#241a15';
+        description = 'Liberata il 28 marzo 1945 dalle truppe corazzate del 2° Fronte Bielorusso (Maresciallo Konstantin Rokossovskij) a seguito dell\'Offensiva della Pomerania Orientale; il porto militare e i bacini navali tornano sotto l\'autorità della Repubblica di Polonia e della Marynarka Wojenna.';
+      } else if (step < 5) {
         nation = 'Polonia';
         historicalName = 'Port Wojenny Gdynia (Marynarka Wojenna)';
         strokeColor = '#d97736';
@@ -2023,7 +2406,53 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         historicalName = 'Kriegsmarine-Hauptstützpunkt Gotenhafen (Ostsee)';
         strokeColor = '#8b8f94';
         fillColor = '#251b1b';
-        description = 'Trasformata nel principale ancoraggio, centro addestramento e porto base per la flotta d\'alto mare della Kriegsmarine (Bismarck, Tirpitz, Lützow).';
+        description = 'Trasformata nel principale ancoraggio, centro addestramento e porto base per la flotta d\'alto mare della Kriegsmarine (Bismarck, Tirpitz, Lützow); capolinea delle evacuazioni di massa dell\'Operazione Hannibal.';
+      }
+      break;
+
+    case 'pinsk_flotilla':
+      if (step >= 15) {
+        nation = 'URSS (Flottiglia del Dnepr)';
+        historicalName = 'Base Fluviale di Pińsk (Liberata il 14 Luglio 1944 — Dneprovskaya Flotiliya)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Liberata il 14 luglio 1944 durante l\'Operazione Bagration dalla 61ª Armata sovietica e dai battelli d\'assalto della Flottiglia Fluviale del Dnepr, che sbarcano fanti di marina direttamente sulle banchine portuali eliminando il presidio della Wehrmacht.';
+      } else if (step >= 9) {
+        nation = 'Germania (Wehrmacht)';
+        historicalName = 'Pińsk (Flusssicherungsflottille Pripjet — Wehrmacht)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Occupata dalla Wehrmacht nel luglio 1941 dopo l\'autoaffondamento dei battelli della flottiglia fluviale sovietica del Pripjat\'; presidiata dalla Wehrmacht per il pattugliamento anti-guerriglia delle paludi del Polesie.';
+      } else if (step >= 5) {
+        nation = 'URSS (Pinskaya Voennaya Flotiliya)';
+        historicalName = 'Base Fluviale di Pińsk (Flottiglia Sovietica del Pripjat\' — URSS)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Costituita dall\'URSS nel 1939-1940 riarmando i monitori corazzati e i battelli fluviali polacchi catturati dopo l\'occupazione della Polonia orientale.';
+      } else {
+        nation = 'Polonia';
+        strokeColor = '#d97736';
+        fillColor = '#291810';
+      }
+      break;
+
+    case 'constanta_naval_base':
+      if (step >= 15) {
+        nation = 'Romania / Alleati (Marina Regală Română & Flotta Sovietica)';
+        historicalName = 'Baza Navală Constanța (Passaggio agli Alleati — 29-30 Agosto 1944)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'A seguito del colpo di stato di Re Michele I del 23 agosto 1944 e dell\'ingresso della Romania nella coalizione alleata contro la Germania nazista, il 29-30 agosto 1944 i marinai della Marina Romena e le avanguardie della Flotta sovietica del Mar Nero prendono possesso della piazzaforte navale di Costanza cacciando la Kriegsmarine.';
+      } else if (step >= 7) {
+        nation = 'Romania (Asse / Marina Regală Română)';
+        historicalName = 'Baza Navală Constanța (Asse — Marina Regală Română & Kriegsmarine)';
+        strokeColor = '#c8a846';
+        fillColor = '#292212';
+        description = 'Principale base navale dell\'Asse sul Mar Nero occidentale; quartier generale della flotta romena e base per la 30ª Flottiglia U-Boot della Kriegsmarine (U-9, U-18, U-24) e motosiluranti italo-tedesche contro il naviglio sovietico.';
+      } else {
+        nation = 'Romania';
+        strokeColor = '#c8a846';
+        fillColor = '#292212';
       }
       break;
 
@@ -2093,7 +2522,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'odessa':
-      if (step >= 9) {
+      if (step >= 14) {
+        nation = 'URSS (Liberata il 10 Aprile 1944)';
+        historicalName = 'Porto di Odessa (Città Eroe Liberata dal 3° Fronte Ucraino)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Liberata il 10 aprile 1944 dall\'Armata Rossa (3° Fronte Ucraino del generale Rodion Malinovskij) nell\'ambito dell\'offensiva Dniepr-Carpazi; il Governatorato di Transnistria collassa e il porto strategico viene reintegrato nella Flotta del Mar Nero per le operazioni verso la Romania.';
+      } else if (step >= 9) {
         nation = 'Romania / Asse (Governatorato di Transnistria)';
         historicalName = 'Porto di Odessa (Amministrazione Civile-Militare Romena)';
         strokeColor = '#3488aa';
@@ -2107,18 +2542,24 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'sevastopol':
-      if (step === 9) {
-        nation = 'URSS (Eroica Difesa sotto Assedio)';
-        historicalName = 'Fortezza Navale di Sebastopoli (Assedio dell\'11ª Armata di Manstein)';
+      if (step >= 14) {
+        nation = 'URSS (Liberata il 9 Maggio 1944)';
+        historicalName = 'Glavnaya Baza Chernomorskogo Flota — Sevastopol (Città Eroe Liberata)';
         strokeColor = '#d9534f';
         fillColor = '#291212';
-        description = 'Cinta d\'assedio dalle divisioni tedesche di von Manstein e dalle truppe romene dal 30 ottobre 1941; le fortificazioni Maxim Gorkij I e i marinai della Flotta del Mar Nero resistono strenuamente con rifornimenti via mare.';
+        description = 'Il 9 maggio 1944 l\'Armata Rossa (4° Fronte Ucraino del generale Fëdor Tolbuchin e Armata Costiera Indipendente) espugna la fortezza di Sebastopoli dopo aver espugnato il monte Sapun; il 12 maggio le ultime truppe della 17ª Armata tedesca e romena si arrendono a Capo Chersoneso, completando la liberazione della Crimea.';
       } else if (step >= 10) {
         nation = 'Germania / Asse (Kriegsmarine)';
         historicalName = 'Sevastopol\' (Espugnata dall\'11ª Armata di Manstein — 4 Luglio 1942)';
         strokeColor = '#8b8f94';
         fillColor = '#251b1b';
         description = 'Espugnata il 4 luglio 1942 al termine dell\'Operazione Störfang dopo 250 giorni di assedio e il bombardamento dei giganteschi mortai Dora (800 mm) e Karl; presidiata dalla Kriegsmarine e da flottiglie motosiluranti italo-tedesche.';
+      } else if (step === 9) {
+        nation = 'URSS (Eroica Difesa sotto Assedio)';
+        historicalName = 'Fortezza Navale di Sebastopoli (Assedio dell\'11ª Armata di Manstein)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Cinta d\'assedio dalle divisioni tedesche di von Manstein e dalle truppe romene dal 30 ottobre 1941; le fortificazioni Maxim Gorkij I e i marinai della Flotta del Mar Nero resistono strenuamente con rifornimenti via mare.';
       } else {
         nation = 'URSS';
         strokeColor = '#d9534f';
@@ -2127,7 +2568,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'singapore':
-      if (step >= 10) {
+      if (step >= 19) {
+        nation = 'Regno Unito (Crown Colony of Singapore)';
+        historicalName = 'HMNB Singapore — Sembawang Royal Navy Base (British Far East Fleet)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Principale roccaforte aeronavale britannica nel Sud-Est Asiatico nella Colonia della Corona separata di Singapore (bacini di carenaggio King George VI riattivati nel dopoguerra).';
+      } else if (step >= 18) {
+        nation = 'Regno Unito / SEAC (Admiral Lord Louis Mountbatten)';
+        historicalName = 'HMNB Singapore (Resa Giapponese del 12 Settembre 1945 — SEAC HQ)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Liberata nell\'Operazione Zipper / Tiderace: il 12 settembre 1945 il generale Itagaki firma la resa delle armate giapponesi del Sud-Est Asiatico dinanzi all\'Ammiraglio Mountbatten al Municipal Building di Singapore.';
+      } else if (step >= 10) {
         nation = 'Giappone (Marina Imperiale)';
         historicalName = 'Shōnan-tō Kaigun Kichi (Ex-HMNB Singapore — Conquistata il 15 Febbraio 1942)';
         strokeColor = '#b33d4a';
@@ -2144,16 +2597,30 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         fillColor = '#241a29';
         description = 'Grande rada naturale del Madagascar settentrionale sotto il governatore Vichy Armand Annet, sorvegliata dalla Royal Navy per il timore di un suo utilizzo da parte dei sommergibili giapponesi.';
       } else if (step >= 10) {
-        nation = 'Regno Unito (Royal Navy — Op. Ironclad)';
-        historicalName = 'Diego-Suarez (Occupata dalla Royal Navy — Operazione Ironclad, 5-7 Maggio 1942)';
+        nation = step >= 18 ? 'Francia (Marine Nationale — Madagascar)' : 'Regno Unito (Royal Navy — Op. Ironclad)';
+        historicalName = step >= 18
+          ? 'Base Navale di Diego-Suarez (Union Française — Madagascar)'
+          : 'Diego-Suarez (Occupata dalla Royal Navy — Operazione Ironclad, 5-7 Maggio 1942)';
         strokeColor = '#5aa0c2';
         fillColor = '#102434';
-        description = 'Conquistata dalle forze anfibie britanniche (Operazione Ironclad, 5-7 maggio 1942) per negare le basi del Madagascar ai sommergibili della Marina Imperiale Giapponese (che il 30 maggio 1942 vi danneggiarono la corazzata HMS Ramillies con sottomarini tascabili).';
+        description = step >= 18
+          ? 'Grande porto strategico francese sull\'Oceano Indiano a presidio del Canale del Mozambico nell\'ambito dell\'Unione Francese.'
+          : 'Conquistata dalle forze anfibie britanniche (Operazione Ironclad, 5-7 maggio 1942) per negare le basi del Madagascar ai sommergibili della Marina Imperiale Giapponese (che il 30 maggio 1942 vi danneggiarono la corazzata HMS Ramillies con sottomarini tascabili).';
       }
       break;
 
     case 'saigon_naval':
-      if (step < 7) {
+      if (step >= 18) {
+        nation = 'Francia (Marine Nationale / CEFEO)';
+        historicalName = step >= 19
+          ? 'Arsenal de Saïgon (Marine Nationale — Unione Francese)'
+          : 'Base Navale di Saigon (Ritorno Francese & Resa Giapponese — Settembre 1945)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = step >= 19
+          ? 'Principale base fluviale e marittima della Marine Nationale in Estremo Oriente a sostegno delle operazioni del CEFEO e delle forze anfibie fluviali (Dinassaut) nel delta del Mekong.'
+          : 'Settembre 1945: sbarco delle forze britanniche del SEAC (Gen. Gracey) e dei reparti francesi del Gen. Leclerc, con resa della 38ª Armata e della Marina giapponese a Saigon.';
+      } else if (step < 7) {
         nation = 'Francia';
         strokeColor = '#5aa0c2';
         fillColor = '#102434';
@@ -2171,7 +2638,15 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'hong_kong_naval':
-      if (step < 9) {
+      if (step >= 18) {
+        nation = 'Regno Unito (Royal Navy / British Pacific Fleet)';
+        historicalName = step >= 19
+          ? 'HMS Tamar — Hong Kong Royal Naval Dockyard (Ricostruzione Postbellica)'
+          : 'HMS Tamar — Hong Kong (Liberata dalla Royal Navy — 30 Agosto 1945)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Il 30 agosto 1945 la Task Force della British Pacific Fleet guidata dal contrammiraglio Sir Cecil Harcourt entra a Victoria Harbour ripristinando la base storica della Royal Navy.';
+      } else if (step < 9) {
         nation = 'Regno Unito';
         historicalName = 'HMS Tamar / Hong Kong Royal Naval Station';
         strokeColor = '#5aa0c2';
@@ -2193,6 +2668,12 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
         strokeColor = '#5aa0c2';
         fillColor = '#102434';
         description = 'Avamposto aeronavale statunitense e stazione idrovolanti Pan American Airways nelle Isole Marianne.';
+      } else if (step >= 15) {
+        nation = 'USA (Liberata)';
+        historicalName = 'Naval Operating Base Guam (Apra Harbor & CINCPAC Forward HQ)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Riconquistata il 10 agosto 1944 dalla 3ª Divisione Marines e 77ª Fanteria USA, trasformata nella gigantesca base aeronavale avanzata della Pacific Fleet e quartier generale avanzato dell\'Ammiraglio Chester Nimitz.';
       } else {
         nation = 'Giappone (Occupazione)';
         historicalName = 'Omiya Jima (Occupata dalle Forze d\'Assalto IJN - 10 Dicembre 1941)';
@@ -2203,7 +2684,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'cavite_manila':
-      if (step < 9) {
+      if (step >= 19) {
+        nation = 'Filippine / Stati Uniti (Subic Bay & Sangley Point Agreement 1947)';
+        historicalName = 'Baia di Manila, Cavite & Sangley Point (Repubblica delle Filippine / U.S. Navy)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Dopo l\'indipendenza filippina (4 luglio 1946) e il Military Bases Agreement del marzo 1947, la Repubblica delle Filippine e gli Stati Uniti operano congiuntamente gli scali navali e aeronavali della Baia di Manila (Sangley Point e Cavite).';
+      } else if (step >= 18) {
+        nation = 'Stati Uniti / Commonwealth delle Filippine (Liberata)';
+        historicalName = 'Manila Bay & Cavite Navy Yard (Ripristino USA / MacArthur — 1945)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Sgomberata dai relitti della battaglia di Manila (febbraio-marzo 1945), la rada di Cavite e Corregidor tornano al pieno servizio delle flotte statunitensi e filippine.';
+      } else if (step < 9) {
         nation = 'USA / Commonwealth Filippino';
         historicalName = 'Cavite Navy Yard & Corregidor (Manila Bay)';
         strokeColor = '#5aa0c2';
@@ -2225,7 +2718,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'kotor_naval_base':
-      if (step >= 8) {
+      if (step >= 16) {
+        nation = 'Jugoslavia (NOVJ — Bocche di Cattaro Liberate)';
+        historicalName = 'Base Navale delle Bocche di Cattaro (Liberata — 21 Novembre 1944)';
+        strokeColor = '#336b56';
+        fillColor = '#122b22';
+        description = 'Liberata il 21 novembre 1944 dal 2° Corpo d\'Assalto partigiano; i cantieri navali di Tivat e la rada di Cattaro tornano all\'autorità della Jugoslavia Democratica Federale.';
+      } else if (step >= 13) {
+        nation = 'Germania (Kriegsmarine & Wehrmacht — Operazione Achse)';
+        historicalName = 'Base Navale delle Bocche di Cattaro (Deutsches Marinekommando Kotor)';
+        strokeColor = '#4a545c';
+        fillColor = '#251b1b';
+        description = 'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio di Cassibile, la Wehrmacht e la Kriegsmarine disarmano il presidio italiano e occupano la piazzaforte e l\'idroscalo delle Bocche di Cattaro (Feldkommandantur Cetinje / Kotor).';
+      } else if (step >= 8) {
         nation = 'Italia (Regia Marina)';
         historicalName = 'Comando Militare Marittimo delle Bocche di Cattaro (Regia Marina)';
         strokeColor = '#6f7a3f';
@@ -2234,8 +2739,36 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       }
       break;
 
+    case 'sibenik_naval_base':
+      if (step >= 16) {
+        nation = 'Jugoslavia (NOVJ — Base Navale di Sebenico Liberata)';
+        historicalName = 'Pomorska Baza Šibenik (Liberata — 3 Novembre 1944)';
+        strokeColor = '#336b56';
+        fillColor = '#122b22';
+        description = 'Liberata il 3 novembre 1944 dall\'8° Corpo d\'Armata della NOVJ durante la campagna di Dalmazia; diviene base operativa per la Marina partigiana jugoslava (Mornarica NOVJ).';
+      } else if (step >= 13) {
+        nation = 'Croazia (NDH) & Germania (Kriegsmarine)';
+        historicalName = 'Pomorska Baza Šibenik (Hrvatska mornarica & Kriegsmarine)';
+        strokeColor = '#7a5c58';
+        fillColor = '#2b1414';
+        description = 'Settembre 1943: con l\'armistizio italiano, Ante Pavelić dichiara l\'annessione della Dalmazia allo Stato Indipendente di Croazia (NDH); la base navale di Sebenico è presidiata congiuntamente da ustaša e Kriegsmarine.';
+      } else if (step >= 8) {
+        nation = 'Italia (Regia Marina)';
+        historicalName = 'Comando Militare Marittimo di Sebenico (Regia Marina)';
+        strokeColor = '#6f7a3f';
+        fillColor = '#1e2418';
+        description = 'Aprile 1941: occupata dalla Regia Marina nel Governatorato della Dalmazia; base siluranti e idroscalo militare per il presidio dell\'Adriatico centrale.';
+      }
+      break;
+
     case 'salamis_naval_base':
-      if (step >= 8) {
+      if (step >= 16) {
+        nation = 'Grecia / Regno Unito (Alleati — Base Navale Liberata)';
+        historicalName = 'Vafstathmos Salaminas (Liberata — Ottobre 1944)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Ottobre 1944: a seguito dell\'evacuazione della Wehrmacht e dell\'arrivo delle forze alleate, l\'arsenale e la base navale principale di Salamina tornano sotto il controllo della Regia Marina Greca e della Royal Navy.';
+      } else if (step >= 8) {
         nation = 'Germania / Asse (Kriegsmarine)';
         historicalName = 'Kriegsmarine-Stützpunkt Salamis (Marinegruppenkommando Süd)';
         strokeColor = '#8b8f94';
@@ -2247,7 +2780,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
     case 'bergen_naval_base':
     case 'narvik_naval_base':
     case 'horten_karljohansvern_base':
-      if (step >= 6) {
+      if (step >= 18) {
+        nation = 'Norvegia (Kongelige Norske Marine)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        historicalName = `${base.historicalName} (Restaurata al Regno di Norvegia — Maggio 1945)`;
+        description = 'Dopo la capitolazione tedesca in Norvegia l\'8 maggio 1945 (Operazione Doomsday), la base torna sotto la sovranità della Reale Marina Norvegese.';
+      } else if (step >= 6) {
         nation = 'Germania (Kriegsmarine)';
         strokeColor = '#8b8f94';
         fillColor = '#251b1b';
@@ -2262,17 +2801,73 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'den_helder':
-    case 'vlissingen':
-    case 'zeebrugge':
-      if (step >= 6) {
+      if (step >= 18) {
+        nation = 'Paesi Bassi (Koninklijke Marine)';
+        historicalName = 'Rijkswerf Willemsoord / Den Helder (Liberata — Maggio 1945)';
+        strokeColor = '#d98c36';
+        fillColor = '#291c10';
+        description = 'Dopo la resa di Wageningen del 5 maggio 1945, la principale base navale olandese torna sotto il comando della Koninklijke Marine.';
+      } else if (step >= 6) {
         nation = 'Germania (Kriegsmarine)';
         strokeColor = '#8b8f94';
         fillColor = '#251b1b';
       }
       break;
 
+    case 'rotterdam_hoek':
+      if (step >= 18) {
+        nation = 'Paesi Bassi (Porto Commerciale & Navale Restaurato)';
+        historicalName = 'Haven van Rotterdam & Hoek van Holland (Ricostruzione Paesi Bassi)';
+        strokeColor = '#d98c36';
+        fillColor = '#291c10';
+        description = 'Liberato nel maggio 1945 alla resa della Festung Holland, il grande estuario della Mosa avvia lo sminamento e la ricostruzione portuale.';
+      } else if (step >= 6) {
+        nation = 'Germania (Kriegsmarine — Festung Holland)';
+        historicalName = 'Marinecomplex Rotterdam & Hoek van Holland (Festung Holland)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Complesso navale della Nieuwe Waterweg presidiato dalla Kriegsmarine; rimane isolato nella Festung Holland fino alla resa del 5 maggio 1945 a Wageningen.';
+      }
+      break;
+
+    case 'vlissingen':
+      if (step >= 16) {
+        nation = 'Paesi Bassi / Regno Unito (Alleati — Liberazione della Schelda)';
+        historicalName = 'Marinebasis Vlissingen (Liberata — Operazione Infatuate, Nov 1944)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Liberata l\'8 novembre 1944 dai Commandos britannici e dalla 52ª Divisione Lowland (Operazione Infatuate) durante la battaglia dell\'isola di Walcheren; lo sminamento della Schelda permette la riapertura del porto di Anversa.';
+      } else if (step >= 6) {
+        nation = 'Germania (Kriegsmarine)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Base navale occupata dalla Kriegsmarine a sbarramento della Schelda Occidentale e punto di appoggio per batterie costiere pesanti dell\'Atlantikwall.';
+      }
+      break;
+
+    case 'zeebrugge':
+      if (step >= 16) {
+        nation = 'Belgio / Alleati (Liberazione delle Fiandre)';
+        historicalName = 'Base Navale di Zeebrugge (Liberata — Autunno 1944)';
+        strokeColor = '#7e6eb0';
+        fillColor = '#1c1829';
+        description = 'Liberata nell\'autunno 1944 dalle forze canadesi e britanniche durante la liberazione della costa fiamminga.';
+      } else if (step >= 6) {
+        nation = 'Germania (Kriegsmarine)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Base navale belga occupata dalla Kriegsmarine; scalo per flottiglie di dragamine e motosiluranti d\'assalto nel canale della Manica.';
+      }
+      break;
+
     case 'copenhagen_holmen_base':
-      if (step >= 6) {
+      if (step >= 18) {
+        nation = 'Danimarca (Søværnet — Flådestation Holmen Restaurata)';
+        historicalName = 'Orlogsværftet & Flådestation Holmen (Liberata — Maggio 1945)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Dopo la resa delle forze tedesche in Danimarca del 5 maggio 1945, la base navale di Holmen torna alla Marina Reale Danese.';
+      } else if (step >= 6) {
         nation = 'Danimarca (Presidio Wehrmacht)';
         strokeColor = '#707478';
         fillColor = '#1e1e1e';
@@ -2280,7 +2875,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'taranto':
-      if (step >= 13) {
+      if (step >= 19) {
+        nation = 'Repubblica Italiana (Marina Militare)';
+        historicalName = 'Arsenale e Base Navale di Taranto (Marina Militare Italiana — 1947)';
+        strokeColor = '#3d8b5a';
+        fillColor = '#14291b';
+        description = 'Dopo l\'entrata in vigore del Trattato di Pace di Parigi (15 settembre 1947), la base navale di Taranto costituisce il principale polo mediterraneo della Marina Militare della Repubblica Italiana.';
+      } else if (step >= 13) {
         nation = 'Regno Unito / Italia (Regno del Sud — Alleati)';
         historicalName = 'Arsenale e Base Navale di Taranto (Occupata dagli Alleati — Op. Slapstick, 9 Settembre 1943)';
         strokeColor = '#3a82c4';
@@ -2293,7 +2894,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'la_spezia':
-      if (step >= 13) {
+      if (step >= 19) {
+        nation = 'Repubblica Italiana (Marina Militare)';
+        historicalName = 'Arsenale Marittimo della Spezia (Marina Militare Italiana — 1947)';
+        strokeColor = '#3d8b5a';
+        fillColor = '#14291b';
+        description = 'Arsenale militare alto-tirrenico della Marina Militare Italiana impegnato nello sminamento costiero e nella riorganizzazione postbellica.';
+      } else if (step >= 17) {
+        nation = 'Italia / Alleati (CLNAI & 92ª Divisione Buffalo USA)';
+        historicalName = 'Arsenale e Golfo di La Spezia (Liberato — 24-25 Aprile 1945)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Il 24-25 aprile 1945 le formazioni partigiane della IV Zona Operativa ligure e i reparti della 92ª Divisione "Buffalo" dell\'US Army liberano La Spezia e l\'arsenale navale; le residue forze tedesche e della Xª Flottiglia MAS della RSI si arrendono o fuggono verso nord.';
+      } else if (step >= 13) {
         nation = 'Germania (Wehrmacht — Occupazione Op. Achse)';
         historicalName = 'Arsenale di La Spezia (Occupazione Militare Tedesca — 9 Settembre 1943)';
         strokeColor = '#4a545c';
@@ -2306,7 +2919,19 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'pola_naval':
-      if (step >= 13) {
+      if (step >= 19) {
+        nation = 'Jugoslavia (JRM — Trattato di Parigi 15 Settembre 1947)';
+        historicalName = 'Vojnopomorska Baza Pula (Cessione alla Jugoslavia — Settembre 1947)';
+        strokeColor = '#336b56';
+        fillColor = '#122b22';
+        description = 'Il 15 settembre 1947, in attuazione del Trattato di Pace di Parigi e completato il grande esodo della popolazione italiana, le forze britanniche evacuano l\'enclave di Pola consegnando la base navale all\'Esercito e alla Marina Jugoslava.';
+      } else if (step >= 18) {
+        nation = 'Governo Militare Alleato (AMG — Enclave della Linea Morgan)';
+        historicalName = 'Base Navale di Pola (Enclave AMG Anglo-Americana — Accordo di Duino 1945)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = 'Dall\'Accordo di Duino (9 giugno 1945) alla ratifica del Trattato di Pace (settembre 1947), il porto e l\'arsenale di Pola costituiscono un\'enclave amministrata dal Governo Militare Alleato (AMG).';
+      } else if (step >= 13) {
         nation = 'Germania (OZAK — Occupazione Militare Wehrmacht)';
         historicalName = 'Base Navale di Pola (Operationszone Adriatisches Küstenland)';
         strokeColor = '#4a545c';
@@ -2319,7 +2944,25 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'leros_aegean':
-      if (step >= 13) {
+      if (step >= 19) {
+        nation = 'Grecia (Dodecaneso — Trattato di Parigi 1947)';
+        historicalName = 'Base Navale di Lakki / Lero (Dodecaneso Unito al Regno di Grecia)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Dal 1947 l\'ex base navale italiana di Portolago (Lakki) a Lero e l\'intero Dodecaneso passano alla sovranità del Regno di Grecia per effetto del Trattato di Pace con l\'Italia.';
+      } else if (step >= 18) {
+        nation = 'Regno Unito (BMA Dodecaneso — Resa di Simi 8 Maggio 1945)';
+        historicalName = 'Portolago / Lero (Amministrazione Militare Britannica — BMA Dodecanese)';
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Dopo la resa delle guarnigioni tedesche del Dodecaneso firmata sull\'isola di Simi l\'8 maggio 1945, la base navale di Lero è retta dall\'Amministrazione Militare Britannica in attesa dell\'unione alla Grecia.';
+      } else if (step >= 14) {
+        nation = 'Germania (Kriegsmarine & Wehrmacht — Festung Dodekanes)';
+        historicalName = 'Base Navale di Portolago a Lero (Occupazione Tedesca — Festung Dodekanes)';
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+        description = 'Novembre 1943: a seguito della battaglia di Lero (Operazione Leopard), le truppe tedesche riconquistano l\'isola. La base navale di Portolago rimane un caposaldo isolato della Kriegsmarine nell\'Egeo (Festung Dodekanes) fino alla resa finale dell\'8 maggio 1945.';
+      } else if (step >= 13) {
         nation = 'Regno Unito / Italia (Resistenza Mista Italo-Britannica nel Dodecaneso)';
         historicalName = 'Base Navale di Portolago a Lero (Battaglia del Dodecaneso, Settembre 1943)';
         strokeColor = '#3a82c4';
@@ -2332,7 +2975,13 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'sazan_naval_base':
-      if (step >= 13) {
+      if (step >= 16) {
+        nation = 'Albania (UNÇ — Isola di Saseno Liberata)';
+        historicalName = 'Ishulli i Sazanit (Liberato dalle Forze Partigiane Albanesi)';
+        strokeColor = '#a64d4d';
+        fillColor = '#2b1414';
+        description = 'Tardo autunno 1944: a seguito della ritirata del XXI. Gebirgs-Armeekorps tedesco dai Balcani e della liberazione di Valona, l\'isola di Saseno passa sotto il controllo dell\'Esercito di Liberazione Nazionale Albanese (UNÇ).';
+      } else if (step >= 13) {
         nation = 'Germania (Wehrmacht — Occupazione Albania)';
         historicalName = 'Isola di Saseno (Occupazione Militare Tedesca dell\'Adriatico)';
         strokeColor = '#4a545c';
@@ -2346,11 +2995,17 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
 
     case 'augusta_messina':
       if (step >= 13) {
-        nation = 'Regno Unito / Stati Uniti (Sicilia Interamente Liberata — AMGOT)';
-        historicalName = 'Piazzaforte dello Stretto e Base Navale di Augusta (Base Logistica Alleata)';
-        strokeColor = '#3a82c4';
-        fillColor = '#152438';
-        description = 'Con l\'evacuazione italo-tedesca di metà agosto 1943 e la cattura di Messina, l\'intera Sicilia e le basi navali dello Stretto e di Augusta operano a pieno regime sotto il comando dell\'ammiraglio Cunningham per supportare gli sbarchi in Calabria, a Taranto e a Salerno.';
+        nation = step >= 19
+          ? 'Repubblica Italiana (Marina Militare — Augusta/Messina)'
+          : 'Regno Unito / Italia (Sicilia — Base Logistica Mediterranea)';
+        historicalName = step >= 19
+          ? 'Base Navale di Augusta & Stretto di Messina (Repubblica Italiana — 1947)'
+          : 'Piazzaforte dello Stretto e Base Navale di Augusta (Base Logistica Alleata)';
+        strokeColor = step >= 19 ? '#3d8b5a' : '#3a82c4';
+        fillColor = step >= 19 ? '#14291b' : '#152438';
+        description = step >= 19
+          ? 'Principale base navale siciliana della Marina Militare della Repubblica Italiana a presidio del Mediterraneo centrale.'
+          : 'Con l\'evacuazione italo-tedesca di metà agosto 1943 e la cattura di Messina, l\'intera Sicilia e le basi navali dello Stretto e di Augusta operano sotto comando alleato per supportare la campagna d\'Italia.';
       } else if (step === 12) {
         nation = 'Regno Unito / Italia (Asse a Messina, Alleati ad Augusta)';
         historicalName = 'Piazzaforte dello Stretto e Base di Augusta (Occupata dall\'8ª Armata Britannica a Luglio 1943)';
@@ -2366,15 +3021,60 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
     case 'wilhelmshaven':
     case 'kiel':
     case 'helgoland':
+      if (step >= 18) {
+        nation = 'Regno Unito (Royal Navy — Zona d\'Occupazione Britannica)';
+        historicalName = `${base.historicalName} (Smantellamento Alleato — Zona Britannica)`;
+        strokeColor = '#5aa0c2';
+        fillColor = '#102434';
+        description = 'Maggio 1945 - 1947: base tedesca occupata dalla Royal Navy nella zona britannica per lo smantellamento degli impianti navali della Kriegsmarine (ad Helgoland detonazione delle fortificazioni nell\'aprile 1947).';
+      } else {
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+      }
+      break;
+
     case 'swinemunde':
-      strokeColor = '#8b8f94';
-      fillColor = '#251b1b';
+      if (step >= 18) {
+        nation = 'Polonia / URSS (Świnoujście — Accordi di Potsdam)';
+        historicalName = 'Świnoujście / Base Baltica (Amministrazione Polacca & Flotta Sovietica del Baltico)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Dal 1945 il porto di Swinemünde (Świnoujście) alla foce dell\'Oder è trasferito alla Polonia secondo la linea Oder-Neisse e ospita unità della Flotta Baltica sovietica e della marina polacca.';
+      } else {
+        strokeColor = '#8b8f94';
+        fillColor = '#251b1b';
+      }
       break;
 
     case 'kure':
     case 'yokosuka':
-      strokeColor = '#b33d4a';
-      fillColor = '#2b1414';
+      if (step >= 18) {
+        nation = base.id === 'yokosuka' ? 'Stati Uniti / SCAP (U.S. Navy)' : 'Commonwealth Britannico / SCAP (BCOF)';
+        historicalName = base.id === 'yokosuka'
+          ? 'U.S. Fleet Activities Yokosuka (Occupazione Alleata SCAP)'
+          : 'Base Navale di Kure (British Commonwealth Occupation Force — SCAP)';
+        strokeColor = '#3a82c4';
+        fillColor = '#152438';
+        description = base.id === 'yokosuka'
+          ? 'Dal settembre 1945 lo storico arsenale di Yokosuka nella Baia di Tokyo diventa la principale base navale avanzata della U.S. Navy nel Giappone occupato (SCAP).'
+          : 'Ex arsenale della Marina Imperiale di Kure, posto dal 1945 sotto il presidio delle forze del Commonwealth Britannico (BCOF) e smilitarizzazione SCAP.';
+      } else {
+        strokeColor = '#b33d4a';
+        fillColor = '#2b1414';
+      }
+      break;
+
+    case 'ryojun_naval':
+      if (step >= 18) {
+        nation = 'URSS (Flotta del Pacifico — Accordo Sino-Sovietico 1945)';
+        historicalName = 'Voenno-Morskaja Baza Port-Artur (Base Navale Sovietica di Lüshun)';
+        strokeColor = '#d9534f';
+        fillColor = '#291212';
+        description = 'Dall\'agosto 1945 al 1955 la rada fortificata di Port Arthur (Lüshunkou / ex-Ryojun) torna sotto controllo della Flotta Sovietica del Pacifico in attuazione degli accordi di Yalta e del Trattato Sino-Sovietico.';
+      } else {
+        strokeColor = '#b33d4a';
+        fillColor = '#2b1414';
+      }
       break;
 
     case 'kronstadt':

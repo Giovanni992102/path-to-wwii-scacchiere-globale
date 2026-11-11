@@ -1,3 +1,8 @@
+import {
+  getGreeceFirstPhaseContextNote,
+  resolveGreeceCivilWarStep,
+} from './greeceCivilWarTimeline';
+
 /**
  * ARCHIVIO CARTOGRAFICO E GEOSTORICO COMPLETO DEI BALCANI (1936-1940)
  *
@@ -4428,6 +4433,353 @@ export function resolveBalkansToponym(
 
   const d = found;
 
+  // 3a. DIC 1944 (Step >= 16): Balcani liberati, Insurrezione jugoslava di Tito, Budapest accerchiata, Ritiro Wehrmacht da Grecia e Albania
+  if (step >= 16) {
+    // GRECIA (EL) — Copertura integrale Dekemvriana (1944), Varkiza & Terrore Bianco (1945) e Terza Fase Guerra Civile DSE vs Regno di Grecia / AMAG (1947)
+    if (d.country === 'EL') {
+      if (d.nuts === 'EL421') {
+        if (step >= 19) {
+          return {
+            name: 'Rodi e Dodecaneso (Regno di Grecia — Trattato di Pace di Parigi)',
+            adminTitle: 'Regno di Grecia — Governatorato Militare di Rodi e Dodecaneso (Viceamm. Periklis Ioannidis)',
+            note: "Trattato di Pace di Parigi (entrato in vigore il 15 settembre 1947): l'Italia cede formalmente e definitivamente la piena sovranità sul Dodecaneso (Rodi, Coo, Lero, Calino, Scarpanto, Stampalia, Castelrosso e le isole minori) al Regno di Grecia, concludendo l'amministrazione militare britannica transitoria.",
+            owner: 'GRE',
+          };
+        }
+        if (step >= 18) {
+          return {
+            name: 'Rodi e Dodecaneso (Amministrazione Militare Britannica — BMA Dodecanese)',
+            adminTitle: 'British Military Administration (BMA Dodecanese — Brigadier A.S. Parker)',
+            note: "Il 9 maggio 1945 a Simi il generale tedesco Otto Wagener firma la resa incondizionata delle forze dell'Asse nel Dodecaneso; le isole passano sotto l'Amministrazione Militare Britannica (BMA) in attesa del passaggio definitivo alla Grecia.",
+            owner: 'UK',
+          };
+        }
+        return {
+          name: 'Rodi e Dodecaneso (Occupazione Militare Tedesca — Campagna dell\'Egeo)',
+          adminTitle: 'Deutsche Wehrmacht — Militärverwaltung Dodekanes (Rodos)',
+          note: 'Occupazione militare tedesca della Festung Rhodos e del Dodecaneso, rifornita per via aerea e marittima fino alla resa del maggio 1945.',
+          owner: 'GER',
+        };
+      }
+      const civilWarRes = resolveGreeceCivilWarStep(d, step);
+      if (civilWarRes) {
+        return {
+          name: civilWarRes.name,
+          adminTitle: civilWarRes.adminTitle,
+          note: civilWarRes.note,
+          owner: civilWarRes.owner,
+        };
+      }
+    }
+
+    // ALBANIA (AL)
+    if (d.country === 'AL') {
+      return {
+        name: `${d.capitalOrChefLieu} (Liberata dal Fronte di Liberazione Nazionale — Enver Hoxha, Novembre 1944)`,
+        adminTitle: 'Qeveria Demokratike e Shqipërisë (Enver Hoxha — UNÇ)',
+        note: 'Novembre 1944: a seguito della ritirata delle retroguardie tedesche, i partigiani dell\'Esercito di Liberazione Nazionale Albanese (UNÇ) guidati da Enver Hoxha liberano Tirana (17 novembre) e Scutari (29 novembre), istituendo il Governo Democratico dell\'Albania.',
+        owner: 'ALB',
+      };
+    }
+
+    // BULGARIA (BG)
+    if (d.country === 'BG') {
+      return {
+        name: `${d.capitalOrChefLieu} (Tsarstvo Balgariya — Cobelligeranza Alleata)`,
+        adminTitle: 'Tsarstvo Balgariya — Otechestven Front (Kimon Georgiev — 1ª Armata Bulgara con l\'Armata Rossa)',
+        note: 'Il 9 settembre 1944 il colpo di stato del Fronte della Patria rovescia il regime filo-tedesco; la Bulgaria dichiara guerra al Terzo Reich e combatte a fianco dell\'Armata Rossa contro la Wehrmacht in Jugoslavia e Ungheria.',
+        owner: 'BUL',
+      };
+    }
+
+    // JUGOSLAVIA (RS, ME, MK, XK, BA, HR, SI)
+    if (d.country === 'BA') {
+      if (step >= 19) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare di Bosnia ed Erzegovina — FNRJ)`,
+          adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Bosna i Hercegovina (NRBiH)',
+          note: 'Settembre 1947: la Repubblica Popolare di Bosnia ed Erzegovina (NRBiH) con capitale Sarajevo è repubblica federata della FNRJ presieduta dal Maresciallo Tito.',
+          owner: 'DFJ',
+        };
+      }
+      if (step >= 17) {
+        return {
+          name: `${d.capitalOrChefLieu} (Liberata dalla NOVJ — DFJ / ZAVNOBiH, Aprile 1945)`,
+          adminTitle: 'Demokratska Federativna Jugoslavija — ZAVNOBiH (Sarajevo)',
+          note: 'Aprile 1945: liberazione di Sarajevo (6 aprile) e Banja Luka (22 aprile) da parte dell\'Esercito Jugoslavo (NOVJ); la Bosnia ed Erzegovina è interamente reintegrata nella Federazione Jugoslava democratica presieduta da Tito.',
+          owner: 'DFJ',
+        };
+      }
+    }
+
+    if (d.country === 'RS') {
+      if (step >= 19) {
+        return {
+          name: d.nuts === 'RS110' ? 'Beograd (Capitale della FNRJ — Maresciallo Tito)' : `${d.capitalOrChefLieu} (Repubblica Popolare di Serbia — FNRJ)`,
+          adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Srbija (NRS)',
+          note: 'Settembre 1947: la Repubblica Popolare di Serbia (NRS) con capitale federale Belgrado comprende la Voivodina e la Regione Autonoma di Kosovo e Metochia nel quadro della FNRJ.',
+          owner: 'DFJ',
+        };
+      }
+      if (d.nuts === 'RS127') {
+        if (step >= 17) {
+          return {
+            name: 'Srijem — Sremska Mitrovica (Liberata — Sfondamento Fronte Sirmiano, Aprile 1945)',
+            adminTitle: 'Demokratska Federativna Jugoslavija (NOVJ)',
+            note: 'Il 12 aprile 1945 la 1ª Armata jugoslava sfonda la linea del Fronte Sirmiano liberando Sremska Mitrovica e l\'intera pianura dello Srijem.',
+            owner: 'DFJ',
+          };
+        }
+        return {
+          name: 'Srijem — Sremska Mitrovica / Zemun (Fronte Sirmiano — NDH / Wehrmacht)',
+          adminTitle: 'Nezavisna Država Hrvatska (NDH) & Wehrmacht (Fronte Sirmiano)',
+          note: 'Fronte Sirmiano (Sremski Front): la linea fortificata difensiva tedesco-croata sbarra l\'avanzata delle armate jugoslave e sovietiche a ovest di Belgrado fino all\'aprile 1945.',
+          owner: 'CRO',
+        };
+      }
+      return {
+        name: `${d.capitalOrChefLieu} (Liberata dai Partigiani della NOVJ e dall\'Armata Rossa — Belgrado 20 Ottobre 1944)`,
+        adminTitle: 'Demokratska Federativna Jugoslavija (Josip Broz Tito — NOVJ)',
+        note: 'Con la liberazione di Belgrado il 20 ottobre 1944 (Operazione Belgrado) da parte delle truppe congiunte dell\'Armata Rossa e delle divisioni partigiane di Tito, la Serbia e la Voivodina sono liberate dall\'occupazione tedesca e integrate nella Jugoslavia Federale Democratica.',
+        owner: 'DFJ',
+      };
+    }
+
+    if (d.country === 'SI') {
+      if (step >= 19) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare di Slovenia — FNRJ)`,
+          adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Ljudska Republika Slovenija (LRS)',
+          note: "Settembre 1947: la Repubblica Popolare di Slovenia (LRS) con capitale Lubiana è repubblica federata della FNRJ guidata dal Maresciallo Tito. Il Trattato di Parigi ratifica l'annessione dell'alta valle dell'Isonzo e del Carso.",
+          owner: 'DFJ',
+        };
+      }
+      if (step >= 18) {
+        return {
+          name: `${d.capitalOrChefLieu} (Liberata dalla NOVJ — Demokratska Federativna Jugoslavija / LRS)`,
+          adminTitle: 'Demokratska Federativna Jugoslavija — Ljudska Republika Slovenija (SNOS)',
+          note: "Maggio-Settembre 1945: la Slovenia è interamente liberata dall'Esercito Jugoslavo (NOVJ) e integrata nella Jugoslavia Federale Democratica di Josip Broz Tito come Repubblica Popolare (Ljudska Republika Slovenija).",
+          owner: 'DFJ',
+        };
+      }
+      if (step >= 17 && d.nuts === 'SI031') {
+        return {
+          name: 'Murska Sobota / Prekmurje (Liberata dall\'Armata Rossa e dalla NOVJ, 3 Aprile 1945)',
+          adminTitle: 'Demokratska Federativna Jugoslavija — Slovenski narodnoosvobodilni svet (SNOS)',
+          note: "Il 3 aprile 1945 le truppe del 3° Fronte Ucraino dell'Armata Rossa (57ª Armata) e il Distaccamento Partigiano del Prekmurje liberano Murska Sobota e Lendava, ponendo fine all'occupazione e annessione ungherese e reintegrando l'Oltremura nella Jugoslavia Federale Democratica (DFJ / Slovenia).",
+          owner: 'DFJ',
+        };
+      }
+    }
+
+    if (d.country === 'ME') {
+      if (step >= 19) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare del Montenegro — FNRJ)`,
+          adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Crna Gora (NRCG)',
+          note: 'Settembre 1947: la Repubblica Popolare del Montenegro (NRCG) con capitale Titograd è repubblica federata della FNRJ.',
+          owner: 'DFJ',
+        };
+      }
+      return {
+        name: `${d.capitalOrChefLieu} (Liberato dai Partigiani della NOVJ — Dicembre 1944)`,
+        adminTitle: 'Demokratska Federativna Jugoslavija — Crna Gora (Josip Broz Tito)',
+        note: 'Dicembre 1944: i reparti del II Corpo d\'Assalto della NOVJ completano la liberazione di Podgorica (19 dicembre) e di tutto il Montenegro costringendo la Wehrmacht alla ritirata.',
+        owner: 'DFJ',
+      };
+    }
+
+    if (d.country === 'MK') {
+      if (step >= 19) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare di Macedonia — FNRJ)`,
+          adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Makedonija (NRM)',
+          note: 'Settembre 1947: la Repubblica Popolare di Macedonia (NRM) con capitale Skopje è repubblica federata della FNRJ.',
+          owner: 'DFJ',
+        };
+      }
+      return {
+        name: `${d.capitalOrChefLieu} (Liberata dai Partigiani della NOVJ — Novembre 1944)`,
+        adminTitle: 'Demokratska Federativna Jugoslavija — Makedonija (ASNOM)',
+        note: 'Novembre 1944: i partigiani macedoni e le forze bulgare liberano Skopje (13 novembre) e l\'intera Macedonia del Vardar cacciando le forze d\'occupazione dell\'Asse.',
+        owner: 'DFJ',
+      };
+    }
+
+    if (d.country === 'XK') {
+      if (step >= 19) {
+        return {
+          name: `${d.capitalOrChefLieu} (Regione Autonoma di Kosovo e Metochia — NRS / FNRJ)`,
+          adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Autonomna Kosovsko-Metohijska Oblast (AKMO)',
+          note: 'Settembre 1947: la Regione Autonoma di Kosovo e Metochia (AKMO) nel quadro della Repubblica Popolare di Serbia (FNRJ).',
+          owner: 'DFJ',
+        };
+      }
+      return {
+        name: `${d.capitalOrChefLieu} (Liberato dai Partigiani della NOVJ — Novembre 1944)`,
+        adminTitle: 'Demokratska Federativna Jugoslavija — Kosovo i Metohija',
+        note: 'Novembre 1944: l\'Armata di Liberazione Nazionale (NOVJ) entra a Pristina e Prizren liberando il bacino del Kosovo dal presidio della Wehrmacht.',
+        owner: 'DFJ',
+      };
+    }
+
+    if (d.country === 'HR') {
+      if (step >= 19) {
+        if (d.nuts === 'HR036') {
+          return {
+            name: 'Pola / Pula (Repubblica Popolare di Croazia — Trattato di Parigi 1947)',
+            adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska (Kotar Pula)',
+            note: "Trattato di Pace di Parigi (entrato in vigore il 15 settembre 1947): l'enclave di Pola viene evacuata dalle truppe anglo-americane ed integrata nella Repubblica Popolare di Croazia (FNRJ) a seguito dell'esodo polesano (piroscafo Toscana).",
+            owner: 'DFJ',
+          };
+        }
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare di Croazia — FNRJ)`,
+          adminTitle: 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska (NRH)',
+          note: "Settembre 1947: la Repubblica Popolare di Croazia (NRH) con capitale Zagabria è repubblica federata della FNRJ. Il Trattato di Parigi ratifica la sovranità su Pola, Fiume, Zara e le isole adriatiche.",
+          owner: 'DFJ',
+        };
+      }
+      if (step >= 18) {
+        if (d.nuts === 'HR036') {
+          return {
+            name: 'Pola (Enclave della Zona A — Governo Militare Alleato AMG)',
+            adminTitle: 'Allied Military Government (AMG Venezia Giulia — Enclave di Pola)',
+            note: "Accordo di Duino (9 giugno 1945) e Linea Morgan: l'enclave di Pola è presidiata dalle forze alleate anglo-americane sotto il Governo Militare Alleato (AMG).",
+            owner: 'AMG',
+          };
+        }
+        return {
+          name: `${d.capitalOrChefLieu} (Liberata dalla NOVJ — Demokratska Federativna Jugoslavija / NRH)`,
+          adminTitle: 'Demokratska Federativna Jugoslavija — Narodna Republika Hrvatska (ZAVNOH)',
+          note: "Maggio-Settembre 1945: l'8 maggio 1945 l'Esercito Jugoslavo (NOVJ) entra a Zagabria; l'intera Croazia è liberata e integrata nella Jugoslavia Federale Democratica.",
+          owner: 'DFJ',
+        };
+      }
+      const isDalmatiaCoast = (
+        d.nuts === 'HR033' ||
+        d.nuts === 'HR_HIST_ZADAR' ||
+        d.nuts === 'HR034' ||
+        d.nuts === 'HR035' ||
+        d.nuts === 'HR037' ||
+        d.capitalOrChefLieu.includes('Zadar') ||
+        d.capitalOrChefLieu.includes('Zara') ||
+        d.capitalOrChefLieu.includes('Split') ||
+        d.capitalOrChefLieu.includes('Spalato') ||
+        d.capitalOrChefLieu.includes('Šibenik') ||
+        d.capitalOrChefLieu.includes('Dubrovnik')
+      );
+      if (isDalmatiaCoast) {
+        const isZara = d.nuts === 'HR033' || d.nuts === 'HR_HIST_ZADAR' || d.capitalOrChefLieu.includes('Zadar') || d.capitalOrChefLieu.includes('Zara');
+        return {
+          name: isZara
+            ? 'Zara / Zadar (Liberata dall\'8° Corpo della NOVJ — 31 Ottobre 1944)'
+            : `${d.capitalOrChefLieu} (Liberata dai Partigiani della NOVJ — Autunno 1944)`,
+          adminTitle: 'Demokratska Federativna Jugoslavija — Dalmacija',
+          note: 'Ottobre-Dicembre 1944: con la campagna di Dalmazia dell\'8° Corpo d\'Armata della NOVJ, Zara, Spalato, Sebenico e Ragusa vengono interamente liberate dalla presenza tedesca e ustaša e integrate nella Jugoslavia Federale Democratica.',
+          owner: 'DFJ',
+        };
+      }
+
+      if (step >= 17) {
+        const isSlavoniaOrLika = (
+          d.nuts === 'HR021' ||
+          d.nuts === 'HR022' ||
+          d.nuts === 'HR023' ||
+          d.nuts === 'HR024' ||
+          d.nuts === 'HR025' ||
+          d.nuts === 'HR026' ||
+          d.nuts === 'HR031' ||
+          d.nuts === 'HR032' ||
+          d.nuts === 'HR061' ||
+          d.nuts === 'HR_HIST_PRIMORJE' ||
+          d.capitalOrChefLieu.includes('Osijek') ||
+          d.capitalOrChefLieu.includes('Vukovar') ||
+          d.capitalOrChefLieu.includes('Brod') ||
+          d.capitalOrChefLieu.includes('Požega') ||
+          d.capitalOrChefLieu.includes('Virovitica') ||
+          d.capitalOrChefLieu.includes('Gospić') ||
+          d.capitalOrChefLieu.includes('Rijeka') ||
+          d.capitalOrChefLieu.includes('Fiume') ||
+          d.capitalOrChefLieu.includes('Sušak') ||
+          d.capitalOrChefLieu.includes('Čakovec')
+        );
+
+        if (isSlavoniaOrLika) {
+          return {
+            name: `${d.capitalOrChefLieu} (Liberata dall'Esercito Jugoslavo — DFJ, Aprile 1945)`,
+            adminTitle: 'Demokratska Federativna Jugoslavija — ZAVNOH',
+            note: 'Aprile 1945: liberata a seguito dello sfondamento del Fronte Sirmiano (12 aprile) e dell\'avanzata della 1ª, 3ª e 4ª Armata della NOVJ; territorio reintegrato nella Jugoslavia Federale Democratica.',
+            owner: 'DFJ',
+          };
+        }
+      }
+    }
+
+    // UNGHERIA (HU)
+    if (d.country === 'HU') {
+      if (step >= 18) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica d'Ungheria — Governo Nazionale Provvisorio)`,
+          adminTitle: 'Magyarország — Governo Nazionale Provvisorio (Béla Miklós) & Commissione Alleata di Controllo (ACC)',
+          note: "Settembre 1945: dopo la liberazione dall'occupazione nazista e dal regime delle Croci Frecciate, l'Ungheria ristabilisce i confini del 1937 sotto la supervisione della Commissione Alleata di Controllo.",
+          owner: 'HUN',
+        };
+      }
+      if (step >= 17) {
+        return {
+          name: `${d.capitalOrChefLieu} (Ungheria Interamente Liberata — Armata Rossa, Aprile 1945)`,
+          adminTitle: 'Magyar Nemzeti Függetlenségi Front (Governo Provvisorio Ungherese) / Armata Rossa',
+          note: 'Aprile 1945: l\'intero territorio ungherese è liberato dall\'Armata Rossa a seguito della caduta di Budapest e del fallimento dell\'Offensiva del Lago Balaton; insediamento delle istituzioni democratiche e antifasciste del Governo Nazionale Provvisorio.',
+          owner: 'SOV',
+        };
+      }
+      if (d.nuts === 'HU110') {
+        return {
+          name: 'Budapest (Festung Budapest — Accerchiata dal 2° e 3° Fronte Ucraino, 26 Dicembre 1944)',
+          adminTitle: 'Festung Budapest (IX. Waffen-Gebirgskorps delle SS — Karl Pfeffer-Wildenbruch)',
+          note: 'Il 26 dicembre 1944 le armate sovietiche del 2° e 3° Fronte Ucraino si ricongiungono a Esztergom: Budapest è completamente accerchiata. Oltre 70.000 soldati della Wehrmacht, Waffen-SS e dell\'esercito ungherese difendono disperatamente la capitale strada per strada contro l\'Armata Rossa.',
+          owner: 'HUN',
+        };
+      }
+      const isEasternHungary = (
+        d.nuts === 'HU321' ||
+        d.nuts === 'HU323' ||
+        d.nuts === 'HU332' ||
+        d.nuts === 'HU333' ||
+        d.nuts === 'HU322' ||
+        d.nuts === 'HU311' ||
+        d.nuts === 'HU312' ||
+        d.nuts === 'HU313' ||
+        d.nuts === 'HU331'
+      );
+      if (isEasternHungary) {
+        return {
+          name: `${d.capitalOrChefLieu} (Liberata dall'Armata Rossa — Governo Provvisorio di Debrecen)`,
+          adminTitle: 'Governo Nazionale Provvisorio d\'Ungheria (Col. Gen. Béla Miklós, Debrecen) / Armata Rossa',
+          note: 'Autunno-Inverno 1944: liberata a seguito dell\'Offensiva di Debrecen e dell\'avanzata sovietica verso il Danubio; il 22 dicembre 1944 a Debrecen si costituisce il Governo Nazionale Provvisorio guidato dal generale Béla Miklós, che dichiara guerra alla Germania nazista.',
+          owner: 'SOV',
+        };
+      }
+      return {
+        name: `${d.capitalOrChefLieu} (Regime delle Croci Frecciate — Ferenc Szálasi)`,
+        adminTitle: 'Magyar Királyság — Nemzetvezető Ferenc Szálasi (Nyilaskeresztes Párt)',
+        note: 'Dopo l\'Operazione Panzerfaust (ottobre 1944) orchestrata da Otto Skorzeny per destituire Horthy, l\'Ungheria occidentale è governata dal fanatico regime fascista delle Croci Frecciate di Ferenc Szálasi, in totale subordinazione alla Wehrmacht.',
+        owner: 'HUN',
+      };
+    }
+
+    // ROMANIA (RO)
+    if (d.country === 'RO') {
+      return {
+        name: `${d.capitalOrChefLieu} (Territorio Romeno Liberato — Regatul României)`,
+        adminTitle: 'Regatul României (Regele Mihai I — Guvernul Constantin Sănătescu)',
+        note: 'La Romania combatte a fianco degli Alleati sul fronte orientale; la Transilvania settentrionale è stata interamente liberata nell\'ottobre 1944 dall\'avanzata congiunta romeno-sovietica, ristabilendo la sovranità nazionale.',
+        owner: 'ROM',
+      };
+    }
+  }
+
   // 3. APR 1941 (Step >= 8): Invasione dell'Asse e smembramento della Jugoslavia (Operazione 25) + Operazione Marita in Grecia
   if (step >= 8) {
     // A. JUGOSLAVIA SMEMBRATA (HR, SI, BA, RS, ME, MK, XK)
@@ -4504,6 +4856,14 @@ export function resolveBalkansToponym(
         d.nuts === 'MK006' ||
         d.nuts === 'MK003'
       ) {
+        if (step >= 13) {
+          return {
+            name: `${d.capitalOrChefLieu} (Mbretëria Shqiptare — Occupazione Militare Wehrmacht)`,
+            adminTitle: 'Deutsche Wehrmacht — Militärbefehlshaber Albanien & Këshilli i Naltë i Regjencës',
+            note: 'Settembre 1943: a seguito della resa dell\'Italia, la Wehrmacht assume il controllo militare strategico del Kosovo e della Macedonia occidentale albanofona, cooperando con il Consiglio di Reggenza albanese e le milizie del Balli Kombëtar.',
+            owner: 'GER',
+          };
+        }
         return {
           name: `${d.capitalOrChefLieu} (Grande Albania / Shqipëria e Madhe — Corona d'Italia)`,
           adminTitle: "Regno d'Albania (Unione Personale con il Regno d'Italia — Luogotenente Francesco Jacomoni)",
@@ -4512,6 +4872,14 @@ export function resolveBalkansToponym(
         };
       }
       if (d.country === 'ME') {
+        if (step >= 13) {
+          return {
+            name: 'Montenegro e Bocche di Cattaro (Occupazione Militare Tedesca — Wehrmacht Militärverwaltung)',
+            adminTitle: 'Deutsche Wehrmacht — Feldkommandantur Cetinje / Militärverwaltung Montenegro & OZAK',
+            note: 'Settembre 1943: con l\'armistizio di Cassibile la Wehrmacht disarma il presidio italiano a Cettigne e Podgorica. Il Montenegro viene posto sotto amministrazione militare tedesca contro i partigiani di Tito, mentre le Bocche di Cattaro vengono presidiate dal Gruppo d\'Armate F.',
+            owner: 'GER',
+          };
+        }
         return {
           name: 'Montenegro e Provincia di Cattaro (Protettorato Italiano — Cettigne)',
           adminTitle: "Regno d'Italia — Alto Commissariato per il Montenegro (Serafino Mazzolini) & Provincia di Cattaro",
@@ -4520,6 +4888,16 @@ export function resolveBalkansToponym(
         };
       }
       if (d.nuts === 'SI041' || d.nuts === 'SI037') {
+        if (step >= 13) {
+          return {
+            name: d.nuts === 'SI041'
+              ? 'Provincia di Lubiana (Operationszone Adriatisches Küstenland — Provinz Laibach)'
+              : 'Novo Mesto e Bassa Carniola (OZAK — Provinz Laibach)',
+            adminTitle: 'Operationszone Adriatisches Küstenland — Provinz Laibach (Gauleiter Friedrich Rainer & Leon Rupnik)',
+            note: 'Settembre 1943: a seguito dell\'armistizio italiano la Provincia di Lubiana viene annessa de facto al Terzo Reich nell\'OZAK sotto il Gauleiter Friedrich Rainer, con il concorso delle formazioni collaborazioniste dei Domobranci.',
+            owner: 'OZAK',
+          };
+        }
         return {
           name: d.nuts === 'SI041'
             ? 'Provincia di Lubiana (Ljubljana — Annessione Italiana 1941)'
@@ -4529,7 +4907,21 @@ export function resolveBalkansToponym(
           owner: 'ITA',
         };
       }
-      if (d.nuts === 'SI038' || d.nuts === 'SI043' || d.nuts === 'SI044' || d.nuts === 'HR036') {
+      if (d.nuts === 'SI038' || d.nuts === 'SI043' || d.nuts === 'SI044' || d.nuts === 'HR036' || d.nuts === 'SI_HIST_KOPER' || d.nuts === 'HR_HIST_BUIE') {
+        if (step >= 13) {
+          return {
+            name: d.nuts === 'HR036'
+              ? 'Provincia di Pola (Operationszone Adriatisches Küstenland — Provinz Pola)'
+              : d.nuts === 'HR_HIST_BUIE'
+              ? 'Buie e Umago (Operationszone Adriatisches Küstenland — Kreis Buje)'
+              : d.nuts === 'SI_HIST_KOPER'
+              ? 'Capodistria (Operationszone Adriatisches Küstenland — Kreis Koper)'
+              : `${d.name} (Operationszone Adriatisches Küstenland)`,
+            adminTitle: 'Operationszone Adriatisches Küstenland (Gauleiter Friedrich Rainer)',
+            note: 'Settembre 1943: territorio integrato nell\'Operationszone Adriatisches Küstenland (OZAK) sotto il controllo diretto del Gauleiter Friedrich Rainer.',
+            owner: 'OZAK',
+          };
+        }
         return {
           name: d.name,
           adminTitle: d.preAdminTitle,
@@ -4538,6 +4930,14 @@ export function resolveBalkansToponym(
         };
       }
       if (d.nuts === 'HR031' || d.nuts === 'HR_HIST_PRIMORJE') {
+        if (step >= 13) {
+          return {
+            name: 'Fiume e Carnaro (Operationszone Adriatisches Küstenland — Provinz Fiume)',
+            adminTitle: 'Operationszone Adriatisches Küstenland — Provinz Fiume (Gauleiter Friedrich Rainer)',
+            note: 'Settembre 1943: la Provincia del Carnaro (Fiume, Sušak, Abbazia, Cherso e Lussino) viene annessa de facto al Terzo Reich nell\'OZAK sotto il Gauleiter Friedrich Rainer.',
+            owner: 'OZAK',
+          };
+        }
         return {
           name: 'Fiume, Sušak, Veglia e Castua (Provincia del Carnaro Ampliata)',
           adminTitle: "Regno d'Italia — Provincia del Carnaro (Intendenza Civile per i Territori Annessi del Fiumano e della Kupa)",
@@ -4546,6 +4946,21 @@ export function resolveBalkansToponym(
         };
       }
       if (d.nuts === 'HR033' || d.nuts === 'HR_HIST_ZADAR' || d.nuts === 'HR034' || d.nuts === 'HR035') {
+        if (step >= 13) {
+          const isZara = d.nuts === 'HR033' || d.nuts === 'HR_HIST_ZADAR';
+          return {
+            name: isZara
+              ? 'Zara (Occupazione Militare Tedesca — Wehrmacht Militärverwaltung Zara)'
+              : `${d.capitalOrChefLieu} (Dalmazia — Annessione allo Stato Indipendente di Croazia / Presidio Wehrmacht)`,
+            adminTitle: isZara
+              ? 'Deutsche Wehrmacht — Militärverwaltung Zara'
+              : 'Nezavisna Država Hrvatska (NDH) & Deutsche Wehrmacht',
+            note: isZara
+              ? 'Settembre 1943: la Wehrmacht assume il presidio militare diretto dell\'enclave italiana di Zara contro le offensive partigiane; la città subirà devastanti bombardamenti aerei alleati.'
+              : 'Settembre 1943: in seguito all\'armistizio italiano il Poglavnik Ante Pavelić ripudia i Trattati di Roma e proclama l\'annessione della Dalmazia allo Stato Indipendente di Croazia (NDH), presidiata da divisioni tedesche e ustaša.',
+            owner: isZara ? 'GER' : 'CRO',
+          };
+        }
         return {
           name: `${d.capitalOrChefLieu} (Governatorato della Dalmazia — Annessione Italiana 1941)`,
           adminTitle: "Regno d'Italia — Governatorato della Dalmazia (Governatore Giuseppe Bastianini — Zara, Spalato, Cattaro)",
@@ -4691,11 +5106,30 @@ export function resolveBalkansToponym(
 
       // 4. Zona d'Occupazione Italiana in Grecia (Isole Ionie, Epiro, Tessaglia, Grecia Centrale, Peloponneso, Cicladi, Samo)
       if (d.nuts.startsWith('EL62')) {
+        if (step >= 13) {
+          const isCeph = d.nuts === 'EL622';
+          return {
+            name: isCeph
+              ? 'Cefalonia e Itaca (Occupazione Militare Tedesca — Eccidio Divisione Acqui)'
+              : `${d.capitalOrChefLieu} (Isole Ionie — Occupazione Militare Tedesca Wehrmacht)`,
+            adminTitle: 'Deutsche Wehrmacht — Befehlshaber Südgriechenland / 1. Gebirgs-Division',
+            note: 'Settembre 1943: a seguito dell\'armistizio di Cassibile, la Wehrmacht disarma e occupa le Isole Ionie (a Cefalonia viene sterminata la Divisione Acqui che rifiutava la resa).',
+            owner: 'GER',
+          };
+        }
         return {
           name: `${d.capitalOrChefLieu} (Isole Ionie — Occupazione e Amministrazione Civile Italiana)`,
           adminTitle: "Regno d'Italia — Affari Civili per le Isole Ionie (Corfù, Cefalonia, Zante, Santa Maura)",
           note: 'Occupate dalle forze italiane tra il 20 e il 30 aprile 1941 e sottoposte a un\'amministrazione civile speciale italiana separata da Atene in vista della progettata annessione al Regno d\'Italia.',
           owner: 'ITA',
+        };
+      }
+      if (step >= 13) {
+        return {
+          name: `${d.capitalOrChefLieu} (Occupazione Militare Tedesca — Wehrmacht Heeresgruppe E)`,
+          adminTitle: 'Deutsche Wehrmacht — Militärbefehlshaber Griechenland & Elliniki Politeia',
+          note: 'Settembre 1943: con la capitolazione dell\'Italia la Wehrmacht rileva il controllo esclusivo dell\'intera Grecia continentale (subentrando all\'11ª Armata italiana in Tessaglia, Epiro e Peloponneso).',
+          owner: 'GER',
         };
       }
       return {

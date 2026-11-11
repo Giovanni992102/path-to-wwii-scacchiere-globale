@@ -2230,12 +2230,16 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
   const origNote = meta.getNote.bind(meta);
 
   meta.getSovereign = (s: number) => {
+    if (s >= 18 && meta.id === 'UM_WAKE') return 'USA';
+    if (s >= 15 && meta.id === 'GU') return 'USA';
     if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'USA';
     if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'JAP';
     if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'JAP';
     return origSov(s);
   };
   meta.getFaction = (s: number) => {
+    if (s >= 18 && meta.id === 'UM_WAKE') return 'Alleati';
+    if (s >= 15 && meta.id === 'GU') return 'Alleati';
     if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'Alleati';
     if (s >= 10 && meta.id === 'US_AK_ALEUTIANS_WEST') return 'Asse';
     if (s >= 9 && (meta.id === 'GU' || meta.id === 'UM_WAKE')) return 'Asse';
@@ -2243,6 +2247,16 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 18 && meta.id === 'UM_WAKE') {
+      return s >= 19
+        ? 'Wake Island (Territorio Non Incorporato USA — Civil Aeronautics Administration)'
+        : 'Wake Island (Resa Giapponese del 4 Settembre 1945 — Ritorno agli USA)';
+    }
+    if (s >= 15 && meta.id === 'GU') {
+      return s >= 19
+        ? 'Territory of Guam (Amministrazione Navale USA — Ricostruzione Postbellica)'
+        : 'Territory of Guam (Liberazione Statunitense — 10 Agosto 1944)';
+    }
     if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') {
       return 'Western Aleutian Islands — Attu & Kiska (Riconquista di Attu & Evacuazione Giapponese di Kiska, Luglio 1943)';
     }
@@ -2267,6 +2281,12 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origHist(s);
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 18 && meta.id === 'UM_WAKE') {
+      return 'United States Navy / Civil Aeronautics Administration — Wake Island';
+    }
+    if (s >= 15 && meta.id === 'GU') {
+      return 'United States of America — Territory of Guam (U.S. Navy & III Amphibious Corps — Maj. Gen. Roy Geiger)';
+    }
     if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') {
       return 'United States of America — Territory of Alaska (7th Infantry Division USA & US Navy North Pacific Force)';
     }
@@ -2281,6 +2301,14 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origAdmin(s);
   };
   meta.getNote = (s: number) => {
+    if (s >= 18 && meta.id === 'UM_WAKE') {
+      return s >= 19
+        ? "Al 30 settembre 1947 l'atollo di Wake funge da strategico scalo transpacifico dell'aviazione civile e navale statunitense (CAA / U.S. Navy)."
+        : "Il 4 settembre 1945 il contrammiraglio giapponese Shigematsu Sakaibara firma la resa incondizionata della guarnigione di Wake Island dinanzi al generale dei Marines Lawson H. M. Sanderson, restituendo l'atollo alla sovranità statunitense.";
+    }
+    if (s >= 15 && meta.id === 'GU') {
+      return "Territorio di Guam (Liberazione Statunitense — 10 Agosto 1944) · Con la Seconda battaglia di Guam (Operazione Forager, 21 luglio - 10 agosto 1944), la 3ª Divisione Marines, la 1ª Brigata Marina Provvisoria e la 77ª Divisione di Fanteria dell'US Army (III Amphibious Corps del Magg. Gen. Roy Geiger) sbarcano sulle spiagge di Asan e Agat; dopo sanguinosi contrattacchi suicidi notturni e la caduta del Monte Barrigada, l'isola viene interamente liberata e messa in sicurezza il 10 agosto 1944. Immediatamente trasformata dal Genio e dai Seabees in un'immensa base aerea e logistica navale (Apra Harbor e North Field), Guam diventa il quartier generale avanzato del CINCPAC dell'Ammiraglio Nimitz per le successive offensive verso le Filippine e Iwo Jima.";
+    }
     if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') {
       return "Isole Aleutine Occidentali (Attu e Kiska liberate — Luglio 1943) · Con l'Operazione Landcrab (maggio 1943) la 7ª Divisione di Fanteria dell'esercito statunitense riconquista l'isola di Attu dopo aspri combattimenti e la carica suicida banzai finale della guarnigione giapponese del Col. Yamazaki. Di fronte all'imminente attacco alleato, il 28 luglio 1943 la Marina imperiale giapponese (Operazione Ke-Gō) evacua segretamente nella fitta nebbia estiva l'intero presidio di 5.183 uomini dall'isola di Kiska, ponendo fine all'occupazione dell'arcipelago nordamericano.";
     }

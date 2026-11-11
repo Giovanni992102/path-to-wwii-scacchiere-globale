@@ -2,6 +2,7 @@ import { HISTORICAL_CITIES, getCityOwner } from '../components/TacticalMap';
 import * as d3 from 'd3';
 import { ResolvedTerritory, StatsStep } from '../types';
 import { resolveFeature, resolveHB } from './georesolver';
+import { isFrenchPacificProvince } from './frenchPacificProvinces';
 import { getOwnerMeta } from './owners';
 import { getExtendedToponym } from './historicalToponyms';
 import { STEPS } from './historySteps';
@@ -289,6 +290,7 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     resolved.name ||
     '';
   const nid = String(p.NUTS_ID || feature.id || p.CNTR_CODE || p.ISO_A2 || '');
+  const cleanId = String(feature.id || p.id || nid || '').toUpperCase().trim();
   let cent = feature.__cent;
   if (!cent && feature.geometry) {
     try {
@@ -364,6 +366,13 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     p.REGION_KIND === 'US_MILITARY_BASE' ||
     p.REGION_KIND === 'GERMANY_PROVINCE' ||
     p.REGION_KIND === 'INDOCHINA_PROVINCE' ||
+    p.REGION_KIND === 'FRENCH_PACIFIC_TERRITORY' ||
+    cleanId === 'PF_POLYNESIA' ||
+    cleanId.startsWith('PF_') ||
+    cleanId === 'NC_CALEDONIA' ||
+    cleanId === 'NH_HEBRIDES' ||
+    cleanId === 'WF_WALLIS_FUTUNA' ||
+    isFrenchPacificProvince(cleanId, rawBaseName) ||
     nid.startsWith('KH') ||
     nid.startsWith('LA') ||
     nid.startsWith('VN') ||

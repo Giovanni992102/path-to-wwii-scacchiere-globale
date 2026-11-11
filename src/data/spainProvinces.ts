@@ -3067,6 +3067,29 @@ export function resolveSpainProvince(
   if (!meta) return null;
 
   const owner = meta.getOwner(s);
+  if (step >= 18) {
+    let histName = meta.getHistoricalName(s);
+    let adminTitle = 'Estado Español (Francisco Franco — Neutralità e Isolamento Postbellico)';
+    let note = 'Nel secondo dopoguerra (Risoluzione ONU 39 del dicembre 1946), la Spagna franchista mantiene una stretta neutralità formale restando esclusa dalle Nazioni Unite; le piazze e isole atlantiche restano presidi sovrani dell\'Estado Español.';
+    if (step >= 19) {
+      if (meta.nuts === 'ES_RIF') {
+        histName = 'Protectorado Español de Marruecos (Zona del Rif / Tetuán)';
+        adminTitle = 'Estado Español — Alta Comisaría en Marruecos (Tte. Gen. José Enrique Varela, Tetuán)';
+        note = 'Protettorato spagnolo sul Marocco settentrionale (Rif e Yebala) retto dall\'Alto Commissario Tte. Gen. José Enrique Varela e dal Jalifa Muley Hassan ben el-Mehdi; evacuata Tangeri nel 1945 e isolata diplomaticamente Madrid nel 1947.';
+      } else if (meta.nuts === 'ES_SAHARA' || meta.nuts === 'ES_IFNI') {
+        histName = meta.nuts === 'ES_SAHARA'
+          ? 'África Occidental Española — Sáhara Español (Villa Cisneros / Cabo Juby)'
+          : 'África Occidental Española — Territorio de Ifni (Sidi Ifni)';
+        adminTitle = 'Gobierno del África Occidental Española (Sidi Ifni — Gen. José Bermejo López)';
+        note = 'Con decreto del 20 luglio 1946 Ifni e il Sahara Spagnolo (Saguia el-Hamra e Río de Oro) vengono unificati amministrativamente nel Gobierno del África Occidental Española (AOE) con sede a Sidi Ifni e caposaldi a Villa Cisneros e Cabo Juby.';
+      } else if (meta.nuts === 'ES_GUINEA') {
+        histName = 'Territorios Españoles del Golfo de Guinea (Fernando Poo / Río Muni)';
+        adminTitle = 'Estado Español — Gobernador del Golfo de Guinea (Juan María Bonelli Rubio)';
+        note = 'Colonia spagnola del Golfo di Guinea (Santa Isabel e Bata), retta dal Governatore Juan María Bonelli Rubio nel secondo dopoguerra tra economia di piantagione e isolamento internazionale di Madrid.';
+      }
+    }
+    return makeResult(owner, histName, note, 'Neutrale', adminTitle);
+  }
   return makeResult(
     owner,
     meta.getHistoricalName(s),

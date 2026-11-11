@@ -23,6 +23,7 @@
  */
 
 import { ResolvedTerritory, FactionType } from '../types';
+import { resolveUKExtendedStep } from './ukTimelineExtension';
 
 function makeResult(
   o: string,
@@ -7191,6 +7192,9 @@ export function resolveUKProvince(
   }
 
   if (!meta) return null;
+
+  const ext = resolveUKExtendedStep(meta, s);
+  if (ext) return ext;
 
   return makeResult(
     meta.getSovereign(s),

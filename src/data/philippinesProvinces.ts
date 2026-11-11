@@ -598,16 +598,44 @@ for (const [k, meta] of Object.entries(PHILIPPINES_PROVINCES_META)) {
   const isJap = PHILIPPINES_JAP_OCCUPIED_DEC1941.has(k) || PHILIPPINES_JAP_OCCUPIED_DEC1941.has(meta.id);
 
   (meta as any).getSovereign = (s: number) => {
+    if (s >= 19) return 'PHL';
+    if (s >= 17) return 'USA';
+    if (s >= 16) {
+      if (meta.id === 'PH08' || meta.id === 'PH41') return 'USA';
+      return 'JAP';
+    }
     if (s >= 10) return 'JAP';
     if (s >= 9) return isJap ? 'JAP' : 'PHL';
     return meta.sovereign;
   };
   meta.getFaction = (s: number) => {
+    if (s >= 17) return 'Alleati';
+    if (s >= 16) {
+      if (meta.id === 'PH08' || meta.id === 'PH41') return 'Alleati';
+      return 'Asse';
+    }
     if (s >= 10) return 'Asse';
     if (s >= 9) return isJap ? 'Asse' : 'Alleati';
     return meta.faction;
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 19) {
+      if (meta.id === 'PH00') return 'City of Manila (Capitale della Repubblica delle Filippine — Terza Repubblica)';
+      return `${meta.historicalName} (Repubblica delle Filippine — Indipendenza del 4 Luglio 1946)`;
+    }
+    if (s >= 17) {
+      if (meta.id === 'PH00') return 'City of Manila (Liberata dalle Forze Statunitensi e Filippine — Battaglia Urbana di Manila, Marzo 1945)';
+      if (meta.id === 'PH08') return 'Leyte & Samar (Liberate dalle Forze Statunitensi e Filippine — Gen. Douglas MacArthur)';
+      if (meta.id === 'PH41') return 'Mindoro & Palawan (Liberate — Basi Aeree Avanzate USA)';
+      return `${meta.historicalName} (Territorio Filippino Liberato — Commonwealth of the Philippines)`;
+    }
+    if (s >= 16) {
+      if (meta.id === 'PH08') return 'Leyte & Samar (Liberate dalle Forze Statunitensi e Filippine — Gen. Douglas MacArthur)';
+      if (meta.id === 'PH41') return 'Mindoro & Palawan (Sbarco USA del 15 Dicembre 1944 — Basi Aeree Avanzate)';
+      if (meta.id === 'PH00') return 'City of Manila (Occupazione Giapponese — 14ª Armata d\'Area del Gen. Tomoyuki Yamashita)';
+      if (meta.id === 'PH01') return 'Ilocos & Golfo di Lingayen (Presidio Giapponese — Difesa Costiera della Linea Shobu)';
+      return `${meta.historicalName} (Occupazione Militare Giapponese — Gen. Tomoyuki Yamashita, Dicembre 1944)`;
+    }
     if (s >= 10) {
       if (meta.id === 'PH00') return 'City of Manila (Occupazione Imperiale Giapponese — 14ª Armata & Philippine Executive Commission)';
       if (meta.id === 'PH03') return `${meta.historicalName} (Penisola di Bataan — Capitolazione del 9 Aprile 1942 & Marcia della Morte)`;
@@ -624,6 +652,17 @@ for (const [k, meta] of Object.entries(PHILIPPINES_PROVINCES_META)) {
     return meta.historicalName;
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 19) {
+      return 'Republic of the Philippines (President Manuel Roxas — First President of the Third Republic)';
+    }
+    if (s >= 17) {
+      return 'Commonwealth of the Philippines (President Sergio Osmeña) & U.S. Armed Forces (Gen. Douglas MacArthur)';
+    }
+    if (s >= 16) {
+      if (meta.id === 'PH08') return 'U.S. Sixth Army (Lt. Gen. Walter Krueger) & Commonwealth of the Philippines (President Sergio Osmeña)';
+      if (meta.id === 'PH41') return 'U.S. Army Forces Western Pacific — Western Visayas Task Force (Mindoro Operation)';
+      return 'Impero Giapponese — 14ª Armata d\'Area (Gen. Tomoyuki Yamashita — Shobu Group)';
+    }
     if (s >= 10) {
       return 'Impero Giapponese — Amministrazione Militare delle Filippine (14ª Armata — Ten. Gen. Masaharu Homma / Shizuichi Tanaka & Commissione Esecutiva di Jorge B. Vargas)';
     }
@@ -635,6 +674,24 @@ for (const [k, meta] of Object.entries(PHILIPPINES_PROVINCES_META)) {
     return meta.adminTitle;
   };
   meta.getNote = (s: number) => {
+    if (s >= 19) {
+      return "Il 4 luglio 1946 le Filippine ottengono la piena sovranità e indipendenza nazionale dagli Stati Uniti (Trattato di Manila firmato con il presidente Harry Truman), ponendo fine a quasi mezzo secolo di tutela coloniale e inaugurando la Terza Repubblica. Al 30 settembre 1947 il presidente Manuel Roxas fronteggia la grave crisi socio-economica postbellica e la nascente guerriglia contadina filo-marxista degli Hukbalahap (Huk) a Luzon centrale, mantenendo una stretta alleanza strategica con Washington suggellata dal Military Bases Agreement del marzo 1947 per la concessione per 99 anni delle basi militari di Clark Air Base e Subic Bay.";
+    }
+    if (s >= 17) {
+      return "Territorio dell'arcipelago delle Filippine interamente liberato o bonificato dalle truppe statunitensi della 6ª e 8ª Armata USA e dalle forze regolari e partigiane filippine. A seguito della sanguinosa liberazione di Manila (febbraio-marzo 1945), il presidente Sergio Osmeña reinsedia il governo del Commonwealth, mentre le residue truppe nipponiche del generale Yamashita sono isolate nelle montagne boscose della Sierra Madre.";
+    }
+    if (s >= 16) {
+      if (meta.id === 'PH08') {
+        return "Isola di Leyte e Samar interamente liberate e sotto saldo controllo delle forze statunitensi e filippine (U.S. Sixth Army del Gen. Walter Krueger) a seguito dello sbarco del 20 ottobre 1944 ('I have returned') e della distruzione della Marina Imperiale Giapponese nella Battaglia del Golfo di Leyte. Le basi aeree di Tacloban e Dulag garantiscono la totale supremazia aerea alleata.";
+      }
+      if (meta.id === 'PH41') {
+        return "Il 15 dicembre 1944 le truppe statunitensi della 24ª Divisione di Fanteria sbarcano a San Jose nel sud-ovest di Mindoro (Operazione Love III) senza incontrare quasi resistenza nipponica. In pochi giorni i genieri USA costruiscono le piste aeree avanzate 'Hill Field' ed 'Elmore Field' a ridosso di Manila per assicurare il dominio aereo e il supporto tattico allo sbarco nel Golfo di Lingayen (Luzon) fissato al 9 gennaio 1945.";
+      }
+      if (meta.islandGroup === 'Luzon') {
+        return "Luzon rimane sotto il controllo delle forze d'occupazione giapponesi della 14ª Armata d'Area comandata dal generale Tomoyuki Yamashita ('La Tigre della Malesia'). Con la perdita di Leyte e lo sbarco americano a Mindoro, Yamashita concentra oltre 250.000 uomini nelle catene montuose settentrionali e orientali preparando una feroce guerra d'attrito in vista dello sbarco USA nel Golfo di Lingayen fissato per il 9 gennaio 1945.";
+      }
+      return "Territorio filippino ancora occupato dalle guarnigioni della 14ª Armata d'Area e della 35ª Armata giapponese; tagliato fuori dalla madrepatria dopo la distruzione aeronavale del Golfo di Leyte e l'interruzione dei convogli petroliferi nel Mar Cinese Meridionale.";
+    }
     if (s >= 10) {
       if (meta.id === 'PH03') {
         return "Penisola di Bataan · Dopo tre mesi di assedio disperato senza rifornimenti né copertura aerea (e dopo l'evacuazione per ordine di Roosevelt del Gen. Douglas MacArthur in Australia l'11 marzo 1942 con la promessa 'I shall return'), il 9 aprile 1942 i 76.000 soldati americani e filippini del Magg. Gen. Edward P. King sono stati costretti alla resa a Bataan, subendo la tragica 'Marcia della Morte di Bataan' (Bataan Death March) da Mariveles a Camp O'Donnell.";

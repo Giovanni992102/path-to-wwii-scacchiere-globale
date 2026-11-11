@@ -27,7 +27,7 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
   const res = feature.__res ? feature.__res[currentStep] : null;
   if (!res) return null;
 
-  const meta = getOwnerMeta(res.o);
+  const meta = getOwnerMeta(res.o, currentStep);
   const fac = res.fac || meta.f;
   const p = feature.properties || {};
   const isHB = feature.__layer === 'hb';
@@ -197,14 +197,14 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
         {/* Historical Evolution Timeline List */}
         <div>
           <div className="text-[10px] tracking-[2px] text-[#8b9298] uppercase font-semibold mb-1">
-            Evoluzione del possesso · 1936–1940
+            Evoluzione del possesso • 1936–{STEPS[STEPS.length - 1]?.d ? STEPS[STEPS.length - 1].d.slice(-4) : '1947'}
           </div>
 
           <div className="border border-[#2c2a20] divide-y divide-white/5 bg-black/20">
             {STEPS.map((st, i) => {
               const stepRes = feature.__res ? feature.__res[i] : null;
               if (!stepRes) return null;
-              const stepMeta = getOwnerMeta(stepRes.o);
+              const stepMeta = getOwnerMeta(stepRes.o, i);
               const isCur = i === currentStep;
 
               return (

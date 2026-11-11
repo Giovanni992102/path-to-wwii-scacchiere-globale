@@ -8168,6 +8168,351 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
   const nationalEntity = step === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich';
   const adminEntity = `${meta.gau} — ${meta.land} (${nationalEntity})`;
 
+  // Step 17: Aprile 1945 — Crollo del Terzo Reich, Giunzione a Torgau, Sacca della Ruhr e Battaglia di Berlino
+  if (step === 17) {
+    const cleanId = String(id).toUpperCase().trim();
+    const nrm = (cleanId + ' ' + (meta.nutsName || '') + ' ' + (meta.modernName || '')).toLowerCase();
+
+    if (cleanId === 'DED51' || nrm.includes('leipzig') || nrm.includes('torgau')) {
+      return makeResult(
+        'USA',
+        'Leipzig (Torgau — Giunzione sull\'Elba tra 1ª Armata USA e 1° Fronte Ucraino Sovietico)',
+        'Il 25 aprile 1945 a Torgau sul fiume Elba (a nord-est di Lipsia), le truppe della 69ª Divisione di Fanteria della 1ª Armata USA del generale Courtney Hodges si congiungono con la 58ª Divisione Fucilieri Guardie dell\'Armata Rossa, spezzando in due il territorio del Reich.',
+        'Alleati',
+        'First United States Army / 12th Army Group (Gen. Courtney Hodges)'
+      );
+    }
+
+    if (cleanId === 'DE300' || nrm.includes('berlin')) {
+      return makeResult(
+        'SOV',
+        'Berlin (Battaglia di Berlino — Assalto Finale al Reichstag & Führerbunker)',
+        'Aprile 1945: l\'Armata Rossa sovietica (1° Fronte Bielorusso di Žukov e 1° Fronte Ucraino di Konev) circonda la capitale del Reich e sferra l\'assalto urbano finale conquistando il Reichstag.',
+        'Comintern',
+        '1° Fronte Bielorusso dell\'Armata Rossa (Maresciallo Georgij Žukov)'
+      );
+    }
+
+    if (cleanId === 'DEA12' || cleanId === 'DEA11' || cleanId === 'DEA23' || nrm.includes('duisburg') || nrm.includes('ruhr') || nrm.includes('essen')) {
+      return makeResult(
+        'USA',
+        'Ruhr (Sacca della Ruhr Cancellata — 1ª e 9ª Armata USA)',
+        'Aprile 1945: le forze statunitensi liquidano la Sacca della Ruhr catturando oltre 317.000 prigionieri della Wehrmacht (Heeresgruppe B del feldmaresciallo Walter Model).',
+        'Alleati',
+        'Ninth / First United States Army'
+      );
+    }
+
+    if (cleanId === 'DE212' || cleanId === 'DE254' || nrm.includes('munchen') || nrm.includes('munich') || nrm.includes('nurnberg')) {
+      return makeResult(
+        'USA',
+        'München (Baviera Liberata — 7ª Armata USA)',
+        'Avanzata della 7ª Armata statunitense in Baviera e liberazione di Monaco e Norimberga.',
+        'Alleati',
+        'Seventh United States Army (Lt. Gen. Alexander Patch)'
+      );
+    }
+
+    if (cleanId === 'DE111' || nrm.includes('stuttgart')) {
+      return makeResult(
+        'FRA',
+        'Stuttgart (Baden-Württemberg — 1ª Armata Francese Rhin et Danube)',
+        'La 1ª Armata francese del generale Jean de Lattre de Tassigny espugna Stoccarda e libera il Baden-Württemberg.',
+        'Alleati',
+        '1ère Armée Française (Général de Lattre de Tassigny)'
+      );
+    }
+
+    if (cleanId === 'DE600' || nrm.includes('hamburg')) {
+      return makeResult(
+        'GER',
+        'Hamburg (Festung Hamburg — Wehrmacht)',
+        'Amburgo rimane presidiata dalla Wehrmacht fino alla capitolazione di Lüneburg.',
+        'Asse',
+        'Wehrmacht — Festung Hamburg'
+      );
+    }
+
+    if (cleanId === 'DEF02' || cleanId.startsWith('DEF') || nrm.includes('kiel')) {
+      return makeResult(
+        'GER',
+        'Kiel (Schleswig-Holstein — Presidio della Wehrmacht)',
+        'Roccaforte settentrionale e base navale della Kriegsmarine.',
+        'Asse',
+        'Kriegsmarine / Wehrmacht'
+      );
+    }
+
+    if (cleanId === 'LV003' || nrm.includes('kurzem') || nrm.includes('curlandia')) {
+      return makeResult(
+        'GER',
+        'Kurzeme (Sacca di Curlandia — Heeresgruppe Kurland)',
+        'Heeresgruppe Kurland isolato nella penisola di Curlandia.',
+        'Asse',
+        'Wehrmacht — Heeresgruppe Kurland'
+      );
+    }
+
+    if (cleanId === 'PL514' || nrm.includes('breslau') || nrm.includes('wroclaw')) {
+      return makeResult(
+        'GER',
+        'Festung Breslau (Breslavia — Wehrmacht)',
+        'Fortezza di Breslavia assediata dall\'Armata Rossa fino al 6 maggio 1945.',
+        'Asse',
+        'Wehrmacht — Festung Breslau'
+      );
+    }
+  }
+
+  // Step 18-19: Settembre 1945 – Settembre 1947 — Germania Quadripartita (Potsdam), Bizona & Saarland
+  if (step >= 18) {
+    const cleanId = String(id).toUpperCase().trim();
+    const nrm = (cleanId + ' ' + (meta.nutsName || '') + ' ' + (meta.modernName || '')).toLowerCase();
+    const label = meta.nutsName || meta.modernName || 'Deutschland';
+    const isStep19 = step >= 19;
+
+    // 1. Königsberg / Kaliningrad (annessa all'URSS — RSFSR)
+    if (cleanId === 'DE_HIST_KONIGSBERG' || nrm.includes('konigsberg') || nrm.includes('kaliningrad')) {
+      return makeResult(
+        'SOV',
+        'Königsberg (Kaliningrad — Annessione Sovietica)',
+        isStep19
+          ? 'Kaliningradskaya Oblast (RSFSR / URSS): città e Prussia Orientale settentrionale interamente integrate nell\'Unione Sovietica secondo gli accordi di Potsdam.'
+          : 'Città e distretto settentrionale della Prussia Orientale annessi all\'URSS.',
+        'Comintern',
+        'SSSR — Kaliningrad'
+      );
+    }
+
+    // 2. Berlino Partita: DE300_WEST (Settori Occidentali USA/UK/FRA), DE300_EAST (Settore Sovietico), più fallback DE300
+    if (cleanId === 'DE300_WEST' || (nrm.includes('west-berlin') || nrm.includes('berlino ovest'))) {
+      return makeResult(
+        'USA',
+        isStep19
+          ? 'West-Berlin (Settori Occidentali — USA, Regno Unito, Francia)'
+          : 'West-Berlin (Settori Occidentali Alleati — Kommandatura Tripartita)',
+        isStep19
+          ? 'Settori americano (Kreuzberg, Neukölln, Tempelhof, Schöneberg, Steglitz, Zehlendorf), britannico (Tiergarten, Charlottenburg, Wilmersdorf, Spandau) e francese (Wedding, Reinickendorf) presidiati dalle potenze occidentali al cuore della Zona Sovietica.'
+          : 'Dall\'estate 1945 i settori occidentali di Berlino sono presidiati congiuntamente da USA, Regno Unito e Francia sotto il coordinamento dell\'Alliierte Kommandantur.',
+        'Alleati',
+        'Allied Kommandatura — Western Sectors (US, British, French Military Governments)'
+      );
+    }
+
+    if (cleanId === 'DE300_EAST' || nrm.includes('hauptstadt der ddr') || nrm.includes('ost-berlin') || nrm.includes('berlino est')) {
+      return makeResult(
+        'SOV',
+        isStep19
+          ? 'Ost-Berlin (Settore di Occupazione Sovietico — SMAD)'
+          : 'Ost-Berlin (Settore Sovietico — Kommandatura Interalleata)',
+        isStep19
+          ? 'Settore orientale di Berlino (Mitte, Prenzlauer Berg, Friedrichshain, Treptow, Köpenick, Lichtenberg, Weißensee, Pankow) sotto Amministrazione Militare Sovietica (SMAD).'
+          : 'Settore orientale di Berlino sotto controllo sovietico della SMAD nell\'ambito della Kommandatura quadrigemina.',
+        isStep19 ? 'Comintern' : 'Alleati',
+        'Sowjetische Militäradministration in Deutschland (SMAD — Sowjetischer Sektor)'
+      );
+    }
+
+    if (cleanId === 'DE300' || nrm.includes('berlin')) {
+      return makeResult(
+        'SOV',
+        'Groß-Berlin (Settore di Occupazione Sovietica & Autorità Quadripartita Kommandatura)',
+        'Berlino quadripartita retta dalla Kommandatura interalleata.',
+        'Alleati',
+        'Amministrazione Militare Sovietica in Germania (SMAD / Kommandatura)'
+      );
+    }
+
+    // 3. Protettorato della Saar (DEC01-DEC06): GMZFO a Step 18, Protettorato economico distaccato a Step 19 (esclusa DEB25 Trier-Saarburg)
+    const isSaarDistrict =
+      (cleanId.startsWith('DEC') || nrm.includes('saar')) &&
+      cleanId !== 'DEB25' &&
+      !nrm.includes('trier-saarburg');
+
+    if (isSaarDistrict) {
+      if (isStep19) {
+        const isSaarlouis = cleanId === 'DEC04' || nrm.includes('saarlouis');
+        const saarLabel = isSaarlouis ? 'Saarlouis' : cleanId === 'DEC01' || nrm.includes('saarbrucken') ? 'Saarbrücken' : label;
+        return makeResult(
+          'SAAR',
+          `${saarLabel} (Protettorato della Saar — Unione Economica con la Francia)`,
+          'Il Protettorato della Saar viene formalmente distaccato dalla Germania occupata con l\'introduzione del Marco della Saar e l\'unione economica e doganale con la Francia di Monnet.',
+          'Neutrale',
+          'Protectorat de la Sarre — Haut-Commissaire Gilbert Grandval'
+        );
+      }
+      return makeResult(
+        'FRA',
+        `Saarland (${label} — Zona di Occupazione Francese & Missione Monnet)`,
+        'Bacino minerario e industriale della Saar sotto occupazione militare francese (GMZFO) in attesa dello statuto autonomo.',
+        'Alleati',
+        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
+      );
+    }
+
+    if (cleanId === 'DEB25' || nrm.includes('trier-saarburg')) {
+      return makeResult(
+        'FRA',
+        'Trier-Saarburg (Renania-Palatinato — Zona di Occupazione Francese GMZFO)',
+        'Distretto della Renania-Palatinato nella zona di occupazione militare francese (GMZFO), mantenuto separato dal vicino Protettorato della Saar.',
+        'Alleati',
+        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
+      );
+    }
+
+    // 4. Eccezioni speciali del Sud-Ovest: Corridoio di Lindau (FRA), HQ Baden-Baden (FRA) e Ulm/Alb-Donau (USA)
+    if (cleanId === 'DE27A' || nrm.includes('lindau')) {
+      return makeResult(
+        'FRA',
+        'Lindau (Bodensee — Corridoio Francese di Collegamento con il Vorarlberg)',
+        'Distretto bavarese di Lindau assegnato alla Zona Francese per garantire la continuità territoriale fra il Württemberg-Hohenzollern e il Vorarlberg austriaco.',
+        'Alleati',
+        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
+      );
+    }
+
+    if (cleanId === 'DE121' || nrm.includes('baden-baden')) {
+      return makeResult(
+        'FRA',
+        'Baden-Baden (Quartier Generale della Zona di Occupazione Francese GMZFO)',
+        isStep19
+          ? 'Sede centrale del Governatore Militare francese Pierre Kœnig e della GMZFO, ancora esterna alla Bizona anglo-americana al settembre 1947.'
+          : 'Sede del Governatore Militare francese generale Pierre Kœnig.',
+        'Alleati',
+        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Gen. Pierre Kœnig)'
+      );
+    }
+
+    if (cleanId === 'DE144' || nrm.includes('ulm, stadtkreis')) {
+      return makeResult(
+        'USA',
+        isStep19 ? 'Ulm (Zona Statunitense OMGUS — Bizona / Württemberg-Baden)' : 'Ulm (Zona di Occupazione Statunitense — Württemberg-Baden)',
+        isStep19
+          ? 'Distretto strategico lungo l\'autostrada A8 nel Württemberg-Baden statunitense integrato nella Bizona economica (Vereinigtes Wirtschaftsgebiet).'
+          : 'Distretto a sud dell\'autostrada A8 assegnato alla Zona di Occupazione USA.',
+        'Alleati',
+        'Office of Military Government, United States (OMGUS)'
+      );
+    }
+
+    // 5. Enclave portuale statunitense di Brema / Bremerhaven nella Zona Britannica
+    if (cleanId === 'DE501' || cleanId === 'DE502' || cleanId.startsWith('DE5') || nrm.includes('bremen') || nrm.includes('bremerhaven')) {
+      return makeResult(
+        'USA',
+        isStep19
+          ? `Brema — ${label} (Enclave Portuale Statunitense OMGUS — Bizona)`
+          : 'Brema (Bremen — Enclave Portuale della Zona di Occupazione Statunitense)',
+        isStep19
+          ? 'Enclave portuale di Brema e Bremerhaven costituita in Land Bremen sotto amministrazione OMGUS nella Bizona anglo-americana.'
+          : 'Enclave portuale strategica di Brema e Bremerhaven assegnata all\'amministrazione USA come sbocco marittimo sul Mare del Nord.',
+        'Alleati',
+        'Office of Military Government, United States (OMGUS — Bremen Enclave)'
+      );
+    }
+
+    // 6. Ripartizione storica del Baden-Württemberg lungo l'Autobahn A8 (Karlsruhe–Stuttgart–Ulm):
+    //    - USA (Württemberg-Baden): tutto DE11* (Stuttgart/Heilbronn/Ostalb), Nord-Karlsruhe/Mannheim/Heidelberg/Pforzheim (DE122, DE123, DE125..DE129, DE12B) e corridoio Danubio-A8 (DE144 Ulm, DE145 Alb-Donau-Kreis).
+    //    - FRA (Südbaden & Württemberg-Hohenzollern): DE13* (Freiburg/Konstanz/Ortenau), DE121/DE124/DE12A/DE12C (Baden-Baden, Rastatt, Calw, Freudenstadt), DE141..DE143 & DE146..DE149 (Tübingen, Reutlingen, Sigmaringen, Biberach, Ravensburg, Bodensee).
+    const US_BADEN_WURTT_DISTRICTS = new Set([
+      'DE122', 'DE123', 'DE125', 'DE126', 'DE127', 'DE128', 'DE129', 'DE12B',
+      'DE144', 'DE145',
+    ]);
+    const isUsBadenWurtt = cleanId.startsWith('DE11') || US_BADEN_WURTT_DISTRICTS.has(cleanId);
+    if (isUsBadenWurtt) {
+      return makeResult(
+        'USA',
+        isStep19
+          ? `${label} (Württemberg-Baden — Zona Statunitense OMGUS / Bizona)`
+          : `${label} (Württemberg-Baden — US Occupation Zone OMGUS)`,
+        isStep19
+          ? 'Territorio del Land Württemberg-Baden nella zona americana (fascia settentrionale dell\'Autobahn A8 Karlsruhe–Stuttgart–Ulm), parte della Bizona economica anglo-americana dal 1° gennaio 1947.'
+          : 'Territorio del Baden settentrionale e Württemberg settentrionale (a nord dell\'asse autostradale A8) assegnato alla Zona di Occupazione Statunitense (OMGUS).',
+        'Alleati',
+        'Office of Military Government, United States (OMGUS — Württemberg-Baden)'
+      );
+    }
+
+    // 7. Zona Francese (GMZFO): tutta la Renania-Palatinato (DEB*), Südbaden (DE13*) e restanti distretti (DE121/124/12A/12C, DE14* eccetto Ulm/Alb-Donau)
+    if (cleanId.startsWith('DEB') || cleanId.startsWith('DE1')) {
+      return makeResult(
+        'FRA',
+        isStep19
+          ? `${label} (Zone d'Occupation Française — GMZFO, fuori dalla Bizona)`
+          : `${label} (Zone d'Occupation Française — GMZFO)`,
+        isStep19
+          ? 'Territorio della Renania-Palatinato, Südbaden o Württemberg-Hohenzollern nella Zona di Occupazione Francese retta dal Gen. Kœnig (ancora esterna alla Bizona anglo-americana nel settembre 1947).'
+          : 'Zona di occupazione militare francese in Germania (Renania-Palatinato, Baden meridionale e Württemberg-Hohenzollern).',
+        'Alleati',
+        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
+      );
+    }
+
+    // 8. Zona Britannica (CCG/BE): Amburgo (DE6), Nordrhein-Westfalen (DEA), Niedersachsen (DE9), Schleswig-Holstein (DEF)
+    if (
+      cleanId === 'DE600' ||
+      cleanId === 'DEA23' ||
+      cleanId.startsWith('DE6') ||
+      cleanId.startsWith('DEA') ||
+      cleanId.startsWith('DE9') ||
+      cleanId.startsWith('DEF')
+    ) {
+      return makeResult(
+        'UK',
+        isStep19
+          ? `${label} (British Occupation Zone CCG/BE — Bizona)`
+          : `${label} (British Occupation Zone — CCG/BE)`,
+        isStep19
+          ? 'Zona di occupazione britannica in Germania (Amburgo, Schleswig-Holstein, Bassa Sassonia, Renania Settentrionale-Vestfalia e Ruhr), unita dal 1° gennaio 1947 con la zona USA nella Bizona economica (Vereinigtes Wirtschaftsgebiet).'
+          : 'Zona di occupazione britannica in Germania (Control Commission for Germany — British Element).',
+        'Alleati',
+        isStep19
+          ? 'Control Commission for Germany — British Element (CCG/BE · Bizona Anglo-Americana)'
+          : 'Control Commission for Germany — British Element (CCG/BE)'
+      );
+    }
+
+    // 9. Zona Statunitense (OMGUS): Baviera (DE2*, esclusa Lindau già gestita) & Assia (DE7*)
+    if (cleanId === 'DE212' || cleanId.startsWith('DE2') || cleanId.startsWith('DE7')) {
+      return makeResult(
+        'USA',
+        isStep19
+          ? `${label} (US Occupation Zone OMGUS — Bizona)`
+          : `${label} (US Occupation Zone — OMGUS)`,
+        isStep19
+          ? 'Zona di occupazione statunitense in Germania (Baviera ed Assia con sede del Wirtschaftsrat a Francoforte sul Meno), fusa con la zona britannica nella Bizona dal 1° gennaio 1947.'
+          : 'Zona di occupazione statunitense in Germania (OMGUS).',
+        'Alleati',
+        isStep19
+          ? 'Office of Military Government, United States (OMGUS · Bizona Anglo-Americana)'
+          : 'Office of Military Government, United States (OMGUS)'
+      );
+    }
+
+    // 10. Zona Sovietica (SBZ / SMAD): Brandeburgo (DE4), Meclemburgo-Pomerania Anteriore (DE8), Sassonia (DED), Sassonia-Anhalt (DEE), Turingia (DEG)
+    if (
+      cleanId === 'DED21' ||
+      cleanId.startsWith('DE4') ||
+      cleanId.startsWith('DE8') ||
+      cleanId.startsWith('DED') ||
+      cleanId.startsWith('DEE') ||
+      cleanId.startsWith('DEG')
+    ) {
+      return makeResult(
+        'SOV',
+        isStep19
+          ? `${label} (Sowjetische Besatzungszone SBZ — SMAD / DWK)`
+          : `${label} (Sowjetische Besatzungszone — SBZ)`,
+        isStep19
+          ? 'Zona di occupazione sovietica in Germania (SMAD e Deutsche Wirtschaftskommission istituita nel giugno 1947): riforma agraria e nazionalizzazione dell\'industria nei Länder Brandeburgo, Meclemburgo, Sassonia, Sassonia-Anhalt e Turingia.'
+          : 'Zona di occupazione sovietica in Germania (Sowjetische Militäradministration in Deutschland — SMAD).',
+        'Comintern',
+        isStep19
+          ? 'Sowjetische Militäradministration in Deutschland (SMAD / DWK 1947)'
+          : 'Sowjetische Militäradministration in Deutschland (SMAD)'
+      );
+    }
+  }
+
   return makeResult(
     'GER',
     meta.historicalName,

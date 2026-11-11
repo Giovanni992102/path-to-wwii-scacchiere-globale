@@ -40,8 +40,8 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [-4.50, 55.95],  // Firth of Clyde / Glasgow
       [-3.00, 53.40],  // Liverpool
     ],
-    description: 'La fondamentale linea di rifornimento vitale per la sopravvivenza della Gran Bretagna (armi, petrolio, cibo).',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    description: 'La fondamentale linea di rifornimento vitale per la sopravvivenza della Gran Bretagna (armi, petrolio, cibo) e successiva arteria postbellica.',
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
   },
   {
     id: 'mediterranean_suez_lifeline',
@@ -62,8 +62,8 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [43.40, 12.60],  // Stretto di Bab el-Mandeb
       [45.00, 12.80],  // Aden (Oceano Indiano)
     ],
-    description: 'Il corridoio imperiale britannico più rapido per collegare la madrepatria con l\'India Britannica e Singapore.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    description: 'Il corridoio imperiale britannico più rapido per collegare la madrepatria con l\'India Britannica, il Medio Oriente e l\'Estremo Oriente.',
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
   },
   {
     id: 'cape_route',
@@ -84,8 +84,8 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [55.00, 0.00],   // Oceano Indiano equatoriale
       [72.85, 18.95],  // Bombay (India)
     ],
-    description: 'Rotta strategica di riserva usata dai convogli alleati per evitare i pericoli aero-navali del Mediterraneo.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    description: 'Rotta strategica oceanica dell\'Atlantico meridionale e dell\'Oceano Indiano lungo il Capo di Buona Speranza.',
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
   },
   {
     id: 'pacific_singapore_tokyo',
@@ -104,7 +104,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [139.70, 35.65], // Tokyo
     ],
     description: 'L\'arteria vitale per l\'Impero Giapponese: trasporto di gomma, petrolio, bauxite e riso verso le industrie della madrepatria.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
   },
   {
     id: 'transpacific_us_hawaii',
@@ -127,14 +127,14 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
         [-122.42, 37.77], // San Francisco (California)
       ],
     ],
-    description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor e alle Filippine attraverso l\'Oceano Pacifico.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor, Guam e alle Filippine attraverso l\'Oceano Pacifico.',
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
   },
 
-  // Nuove rotte strategiche per il conflitto bellico (1940-1942)
+  // Nuove rotte strategiche per il conflitto bellico (1940-1945)
   {
     id: 'arctic_convoys',
-    name: 'Rotta dei Convogli Artici (Arctic Convoys — PQ / QP)',
+    name: 'Rotta dei Convogli Artici (Arctic Convoys — PQ / QP & JW / RA)',
     historicalName: 'Loch Ewe / Islanda -> Mar di Barents -> Murmansk & Arcangelo',
     type: 'atlantic_convoy',
     color: '#7fc8f8',
@@ -148,7 +148,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [40.50, 64.55],  // Arcangelo (Golfo di Dvina / Mar Bianco)
     ],
     description: 'La via navale più estrema della guerra: convogli alleati carichi di carri armati, aerei e munizioni affrontano ghiacci polari, tempeste e gli attacchi di U-Boot e bombardieri della Luftwaffe dai fiordi norvegesi per rifornire l\'URSS.',
-    activeSteps: [9, 10, 11, 12, 13], // Attivata dall'agosto 1941 (Operazione Dervish)
+    activeSteps: [9, 10, 11, 12, 13, 14, 15, 16, 17],
   },
   {
     id: 'axis_libya_convoy',
@@ -166,7 +166,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [20.06, 32.11], // Bengasi
     ],
     description: 'Cordone ombelicale logistico essenziale per il sostentamento del Regio Esercito e dell\'Afrikakorps di Rommel in Nordafrica, costantemente bersagliato dalla Force K e dai sommergibili britannici basati a Malta.',
-    activeSteps: [6, 7, 8, 9, 10, 11, 12, 13], // Dal giugno 1940
+    activeSteps: [6, 7, 8, 9, 10, 11, 12],
   },
   {
     id: 'persian_corridor_sealane',
@@ -185,7 +185,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [47.80, 30.50],  // Bassora (Iraq)
     ],
     description: 'Arteria marittima oceanica aperta dagli Alleati dopo l\'invasione congiunta anglo-sovietica dell\'Iran nell\'agosto-settembre 1941. Convogliava autocarri Studebaker, munizioni e materiale bellico del Lend-Lease verso la Russia tramite la Ferrovia Trans-Iraniana.',
-    activeSteps: [9, 10, 11, 12, 13],
+    activeSteps: [9, 10, 11, 12, 13, 14, 15, 16, 17],
   },
 ];
 
@@ -199,7 +199,19 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
 
   switch (lane.id) {
     case 'north_atlantic_convoy':
-      if (step < 5) {
+      if (step >= 18) {
+        statusNote = step >= 19 ? 'Rotte Civili & Aiuti Europei (Pre-Piano Marshall 1947)' : 'Smobilitazione Alleata & Convogli UNRRA (1945)';
+        isContested = false;
+        color = '#5f87c0';
+        description = step >= 19
+          ? 'Al 30 settembre 1947 l\'Atlantico Settentrionale costituisce il principale corridoio mercantile e logistico tra il Nord America e l\'Europa occidentale alla vigilia del Piano Marshall (ERP).'
+          : 'Dopo la fine del conflitto in Europa, le rotte transatlantiche convogliano i rientri delle truppe statunitensi/canadesi (Operation Magic Carpet) e i rifornimenti UNRRA per la ricostruzione.';
+      } else if (step >= 14) {
+        statusNote = 'Dominio Aeronavale Alleato — Alimentazione Fronte Occidentale (Overlord)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Con gli U-Boot neutralizzati dall\'aviazione e dai gruppi hunter-killer alleati, giganteschi convogli statunitensi riforniscono in sicurezza le armate alleate in Francia, Belgio e Germania fino alla resa del maggio 1945.';
+      } else if (step < 5) {
         statusNote = 'Navigazione Commerciale Regolare';
         description = 'La fondamentale arteria commerciale transatlantica che collega gli Stati Uniti e il Canada ai porti industriali del Regno Unito.';
       } else if (step <= 6) {
@@ -227,7 +239,14 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'mediterranean_suez_lifeline':
-      if (step < 6) {
+      if (step >= 18) {
+        statusNote = step >= 19 ? 'Corridoio Marittimo Postbellico Suez–Mediterraneo' : 'Rotta Postbellica Rimpatrio & Presidio Suez (1945)';
+        isContested = false;
+        color = '#5aa0c2';
+        description = step >= 19
+          ? 'Arteria marittima internazionale lungo il Canale di Suez presidiato nella Canal Zone britannica, fondamentale per i traffici petroliferi del Golfo e la smobilitazione imperiale dall\'India.'
+          : 'Corridoio marittimo riaperto al traffico mercantile postbellico e ai trasferimenti navali verso l\'India, la Malesia e l\'Estremo Oriente.';
+      } else if (step < 6) {
         statusNote = 'Arteria Imperiale Britannica Aperta';
         description = 'Il corridoio marittimo più rapido per collegare la Gran Bretagna con l\'Egitto, l\'India Britannica e Singapore attraverso Gibilterra e Suez.';
       } else if (step < 10) {
@@ -254,7 +273,13 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'cape_route':
-      if (step < 6) {
+      if (step >= 18) {
+        statusNote = 'Rotta Commerciale Sudafrica–Oceano Indiano';
+        description = 'Linea oceanica pacifica del dopoguerra tra l\'Europa, il Sudafrica e i nuovi Dominion dell\'Asia meridionale (India e Pakistan al 1947).';
+      } else if (step >= 14) {
+        statusNote = 'Rotta Logistica di Riserva e Teatro Indiano-SEAC';
+        description = 'Dopo la riapertura del Mediterraneo, la rotta del Capo sostiene i rifornimenti strategici per il Comando Alleato del Sud-Est Asiatico (SEAC) a Ceylon, in India e in Birmania.';
+      } else if (step < 6) {
         statusNote = 'Rotta Oceanica Secondaria';
         description = 'Rotta commerciale trans-oceanica di collegamento tra l\'Impero Britannico, l\'Africa australe e l\'Oceano Indiano.';
       } else {
@@ -264,7 +289,17 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'pacific_singapore_tokyo':
-      if (step < 9) {
+      if (step >= 17) {
+        statusNote = 'Arteria Recisa — Blocco Totale Alleato (Operazione Starvation)';
+        isContested = true;
+        color = '#7a7a7a';
+        description = 'Primavera 1945: la marina mercantile giapponese è annientata dai sommergibili USA, dagli attacchi della Task Force 38 nel Mar Cinese Meridionale e dalle mine dei B-29; il collegamento con Singapore e Palembang è definitivamente spezzato.';
+      } else if (step >= 14) {
+        statusNote = 'Rotta Giapponese Stritolata dai Sommergibili & Aviazione USA';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Dalla metà del 1944 i sommergibili statunitensi della Pacific Fleet (wolfpacks nel Canale di Luzon) e le incursioni aeree alleate affondano la maggior parte delle petroliere giapponesi dirette da Sumatra e Borneo verso il Giappone.';
+      } else if (step < 9) {
         statusNote = 'Linee Commerciali e Petrolifere Giapponesi';
         description = 'L\'arteria vitale per l\'approvvigionamento di riso, ferro e petrolio verso le isole metropolitane dell\'Impero Giapponese.';
       } else if (step === 9) {
@@ -281,7 +316,19 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'transpacific_us_hawaii':
-      if (step < 9) {
+      if (step >= 18) {
+        statusNote = step >= 19 ? 'Rotta Transpacifica USA — Trust Territory & Repubblica delle Filippine' : 'Ponte Navale Postbellico USA verso Filippine, Okinawa e Giappone (SCAP)';
+        isContested = false;
+        color = '#3d6c96';
+        description = step >= 19
+          ? 'Linea di comunicazione statunitense lungo il Pacifico settentrionale che collega la California a Pearl Harbor, Guam, il Trust Territory della Micronesia (ONU 1947), le basi in Giappone e Manila.'
+          : 'Settembre 1945: la marina e i trasporti statunitensi dominano incontrastati l\'intero Pacifico per il rimpatrio delle truppe e il rifornimento delle forze di occupazione SCAP in Giappone e Corea del Sud.';
+      } else if (step >= 14) {
+        statusNote = 'Spinta Strategica Statunitense verso Marianne, Filippine & Okinawa';
+        isContested = true;
+        color = '#5aa0c2';
+        description = 'Con la conquista di Saipan, Guam (1944), Luzon, Iwo Jima e Okinawa (1945), la gigantesca catena logistica della U.S. Navy trasporta divisioni, flotte di portaerei e bombardieri B-29 attraverso il Pacifico sino alle porte del Giappone.';
+      } else if (step < 9) {
         statusNote = 'Arteria di Comunicazione USA - Filippine';
         description = 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor, Guam e Manila.';
       } else if (step === 9) {
@@ -308,7 +355,12 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'arctic_convoys':
-      if (step >= 10) {
+      if (step >= 14) {
+        statusNote = 'Convogli Artici JW / RA — Supremazia Alleata nel Mar di Barents';
+        isContested = true;
+        color = '#7fc8f8';
+        description = 'Dopo l\'affondamento dello Scharnhorst e la messa fuori combattimento della Tirpitz (novembre 1944), i convogli artici JW/RA dall\'Islanda e dalla Scozia consegnano a Murmansk e Arcangelo rifornimenti quasi ininterrotti fino alla vittoria in Europa.';
+      } else if (step >= 10) {
         statusNote = 'Tragedia del Convoglio PQ-17 & Assalti nel Mar di Barents';
         isContested = true;
         description = 'Nell\'estate 1942 la rotta artica sotto il sole di mezzanotte diventa un inferno aeronavale: nel luglio 1942 il convoglio PQ-17 perde 24 mercantili su 35 sotto gli attacchi combinati di U-Boot e aerosiluranti della Luftwaffe dopo l\'ordine di dispersione per la minaccia della corazzata Tirpitz.';
@@ -342,8 +394,8 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'persian_corridor_sealane':
-      statusNote = 'Rotte del Golfo Persico (Lend-Lease)';
-      description = 'Arteria logistica creata dopo l\'invasione anglo-sovietica dell\'Iran nell\'autunno 1941; imponenti convogli scaricano a Bassora e Bandar Shahpur armamenti pesanti e autocarri americani destinati all\'Armata Rossa attraverso la Ferrovia Trans-Iraniana.';
+      statusNote = step >= 14 ? 'Convogli Lend-Lease Finali del Golfo Persico' : 'Rotte del Golfo Persico (Lend-Lease)';
+      description = 'Arteria logistica creata dopo l\'invasione anglo-sovietica dell\'Iran nell\'autunno 1941; imponenti convogli scaricano a Bassora e Bandar Shahpur armamenti pesanti e autocarri americani destinati all\'Armata Rossa attraverso la Ferrovia Trans-Iraniana fino alla resa della Germania (maggio 1945).';
       break;
   }
 

@@ -1303,7 +1303,7 @@ export const JAPAN_REGION_ALIASES: Record<string, string> = {
 export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
   const p = (ft && ft.properties) ? ft.properties : {};
   const fidClean = String(ft.id || p.id || p.NUTS_ID || '').trim();
-  const rawName = String(p.HISTORICAL_NAME || p.NAME || p.name || 'Dai Nippon Teikoku (Naichi)');
+  const rawName = String(p.HISTORICAL_NAME || p.NAME || p.name || p.NAME_LATN || 'Dai Nippon Teikoku (Naichi)');
   const nrm = (fidClean + ' ' + rawName + ' ' + (p.NAME_LATN || '')).toLowerCase();
 
   // 1. Direct match per ID canonico in JAPAN_PROVINCES_META
@@ -1314,6 +1314,103 @@ export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
     if (cleanNum.length === 2 && !isNaN(Number(cleanNum))) {
       meta = JAPAN_PROVINCES_META['JP' + cleanNum];
     }
+  }
+
+  // STEP 18+ (Settembre 1945): Resa del Giappone, Occupazione SCAP e Annessioni Sovietiche di Karafuto e Curili
+  if (s >= 18) {
+    if (fidClean === 'JP_KARAFUTO' || fidClean.includes('KARAFUTO') || nrm.includes('karafuto') || nrm.includes('sachalin') || nrm.includes('sakhalin')) {
+      return makeResult(
+        'SOV',
+        'Yuzhno-Sakhalinsk (Sachalin Meridionale — Annessa all\'URSS)',
+        "Agosto-Settembre 1945: l'Armata Rossa (2° Fronte dell'Estremo Oriente e Flotta del Pacifico) invade Karafuto (Operazione Sachalin Sud). Con la resa del Giappone, l'intero territorio a sud del 50° parallelo viene annesso direttamente all'Unione Sovietica e ridenominato Yuzhno-Sakhalinskaya Oblast'.",
+        'Comintern',
+        'SSSR — Yuzhno-Sakhalinskaya Oblast\' (2° Fronte dell\'Estremo Oriente)'
+      );
+    }
+    if (fidClean === 'JP_CHISHIMA' || fidClean.includes('CHISHIMA') || nrm.includes('chishima') || nrm.includes('curili') || nrm.includes('kuril')) {
+      return makeResult(
+        'SOV',
+        'Kuril\'skie Ostrova (Isole Curili — Annesse all\'URSS)',
+        "Operazione di sbarco delle Curili (18 agosto - 1° settembre 1945): le truppe della Flotta del Pacifico sovietica e della 101ª Divisione Fucilieri conquistano l'intero arco delle isole Curili da Paramushir a Etorofu, Kunashiri e Shikotan, annettendo l'arcipelago all'URSS.",
+        'Comintern',
+        'SSSR — Flotta del Pacifico / 2° Fronte dell\'Estremo Oriente'
+      );
+    }
+    // Port Arthur e Dalian (Kantō-shū): Base Navale Sovietica e Distretto Speciale (Accordi di Yalta e Trattato Sino-Sovietico 1945)
+    if (
+      fidClean === 'JP_KANTO_SHU' ||
+      fidClean.includes('KANTO_SHU') ||
+      nrm.includes('kanto-shu') ||
+      nrm.includes('kanto shu') ||
+      nrm.includes('port arthur') ||
+      nrm.includes('dalian') ||
+      nrm.includes('lushun') ||
+      nrm.includes('dairen') ||
+      nrm.includes('kwantung')
+    ) {
+      return makeResult(
+        'SOV',
+        'Port Arthur e Dalian (Base Navale e Distretto Militare Sovietico — Lüshun / Dalny)',
+        "In attuazione degli Accordi di Yalta e del Trattato Sino-Sovietico del 14 agosto 1945, la rada fortificata di Port Arthur (Lüshunkou) viene affittata per 30 anni all'Unione Sovietica come base navale chiusa della Flotta del Pacifico dell'Armata Rossa, mentre il porto di Dalian (Dalny) è posto sotto amministrazione e controllo navale sovietico. Il presidio militare dell'URSS rimarrà attivo fino al maggio 1955.",
+        'Comintern',
+        'Voenno-Morskoj Flot SSSR — Distretto Navale Speciale di Port-Artur'
+      );
+    }
+    if (fidClean === 'JP_TAIWAN' || nrm.includes('taiwan') || nrm.includes('formosa')) {
+      return makeResult(
+        'CHI',
+        'Taiwan (Provincia di Taiwan — Ritorno alla Repubblica di Cina)',
+        "Con la resa del Giappone (settembre 1945), Taiwan e le isole Pescadores (Penghu) tornano sotto la sovranità della Repubblica di Cina dopo 50 anni di dominio coloniale giapponese iniziato nel 1895.",
+        'Alleati',
+        'Repubblica di Cina — Provincia di Taiwan (Taipei)'
+      );
+    }
+    if (fidClean === 'JP47' || fidClean.includes('OKINAWA') || nrm.includes('okinawa') || nrm.includes('ryukyu')) {
+      return makeResult(
+        'USA',
+        'Okinawa / Isole Ryūkyū (Governo Militare Statunitense — USCAR)',
+        "A seguito della battaglia di Okinawa, l'arcipelago delle Ryūkyū viene distaccato dall'amministrazione giapponese e posto sotto il governo militare diretto degli Stati Uniti (United States Civil Administration of the Ryukyu Islands).",
+        'Alleati',
+        'United States Military Government of the Ryukyu Islands'
+      );
+    }
+    if (fidClean === 'JP_NANYO' || nrm.includes('nanyo') || nrm.includes('south seas') || nrm.includes('micronesia')) {
+      return makeResult(
+        'USA',
+        'Isole del Pacifico (Governo Militare Statunitense — Amministrazione Fiduciaria)',
+        "Con la disfatta nipponica, gli arcipelaghi della Micronesia (ex Mandato delle Isole del Pacifico) passano sotto l'amministrazione militare diretta della Marina degli Stati Uniti, preludio alla creazione del Trust Territory of the Pacific Islands sotto tutela ONU.",
+        'Alleati',
+        'United States Navy — Military Government of the Pacific Islands'
+      );
+    }
+    if (fidClean === 'JP_CHOSEN' || nrm.includes('chosen') || nrm.includes('korea')) {
+      return makeResult(
+        'USA',
+        'Corea (Separazione al 38° Parallelo — Amministrazione USA e Sovietica)',
+        "Con la liberazione della Corea dal colonialismo nipponico a seguito della resa di Tokyo del settembre 1945, la penisola viene divisa lungo il 38° parallelo in due zone d'occupazione: a nord le truppe sovietiche (Generale Ivan Čistjakov), a sud le truppe statunitensi (Generale John R. Hodge / USAMGIK).",
+        'Alleati',
+        'United States Army Military Government in Korea (USAMGIK) / Soviet Civil Administration'
+      );
+    }
+    // Tutte le prefetture metropolitane (Naichi): Occupazione Alleata unitaria SCAP (Gen. Douglas MacArthur)
+    const basePrefName = meta ? meta.historicalName : rawName;
+    if (s >= 19) {
+      const post1947Name = basePrefName.replace(/^Dai Nippon Teikoku\s*[—-]\s*/i, 'Nihon-koku (Stato del Giappone) — ');
+      return makeResult(
+        'JAP',
+        `${post1947Name} (Costituzione del 1947 — Occupazione Alleata SCAP)`,
+        "Al 30 settembre 1947 è entrata in vigore la nuova Costituzione pacifista del Giappone (Nihon-koku Kenpō, 3 maggio 1947), che sostituisce la denominazione imperiale di Dai Nippon Teikoku con Stato del Giappone sotto governo parlamentare (Primo Ministro Tetsu Katayama) e autorità suprema di occupazione alleata SCAP (Gen. Douglas MacArthur).",
+        'Alleati',
+        'Nihon-koku / Supreme Commander for the Allied Powers (SCAP — Gen. Douglas MacArthur / P.M. Tetsu Katayama)'
+      );
+    }
+    return makeResult(
+      'JAP',
+      `${basePrefName} (Occupazione Alleata del Giappone — Comando Supremo SCAP)`,
+      "Il 2 settembre 1945 nella Baia di Tokyo, a bordo della corazzata USS Missouri, i plenipotenziari nipponici firmano l'Atto di Resa del Giappone. L'intero arcipelago metropolitano viene posto sotto l'autorità indivisa del Comando Supremo delle Potenze Alleate (SCAP) guidato dal Generale d'Armata Douglas MacArthur, mantenendo l'Imperatore Hirohito e la struttura burocratica giapponese sotto stretto controllo alleato.",
+      'Alleati',
+      'Supreme Commander for the Allied Powers (SCAP — General of the Army Douglas MacArthur / Tokyo)'
+    );
   }
 
   // 2. Se e' una macro-regione o alias regionale (es. JP_KANSAI, JP_TOKYO, JP_CHUBU, JP_KYUSHU, JP_HOKKAIDO, JP_CHUGOKU, JP_TOHOKU, JP_SHIKOKU, JP_KANTO_SHU):
@@ -1366,8 +1463,19 @@ export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
     }
   }
 
+
+
   // 4. Se trovata nel catalogo canonico, restituisci il risultato coerente
   if (meta) {
+    if (s >= 17 && (meta.id === 'JP47' || meta.id === 'JP_RYUKYU' || meta.id === 'JP_OKINAWA')) {
+      return makeResult(
+        'USA',
+        'Okinawa / Ryūkyū (Battaglia di Okinawa — Operazione Iceberg, Sbarco USA del 1° Aprile 1945)',
+        "Il 1° aprile 1945 scatta l'Operazione Iceberg con lo sbarco di oltre 180.000 uomini della 10ª Armata USA sulle spiagge di Hagushi a Okinawa. Al 30 aprile infuriano sanguinosi scontri lungo la Linea Shuri contro la 32ª Armata giapponese, mentre la flotta alleata affronta massicci attacchi suicidi Kamikaze e affonda la supercorazzata Yamato (Operazione Ten-Go, 7 aprile).",
+        'Alleati',
+        'Tenth United States Army (Lt. Gen. Simon Bolivar Buckner Jr.) / US Navy 5th Fleet'
+      );
+    }
     const sov = meta.getSovereign ? meta.getSovereign(s) : meta.sovereign;
     const fac = meta.getFaction ? meta.getFaction(s) : meta.faction;
     const histName = meta.getHistoricalName ? meta.getHistoricalName(s) : meta.historicalName;

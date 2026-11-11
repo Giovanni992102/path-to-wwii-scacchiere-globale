@@ -1100,6 +1100,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     s7: "Dipartimento di Calvados (Caen). Ottobre 1940: territorio rigidamente presidiato dalle truppe d'occupazione tedesche e dalla Feldgendarmerie; dopo il colloquio di Montoire tra Hitler e Pétain, le autorità collaborazioniste applicano il primo Statuto degli Ebrei e intensificano la sorveglianza poliziesca.",
     s8: "Dipartimento di Calvados (Caen). Aprile 1941: il rigido inverno aggrava la penuria di viveri e combustibili a Caen; la Ligne de Démarcation isola ermeticamente il territorio dalla zona meridionale. Si organizzano le prime filiere di evasione per prigionieri fuggiaschi e i primi nuclei di resistenza della zona nord.",
     getNote: (s: number) => {
+      if (s >= 14) return "Dipartimento di Calvados (Bayeux / Caen). Sbarco del 6 giugno 1944 (D-Day): le truppe britanniche e canadesi stabiliscono la testa di ponte nei settori Gold, Juno e Sword e liberano Bayeux il 7 giugno (prima grande città della Francia metropolitana liberata, visitata dal generale Charles de Gaulle il 14 giugno). A fine giugno le armate del generale Montgomery premono sul perimetro settentrionale di Caen e scatenano l'Operazione Epsom contro le divisioni corazzate della Wehrmacht.";
       if (s >= 8) return FRANCE_PROVINCES_META['FRD11'].s8;
       if (s >= 7) return FRANCE_PROVINCES_META['FRD11'].s7;
       if (s >= 6) return FRANCE_PROVINCES_META['FRD11'].s6;
@@ -1108,20 +1109,24 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
       return FRANCE_PROVINCES_META['FRD11'].s0_1;
     },
     getHistoricalName: (s: number) => {
+      if (s >= 14) return "Calvados (Bayeux / Testa di Ponte Britannica — Operazione Overlord)";
       if (s < 6) return FRANCE_PROVINCES_META['FRD11'].name;
       return FRANCE_PROVINCES_META['FRD11'].armisticeName || FRANCE_PROVINCES_META['FRD11'].name;
     },
     getAdminTitle: (s: number) => {
+      if (s >= 14) return "British Second Army / 21st Army Group (General Bernard Montgomery)";
       if (s < 6) return FRANCE_PROVINCES_META['FRD11'].repAdminTitle || 'Troisième République française';
       return FRANCE_PROVINCES_META['FRD11'].armisticeAdminTitle || 'État français';
     },
     getSovereign: (s: number) => {
+      if (s >= 14) return 'UK';
       if (s < 6) {
         return 'FRA';
       }
       return 'GER';
     },
     getFaction: (s: number) => {
+      if (s >= 14) return 'Alleati' as FactionType;
       if (s < 6) return 'Alleati' as FactionType;
       return 'Asse' as FactionType;
     },
@@ -1146,6 +1151,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     s7: "Dipartimento di Manche (Saint-Lô / Cherbourg). Ottobre 1940: territorio rigidamente presidiato dalle truppe d'occupazione tedesche e dalla Feldgendarmerie; dopo il colloquio di Montoire tra Hitler e Pétain, le autorità collaborazioniste applicano il primo Statuto degli Ebrei e intensificano la sorveglianza poliziesca.",
     s8: "Dipartimento di Manche (Saint-Lô / Cherbourg). Aprile 1941: il rigido inverno aggrava la penuria di viveri e combustibili a Saint-Lô; la Ligne de Démarcation isola ermeticamente il territorio dalla zona meridionale. Si organizzano le prime filiere di evasione per prigionieri fuggiaschi e i primi nuclei di resistenza della zona nord.",
     getNote: (s: number) => {
+      if (s >= 14) return "Dipartimento di Manche (Cotentin / Cherbourg). Sbarco del 6 giugno 1944 (D-Day) sulle spiagge Utah e Omaha e lanci della 82ª e 101ª Divisione Aviotrasportata statunitense a Sainte-Mère-Église. La 1ª Armata USA del generale Omar Bradley libera Carentan, taglia la penisola del Cotentin ed espugna il 27 giugno 1944 la fortezza e il porto strategico di Cherbourg (Festung Cherbourg del generale von Schlieben), assicurando il vitale rifornimento marittimo della testa di ponte alleata.";
       if (s >= 8) return FRANCE_PROVINCES_META['FRD12'].s8;
       if (s >= 7) return FRANCE_PROVINCES_META['FRD12'].s7;
       if (s >= 6) return FRANCE_PROVINCES_META['FRD12'].s6;
@@ -1154,20 +1160,24 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
       return FRANCE_PROVINCES_META['FRD12'].s0_1;
     },
     getHistoricalName: (s: number) => {
+      if (s >= 14) return "Manche (Cotentin / Cherbourg — 1ª Armata USA)";
       if (s < 6) return FRANCE_PROVINCES_META['FRD12'].name;
       return FRANCE_PROVINCES_META['FRD12'].armisticeName || FRANCE_PROVINCES_META['FRD12'].name;
     },
     getAdminTitle: (s: number) => {
+      if (s >= 14) return "First United States Army / 21st Army Group (Lt. Gen. Omar Bradley)";
       if (s < 6) return FRANCE_PROVINCES_META['FRD12'].repAdminTitle || 'Troisième République française';
       return FRANCE_PROVINCES_META['FRD12'].armisticeAdminTitle || 'État français';
     },
     getSovereign: (s: number) => {
+      if (s >= 14) return 'USA';
       if (s < 6) {
         return 'FRA';
       }
       return 'GER';
     },
     getFaction: (s: number) => {
+      if (s >= 14) return 'Alleati' as FactionType;
       if (s < 6) return 'Alleati' as FactionType;
       return 'Asse' as FactionType;
     },
@@ -4638,7 +4648,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     partition1940: 'dom_tom',
     armisticeName: "La Réunion (Saint-Denis)",
     repAdminTitle: "Troisième République française — Colonie de La Réunion (Saint-Denis)",
-    armisticeAdminTitle: "Administration coloniale de l\\",
+    armisticeAdminTitle: "Colonie de la Réunion (Gouverneur Pierre-Émile Aubert — Vichy)",
     keys: ["la_reunion", "reunion", "saint_denis_reunion"],
     s0_1: "Dipartimento d'Oltremare de La Réunion (Saint-Denis). Isola vulcanica dell'Oceano Indiano nell'arcipelago delle Mascarene: Saint-Denis ne è il capoluogo, con un'economia dominata dalle grandi piantagioni di canna da zucchero, vaniglia e distillerie di rum.",
     s2_4: "Dipartimento d'Oltremare de La Réunion. 1938-1939: lavori di ammodernamento del porto di Pointe des Galets e delle infrastrutture ferroviarie costiere a scartamento ridotto.",
@@ -4647,6 +4657,7 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
     s7: "Dipartimento d'Oltremare de La Réunion. Ottobre 1940: la Royal Navy britannica istituisce un rigoroso blocco marittimo attorno all'isola per impedire comunicazioni e rifornimenti all'Asse; interruzione quasi totale delle esportazioni di zucchero.",
     s8: "Dipartimento d'Oltremare de La Réunion. Aprile 1941: severo razionamento di farina, tessuti e medicinali; nascita dei primi comitati clandestini patriottici creoli a favore delle Forces Françaises Libres di De Gaulle.",
     getNote: (s: number) => {
+      if (s >= 11) return "Il 28 novembre 1942 il cacciatorpediniere Léopard delle Forces Navales Françaises Libres (FNFL) al comando del Capitano di Corvetta Jules Évenou sbarca a Saint-Denis; dopo una breve resistenza del governatore Pierre-Émile Aubert, l'isola della Riunione passa ufficialmente sotto l'autorità della Francia Libera del generale de Gaulle con la nomina del governatore Jean Capagorry.";
       if (s >= 8) return FRANCE_PROVINCES_META['FRY40'].s8;
       if (s >= 7) return FRANCE_PROVINCES_META['FRY40'].s7;
       if (s >= 6) return FRANCE_PROVINCES_META['FRY40'].s6;
@@ -4655,21 +4666,23 @@ export const FRANCE_PROVINCES_META: Record<string, FranceProvinceInfo> = {
       return FRANCE_PROVINCES_META['FRY40'].s0_1;
     },
     getHistoricalName: (s: number) => {
+      if (s >= 11) return 'La Réunion (Ralliée à la France Libre — 28 Novembre 1942)';
       if (s < 6) return FRANCE_PROVINCES_META['FRY40'].name;
-      return FRANCE_PROVINCES_META['FRY40'].armisticeName || FRANCE_PROVINCES_META['FRY40'].name;
+      return 'La Réunion (Colonie sous autorité de Vichy — Saint-Denis)';
     },
     getAdminTitle: (s: number) => {
+      if (s >= 11) return 'Colonie de la Réunion — France Libre (Gouverneur Jean Capagorry)';
       if (s < 6) return FRANCE_PROVINCES_META['FRY40'].repAdminTitle || 'Troisième République française';
-      return FRANCE_PROVINCES_META['FRY40'].armisticeAdminTitle || 'État français';
+      return 'Colonie de la Réunion (Gouverneur Pierre-Émile Aubert — Vichy)';
     },
     getSovereign: (s: number) => {
-      if (s < 6) {
+      if (s < 6 || s >= 11) {
         return 'FRA';
       }
       return 'VIC';
     },
     getFaction: (s: number) => {
-      if (s < 6) return 'Alleati' as FactionType;
+      if (s < 6 || s >= 11) return 'Alleati' as FactionType;
       return 'Fantoccio' as FactionType;
     },
   },
@@ -4746,15 +4759,20 @@ for (const item of Object.values(FRANCE_PROVINCES_META)) {
 
   item.getSovereign = (s: number): string => {
     if (s < 11) return origSov(s);
+    if (s >= 14) return origSov(s);
     if (nuts === 'FRY40') return 'FRA'; // La Réunion ralliée à la France Libre (28 nov 1942)
     if (nuts === 'FRY50') return 'UK';  // Mayotte occupata dagli Alleati
     if (item.partition1940 === 'dom_tom') return origSov(s); // Guadalupa, Martinica, Guyana restano sotto l'amm. Robert (Vichy)
-    if (FRANCE_ITALIAN_OCCUPATION_ZONE_1942.has(nuts)) return 'ITA'; // Zona d'occupazione italiana estesa (Savoia, Delfinato, Provenza, Corsica)
+    if (FRANCE_ITALIAN_OCCUPATION_ZONE_1942.has(nuts)) {
+      if (s >= 13) return 'GER';
+      return 'ITA'; // Zona d'occupazione italiana estesa (Savoia, Delfinato, Provenza, Corsica)
+    }
     return 'GER'; // Tutta la restante Francia metropolitana occupata dalla Wehrmacht (fine della Zone libre)
   };
 
   item.getFaction = (s: number): FactionType => {
     if (s < 11) return origFac(s);
+    if (s >= 14) return origFac(s);
     if (nuts === 'FRY40' || nuts === 'FRY50') return 'Alleati';
     if (item.partition1940 === 'dom_tom') return origFac(s);
     return 'Asse';
@@ -4762,6 +4780,7 @@ for (const item of Object.values(FRANCE_PROVINCES_META)) {
 
   item.getHistoricalName = (s: number): string => {
     if (s < 11) return origHist(s);
+    if (s >= 14) return origHist(s);
     if (nuts === 'FRY40') {
       return 'La Réunion (Ralliée à la France Libre — 28 Novembre 1942)';
     }
@@ -4791,6 +4810,7 @@ for (const item of Object.values(FRANCE_PROVINCES_META)) {
 
   item.getAdminTitle = (s: number): string => {
     if (s < 11) return origAdmin(s);
+    if (s >= 14) return origAdmin(s);
     if (nuts === 'FRY40') {
       return 'France Libre — Territoire rallié (Capitaine de corvette Marais / Contre-torpilleur Léopard)';
     }
@@ -4808,6 +4828,7 @@ for (const item of Object.values(FRANCE_PROVINCES_META)) {
 
   item.getNote = (s: number): string => {
     if (s < 11) return origNote(s);
+    if (s >= 14) return origNote(s);
     if (nuts === 'FRY40') {
       return "Il 28 novembre 1942 il cacciatorpediniere Léopard delle Forces Navales Françaises Libres (FNFL) sbarca a Saint-Denis; dopo una breve resistenza del governatore Pierre-Émile Aubert, l'isola della Riunione passa ufficialmente sotto l'autorità della Francia Libera del generale de Gaulle.";
     }

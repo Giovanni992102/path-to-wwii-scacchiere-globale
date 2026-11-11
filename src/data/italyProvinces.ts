@@ -27,6 +27,7 @@
  */
 
 import { ResolvedTerritory, FactionType } from '../types';
+import { resolveItalyExtendedStep } from './italyTimelineExtension';
 
 function makeResult(
   o: string,
@@ -1863,9 +1864,9 @@ export const IT_PROVINCES_META: Record<string, ItalyProvinceInfo> = {
   },
   "ITF11": {
     nuts: "ITF11",
-    name: "",
+    name: "Provincia di L'Aquila",
     modernName: "L'Aquila",
-    historicalName: "",
+    historicalName: "Provincia di L'Aquila (Aquila degli Abruzzi)",
     region: "Abruzzo",
     keys: ["aquila", "aquila_degli_abruzzi", "avezzano", "itf11", "l_aquila", "sulmona"],
     s0_1: "Capoluogo abruzzese (denominata ufficialmente 'Aquila degli Abruzzi' dal 1863 al 1939), centro di tradizioni alpine e pastorali; presenza degli impianti chimici e di cloro-soda a Bussi sul Tirino e avvio del turismo invernale sul Gran Sasso (funivia di Campo Imperatore inaugurata nel 1934).",
@@ -1882,7 +1883,7 @@ export const IT_PROVINCES_META: Record<string, ItalyProvinceInfo> = {
       if (step === 7) return "Autunno-inverno 1940: tragedia ed eroismo della Divisione Alpina Julia sul Pindo durante la campagna di Grecia (ottobre-dicembre 1940): il Battaglione L'Aquila subisce perdite devastanti nella morsa del gelo montano, suscitando profondo lutto in tutta la provincia.";
       return "Aprile 1941: mentre la Wehrmacht travolge le difese greche, i resti provati del Battaglione L'Aquila ricevono la medaglia d'oro al valor militare; la provincia sostiene l'ammasso della lana e del bestiame per l'esercito.";
     },
-    getHistoricalName: (_step: number) => "",
+    getHistoricalName: (step: number) => (step <= 3 ? "Aquila degli Abruzzi (Provincia d'Abruzzo Ulteriore II)" : "Provincia di L'Aquila"),
     getAdminTitle: (_step: number) => "Regno d'Italia — Provincia dell'Aquila",
     getSovereign: (_step: number) => "Regno d'Italia",
     getFaction: (_step: number): FactionType => "Asse"
@@ -3060,19 +3061,22 @@ export const IT_PROVINCES_META: Record<string, ItalyProvinceInfo> = {
 };
 
 /**
- * Risolve dinamicamente un territorio o provincia italiana per ID o toponimo.
+ * Individua il record metropolitano/storico canonico nella tabella IT_PROVINCES_META.
  */
-export function resolveItalyProvince(
+export function findItalyProvinceMeta(
   idOrName: string,
-  step: number = 0,
   rawName?: string
-): ResolvedTerritory | null {
-  if (!idOrName) return null;
-  const s = Math.min(8, Math.max(0, step));
+): ItalyProvinceInfo | null {
+  if (!idOrName && !rawName) return null;
   const rawClean = (rawName || '').trim();
-  const cleanId = idOrName.trim();
+  const cleanId = (idOrName || rawClean).trim();
   const normId = cleanId.toLowerCase().replace(/[^a-z0-9]/g, '_');
   const normRaw = rawClean.toLowerCase().replace(/[^a-z0-9]/g, '_');
+
+  // Guard: se viene passato il vecchio codice NUTS-3 ITH37 con toponimo Belluno (es. legacy test)
+  if (cleanId.toUpperCase() === 'ITH37' && rawClean.toLowerCase().includes('belluno')) {
+    return IT_PROVINCES_META['ITH33'] || null;
+  }
 
   // 1. Match diretto per NUTS-3 o ID
   let meta = IT_PROVINCES_META[cleanId] || IT_PROVINCES_META[cleanId.toUpperCase()];
@@ -3099,9 +3103,9 @@ export function resolveItalyProvince(
       const lowerHist = item.historicalName.toLowerCase();
       if (
         (rawClean && (lowerMod.includes(rawClean.toLowerCase()) || rawClean.toLowerCase().includes(lowerMod))) ||
-        (rawClean && (lowerHist.includes(rawClean.toLowerCase()) || rawClean.toLowerCase().includes(lowerHist))) ||
+        (rawClean && lowerHist && (lowerHist.includes(rawClean.toLowerCase()) || rawClean.toLowerCase().includes(lowerHist))) ||
         lowerMod.includes(cleanId.toLowerCase()) ||
-        cleanId.toLowerCase().includes(lowerMod)
+        (cleanId.length >= 4 && cleanId.toLowerCase().includes(lowerMod))
       ) {
         meta = item;
         break;
@@ -3109,8 +3113,34 @@ export function resolveItalyProvince(
     }
   }
 
+  return meta || null;
+}
+
+/**
+ * Risolve dinamicamente un territorio o provincia italiana per ID o toponimo su tutti i 20 step (0-19).
+ */
+export function resolveItalyProvince(
+  idOrName: string,
+  step: number = 0,
+  rawName?: string
+): ResolvedTerritory | null {
+  if (!idOrName && !rawName) return null;
+  const meta = findItalyProvinceMeta(idOrName, rawName);
   if (!meta) return null;
 
+  if (step >= 9) {
+    const cleanRaw = (rawName || meta.name || '').trim();
+    const extRes = resolveItalyExtendedStep(
+      meta.nuts,
+      cleanRaw,
+      cleanRaw.toLowerCase(),
+      meta.getHistoricalName(8) || meta.name,
+      step
+    );
+    if (extRes) return extRes;
+  }
+
+  const s = Math.min(8, Math.max(0, step));
   return makeResult(
     'ITA',
     meta.getHistoricalName(s),

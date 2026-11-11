@@ -2117,14 +2117,54 @@ for (const meta of new Set(Object.values(BRITISH_RAJ_PROVINCES_META))) {
   const isAndaman = meta.id === 'IN_ANI';
 
   meta.getSovereign = (s: number) => {
+    if (s >= 18 && (isBurma || isAndaman)) {
+      return 'UK';
+    }
+    if (s >= 17 && isBurma) {
+      if (meta.id === 'MM_TAN' || meta.id === 'MM_SHA' || meta.id === 'MM_MON') return 'JAP';
+      return 'UK';
+    }
     if (s >= 10 && (isBurma || isAndaman)) return 'JAP';
     return origSov(s);
   };
   meta.getFaction = (s: number) => {
+    if (s >= 18 && (isBurma || isAndaman)) {
+      return 'Alleati';
+    }
+    if (s >= 17 && isBurma) {
+      if (meta.id === 'MM_TAN' || meta.id === 'MM_SHA' || meta.id === 'MM_MON') return 'Asse';
+      return 'Alleati';
+    }
     if (s >= 10 && (isBurma || isAndaman)) return 'Asse';
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 18 && isAndaman) {
+      return s >= 19
+        ? 'Isole Andamane e Nicobare (Dominion dell\'India — Port Blair)'
+        : 'Isole Andamane e Nicobare (Colonia Anglo-Indiana Restaurata — Resa Giapponese, Settembre 1945)';
+    }
+    if (s >= 18 && isBurma) {
+      if (s >= 19) return `${origHist(8)} (Birmania Britannica in Transizione — Governo Provvisorio di U Nu)`;
+      if (meta.id === 'MM_SHA') return 'Stati Shan e Lashio (Ripristino Amministrazione Britannica & Retrocessione di Kengtung)';
+      return `${origHist(8)} (Colonia Britannica Restaurata — Amministrazione SEAC / CAS(B), Settembre 1945)`;
+    }
+    if (s >= 17 && isBurma) {
+      if (meta.id === 'MM_RAN') return 'Rangoon (Operazione Dracula — 14ª Armata Britannica alle Porte della Capitale, Aprile 1945)';
+      if (meta.id === 'MM_MDY') return 'Mandalay & Alta Birmania (Liberata dalla 14ª Armata Britannica — 20 Marzo 1945)';
+      if (meta.id === 'MM_RAK') return 'Arakan & Akyab (Liberata dal 15° Corpo Indiano — Operazione Romulus, Inizio 1945)';
+      if (meta.id === 'MM_KAC') return 'Kachin & Myitkyina (Riapertura della Strada della Birmania / Ledo Road)';
+      if (meta.id === 'MM_SAG') return 'Sagaing & Valle del Chindwin (Liberata dal 33° Corpo Britannico, Febbraio 1945)';
+      if (meta.id === 'MM_BAG') return 'Pegu / Bago (Presa dalla 14ª Armata Britannica — 30 Aprile 1945)';
+      if (meta.id === 'MM_MAG') return 'Magway & Pozzi di Yenangyaung (Riconquista Alleata dei Giacimenti BOC, Aprile 1945)';
+      if (meta.id === 'MM_AYE') return 'Delta dell\'Irrawaddy (Avanzata Alleata & Insurrezione dell\'Esercito Nazionale Birmano)';
+      if (meta.id === 'MM_CHI') return 'Colline Chin (Liberate dalle Forze Indo-Britanniche)';
+      if (meta.id === 'MM_KAY') return 'Stati Karenni (Guerriglia Antigiapponese delle Forze Speciali SOE Force 136)';
+      if (meta.id === 'MM_KAR') return 'Colline dei Karen (Rivolta Antigiapponese e Sostegno alla 14ª Armata)';
+      if (meta.id === 'MM_MON') return 'Stato Mon e Moulmein (Quartier Generale dell\'Armata Regionale Birmana del Gen. Kimura dopo l\'evacuazione di Rangoon, 23 Aprile 1945)';
+      if (meta.id === 'MM_SHA') return 'Stati Shan e Lashio (Ritiro delle Forze d\'Occupazione Giapponesi verso la Thailandia)';
+      if (meta.id === 'MM_TAN') return 'Tenasserim (Corridoio Costiero Giapponese in Ritirata verso la Malesia)';
+    }
     if (s >= 10) {
       if (isAndaman) return 'Isole Andamane e Nicobare (Occupazione Imperiale Giapponese — Port Blair, 23 Marzo 1942)';
       if (meta.id === 'MM_RAN') return 'Rangoon (Occupazione Imperiale Giapponese — 15ª Armata & Governo Esecutivo di Ba Maw, 1942)';
@@ -2135,6 +2175,22 @@ for (const meta of new Set(Object.values(BRITISH_RAJ_PROVINCES_META))) {
     return origHist(s);
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 18 && isAndaman) {
+      return s >= 19
+        ? 'Dominion of India — Chief Commissioner (Andaman & Nicobar Islands)'
+        : 'British Indian Empire — Chief Commissioner (Andaman & Nicobar Islands / SEAC)';
+    }
+    if (s >= 18 && isBurma) {
+      return s >= 19
+        ? 'Crown Colony of Burma — Governatorato Sir Hubert Rance & Consiglio Esecutivo (U Nu)'
+        : 'British Burma — Civil Affairs Service (Burma) / SEAC (Admiral Lord Louis Mountbatten)';
+    }
+    if (s >= 17 && isBurma) {
+      if (meta.id === 'MM_TAN' || meta.id === 'MM_SHA' || meta.id === 'MM_MON') {
+        return 'Impero Giapponese — Armata Regionale Birmana (Gen. Kimura) & 28ª/33ª Armata in Ritirata';
+      }
+      return 'British Fourteenth Army (Lt. Gen. William Slim) & Allied Land Forces South East Asia';
+    }
     if (s >= 10) {
       if (isAndaman) return 'Impero Giapponese — Guarnigione Navale delle Andamane e Nicobare (Port Blair — 1ª Flotta di Spedizione del Sud)';
       if (isBurma) return 'Impero Giapponese — Amministrazione Militare della Birmania (15ª Armata — Ten. Gen. Shōjirō Iida & Amministrazione Centrale Birmana di Ba Maw)';
@@ -2142,6 +2198,19 @@ for (const meta of new Set(Object.values(BRITISH_RAJ_PROVINCES_META))) {
     return origAdmin(s);
   };
   meta.getNote = (s: number) => {
+    if (s >= 18 && isAndaman) {
+      return s >= 19
+        ? "Al 30 settembre 1947 l'arcipelago strategico delle Andamane e Nicobare (Port Blair) fa parte del neo-istituito Dominion dell'India."
+        : "Settembre 1945: crollo dell'Impero Giapponese e reintegrazione delle Andamane e Nicobare sotto l'amministrazione anglo-indiana di Nuova Delhi (resa formale a Port Blair completata il 7 ottobre 1945).";
+    }
+    if (s >= 18 && isBurma) {
+      return s >= 19
+        ? "Al 30 settembre 1947, a seguito dell'assassinio di Aung San (luglio 1947), il governo provvisorio birmano guidato da U Nu negozia a Londra il trattato d'indipendenza del gennaio 1948."
+        : "Settembre 1945: con l'Atto di Resa giapponese (2 settembre a Tokyo e 12 settembre a Singapore dinanzi a Lord Mountbatten), l'intera Birmania — inclusi gli Stati Shan (Kengtung e Mongpan retrocessi dalla Thailandia), il Mon e il Tenasserim — rientra sotto amministrazione britannica (CAS(B)/SEAC) mentre Aung San e l'AFPFL guidano la transizione verso l'indipendenza.";
+    }
+    if (s >= 17 && isBurma) {
+      return "Campagna di Birmania (aprile 1945): la 14ª Armata britannica del generale William Slim incalza le truppe giapponesi in rotta lungo la valle dell'Irrawaddy ed è alle porte di Rangoon, dopo aver liberato Mandalay (20 marzo) e i campi petroliferi di Yenangyaung; l'Esercito Nazionale Birmano (BNA) guidato dal generale Aung San è insorto il 27 marzo 1945 al fianco degli Alleati (AFPFL), braccando i contingenti nipponici in ritirata verso la Thailandia. Il 1° maggio scatta l'Operazione Dracula che porterà alla presa di Rangoon.";
+    }
     if (s >= 10) {
       if (isAndaman) {
         return "Isole Andamane e Nicobare (Port Blair) · All'alba del 23 marzo 1942 (Operazione D) la forza d'invasione della Marina Imperiale Giapponese ha occupato senza opposizione Port Blair, trasformando l'arcipelago nell'avamposto aeronavale più occidentale dell'Impero Giapponese nel Golfo del Bengala a copertura del fianco marittimo della campagna di Birmania.";
@@ -2166,6 +2235,202 @@ for (const meta of new Set(Object.values(BRITISH_RAJ_PROVINCES_META))) {
 /**
  * Risolve lo stato geopolitico di una provincia del British Raj per uno step temporale specifico (0-8).
  */
+
+function resolveBritishRajPartition(fid: string, meta: any, p: any): ResolvedTerritory {
+  const rawName = String(p.NAME || p.name || p.NUTS_NAME || (meta ? meta.name : '') || fid);
+
+  // 1. Burma / Birmania (MM_) — British Crown Colony in transition (U Nu)
+  if (fid.startsWith('MM_') || (meta && meta.cntrCode === 'MM')) {
+    return makeResult(
+      'UK',
+      'Birmania Britannica in Transizione (Governo Provvisorio di U Nu — Pre-Indipendenza)',
+      "Al 30 settembre 1947, a seguito del tragico assassinio del leader indipendentista Aung San e di sei membri del consiglio esecutivo (19 luglio 1947), U Nu guida il governo provvisorio birmano. Sono in corso a Londra i negoziati con il governo laburista di Clement Attlee per il Trattato Nu-Attlee (firmato il 17 ottobre 1947), che sancir\u00e0 la piena indipendenza della Birmania e l'uscita dal Commonwealth il 4 gennaio 1948.",
+      'Alleati',
+      'British Crown Colony of Burma · Interim Government (Prime Minister U Nu)'
+    );
+  }
+
+  // 2. Disputed Princely State: Jammu & Kashmir (IN_JK, IN_LAD, PK_AJK, PK_GB)
+  if (fid === 'IN_JK' || fid === 'IN_LAD' || fid === 'PK_AJK' || fid === 'PK_GB') {
+    return makeResult(
+      'KAS',
+      'Regno Principesco di Jammu e Kashmir (Indipendenza Provvisoria — Maharaja Hari Singh)',
+      "Al 30 settembre 1947 il Maharaja Hari Singh mantiene provvisoriamente la piena indipendenza del principato himalayano, avendo rifiutato di aderire sia all'India sia al Pakistan e firmando un accordo di Standstill con Karachi. La situazione precipiter\u00e0 il 22 ottobre 1947 con l'invasione delle trib\u00f9 pashtun appoggiate dall'esercito pakistano (Operazione Gulmarg), costringendo il Maharaja a firmare l'accessione all'India il 26 ottobre in cambio dell'immediato soccorso militare aerotrasportato a Srinagar.",
+      'Neutrale',
+      'Stato Principesco Indipendente di Jammu e Kashmir (Maharaja Hari Singh · Standstill Agreement)'
+    );
+  }
+
+  // 3. Disputed Princely State: Hyderabad (IN_HYD)
+  if (fid === 'IN_HYD') {
+    return makeResult(
+      'HYD',
+      'Stato Sovrano di Hyderabad (Indipendenza Non Allineata — Nizam Asaf Jah VII)',
+      "Al 30 settembre 1947 il settimo Nizam, Mir Osman Ali Khan Asaf Jah VII, sovrano dello stato principesco pi\u00f9 vasto e ricco dell'India con oltre 16 milioni di abitanti, moneta, ferrovie e poste proprie, ha proclamato la piena sovranit\u00e0 e indipendenza, rifiutando l'adesione all'Unione Indiana e avvalendosi del sostegno delle milizie irregolari filoislamiche Razakar guidate da Kasim Razvi. Il contenzioso culminer\u00e0 nel settembre 1948 con l'invasione militare indiana (Operazione Polo) e l'annessione forzata.",
+      'Neutrale',
+      'Stato Sovrano di Hyderabad (Nizam-ul-Mulk Mir Osman Ali Khan · Dichiarazione di Indipendenza)'
+    );
+  }
+
+  // 4. European Enclaves: Portuguese India (Goa, Daman, Diu, Dadra & Nagar Haveli)
+  if (fid === 'IN_GOA' || fid === 'IN_DNH_DAM') {
+    return makeResult(
+      'POR',
+      'Stato Portoghese dell\'India — Governo di Goa (Nova Goa)',
+      "Enclave sovrana dell'Impero Coloniale Portoghese guidata dal Governatore Generale Jos\u00e9 Ferreira Bossa a Nova Goa (Panaji); nonostante la proclamazione dell'indipendenza indiana, il governo dell'Estado Novo di Ant\u00f3nio de Oliveira Salazar a Lisbona ribadisce che i possedimenti di Goa, Dam\u00e3o e Diu costituiscono territorio metropolitano inalienabile del Portogallo.",
+      'Neutrale',
+      'Estado Portugu\u00eas da \u00cdndia · Governo-Geral de Goa (Pal\u00e1cio do Idalc\u00e3o, Nova Goa)'
+    );
+  }
+
+  // 5. European Enclaves: French India (Pondicherry, Karikal, Yanaon, Mahé, Chandernagore)
+  if (fid === 'IN_PON') {
+    return makeResult(
+      'FRA',
+      'Stabilimenti Francesi dell\'India — Comptoir de Pondich\u00e9ry',
+      "I cinque stabilimenti coloniali francesi in India (Pondich\u00e9ry, Karikal, Yanaon, Mah\u00e9 e Chandernagore) rimangono sotto la sovranit\u00e0 della Quarta Repubblica Francese, retti dal Governatore Charles-Fran\u00e7ois Baron. Parigi avvia trattative con il governo di Nuova Delhi per concordare consultazioni popolari sul futuro assetto dei territori.",
+      'Alleati',
+      '\u00c9tablissements fran\u00e7ais dans l\'Inde (Gouverneur Charles-Fran\u00e7ois Baron)'
+    );
+  }
+
+  // 6. Pakistan — West Pakistan (PK_) and East Pakistan / East Bengal (BD_)
+  if (fid.startsWith('PK_') || fid.startsWith('BD_') || (meta && (meta.cntrCode === 'PK' || meta.cntrCode === 'BD'))) {
+    // Sylhet Transfer Referendum
+    if (fid === 'BD_SYL') {
+      return makeResult(
+        'PAK',
+        'Dominion del Pakistan — Distretto di Sylhet (Bengala Orientale)',
+        "A seguito del referendum popolare del 6-7 luglio 1947, il distretto a larghissima maggioranza musulmana di Sylhet si \u00e8 separato dall'Assam per confluire nel Bengala Orientale (Pakistan Orientale), come formalizzato dalla Radcliffe Commission il 17 agosto 1947.",
+        'Alleati',
+        'Dominion of Pakistan · Province of East Bengal (Sylhet Referendum Transfer)'
+      );
+    }
+    // East Bengal / Dhaka
+    if (fid === 'BD_DHA' || fid.startsWith('BD_')) {
+      const divName = (meta && meta.nutsName) || rawName || 'Bengala Orientale';
+      return makeResult(
+        'PAK',
+        `Dominion del Pakistan — ${divName} (Pakistan Orientale)`,
+        "Al 30 settembre 1947 il Bengala Orientale costituisce l'ala orientale discontinua del Dominion del Pakistan (futuro Bangladesh), separata da oltre 1.600 chilometri di territorio indiano dalla capitale Karachi nel Pakistan Occidentale. La provincia \u00e8 governata dal Premier Khawaja Nazimuddin e dal governatore britannico Sir Frederick Bourne.",
+        'Alleati',
+        'Dominion of Pakistan · Province of East Bengal (Premier Khawaja Nazimuddin · Cap. Dacca)'
+      );
+    }
+    // West Pakistan provinces
+    if (fid === 'PK_PUN') {
+      return makeResult(
+        'PAK',
+        'Dominion del Pakistan — Provincia del Punjab Occidentale (Lahore & Rawalpindi)',
+        "Il 17 agosto 1947 la Linea Radcliffe spacca in due il Punjab: Lahore, Rawalpindi e Multan passano al Pakistan, mentre il Punjab orientale va all'India. La drammatica partizione innesca violenze comunitarie devastanti e il pi\u00f9 imponente esodo forzato di milioni di profughi tra musulmani verso ovest e ind\u00f9/sikh verso est.",
+        'Alleati',
+        'Dominion of Pakistan · West Punjab (Gov. Sir Francis Mudie · Cap. Lahore)'
+      );
+    }
+    if (fid === 'PK_SIN') {
+      return makeResult(
+        'PAK',
+        'Dominion del Pakistan — Provincia del Sindh (Capitale Federale di Karachi)',
+        "Capitale inaugurale del neonato Dominion del Pakistan; il 14 agosto 1947 Muhammad Ali Jinnah giura come Governatore Generale (Quaid-e-Azam) e Liaquat Ali Khan come Primo Ministro. Karachi accoglie centinaia di migliaia di rifugiati Muhajir e gestisce la costruzione dell'apparato statale pakistano.",
+        'Alleati',
+        'Dominion of Pakistan · Federal Capital & Government of Pakistan (Governor-General M.A. Jinnah)'
+      );
+    }
+    if (fid === 'PK_KPK') {
+      return makeResult(
+        'PAK',
+        'Dominion del Pakistan — Provincia della Frontiera del Nord-Ovest (NWFP — Peshawar)',
+        "A seguito del referendum del luglio 1947, la provincia ha votato a larghissima maggioranza per l'adesione al Pakistan, nonostante il boicottaggio del movimento dei Khudai Khidmatgar guidato da Abdul Ghaffar Khan (Frontier Gandhi). Al 30 settembre 1947 \u00e8 presidiata dal governo di Karachi.",
+        'Alleati',
+        'Dominion of Pakistan · North-West Frontier Province (Gov. Sir George Cunningham)'
+      );
+    }
+    if (fid === 'PK_BAL') {
+      return makeResult(
+        'PAK',
+        'Dominion del Pakistan — Provincia del Baluchistan (Quetta)',
+        "Al 30 settembre 1947 la provincia del Baluchistan fa parte integrante del Dominion del Pakistan istituito il 14 agosto 1947 sotto il Governatore Generale Muhammad Ali Jinnah. Gli stati principeschi di Kalat, Kharan, Las Bela e Makran mantengono ancora accordi speciali prima dell'integrazione finale.",
+        'Alleati',
+        'Dominion of Pakistan · Chief Commissioner\'s Province of Baluchistan (Quetta)'
+      );
+    }
+    if (fid === 'PK_ICT') {
+      return makeResult(
+        'PAK',
+        'Dominion del Pakistan — Distretto di Rawalpindi e Altopiano di Potohar',
+        "Sede del General Headquarters (GHQ) del neonato Esercito del Pakistan guidato dal generale britannico Frank Messervy; snodo militare strategico dell'altopiano di Potohar alle porte del Kashmir.",
+        'Alleati',
+        'Dominion of Pakistan · Northern Command & General Headquarters (GHQ Rawalpindi)'
+      );
+    }
+    return makeResult(
+      'PAK',
+      'Dominion del Pakistan (Pakistan Occidentale)',
+      "Territorio sovrano del Dominion del Pakistan istituito il 14 agosto 1947 con la partizione dell'India Britannica sotto il Governatore Generale Muhammad Ali Jinnah.",
+      'Alleati',
+      'Dominion of Pakistan · Government of Pakistan (Karachi)'
+    );
+  }
+
+  // 7. Dominion of India (IND)
+  // Specific crisis: Junagadh in Gujarat (IN_GUJ)
+  if (fid === 'IN_GUJ') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Gujarat e Agenzia degli Stati di Kathiawar (Crisi di Junagadh)',
+      "La vasta regione del Gujarat fa parte dell'Unione Indiana. Al 30 settembre 1947 si consuma la crisi dello stato principesco costiero di Junagadh: il Nawab Mahabat Khan III ha firmato l'adesione al Pakistan a met\u00e0 agosto (accettata da Karachi il 13 settembre); l'India reagisce con il blocco economico e militare circostante, mentre a fine settembre il movimento di liberazione popolare istituisce a Bombay il governo provvisorio dell'Aarzi Hukumat prima dell'annessione indiana a novembre.",
+      'Alleati',
+      'Dominion of India · Kathiawar States Agency & Aarzi Hukumat Blockade'
+    );
+  }
+  if (fid === 'IN_PUN') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Provincia del Punjab Orientale (Amritsar & Simla)',
+      "Assegnato all'India dalla Radcliffe Line del 17 agosto 1947, con capitale provvisoria a Simla e la citt\u00e0 santa sikh di Amritsar. La provincia \u00e8 sconvolta da scontri interreligiosi devastanti e dall'arrivo simultaneo di oltre 4 milioni di profughi sikh e ind\u00f9 in fuga dal Punjab Occidentale.",
+      'Alleati',
+      'Dominion of India · East Punjab (Gov. Chandulal Trivedi · Cap. Simla)'
+    );
+  }
+  if (fid === 'IN_BEN') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Provincia del Bengala Occidentale (Calcutta)',
+      "Ripartito dalla Radcliffe Line dell'agosto 1947, Calcutta e i distretti occidentali rimangono all'India sotto la guida del Governatore C. Rajagopalachari. Mahatma Gandhi digiuna a Calcutta all'inizio di settembre 1947 (Miracolo di Calcutta) riuscendo a placare i massacri comunitari tra ind\u00f9 e musulmani.",
+      'Alleati',
+      'Dominion of India · West Bengal (Gov. C. Rajagopalachari · Premier P.C. Ghosh)'
+    );
+  }
+  if (fid === 'IN_ASS') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Provincia dell\'Assam (Shillong)',
+      "Provincia nord-orientale dell'Unione Indiana; a seguito del referendum del luglio 1947 ha ceduto il distretto di Sylhet al Pakistan Orientale, mantenendo il controllo delle grandi piantagioni di t\u00e8 e del corridoio strategico verso il Bengala.",
+      'Alleati',
+      'Dominion of India · Province of Assam (Gov. Sir Muhammad Saleh Akbar Hydari · Premier Gopinath Bordoloi)'
+    );
+  }
+  if (fid === 'IN_DEL') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Capitale Federale di Nuova Delhi',
+      "Capitale del neonato Dominion dell'India; il 15 agosto 1947, al tocco della mezzanotte, Jawaharlal Nehru pronuncia lo storico discorso \"Tryst with Destiny\" (\"Un appuntamento con il destino\") salutando la libert\u00e0 dell'India. Lord Mountbatten assume la carica di Governatore Generale e Nehru quella di Primo Ministro.",
+      'Alleati',
+      'Dominion of India · Federal Capital & Union Government (PM Jawaharlal Nehru)'
+    );
+  }
+
+  // All other Indian Union provinces
+  const provName = (meta && meta.nutsName) || (meta && meta.name) || rawName || fid;
+  return makeResult(
+    'IND',
+    `Dominion dell'India — ${provName}`,
+    "Al 30 settembre 1947 la provincia fa parte integrante del neonato Dominion dell'India, sorto il 15 agosto 1947 a seguito dell'Indian Independence Act britannico, guidato dal Primo Ministro Jawaharlal Nehru e dal Vice Primo Ministro Sardar Vallabhbhai Patel (l'Uomo di Ferro), impegnato nell'integrazione diplomatica degli oltre 500 stati principeschi nell'Unione Indiana.",
+    'Alleati',
+    'Dominion of India · Union Government (Prime Minister Jawaharlal Nehru)'
+  );
+}
+
 export function resolveBritishRajProvince(ft: any, s: number): ResolvedTerritory {
   const p = (ft && ft.properties) ? ft.properties : {};
   let fid = String(ft.id || p.id || p.NUTS_ID || '').trim();
@@ -2197,6 +2462,11 @@ export function resolveBritishRajProvince(ft: any, s: number): ResolvedTerritory
     }
   }
 
+  // STEP 19+ (Settembre 1947): La Partizione dell'Impero Anglo-Indiano, Nascita di India e Pakistan, e Stati Principeschi Contesi
+  if (s >= 19) {
+    return resolveBritishRajPartition(fid, meta, p);
+  }
+
   if (meta) {
     const sov = meta.getSovereign ? meta.getSovereign(s) : meta.sovereign;
     const fac = meta.getFaction ? meta.getFaction(s) : meta.faction;
@@ -2211,6 +2481,15 @@ export function resolveBritishRajProvince(ft: any, s: number): ResolvedTerritory
   const cntr = String(p.CNTR_CODE || p.CNTR_ID || '').toUpperCase();
   const rawName = String(p.NAME || p.name || '');
   if (cntr === 'MM' || rawName.toLowerCase().includes('burma') || rawName.toLowerCase().includes('birmania')) {
+    if (s >= 17) {
+      return makeResult(
+        'UK',
+        'Burma / Birmania (Operazione Dracula — 14ª Armata Britannica alle Porte di Rangoon, Aprile 1945)',
+        "A fine aprile 1945 la 14ª Armata britannica del generale William Slim incalza le truppe giapponesi in rotta lungo la valle dell'Irrawaddy ed è alle porte di Rangoon; il 1° maggio scatta l'assalto anfibio e aviotrasportato (Operazione Dracula) e la capitale birmana è liberata il 2-3 maggio 1945.",
+        'Alleati',
+        'British Crown Colony of Burma — 14th Army (Lt. Gen. William Slim)'
+      );
+    }
     if (s >= 10) {
       return makeResult(
         'JAP',

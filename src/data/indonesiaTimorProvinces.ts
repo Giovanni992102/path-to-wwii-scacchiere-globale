@@ -1168,6 +1168,7 @@ export const INDONESIA_PROVINCES_META: Record<string, IndonesiaProvinceInfo> = {
 export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory {
   if (!ft) return makeResult('HOL', 'Nederlands-Indië', 'Colonia del Regno dei Paesi Bassi');
 
+  const norm = (str: string) => (str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   const p = ft.properties || {};
   const fidClean = String(ft.id || p.id || p.NUTS_ID || '').trim();
   const rawName = String(p.HISTORICAL_NAME || p.NAME || p.name || '');
@@ -1177,7 +1178,6 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
 
   // 2. Ricerca per nome o corrispondenze
   if (!meta) {
-    const norm = (str: string) => (str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
     const nrmRaw = norm(rawName);
 
     for (const key of Object.keys(INDONESIA_PROVINCES_META)) {
@@ -1195,8 +1195,325 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
     }
   }
 
+  // =========================================================================
+  // STEP 19+ (SETTEMBRE 1947): LA GUERRA D'INDIPENDENZA INDONESIANA (1945-1949)
+  // Prima Azione di Polizia Olandese (Operatie Product, 21 Luglio 1947),
+  // Linea Van Mook (29 Agosto 1947), Capitale Repubblicana a Yogyakarta,
+  // Stato dell'Indonesia Orientale (NIT) e Federalismo Olandese
+  // =========================================================================
+  if (s >= 19) {
+    const fid = (meta ? meta.id : fidClean).toUpperCase();
+
+    // 1. Giava Repubblicana: Capitale a Yogyakarta (IDYO), Giava Centrale (IDJT) e Banten (IDBT)
+    if (fid === 'IDYO' || norm(rawName).includes('yogyakarta') || norm(rawName).includes('jogjakarta')) {
+      return makeResult(
+        'IDN',
+        'Yogyakarta (Capitale Rivoluzionaria della Repubblica d\'Indonesia — Sede di Sukarno & Kraton di Hamengkubuwono IX)',
+        "Capitale de facto della Repubblica d'Indonesia dal gennaio 1946, allorché il Sultano Hamengkubuwono IX offrì il proprio palazzo (Kraton) e il pieno sostegno finanziario e morale a Sukarno e Mohammad Hatta dopo l'occupazione olandese di Batavia. Al 30 settembre 1947 Yogyakarta è il cuore politico, diplomatico e militare della resistenza nazionale indonesiana, sede del governo del primo ministro Amir Sjarifuddin, del quartier generale delle forze armate (TNI) guidate dal Generale Soedirman e centro operativo per i colloqui con la Commissione di Buoni Uffici dell'ONU (KTN / GOC).",
+        'Neutrale',
+        'Republik Indonesia — Ibu Kota Revolusi (Presidente Sukarno / Sultano Hamengkubuwono IX)'
+      );
+    }
+
+    if (fid === 'IDJT' || (meta && meta.islandGroup === 'Java' && norm(meta.name).includes('jawa tengah'))) {
+      return makeResult(
+        'IDN',
+        'Jawa Tengah (Giava Centrale — Bastione Territoriale della Repubblica d\'Indonesia & Forze TNI)',
+        "Cuore demografico e bastione militare della Repubblica d'Indonesia non espugnato durante Operatie Product. Comprende le storiche città di Surakarta (Solo), Magelang, Madiun e Kediri. Sebbene gli olandesi abbiano occupato la fascia portuale costiera a Semarang lungo la Linea Van Mook, l'intero entroterra collinare e montano è difeso con tenacia dalle divisioni del TNI del generale Soedirman, sostenute dalle organizzazioni contadine e giovanili repubblicane.",
+        'Neutrale',
+        'Republik Indonesia — Provinsi Jawa Tengah (Governatore Wongsonegoro / TNI)'
+      );
+    }
+
+    if (fid === 'IDBT' || norm(rawName).includes('banten') || norm(rawName).includes('bantam')) {
+      return makeResult(
+        'IDN',
+        'Banten (Bantam — Roccaforte Rivoluzionaria Repubblicana e Musulmana)',
+        "Roccaforte rivoluzionaria repubblicana all'estremità occidentale di Giava retta dal carismatico leader islamico K.H. Achmad Chatib. Durante la Prima Azione di Polizia (Operatie Product) le colonne corazzate olandesi non sono riuscite a penetrare nella regione, che rimane sotto il saldo controllo del TNI e delle milizie popolari (Laskar), garantendo alla Repubblica una fondamentale finestra marittima sullo Stretto della Sonda per le comunicazioni con Sumatra.",
+        'Neutrale',
+        'Republik Indonesia — Karesidenan Banten (Residente K.H. Achmad Chatib)'
+      );
+    }
+
+    // 2. Giava Occupata dagli Olandesi: Batavia (IDJK), Giava Occidentale (IDJB) e Giava Orientale / Madura (IDJI)
+    if (fid === 'IDJK' || norm(rawName).includes('jakarta') || norm(rawName).includes('batavia')) {
+      return makeResult(
+        'HOL',
+        'Batavia (Giacarta — Sede del Luogotenente Governatore Generale van Mook & Quartier Generale Olandese)',
+        "Occupata militarmente dalle forze olandesi e dal NICA fin dal tardo 1945 dopo il passaggio di consegne britannico. Sede dell'amministrazione coloniale del Luogotenente Governatore Generale Hubertus van Mook e del comando supremo delle forze terrestri del generale Simon Spoor. Da qui il 21 luglio 1947 è stata scatenata Operatie Product e il 29 agosto è stata proclamata unilateralmente la Linea Van Mook; a fine settembre 1947 la città accoglie i delegati della Commissione di Buoni Uffici delle Nazioni Unite (KTN).",
+        'Alleati',
+        'Koninkrijk der Nederlanden — Hoofdstad Batavia (Lt. Gov.-Gen. H.J. van Mook / Gen. S.H. Spoor)'
+      );
+    }
+
+    if (fid === 'IDJB' || (meta && meta.islandGroup === 'Java' && norm(meta.name).includes('jawa barat'))) {
+      return makeResult(
+        'HOL',
+        'Jawa Barat (Giava Occidentale / Bandoeng — Occupazione Olandese & Progetto Stato di Pasundan)',
+        "Territorio occupato militarmente dalle truppe olandesi (7ª Divisione '7 December') durante Operatie Product nel luglio 1947 per riprendere il controllo delle ricchissime piantagioni di tè, caucciù e chinino del Priangan e delle città di Bandung e Buitenzorg (Bogor). L'amministrazione olandese vi organizza lo stato federale cliente di Pasundan (Stato di Pasundan) per sottrarre l'etnia sundanese alla Repubblica, mentre la Divisione Siliwangi del TNI conduce una durissima guerriglia partigiana nelle foreste montane.",
+        'Alleati',
+        'Nederlands-Indië — Recomba West-Java & Negara Pasundan (Raden Wiranatakoesoema)'
+      );
+    }
+
+    if (fid === 'IDJI' || (meta && meta.islandGroup === 'Java' && norm(meta.name).includes('jawa timur'))) {
+      return makeResult(
+        'HOL',
+        'Jawa Timur & Madura (Giava Orientale / Soerabaja — Presidio della Mariniersbrigade & Stato di Madura)',
+        "La metropoli portuale e base navale di Surabaya, Malang e le grandi piantagioni di zucchero e gomma di Giava Orientale sono saldamente controllate dalla brigata dei Marines olandesi (Mariniersbrigade) e dalle truppe coloniali a seguito dell'Operazione Product. Sull'isola di Madura, occupata nell'agosto 1947, le autorità olandesi sponsorizzano la creazione dello stato fantoccio della Negara Madura retto da Raden T.A. Tjakraningrat per spezzare il fronte repubblicano giavanese.",
+        'Alleati',
+        'Nederlands-Indië — Recomba Oost-Java & Negara Madura (Raden T.A. Tjakraningrat)'
+      );
+    }
+
+    // 3. Sumatra Repubblicana: Aceh inviolata (IDAC), Sumatra Ovest (IDSB), Jambi (IDJA), Bengkulu (IDBE), Riau continentale (IDRI)
+    if (fid === 'IDAC' || norm(rawName).includes('aceh') || norm(rawName).includes('atjeh')) {
+      return makeResult(
+        'IDN',
+        'Aceh (Koetaradja — Daerah Modal / Baluardo Inviolato della Repubblica d\'Indonesia)',
+        "Unica regione dell'intero arcipelago indonesiano mai violata né calpestata dalle truppe coloniali olandesi. Amministrata con pugno di ferro dal leader religioso e militare Teungku Daud Beureueh, Aceh è proclamata la 'Daerah Modal' (Territorio Capitale) della Repubblica: attraverso il contrabbando navale via Penang e Singapore finanzia il governo centrale, fornisce armi al TNI e raccoglie i fondi popolari per l'acquisto del primo aereo di linea indonesiano (il bimotore Douglas C-47 'Seulawah RI-001').",
+        'Neutrale',
+        'Republik Indonesia — Daerah Modal Aceh (Governatore Militare Teungku Daud Beureueh)'
+      );
+    }
+
+    if (fid === 'IDSB' || norm(rawName).includes('sumatera barat') || norm(rawName).includes('bukittinggi') || norm(rawName).includes('padang')) {
+      return makeResult(
+        'IDN',
+        'Sumatera Barat (Bukittinggi — Capitale Repubblicana di Sumatra & Altopiano dei Minangkabau)',
+        "Sede del governo repubblicano unificato di Sumatra guidato dal governatore Teuku Muhammad Hasan nella città montana di Bukittinggi (Fort de Kock). Sebbene le forze olandesi abbiano occupato la città portuale costiera di Padang e il porto di Emmahaven (Teluk Bayur), l'intero entroterra montano dei Minangkabau e le miniere di Sawahlunto sono una roccaforte repubblicana inespugnata del TNI, culla dei futuri vertici di governo del PDRI.",
+        'Neutrale',
+        'Republik Indonesia — Governo Repubblicano di Sumatra (Governatore Teuku M. Hasan)'
+      );
+    }
+
+    if (fid === 'IDJA' || norm(rawName).includes('jambi') || norm(rawName).includes('djambi')) {
+      return makeResult(
+        'IDN',
+        'Jambi (Batang Hari — Entroterra e Vie Fluviali della Repubblica d\'Indonesia)',
+        "Vasta provincia fluviale del bacino del Batang Hari rimasta sotto il saldo controllo della Repubblica d'Indonesia. Le formazioni del TNI e della polizia repubblicana vi garantiscono una rotta protetta di collegamento tra la capitale di Sumatra a Bukittinggi e i settori meridionali dell'isola.",
+        'Neutrale',
+        'Republik Indonesia — Karesidenan Djambi (Residente Rd. Inoe Kertapati)'
+      );
+    }
+
+    if (fid === 'IDBE' || norm(rawName).includes('bengkulu') || norm(rawName).includes('benkoelen')) {
+      return makeResult(
+        'IDN',
+        'Bengkulu (Benkoelen — Costa Sud-Occidentale della Repubblica d\'Indonesia)',
+        "Fascia costiera sud-occidentale di Sumatra presidiata dal TNI repubblicano e terra di esilio politico prebellico di Sukarno. I piccoli porti della costa mantengono un flusso costante di comunicazioni marittime clandestine con la roccaforte di Banten attraverso lo Stretto della Sonda.",
+        'Neutrale',
+        'Republik Indonesia — Karesidenan Benkoelen (Residente Oesman Hazairin)'
+      );
+    }
+
+    if (fid === 'IDRI' || norm(rawName).includes('riau') && !norm(rawName).includes('kepulauan')) {
+      return makeResult(
+        'IDN',
+        'Riau Continentale (Pekanbaru / Fiume Siak — Entroterra Repubblicano di Sumatra)',
+        "Regione interna di Sumatra centrale imperniata su Pekanbaru e il bacino del fiume Siak, sotto controllo repubblicano. Punto di smistamento clandestino verso la penisola malese per il traffico di gomma naturale in cambio di uniformi, radio e medicinali.",
+        'Neutrale',
+        'Republik Indonesia — Karesidenan Riau Daratan (Pekanbaru)'
+      );
+    }
+
+    // 4. Sumatra Occupata dagli Olandesi: Palembang/Plaju/Sungai Gerong (IDSS), Medan/Deli (IDSU), Lampung (IDLA), Bangka-Belitung (IDBB), Kepulauan Riau (IDKR)
+    if (fid === 'IDSS' || norm(rawName).includes('palembang') || norm(rawName).includes('sumatera selatan')) {
+      return makeResult(
+        'HOL',
+        'Sumatera Selatan (Palembang — Occupazione Olandese dei Bacini Petroliferi di Pladjoe & Soengei Gerong)',
+        "Obiettivo economico strategico di primaria importanza per L'Aia: nel luglio 1947, con Operatie Product, le colonne corazzate olandesi del KNIL hanno travolto le posizioni repubblicane occupando la città fluviale di Palembang e i giganteschi complessi di raffinazione petrolifera della BPM (Shell) e della Stanvac a Plaju (Pladjoe) e Sungai Gerong. Al 30 settembre 1947 il settore è presidiato militarmente dall'Olanda e delimitato dalla Linea Van Mook, mentre le brigate del TNI conducono imboscate nella giungla.",
+        'Alleati',
+        'Nederlands-Indië — Recomba Zuid-Sumatra (Palembang / Stanvac & Royal Dutch Shell)'
+      );
+    }
+
+    if (fid === 'IDSU' || norm(rawName).includes('sumatera utara') || norm(rawName).includes('medan') || norm(rawName).includes('deli')) {
+      return makeResult(
+        'HOL',
+        'Sumatera Utara (Medan / Deli — Occupazione Olandese & Nascita dello Stato di Sumatra Orientale)',
+        "Cuore delle piantagioni imperiali di caucciù, tabacco da sigari e palma da olio della costa orientale di Sumatra. Occupata militarmente dall'esercito olandese durante Operatie Product nel luglio 1947, la regione viene distaccata dalla Repubblica e riorganizzata nello stato federale cliente della Negara Sumatera Timur (NST) sotto la presidenza aristocratica di Tengku Mansur, con il pieno appoggio degli industriali europei e dei sultani locali.",
+        'Alleati',
+        'Nederlands-Indië — Recomba Oostkust van Sumatra & Negara Sumatera Timur (Tengku Mansur)'
+      );
+    }
+
+    if (fid === 'IDLA' || norm(rawName).includes('lampung')) {
+      return makeResult(
+        'HOL',
+        'Lampung (Telokbetoeng — Presidio Olandese dello Stretto della Sonda)',
+        "Settore meridionale di Sumatra presidiato dal KNIL e dalla marina olandese a Telukbetung per sorvegliare lo Stretto della Sonda e bloccare i collegamenti navali tra Sumatra e Giava.",
+        'Alleati',
+        'Nederlands-Indië — Residentie Lampong (Telokbetoeng)'
+      );
+    }
+    if (fid === 'IDBB' || norm(rawName).includes('bangka') || norm(rawName).includes('belitung') || norm(rawName).includes('billiton')) {
+      return makeResult(
+        'HOL',
+        'Bangka e Belitung (Isole dello Stagno — Amministrazione Speciale Olandese)',
+        "Isole minerarie dello stagno detenute sotto ferreo controllo olandese; i proventi delle esportazioni di stagno finanziano direttamente le operazioni militari del NICA nell'arcipelago.",
+        'Alleati',
+        'Nederlands-Indië — Bangka-Raad en Billiton-Raad (Tin-Eilanden)'
+      );
+    }
+    if (fid === 'IDKR' || norm(rawName).includes('kepulauan riau') || norm(rawName).includes('tanjungpinang')) {
+      return makeResult(
+        'HOL',
+        'Kepulauan Riau (Riouw / Tandjoengpinang — Base Navale Olandese di Sorveglianza)',
+        "Arcipelago insulare alle porte di Singapore tenuto sotto stretto blocco navale dalla Marina Reale Olandese per interdire le rotte dei rifornimenti clandestini repubblicani.",
+        'Alleati',
+        'Nederlands-Indië — Residentie Riouw (Tandjoengpinang)'
+      );
+    }
+
+    // 5. Stato dell'Indonesia Orientale (Negara Indonesia Timur - NIT): Sulawesi, Nusa Tenggara, Maluku
+    const isGrooteOost = meta && (meta.islandGroup === 'Sulawesi' || meta.islandGroup === 'Maluku' || meta.islandGroup === 'Nusa Tenggara');
+    if (isGrooteOost || fid.startsWith('IDSN') || fid.startsWith('IDSA') || fid.startsWith('IDBA') || fid.startsWith('IDMA')) {
+      const subName = meta ? meta.name : rawName;
+      return makeResult(
+        'HOL',
+        `${meta ? meta.historicalName : rawName} (Negara Indonesia Timur — Stato Federale dell'Indonesia Orientale)`,
+        "Territorio costituente del Negara Indonesia Timur (NIT — Stato dell'Indonesia Orientale), stato federale creato alla Conferenza di Denpasar nel dicembre 1946 sotto gli auspici del Luogotenente Governatore Generale Hubertus van Mook per arginare l'influenza della Repubblica di Sukarno. Con capitale a Makassar (Celebes) e presidenza affidata al nobile balinese Tjokorda Gde Raka Soekawati, il NIT raggruppa Sulawesi, le Molucche e le Piccole Isole della Sonda (compresa Bali), preservando la tutela strategica e militare dei Paesi Bassi.",
+        'Alleati',
+        'Negara Indonesia Timur (Presidente Tjokorda Gde Raka Soekawati / Capitale Makassar) · Tutela Olandese'
+      );
+    }
+
+    // 6. Borneo (Kalimantan): Daerah Istimewa Kalimantan Barat (Sultan Hamid II) & Federazioni Regionali
+    const isBorneo = meta && meta.islandGroup === 'Borneo';
+    if (isBorneo || fid.startsWith('IDK')) {
+      if (fid === 'IDKB' || norm(rawName).includes('pontianak')) {
+        return makeResult(
+          'HOL',
+          'Kalimantan Barat (Pontianak — Daerah Istimewa del Sultano Hamid II / Borneo Occidentale)',
+          "Regione autonoma speciale del Borneo Occidentale (Daerah Istimewa Kalimantan Barat) governata da Syarif Hamid Alkadrie (Sultano Hamid II di Pontianak, colonnello del KNIL e fedele alleato dell'amministrazione olandese). Modello di territorio federale patrocinato da van Mook.",
+          'Alleati',
+          'Daerah Istimewa Kalimantan Barat (Sultan Hamid II di Pontianak) · Tutela Olandese'
+        );
+      }
+      return makeResult(
+        'HOL',
+        `${meta ? meta.historicalName : rawName} (Nederlands-Indië — Federazioni Autonome del Borneo / Oliekust Tarakan & Balikpapan)`,
+        "Territorio del Borneo olandese (Kalimantan) presidiato dalle forze del KNIL dopo la liberazione australiana del 1945. L'amministrazione olandese promuove consigli regionali filo-federali (Dayak Besar, Bandjar, Kalimantan Orientale) per tutelare i colossali complessi petroliferi di Tarakan e Balikpapan.",
+        'Alleati',
+        'Koninkrijk der Nederlanden — Gouvernement Borneo (Banjarmasin / Balikpapan)'
+      );
+    }
+
+    // 7. Nuova Guinea Occidentale (Nederlands-Nieuw-Guinea / Papua)
+    const isPapua = meta && meta.islandGroup === 'Papua';
+    if (isPapua || fid.startsWith('IDP')) {
+      return makeResult(
+        'HOL',
+        'Nederlands-Nieuw-Guinea (Nuova Guinea Olandese — Territorio d\'Oltremare dei Paesi Bassi)',
+        "Territorio d'oltremare dei Paesi Bassi con capitale a Hollandia (Jayapura). Esclusa categoricamente da L'Aia da qualsiasi trattativa o concessione alla Repubblica di Sukarno e considerata entità etnica e geopolitica distinta, la Nuova Guinea Occidentale rimane saldamente governata dai Paesi Bassi con basi navali e aeree a Biak, Merauke e Manokwari.",
+        'Alleati',
+        'Koninkrijk der Nederlanden — Gouvernement van Nederlands-Nieuw-Guinea (Hollandia)'
+      );
+    }
+
+    // Fallback Step 19
+    return makeResult(
+      'IDN',
+      `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Rivoluzione Nazionale & Capitale a Yogyakarta)`,
+      "Territorio dell'arcipelago indonesiano conteso tra la Repubblica d'Indonesia (governo di Yogyakarta di Sukarno-Hatta) e l'amministrazione coloniale dei Paesi Bassi delimitata dalla Linea Van Mook.",
+      'Neutrale',
+      'Republik Indonesia — Governo di Yogyakarta'
+    );
+  }
+
+  // =========================================================================
+  // STEP 18 (Settembre 1945): La Rivoluzione Nazionale Indonesiana, il NICA e la Tripartizione Geopolitica
+  // =========================================================================
+  if (s === 18) {
+    const isJavaOrSumatra = meta && (meta.islandGroup === 'Java' || meta.islandGroup === 'Sumatra');
+    const isBorneo = meta && meta.islandGroup === 'Borneo';
+    const isGrooteOost = meta && (meta.islandGroup === 'Sulawesi' || meta.islandGroup === 'Maluku' || meta.islandGroup === 'Nusa Tenggara');
+    const isPapua = meta && meta.islandGroup === 'Papua';
+
+    // 1. Giava e Sumatra: Cuore della Rivoluzione Nazionale Indonesiana (Repubblica di Sukarno & Presidio Britannico AFNEI)
+    if (isJavaOrSumatra || (!meta && (fidClean.startsWith('IDJ') || fidClean.startsWith('IDS') || rawName.toLowerCase().includes('java') || rawName.toLowerCase().includes('sumatra')))) {
+      return makeResult(
+        'IDN',
+        `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Rivoluzione Nazionale & Presidio Britannico AFNEI)`,
+        "Il 17 agosto 1945 a Giacarta Sukarno e Mohammad Hatta proclamano l'indipendenza della Repubblica d'Indonesia (Proklamasi Kemerdekaan Indonesia). A Giava e Sumatra i comitati rivoluzionari, le milizie giovanili dei Pemuda e il Badan Keamanan Rakyat (BKR) prendono il controllo delle città e delle comunicazioni. A fine settembre 1945 sbarcano a Batavia le prime unità della 23ª Divisione Indiana britannica (maggior generale D.C. Hawthorn / AFNEI - Allied Forces Netherlands East Indies sotto il generale Philip Christison) per disarmare le truppe giapponesi e liberare i prigionieri alleati (RAPWI), riconoscendo de facto l'autorità repubblicana per l'ordine pubblico nell'interno dell'isola dinanzi alle proteste del NICA olandese.",
+        'Neutrale',
+        'Republik Indonesia (Presidente Sukarno & Vicepresidente Mohammad Hatta) / Presidio Britannico AFNEI'
+      );
+    }
+
+    // 2. Borneo (Kalimantan): I Corpo d'Armata Australiano & Restaurazione del NICA Olandese
+    if (isBorneo || (!meta && (fidClean.startsWith('IDK') || rawName.toLowerCase().includes('kalimantan') || rawName.toLowerCase().includes('borneo')))) {
+      return makeResult(
+        'HOL',
+        `${meta ? meta.historicalName : rawName} (Nederlands-Indië — Restaurazione del NICA & Occupazione Australiana)`,
+        "Liberato nella primavera-estate 1945 dal I Corpo d'Armata Australiano (7ª e 9ª Divisione, Operazione Oboe a Tarakan e Balikpapan), il Borneo olandese viene posto sotto il controllo militare alleato con l'immediata restaurazione dell'amministrazione civile del NICA (Netherlands Indies Civil Administration). Le aspirazioni repubblicane locali vengono prontamente arginate dalle forze alleate, ponendo le basi per il mantenimento dell'autorità coloniale olandese e l'istituzione dei futuri territori federali.",
+        'Alleati',
+        'Koninkrijk der Nederlanden — Netherlands Indies Civil Administration (NICA / Gouvernement Borneo)'
+      );
+    }
+
+    // 3. Groote Oost (Sulawesi, Molucche, Piccole Isole della Sonda): Controllo Alleato Australiano & NICA
+    if (isGrooteOost || (!meta && (fidClean.startsWith('IDS') || fidClean.startsWith('IDM') || fidClean.startsWith('IDB') || fidClean.startsWith('IDN')))) {
+      return makeResult(
+        'HOL',
+        `${meta ? meta.historicalName : rawName} (Nederlands-Indië — Restaurazione del NICA & I Corpo d'Armata Australiano)`,
+        "A seguito della resa delle forze navali giapponesi firmata a Morotai il 9 settembre 1945 dinanzi al generale australiano Sir Thomas Blamey, le truppe del Commonwealth australiano sbarcano a Makassar, Menado, Ambon, Kupang e Denpasar, reintegrando l'autorità civile dei Paesi Bassi guidata dal NICA (Netherlands Indies Civil Administration) del Luogotenente Governatore Generale Hubertus van Mook. In queste isole orientali l'Olanda consolida il proprio potere coloniale, gettando le fondamenta per la proclamazione del filo-olandese Stato dell'Indonesia Orientale (Negara Indonesia Timur).",
+        'Alleati',
+        'Koninkrijk der Nederlanden — Netherlands Indies Civil Administration (NICA / Gouvernement Groote Oost)'
+      );
+    }
+
+    // 4. Nuova Guinea Occidentale (Nederlands-Nieuw-Guinea / Papua: IDPA, IDPB): Colonia Olandese Separata
+    if (isPapua || (!meta && (fidClean.startsWith('IDP') || rawName.toLowerCase().includes('papua') || rawName.toLowerCase().includes('irian')))) {
+      return makeResult(
+        'HOL',
+        'Nederlands-Nieuw-Guinea (Nuova Guinea Olandese — Territorio d\'Oltremare dei Paesi Bassi)',
+        "Liberata già nella primavera del 1944 dalle forze alleate del generale Douglas MacArthur (Operazioni Reckless e Horlicks a Hollandia e Biak) e trasformata nel colossale quartier generale avanzato del SWPA, la Nuova Guinea Occidentale è rimasta sotto saldo controllo olandese e alleato con sede del NICA a Hollandia. Esclusa dalla proclamazione della Repubblica di Sukarno e considerata da L'Aia come entità etnica e geografica distinta, rimarrà colonia e territorio d'oltremare dei Paesi Bassi fino al 1962.",
+        'Alleati',
+        'Koninkrijk der Nederlanden — Gouvernement van Nederlands-Nieuw-Guinea (Hollandia)'
+      );
+    }
+
+    // Fallback generico per l'arcipelago
+    return makeResult(
+      'IDN',
+      `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Proclamazione del 17 Agosto 1945)`,
+      "Il 17 agosto 1945 Sukarno e Mohammad Hatta proclamano l'indipendenza della Repubblica d'Indonesia (Proklamasi Kemerdekaan Indonesia).",
+      'Neutrale',
+      'Republik Indonesia (Presidente Sukarno & Vicepresidente Mohammad Hatta)'
+    );
+  }
+
   // 3. Risoluzione canonica
   if (meta) {
+    if (s >= 14 && (meta.id === 'IDPA' || (norm(meta.nutsName).includes('hollandia') && meta.id !== 'IDPB'))) {
+      return makeResult(
+        'USA',
+        'Papua / Hollandia & Biak (Presidio Avanzato SWPA — Generale Douglas MacArthur)',
+        'Nell\'aprile-maggio 1944 le forze statunitensi del SWPA sbarcano a Hollandia (Operazione Reckless) e sull\'isola di Biak (Operazione Horlicks); la rada di Humboldt Bay e gli aeroporti di Hollandia vengono trasformati nel colossale quartier generale avanzato del generale Douglas MacArthur per l\'imminente liberazione delle Filippine.',
+        'Alleati',
+        'Allied Southwest Pacific Area (Gen. Douglas MacArthur) & U.S. Sixth Army'
+      );
+    }
+    if (s >= 14 && (meta.id === 'IDPB' || norm(meta.nutsName).includes('vogelkop') || norm(meta.nutsName).includes('manokwari'))) {
+      if (s >= 15) {
+        return makeResult(
+          'JAP',
+          'Papua Barat / Vogelkop (Sacca Isolata di Manokwari & Sbarco USA a Sansapor, Agosto 1944)',
+          'A seguito dello sbarco anfibio statunitense a Cape Sansapor (Operazione Globetrotter, 30 luglio 1944) e della rapida costruzione della base aerea di Mar da parte dei genieri USA, la 2ª Armata imperiale giapponese del Ten. Gen. Fusataro Teshima a Manokwari (35ª Divisione) rimane completamente scavalcata e intrappolata nella giungla della penisola di Vogelkop senza alcun rifornimento o supporto navale.',
+          'Asse',
+          'Dai Nippon Teikoku — 2ª Armata (Ten. Gen. Fusataro Teshima — Sacca Isolata di Manokwari)'
+        );
+      }
+      return makeResult(
+        'JAP',
+        'Papua Barat / Vogelkop & Manokwari (2ª Armata Giapponese del Ten. Gen. Teshima)',
+        'Al 30 giugno 1944 la vasta penisola della "Testa d\'Uccello" (Vogelkop / Doberai) e il presidio di Manokwari rimangono sotto il saldo controllo della 2ª Armata imperiale giapponese (Ten. Gen. Fusataro Teshima, 35ª Divisione con oltre 50.000 effettivi). Tagliata fuori da ogni rifornimento dopo la perdita di Hollandia e Biak, la guarnigione presidia le baie di Manokwari, Sorong e Fakfak in attesa dello sbarco alleato (che avverrà a Cape Sansapor solo il 30 luglio 1944, lasciando Manokwari scavalcata e isolata fino alla resa).',
+        'Asse',
+        'Dai Nippon Teikoku — 2ª Armata (Ten. Gen. Fusataro Teshima — Quartier Generale di Manokwari)'
+      );
+    }
     if (s >= 10) {
       const japAdmin = meta.islandGroup === 'Java'
         ? 'Impero Giapponese — 16ª Armata (Ten. Gen. Hitoshi Imamura, Batavia / Giacarta — Resa di Kalijati dell\'8-9 marzo 1942)'
@@ -1241,6 +1558,21 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
  */
 export function resolveTimorLeste(ft: any, s: number): ResolvedTerritory {
   const meta = TIMOR_LESTE_META;
+  if (s >= 18) {
+    return makeResult(
+      'POR',
+      s >= 19
+        ? 'Timor Português (Província Ultramarina de Timor — Sovranità Portoghese)'
+        : 'Timor Português (Restaurazione della Sovranità Portoghese — Settembre 1945)',
+      s >= 19
+        ? "Al 30 settembre 1947 Timor Est è amministrata dal Portogallo come Província Ultramarina de Timor sotto il Governatore Óscar Freire de Vasconcelos Ruas, impegnata nella ricostruzione di Díli dopo l'occupazione bellica giapponese."
+        : "Il 5 settembre 1945 le forze giapponesi a Timor firmano la resa a Kupang dinanzi alle truppe australiane del brigadiere Lewis Dyke; le unità alleate sbarcano a Díli per disarmare la guarnigione nipponica del colonnello Kaida. A fine settembre 1945 l'amministrazione coloniale dell'Império Colonial Português viene formalmente ripristinata sotto il Governatore Manuel de Abreu Ferreira de Carvalho, riaffermando la sovranità di Lisbona.",
+      'Neutrale',
+      s >= 19
+        ? 'República Portuguesa — Província Ultramarina de Timor (Governador Óscar Ruas)'
+        : 'República Portuguesa — Província Ultramarina de Timor (Governador Ferreira de Carvalho)'
+    );
+  }
   if (s >= 10) {
     return makeResult(
       'JAP',

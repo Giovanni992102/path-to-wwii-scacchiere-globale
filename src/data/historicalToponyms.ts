@@ -1,9 +1,11 @@
+import { CYPRUS_PROVINCES_META } from './cyprusProvinces';
 import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 import { USA_PROVINCES_META, populateUSAToponyms } from './usaProvinces';
 import { CANADA_PROVINCES_META, populateCanadaToponyms } from './canadaProvinces';
 import { MEXICO_PROVINCES_META, populateMexicoToponyms } from './mexicoProvinces';
 import { AOF_PROVINCES_META, populateAOFToponyms } from './aofProvinces';
 import { AEF_PROVINCES_META, populateAEFToponyms } from './aefProvinces';
+import { matchFrenchPacificDossier, isFrenchPacificProvince } from './frenchPacificProvinces';
 import { NAMIBIA_PROVINCES_META, populateNamibiaToponyms, resolveNamibiaProvince } from './namibiaProvinces';
 import { SUDAN_PROVINCES_META, populateSudanToponyms, resolveSudanProvince } from './sudanProvinces';
 import { AFGHANISTAN_PROVINCES_META, populateAfghanistanToponyms, resolveAfghanistanProvince } from './afghanistanProvinces';
@@ -5002,6 +5004,29 @@ export function resolveFrenchColonialToponym(
 
   // 4. TOGO FRANÇAIS (Mandat SDN)
   if (normKey.includes('togo') || normKey.includes('lome')) {
+    if (step >= 11) {
+      return {
+        name: step >= 17
+          ? "Togo Français (GPRF — Mandat SDN & Verso la Tutela ONU)"
+          : step >= 15
+          ? "Togo Français (GPRF — Armée de la Libération)"
+          : step >= 12
+          ? "Togo Français (CFLN — Rallié aux Alliés / Gouverneur Mercadier)"
+          : "Togo Français (AOF — Rallié aux Alliés / Accord Boisson, 23 Novembre 1942)",
+        adminTitle: step >= 15
+          ? "Gouvernement Provisoire de la République Française (GPRF) — Commissariat au Togo (Lomé)"
+          : step >= 12
+          ? "Comité Français de Libération Nationale (CFLN) — Territoire du Togo (Lomé)"
+          : "Haut-Commissariat de France en Afrique — Territoire du Togo (Lomé — Rallié aux Alliés)",
+        note: step >= 17
+          ? "Territoire du Togo sous mandat de la SDN en transition vers le régime de Tutelle des Nations Unies (Tutelle ONU); forte effervescence civica e politica del Comité de l'Unité Togolaise (CUT)."
+          : step >= 15
+          ? "Territoire sous mandat administré par le GPRF de Charles de Gaulle; participation active des Tirailleurs togolais à la libération de la métropole avec la 1re Armée française."
+          : step >= 12
+          ? "Territoire sous mandat administré par le CFLN sous le gouverneur Albert Mercadier; réouverture des échanges commerciaux maritimes avec les Alliés et soutien logistique."
+          : "Le 23 novembre 1942, à la suite du débarquement de l'Opération Torch, l'AOF et le Togo se rallient officiellement aux Alliés; levée immédiate du blocus naval britannique.",
+      };
+    }
     return isVichyStep
       ? {
           name: "Togo Français (AOF — Vichy)",
@@ -5109,6 +5134,14 @@ export function resolveFrenchColonialToponym(
       !normKey.includes('hebrid') &&
       !normKey.includes('polynesi') &&
       !normKey.includes('tahiti') &&
+      !normKey.includes('papeete') &&
+      !normKey.includes('oceanie') &&
+      !normKey.includes('oceania') &&
+      !normKey.includes('bora') &&
+      id !== 'PF_POLYNESIA' &&
+      id !== 'NC_CALEDONIA' &&
+      id !== 'NH_HEBRIDES' &&
+      id !== 'WF_WALLIS_FUTUNA' &&
       !normKey.includes('inde') &&
       !normKey.includes('indi') &&
       !normKey.includes('pondicher') &&
@@ -5548,26 +5581,23 @@ export function resolveFrenchColonialToponym(
   }
 
   // 24. ÉTABLISSEMENTS FRANÇAIS DE L'OCÉANIE (Tahiti / Polynésie)
-  if (normKey.includes('tahiti') || normKey.includes('papeete') || normKey.includes('polynesi')) {
-    if (step >= 7 || owner === 'FFL_AEF' || owner === 'FFL') {
+  if (
+    id === 'PF_POLYNESIA' ||
+    normKey.includes('tahiti') ||
+    normKey.includes('papeete') ||
+    normKey.includes('polynesi') ||
+    normKey.includes('oceanie') ||
+    normKey.includes('oceania') ||
+    normKey.includes('bora')
+  ) {
+    const pacDossier = matchFrenchPacificDossier(id, rawName, normKey);
+    if (pacDossier) {
       return {
-        name: "Établissements Français de l'Océanie (France Libre — Tahiti)",
-        adminTitle: "Ralliés à la France Libre par Plébiscite (2 septembre 1940)",
-        note: "Par un plébiscite populaire écrasant (5.564 voix contre 18), la Polynésie se rallie à la France Libre, formant le vaillant Bataillon du Pacifique.",
+        name: pacDossier.getHistoricalName(step),
+        adminTitle: pacDossier.getAdminTitle(step),
+        note: pacDossier.getNote(step),
       };
     }
-    if (step === 6 || owner === 'VIC') {
-      return {
-        name: "Établissements Français de l'Océanie (Tahiti — Administration coloniale)",
-        adminTitle: "Administration Coloniale d'Océanie (Papeete)",
-        note: "Archipels polynésiens dans l'attente du plébiscite populaire de ralliement à De Gaulle de septembre 1940.",
-      };
-    }
-    return {
-      name: "Établissements Français de l'Océanie (Tahiti / Papeete)",
-      adminTitle: "Colonie des Établissements Français de l'Océanie (Papeete)",
-      note: "Archipels de la Société, des Tuamotu, des Gambier, des Marquises et des Australes. Chef-lieu Papeete.",
-    };
   }
 
   // 25. ÉTABLISSEMENTS FRANÇAIS DANS L'INDE (Pondichéry)
@@ -5660,6 +5690,13 @@ export function resolveAfricanToponym(
   const cleanDzId = id ? id.replace(/^DZ_/, 'DZ').toUpperCase() : '';
   if (cleanDzId && (ALGERIA_PROVINCES_META as any)[cleanDzId]) {
     const dz = (ALGERIA_PROVINCES_META as any)[cleanDzId];
+    if (step >= 19) {
+      return {
+        name: dz.historicalName,
+        adminTitle: "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Alger · Yves Chataigneau)",
+        note: `${dz.name} (${dz.capital}) · Con lo Statut Organique de l'Algérie del 20 settembre 1947 i dipartimenti algerini e i Territori del Sud sono retti nell'Union Française sotto l'Assemblea Algerina paritaria e il Governatore Generale Yves Chataigneau.`,
+      };
+    }
     return {
       name: dz.historicalName,
       adminTitle: dz.adminTitle,
@@ -5671,6 +5708,13 @@ export function resolveAfricanToponym(
   const cleanMaId = id ? id.replace(/^MA_/, 'MA').toUpperCase() : '';
   if (cleanMaId && (MOROCCO_PROVINCES_META as any)[cleanMaId]) {
     const ma = (MOROCCO_PROVINCES_META as any)[cleanMaId];
+    if (step >= 19) {
+      return {
+        name: ma.historicalName,
+        adminTitle: "Quatrième République (Union Française) — Résidence Générale au Maroc (Rabat · Gén. Alphonse Juin)",
+        note: `${ma.name} (${ma.capital}) · Protettorato francese del Marocco nell'Union Française dopo il Discorso di Tangeri del Sultano Mohammed V (10 aprile 1947) e la nomina del Résident Général Alphonse Juin (maggio 1947).`,
+      };
+    }
     return {
       name: ma.historicalName,
       adminTitle: ma.adminTitle,
@@ -5682,6 +5726,13 @@ export function resolveAfricanToponym(
   const cleanTnId = id ? id.replace(/^TN_/, 'TN').toUpperCase() : '';
   if (cleanTnId && (TUNISIA_PROVINCES_META as any)[cleanTnId]) {
     const tn = (TUNISIA_PROVINCES_META as any)[cleanTnId];
+    if (step >= 19) {
+      return {
+        name: tn.historicalName,
+        adminTitle: "Quatrième République (Union Française) — Résidence Générale en Tunisie (Tunis · Jean Mons & Lamine Bey)",
+        note: `${tn.name} (${tn.capital}) · Protettorato francese di Tunisia nell'Union Française sotto Lamine Bey e il Résident Général Jean Mons (1947).`,
+      };
+    }
     return {
       name: tn.historicalName,
       adminTitle: tn.adminTitle,
@@ -5691,6 +5742,14 @@ export function resolveAfricanToponym(
 
   // 0. REGNO D'EGITTO (27 Governatorati e Mudiriyat 1936-1941: Cairo, Alessandria, Canale di Suez, Delta, Oasi e Frontiere)
   const cleanEgId = id ? id.replace(/^EG_/, 'EG').toUpperCase() : '';
+  if (step >= 19 && ((cleanEgId && EGYPT_DISTRICTS_META[cleanEgId]) || (!normKey.includes('sudan') && (owner === 'EGY' || normKey.includes('egypt') || normKey.includes('egitto'))))) {
+    const eg = EGYPT_DISTRICTS_META[cleanEgId];
+    return {
+      name: eg?.historicalName || "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto)",
+      adminTitle: "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mahmoud an-Nukrashi Pasha)",
+      note: `${eg?.historicalName || 'Egitto'} · Regno d'Egitto pienamente sovrano dopo il completamento del ritiro militare britannico dal Cairo e dal Delta verso la sola Zona del Canale di Suez (marzo 1947). Il Primo Ministro Mahmoud an-Nukrashi Pasha porta la controversia sull'evacuazione e sul Sudan al Consiglio di Sicurezza dell'ONU (luglio-settembre 1947).`,
+    };
+  }
   if (cleanEgId === 'EGMT' && step === 7) {
     return {
       name: 'Sidi Barrani e Marmarica Egiziana (Avanzata della 10ª Armata Italiana)',
@@ -5714,7 +5773,9 @@ export function resolveAfricanToponym(
     };
   }
 
+  const isItalianTerritory = cleanEgId.startsWith('IT') || owner === 'ITA' || owner === 'RSI' || normKey.includes('piemonte') || normKey.includes('itc18');
   if (
+    !isItalianTerritory &&
     !normKey.includes('sudan') &&
     (cleanEgId.startsWith('EG') ||
       owner === 'EGY' ||
@@ -6192,6 +6253,13 @@ export function resolveAfricanToponym(
 
   // 2. AFRICA ORIENTALE ITALIANA (Eritrea, Etiopia, Somalia, AOI)
   if (normKey.includes('eritrea') && (owner === 'ITA' || owner === 'UK' || !normKey.includes('british'))) {
+    if (step >= 19) {
+      return {
+        name: 'Eritrea (Amministrazione Militare Britannica — BMA, Asmara)',
+        adminTitle: 'British Military Administration of Eritrea (Brigadier F.G. Drew — Asmara)',
+        note: "Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l'Italia rinuncia a ogni sovranità sull'Eritrea, che resta sotto amministrazione provvisoria britannica (BMA Eritrea) in attesa del rapporto della Commissione d'inchiesta delle Quattro Potenze.",
+      };
+    }
     if (step >= 8 || owner === 'UK') {
       return {
         name: 'Eritrea (Occupazione Militare Britannica — Caduta di Cheren, Asmara e Massaua)',
@@ -6223,6 +6291,13 @@ export function resolveAfricanToponym(
     normKey.includes('galla_sidama') ||
     normKey.includes('jimma')
   ) {
+    if (step >= 19) {
+      return {
+        name: "Impero d'Etiopia (Addis Abeba — Sovranità Restaurata, Negus Hailé Selassié I)",
+        adminTitle: "Ye’Ityōṗṗyā Nigūsa Negest Mengist — Imperatore Hailé Selassié I (Addis Abeba)",
+        note: "Impero d'Etiopia pienamente indipendente sotto il Negus Hailé Selassié I e il Primo Ministro Makonnen Endelkachew, membro fondatore delle Nazioni Unite; il Trattato di Pace di Parigi (15 settembre 1947) sancisce la definitiva rinuncia italiana.",
+      };
+    }
     if (step >= 8 || (step >= 1 && owner === 'ETH')) {
       if (normKey.includes('amhara') || normKey.includes('gondar')) {
         return {
@@ -6301,6 +6376,13 @@ export function resolveAfricanToponym(
     id !== 'UK_SOMALILAND' &&
     id !== 'BR_SOMALILAND'
   ) {
+    if (step >= 19) {
+      return {
+        name: 'Somalia (Amministrazione Militare Britannica — BMA, Mogadiscio)',
+        adminTitle: 'British Military Administration of Somalia (Mogadishu)',
+        note: "Trattato di Pace di Parigi (in vigore dal 15 settembre 1947, Articolo 23): l'Italia rinuncia a ogni titolo sulla Somalia Italiana; il territorio rimane sotto Amministrazione Militare Britannica (BMA) in attesa delle deliberazioni alleate/ONU.",
+      };
+    }
     if (step >= 8 || owner === 'UK') {
       return {
         name: 'Somalia Ex-Italiana (Occupazione Militare Britannica — Mogadiscio e Chisimaio)',
@@ -6495,6 +6577,13 @@ export function resolveAfricanToponym(
         note: "Grande città imperiale alle pendici dell'Alto Atlante; polo politico e militare del Marocco meridionale controllato dall'influente Pacha Thami El Glaoui, alleato dell'amministrazione coloniale francese.",
       };
     }
+    if (step >= 19) {
+      return {
+        name: 'Protectorat Français du Maroc (Union Française — Rabat & Casablanca)',
+        adminTitle: 'Quatrième République (Union Française) — Résidence Générale au Maroc (Gén. Alphonse Juin)',
+        note: "Protettorato francese del Marocco nella Quarta Repubblica e nell'Union Française sotto il Sultano Sidi Mohammed ben Youssef (autore dello storico Discorso di Tangeri del 10 aprile 1947 a favore dell'indipendenza) e il nuovo Résident Général Alphonse Juin.",
+      };
+    }
     return {
       name: step >= 11
         ? 'Protectorat du Maroc (Liberazione Alleata — Operazione Torch / Casablanca & Rabat)'
@@ -6532,6 +6621,13 @@ export function resolveAfricanToponym(
       id.startsWith('DZ'))
   ) {
     if (normKey.includes('oran') && !normKey.includes('oranienbaum')) {
+      if (step >= 19) {
+        return {
+          name: "Département d'Oran & Base Navale de Mers-el-Kébir (Union Française)",
+          adminTitle: "Quatrième République (Union Française) — Département d'Oran & Marine Nationale à Mers-el-Kébir",
+          note: "Dipartimento di Orano integrato nel nuovo Statut Organique de l'Algérie (20 settembre 1947) e principale base aeronavale strategica francese di Mers-el-Kébir nel Mediterraneo occidentale.",
+        };
+      }
       return {
         name: step >= 11
           ? 'Oran (Mers-el-Kébir — Sbarco Alleato Operazione Torch)'
@@ -6548,6 +6644,13 @@ export function resolveAfricanToponym(
           : step >= 6
           ? "Grande rada e base navale fortificata della Marine Nationale. Il 3 luglio 1940 la Royal Navy britannica (Force H dell'ammiraglio Somerville) scatenò l'Operazione Catapult affondando la corazzata Bretagne e danneggiando la Dunkerque e la Provence per impedire che la flotta cadesse in mano tedesca, causando 1.297 marinai francesi caduti."
           : "Dipartimento costiero occidentale dell'Algeria francese dotato della moderna base navale militare di Mers-el-Kébir e di un popoloso centro commerciale ed europeo.",
+      };
+    }
+    if (step >= 19) {
+      return {
+        name: "Départements Français d'Algérie (Statut de 1947 — Alger, Oran, Constantine)",
+        adminTitle: "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Yves Chataigneau)",
+        note: "Territorio d'oltremare francese regolato dallo Statut Organique de l'Algérie del 20 settembre 1947 con l'istituzione dell'Assemblea Algerina paritaria a doppio collegio nell'ambito della Quarta Repubblica (Governatore Generale Yves Chataigneau).",
       };
     }
     return {
@@ -6578,6 +6681,13 @@ export function resolveAfricanToponym(
     normKey.includes('mareth')
   ) {
     if (normKey.includes('bizerte')) {
+      if (step >= 19) {
+        return {
+          name: 'Bizerte (Base Navale Francese — Protectorat de Tunisie)',
+          adminTitle: 'Marine Nationale à Bizerte — Union Française (Protectorat de Tunisie)',
+          note: 'Principale arsenale e base navale strategica francese sul Canale di Sicilia sotto la Quarta Repubblica.',
+        };
+      }
       return {
         name: step >= 6 ? 'Bizerte (Base Navale sous Contrôle d\'Armistice — Vichy)' : 'Bizerte (Base Navale Stratégique & Arsenal de Sidi Abdallah)',
         adminTitle: step >= 6
@@ -6586,6 +6696,13 @@ export function resolveAfricanToponym(
         note: step >= 6
           ? "Arsenale e rada navale strategica sottoposta alla sorveglianza della Commissione Italiana d'Armistizio con la Francia (CIAF)."
           : "Piazzaforte e arsenale di Sidi Abdallah a presidio del canale di Sicilia di fronte alle coste italiane e a Pantelleria.",
+      };
+    }
+    if (step >= 19) {
+      return {
+        name: 'Protectorat Français de Tunisie (Union Française — Tunisi)',
+        adminTitle: 'Quatrième République (Union Française) — Résidence Générale en Tunisie (Jean Mons & Lamine Bey)',
+        note: "Protettorato francese di Tunisia nell'ambito della Quarta Repubblica sotto il Bey Lamine I e il nuovo Résident Général Jean Mons (nominato nel febbraio 1947), segnato dalle mobilitazioni nazionaliste del Neo-Destour e del sindacato UGTT.",
       };
     }
     return {
@@ -6681,6 +6798,20 @@ export function resolveAfricanToponym(
 
   // 5.10 MADAGASCAR & SOMALIA FRANCESE (Gibuti)
   if (normKey.includes('madagascar')) {
+    if (step >= 19) {
+      return {
+        name: "Territoire d'Outre-Mer de Madagascar (Union Française — Antananarivo)",
+        adminTitle: "Quatrième République (Union Française) — Haut-Commissariat à Madagascar (Marcel de Coppet)",
+        note: "Territoire d'Outre-Mer della Quarta Repubblica (Union Française). Dal 29 marzo 1947 l'isola è teatro della grande insurrezione nazionalista anticoloniale guidata dal movimento MDRM, duramente repressa dalle forze francesi dell'Alto Commissario Marcel de Coppet.",
+      };
+    }
+    if (step >= 12) {
+      return {
+        name: 'Madagascar (France Combattante / CFLN — Antananarivo)',
+        adminTitle: 'Gouvernement Général de Madagascar (CFLN / GPRF)',
+        note: "Restituita alla sovranità della Francia Combattente (Gen. Paul Legentilhomme) nel 1943 dopo l'armistizio di Ambalavao.",
+      };
+    }
     return {
       name: step >= 6 ? 'Colonie de Madagascar (Vichy — Antananarivo)' : 'Colonie de Madagascar (Antananarivo)',
       adminTitle: step >= 6
@@ -6693,6 +6824,20 @@ export function resolveAfricanToponym(
   }
 
   if (normKey.includes('french_somaliland') || normKey.includes('cote_francaise_des_somalis') || normKey.includes('djibouti') || normKey.includes('gibuti')) {
+    if (step >= 19) {
+      return {
+        name: "Territoire d'Outre-Mer de la Côte Française des Somalis (Union Française — Djibouti)",
+        adminTitle: "Quatrième République (Union Française) — Territoire de Djibouti",
+        note: "Territoire d'Outre-Mer della Quarta Repubblica all'imbocco del Mar Rosso e sbocco marittimo della ferrovia franco-etiope per Addis Abeba nell'ambito dell'Union Française.",
+      };
+    }
+    if (step >= 12) {
+      return {
+        name: 'Côte Française des Somalis (France Combattante / CFLN — Djibouti)',
+        adminTitle: 'Gouvernement de Djibouti (CFLN / GPRF)',
+        note: "Dopo il ralliement alla Francia Combattente nel dicembre 1942, Gibuti opera come scalo marittimo e ferroviario alleato sul Mar Rosso.",
+      };
+    }
     return {
       name: step >= 6 ? 'Côte Française des Somalis (Vichy — Djibouti)' : 'Côte Française des Somalis (Djibouti)',
       adminTitle: step >= 6
@@ -6753,6 +6898,13 @@ export function resolveAfricanToponym(
   }
 
   if (normKey.includes('tangier') || normKey.includes('tanger') || id === 'TANGER') {
+    if (step >= 18) {
+      return {
+        name: "Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)",
+        adminTitle: "Comité de Contrôle International de Tanger (Accordo di Parigi, 31 Agosto 1945)",
+        note: "L'11 ottobre 1945 le truppe spagnole evacuano Tangeri su intimazione delle potenze alleate, ripristinando lo Statuto Internazionale sotto il Comité de Contrôle International e l'Amministratore Internazionale.",
+      };
+    }
     return {
       name: step >= 6
         ? "Tánger (Zona Ocupada Militarmente por España)"
@@ -6781,6 +6933,13 @@ export function resolveAfricanToponym(
     normKey.includes('spanish_sahara') ||
     normKey.includes('sahara_espanol')
   ) {
+    if (step >= 19) {
+      return {
+        name: "África Occidental Española — Sáhara Español (Villa Cisneros / Cabo Juby)",
+        adminTitle: "Estado Español — Gobierno del África Occidental Española (Sidi Ifni)",
+        note: "Con decreto del 20 luglio 1946 Sidi Ifni e il Sahara Spagnolo (Saguia el-Hamra e Río de Oro) sono unificati nel Gobierno del África Occidental Española (AOE) guidato dal Gen. José Bermejo López.",
+      };
+    }
     return {
       name: "Sáhara Español (Río de Oro y Saguia el-Hamra — Villa Cisneros)",
       adminTitle: step === 0
@@ -8799,7 +8958,21 @@ export function resolveItalyToponym(
     };
   }
 
-  // 2. Confine orientale italiano (Rapallo 1920 & Roma 1924): Pola, Gorizia, Fiume, Zara, Postumia
+  // 2. Confine orientale italiano (Rapallo 1920 & Roma 1924): Pola, Gorizia, Fiume, Zara, Postumia, Buie, Capodistria
+  if (id === 'HR_HIST_BUIE' || normKey === 'hr_hist_buie' || normKey === 'buie' || normKey.includes('buiese') || normKey.includes('umago')) {
+    return {
+      name: 'Buie e Umago (Istria Italiana)',
+      adminTitle: "Regno d'Italia — Provincia di Pola",
+      note: "Trattato di Rapallo (1920). Circondario del Buiese: Buie d'Istria, Umago, Cittanova d'Istria e Grisignana a nord del fiume Quieto.",
+    };
+  }
+  if (id === 'SI_HIST_KOPER' || normKey === 'si_hist_koper' || (id !== 'SI044' && (normKey.includes('koper') || normKey.includes('capodistria')))) {
+    return {
+      name: 'Capodistria (Venezia Giulia - Istria)',
+      adminTitle: "Regno d'Italia — Provincia di Pola / Trieste",
+      note: "Trattato di Rapallo (1920). Distretto litoraneo di Capodistria, Isola d'Istria, Pirano e Villa Decani.",
+    };
+  }
   if (id === 'HR036' || normKey.includes('istarska') || normKey.includes('pula') || normKey.includes('pola')) {
     return {
       name: 'Provincia di Pola (Istria Italiana)',
@@ -10115,6 +10288,42 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['kwantung', 'kanto_shu', 'kanto_cho', 'dairen', 'dalian', 'ryojun', 'port_arthur', 'liaodong'],
     adminTitle: 'Dai Nippon Teikoku — Kantō-chō & Ryojun Keibifu',
     note: "Territorio in affitto all'estremità della penisola di Liaodong; porto commerciale d'acque profonde di Dairen e base navale fortificata di Ryojun (Port Arthur), culla della potente Armata del Kwantung (Kantō-gun).",
+    dynamicName: (s: number) =>
+      s >= 18
+        ? 'Port Arthur e Dalian (Base Navale e Distretto Militare Sovietico — Lüshun / Dalny)'
+        : s >= 16
+        ? 'Kantō-shū (Territorio del Kwantung — Pressione Aerea e Navale Alleata)'
+        : s >= 13
+        ? 'Kantō-shū (Territorio del Kwantung — Dissanguamento dell\'Armata del Kwantung)'
+        : s >= 8
+        ? 'Kantō-shū (Territorio del Kwantung — Distretto Navale Ryojun Keibifu)'
+        : s >= 4
+        ? 'Kantō-shū (Territorio del Kwantung — Ripercussioni di Khalkhin Gol & Nanshin-ron)'
+        : s >= 1
+        ? 'Kantō-shū (Territorio del Kwantung — Testa di Ponte Bellica)'
+        : 'Kantō-shū (Territorio Affittato del Kwantung — Dairen & Ryojun)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 18
+        ? 'Voenno-Morskoj Flot SSSR — Distretto Navale Speciale di Port-Artur'
+        : s >= 16
+        ? 'Dai Nippon Teikoku — Ryojun Keibifu & Difesa Contraerea di Dairen'
+        : s >= 8
+        ? 'Dai Nippon Teikoku — Kantō-chō & Ryojun Keibifu'
+        : 'Dai Nippon Teikoku — Kantō-chō & Ryojun Yōkōbu',
+    dynamicNote: (s: number) =>
+      s >= 18
+        ? "In attuazione degli Accordi di Yalta e del Trattato Sino-Sovietico del 14 agosto 1945, la rada fortificata di Port Arthur (Lüshunkou) viene affittata per 30 anni all'Unione Sovietica come base navale chiusa della Flotta del Pacifico dell'Armata Rossa, mentre il porto di Dalian (Dalny) è posto sotto amministrazione e controllo navale sovietico. Il presidio militare dell'URSS rimarrà attivo fino al maggio 1955."
+        : s >= 16
+        ? "All'estremità della penisola di Liaodong, Dairen e la base navale di Ryojun (Port Arthur) sono soggette al blocco sottomarino alleato e ai bombardamenti strategici dei B-29 statunitensi del XX Bomber Command (Operazione Matterhorn da Chengdu), che colpiscono i depositi e le banchine portuali. L'Armata del Kwantung, depauperata delle sue divisioni d'élite trasferite a sud nel Pacifico, osserva con crescente allarme l'accumulo di forze dell'Armata Rossa lungo i confini siberiani e mongoli."
+        : s >= 13
+        ? "Mentre la guerra del Pacifico volge a sfavore dell'Asse, il Gran Quartier Generale Imperiale (Daihonei) preleva d'urgenza le divisioni veterane migliori dell'Armata del Kwantung per rischierarle a difesa delle Marianne, delle Filippine e di Okinawa. Dairen opera al massimo regime per la spedizione marittima delle unità verso sud e il drenaggio di materie prime dal Manciukuò, ma la sicurezza delle rotte verso la madrepatria inizia a essere minacciata dai sommergibili della US Navy."
+        : s >= 8
+        ? "Nel novembre 1941, alla vigilia dell'attacco a Pearl Harbor, la base navale di Port Arthur viene riattivata e promossa a Distretto Navale di Guardia di Ryojun (Ryojun Keibifu). Il Patto di Neutralità sovietico-giapponese dell'aprile 1941 stabilizza il confine settentrionale, consentendo a Dairen e alla ferrovia Mantetsu di fungere da indisturbato polmone siderurgico e logistico per lo sforzo bellico marittimo imperiale."
+        : s >= 4
+        ? "La drammatica sconfitta subita dall'Armata del Kwantung contro le forze corazzate sovietico-mongole di Žukov a Khalkhin Gol (Nomonhan, estate 1939) induce Tokyo a congelare i piani di espansione a nord (Hokushin-ron) a favore dell'avanzata verso le colonie europee del Sud-Est asiatico (Nanshin-ron). Il porto di Dairen gestisce l'afflusso di rimpiazzi e la riorganizzazione difensiva del dispositivo mancese."
+        : s >= 1
+        ? "Con l'esplosione della guerra aperta contro la Repubblica di Cina (luglio 1937), Dairen e Ryojun fungono da gigantesca testa di ponte logistica e marittima per l'imbarco e il transito delle divisioni dell'Esercito Imperiale dirette a Tianjin, Pechino e nel Golfo di Bohai, e per il rifornimento rapido di ferro, carbone e vettovaglie dal Manciukuò verso le fabbriche del Giappone metropolitano."
+        : "Territorio in affitto all'estremità della penisola di Liaodong (Trattato di Portsmouth 1905). Dairen è la sede del Governo del Kwantung (Kantō-chō) e della Ferrovia della Manciuria del Sud (Mantetsu), secondo porto dell'Asia orientale per tonnellaggio commerciale; la rada fortificata di Ryojun (Port Arthur) ospita la base e il presidio navale della Marina Imperiale. Culla e centro di potere della potente Armata del Kwantung (Kantō-gun).",
   },
   {
     id: 'JP_CHISHIMA',
@@ -10150,6 +10359,24 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['japan', 'nippon', 'nihon', 'giappone', 'japon'],
     adminTitle: 'Dai Nippon Teikoku (Naichi)',
     note: "Impero del Giappone sotto il regno dell'Imperatore Shōwa (Hirohito).",
+    dynamicName: (s: number) =>
+      s >= 19
+        ? 'Nihon-koku (Stato del Giappone — Costituzione 1947 / SCAP)'
+        : s >= 18
+        ? 'Giappone (Occupazione Alleata — Comando Supremo SCAP)'
+        : 'Dai Nippon Teikoku (Giappone Metropolitano)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 19
+        ? 'Nihon-koku / Supreme Commander for the Allied Powers (SCAP)'
+        : s >= 18
+        ? 'Supreme Commander for the Allied Powers (SCAP — Douglas MacArthur)'
+        : 'Dai Nippon Teikoku (Naichi)',
+    dynamicNote: (s: number) =>
+      s >= 19
+        ? 'Al 30 settembre 1947 è in vigore la Costituzione pacifista del Giappone (Nihon-koku Kenpō, 3 maggio 1947) sotto autorità suprema di occupazione SCAP.'
+        : s >= 18
+        ? 'Settembre 1945: dopo la firma della resa nella Baia di Tokyo (2 settembre 1945), il Giappone è posto sotto controllo supremo alleato SCAP (Gen. Douglas MacArthur).'
+        : "Impero del Giappone sotto il regno dell'Imperatore Shōwa (Hirohito).",
   },
 ];
 
@@ -10188,6 +10415,19 @@ export function resolveJapanToponym(
   }
 
   if (owner === 'JAP') {
+    if (step >= 18) {
+      return {
+        name: step >= 19
+          ? `${rawName || 'Giappone'} (Nihon-koku — Costituzione 1947 / SCAP)`
+          : `${rawName || 'Giappone'} (Occupazione Alleata — SCAP)`,
+        adminTitle: step >= 19
+          ? 'Nihon-koku / Supreme Commander for the Allied Powers (SCAP)'
+          : 'Supreme Commander for the Allied Powers (SCAP — Douglas MacArthur)',
+        note: step >= 19
+          ? 'Al 30 settembre 1947 è in vigore la nuova Costituzione giapponese (Nihon-koku Kenpō, 3 maggio 1947) sotto supervisione alleata SCAP.'
+          : 'Settembre 1945: resa del Giappone a bordo della USS Missouri e amministrazione militare alleata SCAP.',
+      };
+    }
     return {
       name: rawName || 'Dai Nippon Teikoku',
       adminTitle: 'Dai Nippon Teikoku (Naichi)',
@@ -10505,10 +10745,30 @@ export const CHINA_PROVINCES_CATALOG: ChinaProvDef[] = [
     id: 'CHN_HUNAN',
     name: 'Hunan (Changsha)',
     keys: ['hunan', 'changsha', 'xue_yue', 'hengyang', 'chn_hunan'],
-    dynamicName: (s: number) => "Hunan Sheng — Changsha Baoweizhan",
-    dynamicAdminTitle: (s: number) => "Zhōnghuá Mínguó — Xue Yue Dì-Jiǔ Zhànqū (Changsha)",
+    dynamicName: (s: number) =>
+      s >= 17
+        ? "Hunan (Battaglia dello Hunan Occidentale / Zhijiang — Aprile 1945)"
+        : s >= 15
+        ? "Hunan Sheng — Caduta di Hengyang (Operazione Ichi-Go, 8 Agosto 1944)"
+        : s >= 14
+        ? "Hunan Sheng — Caduta di Changsha (Operazione Ichi-Go)"
+        : "Hunan Sheng — Changsha Baoweizhan",
+    dynamicAdminTitle: (s: number) =>
+      s >= 17
+        ? "Dai Nippon Teikoku — 20ª Armata (Gen. Ichirō Banzai — Offensiva su Zhijiang)"
+        : s >= 15
+        ? "Dai Nippon Teikoku — 11ª Armata (Ten. Gen. Isamu Yokoyama — Presa di Hengyang)"
+        : s >= 14
+        ? "Dai Nippon Teikoku — 11ª Armata (Ten. Gen. Isamu Yokoyama — Occupazione di Changsha)"
+        : "Zhōnghuá Mínguó — Xue Yue Dì-Jiǔ Zhànqū (Changsha)",
     dynamicNote: (s: number) =>
-      "Bastione inespugnabile della 9ª Zona di Guerra del Generale Xue Yue ('La Piccola Tigre'); respinse con successo l'offensiva nipponica nella Prima Battaglia di Changsha (settembre-ottobre 1939).",
+      s >= 17
+        ? "Nell'aprile 1945 infuria la Battaglia dello Hunan Occidentale (Zhijiang): la 20ª Armata giapponese lancia l'ultima grande offensiva in Cina per espugnare la base aerea strategica di Zhijiang. Le divisioni cinesi della 4ª Armata d'Area del generale Wang Yaowu, equipaggiate con armamenti moderni Lend-Lease e supportate dal dominio aereo della 14ª Air Force cino-americana, respingono con pesanti perdite le forze d'invasione nipponiche, avviando la controffensiva strategica alleata."
+        : s >= 15
+        ? "L'8 agosto 1944, al termine di una cruenta resistenza di 47 giorni sotto bombardamenti continui e uso di gas asfissianti, la 10ª Armata cinese del generale Fang Xianjue deve cedere la strategica piazzaforte di Hengyang all'11ª Armata giapponese di Yokoyama (Operazione Ichi-Go). La caduta di Hengyang apre la via all'avanzata nipponica verso Guilin e Liuzhou, con l'obiettivo di neutralizzare le basi aeree della 14ª Air Force americana (Tigri Volanti) e creare un corridoio ferroviario continuo fino all'Indocina."
+        : s >= 14
+        ? "Nel corso della colossale Operazione Ichi-Go (Tairiku Datsū Sakusen), il 18 giugno 1944 l'11ª Armata giapponese espugna la città di Changsha dopo tre precedenti tentativi falliti nel 1939, 1941 e 1942, avanzando a sud verso la piazzaforte di Hengyang difesa disperatamente dalla 10ª Armata cinese del generale Fang Xianjue."
+        : "Bastione inespugnabile della 9ª Zona di Guerra del Generale Xue Yue ('La Piccola Tigre'); respinse con successo l'offensiva nipponica nella Prima Battaglia di Changsha (settembre-ottobre 1939).",
   },
   {
     id: 'CHN_ZHEJIANG',
@@ -10532,15 +10792,23 @@ export const CHINA_PROVINCES_CATALOG: ChinaProvDef[] = [
     name: 'Guangxi (Kwangsi — Guilin, Nanning & Passo di Kunlun)',
     keys: ['guangxi', 'kwangsi', 'guilin', 'nanning', 'kunlunguan', 'kunlun_pass', 'li_zongren', 'bai_chongxi', 'chn_guangxi'],
     dynamicName: (s: number) =>
-      s <= 4
+      s >= 16
+        ? "Guangxi (Operazione Ichi-Go — Caduta di Guilin, Liuzhou e Nanning)"
+        : s <= 4
         ? "Guangxi Sheng (Li Zongren / Bai Chongxi)"
         : "Guangxi Sheng — Kunlunguan Zhanyi",
     dynamicAdminTitle: (s: number) =>
-      s <= 4
+      s >= 16
+        ? "Dai Nippon Teikoku — 11ª & 23ª Armata IJA (Operazione Togou)"
+        : s <= 4
         ? "Zhōnghuá Mínguó — Nuova Cricca del Guangxi"
         : "Zhōnghuá Mínguó — Dì-Wǔ Jūn (Passo di Kunlun)",
     dynamicNote: (s: number) =>
-      s <= 4
+      s >= 17
+        ? "Occupata dalle forze giapponesi nell'Operazione Ichi-Go a fine 1944 per formare il corridoio ferroviario continentale verso l'Indocina. Nell'aprile 1945 le guarnigioni nipponiche della 23ª Armata iniziano a subire la pressione delle armate nazionaliste cinesi riorganizzate dai consiglieri americani (Operazione Alpha), preludio alla controffensiva alleata che porterà alla riconquista di Nanning e Guilin nella tarda primavera 1945."
+        : s >= 16
+        ? "Occupata dalle armate giapponesi nella fase finale dell'Operazione Ichi-Go (novembre-dicembre 1944). Con la caduta delle basi aeree avanzate USAAF di Guilin e Liuzhou e la presa di Nanning, le forze nipponiche hanno completato il 'Corridoio Continentale' unendo la Cina settentrionale all'Indocina francese."
+        : s <= 4
         ? "Roccaforte della Nuova Cricca del Guangxi guidata dai generali Li Zongren e Bai Chongxi; formidabili truppe d'assalto integrate nell'Esercito Rivoluzionario Nazionale."
         : "Teatro della celebre controffensiva vittoriosa cinese nella Battaglia del Passo di Kunlun (dicembre 1939 - gennaio 1940), guidata dal 5° Corpo d'Armata meccanizzato del Gen. Du Yuming.",
   },
@@ -10619,10 +10887,15 @@ export const CHINA_PROVINCES_CATALOG: ChinaProvDef[] = [
     id: 'CHN_SHAANXI',
     name: "Shaanxi (Yan'an — Shaan-Gan-Ning Bianqu)",
     keys: ['shaanxi', 'shensi', 'yanan', 'xian', 'shaan_gan_ning', 'mao_zedong', 'zhu_de', 'chn_shaanxi'],
-    dynamicName: (s: number) => "Shaan-Gan-Ning Bianqu (Yan'an)",
+    dynamicName: (s: number) =>
+      s >= 17
+        ? "Shaan-Gan-Ning Bianqu — Yan'an (VII Congresso Nazionale del PCC, 23 Aprile 1945)"
+        : "Shaan-Gan-Ning Bianqu (Yan'an)",
     dynamicAdminTitle: (s: number) => "Zhongguo Gongchandang — Shaan-Gan-Ning Bianqu Zhengfu (Mao Zedong / Zhu De)",
     dynamicNote: (s: number) =>
-      "Capitale rossa del Partito Comunista Cinese e punto d'arrivo della Lunga Marcia; quartier generale di Mao Zedong, Zhou Enlai e Zhu De, comando dell'8ª Armata di Strada.",
+      s >= 17
+        ? "Il 23 aprile 1945 si apre a Yan'an lo storico VII Congresso Nazionale del Partito Comunista Cinese (il primo dopo 17 anni). Mao Zedong presenta la celebre relazione 'Sul governo di coalizione' e il pensiero di Mao Zedong viene ufficialmente integrato nello statuto del partito, mentre l'8ª Armata di Strada e la Nuova 4ª Armata mobilitano oltre un milione di effettivi nelle retrovie giapponesi."
+        : "Capitale rossa del Partito Comunista Cinese e punto d'arrivo della Lunga Marcia; quartier generale di Mao Zedong, Zhou Enlai e Zhu De, comando dell'8ª Armata di Strada.",
   },
   {
     id: 'CHN_CHONGQING',
@@ -11043,9 +11316,9 @@ export function resolveBritishColonialToponym(
     nid === 'IND' ||
     nid === 'RAJ' ||
     nid === '356' ||
-    n.includes('british_raj') ||
-    n.includes('india') ||
-    n.includes('hindustan')
+    (!n.includes('oman') &&
+      !n.includes('aden') &&
+      (n.includes('british_raj') || n.includes('india') || n.includes('hindustan')))
   ) {
     return {
       name: 'British Raj (Imperial Crown of India / Hindūstān — New Delhi)',
@@ -11078,6 +11351,48 @@ export function resolveBritishColonialToponym(
     n.includes('birmania') ||
     n.includes('myanmar')
   ) {
+    if (step >= 19) {
+      return {
+        name: 'Birmania Britannica (Governo Provvisorio di U Nu verso l\'Indipendenza)',
+        adminTitle: 'Crown Colony of Burma — Governatorato Sir Hubert Rance & Consiglio Esecutivo (U Nu)',
+        note: 'Settembre 1947: a seguito dell\'assassinio di Aung San (luglio 1947), il Primo Ministro U Nu firma l\'accordo Nu-Attlee in vista dell\'indipendenza del gennaio 1948.',
+      };
+    }
+    if (step === 18) {
+      return {
+        name: 'British Burma (Colonia Britannica Restaurata — Rangoon)',
+        adminTitle: 'British Crown Colony of Burma — Governatorato Sir Reginald Dorman-Smith',
+        note: 'Settembre 1945: dopo la resa giapponese a Rangoon, la Birmania rientra sotto amministrazione britannica mentre il movimento AFPFL negozia l\'indipendenza.',
+      };
+    }
+    if (step === 17) {
+      return {
+        name: 'Burma / Birmania (Operazione Dracula — 14ª Armata Britannica alle Porte di Rangoon, Aprile 1945)',
+        adminTitle: 'British Crown Colony of Burma — British Fourteenth Army (Lt. Gen. William Slim)',
+        note: 'Campagna di Birmania (aprile 1945): la 14ª Armata britannica del generale William Slim libera Mandalay e punta verso Rangoon con l\'imminente assalto anfibio Operazione Dracula, affiancata dalla rivolta dell\'AFPFL del generale Aung San.',
+      };
+    }
+    if (step === 14) {
+      return {
+        name: 'Stato di Birmania — Collasso Offensiva U-Go (Imphal e Kohima, Giugno 1944)',
+        adminTitle: 'Bama Naingngandaw / Armata Regionale Birmana (Operazione U-Go)',
+        note: 'Giugno 1944: la catastrofica offensiva giapponese U-Go contro le basi anglo-indiane di Imphal e Kohima si infrange il 22 giugno 1944 con la rottura dell\'assedio da parte della 14ª Armata Britannica (Gen. William Slim), segnando la peggiore disfatta terrestre dell\'Esercito Imperiale Giapponese.',
+      };
+    }
+    if (step >= 13) {
+      return {
+        name: 'Stato di Birmania (Bama Naingngandaw — Dott. Ba Maw, 1° Agosto 1943)',
+        adminTitle: 'Bama Naingngandaw — Capo dello Stato Adipadi Dott. Ba Maw & Esercito Nazionale Birmano (Gen. Aung San)',
+        note: 'Il 1° agosto 1943 il comando imperiale giapponese proclama l\'indipendenza nominale dello Stato di Birmania (Bama Naingngandaw) sotto la presidenza del Dott. Ba Maw (Adipadi) e il generale Aung San al comando dell\'Esercito Nazionale Birmano (BNA), dichiarando guerra agli Alleati e aderendo alla Sfera di Co-Prosperità.',
+      };
+    }
+    if (step >= 10) {
+      return {
+        name: 'Biruma Gunsei-kanbu (Birmania Occupata dal Giappone — Taglio della Burma Road, Maggio 1942)',
+        adminTitle: 'Impero Giapponese — Amministrazione Militare della Birmania (15ª Armata — Ten. Gen. Shōjirō Iida)',
+        note: 'Tra gennaio e maggio 1942 la 15ª Armata giapponese ha occupato l\'intera Birmania conquistando Rangoon, Mandalay e Lashio e tagliando i rifornimenti terrestri della Burma Road alla Cina nazionalista.',
+      };
+    }
     if (step === 0) {
       return {
         name: 'Burma (Province of the Indian Empire — Rangoon)',
@@ -11233,6 +11548,13 @@ export function resolveBritishColonialToponym(
     n.includes('gerusalemme') ||
     n.includes('jerusalem')
   ) {
+    if (step >= 19) {
+      return {
+        name: 'Mandato di Palestina (Rapporto UNSCOP & Ritiro Britannico Annunciato)',
+        adminTitle: 'Government of Palestine (British High Commissioner Sir Alan Cunningham / UNSCOP)',
+        note: 'Il 31 agosto 1947 l\'UNSCOP raccomanda all\'ONU la spartizione del Mandato in uno Stato ebraico, uno Stato arabo e Gerusalemme internazionale; nel settembre 1947 il governo britannico di Clement Attlee annuncia la remissione del mandato e il ritiro delle truppe.',
+      };
+    }
     return {
       name: 'British Mandate for Palestine (Jerusalem)',
       adminTitle: 'League of Nations Class A Mandate',
@@ -11250,6 +11572,13 @@ export function resolveBritishColonialToponym(
     n.includes('jordan') ||
     n.includes('giordania')
   ) {
+    if (step >= 19) {
+      return {
+        name: 'Regno Hashemita di Transgiordania (Sovranità Nazionale — Amman)',
+        adminTitle: 'Regno Hashemita di Transgiordania (Re Abd Allah I bin al-Husayn & Glubb Pascià)',
+        note: 'Il 25 maggio 1946 la Transgiordania ottiene la piena indipendenza come Regno Hashemita sotto Re Abd Allah I ibn Husayn, dotato dell\'addestrata Legione Araba guidata da Glubb Pasha.',
+      };
+    }
     return {
       name: 'Emirate of Transjordan (Amman)',
       adminTitle: 'British Protected Emirate / League of Nations Mandate',
@@ -11266,6 +11595,13 @@ export function resolveBritishColonialToponym(
     n.includes('iraq') ||
     n.includes('mesopotam')
   ) {
+    if (step >= 19) {
+      return {
+        name: "Al-Mamlakah al-‘Irāqiyyah (Regno dell'Iraq — Sovranità Costituzionale, Baghdad)",
+        adminTitle: "Al-Mamlakah al-‘Irāqiyyah — Re Faysal II · Reggente ‘Abd al-Ilah · P.M. Salih Jabr",
+        note: "Regno Hashemita dell'Iraq pienamente sovrano dopo la fine dell'occupazione militare bellica PAIFORCE (1946), guidato dal Reggente 'Abd al-Ilah e dal Primo Ministro Salih Jabr, membro fondatore della Lega Araba e dell'ONU.",
+      };
+    }
     if (step >= 8) {
       return {
         name: "Regno dell'Iraq (Colpo di Stato Filo-Asse di Rashid Ali al-Kaylani — Baghdad & Habbaniya)",
@@ -11346,6 +11682,13 @@ export function resolveBritishColonialToponym(
     n.includes('muscat') ||
     n.includes('oman')
   ) {
+    if (step >= 19) {
+      return {
+        name: 'Sultanate of Muscat and Oman (Protettorato & Sfera Britannica — Mascate)',
+        adminTitle: 'Sultanate of Muscat and Oman — British Residency in the Persian Gulf (Said bin Taimur)',
+        note: 'Sultanato di Mascate e Oman retto dal Sultano Said bin Taimur (Trattato di Seeb). Con la partizione dell\'India del 1947, il coordinamento diplomatico con Mascate transita dall\'Indian Political Service al Foreign Office e alla British Residency del Golfo a Manama.',
+      };
+    }
     return {
       name: 'Sultanate of Muscat and Oman (British Protected State — Muscat)',
       adminTitle: 'British Protected Sultanate (Al-Busaid Dynasty)',
@@ -11438,6 +11781,14 @@ export function resolveBritishColonialToponym(
 
   // Egitto (Regno d'Egitto — Sfera Britannica)
   const cleanEgNid = nid ? nid.replace(/^EG_/, 'EG').toUpperCase() : '';
+  if (step >= 19 && ((cleanEgNid && EGYPT_DISTRICTS_META[cleanEgNid]) || (!n.includes('sudan') && (owner === 'EGY' || nid === 'EG' || nid === 'EGY' || nid === '818' || n.includes('egypt') || n.includes('egitto'))))) {
+    const eg = EGYPT_DISTRICTS_META[cleanEgNid];
+    return {
+      name: eg?.historicalName || "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Il Cairo)",
+      adminTitle: "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mahmoud an-Nukrashi Pasha)",
+      note: `${eg?.historicalName || 'Egitto'} · Regno d'Egitto pienamente sovrano dopo il completamento del ritiro militare britannico dalle città del Delta alla sola Zona del Canale di Suez (marzo 1947) e l'appello del governo Nukrashi al Consiglio di Sicurezza dell'ONU (luglio-settembre 1947).`,
+    };
+  }
   if (cleanEgNid && EGYPT_DISTRICTS_META[cleanEgNid]) {
     const eg = EGYPT_DISTRICTS_META[cleanEgNid];
     return {
@@ -11489,6 +11840,13 @@ export function resolveBritishColonialToponym(
     n.includes('somalia_britannica') ||
     (n.includes('somaliland') && !n.includes('french') && !n.includes('italian'))
   ) {
+    if (step >= 19) {
+      return {
+        name: 'British Somaliland Protectorate (Hargeisa & Berbera — BMA)',
+        adminTitle: 'British Military Administration of Somaliland (Governor Brig. Sir Gerald Fisher)',
+        note: 'Nel dopoguerra il Protettorato della Somalia Britannica è retto dalla British Military Administration (sede ad Hargeisa e porto a Berbera), avviando i consigli consultivi somali prima del ritorno al Colonial Office.',
+      };
+    }
     if (step >= 6) {
       return {
         name: 'British Somaliland Protectorate (Berbera)',
@@ -12005,6 +12363,45 @@ export function resolveBritishColonialToponym(
     n.includes('solomon') ||
     n.includes('salomone')
   ) {
+    if (step >= 18) {
+      return {
+        name: step >= 19
+          ? 'British Solomon Islands Protectorate (Ricostruzione Postbellica — Honiara)'
+          : 'British Solomon Islands Protectorate (Fine Ostilità & Smobilitazione alle Salomone, Settembre 1945)',
+        adminTitle: 'British Protectorate — Western Pacific High Commission (Suva)',
+        note: step >= 19
+          ? 'Al 30 settembre 1947 il protettorato britannico delle Salomone trasferisce progressivamente la capitale amministrativa da Tulagi alle infrastrutture alleate di Honiara (Guadalcanal), mentre il movimento autonomista Maasina Rule anima Malaita.'
+          : 'Settembre 1945: con la capitolazione delle ultime forze giapponesi nelle Salomone settentrionali (Shortland e Choiseul, 8 settembre 1945) si chiudono le operazioni belliche e il protettorato britannico avvia il rientro all\'amministrazione civile.',
+      };
+    }
+    if (step >= 13) {
+      return {
+        name: 'British Solomon Islands Protectorate (Nuova Georgia & Kolombangara, Settembre 1943)',
+        adminTitle: 'British Protectorate / Allied South Pacific Area (Amm. William Halsey)',
+        note: 'Operazione Cartwheel nelle Salomone: dopo la caduta dell\'aeroporto di Munda nella Nuova Georgia (5 agosto 1943) e lo sbarco a Vella Lavella, le forze alleate statunitensi e neozelandesi isolano e scavalcano le guarnigioni giapponesi a Kolombangara (che Tokyo inizia a evacuare via mare a fine settembre 1943), serrando la morsa contro la piazzaforte di Rabaul.',
+      };
+    }
+    if (step === 12) {
+      return {
+        name: 'British Solomon Islands Protectorate (Operazione Cartwheel — Campagna della Nuova Georgia & Munda, Luglio 1943)',
+        adminTitle: 'British Protectorate / Allied South Pacific Area (Amm. William Halsey)',
+        note: 'Dopo l\'evacuazione giapponese di Guadalcanal (febbraio 1943), il 30 giugno 1943 gli Alleati lanciano l\'Operazione Cartwheel: a fine luglio infuriano i combattimenti nell\'isola di Nuova Georgia per espugnare l\'aeroporto strategico di Munda Point e isolare la base giapponese di Rabaul.',
+      };
+    }
+    if (step === 11) {
+      return {
+        name: 'British Solomon Islands Protectorate (Guadalcanal & Henderson Field — Vittoria Aeronavale USA, Novembre 1942)',
+        adminTitle: 'British Protectorate / Allied SOPAC & 1st Marine Division',
+        note: 'Svolta nella Campagna di Guadalcanal (novembre 1942): dopo la vittoria nella Battaglia navale di Guadalcanal (12-15 novembre 1942), le forze aeronavali statunitensi e la 1ª Divisione Marines consolidano il controllo strategico su Henderson Field e sull\'arcipelago meridionale delle Salomone.',
+      };
+    }
+    if (step === 10) {
+      return {
+        name: 'Soromon Shotō / British Solomon Islands (Battaglia per Guadalcanal & Savo — Agosto 1942)',
+        adminTitle: 'Teatro di Guerra Conteso — US Marines a Lunga Point vs Marina Imperiale Giapponese',
+        note: 'Il 7 agosto 1942 la 1ª Divisione Marines sbarca a Guadalcanal e Tulagi (Operazione Watchtower); la Marina imperiale reagisce infliggendo una pesante sconfitta navale notturna all\'Isola di Savo (9 agosto), dando inizio a mesi di logoramento per la pista di Henderson Field.',
+      };
+    }
     return {
       name: 'British Solomon Islands Protectorate (Tulagi)',
       adminTitle: 'British Protectorate (Western Pacific High Commission)',
@@ -12158,12 +12555,23 @@ export function resolveUKToponym(
     normKey.includes('isole_del_canale')
   ) {
     const isJersey = normKey.includes('jersey') || id.startsWith('JE');
-    const isOccupied = step >= 6;
+    const isOccupied = step >= 6 && step < 18;
     if (isOccupied && owner === 'GER') {
       return {
         name: isJersey ? 'Jersey (Deutsche Besetzung)' : 'Guernsey (Deutsche Besetzung)',
         adminTitle: 'Befehlshaber der Kanalinseln (Festung Kanalinseln)',
-        note: 'Isole della Manica occupate dalla Wehrmacht (giugno-luglio 1940) a seguito della smilitarizzazione britannica; unico territorio della Corona sotto occupazione tedesca, fortificato massicciamente dall\'Organizzazione Todt.',
+        note: 'Isole della Manica occupate dalla Wehrmacht (giugno-luglio 1940 – 9 maggio 1945) a seguito della smilitarizzazione britannica; unico territorio della Corona sotto occupazione tedesca, fortificato massicciamente dall\'Organizzazione Todt.',
+      };
+    }
+    if (step >= 18) {
+      return {
+        name: isJersey
+          ? 'Bailiwick of Jersey (Saint Helier — Liberata 9 Maggio 1945)'
+          : 'Bailiwick of Guernsey (Saint Peter Port — Liberata 9 Maggio 1945)',
+        adminTitle: step >= 19
+          ? 'British Crown Dependency (Channel Islands — Ricostruzione & Riforme Costituzionali 1947)'
+          : 'British Crown Dependency (Channel Islands — Task Force 135 Liberation)',
+        note: 'Dopo la capitolazione della guarnigione tedesca il 9 maggio 1945 (Liberation Day), le Isole del Canale tornano sotto la Corona britannica, avviando sminamento dell\'Atlantikwall, rimpatrio degli sfollati e riforme costituzionali.',
       };
     }
     return {
@@ -12171,11 +12579,25 @@ export function resolveUKToponym(
       adminTitle: isOccupied
         ? 'Crown Dependency of the Channel Islands (German Occupation)'
         : 'Crown Dependency of the Channel Islands',
-      note: 'Isole della Manica di pertinenza della Corona Britannica, smilitarizzate dal gabinetto Churchill nel giugno 1940 e successivamente occupate dalle forze tedesche.',
+      note: 'Isole della Manica di pertinenza della Corona Britannica, smilitarizzate dal gabinetto Churchill nel giugno 1940 e occupate dalle forze tedesche fino al 9 maggio 1945.',
     };
   }
 
   if (id === 'GIB' || normKey === 'gibraltar' || normKey === 'gibilterra') {
+    if (step >= 19) {
+      return {
+        name: 'Gibraltar (Crown Colony & Royal Navy Strait Fortress)',
+        adminTitle: 'British Empire — Crown Colony of Gibraltar (Attlee Era)',
+        note: 'Colonia della Corona britannica sullo Stretto di Gibilterra (SET 1947). Completato il rimpatrio della popolazione civile sfollata durante la guerra e avviato lo schema costituzionale verso il Consiglio Legislativo.',
+      };
+    }
+    if (step >= 18) {
+      return {
+        name: 'Gibraltar (Crown Colony — Post-VE Day Garrison)',
+        adminTitle: 'British Empire — Crown Colony of Gibraltar',
+        note: 'Smobilitazione postbellica della piazzaforte di Gibilterra e graduale rimpatrio degli sfollati civili britannici dalla Gran Bretagna e dall\'Irlanda del Nord.',
+      };
+    }
     return {
       name: 'Gibraltar (The Rock)',
       adminTitle: 'Fortress & Naval Base of Gibraltar (Force H)',
@@ -12184,6 +12606,27 @@ export function resolveUKToponym(
   }
 
   if (id.startsWith('MT') || normKey.includes('malta') || normKey.includes('valletta')) {
+    if (step >= 19) {
+      return {
+        name: 'Malta (Crown Colony — Costituzione MacMichael di Autogoverno, Set 1947)',
+        adminTitle: 'State of Malta / Crown Colony (Self-Government Constitution 1947 · Prime Minister Paul Boffa)',
+        note: 'Il 5 settembre 1947 entra in vigore la Costituzione MacMichael che restituisce l\'autogoverno responsabile a Malta (vinta dalle elezioni dal Partito Laburista di Paul Boffa), mentre il Grand Harbour rimane cardine mediterraneo della Royal Navy.',
+      };
+    }
+    if (step >= 18) {
+      return {
+        name: 'Malta (George Cross Island — Ricostruzione Postbellica & HM Dockyard)',
+        adminTitle: 'Crown Colony of Malta (Mediterranean Fleet Base)',
+        note: 'Insignita collettivamente della George Cross (1942) per la resistenza all\'assedio, Malta avvia nel dopoguerra la ricostruzione di Valletta e dei cantieri navali e l\'iter dell\'Assemblea Nazionale per l\'autogoverno del 1947.',
+      };
+    }
+    if (step >= 12) {
+      return {
+        name: 'Malta (Valletta Grand Harbour — Quartier Generale Operazione Husky)',
+        adminTitle: 'Crown Colony of Malta (George Cross Island Fortress)',
+        note: 'Superato il grande assedio italo-tedesco grazie ai convogli Pedestal e insignita della George Cross (15 aprile 1942), Malta funge nel 1943–45 da trampolino aeronavale alleato per gli sbarchi in Sicilia e Italia.',
+      };
+    }
     return {
       name: 'Malta (Valletta Grand Harbour)',
       adminTitle: 'Crown Colony of Malta (Mediterranean Fortress)',
@@ -12191,7 +12634,120 @@ export function resolveUKToponym(
     };
   }
 
-  if (id.startsWith('CY') || normKey.includes('cyprus') || normKey.includes('cipro')) {
+  if (
+    id.startsWith('CY') ||
+    id === 'UK_AKROTIRI' ||
+    id === 'UK_DHEKELIA' ||
+    normKey.includes('cyprus') ||
+    normKey.includes('cipro') ||
+    normKey.includes('akrotiri') ||
+    normKey.includes('dhekelia')
+  ) {
+    if (CYPRUS_PROVINCES_META[id]) {
+      const step = typeof yearStep === 'number' ? yearStep : 0;
+      const d = CYPRUS_PROVINCES_META[id];
+      return {
+        name: d.getHistoricalName(step),
+        adminTitle: d.getAdminTitle(step),
+        note: d.getNote(step),
+      };
+    }
+    if (id === 'UK_AKROTIRI' || normKey.includes('akrotiri')) {
+      return {
+        name: 'Akrotiri (Episkopi & RAF Akrotiri)',
+        adminTitle: 'Crown Colony of Cyprus (Distretto Militare di Akrotiri & Episkopi)',
+        note: "Presidio militare e base strategica aeronavale della Royal Air Force e della Royal Navy nella penisola di Capo Gata (futura Sovereign Base Area di Akrotiri).",
+      };
+    }
+    if (id === 'UK_DHEKELIA' || normKey.includes('dhekelia')) {
+      return {
+        name: 'Dhekelia (Ayios Nikolaos & Dhekelia Cantonment)',
+        adminTitle: 'Crown Colony of Cyprus (Distretto Militare di Dhekelia)',
+        note: "Base d'ascolto per le telecomunicazioni della RAF e della Marina e accampamento militare strategico britannico sulla baia di Larnaca (futura Sovereign Base Area di Dhekelia).",
+      };
+    }
+    if (id === 'CY_UN_BUFFER' || normKey.includes('buffer') || normKey.includes('green line') || normKey.includes('linea verde')) {
+      return {
+        name: 'Cipro Centrale (Piana della Mesaoria & Nicosia)',
+        adminTitle: 'Crown Colony of Cyprus (Corridoio Centrale della Mesaoria)',
+        note: "Fascia centrale della fertile piana della Mesaoria e snodo viario di Nicosia, asse di collegamento est-ovest dell'isola (futura Linea Verde e Buffer Zone ONU sotto mandato UNFICYP).",
+      };
+    }
+    if (id === 'CY_KYRENIA' || normKey.includes('kyrenia') || normKey.includes('girne')) {
+      return {
+        name: 'Kyrenia (Girne)',
+        adminTitle: 'Crown Colony of Cyprus (District of Kyrenia)',
+        note: "Distretto costiero settentrionale dominato dai Monti di Kyrenia (Pentadaktylos) e dal porto medievale e veneziano affacciato sulle rotte dell'Anatolia meridionale.",
+      };
+    }
+    if (
+      id === 'CY_NICOSIA_N' ||
+      normKey.includes('morphou') ||
+      normKey.includes('guzelyurt') ||
+      (normKey.includes('nicosia') && (normKey.includes('nord') || normKey.includes('north') || normKey.includes('kuzey')))
+    ) {
+      return {
+        name: 'Nicosia Nord (Lefkoşa & Morphou)',
+        adminTitle: 'Crown Colony of Cyprus (District of Nicosia — Settore Settentrionale & Morphou)',
+        note: "Settore settentrionale del distretto di Nicosia esteso fino alla fertile baia agrumicola di Morphou (Güzelyurt) e ai quartieri storici settentrionali della capitale cintati dalle mura veneziane.",
+      };
+    }
+    if (
+      id === 'CY_FAMAGUSTA_N' ||
+      normKey.includes('karpass') ||
+      normKey.includes('iskele') ||
+      (normKey.includes('famagusta') && (normKey.includes('nord') || normKey.includes('north') || normKey.includes('gazimagusa')))
+    ) {
+      return {
+        name: 'Famagosta Nord (Gazimağusa & Karpass)',
+        adminTitle: 'Crown Colony of Cyprus (District of Famagusta — Settore Settentrionale & Karpass)',
+        note: "Vasto distretto orientale comprendente il porto marittimo fortificato di Famagosta (Gazimağusa), il sito di Salamina e la lunga penisola di Karpass protesa verso le coste siriane e levantine.",
+      };
+    }
+    if (
+      id === 'CY_NICOSIA_S' ||
+      (normKey.includes('nicosia') && (normKey.includes('sud') || normKey.includes('south') || normKey.includes('lefkosia')))
+    ) {
+      return {
+        name: 'Nicosia Sud (Lefkosia & Troodos)',
+        adminTitle: 'Crown Colony of Cyprus (District of Nicosia — Sede del Governatorato Coloniale)',
+        note: "Centro del potere amministrativo coloniale britannico a Government House (Nicosia), comprendente i sobborghi meridionali e le pendici boscose orientali del massiccio montuoso del Troodos.",
+      };
+    }
+    if (
+      id === 'CY_FAMAGUSTA_S' ||
+      normKey.includes('paralimni') ||
+      normKey.includes('ayia napa') ||
+      (normKey.includes('famagusta') && (normKey.includes('sud') || normKey.includes('south') || normKey.includes('libera') || normKey.includes('free')))
+    ) {
+      return {
+        name: 'Famagosta Sud (Paralimni & Ayia Napa)',
+        adminTitle: 'Crown Colony of Cyprus (District of Famagusta — Settore Meridionale)',
+        note: "Promontorio sud-orientale dell'isola compreso tra Capo Greco, Paralimni e Ayia Napa, zona a vocazione prevalentemente agricola e costiera (futuro settore di Famagosta Libera).",
+      };
+    }
+    if (id === 'CY_LARNACA' || normKey.includes('larnaca') || normKey.includes('larnaka')) {
+      return {
+        name: 'Larnaca (Larnaka)',
+        adminTitle: 'Crown Colony of Cyprus (District of Larnaca)',
+        note: "Distretto costiero meridionale sviluppato attorno al porto di Larnaca, alle saline e all'insediamento storico di Kition, importante scalo mercantile del Mediterraneo orientale.",
+      };
+    }
+    if (id === 'CY_LIMASSOL' || normKey.includes('limassol') || normKey.includes('lemesos')) {
+      return {
+        name: 'Limassol (Lemesos)',
+        adminTitle: 'Crown Colony of Cyprus (District of Limassol)',
+        note: "Principale snodo marittimo commerciale e industriale del sud di Cipro, rinomato per l'esportazione di carrubo, agrumi e vini del massiccio del Troodos.",
+      };
+    }
+    if (id === 'CY_PAPHOS' || normKey.includes('paphos') || normKey.includes('pafos')) {
+      return {
+        name: 'Paphos (Pafos)',
+        adminTitle: 'Crown Colony of Cyprus (District of Paphos)',
+        note: "Distretto occidentale dell'isola esteso tra i porti di Nea Paphos e Polis Chrysochous, la penisola selvaggia di Akamas e le foreste demaniali di pini e cedri di Cipro fino a Kykkos.",
+      };
+    }
+
     return {
       name: 'Cyprus (Nicosia)',
       adminTitle: 'Crown Colony of Cyprus',
@@ -14197,8 +14753,58 @@ export function resolveBeneluxToponym(
 
   if (found) {
     const d = found;
-    // Step >= 6: Occupazione militare tedesca o annessione diretta
-    if (step >= 6) {
+    // Step >= 18: Paesi Bassi e Belgio interamente liberati
+    if (step >= 18) {
+      if (d.country === 'BE') {
+        return {
+          name: d.name,
+          adminTitle: 'Royaume de Belgique — Gouvernement d\'Union Nationale',
+          note: 'Maggio-Settembre 1945: il territorio del Regno del Belgio è interamente liberato; Eupen-Malmedy è reintegrata nella sovranità belga.',
+        };
+      }
+      if (d.country === 'NL') {
+        return {
+          name: d.name,
+          adminTitle: 'Koninkrijk der Nederlanden (Koningin Wilhelmina — Den Haag)',
+          note: 'Maggio-Settembre 1945: con la capitolazione di Wageningen delle forze tedesche del generale Blaskowitz, i Paesi Bassi sono interamente liberati e restaurati sotto la sovranità della Corona costituzionale.',
+        };
+      }
+      if (d.country === 'LU') {
+        return {
+          name: 'Grand-Duché de Luxembourg',
+          adminTitle: 'Grand-Duché de Luxembourg (Grande-Duchesse Charlotte)',
+          note: 'Maggio-Settembre 1945: il Granducato di Lussemburgo è pienamente restaurato nella sua sovranità costituzionale.',
+        };
+      }
+    }
+
+    // Se l'entità è formalmente assegnata agli Alleati o al legittimo sovrano nazionale (BEL, HOL, LUX)
+    if (owner === 'BEL' || owner === 'HOL' || owner === 'LUX') {
+      if (step >= 16 && d.country === 'BE') {
+        return {
+          name: d.name,
+          adminTitle: 'Royaume de Belgique — Gouvernement d\'Union Nationale',
+          note: 'Settembre 1944: territorio belga liberato dalle armate alleate con l\'appoggio della resistenza patriottica (Armée secrète).',
+        };
+      }
+      if (step >= 17 && d.country === 'NL') {
+        return {
+          name: d.name,
+          adminTitle: 'Koninkrijk der Nederlanden — Territorio Liberato',
+          note: 'Aprile 1945: liberato dall\'avanzata della 1ª Armata Canadese.',
+        };
+      }
+      if (step >= 15 && d.country === 'LU') {
+        return {
+          name: 'Grand-Duché de Luxembourg',
+          adminTitle: 'Grand-Duché de Luxembourg (Grande-Duchesse Charlotte)',
+          note: 'Settembre 1944: liberato dalla 5ª Divisione Corazzata USA.',
+        };
+      }
+    }
+
+    // Step >= 6: Occupazione militare tedesca o annessione diretta (solo se owner === 'GER' o sotto Asse)
+    if (step >= 6 && (owner === 'GER' || owner === 'Asse' || owner === '')) {
       return {
         name: d.occName,
         adminTitle: d.occAdminTitle,
@@ -14206,7 +14812,7 @@ export function resolveBeneluxToponym(
       };
     }
 
-    // Step 0..5: Sovranità pre-invasione neutrale
+    // Step 0..5: Sovranità pre-invasione neutrale (o fallback)
     return {
       name: d.name,
       adminTitle: d.preAdminTitle,
@@ -15265,8 +15871,15 @@ export function resolveSwissAustrianToponym(
 
   if (found) {
     const d = found;
-    // Austria post-Anschluss (Step >= 1: März 1938 - Juni 1940)
+    // Austria post-Anschluss (Step >= 1: März 1938 - Juni 1940) / Zone di Occupazione Alleata (Step >= 18)
     if (d.country === 'AT') {
+      if (step >= 18) {
+        return {
+          name: d.name,
+          adminTitle: 'Republik Österreich — Alliierte Besatzungszonen (USA, UK, FRA, SOV)',
+          note: 'Accordi Alleati del 4 luglio 1945: l\'Austria è restaurata come repubblica libera e indipendente nei confini del 1937, sottoposta a quadripartizione tra le quattro potenze alleate con Vienna a statuto speciale quadripartito.',
+        };
+      }
       if (step >= 1) {
         return {
           name: d.postName || d.name,
@@ -16243,9 +16856,23 @@ export function getExtendedToponym(
     (centroid && centroid[0] >= 7.38 && centroid[0] <= 7.46 && centroid[1] >= 43.71 && centroid[1] <= 43.76)
   ) {
     const s = yearStep !== undefined ? yearStep : 0;
+    if (s >= 16) {
+      return {
+        name: 'Principauté de Monaco (Libérée — Restauration Souveraine)',
+        adminTitle: 'Principauté de Monaco — Prince Louis II & Forces Alliées',
+        note: "Il 3 settembre 1944 le truppe alleate franco-americane (First Special Service Force / FFI) liberano Monaco dall'occupazione tedesca. Il Principe Luigi II e le istituzioni monegasche riassumono la piena sovranità a fianco degli Alleati.",
+      };
+    }
+    if (s >= 13) {
+      return {
+        name: 'Principauté de Monaco (Occupazione Militare Tedesca — Wehrmacht & Gestapo)',
+        adminTitle: 'Deutsche Wehrmacht — Militärbefehlshaber in Frankreich / Gestapo Monte-Carlo',
+        note: "All'indomani dell'armistizio di Cassibile (settembre 1943), le truppe corazzate della Wehrmacht e agenti della Gestapo occupano Monaco, instaurando un regime di dura occupazione con arresti e deportazioni sotto la Militärkommandantur.",
+      };
+    }
     if (s >= 11) {
       return {
-        name: 'Principauté de Monaco (Occupazione Italiana — Regio Esercito)',
+        name: 'Principauté de Monaco (Occupazione Militare Italiana — Regio Esercito)',
         adminTitle: 'Presidio Militare Italiano di Monaco — 4ª Armata del Regio Esercito (Gen. Mario Vercellino) & Comando di Piazza',
         note: "L'11 novembre 1942, in risposta allo sbarco alleato in Nordafrica (Operazione Torch), scatta l'Operazione Anton: la 4ª Armata del Regio Esercito italiano varca il confine e occupa militarmente il Principato di Monaco, insediando guarnigioni e requisendo hotel storici (Hôtel de Paris, Hermitage). Nonostante l'occupazione dell'Asse e le pressioni naziste, le autorità militari e consolari italiane rifiutano di applicare le direttive di deportazione razziale, trasformando temporaneamente Monaco in una vitale isola di salvezza per centinaia di rifugiati ed ebrei fino all'arrivo della Wehrmacht e della Gestapo nel settembre 1943.",
       };
@@ -16394,15 +17021,35 @@ export function getExtendedToponym(
     if (aofTop) return aofTop;
   }
 
+  // 0.034 Overrides prioritari per Possedimenti Francesi nel Pacifico (Polinesia Francese / EFO, Nuova Caledonia, Nuove Ebridi, Wallis e Futuna)
+  if (
+    isFrenchPacificProvince(id, rawName, normKey) ||
+    id === 'PF_POLYNESIA' ||
+    id === 'NC_CALEDONIA' ||
+    id === 'NH_HEBRIDES' ||
+    id === 'WF_WALLIS_FUTUNA'
+  ) {
+    const pacDossier = matchFrenchPacificDossier(id, rawName, normKey);
+    if (pacDossier) {
+      const s = yearStep !== undefined ? yearStep : 0;
+      return {
+        name: pacDossier.getHistoricalName(s),
+        adminTitle: pacDossier.getAdminTitle(s),
+        note: pacDossier.getNote(s),
+      };
+    }
+  }
+
   // 0.035 Overrides prioritari per AEF
   if (
-    owner === 'F_AEF' ||
-    owner === 'FFL_AEF' ||
-    owner === 'VIC_AEF' ||
-    id.startsWith('AEF_') ||
-    normKey.includes('aef') ||
-    Boolean((AEF_PROVINCES_META as any)?.[id]) ||
-    Boolean((AEF_PROVINCES_META as any)?.[normKey])
+    (owner === 'F_AEF' ||
+      owner === 'FFL_AEF' ||
+      owner === 'VIC_AEF' ||
+      id.startsWith('AEF_') ||
+      normKey.includes('aef') ||
+      Boolean((AEF_PROVINCES_META as any)?.[id]) ||
+      Boolean((AEF_PROVINCES_META as any)?.[normKey])) &&
+    !isFrenchPacificProvince(id, rawName, normKey)
   ) {
     const aefTop = resolveAEFToponym(id, rawName, normKey, owner, yearStep);
     if (aefTop) return aefTop;
@@ -17129,6 +17776,7 @@ export function getExtendedToponym(
   // 5. Repubblica di Lituania (LIT)
   if (owner === 'LIT') {
     if (id === 'LT023') return { name: 'Klaipėdos apskritis (Žemaitijos pajūris ir Palanga)', adminTitle: 'Lietuvos Respublika' };
+    if (id === 'LT_HIST_PALANGA') return { name: 'Palanga ir Kretinga', adminTitle: 'Lietuvos Respublika — Klaipėdos apskritis (Nord)' };
     if (id === 'LT022') return { name: 'Kauno apskritis (Laikinoji sostinė)', adminTitle: 'Lietuvos Respublika' };
     if (id === 'LT011' || normKey.includes('wilno') || normKey.includes('vilnius')) return { name: 'Vilniaus apskritis (Vilnius)', adminTitle: 'Lietuvos Respublika (1939 m. spalio 10 d. sutartis)' };
     if (id.startsWith('PL_KRESY_LTU_') || normKey.includes('svencion') || normKey.includes('trakai')) {
@@ -17141,8 +17789,10 @@ export function getExtendedToponym(
     if (id === 'HR031') return { name: 'Fiume (Carnaro)', adminTitle: 'Provincia del Carnaro' };
     if (id === 'HR033') return { name: 'Zara (Dalmazia)', adminTitle: 'Provincia di Zara' };
     if (id === 'HR036') return { name: 'Pola (Istria)', adminTitle: 'Provincia di Pola' };
+    if (id === 'HR_HIST_BUIE') return { name: 'Buie (Istria)', adminTitle: 'Provincia di Pola' };
     if (id === 'SI043') return { name: 'Gorizia (Venezia Giulia)', adminTitle: 'Provincia di Gorizia' };
-    if (id === 'SI044') return { name: 'Capodistria (Istria)', adminTitle: 'Provincia di Pola' };
+    if (id === 'SI_HIST_KOPER') return { name: 'Capodistria (Istria)', adminTitle: 'Provincia di Pola' };
+    if (id === 'SI044') return { name: 'Sesana e Carso (Venezia Giulia)', adminTitle: 'Provincia di Trieste' };
     if (id === 'SI038') return { name: 'Postumia (Carnaro)', adminTitle: 'Provincia di Trieste' };
     if (id === 'HR035') return { name: 'Spalato (Dalmazia)', adminTitle: 'Dalmazia' };
     if (id === 'SI041') return { name: 'Lubiana (Provincia di Lubiana)', adminTitle: 'Provincia di Lubiana' };
@@ -17398,7 +18048,7 @@ export function getExtendedToponym(
     }
   }
 
-  if (owner === 'TUV' || owner === 'TANNU_TUVA' || owner === 'TUVA') {
+  if (owner === 'TUV' || owner === 'TANNU_TUVA' || owner === 'TUVA' || (owner === 'SOV' && (normKey.includes('tuva') || normKey.includes('tannu')))) {
     if (
       normKey.includes('tuva') ||
       normKey.includes('tannu') ||
@@ -17406,10 +18056,18 @@ export function getExtendedToponym(
       normKey.includes('khem_beldir') ||
       id.includes('TUV')
     ) {
+      const s = yearStep !== undefined ? yearStep : 0;
+      if (s >= 16 || owner === 'SOV') {
+        return {
+          name: "Oblast' Autonoma di Tuva (RSFSR / URSS)",
+          adminTitle: "Tuvinskaya Avtonomnaya Oblast' (RSFSR)",
+          note: "L'11 ottobre 1944 il Presidium del Soviet Supremo dell'URSS accoglie la richiesta del Piccolo Chural e decreta l'incorporazione di Tannu Tuva all'Unione Sovietica come Oblast' Autonoma all'interno della RSFSR.",
+        };
+      }
       return {
         name: rawName && !normKey.includes('country') ? `${rawName} (Tyva Arat Respublika)` : 'Tyva Arat Respublika',
         adminTitle: 'Tyva Arat Respublika (Tannu Tuva)',
-        note: 'Salchak Toka',
+        note: "Repubblica Popolare di Tuva guidata da Salchak Toka. Il 22 giugno 1941 dichiara guerra alla Germania nazista a fianco dell'URSS; fornisce ingenti risorse minerarie, bestiame e reparti di cavalleria volontari (cap. Kesil-ool) all'Armata Rossa.",
       };
     }
   }

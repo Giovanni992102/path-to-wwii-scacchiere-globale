@@ -766,18 +766,47 @@ for (const meta of Object.values(PNG_PROVINCES_META)) {
   const isJap10 = PNG_JAP_OCCUPIED_AUG1942.has(meta.id);
 
   meta.getSovereign = (s: number) => {
+    if (s >= 18) return 'AST';
+    if (s >= 14 && (meta.id === 'PGMRL' || meta.id === 'PGMPM' || meta.id === 'PGSAN')) return 'AST';
+    if (s >= 12 && meta.id === 'PGNPP') return 'AST';
     if (s >= 13 && meta.id === 'PGMPL') return 'AST';
     if (s >= 10 && isJap10) return 'JAP';
     return meta.sovereign;
   };
   meta.getFaction = (s: number) => {
+    if (s >= 18) return 'Alleati';
+    if (s >= 14 && (meta.id === 'PGMRL' || meta.id === 'PGMPM' || meta.id === 'PGSAN')) return 'Alleati';
+    if (s >= 12 && meta.id === 'PGNPP') return 'Alleati';
     if (s >= 13 && meta.id === 'PGMPL') return 'Alleati';
     if (s >= 10 && isJap10) return 'Asse';
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 19) {
+      return `${meta.historicalName} (Territorio di Papua e Nuova Guinea — Amministrazione Civile Australiana)`;
+    }
+    if (s >= 18) {
+      if (meta.id === 'PGESW') return 'East Sepik / Wewak (Resa della 18ª Armata Giapponese del Gen. Adachi — 13 Settembre 1945)';
+      if (meta.id === 'PGEBR') return 'Rabaul / Nuova Britannia (Resa dell\'8ª Armata del Gen. Imamura a Bordo dell\'HMS Glory — 6 Settembre 1945)';
+      if (meta.id === 'PGWBK') return 'West New Britain / Talasea (Liberazione Australiana — Settembre 1945)';
+      if (meta.id === 'PGNIK') return 'New Ireland / Kavieng (Liberazione Australiana & Resa della Guarnigione Marina Imperiale)';
+      if (meta.id === 'PGNSB') return 'Bougainville District (Resa della 17ª Armata del Gen. Kanda a Torokina — 8 Settembre 1945)';
+      return `${meta.historicalName} (Liberazione & Amministrazione Militare Australiana ANGAU)`;
+    }
+    if (s >= 14) {
+      if (meta.id === 'PGMRL') return 'Manus / Isole dell\'Ammiragliato (Liberazione Alleata — Operazione Brewer & Base Seeadler Harbour)';
+      if (meta.id === 'PGMPM') return 'Madang (Liberata dalla 5ª Divisione Australiana — Aprile 1944)';
+      if (meta.id === 'PGSAN') return 'West Sepik / Aitape (Operazione Persecution — Basi Avanzate Alleate & Sacca di Wewak)';
+      if (meta.id === 'PGESW') return 'East Sepik / Wewak (Sacca Isolata della 18ª Armata Giapponese del Gen. Adachi)';
+    }
     if (s >= 13 && meta.id === 'PGMPL') {
       return 'Morobe (Liberazione di Lae e Salamaua — 16 Settembre 1943)';
+    }
+    if (s >= 13 && meta.id === 'PGNPP') {
+      return 'Northern District — Buna-Gona & Complesso Aeronavale di Dobodura (Base di Lancio per l\'Offensiva su Lae)';
+    }
+    if (s === 12 && meta.id === 'PGNPP') {
+      return 'Northern District — Buna-Gona & Dobodura (Liberata dagli Alleati, Base Aerea Avanzata)';
     }
     if (s >= 10) {
       if (meta.id === 'PGEBR') return 'Rabaul / Nuova Britannia (Piazzaforte Aeronavale Giapponese dell\'8ª Flotta — Gennaio-Agosto 1942)';
@@ -790,8 +819,20 @@ for (const meta of Object.values(PNG_PROVINCES_META)) {
     return meta.historicalName;
   };
   meta.getAdminTitle = (s: number) => {
+    if (s >= 19) {
+      return 'Commonwealth of Australia — Territory of Papua-New Guinea (Provisional Civil Administration, Col. J. K. Murray)';
+    }
+    if (s >= 18) {
+      return 'Commonwealth of Australia — Australian New Guinea Administrative Unit (ANGAU / Australian Army)';
+    }
+    if (s >= 14 && (meta.id === 'PGMRL' || meta.id === 'PGMPM' || meta.id === 'PGSAN')) {
+      return 'Mandated Territory of New Guinea — Allied SWPA (Gen. Douglas MacArthur / First Australian Army & US Forces)';
+    }
     if (s >= 13 && meta.id === 'PGMPL') {
       return 'Mandated Territory of New Guinea — Allied SWPA (Gen. Douglas MacArthur / New Guinea Force)';
+    }
+    if (s >= 12 && meta.id === 'PGNPP') {
+      return 'Territory of Papua — Allied SWPA (Comando MacArthur / New Guinea Force — Base di Dobodura)';
     }
     if (s >= 10) {
       if (isJap10) {
@@ -802,8 +843,43 @@ for (const meta of Object.values(PNG_PROVINCES_META)) {
     return meta.adminTitle;
   };
   meta.getNote = (s: number) => {
+    if (s >= 19) {
+      return "Al 30 settembre 1947 l'amministrazione militare bellica (ANGAU) è cessata: il Territorio di Papua e l'ex Mandato della Nuova Guinea (affidato all'Australia in amministrazione fiduciaria ONU il 13 dicembre 1946) sono retti congiuntamente dall'Amministrazione Civile Provvisoria guidata dal Col. Jack Keith Murray a Port Moresby.";
+    }
+    if (s >= 18) {
+      if (meta.id === 'PGESW') {
+        return "Il 13 settembre 1945 a Cape Wom vicino a Wewak, il tenente generale Hatazō Adachi firma la resa incondizionata dei resti della 18ª Armata giapponese (circa 13.000 superstiti su oltre 100.000 effettivi originari) dinanzi al maggior generale australiano Horace Robertson (6ª Divisione). L'intera regione di Sepik torna sotto l'amministrazione militare australiana ANGAU.";
+      }
+      if (meta.id === 'PGEBR' || meta.id === 'PGWBK' || meta.id === 'PGNIK') {
+        return "Il 6 settembre 1945 nella rada di Simpson Harbour a Rabaul, a bordo della portaerei britannica HMS Glory, il generale d'armata Hitoshi Imamura (8ª Armata d'Area) e il viceammiraglio Jinichi Kusaka (Flotta dell'Area Sud-Orientale) firmano la resa incondizionata di oltre 89.000 soldati e marinai giapponesi nelle mani del tenente generale australiano Vernon Sturdee. L'arcipelago di Bismarck torna sotto il controllo del Commonwealth australiano.";
+      }
+      if (meta.id === 'PGNSB') {
+        return "L'8 settembre 1945 a Torokina, il tenente generale Masatane Kanda (17ª Armata) e il viceammiraglio Tomoshige Samejima firmano la resa incondizionata delle forze giapponesi di Bougainville davanti al maggior generale australiano Stanley Savige (II Corpo d'Armata).";
+      }
+      return "Con la resa incondizionata dell'Impero Giapponese nel settembre 1945, l'intero territorio della Nuova Guinea orientale e delle isole adiacenti viene posto sotto l'amministrazione unificata del Commonwealth australiano (ANGAU - Australian New Guinea Administrative Unit), preludio alla creazione del Territory of Papua and New Guinea sotto tutela fiduciaria delle Nazioni Unite.";
+    }
+    if (s >= 14) {
+      if (meta.id === 'PGMRL') {
+        return 'Nel marzo 1944 la 1ª Divisione di Cavalleria USA espugna le Isole dell\'Ammiragliato (Operazione Brewer); la baia di Seeadler Harbour viene trasformata nella più grande base aeronavale avanzata alleata del Pacifico sud-occidentale, tagliando ogni rifornimento alla piazzaforte giapponese di Rabaul.';
+      }
+      if (meta.id === 'PGMPM') {
+        return 'Nell\'aprile 1944 le truppe australiane della 5ª Divisione e dell\'8ª Brigata liberano la base costiera di Madang e Alexishafen, ricongiungendosi con le forze statunitensi sbarcate a Saidor e completando la bonifica della penisola di Huon.';
+      }
+      if (meta.id === 'PGSAN') {
+        return 'Il 22 aprile 1944 le truppe statunitensi della 41ª Divisione sbarcano ad Aitape (Operazione Persecution) catturando le piste aeree e isolando la 18ª Armata giapponese del generale Hatazō Adachi intrappolata nella sacca costiera di Wewak.';
+      }
+      if (meta.id === 'PGESW') {
+        return 'Al 30 giugno 1944 i resti della 18ª Armata giapponese (generale Hatazō Adachi) sono ermeticamente isolati e accerchiati nella sacca di Wewak tra Aitape e Madang, decimati dalla fame e dalla malaria prima della disperata controffensiva sul fiume Driniumor.';
+      }
+    }
     if (s >= 13 && meta.id === 'PGMPL') {
       return 'Il 16 settembre 1943 le forze alleate australiane e statunitensi (7ª e 9ª Divisione australiana, aviolancio del 503º Reggimento Paracadutisti USA a Nadzab) espugnano la grande base aeronavale giapponese di Lae dopo la caduta di Salamaua (11 settembre), cacciando i resti della 18ª Armata imperiale verso la penisola di Huon nell\'ambito dell\'Operazione Cartwheel.';
+    }
+    if (s >= 13 && meta.id === 'PGNPP') {
+      return 'Buna, Gona e la piana di Dobodura · Dopo l\'annientamento e l\'eliminazione delle teste di ponte giapponesi nel gennaio 1943 al termine della feroce Battaglia di Buna-Gona condotta dalla 7ª Divisione australiana e dalla 32ª Divisione fanteria USA, l\'area di Dobodura è stata trasformata dagli ingegneri alleati nel colossale polo aereo avanzato del SWPA. Nel settembre 1943 Dobodura funge da trampolino aeronavale primario per lanciare l\'assalto anfibio e aereo su Nadzab e la riconquista di Lae e Salamaua nell\'ambito dell\'Operazione Cartwheel.';
+    }
+    if (s === 12 && meta.id === 'PGNPP') {
+      return 'Buna, Gona e Dobodura · Liberata nel gennaio 1943 dopo l\'annientamento delle guarnigioni giapponesi (Battaglia di Buna-Gona), l\'area costiera settentrionale papuana è ora trasformata dagli ingegneri alleati nel grande polo aereo avanzato di Dobodura, a supporto dell\'avvio dell\'Operazione Cartwheel contro le posizioni nipponiche nel Golfo di Huon e nelle Salomone.';
     }
     if (s >= 10) {
       if (meta.id === 'PGEBR') {

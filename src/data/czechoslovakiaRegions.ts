@@ -17,8 +17,17 @@ import { ResolvedTerritory } from '../types';
 
 // --- Dynamic Historical Resolvers ---
 
-// 1. Sudetenland: CZE (Step 0-1) -> GER (Step 2+)
+// 1. Sudetenland: CZE (Step 0-1) -> GER (Step 2-17) -> CZE Reintegrato (Step 18+)
 export function resolveSudetenland(s: number, name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
+  if (s >= 18) {
+    return makeResult(
+      'CZE',
+      `${name} (Pohraničí — Reintegrato nella Repubblica Cecoslovacca)`,
+      "Maggio-Settembre 1945: con la resa della Germania nazista, gli accordi della Conferenza di Potsdam e la nullità dell'Accordo di Monaco del 1938, i territori di confine dei Sudeti vengono pienamente reintegrati nella Repubblica Cecoslovacca restaurata (attuazione dei Decreti Beneš ed espulsione della popolazione tedescofona).",
+      'Alleati',
+      'Československá republika — Pohraniční území'
+    );
+  }
   if (s < 2) {
     return makeResult(
       'CZE',
@@ -37,8 +46,17 @@ export function resolveSudetenland(s: number, name: string, _itName: string, deN
   );
 }
 
-// 2. Zaolzie: CZE (Step 0-1) -> POL (Step 2-4) -> GER (Step 5+)
+// 2. Zaolzie: CZE (Step 0-1) -> POL (Step 2-4) -> GER (Step 5-17) -> CZE Reintegrato (Step 18+)
 export function resolveZaolzie(s: number, _name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
+  if (s >= 18) {
+    return makeResult(
+      'CZE',
+      'Český Těšín (Těšínsko / Zaolzie — Reintegrato nella Repubblica Cecoslovacca)',
+      "Maggio-Settembre 1945: con la sconfitta del Reich e la liberazione della Slesia, il territorio del Zaolzie / Těšínsko viene ristabilito sotto la sovranità della Terza Repubblica Cecoslovacca ai confini antecedenti il settembre 1938.",
+      'Alleati',
+      'Československá republika — Země Moravskoslezská (Slezsko)'
+    );
+  }
   if (s < 2) {
     return makeResult(
       'CZE',
@@ -66,8 +84,17 @@ export function resolveZaolzie(s: number, _name: string, _itName: string, deName
   );
 }
 
-// 3. Rest-Tschechei (Bohemia & Moravia): CZE (Step 0-2) -> GER Protectorate (Step 3+)
+// 3. Rest-Tschechei (Bohemia & Moravia): CZE (Step 0-2) -> GER Protectorate (Step 3-17) -> CZE Restaurata (Step 18+)
 export function resolveRestTschechei(s: number, name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
+  if (s >= 18) {
+    return makeResult(
+      'CZE',
+      `${name} (Československá republika — Terza Repubblica Restaurata)`,
+      "Maggio-Settembre 1945: con l'Insurrezione di Praga (5-9 maggio 1945) e l'offensiva dell'Armata Rossa con il 1° Corpo Cecoslovacco (Gen. Ludvík Svoboda), il Protettorato nazista di Boemia e Moravia viene cancellato. Restaurata la Terza Repubblica Cecoslovacca con il ritorno del Presidente Edvard Beneš al Castello di Hradčany.",
+      'Alleati',
+      'Československá republika — Země Česká a Moravskoslezská'
+    );
+  }
   if (s < 2) {
     return makeResult(
       'CZE',
@@ -95,8 +122,17 @@ export function resolveRestTschechei(s: number, name: string, _itName: string, d
   );
 }
 
-// 4. Slovakia Core: CZE (Step 0-1) -> Autonomous CZE (Step 2) -> SLO Tiso (Step 3+)
+// 4. Slovakia Core: CZE (Step 0-1) -> Autonomous CZE (Step 2) -> SLO Tiso (Step 3-16) -> CZE Liberata (Step 17+)
 export function resolveSlovakia(s: number, name: string, _itName: string, _deName: string, _note: string): ResolvedTerritory {
+  if (s >= 17) {
+    return makeResult(
+      'CZE',
+      `${name} (Slovensko Oslobodené — Košický vládny program, Apríl 1945)`,
+      'Aprile 1945: territorio slovacco interamente liberato dal 2° e 4° Fronte Ucraino dell\'Armata Rossa e dal 1° Corpo d\'Armata Cecoslovacco (Gen. Ludvík Svoboda); il 4 aprile 1945 a Košice il Presidente Edvard Beneš insedia il nuovo governo della Repubblica Cecoslovacca (Programma di Košice).',
+      'Alleati',
+      'Československá republika — Slovensko'
+    );
+  }
   if (s < 2) {
     return makeResult(
       'CZE',
@@ -124,8 +160,26 @@ export function resolveSlovakia(s: number, name: string, _itName: string, _deNam
   );
 }
 
-// 5. Felvidek & South Ruthenia: CZE (Step 0-1) -> HUN (Step 2+)
+// 5. Felvidek & South Ruthenia: CZE (Step 0-1) -> HUN (Step 2-16) -> CZE / SOV Reintegrate (Step 17+)
 export function resolveFelvidek(s: number, name: string, _itName: string, _deName: string, _note: string): ResolvedTerritory {
+  if (s >= 17) {
+    if (name.includes('Ruthenia') || name.includes('Karpatalja') || name.includes('Uzhorod') || name.includes('Mukacevo')) {
+      return makeResult(
+        'SOV',
+        'Zakarpatska Ukrajina (Užhorod e Mukačevo — URSS)',
+        'Offensiva dei Carpazi Orientali (ottobre-novembre 1944): espugnata Užhorod (27 ottobre) e Mukačevo; il Congresso dei Comitati Popolari proclama la riunificazione con la RSS Ucraina.',
+        'Comintern',
+        'Zakarpatska Ukrajina — URSS'
+      );
+    }
+    return makeResult(
+      'CZE',
+      `${name} (Južné Slovensko Reintegrované — Apríl 1945)`,
+      'Aprile 1945: con la liberazione della Slovacchia meridionale (Bratislava, Komárno, Lučenec, Košice) da parte dell\'Armata Rossa e l\'annullamento del Primo Arbitrato di Vienna, il territorio viene reintegrato nella Repubblica Cecoslovacca restaurata.',
+      'Alleati',
+      'Československá republika — Južné Slovensko'
+    );
+  }
   if (s < 2) {
     return makeResult(
       'CZE',
@@ -133,6 +187,15 @@ export function resolveFelvidek(s: number, name: string, _itName: string, _deNam
       _note ? `${_note} — Československá republika (Južné Slovensko / Podkarpatsko)` : 'Krajina Slovenská (Československá republika)',
       undefined,
       'Československá republika — Južné Slovensko / Podkarpatská Rus'
+    );
+  }
+  if (s >= 16 && (name.includes('Ruthenia') || name.includes('Karpatalja') || name.includes('Uzhorod') || name.includes('Mukacevo'))) {
+    return makeResult(
+      'SOV',
+      'Zakarpatska Ukrajina (Užhorod e Mukačevo)',
+      'Offensiva dei Carpazi Orientali (ottobre-novembre 1944): il 4° Fronte Ucraino dell\'Armata Rossa espugna Užhorod (27 ottobre) e Mukačevo; il 26 novembre 1944 il Congresso dei Comitati Popolari proclama la riunificazione della Rutenia Subcarpatica con la RSS Ucraina.',
+      'Comintern',
+      'Zakarpatska Ukrajina — URSS'
     );
   }
   return makeResult(
@@ -162,6 +225,15 @@ export function resolveCarpathoUkraine(s: number, _name: string, _itName: string
       _note ? `${_note} — Karpatska Ukrajina (Chust)` : 'Karpatska Ukrajina — Avtonomnyj kraj (Chust)',
       undefined,
       'Česko-Slovenská republika — Karpatska Ukrajina'
+    );
+  }
+  if (s >= 16) {
+    return makeResult(
+      'SOV',
+      'Zakarpatska Ukrajina (Chust)',
+      'Offensiva dei Carpazi Orientali (ottobre-novembre 1944): l\'Armata Rossa libera Chust e l\'intera Carpato-Ucraina; il territorio viene integrato nell\'amministrazione sovietica della Transcarpazia.',
+      'Comintern',
+      'Zakarpatska Ukrajina — URSS'
     );
   }
   return makeResult(

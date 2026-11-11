@@ -21,7 +21,7 @@ interface SearchModalProps {
 
 export const ISLAND_SEARCH_ALIASES: Record<string, string[]> = {
   MV_MALDIVE: ['maldive', 'maldives', 'male', 'ceylon', 'oceano indiano'],
-  PF_POLYNESIA: ['polinesia', 'polynesia', 'polinesia francese', 'tahiti', 'papeete', 'oceania', 'pacifico', 'societa', 'tuamotu'],
+  PF_POLYNESIA: ['polinesia', 'polynesia', 'polinesia francese', 'tahiti', 'papeete', 'bora bora', 'oceania', 'pacifico', 'societa', 'tuamotu', 'marchesi', 'gambier', 'australi', 'efo'],
   US_HAWAII: ['hawaii', 'pearl harbor', 'oahu', 'honolulu', 'pacifico', 'stati uniti'],
   MU_MAURITIUS: ['mauritius', 'port louis', 'oceano indiano'],
   SC_SEYCHELLES: ['seychelles', 'victoria', 'mahe', 'oceano indiano'],

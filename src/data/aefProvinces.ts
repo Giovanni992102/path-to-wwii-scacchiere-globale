@@ -447,6 +447,24 @@ export function resolveAEFProvince(
     (provName.includes('(France)') || provName.includes('Vichy') || props?.SUBJECTO === 'Vichy');
 
   const ctx = { rawName: provName, isVichyGabon };
+  if (s >= 19) {
+    if (meta.id === 'AEF_CM') {
+      return makeResult(
+        'FRA',
+        "Cameroun Français (Territoire sous Tutelle de l'ONU — Union Française, Yaoundé)",
+        "Dal 13 dicembre 1946 il Cameroun francese passa dal mandato della Società delle Nazioni all'Amministrazione Fiduciaria delle Nazioni Unite (Territoire sous Tutelle de l'ONU) affidata alla Francia e partecipa all'Union Française tramite l'Assemblea Rappresentativa del Cameroun (ARCAM).",
+        'Alleati',
+        'Quatrième République (Union Française) — Haut-Commissariat au Cameroun (Yaoundé)'
+      );
+    }
+    return makeResult(
+      'FRA',
+      `${meta.name} (Territoire d'Outre-Mer de l'AEF — Union Française)`,
+      `Territoire d'Outre-Mer dell'Africa Equatoriale Francese (${meta.capital}) integrato nella Quarta Repubblica e nell'Union Française (Costituzione del 27 ottobre 1946), dopo la Conferenza di Brazzaville del 1944 e l'abolizione del lavoro forzato (Legge Houphouët-Boigny, aprile 1946).`,
+      'Alleati',
+      "Quatrième République (Union Française) — Gouvernement Général de l'AEF (Brazzaville · Charles Luizet)"
+    );
+  }
   const sov = meta.getSovereign(s, ctx);
   const fac = meta.getFaction(s, ctx);
   const histName = isVichyGabon ? 'Colonie du Gabon (Vichy — Libreville)' : meta.getHistoricalName(s);

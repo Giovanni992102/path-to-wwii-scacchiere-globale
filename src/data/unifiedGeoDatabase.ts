@@ -15,7 +15,7 @@
  * Totale: 2.208 entità geocartografiche interamente raccordate con 0 buchi neri e 0 sovrapposizioni.
  */
 
-import { METRO_FRAG, resolveGreenland, resolveSvalbard, resolveJanMayen, resolveEcuadorOriente, resolveEcuador, resolvePeru } from './georesolver';
+import { METRO_FRAG, resolveGreenland, resolveSvalbard, resolveJanMayen, resolveEcuadorOriente, resolveEcuador, resolvePeru, resolveReunion, resolveKoperZoneB, resolveBuieZoneB } from './georesolver';
 import {
   PRECISION_HISTORICAL_FEATURES,
   DANZIG_FREE_CITY_FEATURE,
@@ -40,6 +40,7 @@ import {
   LITHUANIA_PALANGA_FEATURE,
 } from './historicalBorders';
 import { CZECHOSLOVAKIA_REGIONAL_FEATURES } from './czechoslovakiaRegions';
+import { BOSNIA_REGIONAL_FEATURES } from './bosniaRegions';
 
 export interface UnifiedGeoDatabaseMetadata {
   title: string;
@@ -104,6 +105,17 @@ CZECHOSLOVAKIA_REGIONAL_FEATURES.forEach((f) => {
   }
 });
 
+// 2b. Entità storiche della Bosnia ed Erzegovina
+BOSNIA_REGIONAL_FEATURES.forEach((f) => {
+  if (f && f.__resolve) {
+    if (f.id) RESOLVER_REGISTRY[f.id] = f.__resolve;
+    if (f.properties?.id) RESOLVER_REGISTRY[f.properties.id] = f.__resolve;
+    if (f.properties?.NAME) RESOLVER_REGISTRY[f.properties.NAME] = f.__resolve;
+    if (f.properties?.NUTS_ID) RESOLVER_REGISTRY[f.properties.NUTS_ID] = f.__resolve;
+    if (f.properties?.__resolverId) RESOLVER_REGISTRY[f.properties.__resolverId] = f.__resolve;
+  }
+});
+
 // 3. Frammenti extraeuropei degli imperi coloniali (METRO_FRAG)
 Object.entries(METRO_FRAG).forEach(([nm, resolver]) => {
   RESOLVER_REGISTRY['METRO_FRAG_' + nm] = resolver;
@@ -131,6 +143,18 @@ RESOLVER_REGISTRY['ECU_ORIENTE'] = (s) => resolveEcuadorOriente(s);
 RESOLVER_REGISTRY['Ecuador'] = (s) => resolveEcuador(s);
 RESOLVER_REGISTRY['Peru'] = (s) => resolvePeru(s);
 RESOLVER_REGISTRY['Perú'] = (s) => resolvePeru(s);
+
+// 7. Risolutore dedicato La Réunion (Ralliement 28 nov 1942 alla France Libre)
+RESOLVER_REGISTRY['RE_REUNION'] = (s) => resolveReunion(s);
+RESOLVER_REGISTRY['FRY40'] = (s) => resolveReunion(s);
+RESOLVER_REGISTRY['La Réunion'] = (s) => resolveReunion(s);
+RESOLVER_REGISTRY['Reunion'] = (s) => resolveReunion(s);
+RESOLVER_REGISTRY['Colonie de La Réunion'] = (s) => resolveReunion(s);
+RESOLVER_REGISTRY['La Réunion (Colonie Française)'] = (s) => resolveReunion(s);
+
+// 8. Risolutori dedicati Territorio Libero di Trieste (Zone B Nord: Capodistria; Zone B Sud: Buie e Umago)
+RESOLVER_REGISTRY['SI_HIST_KOPER'] = (s) => resolveKoperZoneB(s);
+RESOLVER_REGISTRY['HR_HIST_BUIE'] = (s) => resolveBuieZoneB(s);
 
 /**
  * Carica il Database Geocartografico Unificato.
@@ -171,6 +195,8 @@ export async function loadUnifiedGeoDatabase(
 
   for (let i = 0; i < features.length; i++) {
     const f = features[i];
+    // Zero overlap: escludi l'eventuale entità duplicata paese HB_LIBYA coperta dalle 22 province libiche
+    if (f?.id === 'HB_LIBYA' || f?.id === 'HB_FRAG_Denmark' || f?.id === 'HB_FRAG_Norway') continue;
     const p = f.properties || (f.properties = {});
 
     // Assegna il layer corretto
