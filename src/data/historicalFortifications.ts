@@ -2210,6 +2210,16 @@ export const HISTORICAL_NAVAL_BASES: NavalBase[] = [
           strokeColor: '#ffbb88',
         };
       }
+      if (step >= 18) {
+        return {
+          nation: 'Islanda (Ex Base Falcon / Cacapon — Smilitarizzata)',
+          historicalName: 'Hvalfjörður — Base Navale Smantellata & Restituita alla Repubblica d\'Islanda',
+          theater: 'Atlantic',
+          description: 'Con la fine della Seconda Guerra Mondiale (1945) e l\'Accordo di Keflavík (1946–1947), l\'ancoraggio della Task Force 24 e della Base Cacapon viene smantellato; i moli e il fiordo tornano all\'uso civile pacifico sotto sovranità islandese.',
+          fillColor: '#b3c7d6',
+          strokeColor: '#3a4450',
+        };
+      }
       return {
         nation: 'Stati Uniti (US Navy Task Force 24 / NOB Cacapon)',
         historicalName: 'United States Naval Operating Base Cacapon (Task Force 24 — Hvalfjörður)',
@@ -3101,24 +3111,8 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
       break;
 
     case 'hvalfjordur_base':
-      if (step <= 5) {
-        nation = 'Islanda (Neutrale)';
-        historicalName = 'Hvalfjörður — Fiordo Naturale del Regno d\'Islanda (Smilitarizzato)';
-        description = 'Fiordo naturale disarmato del Regno neutrale d\'Islanda sotto re Cristiano X.';
-        fillColor = '#b3c7d6';
-        strokeColor = '#3a4450';
-      } else if (step <= 8) {
-        nation = 'Regno Unito (Royal Navy Base Falcon)';
-        historicalName = 'Royal Navy Base Falcon (Hvalfjörður — Base Navale Convogli)';
-        description = 'Base navale fortificata britannica con reti parasiluri, rifornimento carburante e stazione di scorta convogli per l\'Atlantico del Nord.';
-        fillColor = '#8a4b38';
-        strokeColor = '#ffbb88';
-      } else {
-        nation = 'Stati Uniti (US Navy Task Force 24 / NOB Cacapon)';
-        historicalName = 'United States Naval Operating Base Cacapon (Task Force 24 — Hvalfjörður)';
-        description = 'Principale ancoraggio navale dell\'US Navy e della Royal Navy per la protezione dei convogli atlantici e l\'assemblaggio dei convogli artici per la Russia (PQ/QP).';
-        fillColor = '#2b4c7e';
-        strokeColor = '#88bbff';
+      if (base.getDynamicStatus) {
+        return base.getDynamicStatus(step);
       }
       break;
 

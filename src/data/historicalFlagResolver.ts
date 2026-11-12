@@ -545,7 +545,7 @@ const HISTORICAL_FLAG_REGISTRY: FlagDefinition[] = [
   // ISLANDA
   {
     entity_id: 'ICE_KINGDOM',
-    match_codes: ['ICE_K', 'KINGDOM_OF_ICELAND'],
+    match_codes: ['ICE', 'IS', 'ICELAND', 'ICE_K', 'KINGDOM_OF_ICELAND'],
     common_name: 'Regno d\'Islanda',
     historical_name: 'Konungsríkið Ísland (Regno d\'Islanda in unione personale con la Corona danese)',
     valid_from: '1918-12-01',
@@ -970,6 +970,23 @@ const HISTORICAL_FLAG_REGISTRY: FlagDefinition[] = [
     license: 'Public Domain',
     historical_rationale: "Insegna ufficiale dell'Esercito Democratico di Grecia (DSE) istituito il 28 ottobre 1946 dal KKE sotto comando di Markos Vafiadis: croce ellenica bianca su sfondo azzurro caricata al centro dallo stemma Δ (Dimokratia) con triangolo/stella rossa.",
     fotw_url: 'https://www.crwflags.com/fotw/flags/gr-civil.html',
+  },
+
+  // SECONDA REPUBBLICA DEL TURKESTAN ORIENTALE (1944-1949)
+  {
+    entity_id: 'SECOND_ETR',
+    match_codes: ['ETR', 'SECOND_ETR', 'EAST_TURKESTAN', 'EAST_TURKISTAN', 'THREE_DISTRICTS', 'TURKESTAN_ORIENTALE'],
+    common_name: 'Seconda Repubblica del Turkestan Orientale',
+    historical_name: 'Shärqiy Türkistan Jumhuriyiti (Tre Distretti: Ili, Tarbagatay, Altay)',
+    valid_from: '1944-11-12',
+    valid_to: '1949-12-22',
+    flag_status: 'official',
+    flag_category: 'state_and_national',
+    file_name: 'Flag_of_the_Second_East_Turkestan_Republic.svg',
+    wikidata_item_id: 'Q1049172',
+    license: 'Public Domain',
+    historical_rationale: "Vessillo ufficiale della Seconda Repubblica del Turkestan Orientale proclamata il 12 novembre 1944 a Ghulja (Yining) nella Rivoluzione dei Tre Distretti (Ili, Tarbagatay e Altay): mezzaluna e stella a cinque punte bianche in campo verde.",
+    fotw_url: 'https://www.crwflags.com/fotw/flags/cn-etr2.html',
   },
 ];
 

@@ -7955,6 +7955,30 @@ export function resolveGermanyToponym(
   yearStep?: number
 ): { name: string; adminTitle?: string; note?: string } | null {
   const step = yearStep !== undefined ? yearStep : 0;
+  if (step >= 18) {
+    const cleanedName = cleanGermanToponymName(rawName) || rawName;
+    const zoneEntity =
+      owner === 'SOV'
+        ? 'Sowjetische Militäradministration in Deutschland (SMAD)'
+        : owner === 'UK'
+        ? 'Control Commission for Germany — British Element (CCG/BE)'
+        : owner === 'USA'
+        ? 'Office of Military Government, United States (OMGUS)'
+        : owner === 'FRA'
+        ? 'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
+        : owner === 'SAAR'
+        ? 'Protettorato Economico della Saar (Sarre)'
+        : owner === 'POL'
+        ? 'Rzeczpospolita Polska — Territori Recuperati'
+        : 'Alliierter Kontrollrat (Consiglio di Controllo Alleato)';
+    return {
+      name: cleanedName,
+      adminTitle: zoneEntity,
+      note: step >= 19
+        ? `Settembre 1947: territorio amministrato sotto ${zoneEntity}.`
+        : `Settembre 1945: territorio della Germania postbellica amministrato sotto ${zoneEntity}.`,
+    };
+  }
   const nationalEntity = step === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich';
 
   // 1. Cerca match tra le città e centri catalogati
@@ -10106,6 +10130,13 @@ export function resolvePolandToponym(
         note: 'Città-Stato autonoma istituita dal Trattato di Versailles sotto la protezione della Società delle Nazioni e unione doganale polacca.',
       };
     }
+    if (step >= 18) {
+      return {
+        name: 'Gdańsk / Danzica (Repubblica di Polonia)',
+        adminTitle: 'Rzeczpospolita Polska — Województwo Gdańskie',
+        note: 'Settembre 1945–1947: Danzica (Gdańsk) reintegrata nella Repubblica di Polonia quale grande porto marittimo sul Mar Baltico secondo gli Accordi di Potsdam.',
+      };
+    }
     return {
       name: 'Danzig (Reichsgau Danzig-Westpreußen)',
       adminTitle: 'Deutsches Reich — Reichsgau Danzig-Westpreußen (Gauleiter Albert Forster)',
@@ -10125,6 +10156,13 @@ export function resolvePolandToponym(
         name: 'Województwo Pomorskie (Gdynia / Hel)',
         adminTitle: 'Rzeczpospolita Polska — Województwo Pomorskie (Gdynia, Puck, Hel)',
         note: 'Corridoio Polacco (Polski Korytarz) — Accesso sovrano della Polonia al Mar Baltico con il porto strategico di Gdynia e la penisola di Hel.',
+      };
+    }
+    if (step >= 18) {
+      return {
+        name: 'Gdynia & Litorale Polacco (Repubblica di Polonia)',
+        adminTitle: 'Rzeczpospolita Polska — Województwo Gdańskie / Pomorskie (Gdynia)',
+        note: 'Settembre 1945–1947: porto di Gdynia e litorale baltico polacco liberati e ricostruiti nella Repubblica di Polonia.',
       };
     }
     return {
@@ -10152,6 +10190,18 @@ export function resolvePolandToponym(
 
   if (foundProv) {
     const p = foundProv;
+    if (step >= 18 && owner !== 'SOV') {
+      const basePolish = p.name.replace(/\s*\([^)]*\)\s*$/, '').trim() || p.name;
+      return {
+        name: step >= 19
+          ? `${basePolish} (Repubblica di Polonia)`
+          : `${basePolish} (Repubblica di Polonia — Rząd Jedności Narodowej)`,
+        adminTitle: 'Rzeczpospolita Polska',
+        note: step >= 19
+          ? 'Settembre 1947: territorio della Repubblica di Polonia entro i nuovi confini postbellici sull\'Oder-Neisse.'
+          : 'Settembre 1945: territorio della Repubblica di Polonia liberato sotto il Governo Provvisorio di Unità Nazionale.',
+      };
+    }
     const name = p.dynamicName ? p.dynamicName(step) : p.name;
     const adminTitle = p.dynamicAdminTitle ? p.dynamicAdminTitle(step) : (p.adminTitle || `Rzeczpospolita Polska — ${name}`);
     const note = p.dynamicNote ? p.dynamicNote(step) : p.note;
@@ -10161,6 +10211,15 @@ export function resolvePolandToponym(
   // 3. Fallback per codici PL non esplicitamente catalogati
   if (id.startsWith('PL')) {
     const cleaned = cleanPolishToponymName(rawName) || rawName;
+    if (step >= 18) {
+      return {
+        name: `${cleaned} (Repubblica di Polonia)`,
+        adminTitle: 'Rzeczpospolita Polska',
+        note: step >= 19
+          ? 'Settembre 1947: territorio della Repubblica di Polonia entro i confini sull\'Oder-Neisse.'
+          : 'Settembre 1945: territorio della Repubblica di Polonia liberato dall\'occupazione nazista.',
+      };
+    }
     if (step < 5) {
       return {
         name: cleaned,
@@ -10972,10 +11031,45 @@ export const CHINA_PROVINCES_CATALOG: ChinaProvDef[] = [
     id: 'CHN_XINJIANG',
     name: 'Xinjiang (Sinkiang — Dihua / Ürümqi)',
     keys: ['xinjiang', 'sinkiang', 'dihua', 'urumqi', 'sheng_shicai', 'chn_xinjiang'],
-    dynamicName: (s: number) => "Xinjiang Sheng (Dihua / Ürümqi)",
-    dynamicAdminTitle: (s: number) => "Xinjiang Duban Gongshu (Sheng Shicai — Allineato all'URSS)",
+    dynamicName: (s: number) =>
+      s >= 16
+        ? 'Xinjiang Nazionalista (Dihua / Ürümqi & Bacino del Tarim)'
+        : s >= 14
+        ? 'Xinjiang Sheng (Dihua / Ürümqi — Transizione al Governo KMT)'
+        : 'Xinjiang Sheng (Dihua / Ürümqi)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 14
+        ? 'Zhōnghuá Mínguó — Governo Provinciale dello Xinjiang (Wu Zhongxin / Zhang Zhizhong)'
+        : "Xinjiang Duban Gongshu (Sheng Shicai — Allineato all'URSS)",
     dynamicNote: (s: number) =>
-      "Vasto territorio del Turkestan orientale governato con pugno di ferro dal signore della guerra Sheng Shicai sotto stretta protezione e influenza politica e militare dell'Unione Sovietica.",
+      s >= 16
+        ? "Territorio dello Xinjiang centro-meridionale (Dihua/Ürümqi, Turpan, Hami e Bacino del Tarim) controllato dalle forze nazionaliste del KMT (Gen. Song Xilian) lungo il fronte del fiume Manas contro la Seconda Repubblica del Turkestan Orientale nei Tre Distretti."
+        : s >= 14
+        ? "Dopo la rottura di Sheng Shicai con l'URSS e la sua rimozione nell'agosto 1944 da parte di Chiang Kai-shek, Nanchino assume il controllo diretto di Dihua e del Bacino del Tarim (Gov. Wu Zhongxin)."
+        : "Vasto territorio del Turkestan orientale governato con pugno di ferro dal signore della guerra Sheng Shicai sotto stretta protezione e influenza politica e militare dell'Unione Sovietica.",
+  },
+  {
+    id: 'CHN_XINJIANG_ETR',
+    name: 'Tre Distretti del Nord-Ovest (Ili, Tarbagatay & Altay — Ghulja)',
+    keys: ['chn_xinjiang_etr', 'ili', 'ghulja', 'yining', 'tarbagatay', 'tacheng', 'altay', 'seconda_repubblica_del_turkestan_orientale'],
+    dynamicName: (s: number) =>
+      s >= 16
+        ? 'Seconda Repubblica del Turkestan Orientale (Ili, Tarbagatay & Altay — Ghulja)'
+        : s >= 14
+        ? 'Tre Distretti dell\'Ili (Dipartimento Nord-Occidentale dello Xinjiang — Pre-Rivolta)'
+        : 'Xinjiang Nord-Occidentale (Ili, Tarbagatay & Altay — Sheng Shicai)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 16
+        ? 'Shärqiy Türkistan Jumhuriyiti — Seconda Repubblica del Turkestan Orientale (Alikhan Töre / Ghulja)'
+        : s >= 14
+        ? 'Zhōnghuá Mínguó — Distretti Nord-Occidentali dello Xinjiang (Ili / Tarbagatay / Altay)'
+        : "Xinjiang Duban Gongshu (Sheng Shicai — Allineato all'URSS)",
+    dynamicNote: (s: number) =>
+      s >= 16
+        ? "12 novembre 1944: la Rivoluzione dei Tre Distretti (Ili, Tarbagatay e Altay) guidata da Alikhan Töre ed Ehmetjan Qasimi proclama a Ghulja (Yining) la Seconda Repubblica del Turkestan Orientale, Stato secessionista filo-sovietico indipendente da Nanchino."
+        : s >= 14
+        ? "Distretti kazako-uiguri dell'Ili, di Tarbagatay (Tacheng) e dell'Altay sotto crescente tensione anti-KMT e insurrezione partigiana a Nilka prima del 12 novembre 1944."
+        : "Settore nord-occidentale dello Xinjiang (bacino dell'Ili, Tarbagatay e Altai) saldamente collegato all'Asia Centrale sovietica sotto Sheng Shicai.",
   },
   {
     id: 'CHN_TIBET',
@@ -17688,8 +17782,8 @@ export function getExtendedToponym(
     if (normKey.includes('lwow') || normKey.includes('lviv') || normKey.includes('drohob')) return { name: 'Lvov', adminTitle: 'Lvovskaya oblast (USSR)' };
   }
 
-  // 4. Specifiche per Reich Tedesco (GER)
-  if (owner === 'GER') {
+  // 4. Specifiche per Reich Tedesco (GER — mai applicabili nel dopoguerra s >= 18)
+  if (owner === 'GER' && yearStep < 18) {
     // A. Territori austriaci (Ostmark / Reichsgaue alpini e danubiani)
     if (id.startsWith('AT')) {
       if (id === 'AT13' || normKey.includes('wien') || normKey.includes('vienna')) return { name: 'Wien', adminTitle: 'Reichsgau Wien' };

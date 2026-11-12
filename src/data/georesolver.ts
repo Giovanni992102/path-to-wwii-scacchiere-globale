@@ -1671,33 +1671,33 @@ export function resolveJanMayen(s: number, rawName?: string): ResolvedTerritory 
 }
 
 /**
- * Risoluzione Geostorica e Toponomastica Dinamica dell'Islanda (1936-1943+)
+ * Risoluzione Geostorica e Toponomastica Dinamica dell'Islanda (1936-1947)
  *
  * Step 0-5 (Gennaio 1936 - Settembre 1939):
  *   Regno d'Islanda (Konungsríkið Ísland), stato sovrano e indipendente dall'Atto di Unione del 1° dicembre 1918
- *   in unione personale con la Corona di Danimarca sotto re Cristiano X (Kristján X).
- *   Sede del parlamento millenario dell'Alþingi a Reykjavík, governo di coalizione progressista di Hermann Jónasson,
- *   politica costituzionale di neutralità perpetua e disarmata (ævarandi hlutleysi). Solo guardia costiera civile (Landhelgisgæslan).
- *   (ICE, Neutrale).
+ *   in unione personale con la Corona di Danimarca sotto re Cristiano X (Kristján X). (ICE, Neutrale).
  *
  * Step 6-8 (Giugno 1940 - Aprile 1941):
- *   Invasione tedesca della Danimarca (9 aprile 1940) -> l'Alþingi assume temporaneamente il potere esecutivo reale (10 aprile).
- *   Il 10 maggio 1940 Winston Churchill sferra l'Operazione Fork (Aðgerðin Fork): la Royal Navy e i Royal Marines (Force Sturges)
- *   sbarcano a sorpresa a Reykjavík per prevenire l'occupazione tedesca e blindare il varco GIUK.
- *   L'Alþingi protesta formalmente ma coopera de facto considerando gli Alleati "ospiti" (gestir).
- *   Arrivo della 49th (West Riding) Infantry Division ("The Polar Bears", Magg. Gen. Henry Curtis); costruzione della base navale
- *   "Falcon" a Hvalfjörður (ancoraggio protetto flotta) e degli aeroporti di Reykjavík e Kaldaðarnes.
- *   (UK, Alleati).
+ *   Operazione Fork (10 maggio 1940): occupazione preventiva britannica (Force Sturges / 49th Division) e Base Falcon a Hvalfjörður. (UK, Alleati).
  *
- * Step 9-12 (Dicembre 1941 - Luglio 1943+):
- *   Il 7 luglio 1941 gli Stati Uniti assumono la difesa militare dell'Islanda su accordo bilaterale Roosevelt-Jónasson (Operazione Indigo),
- *   schierando la 1st Provisional Marine Brigade (Brig. Gen. John Marston) e la Task Force 19 dell'US Navy cinque mesi prima di Pearl Harbor.
- *   Il 17 giugno 1941 l'Alþingi nomina Sveinn Björnsson Reggente d'Islanda (Ríkisstjóri Íslands).
- *   L'esercito statunitense subentra al comando con l'Iceland Base Command (Magg. Gen. Charles H. Bonesteel Jr.); l'USAAF costruisce il grande
- *   aeroporto di Meeks Field a Keflavík (futuro aeroporto internazionale e snodo dei bombardieri transatlantici) e Patterson Field;
- *   l'US Navy attiva la base navale Cacapon a Hvalfjörður come perno della scorta dei convogli atlantici e artici (serie PQ e QP per Murmansk).
- *   L'imponente afflusso di risorse edili ed economiche trasforma radicalmente l'isola, battezzando l'era come "Blessað stríðið" (La Benedetta Guerra).
- *   (USA, Alleati).
+ * Step 9-13 (Dicembre 1941 - Settembre 1943):
+ *   Operazione Indigo (7 luglio 1941): presidio difensivo USA (Task Force 19/24, NOB Cacapon a Hvalfjörður, Meeks Field a Keflavík),
+ *   Reggenza di Sveinn Björnsson e boom "Blessað stríðið". (USA, Alleati).
+ *
+ * Step 14 (Giugno 1944):
+ *   Dopo il plebiscito del 20–23 maggio 1944 (oltre 97% per la Repubblica) l'Alþingi prepara la proclamazione del 17 giugno a Þingvellir,
+ *   mentre il dispositivo aeronavale USA copre il varco GIUK e le rotte atlantiche durante Overlord. (USA, Alleati).
+ *
+ * Step 15-17 (Agosto 1944 - Aprile 1945):
+ *   Proclamata il 17 giugno 1944 la Repubblica d'Islanda (Lýðveldið Ísland — Presidente Sveinn Björnsson), stato sovrano neutrale
+ *   che non dichiara guerra all'Asse pur ospitando fino alla fine delle ostilità il presidio difensivo provvisorio USA a Keflavík/Hvalfjörður. (ICE, Neutrale).
+ *
+ * Step 18 (Settembre 1945):
+ *   Fine della WWII: smobilitazione progressiva della base navale di Hvalfjörður e rifiuto islandese alla richiesta USA di basi permanenti novantanovennali. (ICE, Neutrale).
+ *
+ * Step 19 (Settembre 1947):
+ *   Accordo di Keflavík (7 ottobre 1946): ritiro integrale del personale militare USA completato entro aprile 1947 e passaggio dell'aeroporto
+ *   di Keflavík all'amministrazione civile islandese (assistenza tecnica AOA); ingresso all'ONU (novembre 1946) e modernizzazione postbellica. (ICE, Neutrale).
  */
 export function resolveIceland(s: number, nid?: string, rawName?: string): ResolvedTerritory {
   const normNid = String(nid || '').trim().toUpperCase();
@@ -1745,22 +1745,102 @@ export function resolveIceland(s: number, nid?: string, rawName?: string): Resol
     );
   }
 
-  // FASE 3: Step 9-12 (Dicembre 1941 - Luglio 1943+) -> Presidio e Difesa USA, Meeks Field Keflavík, Reggenza Sveinn Björnsson e Blessað stríðið
-  if (isRural) {
+  // FASE 3: Step 9-13 (Dicembre 1941 - Settembre 1943) -> Presidio e Difesa USA, Meeks Field Keflavík, Reggenza Sveinn Björnsson e Blessað stríðið
+  if (s <= 13) {
+    if (isRural) {
+      return makeResult(
+        'USA',
+        'Landsbyggð (Basi Aeronavali USA — Meeks Field / Keflavík & Base Navale Cacapon a Hvalfjörður)',
+        'Il genio militare e le forze aeronavali statunitensi trasformano l\'Islanda rurale nel perno strategico della Battaglia dell\'Atlantico: l\'US Army Air Forces edifica l\'immenso complesso di Meeks Field e Patterson Field nella penisola di Reykjanes (la futura Keflavík, dotata di piste in calcestruzzo per i bombardieri B-24 Liberator a lungo raggio e i caccia P-38 Lightning), mentre l\'US Navy gestisce la Naval Operating Base "Cacapon" a Hvalfjörður con la Task Force 24 dell\'ammiraglio Bristol. Da Hvalfjörður salpano e si riorganizzano le scorte per i leggendari convogli artici (serie PQ e QP) diretti ai porti sovietici di Murmansk e Arcangelo, mentre gli idrovolanti PBY Catalina chiudono il famigerato "Mid-Atlantic Gap" sterminando gli U-Boot tedeschi.',
+        'Alleati',
+        'United States Navy Task Force 24 & USAAF Meeks Field (Keflavík / Hvalfjörður)'
+      );
+    }
     return makeResult(
       'USA',
-      'Landsbyggð (Basi Aeronavali USA — Meeks Field / Keflavík & Base Navale Cacapon a Hvalfjörður)',
-      'Il genio militare e le forze aeronavali statunitensi trasformano l\'Islanda rurale nel perno strategico della Battaglia dell\'Atlantico: l\'US Army Air Forces edifica l\'immenso complesso di Meeks Field e Patterson Field nella penisola di Reykjanes (la futura Keflavík, dotata di piste in calcestruzzo per i bombardieri B-24 Liberator a lungo raggio e i caccia P-38 Lightning), mentre l\'US Navy gestisce la Naval Operating Base "Cacapon" a Hvalfjörður con la Task Force 24 dell\'ammiraglio Bristol. Da Hvalfjörður salpano e si riorganizzano le scorte per i leggendari convogli artici (serie PQ e QP) diretti ai porti sovietici di Murmansk e Arcangelo, mentre gli idrovolanti PBY Catalina chiudono il famigerato "Mid-Atlantic Gap" sterminando gli U-Boot tedeschi.',
+      isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Presidio e Basi USA / Reggenza Sveinn Björnsson)' : 'Islanda (Protezione Militare USA — Operazione Indigo & Reggenza Sveinn Björnsson)',
+      'Il 7 luglio 1941, in base allo storico accordo di difesa negoziato dal premier Hermann Jónasson con il presidente Franklin D. Roosevelt, gli Stati Uniti assumono la difesa militare dell\'Islanda (Operazione Indigo) cinque mesi prima di Pearl Harbor. La 1st Provisional Marine Brigade del brigadiere generale John Marston sbarca a Reykjavík rilevando i contingenti britannici, seguita dalle divisioni dell\'US Army inquadrate nell\'Iceland Base Command sotto il Magg. Gen. Charles H. Bonesteel Jr. Sul piano costituzionale, il 17 giugno 1941 l\'Alþingi elegge all\'unanimità Sveinn Björnsson quale Reggente d\'Islanda (Ríkisstjóri Íslands), sancendo la separazione de facto dalla Danimarca occupata. L\'imponente flusso di dollari, le opere pubbliche, la costruzione di strade, ospedali e caserme azzerano la disoccupazione e portano una prosperità economica senza precedenti, tanto che la popolazione ribattezza quegli anni come "Blessað stríðið" (La Benedetta Guerra).',
       'Alleati',
-      'United States Navy Task Force 24 & USAAF Meeks Field (Keflavík / Hvalfjörður)'
+      'United States Army & Navy Iceland Base Command (Maj. Gen. Charles H. Bonesteel Jr. / Reggenza Sveinn Björnsson)'
+    );
+  }
+
+  // FASE 4: Step 14 (Giugno 1944 — Overlord & Referendum Costituzionale del 20–23 Maggio alla vigilia della Repubblica)
+  if (s === 14) {
+    if (isRural) {
+      return makeResult(
+        'USA',
+        'Landsbyggð (Meeks Field Keflavík & Hvalfjörður — Supporto a Overlord / Pre-Repubblica)',
+        'Giugno 1944: mentre gli idrovolanti e i B-24 statunitensi di Meeks Field (Keflavík) e la Task Force 24 a Hvalfjörður garantiscono la sicurezza meteo e antisommergibile nel Nord Atlantico durante lo sbarco in Normandia (Overlord), nei distretti rurali il plebiscito del 20–23 maggio ha appena approvato a stragrande maggioranza (97,3%) la rescissione dell\'unione con la Danimarca.',
+        'Alleati',
+        'United States Iceland Base Command — Keflavík / Hvalfjörður (Reggenza Sveinn Björnsson)'
+      );
+    }
+    return makeResult(
+      'USA',
+      isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Vigilia della Repubblica & Difesa USA / Overlord)' : 'Islanda (Vigilia Proclamazione Repubblica — Difesa USA)',
+      '6 giugno 1944: a pochi giorni dal plebiscito costituzionale del 20–23 maggio (affluenza al 98,5%, oltre il 97% favorevole alla Repubblica), Reykjavík e l\'Alþingi preparano la solenne proclamazione dell\'indipendenza a Þingvellir (17 giugno 1944) sotto la guida del Reggente Sveinn Björnsson, mentre la guarnigione statunitense dell\'Iceland Base Command coordina le rotte aeree e i convogli atlantici di Overlord.',
+      'Alleati',
+      'Iceland Base Command (USA) & Reggenza Sveinn Björnsson — Transizione Costituzionale'
+    );
+  }
+
+  // FASE 5: Step 15-17 (Agosto 1944 - Aprile 1945) -> Repubblica d'Islanda (Lýðveldið Ísland) Sovrana Neutrale con Presidio Difensivo USA Provvisorio
+  if (s <= 17) {
+    if (isRural) {
+      return makeResult(
+        'ICE',
+        'Landsbyggð (Lýðveldið Ísland — Base Aeronavale Provvisoria USA a Keflavík / Hvalfjörður)',
+        'Dopo la proclamazione della Repubblica d\'Islanda (17 giugno 1944), i fiordi di Hvalfjörður e la penisola di Reykjanes con Meeks Field (Keflavík) tornano sotto piena sovranità giuridica islandese pur continuando a ospitare i contingenti aerei e di scorta USA fino alla fine della guerra in Europa in base all\'accordo difensivo provvisorio del 1941.',
+        'Neutrale',
+        'Lýðveldið Ísland — Sovranità Repubblicana · Concessione Bellica Provvisoria USA (Keflavík / Hvalfjörður)'
+      );
+    }
+    return makeResult(
+      'ICE',
+      isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Repubblica d\'Islanda / Lýðveldið Ísland)' : 'Repubblica d\'Islanda (Lýðveldið Ísland)',
+      'Il 17 giugno 1944 nella piana storica di Þingvellir è proclamata la Repubblica d\'Islanda (Lýðveldið Ísland), rompendo l\'unione personale con la Danimarca ed eleggendo Sveinn Björnsson 1° Presidente della Repubblica (governo di coalizione di Ólafur Thors dall\'ottobre 1944). Pur rimanendo formalmente neutrale senza dichiarare guerra all\'Asse, la nuova Repubblica mantiene fino alla resa tedesca la presenza difensiva provvisoria delle forze statunitensi a Keflavík e Reykjavík.',
+      'Neutrale',
+      'Lýðveldið Ísland — 1° Presidente Sveinn Björnsson · PM Ólafur Thors'
+    );
+  }
+
+  // FASE 6: Step 18 (Settembre 1945) -> Fine della WWII, Smobilitazione Basi di Hvalfjörður & Rifiuto Basi Permanenti
+  if (s === 18) {
+    if (isRural) {
+      return makeResult(
+        'ICE',
+        'Landsbyggð (Lýðveldið Ísland — Smobilitazione di Hvalfjörður & Negoziato su Keflavík)',
+        'Settembre 1945: conclusa la Seconda Guerra Mondiale, la base navale USA di Hvalfjörður (NOB Cacapon) viene progressivamente smobilitata e restituita alle autorità islandesi. Nelle campagne e nei porti pescherecci il governo investe i surplus accumulati durante "Blessað stríðið" nel rinnovo della flotta da pesca (Nýsköpun) mentre l\'Alþingi respinge le prime pressioni americane per affittare a lungo termine Meeks Field / Keflavík.',
+        'Neutrale',
+        'Lýðveldið Ísland — Distretti Rurali & Smilitarizzazione di Hvalfjörður (Settembre 1945)'
+      );
+    }
+    return makeResult(
+      'ICE',
+      isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Repubblica d\'Islanda / Fine Ostilità & Nýsköpun)' : 'Repubblica d\'Islanda (Lýðveldið Ísland — Dopoguerra 1945)',
+      'Settembre 1945: a guerra finita decade la clausola di difesa bellica dell\'accordo del 1941. A Reykjavík il governo "Nýsköpunarstjórn" di Ólafur Thors avvia la ricostruzione e lo smantellamento del dispositivo militare alleato, rifiutando nell\'autunno 1945 la richiesta statunitense di mantenere basi militari permanenti per 99 anni in difesa della piena neutralità e indipendenza repubblicana.',
+      'Neutrale',
+      'Lýðveldið Ísland — Presidente Sveinn Björnsson · PM Ólafur Thors (Nýsköpunarstjórn)'
+    );
+  }
+
+  // FASE 7: Step >= 19 (Settembre 1947) -> Accordo di Keflavík (7 Ott 1946), Ritiro Militare USA completato (Apr 1947), ONU & Alba della Guerra Fredda
+  if (isRural) {
+    return makeResult(
+      'ICE',
+      'Landsbyggð (Lýðveldið Ísland — Aeroporto Civile di Keflavík & Ricostruzione Peschereccia)',
+      'Settembre 1947: in esecuzione dello storico Accordo di Keflavík (Keflavíkursamningurinn del 7 ottobre 1946), l\'esercito statunitense ha completato nell\'aprile 1947 il ritiro di tutte le forze armate in uniforme dall\'Islanda, riconsegnando l\'immenso aeroporto di Keflavík (ex Meeks Field) alla sovranità civile islandese sotto gestione tecnica temporanea della compagnia civile American Overseas Airlines (AOA) per i voli transatlantici, mentre Hvalfjörður è interamente smilitarizzato e Akureyri e i fiordi guidano la modernizzazione della flotta peschereccia.',
+      'Neutrale',
+      'Lýðveldið Ísland — Sovranità Civile su Keflavík & Hvalfjörður Smilitarizzato (Accordo 1946–47)'
     );
   }
   return makeResult(
-    'USA',
-    isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Presidio e Basi USA / Reggenza Sveinn Björnsson)' : 'Islanda (Protezione Militare USA — Operazione Indigo & Reggenza Sveinn Björnsson)',
-    'Il 7 luglio 1941, in base allo storico accordo di difesa negoziato dal premier Hermann Jónasson con il presidente Franklin D. Roosevelt, gli Stati Uniti assumono la difesa militare dell\'Islanda (Operazione Indigo) cinque mesi prima di Pearl Harbor. La 1st Provisional Marine Brigade del brigadiere generale John Marston sbarca a Reykjavík rilevando i contingenti britannici, seguita dalle divisioni dell\'US Army inquadrate nell\'Iceland Base Command sotto il Magg. Gen. Charles H. Bonesteel Jr. Sul piano costituzionale, il 17 giugno 1941 l\'Alþingi elegge all\'unanimità Sveinn Björnsson quale Reggente d\'Islanda (Ríkisstjóri Íslands), sancendo la separazione de facto dalla Danimarca occupata. L\'imponente flusso di dollari, le opere pubbliche, la costruzione di strade, ospedali e caserme azzerano la disoccupazione e portano una prosperità economica senza precedenti, tanto che la popolazione ribattezza quegli anni come "Blessað stríðið" (La Benedetta Guerra).',
-    'Alleati',
-    'United States Army & Navy Iceland Base Command (Maj. Gen. Charles H. Bonesteel Jr. / Reggenza Sveinn Björnsson)'
+    'ICE',
+    isReykjavik ? 'Höfuðborgarsvæði (Reykjavík — Repubblica d\'Islanda Sovrana / Membro ONU)' : 'Repubblica d\'Islanda (Lýðveldið Ísland — Sovranità Postbellica 1947)',
+    'Settembre 1947: la Repubblica d\'Islanda (Lýðveldið Ísland), ammessa alle Nazioni Unite dal novembre 1946 e priva di guarnigioni militari straniere dopo il completamento del ritiro americano nell\'aprile 1947 (Accordo di Keflavík), è governata dalla coalizione di Stefán Jóhann Stefánsson sotto la presidenza di Sveinn Björnsson. Reykjavík mantiene lo status di repubblica sovrana disarmata e neutrale pur entrando nei negoziati economici del Piano Marshall (ERP) nell\'estate 1947 alla vigilia della polarizzazione della Guerra Fredda.',
+    'Neutrale',
+    'Lýðveldið Ísland — Presidente Sveinn Björnsson · PM Stefán Jóhann Stefánsson (1947)'
   );
 }
 
@@ -1981,13 +2061,21 @@ export function resolveChinaProvince(
           'Alleati',
           'Zhōnghuá Mínguó — Táiwān Shěng (Wei Tao-ming)'
         );
+      case 'CHN_XINJIANG_ETR':
+        return makeResult(
+          'ETR',
+          'Seconda Repubblica del Turkestan Orientale (Ili, Tarbagatay & Altay — Ghulja)',
+          'Settembre 1947: fallito il governo di coalizione di Ürümqi con l\'insediamento del governatore KMT Masud Sabri (maggio-agosto 1947), la delegazione di Ehmetjan Qasimi rientra a Ghulja. I tre distretti nord-occidentali (Ili, Tarbagatay e Altay) restano uno Stato secessionista filo-sovietico di fatto indipendente da Nanchino dietro il fronte del fiume Manas fino al 1949.',
+          'Comintern',
+          'Shärqiy Türkistan Jumhuriyiti — Consiglio dei Tre Distretti (Ehmetjan Qasimi · Ghulja)'
+        );
       case 'CHN_XINJIANG':
         return makeResult(
           'CHI',
-          'Xinjiang / Ürümqi (Crisi della Coalizione & Seconda Repubblica del Turkestan Orientale)',
-          'Settembre 1947: nello Xinjiang convive la precaria autorità nazionalista a Ürümqi con la Seconda Repubblica del Turkestan Orientale nei tre distretti dell\'Ili guidata da Ehmetjan Qasim.',
+          'Xinjiang / Ürümqi & Bacino del Tarim (Governo Nazionalista KMT)',
+          'Settembre 1947: il Governo Nazionalista (KMT di Masud Sabri e Gen. Song Xilian) controlla Dihua/Ürümqi, Hami, Turpan e il Bacino del Tarim lungo il fronte del fiume Manas dopo la rottura della coalizione con la Seconda Repubblica del Turkestan Orientale di Ehmetjan Qasim nei Tre Distretti.',
           'Alleati',
-          'Repubblica di Cina — Provincia dello Xinjiang / Ili (Ehmetjan Qasim)'
+          'Repubblica di Cina — Provincia dello Xinjiang (Ürümqi / KMT — Masud Sabri)'
         );
       case 'CHN_TIBET':
         return makeResult('TIB', 'Bod (Tibet — Lhasa)', 'Stato teocratico tibetano de facto indipendente sotto il Kashag di Lhasa.', 'Neutrale', 'Kashag — Bod (Lhasa)');
@@ -2008,6 +2096,24 @@ export function resolveChinaProvince(
 
   // Step 18 (Settembre 1945): Capitolazione Giapponese, Ritorno di Taiwan & Hong Kong, Unione Yan'an-KMT Pre-Conflitto
   if (s === 18) {
+    if (nid === 'CHN_XINJIANG_ETR') {
+      return makeResult(
+        'ETR',
+        'Seconda Repubblica del Turkestan Orientale (Tre Distretti: Ili, Tarbagatay & Altay)',
+        'Settembre 1945: l\'Esercito Nazionale del Turkestan Orientale completa la conquista dei Tre Distretti (Ili, Tarbagatay e Altay) attestandosi sulla riva del fiume Manas alle porte di Dihua (Ürümqi) sotto mediazione sovietica.',
+        'Comintern',
+        'Shärqiy Türkistan Jumhuriyiti — Alikhan Töre / Ehmetjan Qasimi (Ghulja)'
+      );
+    }
+    if (nid === 'CHN_XINJIANG') {
+      return makeResult(
+        'CHI',
+        'Xinjiang / Ürümqi & Bacino del Tarim (Presidio Nazionalista KMT)',
+        'Settembre 1945: il Governo Nazionalista di Zhang Zhizhong e Wu Zhongxin mantiene Dihua (Ürümqi), Hami e il Bacino del Tarim negoziando la tregua sul fiume Manas con i delegati della Seconda Repubblica del Turkestan Orientale.',
+        'Alleati',
+        'Zhōnghuá Mínguó — Provincia dello Xinjiang (Ürümqi)'
+      );
+    }
     if (nid === 'CHN_TIBET') return makeResult('TIB', 'Bod (Tibet — Lhasa)', 'Stato teocratico tibetano de facto indipendente.', 'Neutrale', 'Kashag — Bod (Lhasa)');
     if (nid === 'CHN_MACAU') return makeResult('POR', 'Macau Português', 'Provincia d\'oltremare portoghese neutrale.', 'Neutrale', 'República Portuguesa — Macau');
     if (nid === 'CHN_HONGKONG') {
@@ -2279,10 +2385,28 @@ export function resolveChinaProvince(
       faction = 'Alleati';
       break;
 
-    // 26. Xinjiang (Sheng Shicai / Allineato con l'URSS)
+    // 26. Xinjiang (Sheng Shicai -> KMT 1944) & Seconda Repubblica del Turkestan Orientale (Tre Distretti dal Nov 1944)
+    case 'CHN_XINJIANG_ETR':
+      if (s >= 16) {
+        owner = 'ETR';
+        faction = 'Comintern';
+      } else if (s >= 14) {
+        owner = 'CHI';
+        faction = 'Alleati';
+      } else {
+        owner = 'XIN';
+        faction = 'Comintern';
+      }
+      break;
+
     case 'CHN_XINJIANG':
-      owner = 'XIN';
-      faction = 'Comintern';
+      if (s >= 14) {
+        owner = 'CHI';
+        faction = 'Alleati';
+      } else {
+        owner = 'XIN';
+        faction = 'Comintern';
+      }
       break;
 
     // 27. Tibet (Kashag / 14° Dalai Lama / Reting Rinpoche)
@@ -7502,6 +7626,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm.includes('guiana francese');
 
   if (isGuiana) {
+    if (s >= 19) {
+      return makeResult(
+        'FRA',
+        'Guyane Française (Département d\'Outre-Mer — Quatrième République, Loi 1946)',
+        'Con la Loi de départementalisation del 19 marzo 1946, la Guyane Française cessa lo status coloniale e diviene ufficialmente Département d\'Outre-Mer (DOM 973) della Quarta Repubblica nell\'Union Française.',
+        'Alleati',
+        'Quatrième République (Union Française) — Département d\'Outre-Mer de la Guyane Française (Cayenne)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'FRA',
+        'Guyane française (GPRF — Smantellamento del Bagne de Cayenne, 1945)',
+        'Settembre 1945: sotto il Governo Provvisorio della Repubblica Francese (GPRF), si avvia la soppressione definitiva dell\'antico bagno penale della Guyana verso lo status di dipartimento d\'oltremare.',
+        'Alleati',
+        'Gouvernement Provisoire de la République Française (GPRF) — Guyane française'
+      );
+    }
     if (s >= 12) {
       return makeResult(
         'FRA',
@@ -10221,6 +10363,12 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           undefined,
           top.adminTitle || 'Troisième République française'
         );
+      }
+
+      // Step >= 9: Risoluzione geostorica granulare per tutti i 96 dipartimenti metropolitani + 5 DOM-TOM (1941–1947)
+      if (s >= 9) {
+        const frExt = resolveFranceProvince(nid || ft.id || rawName, s, rawName);
+        if (frExt) return frExt;
       }
 
       // Step >= 6: Giugno 1940 (Post-Armistizio del 22 giugno 1940)

@@ -685,6 +685,16 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
     ),
 
+  // SECONDA REPUBBLICA DEL TURKESTAN ORIENTALE (1944-1949) — Mezzaluna e stella bianca su campo verde
+  ETR: () =>
+    svgWrap(
+      `<defs><mask id="etrCrescent"><rect width="600" height="400" fill="black"/><circle cx="240" cy="200" r="100" fill="white"/><circle cx="265" cy="200" r="80" fill="black"/></mask></defs>` +
+        `<rect width="600" height="400" fill="#0d7a3e"/>` +
+        `<rect width="600" height="400" fill="#ffffff" mask="url(#etrCrescent)"/>` +
+        `<polygon points="365,155 376,188 411,188 383,209 393,242 365,222 337,242 347,209 319,188 354,188" fill="#ffffff"/>`,
+      '0 0 600 400'
+    ),
+
 
 
   // SECONDA REPUBBLICA SPAGNOLA (1931-1939) — Bandiera ufficiale tricolore con stemma murario

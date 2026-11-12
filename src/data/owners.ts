@@ -88,9 +88,18 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'FRA',
     c: '#4c6a9c',
     f: 'Alleati',
-    l: (s) => (s >= 14 ? 'Governo Provvisorio della Repubblica Francese (GPRF — De Gaulle)' : s >= 12 ? 'Comitato Francese di Liberazione Nazionale (CFLN)' : s >= 6 ? 'Francia Libera (France Libre — De Gaulle)' : 'Repubblica Francese (Terza Repubblica)'),
+    l: (s) =>
+      s >= 19
+        ? 'Quatrième République Française (Vincent Auriol / Paul Ramadier)'
+        : s >= 14
+        ? 'Governo Provvisorio della Repubblica Francese (GPRF — De Gaulle)'
+        : s >= 12
+        ? 'Comitato Francese di Liberazione Nazionale (CFLN)'
+        : s >= 6
+        ? 'Francia Libera (France Libre — De Gaulle)'
+        : 'Repubblica Francese (Terza Repubblica)',
     shortName: 'Francia',
-    leader: 'Albert Lebrun / Paul Reynaud / Charles de Gaulle (GPRF)',
+    leader: 'Albert Lebrun / Paul Reynaud / Charles de Gaulle (GPRF) / Vincent Auriol & Paul Ramadier (IV Rep.)',
     capital: 'Parigi (in esilio: Algeri)',
     tier: 'sovereign',
     overlordCode: null,
@@ -198,6 +207,22 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     tier: 'autonomous',
     overlordCode: null,
     aliases: ['SINKIANG', 'XINJIANG'],
+    isSubject: false,
+  },
+  ETR: {
+    id: 'ETR',
+    c: '#267847',
+    f: 'Comintern',
+    l: (s) =>
+      s >= 19
+        ? 'Seconda Repubblica del Turkestan Orientale (Tre Distretti: Ili, Tarbagatay & Altay — Ehmetjan Qasimi)'
+        : 'Seconda Repubblica del Turkestan Orientale (Shärqiy Türkistan Jumhuriyiti — Ghulja)',
+    shortName: 'Turkestan Orientale (2ª ETR)',
+    leader: 'Alikhan Töre (1944–1946) · Ehmetjan Qasimi (1946–1949)',
+    capital: 'Ghulja (Yining)',
+    tier: 'autonomous',
+    overlordCode: null,
+    aliases: ['ETR', 'EAST_TURKESTAN', 'SECOND_ETR', 'TURKESTAN_ORIENTALE', 'THREE_DISTRICTS', 'ILI_REPUBLIC'],
     isSubject: false,
   },
 
@@ -1214,14 +1239,14 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'ICE',
     c: '#4a80b0',
     f: 'Neutrale',
-    l: (s) => (s >= 14 ? 'Repubblica d\'Islanda (Lýðveldið Ísland — Plebiscito e Proclamazione del 17 Giugno 1944)' : s >= 9 ? 'Regno d\'Islanda (Protezione Militare USA / Reggenza Sveinn Björnsson)' : s >= 6 ? 'Regno d\'Islanda (Occupazione Britannica / Operazione Fork)' : 'Regno d\'Islanda (Konungsríkið Ísland — Unione con la Danimarca)'),
+    l: (s) => (s >= 19 ? 'Repubblica d\'Islanda (Lýðveldið Ísland — Accordo di Keflavík & Ritiro Militare USA 1947)' : s >= 18 ? 'Repubblica d\'Islanda (Lýðveldið Ísland — Smilitarizzazione Postbellica)' : s >= 14 ? 'Repubblica d\'Islanda (Lýðveldið Ísland — Proclamazione del 17 Giugno 1944)' : s >= 9 ? 'Regno d\'Islanda (Protezione Militare USA / Reggenza Sveinn Björnsson)' : s >= 6 ? 'Regno d\'Islanda (Occupazione Britannica / Operazione Fork)' : 'Regno d\'Islanda (Konungsríkið Ísland — Unione con la Danimarca)'),
     shortName: 'Islanda',
-    leader: 'Re Cristiano X / Hermann Jónasson (1936-41) · Sveinn Björnsson (Reggente 1941-44, 1° Presidente dal 17 Giugno 1944)',
+    leader: 'Re Cristiano X / H. Jónasson (1936-41) · Pres. Sveinn Björnsson / PM Stefán J. Stefánsson (1947)',
     capital: 'Reykjavík',
-    tier: 'autonomous',
-    overlordCode: 'DEN',
+    tier: 'sovereign',
+    overlordCode: null,
     aliases: ['IS', 'ISL', 'ICE', 'ISLANDA', 'ICELAND', 'ISLAND'],
-    isSubject: true,
+    isSubject: false,
   },
   BEL: {
     id: 'BEL',
@@ -2721,6 +2746,55 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       tier: 'sovereign',
       isSubject: false,
       overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 18 && meta.id === 'POL') {
+    return {
+      ...meta,
+      l: () => _step >= 19
+        ? 'Repubblica di Polonia (Rzeczpospolita Polska — Confini Oder-Neisse)'
+        : 'Repubblica di Polonia (Governo Provvisorio di Unità Nazionale — TRJN)',
+      leader: _step >= 19
+        ? 'Bolesław Bierut · Józef Cyrankiewicz'
+        : 'Bolesław Bierut (KRN) · Edward Osóbka-Morawski (TRJN)',
+    };
+  }
+  if (_step !== undefined && _step >= 18 && meta.id === 'SLO') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica Cecoslovacca — Slovacchia Restaurata (Terza Repubblica)',
+      leader: 'Edvard Beneš · Klement Gottwald',
+      overlordCode: null,
+      isSubject: false,
+    };
+  }
+  if (_step !== undefined && _step >= 18 && meta.id === 'ROM') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => _step >= 19
+        ? 'Regno di Romania (Trattato di Pace di Parigi 1947 · Governo Petru Groza)'
+        : 'Regno di Romania (Re Michele I · Governo Petru Groza)',
+      leader: 'Re Michele I · P.M. Petru Groza',
+    };
+  }
+  if (_step !== undefined && _step >= 18 && meta.id === 'HUN') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => _step >= 19
+        ? 'Seconda Repubblica Ungherese (Trattato di Pace di Parigi 1947)'
+        : 'Ungheria (Governo Provvisorio Nazionale — Post-Armistizio 1945)',
+      leader: _step >= 19 ? 'Zoltán Tildy · Lajos Dinnyés' : 'Béla Miklós · Zoltán Tildy',
+    };
+  }
+  if (_step !== undefined && _step >= 18 && (meta.id === 'OZAV' || meta.id === 'OZAK' || meta.id === 'RSI' || meta.id === 'CRO' || meta.id === 'VIC' || meta.id === 'VIC_COL')) {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Territorio Liberato Post-1945 (Entità dell\'Asse Dissolta)',
+      leader: 'Amministrazione Civile / Alleata Postbellica',
     };
   }
   return meta;

@@ -8453,7 +8453,22 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
         return 'Černovickij Oblispolkom — RSS Ucraina (URSS) — Bucovina Settentrionale Liberata (Marzo 1944)';
       }
       if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
-        return 'Amministrazione Regionale Sovietica — RSS Ucraina (URSS) — Reichskommissariat Ukraine Cancellato';
+        return 'Amministrazione Regionale Sovietica — RSS Ucraina (URSS)';
+      }
+      if (
+        step >= 18 ||
+        ((SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid) ||
+          SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid) ||
+          SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid) ||
+          SOVIET_RKO_WEISSRUTHENIEN_IDS.has(pid)) &&
+          item.getOwner(step) === 'SOV' &&
+          pid !== 'SOV_ADM1_BLR_103_Minsk' &&
+          pid !== 'SOV_ADM1_RUS_16_Pskov_Oblast')
+      ) {
+        if (pid !== 'SOV_ADM1_BLR_101_Vitebsk' && pid !== 'SOV_ADM1_BLR_102_Mogilev' && !SOVIET_ROM_TRANSNISTRIA_IDS.has(pid) && !SOVIET_ROM_BUKOVINA_IDS.has(pid) && !SOVIET_FIN_EAST_KARELIA_IDS.has(pid) && pid !== 'SOV_ADM1_UKR_99_Sevastopol' && pid !== 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea' && pid !== 'SOV_ADM1_RUS_39_Krasnodar_Krai' && pid !== 'SOV_ADM1_UKR_195_Odessa_City' && pid !== 'SOV_ADM1_RUS_55_Tuva') {
+          const repLabel = pid.includes('_UKR_') ? 'RSS Ucraina (URSS)' : pid.includes('_BLR_') ? 'RSS Bielorussa (URSS)' : 'RSFSR (URSS)';
+          return `Amministrazione Regionale Sovietica — ${repLabel}`;
+        }
       }
       if (pid === 'SOV_ADM1_BLR_101_Vitebsk') {
         return '1° Fronte Baltico (Bagramjan) & 3° Bielorusso (Černjachovskij) — Vitebskij Oblispolkom BSSR (Sacca Distrutta il 27 Giugno 1944)';
@@ -8652,6 +8667,18 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
       }
       if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast' && step >= 15) {
         return 'Pskov (Liberata dal 3° Fronte Baltico — 23 Luglio 1944)';
+      }
+      if (
+        (step >= 18 ||
+          ((SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid) ||
+            SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid) ||
+            SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid) ||
+            SOVIET_RKO_WEISSRUTHENIEN_IDS.has(pid)) &&
+            item.getOwner(step) === 'SOV')) &&
+        pid !== 'SOV_ADM1_BLR_103_Minsk' &&
+        pid !== 'SOV_ADM1_RUS_16_Pskov_Oblast'
+      ) {
+        return `${item.capital} (${item.modernName} — ${step >= 19 ? 'URSS, Ricostruzione 1947' : 'URSS Liberata'})`;
       }
     }
     if (step >= 13) {
@@ -8854,6 +8881,20 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
           return 'Il 23 luglio 1944 le truppe del 3° Fronte Baltico dell\'Armata Rossa espugnano Pskov e Ostrov (Offensiva Pskov-Ostrov), infrangendo il caposaldo settentrionale della linea fortificata tedesca Panther e aprendo la via di liberazione per gli Stati Baltici.';
         }
         return 'Occupata dalla Wehrmacht dal luglio 1941; la fortezza di Pskov costituisce il pilastro settentrionale della Linea Panther a sbarramento delle direttrici verso gli Stati Baltici.';
+      }
+      if (
+        (step >= 18 ||
+          ((SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid) ||
+            SOVIET_GER_HEERESGEBIET_MITTE_IDS.has(pid) ||
+            SOVIET_GER_HEERESGEBIET_SUED_IDS.has(pid) ||
+            SOVIET_RKO_WEISSRUTHENIEN_IDS.has(pid)) &&
+            item.getOwner(step) === 'SOV')) &&
+        pid !== 'SOV_ADM1_BLR_103_Minsk' &&
+        pid !== 'SOV_ADM1_RUS_16_Pskov_Oblast'
+      ) {
+        return step >= 19
+          ? 'Settembre 1947: territorio sovietico interamente liberato, impegnato nella ricostruzione economica e industriale postbellica del Quarto Piano Quinquennale dell\'URSS.'
+          : 'Settembre 1945: territorio dell\'Unione Sovietica interamente liberato dalle forze naziste dopo il trionfo nella Grande Guerra Patriottica.';
       }
     }
     if (step >= 13) {

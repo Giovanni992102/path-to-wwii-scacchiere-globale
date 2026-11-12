@@ -13037,6 +13037,488 @@ export default function App() {
 
           if (!dekLine || !dekLine.activeSteps.includes(16) || !gvLine || !gvLine.activeSteps.includes(19)) return false;
 
+          return true;
+
+        },
+
+      },
+
+      {
+
+        name: '121. Approfondimento Storico Provincia per Provincia della Francia nelle Ultime Tappe (Steps 9–19: 96 Dipartimenti Metropolitani + 5 DOM-TOM + Guiana, Corsica, Overlord, Dragoon, Colmar/Tasche Atlantiche, GPRF 1945 & Quatrième République / Plan Monnet / Briga-Tenda 1947)',
+
+        run: () => {
+
+          // 1. Governo Quatrième République in owners.ts & continuità bandiera FRA 1947 senza anacronismi
+
+          if (!getOwnerMeta('FRA').l(19).includes('Quatrième République') || !getOwnerMeta('FRA').l(19).includes('Ramadier')) return false;
+
+          const flag19 = resolveHistoricalFlag('FRA', '1947-09-30');
+
+          if (!flag19 || flag19.asset?.file_name !== 'Flag_of_France.svg') return false;
+
+
+
+          // 2. Verifica su TUTTI i 96 dipartimenti NUTS-3 metropolitani nel GeoDB + assenza boilerplate unico
+
+          const frMetroProvs = loadedProvs.filter((f: any) => {
+
+            const fid = String(f.id || f.properties?.NUTS_ID || '');
+
+            return f.properties?.CNTR_CODE === 'FR' && fid.startsWith('FR') && fid !== 'FR_HIST_GUIANA' && !fid.startsWith('FRY');
+
+          });
+
+          if (frMetroProvs.length !== 96) return false;
+
+          const notes14 = new Set<string>();
+
+          const notes15 = new Set<string>();
+
+          const notes18 = new Set<string>();
+
+          const notes19 = new Set<string>();
+
+          for (const feat of frMetroProvs) {
+
+            const r14 = resolveFeature(feat, 14);
+
+            const r15 = resolveFeature(feat, 15);
+
+            const r18 = resolveFeature(feat, 18);
+
+            const r19 = resolveFeature(feat, 19);
+
+            if (!r14?.note || !r15?.note || !r18?.note || !r19?.note) return false;
+
+            if (r18.o !== 'FRA' || r18.fac !== 'Alleati' || !r18.adminEntity?.includes('GPRF')) return false;
+
+            if (r19.o !== 'FRA' || r19.fac !== 'Alleati' || !r19.adminEntity?.includes('Quatrième République')) return false;
+
+            if (r19.note === r18.note || r18.note === r15.note) return false;
+
+            notes14.add(r14.note);
+
+            notes15.add(r15.note);
+
+            notes18.add(r18.note);
+
+            notes19.add(r19.note);
+
+          }
+
+          if (notes14.size < 90 || notes15.size < 90 || notes18.size !== 96 || notes19.size !== 96) return false;
+
+
+
+          // 3. Fasi storiche mirate Steps 11–19 su dipartimenti chiave
+
+          // Step 11 (Nov 1942 Anton) & Step 13 (Set 1943 Achse & Liberazione Corsica)
+
+          const corsica13 = resolveFranceProvince('FRM01', 13);
+
+          const isere13 = resolveFranceProvince('FRK24', 13);
+
+          const nice13 = resolveFranceProvince('FRL03', 13);
+
+          if (!corsica13 || corsica13.o !== 'FRA' || !corsica13.note?.includes('Casabianca')) return false;
+
+          if (!isere13 || isere13.o !== 'GER' || !isere13.note?.includes('Vercors')) return false;
+
+          if (!nice13 || nice13.o !== 'GER' || !nice13.note?.includes('Brunner')) return false;
+
+
+
+          // Step 14 (Giu 1944 Overlord, USS Corsica, Maquis Vercors & Oradour-sur-Glane)
+
+          const calv14 = resolveFranceProvince('FRD11', 14);
+
+          const manc14 = resolveFranceProvince('FRD12', 14);
+
+          const corsica14 = resolveFranceProvince('FRM01', 14);
+
+          const oradour14 = resolveFranceProvince('FRI23', 14);
+
+          if (!calv14 || calv14.o !== 'UK' || !calv14.note?.includes('Bayeux')) return false;
+
+          if (!manc14 || manc14.o !== 'USA' || !manc14.note?.includes('Cherbourg')) return false;
+
+          if (!corsica14 || corsica14.o !== 'FRA' || !corsica14.note?.includes('USS Corsica')) return false;
+
+          if (!oradour14 || oradour14.o !== 'GER' || !oradour14.note?.includes('Oradour')) return false;
+
+
+
+          // Step 15 (Ago–Set 1944 Liberazione Parigi, Dragoon Marsiglia/Tolone, Sacche & Alsazia ancora tedesca)
+
+          const paris15 = resolveFranceProvince('FR101', 15);
+
+          const mars15 = resolveFranceProvince('FRL04', 15);
+
+          const toul15 = resolveFranceProvince('FRL05', 15);
+
+          const basRhin15 = resolveFranceProvince('FRF11', 15);
+
+          if (!paris15 || paris15.o !== 'FRA' || !paris15.note?.includes('Leclerc') || !paris15.note?.includes('Choltitz')) return false;
+
+          if (!mars15 || mars15.o !== 'FRA' || !mars15.note?.includes('Dragoon')) return false;
+
+          if (!toul15 || toul15.o !== 'FRA' || !toul15.note?.includes('Dragoon')) return false;
+
+          if (!basRhin15 || basRhin15.o !== 'GER' || basRhin15.fac !== 'Asse') return false;
+
+
+
+          // Step 16 (Dic 1944 Sacca di Colmar vs Strasburgo/Metz liberate) & Step 17 (Apr 1945 Colmar liberata vs Tasche Atlantiche)
+
+          const colmar16 = resolveFranceProvince('FRF12', 16);
+
+          const stras16 = resolveFranceProvince('FRF11', 16);
+
+          const colmar17 = resolveFranceProvince('FRF12', 17);
+
+          const lorient17 = resolveFranceProvince('FRH04', 17);
+
+          if (!colmar16 || colmar16.o !== 'GER' || !colmar16.name.includes('Colmar')) return false;
+
+          if (!stras16 || stras16.o !== 'FRA' || !stras16.note?.includes('Leclerc')) return false;
+
+          if (!colmar17 || colmar17.o !== 'FRA' || !colmar17.note?.includes('Colmar')) return false;
+
+          if (!lorient17 || lorient17.o !== 'GER' || !lorient17.name.includes('Festung Atlantica')) return false;
+
+
+
+          // Step 19 (Set 1947 Quatrième République: Trattato di Parigi Briga-Tenda & Loi de départementalisation 1946 DOM/Guiana)
+
+          const nice19 = resolveFranceProvince('FRL03', 19);
+
+          const guiana19 = resolveFranceProvince('FRY30', 19);
+
+          const guianaFeat19 = resolveFeature({ id: 'FR_HIST_GUIANA', properties: { CNTR_CODE: 'FR', NAME: 'French Guiana' } }, 19);
+
+          const mart19 = resolveFranceProvince('FRY20', 19);
+
+          if (!nice19 || !nice19.note?.includes('Briga') || !nice19.note?.includes('Tenda')) return false;
+
+          if (!guiana19 || guiana19.o !== 'FRA' || !guiana19.note?.includes('973') || !guiana19.adminEntity?.includes('Quatrième République')) return false;
+
+          if (!guianaFeat19 || guianaFeat19.o !== 'FRA' || !guianaFeat19.adminEntity?.includes('Quatrième République')) return false;
+
+          if (!mart19 || mart19.o !== 'FRA' || !mart19.note?.includes('972')) return false;
+
+
+
+          return true;
+
+        },
+
+      },
+
+      {
+
+        name: '122. Ripristino Integrale Timeline Islanda nelle Ultime Tappe (Steps 14–19: Referendum Maggio 1944, Proclamazione Repubblica 17 Giugno 1944, Smobilitazione Hvalfjörður 1945, Accordo di Keflavík & Ritiro Militare USA 1947, Bandiere Anti-Anacronismo & Zero Overlap)',
+
+        run: () => {
+
+          // 1. Verifica assenza di overlap GeoDB: esattamente IS001 + IS002 in loadedProvs
+
+          const isProvs = loadedProvs.filter((f: any) => f.properties?.CNTR_CODE === 'IS' || String(f.id || '').startsWith('IS00'));
+
+          if (isProvs.length !== 2) return false;
+
+
+
+          // 2. Step 14 (6 Giugno 1944): Overlord + Plebiscito del 20–23 maggio alla vigilia della Repubblica (ancora difesa USA)
+
+          const is14_1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, 14);
+
+          const is14_2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, 14);
+
+          if (is14_1.o !== 'USA' || is14_1.fac !== 'Alleati' || !is14_1.note?.includes('17 giugno 1944')) return false;
+
+          if (is14_2.o !== 'USA' || is14_2.fac !== 'Alleati' || !is14_2.note?.includes('Overlord')) return false;
+
+
+
+          // 3. Steps 15–17 (Ago 1944 – Apr 1945): Repubblica d'Islanda (Lýðveldið Ísland — 17 Giugno 1944) sovrana neutrale
+
+          for (const step of [15, 16, 17]) {
+
+            const r1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, step);
+
+            const r2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, step);
+
+            const rHb = resolveHB({ properties: { NAME: 'Iceland' } }, step);
+
+            if (r1.o !== 'ICE' || r1.fac !== 'Neutrale' || !r1.name.includes('Repubblica d\'Islanda')) return false;
+
+            if (r2.o !== 'ICE' || r2.fac !== 'Neutrale' || !r2.name.includes('Lýðveldið Ísland')) return false;
+
+            if (rHb.o !== 'ICE' || rHb.fac !== 'Neutrale') return false;
+
+          }
+
+
+
+          // 4. Step 18 (Set 1945): Fine WWII, smobilitazione di Hvalfjörður & rifiuto basi permanenti
+
+          const is18_1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, 18);
+
+          const is18_2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, 18);
+
+          if (is18_1.o !== 'ICE' || is18_1.fac !== 'Neutrale' || !is18_1.note?.includes('99 anni')) return false;
+
+          if (is18_2.o !== 'ICE' || is18_2.fac !== 'Neutrale' || !is18_2.note?.includes('Hvalfjörður')) return false;
+
+
+
+          // 5. Step 19 (Set 1947): Accordo di Keflavík, ritiro integrale forze USA (aprile 1947), aeroporto civile & ONU (NON più USA!)
+
+          const is19_1 = resolveFeature({ properties: { NUTS_ID: 'IS001', CNTR_CODE: 'IS', NAME: 'Höfuðborgarsvæði' } }, 19);
+
+          const is19_2 = resolveFeature({ properties: { NUTS_ID: 'IS002', CNTR_CODE: 'IS', NAME: 'Landsbyggð' } }, 19);
+
+          const hb19 = resolveHB({ properties: { NAME: 'Iceland' } }, 19);
+
+          if (is19_1.o !== 'ICE' || is19_1.fac !== 'Neutrale' || !is19_1.note?.includes('Keflavík')) return false;
+
+          if (is19_2.o !== 'ICE' || is19_2.fac !== 'Neutrale' || !is19_2.note?.includes('Accordo di Keflavík')) return false;
+
+          if (hb19.o !== 'ICE' || hb19.fac !== 'Neutrale') return false;
+
+          if (!getOwnerMeta('ICE').l(19).includes('Accordo di Keflavík')) return false;
+
+
+
+          // 6. Base Navale Hvalfjörður smilitarizzata agli Steps 18–19
+
+          const hvalBase = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'hvalfjordur_base');
+
+          if (!hvalBase) return false;
+
+          if (getDynamicNavalBaseStatus(hvalBase, 18).fillColor !== '#b3c7d6') return false;
+
+          if (getDynamicNavalBaseStatus(hvalBase, 19).fillColor !== '#b3c7d6') return false;
+
+
+
+          // 7. Bandiere anti-anacronismo (Regno 1918–1944 vs Repubblica 1944+)
+
+          const fKingdom = resolveHistoricalFlag('ICE', '1936-01-01');
+
+          const fPreRep = resolveHistoricalFlag('ICE', '1944-06-06');
+
+          const fRep44 = resolveHistoricalFlag('ICE', '1944-08-25');
+
+          const fRep47 = resolveHistoricalFlag('ICE', '1947-09-30');
+
+          if (!fKingdom || fKingdom.entity_id !== 'ICE_KINGDOM') return false;
+
+          if (!fPreRep || fPreRep.entity_id !== 'ICE_KINGDOM') return false;
+
+          if (!fRep44 || fRep44.entity_id !== 'ICE_REP') return false;
+
+          if (!fRep47 || fRep47.entity_id !== 'ICE_REP') return false;
+
+
+
+          return true;
+
+        },
+
+      },
+
+      {
+
+        name: '123. Seconda Repubblica del Turkestan Orientale (1944–1949) & Spartizione Topologica dello Xinjiang (Tre Distretti Ili, Tarbagatay & Altay vs Dihua/Tarim)',
+
+        run: () => {
+
+          // 1. Verifica esistenza delle due feature distinte nel GeoDB senza duplicati
+
+          const xjAll = loadedProvs.filter((f: any) => f.id === 'CHN_XINJIANG' || f.id === 'CHN_XINJIANG_ETR');
+
+          if (xjAll.length !== 2) return false;
+
+
+
+          const fEtr = xjAll.find((f: any) => f.id === 'CHN_XINJIANG_ETR');
+
+          const fXin = xjAll.find((f: any) => f.id === 'CHN_XINJIANG');
+
+          if (!fEtr || !fXin) return false;
+
+
+
+          // 2. Steps 0-13: regime filo-sovietico unitario di Sheng Shicai (XIN / Comintern)
+
+          const etr0 = resolveFeature(fEtr, 0);
+
+          const xin0 = resolveFeature(fXin, 0);
+
+          if (etr0.o !== 'XIN' || etr0.fac !== 'Comintern') return false;
+
+          if (xin0.o !== 'XIN' || xin0.fac !== 'Comintern') return false;
+
+
+
+          // 3. Steps 14-15 (Giu-Ago 1944): transizione sotto governo KMT prima della rivolta del 12 nov 1944
+
+          const etr15 = resolveFeature(fEtr, 15);
+
+          const xin15 = resolveFeature(fXin, 15);
+
+          if (etr15.o !== 'CHI' || xin15.o !== 'CHI') return false;
+
+
+
+          // 4. Steps 16-18 (Dic 1944 - Set 1945): Rivolta dei Tre Distretti -> ETR vs Dihua/Tarim KMT
+
+          for (const step of [16, 17, 18]) {
+
+            const rEtr = resolveFeature(fEtr, step);
+
+            const rXin = resolveFeature(fXin, step);
+
+            if (rEtr.o !== 'ETR' || rEtr.fac !== 'Comintern' || !rEtr.name.includes('Turkestan Orientale')) return false;
+
+            if (rXin.o !== 'CHI' || rXin.fac !== 'Alleati') return false;
+
+          }
+
+
+
+          // 5. Step 19 (Settembre 1947): Tre Distretti (Ili, Tarbagatay, Altay) secessionisti filo-sovietici indipendenti da Nanchino
+
+          const etr19 = resolveFeature(fEtr, 19);
+
+          const xin19 = resolveFeature(fXin, 19);
+
+          if (etr19.o !== 'ETR' || etr19.fac !== 'Comintern') return false;
+
+          if (!etr19.note?.includes('Ili') || !etr19.note?.includes('Tarbagatay') || !etr19.note?.includes('Altay')) return false;
+
+          if (!etr19.note?.includes('Ehmetjan Qasimi')) return false;
+
+          if (xin19.o !== 'CHI' || xin19.fac !== 'Alleati' || !xin19.name.includes('Ürümqi')) return false;
+
+
+
+          // 6. Metadati & Bandiere anti-anacronismo 2ª ETR (mezzaluna e stella in campo verde)
+
+          if (!getOwnerMeta('ETR').l(19).includes('Seconda Repubblica del Turkestan Orientale')) return false;
+
+          const etrFlag19 = resolveHistoricalFlag('ETR', '1947-09-30');
+
+          const etrFlagPre = resolveHistoricalFlag('ETR', '1943-09-08');
+
+          if (!etrFlag19 || etrFlag19.entity_id !== 'SECOND_ETR' || etrFlag19.asset?.file_name !== 'Flag_of_the_Second_East_Turkestan_Republic.svg') return false;
+
+          if (etrFlagPre !== null) return false;
+
+          const svgEtr = getCountryFlagSvg('ETR', 19);
+
+          if (!svgEtr.includes('#0d7a3e') || !svgEtr.includes('etrCrescent')) return false;
+
+
+
+          return true;
+
+        },
+
+      },
+
+      {
+
+        name: '124. Rimozione Integrale Riferimenti al Terzo Reich, Wehrmacht & Occupazione Nazista nel Dopoguerra (Steps 18–19: Polonia, Danimarca, Norvegia, URSS, Cechia, Austria & Leader Postbellici)',
+
+        run: () => {
+
+          const REICH_POSTWAR_LEAK = /\b(general\s*gouvernement|distrikt\s+(?:warschau|krakau|radom|lublin|galizien)|reichsgau|wartheland|warthegau|danzig-westpreu(?:ß|ss)en|ostpreu(?:ß|ss)en|sudetengau|protektorat|böhmen\s+und\s+mähren|ostmark|reichskommissariat|heeresgebiet|cdz-gebiet|gauleiter|führer|adolf hitler|wehrmacht|oberkommando|militärbefehlshaber|militärverwaltung|gestapo|third reich|terzo reich|deutsches reich|großdeutsches|drittes reich|und lowitsch|litzmannstadt|gotenhafen|musterprotektorat|besat af|besatzung|operationsgebiet ost|kreishauptmannschaft)\b/i;
+
+
+
+          for (const step of [18, 19]) {
+
+            for (const f of loadedProvs) {
+
+              const r = resolveFeature(f, step);
+
+              const dyn = getExtendedToponym(f.properties?.NAME || f.properties?.NAME_LATN || f.properties?.NUTS_NAME || '', r.o, String(f.id || ''), (f as any).__cent, step);
+
+              const headerAndAdmin = [r.name, r.adminEntity, dyn?.name, dyn?.adminTitle].filter(Boolean).join(' || ');
+
+              if (REICH_POSTWAR_LEAK.test(headerAndAdmin)) return false;
+
+            }
+
+          }
+
+
+
+          // Verifiche mirate sui casi chiave (incluso PL715 dello screenshot utente)
+
+          const p715 = loadedProvs.find((f: any) => f.id === 'PL715');
+
+          const p22a = loadedProvs.find((f: any) => f.id === 'PL22A');
+
+          const d11 = loadedProvs.find((f: any) => f.id === 'DK011');
+
+          const n81 = loadedProvs.find((f: any) => f.id === 'NO081');
+
+          const bel19 = loadedProvs.find((f: any) => f.id === 'SOV_ADM1_RUS_28_Belgorod_Oblast');
+
+          const kyiv19 = loadedProvs.find((f: any) => f.id === 'SOV_ADM1_UKR_82_Kyiv_Oblast');
+
+          if (!p715 || !p22a || !d11 || !n81 || !bel19 || !kyiv19) return false;
+
+
+
+          const r715 = resolveFeature(p715, 19);
+
+          const dyn715 = getExtendedToponym(p715.properties?.NAME || p715.properties?.NUTS_NAME || 'Skierniewicki', r715.o, 'PL715', undefined, 19);
+
+          const r22a = resolveFeature(p22a, 19);
+
+          const rd11 = resolveFeature(d11, 19);
+
+          const rn81 = resolveFeature(n81, 19);
+
+          const rbel = resolveFeature(bel19, 19);
+
+          const rkyiv = resolveFeature(kyiv19, 19);
+
+
+
+          if (r715.o !== 'POL' || !dyn715.name.includes('Skierniewice') || !dyn715.name.includes('Polonia') || dyn715.adminTitle !== 'Rzeczpospolita Polska') return false;
+
+          if (r22a.o !== 'POL' || !r22a.name.includes('Katowic') || !r22a.name.includes('Polonia')) return false;
+
+          if (rd11.o !== 'DEN' || !rd11.name.includes('København')) return false;
+
+          if (rn81.o !== 'NOR' || !rn81.name.includes('Oslo')) return false;
+
+          if (rbel.o !== 'SOV' || !rbel.name.includes('Belgorod') || !rbel.adminEntity?.includes('RSFSR')) return false;
+
+          if (rkyiv.o !== 'SOV' || rkyiv.adminEntity?.includes('Reichskommissariat')) return false;
+
+
+
+          // Metadati leader e stati postbellici (niente Mościcki/Rydz-Śmigły o Großdeutsches Reich / Hitler nel 1945–1947)
+
+          const polMeta19 = getOwnerMeta('POL', 19);
+
+          const gerMeta19 = getOwnerMeta('GER', 19);
+
+          const sloMeta19 = getOwnerMeta('SLO', 19);
+
+          if (!polMeta19.leader?.includes('Bierut') || polMeta19.leader?.includes('Mościcki')) return false;
+
+          if (!gerMeta19.l(19).includes('Controllo Alleato') || gerMeta19.leader?.includes('Hitler')) return false;
+
+          if (sloMeta19.l(19).includes('Reich') || sloMeta19.leader?.includes('Tiso')) return false;
+
 
 
           return true;

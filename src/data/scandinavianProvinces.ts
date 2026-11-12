@@ -1172,6 +1172,86 @@ export function resolveScandinavianToponym(
 
   if (!def) return null;
 
+  // Post-WWII (Step >= 18): elimina ogni residuo di occupazione nazista/Wehrmacht in Danimarca e Norvegia
+  if (yearStep >= 18 && (def.country === 'DEN' || def.country === 'NOR')) {
+    const city = def.nativeName || def.capitalOrCenter || def.name.split(' (')[0];
+    return def.country === 'DEN'
+      ? {
+          name: `${city} (Danimarca Liberata — Kongeriget Danmark)`,
+          adminTitle: yearStep >= 19
+            ? 'Kongeriget Danmark (Kong Frederik IX — København)'
+            : 'Kongeriget Danmark (Kong Christian X — København)',
+          note: yearStep >= 19
+            ? 'Settembre 1947: territorio del Regno di Danimarca pienamente sovrano nel dopoguerra (ricostruzione e Piano Marshall).'
+            : 'Settembre 1945: Danimarca liberata dopo la capitolazione tedesca del 5 maggio 1945.',
+        }
+      : {
+          name: `${city} (Norvegia Liberata — Kongeriket Norge)`,
+          adminTitle: 'Kongeriket Norge (Kong Haakon VII — Oslo)',
+          note: yearStep >= 19
+            ? 'Settembre 1947: territorio del Regno di Norvegia sovrano nella ricostruzione postbellica (Governo Gerhardsen).'
+            : 'Settembre 1945: Norvegia liberata dopo la resa tedesca dell\'8 maggio 1945 e il ritorno di Re Haakon VII.',
+        };
+  }
+
+  // Evoluzione post-1943 dell'Islanda (Referendum maggio 1944, Repubblica 17 giugno 1944, Dopoguerra 1945 e Accordo di Keflavík 1946–47)
+  if (def.nuts === 'IS001' && yearStep >= 14) {
+    if (yearStep >= 19) {
+      return {
+        name: 'Höfuðborgarsvæði (Reykjavík — Repubblica d\'Islanda Sovrana / Membro ONU)',
+        adminTitle: 'Lýðveldið Ísland — Presidente Sveinn Björnsson · PM Stefán Jóhann Stefánsson (1947)',
+        note: 'Settembre 1947: capitale della Repubblica d\'Islanda, membro dell\'ONU dal novembre 1946; ritiro delle forze armate statunitensi completato nell\'aprile 1947 dopo l\'Accordo di Keflavík (7 ottobre 1946) e negoziati sul Piano Marshall.',
+      };
+    }
+    if (yearStep === 18) {
+      return {
+        name: 'Höfuðborgarsvæði (Reykjavík — Repubblica d\'Islanda / Fine Ostilità & Nýsköpun)',
+        adminTitle: 'Lýðveldið Ísland — Presidente Sveinn Björnsson · PM Ólafur Thors (Nýsköpunarstjórn)',
+        note: 'Settembre 1945: a guerra finita decade la clausola bellica del 1941; il governo islandese avvia la smilitarizzazione e respinge la richiesta statunitense di basi permanenti novantanovennali.',
+      };
+    }
+    if (yearStep >= 15) {
+      return {
+        name: 'Höfuðborgarsvæði (Reykjavík — Repubblica d\'Islanda / Lýðveldið Ísland)',
+        adminTitle: 'Lýðveldið Ísland — 1° Presidente Sveinn Björnsson · PM Ólafur Thors',
+        note: 'Proclamata il 17 giugno 1944 a Þingvellir la Repubblica d\'Islanda (Lýðveldið Ísland) con Sveinn Björnsson 1° Presidente: stato sovrano neutrale che mantiene fino alla vittoria in Europa l\'accordo difensivo provvisorio con gli Stati Uniti.',
+      };
+    }
+    return {
+      name: 'Höfuðborgarsvæði (Reykjavík — Vigilia della Repubblica & Difesa USA / Overlord)',
+      adminTitle: 'Iceland Base Command (USA) & Reggenza Sveinn Björnsson — Transizione Costituzionale',
+      note: '6 giugno 1944: dopo il plebiscito del 20–23 maggio (97,3% per la Repubblica) l\'Alþingi prepara la proclamazione del 17 giugno a Þingvellir mentre la guarnigione USA sostiene Overlord nel Nord Atlantico.',
+    };
+  }
+  if (def.nuts === 'IS002' && yearStep >= 14) {
+    if (yearStep >= 19) {
+      return {
+        name: 'Landsbyggð (Lýðveldið Ísland — Aeroporto Civile di Keflavík & Ricostruzione Peschereccia)',
+        adminTitle: 'Lýðveldið Ísland — Sovranità Civile su Keflavík & Hvalfjörður Smilitarizzato (Accordo 1946–47)',
+        note: 'Settembre 1947: in base all\'Accordo di Keflavík (7 ottobre 1946), il personale militare USA si è ritirato entro aprile 1947; Keflavík passa alla sovranità civile islandese (assistenza tecnica civile AOA) e Hvalfjörður è smilitarizzato.',
+      };
+    }
+    if (yearStep === 18) {
+      return {
+        name: 'Landsbyggð (Lýðveldið Ísland — Smobilitazione di Hvalfjörður & Negoziato su Keflavík)',
+        adminTitle: 'Lýðveldið Ísland — Distretti Rurali & Smilitarizzazione di Hvalfjörður (Settembre 1945)',
+        note: 'Settembre 1945: la base navale di Hvalfjörður (NOB Cacapon) è smobilitata dopo la vittoria alleata; i porti pescherecci si modernizzano mentre l\'Alþingi respinge concessioni militari a lungo termine su Meeks Field.',
+      };
+    }
+    if (yearStep >= 15) {
+      return {
+        name: 'Landsbyggð (Lýðveldið Ísland — Base Aeronavale Provvisoria USA a Keflavík / Hvalfjörður)',
+        adminTitle: 'Lýðveldið Ísland — Sovranità Repubblicana · Concessione Bellica Provvisoria USA',
+        note: 'Dopo la nascita della Repubblica (17 giugno 1944), Hvalfjörður e Keflavík rientrano nella piena sovranità islandese pur ospitando i reparti USA fino al termine della guerra in Europa.',
+      };
+    }
+    return {
+      name: 'Landsbyggð (Meeks Field Keflavík & Hvalfjörður — Supporto a Overlord / Pre-Repubblica)',
+      adminTitle: 'United States Iceland Base Command — Keflavík / Hvalfjörður (Reggenza Sveinn Björnsson)',
+      note: 'Giugno 1944: i bombardieri e i ricognitori di Meeks Field (Keflavík) e la Task Force 24 a Hvalfjörður proteggono il Nord Atlantico per Overlord all\'indomani del plebiscito repubblicano del 20–23 maggio.',
+    };
+  }
+
   // Gestione dinamica temporale phase 3 (step >= 9: dic 1941 - lug 1943+ USA in Islanda)
   if (def.phase3Step !== undefined && yearStep >= def.phase3Step && def.phase3Name) {
     return {
