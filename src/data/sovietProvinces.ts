@@ -15,6 +15,7 @@
  */
 
 import { ResolvedTerritory, FactionType } from '../types';
+import { getSovietPostwarData } from './sovietPostwar';
 
 function makeResult(
   o: string,
@@ -8430,6 +8431,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getAdminTitle = (step: number): string => {
     if (step < 9) return origGetAdmin(step);
+    if (step >= 18) {
+      return getSovietPostwarData(item.id, item, step, origGetAdmin(8)).adminTitle;
+    }
     if (step >= 14) {
       if (step >= 16 && pid === 'SOV_ADM1_RUS_55_Tuva') {
         return "Tuvinskaya Avtonomnaya Oblast' (RSFSR — Segretario Salčak Toka)";
@@ -8625,6 +8629,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getHistoricalName = (step: number): string => {
     if (step < 9) return origGetHistName(step);
+    if (step >= 18) {
+      return getSovietPostwarData(item.id, item, step, origGetAdmin(8)).historicalName;
+    }
     if (step >= 16 && pid === 'SOV_ADM1_RUS_55_Tuva') {
       return "Oblast' Autonoma di Tuva (RSFSR / URSS — Annessione 11 Ottobre 1944)";
     }
@@ -8848,6 +8855,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
 
   item.getNote = (step: number): string => {
     if (step < 9) return origGetNote(step);
+    if (step >= 18) {
+      return getSovietPostwarData(item.id, item, step, origGetAdmin(8)).note;
+    }
     if (step >= 14) {
       if (pid === 'SOV_ADM1_UKR_99_Sevastopol' || pid === 'SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea') {
         return 'La penisola di Crimea e la leggendaria fortezza di Sebastopoli sono state interamente liberate nel maggio 1944 dall\'offensiva congiunta del 4° Fronte Ucraino (gen. Tolbuchin) e dell\'Armata Costiera Indipendente: dopo l\'assalto al monte Sapun il 9 maggio è caduta Sebastopoli e il 12 maggio le ultime truppe dell\'Asse sono state annientate o catturate a Capo Chersoneso, con oltre 60.000 prigionieri.';

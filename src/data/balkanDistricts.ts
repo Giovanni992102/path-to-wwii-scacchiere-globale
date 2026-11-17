@@ -4484,6 +4484,22 @@ export function resolveBalkansToponym(
 
     // BULGARIA (BG)
     if (d.country === 'BG') {
+      if (step >= 20) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare di Bulgaria — Costituzione Dimitrov del 4 Dicembre 1947)`,
+          adminTitle: 'Narodna Republika Bălgariya — Costituzione Dimitrov (Primo Ministro Georgi Dimitrov)',
+          note: '4 Dicembre 1947: la Grande Assemblea Nazionale bulgara approva la "Costituzione Dimitrov" (modellata sulla Costituzione sovietica del 1936), istituzionalizzando la Repubblica Popolare di Bulgaria sotto la guida di Georgi Dimitrov e la nazionalizzazione dell\'industria e delle banche (23 dicembre 1947).',
+          owner: 'BUL',
+        };
+      }
+      if (step >= 19) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare di Bulgaria — Trattato di Pace di Parigi 1947)`,
+          adminTitle: 'Narodna Republika Bălgariya — Otechestven Front (Georgi Dimitrov)',
+          note: 'Settembre 1947: proclamata la Repubblica Popolare dopo il referendum del settembre 1946 e ratificato il Trattato di Pace di Parigi (che conferma la Dobrugia Meridionale alla Bulgaria), il governo di Georgi Dimitrov consolida il potere del Fronte della Patria.',
+          owner: 'BUL',
+        };
+      }
       return {
         name: `${d.capitalOrChefLieu} (Tsarstvo Balgariya — Cobelligeranza Alleata)`,
         adminTitle: 'Tsarstvo Balgariya — Otechestven Front (Kimon Georgiev — 1ª Armata Bulgara con l\'Armata Rossa)',
@@ -4645,7 +4661,7 @@ export function resolveBalkansToponym(
           return {
             name: 'Pola (Enclave della Zona A — Governo Militare Alleato AMG)',
             adminTitle: 'Allied Military Government (AMG Venezia Giulia — Enclave di Pola)',
-            note: "Accordo di Duino (9 giugno 1945) e Linea Morgan: l'enclave di Pola è presidiata dalle forze alleate anglo-americane sotto il Governo Militare Alleato (AMG).",
+            note: "Accordi di Belgrado (9 giugno) e Duino (20 giugno 1945 — Linea Morgan): l'enclave di Pola è presidiata dalle forze alleate anglo-americane sotto il Governo Militare Alleato (AMG-VG).",
             owner: 'AMG',
           };
         }
@@ -4771,6 +4787,22 @@ export function resolveBalkansToponym(
 
     // ROMANIA (RO)
     if (d.country === 'RO') {
+      if (step >= 20) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare Romena — Proclamazione RPR del 30 Dicembre 1947)`,
+          adminTitle: 'Republica Populară Română (Presidium C.I. Parhon — Guvernul Petru Groza & Gheorghe Gheorghiu-Dej)',
+          note: '30 Dicembre 1947: a Bucarest (Palazzo Elisabeta), il Primo Ministro Petru Groza e il segretario comunista Gheorghe Gheorghiu-Dej costringono sotto minaccia armata Re Michele I ad abdicare; nella stessa sera il Parlamento proclama la Repubblica Popolare Romena (Legge n. 363/1947), abolendo la monarchia Hohenzollern-Sigmaringen.',
+          owner: 'ROM',
+        };
+      }
+      if (step >= 19) {
+        return {
+          name: `${d.capitalOrChefLieu} (Regno di Romania — Trattato di Pace di Parigi 1947)`,
+          adminTitle: 'Regatul României (Regele Mihai I — Guvernul Petru Groza)',
+          note: 'Settembre 1947: con l\'entrata in vigore del Trattato di Pace di Parigi (15 settembre 1947), la Romania vede confermato il ritorno della Transilvania settentrionale mentre il governo a guida comunista di Petru Groza stringe la morsa sulle opposizioni monarchiche.',
+          owner: 'ROM',
+        };
+      }
       return {
         name: `${d.capitalOrChefLieu} (Territorio Romeno Liberato — Regatul României)`,
         adminTitle: 'Regatul României (Regele Mihai I — Guvernul Constantin Sănătescu)',

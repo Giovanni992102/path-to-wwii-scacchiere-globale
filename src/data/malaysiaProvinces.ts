@@ -705,6 +705,37 @@ export function resolveMalaysiaProvince(ft: any, s: number): ResolvedTerritory {
       );
     }
 
+    if (s >= 21) {
+      const mId = meta?.id || fidClean;
+      const isEmergencyHotspot = mId === 'MY08' || mId === 'MY06' || mId === 'MY10' || mId === 'MY01';
+      if (s >= 25) {
+        return makeResult(
+          'MAL',
+          isEmergencyHotspot
+            ? `${hist} (Federazione della Malesia — Bandiera a 11 Strisce del 26 Maggio 1950 & Piano Briggs)`
+            : `${hist} (Federazione della Malesia — Bandiera Originale a 11 Strisce & Stella a 11 Punte, 26 Maggio 1950)`,
+          isEmergencyHotspot
+            ? "Il 19 maggio 1950 è approvata (e issata il 26 maggio 1950 al Palazzo del Sultano di Selangor a Kuala Lumpur) la nuova bandiera della Federazione della Malesia (Persekutuan Tanah Melayu): 11 strisce alternate rosse e bianche e stella a 11 punte giallo oro su cantone blu. Sul fronte militare dell'Emergenza Malese, dall'aprile–giugno 1950 il Gen. Sir Harold Briggs avvia il Piano Briggs di reinsediamento ('New Villages') contro l'MNLA a Perak, Pahang, Selangor e Johor."
+            : "Al 30 giugno 1950 gli 11 Stati e insediamenti della Federazione della Malesia (nove Sultanati malesi, Penang e Malacca) sotto l'Alto Commissario Sir Henry Gurney adottano la nuova bandiera ufficiale a 11 strisce e stella a 11 punte (innalzata il 26 maggio 1950), mentre prosegue l'Emergenza Malese con l'avvio del Piano Briggs.",
+          'Alleati',
+          'Federation of Malaya (Bandiera a 11 Strisce, 26 Mag 1950 · High Commissioner Sir Henry Gurney / Piano Briggs)'
+        );
+      }
+      return makeResult(
+        'UK',
+        isEmergencyHotspot
+          ? `${hist} (Federazione della Malesia — 1° Febbraio 1948 & Emergenza Malese dal 18 Giugno 1948)`
+          : `${hist} (Federazione della Malesia / Persekutuan Tanah Melayu — 1° Febbraio 1948)`,
+        isEmergencyHotspot
+          ? "Il 1° febbraio 1948 l'impopolare Unione Malese viene ufficialmente sostituita dalla Federazione della Malesia (Persekutuan Tanah Melayu), che riunisce sotto protettorato britannico i nove Sultanati malesi e gli insediamenti di Penang e Malacca sotto l'Alto Commissario Sir Edward Gent. A seguito dell'uccisione di tre piantatori britannici a Sungai Siput (Perak) il 16 giugno 1948 da parte dei guerriglieri comunisti dell'MNLA (Malayan National Liberation Army di Chin Peng), il 18 giugno viene proclamato lo stato di emergenza in tutta la Federazione (Emergenza Malese), con epica guerriglia nella giungla e nelle piantagioni di Perak, Pahang, Selangor e Johor."
+          : "Il 1° febbraio 1948 entra in vigore l'accordo che sostituisce l'Unione Malese con la Federazione della Malesia (Persekutuan Tanah Melayu), ristabilendo le prerogative dei nove Sultani malesi a fianco degli insediamenti britannici di Penang e Malacca sotto l'Alto Commissario Sir Edward Gent, mentre il 18 giugno 1948 viene proclamato lo stato di emergenza (Malayan Emergency) contro l'insurrezione comunista dell'MNLA.",
+        'Alleati',
+        isEmergencyHotspot
+          ? 'Federation of Malaya (High Commissioner Sir Edward Gent) · Malayan Emergency (18 June 1948 — Controguerriglia MNLA)'
+          : 'Federation of Malaya · Persekutuan Tanah Melayu (High Commissioner Sir Edward Gent)'
+      );
+    }
+
     return makeResult(
       'UK',
       `${hist} (Unione Malese — Transizione verso la Federazione della Malesia)`,

@@ -2221,13 +2221,466 @@ USA_PROVINCES_META['UM_ATTU_KISKA'] = USA_PROVINCES_META['US_AK_ALEUTIANS_WEST']
 /**
  * Risoluzione Geostorica e Toponomastica Completa per qualsiasi Provincia, Stato o Territorio USA
  */
-// Override Step 9 (DIC 1941) & Step 10 (AGO 1942): Pearl Harbor, Guam, Wake, Midway e occupazione giapponese di Attu e Kiska nelle Aleutine (giugno 1942)
+interface USALateUpdate {
+  s14_17?: string;
+  s18: string;
+  s19_20: string;
+  s21: string;
+  s22: string;
+  hist18?: string;
+  hist19?: string;
+  hist22?: string;
+  admin19?: string;
+  admin22?: string;
+}
+
+/**
+ * Aggiornamento geostorico stato per stato (tutti i 48 Stati, DC e 11 Territori/Basi = 60 entità)
+ * per le fasi finali 1944-1945 (Steps 14-17) e il dopoguerra/Guerra Fredda (Steps 18-22: Set 1945 – Dic 1948).
+ */
+const USA_LATE_UPDATES: Record<string, USALateUpdate> = {
+  US_AL: {
+    s18: "Alabama (settembre 1945). Smobilitazione delle basi aeree di Maxwell e Brookley Field (Mobile); riconversione delle acciaierie di Birmingham (TCI) e dell'arsenale chimico di Huntsville.",
+    s19_20: "Alabama (1947). Espansione dell'industria siderurgica e chimica del Sud postbellico; l'Arsenale di Redstone avvia le prime attività missilistiche sotto l'Army Ordnance.",
+    s21: "Alabama (giugno 1948). Brookley Air Force Base (Mobile) supporta la nuova logistica globale MATS; tensioni interne al Partito Democratico sudista sui diritti civili di Truman.",
+    s22: "Alabama (dicembre 1948). Nelle presidenziali del 2 novembre 1948 lo Stato vota per il ticket Dixiecrat di Strom Thurmond (escludendo Truman dalla scheda statale) in opposizione ai diritti civili.",
+  },
+  US_AZ: {
+    s18: "Arizona (settembre 1945). Fine del razionamento e chiusura dei grandi centri di addestramento aereo nel deserto (Luke, Williams, Davis-Monthan); boom demografico postbellico di Phoenix.",
+    s19_20: "Arizona (1947). Davis-Monthan (Tucson) diventa base chiave per lo stoccaggio e il rischieramento dei bombardieri strategici B-29 del neoistituito Strategic Air Command (USAF).",
+    s21: "Arizona (giugno 1948). Espansione dell'industria del rame (Phelps Dodge) per l'elettrificazione europea del Piano Marshall e crescita dell'agricoltura irrigua.",
+    s22: "Arizona (dicembre 1948). Vittoria elettorale di Harry S. Truman in Arizona nel novembre 1948; consolidamento delle basi USAF di Luke e Davis-Monthan nella Guerra Fredda.",
+  },
+  US_AR: {
+    s18: "Arkansas (settembre 1945). Smobilitazione delle miniere di bauxite di Saline County e chiusura dei campi d'internamento di Rohwer e Jerome dopo la fine della guerra nel Pacifico.",
+    s19_20: "Arkansas (1947). Transizione agricola e forestale sotto l'amministrazione del governatore Ben Laney; sviluppo meccanizzato della risicoltura e del cotone nel delta del Mississippi.",
+    s21: "Arkansas (giugno 1948). Consolidamento industriale attorno a Little Rock ed espansione dei progetti idroelettrici della U.S. Army Corps of Engineers sui fiumi Ouachita e White.",
+    s22: "Arkansas (dicembre 1948). Nonostante la candidatura sudista di Thurmond, il governatore Sid McMath mantiene l'Arkansas saldamente nella vittoria nazionale di Harry S. Truman (novembre 1948).",
+  },
+  US_CA: {
+    s14_17: "California (1944–maggio 1945). Apice produttivo dei cantieri Kaiser (Richmond/Sausalito) e dell'industria aeronautica (Lockheed, Douglas, Consolidated); dal 25 aprile 1945 San Francisco ospita la Conferenza delle Nazioni Unite che approva la Carta ONU.",
+    s18: "California (settembre 1945). San Diego, San Francisco e Los Angeles gestiscono il massiccio rientro navale (Operation Magic Carpet) dal Pacifico; avvio della riconversione civile aerospaziale e del boom suburbano.",
+    s19_20: "California (1947). Il 14 ottobre 1947 sulla base di Muroc (deserto del Mojave), Chuck Yeager supera per la prima volta il muro del suono sull'X-1; a Santa Monica nasce il think tank Project RAND.",
+    s21: "California (giugno 1948). I porti di San Francisco e Long Beach fungono da terminali logistici verso il Giappone occupato (SCAP) e la Cina nazionalista; crescita dei laboratori di Berkeley e Caltech.",
+    s22: "California (dicembre 1948). Nonostante la sfida del governatore Earl Warren (candidato vicepresidente repubblicano con Dewey), Harry S. Truman conquista di misura la California il 2 novembre 1948.",
+    hist18: "State of California (Carta ONU di San Francisco 1945 & Smobilitazione Pacifico)",
+    hist22: "State of California (Aerospazio Mojave/RAND & Elezioni 1948, Dic 1948)",
+  },
+  US_CO: {
+    s18: "Colorado (settembre 1945). Riconversione di Lowry Field e dell'arsenale chimico Rocky Mountain Arsenal; rientro dei veterani e crescita di Denver come centro minerario e universitario.",
+    s19_20: "Colorado (1947). Con la legge di riorganizzazione militare, Denver ospita il quartier generale iniziale e i corsi tecnici della neoistituita U.S. Air Force mentre riprende il programma dell'uranio sull'Altopiano del Colorado.",
+    s21: "Colorado (giugno 1948). L'Atomic Energy Commission (AEC) attiva contratti garantiti di acquisto per la carnotite e l'uranio del Colorado occidentale a supporto dell'arsenale nucleare USA.",
+    s22: "Colorado (dicembre 1948). Truman riconquista il Colorado nel novembre 1948; l'Altopiano del Colorado diventa il principale bacino domestico statunitense per l'estrazione dell'uranio.",
+  },
+  US_CT: {
+    s18: "Connecticut (settembre 1945). I cantieri Electric Boat di Groton e la Pratt & Whitney avviano la transizione postbellica tra propulsione aeronautica a reazione e primi studi sui sommergibili moderni.",
+    s19_20: "Connecticut (1947). Pratt & Whitney (East Hartford) sviluppa i motori a turbogetto militari e commerciali della Guerra Fredda, mentre Groton mantiene la primaria base sottomarina atlantica.",
+    s21: "Connecticut (giugno 1948). Le industrie di armi di precisione (Colt/Winchester) e i cantieri navali di New London sostengono il riarmo iniziale del blocco occidentale.",
+    s22: "Connecticut (dicembre 1948). Vittoria di misura di Thomas E. Dewey nelle elezioni presidenziali di novembre; Electric Boat avvia i progetti preliminari per il futuro primo sottomarino a propulsione nucleare (Nautilus).",
+  },
+  US_DE: {
+    s18: "Delaware (settembre 1945). DuPont conclude le forniture belliche del Progetto Manhattan (Hanford) riconvertendo i laboratori di Wilmington a nylon, polimeri e chimica industriale civile.",
+    s19_20: "Delaware (1947). Espansione dell'industria chimica avanzata e riapertura operativa dell'aeroporto strategico di Dover AFB.",
+    s21: "Delaware (giugno 1948). Polo chimico-finanziario atlantico centrale impegnato nell'esportazione industriale prevista dal Piano Marshall.",
+    s22: "Delaware (dicembre 1948). Stato conteso con lieve margine per Dewey nel novembre 1948; Dover Air Force Base funge da supporto atlantico al trasporto pesante USAF.",
+  },
+  US_FL: {
+    s18: "Florida (settembre 1945). Smobilitazione di centinaia di campi d'addestramento aeronautici in tutta la penisola; boom immobiliare e turistico postbellico tra Miami, Tampa e Jacksonville.",
+    s19_20: "Florida (1947). A Eglin Field (Panhandle) e lungo la costa atlantica di Banana River / Cape Canaveral prendono forma i poligoni di prova per i missili sperimentali e le nuove unità dell'USAF.",
+    s21: "Florida (giugno 1948). Pensacola, Key West e Jacksonville consolidano la presenza navale e aeronavale statunitense nel Golfo del Messico e nei Caraibi all'avvio della Guerra Fredda.",
+    s22: "Florida (dicembre 1948). Nonostante lo scisma Dixiecrat nel profondo Sud, Truman ottiene la vittoria elettorale in Florida nel novembre 1948; inizia l'allestimento del poligono missilistico di Long Range Proving Ground (Cape Canaveral).",
+  },
+  US_GA: {
+    s18: "Georgia (settembre 1945). Chiusura degli stabilimenti Bell Bomber di Marietta e smobilitazione di Fort Benning; tensioni politiche e sociali del dopoguerra nel Sud industriale.",
+    s19_20: "Georgia (1947). Crisi dei 'Tre Governatori' (1947) ad Atlanta dopo la morte di Eugene Talmadge; Fort Benning resta centro mondiale della fanteria e dei paracadutisti dell'U.S. Army.",
+    s21: "Georgia (giugno 1948). Espansione industriale di Atlanta e dei cantieri e scali di Savannah nell'economia sudorientale del dopoguerra.",
+    s22: "Georgia (dicembre 1948). Vittoria democratica di Truman (con forte opposizione locale sui diritti civili) mentre Warner Robins e Fort Benning rafforzano la prontezza militare statunitense.",
+  },
+  US_ID: {
+    s18: "Idaho (settembre 1945). Smobilitazione di Farragut Naval Training Station sul Lago Pend Oreille e chiusura del campo di internamento di Minidoka.",
+    s19_20: "Idaho (1947). Ripresa mineraria (argento, piombo, fosfati) ed espansione dei progetti idroelettrici e di bonifica nello Snake River Plain.",
+    s21: "Idaho (giugno 1948). La US Atomic Energy Commission (AEC) seleziona le piane basaltiche presso Arco come sito futuro del National Reactor Testing Station per test nucleari civili e navali.",
+    s22: "Idaho (dicembre 1948). Vittoria elettorale di Truman in Idaho nel novembre 1948; sviluppo dei centri di ricerca atomica presso Idaho Falls/Arco e produzione agricola.",
+  },
+  US_IL: {
+    s18: "Illinois (settembre 1945). L'Università di Chicago e il Metallurgical Laboratory gettano le basi del controllo civile dell'atomo; riconversione dei giganti industriali e ferroviari di Chicago.",
+    s19_20: "Illinois (1947). Nel luglio 1946 nasce ufficialmente l'Argonne National Laboratory presso Chicago (primo laboratorio nazionale USA); il nodo di Great Lakes addestra i quadri navali postbellici.",
+    s21: "Illinois (giugno 1948). Il Midwest industriale e agricolo (Chicago Mercantile / Caterpillar a Peoria) esporta macchinari pesanti e derrate in Europa nell'ambito dell'European Recovery Program.",
+    s22: "Illinois (dicembre 1948). Nel novembre 1948 Truman ribalta i pronostici conquistando l'Illinois (celebri le edizioni premature del Chicago Daily Tribune con 'Dewey Defeats Truman').",
+    hist22: "State of Illinois (Chicago, Argonne Nat. Lab & Elezioni 1948, Dic 1948)",
+  },
+  US_IN: {
+    s18: "Indiana (settembre 1945). Riconversione civile delle acciaierie di Gary (Calumet) e delle linee automobilistiche e aeronautiche (Studebaker, Allison) verso i mercati civili del dopoguerra.",
+    s19_20: "Indiana (1947). La divisione Allison di Indianapolis sviluppa turbogetti e turbopropulsori per l'aviazione militare e navale statunitense di prima generazione.",
+    s21: "Indiana (giugno 1948). Pieno regime siderurgico a Gary–Hammond per l'industria automobilistica e le forniture infrastrutturali transatlantiche.",
+    s22: "Indiana (dicembre 1948). L'Indiana assegna di stretta misura i suoi voti elettorali a Thomas E. Dewey nelle presidenziali di novembre; produzione siderurgica e motoristica al massimo postbellico.",
+  },
+  US_IA: {
+    s18: "Iowa (settembre 1945). Fine del razionamento agricolo e invio record di mais, carne e macchinari rurali ai programmi di emergenza alimentare europei UNRRA.",
+    s19_20: "Iowa (1947). L'Ames Laboratory (ex Ames Project per la raffinazione dell'uranio purissimo) viene istituito ufficialmente come laboratorio nazionale dell'AEC nel 1947.",
+    s21: "Iowa (giugno 1948). Le produzioni agricole dello Iowa rappresentano la spina dorsale alimentare dell'European Recovery Program (Piano Marshall) per l'Europa occidentale.",
+    s22: "Iowa (dicembre 1948). Svolta rurale decisiva: il 2 novembre 1948 gli agricoltori dello Iowa votano per Harry S. Truman assicurandogli la vittoria nel cuore del Midwest.",
+  },
+  US_KS: {
+    s18: "Kansas (settembre 1945). Riconversione degli stabilimenti Boeing B-29 di Wichita; il Forte Leavenworth aggiorna la dottrina di stato maggiore per l'era nucleare.",
+    s19_20: "Kansas (1947). Wichita rinasce come 'Capitale mondiale dell'aviazione' (Boeing, Beechcraft, Cessna) mentre il prototipo a reazione B-47 Stratojet compie i primi collaudi nel 1947.",
+    s21: "Kansas (giugno 1948). Boom del frumento e avvio delle linee preliminari per i bombardieri a reazione B-47 a Wichita per lo Strategic Air Command.",
+    s22: "Kansas (dicembre 1948). Vittoria repubblicana di Thomas E. Dewey nello Stato nel novembre 1948; espansione dell'aviazione strategica e del Command & General Staff College a Fort Leavenworth.",
+  },
+  US_KY: {
+    s18: "Kentucky (settembre 1945). Riconversione delle riserve auree di Fort Knox, della base aviotrasportata di Camp Campbell e dei distretti carboniferi appalachiani nel dopoguerra.",
+    s19_20: "Kentucky (1947). Ammodernamento militare di Fort Knox come scuola permanente della forza corazzata e crescita della chimica della gomma sintetica a Louisville ('Rubbertown').",
+    s21: "Kentucky (giugno 1948). Il vicepresidente Alben Barkley (senatore del Kentucky) rafforza l'asse democratico per le elezioni presidenziali del 1948.",
+    s22: "Kentucky (dicembre 1948). Con il senatore del Kentucky Alben Barkley eletto Vicepresidente al fianco di Truman il 2 novembre 1948, lo Stato consolida i grandi progetti fluviali TVA e industriali.",
+  },
+  US_LA: {
+    s18: "Louisiana (settembre 1945). Riconversione dei cantieri Higgins di New Orleans al commercio globale e boom petrolchimico lungo il basso corso del Mississippi (Baton Rouge).",
+    s19_20: "Louisiana (1947). Nel novembre 1947 la compagnia Kerr-McGee porta a termine al largo della Louisiana (Ship Shoal Block 32) il primo pozzo petrolifero offshore al mondo fuori dalla vista della costa.",
+    s21: "Louisiana (giugno 1948). Earl Long torna governatore rilanciando programmi infrastrutturali mentre New Orleans diviene il grande sbocco marittimo del centro-sud verso l'America Latina.",
+    s22: "Louisiana (dicembre 1948). Lo Stato vota per il ticket Dixiecrat di Strom Thurmond il 2 novembre 1948; rapida espansione delle piattaforme petrolifere offshore e delle raffinerie del Golfo.",
+  },
+  US_ME: {
+    s18: "Maine (settembre 1945). I cantieri Bath Iron Works e Portsmouth Naval Shipyard (Kittery) riconvertono cacciatorpediniere e sommergibili nell'Atlantico settentrionale.",
+    s19_20: "Maine (1947). Gravi incendi boschivi nell'ottobre 1947 devastano Bar Harbor; l'USAF avvia i piani dell'estrema base nord-orientale di Limestone (Loring AFB) per i bombardieri intercontinentali.",
+    s21: "Maine (giugno 1948). Avvio dei lavori della futura pista strategica di Limestone (contea di Aroostook), punto statunitense più vicino all'Unione Sovietica via rotta polare.",
+    s22: "Maine (dicembre 1948). Tradizionale roccaforte repubblicana pro-Dewey nel novembre 1948; Portland e Kittery mantengono un ruolo chiave nella difesa navale e sottomarina atlantica.",
+  },
+  US_MD: {
+    s18: "Maryland (settembre 1945). Riconversione navale di Annapolis e Patuxent River e delle linee aeronautiche Glenn L. Martin a Baltimora; Camp Detrick sviluppa la ricerca difensiva biologica.",
+    s19_20: "Maryland (1947). Il nuovo Dipartimento della Difesa coordina il test aeronavale di Patuxent River (NAVAIR) e il poligono di Aberdeen Proving Ground; avvio dei computer balistici avanzati.",
+    s21: "Maryland (giugno 1948). L'Applied Physics Laboratory (Johns Hopkins) sviluppa la missilistica guidata della Marina (progetto Bumblebee / Terrier) e il porto di Baltimora spedisce carichi ERP verso l'Europa.",
+    s22: "Maryland (dicembre 1948). Vittoria di Dewey nello Stato di misura il 2 novembre 1948; forte espansione di Andrews Air Force Base ai margini della capitale federale come hub del Ponte Aereo MATS.",
+  },
+  US_MA: {
+    s18: "Massachusetts (settembre 1945). Il MIT Radiation Laboratory chiude lasciando al settore civile il radar e i primi calcolatori elettronici (Whirlwind I); riconversione cantieri Fore River (Quincy).",
+    s19_20: "Massachusetts (1947). Il 5 giugno 1947 all'Università di Harvard (Cambridge), il Segretario di Stato George Marshall annuncia lo storico discorso per l'European Recovery Program (Piano Marshall).",
+    s21: "Massachusetts (giugno 1948). Westover Air Force Base (Chicopee) diviene l'hub orientale principale del Military Air Transport Service (MATS) per il rifornimento di Berlino (Operation Vittles).",
+    s22: "Massachusetts (dicembre 1948). Vittoria netta di Truman nel novembre 1948; Harvard, MIT (laboratori elettronici e radar) e Westover AFB sostengono l'architettura tecnologica e logistica dell'Alleanza Occidentale.",
+    hist19: "Commonwealth of Massachusetts (Discorso del Piano Marshall a Harvard 1947 & MIT)",
+    hist22: "Commonwealth of Massachusetts (Westover Hub Ponte Aereo & Ricerca MIT, Dic 1948)",
+  },
+  US_MI: {
+    s14_17: "Michigan (1944–maggio 1945). Apice assoluto dell''Arsenale della Democrazia': la linea di Willow Run sforna un bombardiere B-24 ogni ora mentre Detroit produce carri armati, motori e autocarri per tutti gli eserciti alleati.",
+    s18: "Michigan (settembre 1945). Rapida riconversione degli impianti Ford, General Motors e Chrysler di Detroit dalla produzione di armamenti alle auto civili per soddisfare l'enorme domanda postbellica.",
+    s19_20: "Michigan (1947). Grandi scioperi sindacali dell'UAW (Walter Reuther) e boom automobilistico postbellico; l'area di Detroit diviene l'emblema mondiale della prosperità industriale americana.",
+    s21: "Michigan (giugno 1948). Nel 1948 General Motors e l'UAW firmano lo storico 'Treaty of Detroit' (indicizzazione salariale al costo della vita e produttività), consolidando il ceto medio operaio.",
+    s22: "Michigan (dicembre 1948). Vittoria di strettissima misura per Dewey nelle presidenziali di novembre, accompagnata dall'elezione del governatore riformista democratico G. Mennen Williams.",
+    hist18: "State of Michigan (Riconversione Postbellica di Detroit — Fine Arsenale Bellico)",
+  },
+  US_MN: {
+    s18: "Minnesota (settembre 1945). I minerali di ferro della Mesabi Range alimentano la riconversione industriale civile dei Grandi Laghi e il boom agroalimentare postbellico di Minneapolis–Saint Paul.",
+    s19_20: "Minnesota (1947). A Minneapolis Hubert Humphrey e il Democratic–Farmer–Labor Party riorganizzano il progressismo anticomunista nordamericano e fondano l'Americans for Democratic Action (ADA).",
+    s21: "Minnesota (giugno 1948). Al congresso nazionale di luglio 1948 il discorso sui diritti civili di Hubert Humphrey spinge i Democratici a una svolta storica provocando la secessione Dixiecrat.",
+    s22: "Minnesota (dicembre 1948). Vittoria decisiva di Truman ed elezione di Hubert Humphrey al Senato il 2 novembre 1948; la Mesabi Range raggiunge nuovi primati estrattivi di minerale ferroso.",
+  },
+  US_MS: {
+    s18: "Mississippi (settembre 1945). Chiusura dei grandi campi di addestramento militare (Camp Shelby, Keesler Field) e progressiva meccanizzazione agricola con forte migrazione verso le città industriali del Nord.",
+    s19_20: "Mississippi (1947). Il governatore Fielding Wright guida l'opposizione conservatrice del profondo Sud contro le aperture federali di Truman sui diritti civili e la desegregazione.",
+    s21: "Mississippi (giugno 1948). Keesler Air Force Base (Biloxi) diventa centro nevralgico di addestramento elettronico e radar della neonata U.S. Air Force.",
+    s22: "Mississippi (dicembre 1948). Lo Stato vota massicciamente per il ticket States' Rights Democratic Party (Thurmond–Wright, con governatore Fielding Wright candidato vicepresidente) nel novembre 1948.",
+  },
+  US_MO: {
+    s18: "Missouri (settembre 1945). Stato natale e base politica del Presidente Harry S. Truman (Independence/Kansas City); rapida smobilitazione di Fort Leonard Wood e riconversione di St. Louis (McDonnell/Curtiss).",
+    s19_20: "Missouri (1947). A Fulton (Westminster College) risuona ancora lo storico discorso della 'Cortina di Ferro' (1946); a St. Louis la McDonnell Aircraft testa il caccia imbarcato FH Phantom per la U.S. Navy.",
+    s21: "Missouri (giugno 1948). Nella campagna presidenziale del 1948 Truman parte dal Missouri con la celebre 'Whistle-Stop Tour' ferroviaria attraverso l'intera nazione.",
+    s22: "Missouri (dicembre 1948). Grande affermazione di Harry S. Truman nello Stato natale (2 novembre 1948); McDonnell Aircraft a St. Louis accelera lo sviluppo dei caccia a reazione F2H Banshee e XF-88.",
+    hist22: "State of Missouri (Stato Natale di Truman · Fulton & McDonnell Aircraft, Dic 1948)",
+  },
+  US_MT: {
+    s18: "Montana (settembre 1945). Fine del ponte aereo ALSIB da Great Falls verso l'Alaska e la Siberia; le miniere di rame di Butte e la cerealicoltura alimentano la ricostruzione civile.",
+    s19_20: "Montana (1947). Great Falls Air Force Base diviene la base principale di addestramento e logistica del ponte aereo Atlantico-Artico e futuro hub del Military Air Transport Service (MATS).",
+    s21: "Montana (giugno 1948). Avvio della costruzione dell'enorme diga Hungry Horse e sviluppo delle infrastrutture energetiche del bacino superiore del Columbia/Missouri.",
+    s22: "Montana (dicembre 1948). Vittoria elettorale di Truman nel novembre 1948; Great Falls AFB fornisce equipaggi e addestramento di volo per il Ponte Aereo di Berlino (Operation Vittles).",
+  },
+  US_NE: {
+    s18: "Nebraska (settembre 1945). L'impianto Glenn L. Martin di Omaha (Offutt Field), dove furono assemblati gli Enola Gay e Bockscar, conclude l'era bellica riconvertendosi al traffico nazionale ferroviario e zootecnico.",
+    s19_20: "Nebraska (1947). Omaha consolida il polo logistico ferroviario (Union Pacific) e agricolo delle Grandi Pianure a supporto degli aiuti alimentari mondiali.",
+    s21: "Nebraska (giugno 1948). Il Pentagono seleziona Offutt Field (a sud di Omaha) per il trasferimento del quartier generale dello Strategic Air Command lontano dalle coste vulnerabili.",
+    s22: "Nebraska (dicembre 1948). Il 9 novembre 1948 lo Strategic Air Command (SAC) guidato dal Gen. Curtis LeMay trasferisce ufficialmente il proprio Quartier Generale a Offutt AFB (Omaha), perno della deterrenza nucleare USA.",
+    hist22: "State of Nebraska (Offutt AFB Omaha — Quartier Generale SAC Nov 1948)",
+  },
+  US_NV: {
+    s18: "Nevada (settembre 1945). Smobilitazione delle basi di addestramento nel deserto di Las Vegas/Tonopah e riconversione del gigantesco polo del magnesio di Henderson (Basic Magnesium).",
+    s19_20: "Nevada (1947). Espansione di Las Vegas e Reno nell'economia postbellica del turismo e del gioco; Hoover Dam alimenta l'intera crescita industriale della California meridionale.",
+    s21: "Nevada (giugno 1948). Nellis (Las Vegas AFB) viene riattivata dall'USAF per l'addestramento avanzato sui caccia a reazione F-80 Shooting Star e le tattiche della Guerra Fredda.",
+    s22: "Nevada (dicembre 1948). Vittoria di Truman nel novembre 1948; i vasti poligoni federali del Nevada meridionale ospitano esercitazioni aeree tattiche e studi preliminari dell'AEC.",
+  },
+  US_NH: {
+    s14_17: "New Hampshire (luglio 1944–maggio 1945). Nel luglio 1944 il Mount Washington Hotel di Bretton Woods ospita la storica Conferenza Monetaria e Finanziaria ONU che fonda il Fondo Monetario Internazionale (FMI) e la Banca Mondiale; i cantieri di Portsmouth varano record di sommergibili.",
+    s18: "New Hampshire (settembre 1945). Portsmouth Naval Shipyard raccoglie e disarma i primi U-Boot tedeschi catturati nell'Atlantico e adatta i propri bacini all'era postbellica.",
+    s19_20: "New Hampshire (1947). Il sistema di Bretton Woods entra in piena operatività internazionale mentre Portsmouth avvia la progettazione di sottomarini silenziosi postbellici ad alta profondità (progetto GUPPY).",
+    s21: "New Hampshire (giugno 1948). Riconversione tessile e cartiera del New England settentrionale sostenuta dall'export e dallo sviluppo sottomarino navale.",
+    s22: "New Hampshire (dicembre 1948). Maggioranza repubblicana pro-Dewey nelle elezioni di novembre; Portsmouth si prepara alle costruzioni sottomarine d'attacco dell'era atomica.",
+    hist18: "State of New Hampshire (Bretton Woods · Portsmouth Naval Shipyard, 1945)",
+  },
+  US_NJ: {
+    s18: "New Jersey (settembre 1945). Fort Dix e Camp Kilmer gestiscono il rimpatrio oceanico di milioni di soldati americani dal fronte europeo; rapida riconversione dei porti chimici e navali.",
+    s19_20: "New Jersey (dicembre 1947). Il 16–23 dicembre 1947 ai Bell Telephone Laboratories di Murray Hill (New Jersey), John Bardeen, Walter Brattain e William Shockley inventano il transistor, inaugurando l'era dell'elettronica moderna.",
+    s21: "New Jersey (giugno 1948). I Bell Labs presentano pubblicamente il transistor il 30 giugno 1948; McGuire Air Force Base sostiene il ponte aereo atlantico verso l'Europa.",
+    s22: "New Jersey (dicembre 1948). Vittoria di Dewey nello Stato nel novembre 1948; Princeton (IAS, dove lavorano Einstein, Oppenheimer e von Neumann con il progetto computer IAS) e i Bell Labs di Murray Hill guidano la rivoluzione scientifica occidentale.",
+    hist22: "State of New Jersey (Bell Labs Transistor · Princeton IAS & McGuire AFB, Dic 1948)",
+  },
+  US_NM: {
+    s14_17: "New Mexico (1944–maggio 1945). Nel massimo segreto del Progetto Manhattan (Laboratori di Los Alamos diretti da J. Robert Oppenheimer), gli scienziati completano le bombe al plutonio e all'uranio in preparazione al test nucleare di Alamogordo.",
+    s18: "New Mexico (settembre 1945). Dopo il primo test nucleare della storia ('Trinity' ad Alamogordo il 16 luglio 1945), Los Alamos entra nel dopoguerra come fulcro della deterrenza atomica mondiale; a White Sands iniziano i lanci dei razzi V-2 catturati.",
+    s19_20: "New Mexico (1947). Nel gennaio 1947 l'Atomic Energy Commission (AEC) assume la gestione di Los Alamos e di Sandia Base (Albuquerque) per la progettazione delle testate; nel luglio 1947 l'incidente meteorologico/pallone Mogul di Roswell alimenta l'attenzione su White Sands.",
+    s21: "New Mexico (giugno 1948). Gli scienziati di Los Alamos eseguono con successo nel Pacifico i tre test nucleari migliorati dell'Operazione Sandstone (aprile–maggio 1948), moltiplicando l'arsenale atomico USA.",
+    s22: "New Mexico (dicembre 1948). Con Truman rieletto nel novembre 1948, Los Alamos, Sandia National Laboratory e il White Sands Proving Ground formano il cuore scientifico atomico e missilistico della difesa statunitense.",
+    hist18: "State of New Mexico (Los Alamos / Trinity Test Site 1945 & Era Atomica)",
+    hist19: "State of New Mexico (AEC Los Alamos, Sandia Base & White Sands, 1947–1948)",
+    hist22: "State of New Mexico (Cuore Nucleare AEC Los Alamos/Sandia & White Sands, Dic 1948)",
+  },
+  US_NY: {
+    s14_17: "New York (1944–maggio 1945). Il Porto di New York e il Brooklyn Navy Yard raggiungono il culmine storico dei convogli verso la Normandia e la Germania; Franklin D. Roosevelt vince il quarto mandato nel novembre 1944 prima della morte il 12 aprile 1945.",
+    s18: "New York (settembre 1945). Il Brooklyn Navy Yard accoglie le flotte di ritorno dall'Atlantico e dal Pacifico; Wall Street diviene il baricentro finanziario indiscusso della ricostruzione mondiale.",
+    s19_20: "New York (1947). Le Nazioni Unite stabiliscono la loro sede provvisoria a Lake Success / Flushing Meadows (Long Island) e acquistano con la donazione Rockefeller l'area di Turtle Bay sull'East River; la città diviene capitale diplomatica del mondo.",
+    s21: "New York (giugno 1948). A Brookhaven (Long Island) inizia la costruzione del primo reattore civile di ricerca dell'AEC; New York finanzia le spedizioni atlantiche dell'ERP (Piano Marshall).",
+    s22: "New York (dicembre 1948). Il 14 settembre 1948 iniziano gli scavi per il Palazzo di Vetro dell'ONU a Manhattan; alle presidenziali del 2 novembre il governatore Thomas E. Dewey prevale nello Stato ma perde la corsa alla Casa Bianca contro Truman.",
+    hist19: "State of New York (Sede ONU Lake Success / Turtle Bay & Wall Street, 1947–1948)",
+    hist22: "State of New York (Cantiere Palazzo ONU Manhattan · Wall Street & Brookhaven, Dic 1948)",
+  },
+  US_NC: {
+    s18: "North Carolina (settembre 1945). Riconversione di Fort Bragg, Camp Lejeune e Cherry Point (Marines); grande espansione tessile, del mobilio e del tabacco nel Piedmont postbellico.",
+    s19_20: "North Carolina (1947). Fort Bragg e Camp Lejeune vengono consacrati come sedi permanenti delle divisioni aviotrasportate dell'Esercito (82nd Airborne) e della Fleet Marine Force atlantica.",
+    s21: "North Carolina (giugno 1948). Crescita industriale della regione di Charlotte–Durham–Raleigh e potenziamento della base aerea di Pope AFB a supporto di Fort Bragg.",
+    s22: "North Carolina (dicembre 1948). Forte vittoria democratica di Harry S. Truman nello Stato nel novembre 1948 (con il 58% dei voti); modernizzazione delle infrastrutture stradali ed educative del dopoguerra.",
+  },
+  US_ND: {
+    s18: "North Dakota (settembre 1945). Rientro dei veterani e avvio del colossale Pick–Sloan Missouri Basin Program per il controllo delle piene, l'irrigazione e l'energia idroelettrica.",
+    s19_20: "North Dakota (1947). Avvio dei lavori della gigantesca diga di Garrison sul fiume Missouri e raccolti record di grano duro per le esportazioni verso l'Europa occidentale.",
+    s21: "North Dakota (giugno 1948). Espansione delle reti elettriche rurali e prosecuzione degli scavi di Garrison Dam nella valle del Missouri.",
+    s22: "North Dakota (dicembre 1948). Voto presidenziale repubblicano per Dewey nel novembre 1948 (forte opposizione isolazionista rurale di Langer); grande boom agricolo ed energetico idroelettrico.",
+  },
+  US_OH: {
+    s18: "Ohio (settembre 1945). Wright Field (Dayton) acquisisce tecnici e progetti aerospaziali tedeschi (Operazione Paperclip); le industrie della gomma di Akron e l'acciaio di Cleveland si riconvertono all'auto civile.",
+    s19_20: "Ohio (1947). Con la nascita della U.S. Air Force (18 settembre 1947), Wright-Patterson AFB (Dayton) diventa il quartier generale della ricerca tecnologica e della ricognizione aerea militare statunitense.",
+    s21: "Ohio (giugno 1948). Boom industriale tra Cleveland, Toledo, Akron e Cincinnati: produzione di macchinari utensili e pneumatici per i mercati interni ed europei dell'ERP.",
+    s22: "Ohio (dicembre 1948). Conquista a sorpresa dell'Ohio da parte di Harry S. Truman il 2 novembre 1948 (per soli 7.107 voti su Dewey); Wright-Patterson AFB dirige i programmi dei bombardieri strategici di nuova generazione.",
+    hist22: "State of Ohio (Wright-Patterson USAF R&D · Cleveland/Akron & Vittoria Truman 1948)",
+  },
+  US_OK: {
+    s18: "Oklahoma (settembre 1945). Riconversione di Tinker Field (Oklahoma City) e Fort Sill; le compagnie petrolifere dell'Oklahoma tornano all'estrazione commerciale e alla raffinazione domestica.",
+    s19_20: "Oklahoma (1947). Tinker Air Force Base diviene centro logistico fondamentale del neoistituito Air Materiel Command mentre Fort Sill resta scuola suprema d'artiglieria statunitense.",
+    s21: "Oklahoma (giugno 1948). A Tinker AFB viene completata con successo la prima previsione operativa di un tornado (marzo 1948); forte ripresa petrolifera e agricola.",
+    s22: "Oklahoma (dicembre 1948). Ampia maggioranza elettorale per Harry S. Truman nel novembre 1948 (oltre il 62%); pieno sviluppo di Tinker AFB e dei giacimenti petroliferi di Tulsa.",
+  },
+  US_OR: {
+    s18: "Oregon (settembre 1945). I cantieri Kaiser di Portland/Swan Island chiudono le catene di navi Liberty/Victory dopo centinaia di unità varate; grande afflusso demografico lungo il fiume Columbia.",
+    s19_20: "Oregon (1947). L'energia idroelettrica a basso costo della diga di Bonneville attira fonderie di alluminio ed economia forestale in rapida crescita verso il mercato della costa pacifica.",
+    s21: "Oregon (giugno 1948). La catastrofica piena del Columbia del Memorial Day 1948 spazza via il sobborgo industriale di Vanport (Portland), accelerando il piano federale di controllo delle dighe nel Nord-Ovest.",
+    s22: "Oregon (dicembre 1948). Vittoria repubblicana di Dewey nello Stato nel novembre 1948; avvio della ricostruzione di Portland e potenziamento dell'asse idroelettrico-forestale del Columbia.",
+  },
+  US_PA: {
+    s18: "Pennsylvania (settembre 1945). I colossi siderurgici di Pittsburgh/Bethlehem e il Philadelphia Navy Yard smobilitano gli ordini bellici avviando la riconversione alla siderurgia civile e al traffico portuale.",
+    s19_20: "Pennsylvania (1947). Dopo l'ENIAC dell'Università della Pennsylvania (Filadelfia 1946), Eckert e Mauchly fondano l'azienda pioniera dell'informatica commerciale (futuro UNIVAC); Pittsburgh avvia il Piano di Rinnovamento Urbano 'Renaissance'.",
+    s21: "Pennsylvania (giugno 1948). L'acciaio della Monongahela Valley e il carbone antracite sostengono il rilancio industriale europeo del Piano Marshall e la produzione ferroviaria americana.",
+    s22: "Pennsylvania (dicembre 1948). Vittoria di Dewey nello Stato nel novembre 1948; Westinghouse Electric presso Pittsburgh riceve i primi appalti navali per il reattore sottomarino del programma nucleare USA.",
+  },
+  US_RI: {
+    s18: "Rhode Island (settembre 1945). Smobilitazione parziale di Quonset Point e della base dei Seabees di Davisville; il Naval War College di Newport elabora le nuove dottrine strategiche marittime.",
+    s19_20: "Rhode Island (1947). La U.S. Atlantic Fleet mantiene a Newport e Quonset Point le unità di cacciatorpediniere e portaerei leggere dedicate alla sorveglianza atlantica della Guerra Fredda.",
+    s21: "Rhode Island (giugno 1948). Riorganizzazione navale a Newport e graduale transizione dell'industria tessile e meccanica verso settori di alta precisione.",
+    s22: "Rhode Island (dicembre 1948). Netta vittoria di Truman nello Stato nel novembre 1948; il Naval War College di Newport dirige l'analisi strategica delle rotte dell'Atlantico settentrionale.",
+  },
+  US_SC: {
+    s18: "South Carolina (settembre 1945). Riconversione di Charleston Naval Shipyard e smobilitazione di Fort Jackson e Parris Island; ascesa industriale del tessile nel Piedmont.",
+    s19_20: "South Carolina (1947). Il governatore Strom Thurmond consolida la base politica conservatrice sudista mentre i cantieri di Charleston operano sulla manutenzione della flotta atlantica.",
+    s21: "South Carolina (giugno 1948). Nel luglio 1948 a Birmingham, il governatore Strom Thurmond accetta la candidatura presidenziale dello States' Rights Democratic Party (Dixiecrats).",
+    s22: "South Carolina (dicembre 1948). Nelle elezioni del 2 novembre 1948 lo Stato accorda il 72% dei voti al governatore locale Strom Thurmond; Charleston rafforza le capacità navali e anfibie dei Marines a Parris Island.",
+  },
+  US_SD: {
+    s18: "South Dakota (settembre 1945). Chiusura di campi d'addestramento B-17 (Rapid City) e avvio dei progetti per le grandi dighe di sbarramento sul fiume Missouri (Fort Randall).",
+    s19_20: "South Dakota (1947). La base aerea di Rapid City (Weaver/Ellsworth AFB) diventa sede strategica di bombardieri pesanti intercontinentali B-29 e poi B-36 Peacemaker nelle Grandi Pianure.",
+    s21: "South Dakota (giugno 1948). Espansione delle opere di Fort Randall Dam e massima produzione agricola delle praterie per gli invii alimentari europei.",
+    s22: "South Dakota (dicembre 1948). Vittoria repubblicana di Dewey nello Stato nel novembre 1948; Rapid City AFB è integrata nella rete dei campi strategici atomici dello SAC.",
+  },
+  US_TN: {
+    s14_17: "Tennessee (1944–maggio 1945). Nella città segreta di Oak Ridge (Clinton Engineer Works, alimentata dalla TVA), gli impianti K-25 e Y-12 arricchiscono l'uranio-235 per la prima bomba atomica ('Little Boy') mentre a Memphis e Nashville ferve la produzione militare.",
+    s18: "Tennessee (settembre 1945). Rivelata l'esistenza degli impianti nucleari di Oak Ridge dopo Hiroshima e Nagasaki; il complesso di arricchimento passa gradualmente dalla gestione militare MED a pianificazione atomica permanente.",
+    s19_20: "Tennessee (1947). L'Atomic Energy Commission (AEC) istituisce ufficialmente l'Oak Ridge National Laboratory (ORNL), aprendo il reattore X-10 alla ricerca nucleare, ai radioisotopi medici e al controllo civile.",
+    s21: "Tennessee (giugno 1948). L'energia idroelettrica della Tennessee Valley Authority (TVA) e la capacità industriale chimico-nucleare di Oak Ridge alimentano l'espansione del programma atomico americano.",
+    s22: "Tennessee (dicembre 1948). Harry S. Truman prevale nel Tennessee il 2 novembre 1948 (battendo il ticket Dixiecrat di Thurmond e Dewey) ed elegge al Senato il progressista Estes Kefauver; vicino a Tullahoma sorge il polo aerodinamico Arnold (AEDC).",
+    hist18: "State of Tennessee (Oak Ridge Segreto & TVA — Era Atomica 1945)",
+    hist19: "State of Tennessee (AEC Oak Ridge National Laboratory & TVA, 1947–1948)",
+    hist22: "State of Tennessee (AEC Oak Ridge Nat. Lab · TVA & Elezioni 1948, Dic 1948)",
+  },
+  US_TX: {
+    s18: "Texas (settembre 1945). Smobilitazione dei grandi centri aeronautici dell'Army Air Forces; boom postbellico di petrolio, gomma sintetica e chimica lungo lo Houston Ship Channel.",
+    s19_20: "Texas (1947). Nonostante il disastro esplosivo del porto di Texas City (aprile 1947), la petrochimica del Golfo esplode; a Fort Worth (Consolidated Vultee) entra in collaudo il colossale bombardiere intercontinentale Convair B-36.",
+    s21: "Texas (giugno 1948). Carswell AFB (Fort Worth) riceve il 26 giugno 1948 i primi B-36A Peacemaker operativi dello Strategic Air Command; Lyndon B. Johnson vince di misura le combattutissime primarie senatoriali.",
+    s22: "Texas (dicembre 1948). Truman conquista largamente il Texas nel novembre 1948 portando Lyndon B. Johnson al Senato; Carswell AFB (B-36) e Lackland/Randolph AFB (San Antonio) guidano la potenza aerea strategica USA.",
+    hist22: "State of Texas (Carswell AFB B-36 · Petrochimica Golfo & Elezione LBJ, Dic 1948)",
+  },
+  US_UT: {
+    s18: "Utah (settembre 1945). L'acciaieria federale di Geneva Steel (Provo) e i depositi logistici di Hill Field/Ogden avviano la transizione civile nell'Intermountain West.",
+    s19_20: "Utah (1947). Acquisita da U.S. Steel nel dopoguerra, Geneva Steel fornisce profilati per l'intero Ovest statunitense; Hill AFB rimane hub di manutenzione e revisione dei velivoli a reazione USAF.",
+    s21: "Utah (giugno 1948). Ripresa mineraria (Kennecott a Bingham Canyon) ed espansione dei depositi militari e di prova nel deserto di Dugway.",
+    s22: "Utah (dicembre 1948). Forte affermazione di Harry S. Truman nello Utah nel novembre 1948; crescita mineraria e logistica attorno a Salt Lake City e Ogden.",
+  },
+  US_VT: {
+    s18: "Vermont (settembre 1945). Riconversione civile dell'industria meccanica di precisione di Springfield e della tradizionale economia lattiero-casearia delle Green Mountains.",
+    s19_20: "Vermont (1947). Modernizzazione stradale ed elettrica delle contee rurali; macchine utensili esportate per la ricostruzione industriale occidentale.",
+    s21: "Vermont (giugno 1948). Stabile ripresa manifatturiera e agricola nella cornice economica del New England postbellico.",
+    s22: "Vermont (dicembre 1948). Rocca repubblicana pro-Dewey nel novembre 1948; stabilità produttiva di macchine utensili e produzioni lattiero-casearie verso le metropoli atlantiche.",
+  },
+  US_VA: {
+    s18: "Virginia (settembre 1945). Norfolk Naval Shipyard e Newport News gestiscono il disarmo navale della grande flotta atlantica; ad Arlington il Pentagono coordina la smobilitazione globale.",
+    s19_20: "Virginia (1947). Con il National Security Act del 26 luglio 1947 (effettivo il 18 settembre), il Pentagono ad Arlington diviene sede del neoistituito Dipartimento della Difesa unificato (Segretario James Forrestal); Langely AFB ospita la ricerca NACA sui voli supersonici.",
+    s21: "Virginia (giugno 1948). Norfolk consolida la flotta atlantica e Newport News imposta progetti di super-portaerei postbelliche mentre la CIA organizza le sedi operative nell'area di Washington/Virginia settentrionale.",
+    s22: "Virginia (dicembre 1948). Truman vince in Virginia nel novembre 1948 nonostante le resistenze segregazioniste; il Pentagono (Arlington) e la Naval Station Norfolk dirigono la strategia atlantica alla vigilia del Patto NATO.",
+    hist19: "Commonwealth of Virginia (Pentagono / Dipartimento della Difesa 1947 & Norfolk)",
+    hist22: "Commonwealth of Virginia (Pentagono DOD · Norfolk Atlantic Fleet & NACA Langley, Dic 1948)",
+  },
+  US_WA: {
+    s14_17: "Washington (1944–maggio 1945). Al Hanford Engineer Works lungo il fiume Columbia, il reattore B produce il plutonio impiegato nel test Trinity e nella bomba su Nagasaki; a Seattle Boeing costruisce il B-29 Superfortress.",
+    s18: "Washington (settembre 1945). Dopo la resa del Giappone, Puget Sound Navy Yard (Bremerton) smantella o mette in riserva decine di navi da battaglia; Hanford continua la produzione di plutonio sotto tutela atomica federale.",
+    s19_20: "Washington (1947). A Seattle il 17 dicembre 1947 vola per la prima volta il bombardiere strategico a getto Boeing XB-47 Stratojet; l'AEC affida a General Electric il gigantesco ampliamento dei reattori di Hanford.",
+    s21: "Washington (giugno 1948). Mentre le dighe del Columbia (Grand Coulee) alimentano alluminio e reattori di Hanford, Seattle guida il traffico marittimo verso l'Alaska e l'Estremo Oriente occupato.",
+    s22: "Washington (dicembre 1948). Truman riconquista lo Stato di Washington nel novembre 1948; Hanford (plutonio), Boeing Seattle (programma strategico B-47/B-50/B-52) e Fort Lewis formano il baluardo industriale del Pacifico nord-occidentale.",
+    hist18: "State of Washington (Hanford Plutonio · Boeing Seattle & Bremerton, 1945)",
+    hist19: "State of Washington (AEC Hanford · Boeing XB-47 & Grand Coulee, 1947–1948)",
+    hist22: "State of Washington (AEC Hanford · Boeing Seattle/XB-47 & Bremerton, Dic 1948)",
+  },
+  US_WV: {
+    s18: "West Virginia (settembre 1945). I bacini carboniferi bituminosi appalachiani e gli impianti chimici della Kanawha Valley sostengono la riconversione siderurgica ed energetica statunitense.",
+    s19_20: "West Virginia (1947). Il carbone della West Virginia raggiunge picchi storici di estrazione (circa 176 milioni di tonnellate annue nel 1947) per alimentare l'acciaio americano e l'emergenza energetica europea.",
+    s21: "West Virginia (giugno 1948). Spedizioni massive di carbone metallurgico verso l'Europa occidentale nel primo anno del Piano Marshall tra intense vertenze sindacali dell'UMWA di John L. Lewis.",
+    s22: "West Virginia (dicembre 1948). Forte maggioranza per Harry S. Truman nel novembre 1948 (oltre il 57%); massima produzione carbonifera e chimica della Valle di Kanawha.",
+  },
+  US_WI: {
+    s18: "Wisconsin (settembre 1945). I cantieri di Manitowoc concludono la produzione dei sommergibili fluviali/oceanici mentre Milwaukee riconverte le officine meccaniche pesanti Allis-Chalmers ai trattori agricoli e alle turbine.",
+    s19_20: "Wisconsin (1947). Espansione dell'industria lattiero-casearia, meccanica e della birra nel dopoguerra; Joseph McCarthy fa il suo ingresso al Senato federale nel gennaio 1947.",
+    s21: "Wisconsin (giugno 1948). Centenario statale del Wisconsin (maggio 1948) in piena espansione agroindustriale ed esportazione di macchinari verso il continente europeo.",
+    s22: "Wisconsin (dicembre 1948). Nel novembre 1948 il Wisconsin premia di misura Harry S. Truman con oltre il 50% dei voti nell'area rurale e operaia dei Grandi Laghi.",
+  },
+  US_WY: {
+    s18: "Wyoming (settembre 1945). Riconversione ferroviaria (Cheyenne / Union Pacific) e petrolifera nel bacino del Powder River e cierre dei centri di internamento di Heart Mountain.",
+    s19_20: "Wyoming (1947). Francis E. Warren Air Force Base (Cheyenne) passa dal controllo dell'Esercito all'Air Training Command dell'U.S. Air Force.",
+    s21: "Wyoming (giugno 1948). Crescita dell'estrazione petrolifera, di soda naturale (trona) a Green River e zootecnia delle Grandi Pianure.",
+    s22: "Wyoming (dicembre 1948). Vittoria di Truman nel Wyoming nel novembre 1948; rilancio dell'energia e degli assi logistici ferroviari transcontinentali.",
+  },
+  US_DC: {
+    s14_17: "Washington D.C. (1944–maggio 1945). Nell'autunno 1944 la Conferenza di Dumbarton Oaks traccia la bozza delle Nazioni Unite; il 12 aprile 1945 muore FDR e Harry S. Truman assume la presidenza guidando l'America alla vittoria finale in Europa.",
+    s18: "Washington D.C. (settembre 1945). Capitale della vittoria alleata dopo la firma della resa giapponese del 2 settembre 1945; l'amministrazione Truman lancia la riconversione economica interna, l'ONU e la gestione dell'era atomica.",
+    s19_20: "Washington D.C. (1947). Il 12 marzo 1947 Truman proclama al Congresso la 'Dottrina Truman' di contenimento del comunismo (aiuti a Grecia e Turchia); nel luglio 1947 entra in vigore il National Security Act (DOD, CIA, NSC) mentre George Marshall lancia il Piano Marshall.",
+    s21: "Washington D.C. (giugno 1948). Il 3 aprile 1948 Truman firma l'Economic Cooperation Act (Piano Marshall); in risposta al Blocco di Berlino (24 giugno), la Casa Bianca ordina il Ponte Aereo e il rischieramento dei B-29 in Europa. Il 26 luglio firma l'Ordine Esecutivo 9981 che abolisce la segregazione nelle Forze Armate.",
+    s22: "Washington D.C. (31 dicembre 1948). Il 2 novembre 1948 Harry S. Truman compie una storica vittoria elettorale in rimonta su Thomas E. Dewey assicurandosi un pieno mandato per il Fair Deal, il Ponte Aereo invernale di Berlino e i negoziati finali del Patto Nordatlantico (NATO).",
+    hist18: "District of Columbia — Washington D.C. (Presidenza Truman · Vittoria Globale 1945)",
+    hist19: "District of Columbia — Washington D.C. (Dottrina Truman · Piano Marshall & NSC 1947)",
+    hist22: "District of Columbia — Washington D.C. (Rielezione Truman 2 Nov 1948 · Ponte Aereo & Negoziati NATO)",
+    admin19: "United States of America — Federal Capital (Pres. Harry S. Truman / DOD & NSC)",
+    admin22: "United States of America — Federal Capital (Pres. Harry S. Truman Rieletto / Ponte Aereo & Piano Marshall)",
+  },
+  US_AK: {
+    s14_17: "Territory of Alaska (1944–maggio 1945). Lungo la Northwest Staging Route (Fairbanks/Ladd Field), oltre 7.900 velivoli Lend-Lease (ALSIB) vengono consegnati ai piloti sovietici fino alla vittoria; presidi strategici in piena mobilitazione subartica.",
+    s18: "Territory of Alaska (settembre 1945). Chiuso il corridoio aereo ALSIB verso la Siberia; gli USA smobilitano i grandi campi temporanei mantenendo però le basi aeree strategiche lungo la rotta polare.",
+    s19_20: "Territory of Alaska (1947). Nell'ambito della Guerra Fredda viene istituito nel 1947 lo unified Alaskan Command con HQ a Fort Richardson / Elmendorf AFB (Anchorage); riprende la spinta parlamentare per l'ammissione come Stato dell'Unione.",
+    s21: "Territory of Alaska (giugno 1948). Eielson AFB (vicino a Fairbanks) ed Elmendorf AFB fungono da piattaforme avanzate per i ricognitori strategici artici e i bombardieri SAC diretti sulle rotte transpolari.",
+    s22: "Territory of Alaska (dicembre 1948). Territorio organizzato statunitense trasformato in prima linea artica nordamericana (Alaskan Command, Elmendorf & Eielson AFB) sotto la guida civile del Governatore Ernest Gruening.",
+    hist18: "Territory of Alaska (Smobilitazione ALSIB & Presidio Artico Postbellico 1945)",
+    hist19: "Territory of Alaska (Alaskan Command 1947 · Elmendorf & Eielson AFB)",
+    hist22: "Territory of Alaska (Alaskan Command · Prima Linea Polare Guerra Fredda, Dic 1948)",
+  },
+  US_HAWAII: {
+    s14_17: "Territory of Hawaii (1944–maggio 1945). Dopo quasi tre anni di legge marziale (revocata dal Presidente Roosevelt il 24 ottobre 1944), Oahu torna a governo civile pur restando l'immensa retrovia logistica navale per gli assalti a Iwo Jima e Okinawa.",
+    s18: "Territory of Hawaii (settembre 1945). Con la vittoria nel Pacifico, Pearl Harbor e Honolulu avviano il rientro smobilizzato delle flotte e la piena ripresa civile dell'economia zuccheriera e dell'ananas.",
+    s19_20: "Territory of Hawaii (1947). Il 1° gennaio 1947 Pearl Harbor diventa il Quartier Generale del nuovo unified U.S. Pacific Command (USPACOM); a seguito del grande sciopero dello zucchero del 1946 si afferma il movimento per la dignità sindacale e la Statualità.",
+    s21: "Territory of Hawaii (giugno 1948). Perno logistico e aeronavale (Pearl Harbor / Hickam AFB) per il supporto all'Operazione Sandstone nel Pacifico e alla presenza statunitense in Giappone e Corea.",
+    s22: "Territory of Hawaii (dicembre 1948). Nel 1948 prosegue al Congresso la battaglia per la Statehood delle Hawaii (ancora Territorio Organizzato sotto il Governatore Ingram Stainback), mentre Hickam/Pearl Harbor gestiscono le linee del Pacifico.",
+    hist18: "Territory of Hawaii (Honolulu & Pearl Harbor — Governo Civile Postbellico 1945)",
+    hist19: "Territory of Hawaii (HQ Pacific Command / CINCPAC 1947–1948)",
+    hist22: "Territory of Hawaii (HQ CINCPAC Pearl Harbor & Movimento Statehood, Dic 1948)",
+    admin19: "United States of America — Territory of Hawaii (Governo Civile / HQ USPACOM & Pearl Harbor)",
+    admin22: "United States of America — Territory of Hawaii (Gov. Ingram Stainback / HQ CINCPAC)",
+  },
+  US_GUANTANAMO: {
+    s18: "Base Navale di Guantánamo Bay (settembre 1945). Smobilitate le scorte dei convogli caraibici antisommergibile, Guantánamo permane enclave navale perpetua USA in base ai trattati del 1903 e 1934 per l'addestramento della Flotta Atlantica.",
+    s19_20: "Base Navale di Guantánamo Bay (1947). Sotto il comandante navale della Flotta Atlantica, GTMO ospita la Fleet Training Group per le manovre stagionali e il pattugliamento dei Caraibi.",
+    s21: "Base Navale di Guantánamo Bay (giugno 1948). Addestramento congiunto della U.S. Atlantic Fleet e sorveglianza navale lungo il Canale Sopravvento tra Cuba e Haiti.",
+    s22: "Base Navale di Guantánamo Bay (dicembre 1948). Enclave navale statunitense in territorio cubano pienamente operativa nella rete caraibica-atlantica della U.S. Navy.",
+    hist18: "U.S. Naval Base Guantánamo Bay (Addestramento Postbellico Atlantic Fleet)",
+    hist22: "U.S. Naval Station Guantánamo Bay (Fleet Training Group Caraibi, Dic 1948)",
+  },
+  US_PCZ: {
+    s18: "Panama Canal Zone (settembre 1945). Passata la minaccia navale dell'Asse e completati i transiti verso il Pacifico per la campagna finale contro il Giappone, la Zona del Canale torna a regime di sicurezza postbellico.",
+    s19_20: "Panama Canal Zone (1947). Nell'ambito della ristrutturazione militare USA nasce nel 1947 il Caribbean Command (HQ a Quarry Heights); nel dicembre 1947 il parlamento panamense rifiuta la proroga delle basi esterne alla Zona del Canale costringendo gli USA a concentrarsi dentro la fascia sovrana della Canal Zone.",
+    s21: "Panama Canal Zone (giugno 1948). Evacuate le basi esterne di Río Hato e Baltra, il traffico marittimo globale commerciale riprende a pieno regime attraverso le chiuse di Miraflores e Gatún sotto sovranità statunitense.",
+    s22: "Panama Canal Zone (dicembre 1948). Arteria interoceanica strategica sotto amministrazione federale statunitense (Governatore Francis K. Newcomer) e HQ del Caribbean Command a difesa delle rotte americane.",
+    hist18: "Panama Canal Zone (Sovranità Interoceanica USA — Post-1945)",
+    hist19: "Panama Canal Zone (U.S. Caribbean Command 1947 · Ritiro Basi Esterne)",
+    hist22: "Panama Canal Zone (Gov. F.K. Newcomer · U.S. Caribbean Command, Dic 1948)",
+  },
+  PR: {
+    s18: "Puerto Rico (settembre 1945). Fine del blocco sottomarino nei Caraibi; sotto il governatore Rexford Tugwell si prepara il passaggio verso un governatore portoricano nativo e il programma industriale 'Operation Bootstrap'.",
+    s19_20: "Puerto Rico (1947). Nell'agosto 1947 il Presidente Truman firma l'Elective Governor Act che concede per la prima volta ai portoricani il diritto di eleggere democraticamente il proprio Governatore (Jesus T. Piñero è ultimo governatore di nomina presidenziale dal 1946).",
+    s21: "Puerto Rico (giugno 1948). Piena preparazione elettorale per le storiche elezioni governatoriali d'autunno; Roosevelt Roads resta caposaldo aeronavale della Marina nei Caraibi orientali.",
+    s22: "Puerto Rico (dicembre 1948). Svolta storica il 2 novembre 1948: Luis Muñoz Marín (Partito Popolare Democratico) è eletto primo Governatore democraticamente scelto dal popolo nella storia dell'isola (insediamento gennaio 1949; lo Stato Libero Associato nascerà solo nel 1952).",
+    hist18: "Territory of Puerto Rico (San Juan — Transizione Postbellica, 1945)",
+    hist19: "Territory of Puerto Rico (Elective Governor Act Agosto 1947 · Gov. Jesús T. Piñero)",
+    hist22: "Territory of Puerto Rico (Elezione Storica di Luis Muñoz Marín — 2 Nov 1948)",
+  },
+  VI: {
+    s18: "Isole Vergini Statunitensi (settembre 1945). Riconversione della base navale e sottomarina di Charlotte Amalie (St. Thomas) alla tutela civile sotto il Dipartimento degli Interni USA.",
+    s19_20: "Isole Vergini Statunitensi (1947). Sotto il governatore William H. Hastie (primo governatore afroamericano nella storia dell'isola, nominato da Truman nel 1946), l'arcipelago promuove turismo e infrastrutture civili.",
+    s21: "Isole Vergini Statunitensi (giugno 1948). Amministrazione civile del Governatore William H. Hastie (St. Thomas, St. Croix, St. John) nella tutela territoriale caraibica degli Stati Uniti.",
+    s22: "Isole Vergini Statunitensi (dicembre 1948). Ripresa economica e turistica postbellica sotto la guida civile di William H. Hastie nell'Organic Act del 1936.",
+    hist18: "U.S. Virgin Islands (Charlotte Amalie — Dopoguerra)",
+    hist22: "U.S. Virgin Islands (Gov. William H. Hastie — Territorio Non Incorporato USA, Dic 1948)",
+  },
+  GU: {
+    s18: "Territorio di Guam (settembre 1945). Con la resa del Giappone, Apra Harbor e le basi dei B-29 di Guam gestiscono il rimpatrio militare dal Pacifico occidentale e mantengono il presidio permanente delle Marianne.",
+    s19_20: "Territorio di Guam (1947). Territorio Non Incorporato amministrato dalla U.S. Navy (Apra Harbor e Andersen/North Field); cresce intanto il movimento locale del Guam Congress per ottenere cittadinanza statunitense e governo civile.",
+    s21: "Territorio di Guam (giugno 1948). North Field (Andersen AFB) ospita rotazioni di bombardieri strategici USA nel Pacifico occidentale mentre si acuisce la crisi civile locale contro l'amministrazione navale.",
+    s22: "Territorio di Guam (dicembre 1948). Perno strategico statunitense nelle Marianne (Apra Harbor & North Field AFB) sotto autorità della U.S. Navy in attesa dell'Organic Act civile (previsto solo nel 1950).",
+    hist18: "Territory of Guam (Base Strategica Apra Harbor & HQ Avanzato Pacifico, 1945)",
+    hist19: "Territory of Guam (Amministrazione Navale USA — Apra Harbor & North Field, 1947–1948)",
+    hist22: "Territory of Guam (U.S. Navy · Andersen/North Field & Apra Harbor, Dic 1948)",
+  },
+  AS: {
+    s18: "Samoa Americane (settembre 1945). Smobilitazione della stazione navale di Pago Pago dopo il grande servizio logistico bellico nel Pacifico meridionale; proseguono la pesca e il presidio della U.S. Navy.",
+    s19_20: "Samoa Americane (1947). Amministrazione navale statunitense a Tutuila (Pago Pago); istituzione della prima Fono (assemblea consultiva samoana) nel dopoguerra.",
+    s21: "Samoa Americane (giugno 1948). Avvio delle proposte locali di transizione dal governo della U.S. Navy al Dipartimento degli Interni e sviluppo portuale di Pago Pago.",
+    s22: "Samoa Americane (dicembre 1948). Presidio navale statunitense a Pago Pago e riforme locali verso l'autonomia amministrativa (trasferimento agli Interni previsto nel 1951).",
+    hist18: "American Samoa (Pago Pago — Smobilitazione Postbellica Pacifico Sud)",
+    hist22: "American Samoa (Naval Station Tutuila / Pago Pago — Amministrazione Navale USA, Dic 1948)",
+  },
+  UM_MIDWAY: {
+    s18: "Atollo di Midway (settembre 1945). Dopo aver ospitato lo storico trionfo aeronavale del giugno 1942 e l'appoggio ai sottomarini nel Pacifico, Midway rimane scalo navale ed aereo della U.S. Navy sulla rotta transpacifica.",
+    s19_20: "Atollo di Midway (1947). Naval Air Station Midway opera sotto tutela U.S. Navy/CAA per i collegamenti aerei civili e militari tra le Hawaii e il Giappone occupato.",
+    s21: "Atollo di Midway (giugno 1948). Scalo intermedio e stazione radar-meteo nel Pacifico centrale a sostegno delle rotte militari e civili transpacifiche.",
+    s22: "Atollo di Midway (dicembre 1948). Base navale ed aerea statunitense attiva lungo il corridoio strategico Honolulu–Tokyo.",
+    hist18: "Midway Atoll (Scalo Aeronavale U.S. Navy Pacifico Centrale, 1945)",
+    hist22: "Midway Atoll (Naval Station Midway — Rotta Transpacifica, Dic 1948)",
+  },
+  UM_WAKE: {
+    s18: "Atollo di Wake (settembre 1945). Il 4 settembre 1945 il contrammiraglio giapponese Shigematsu Sakaibara firma a bordo dell'USS Levy la resa della guarnigione di Wake dinanzi al Gen. dei Marines Lawson Sanderson, restituendo l'atollo alla sovranità USA.",
+    s19_20: "Atollo di Wake (1947). Amministrata dalla Civil Aeronautics Administration (CAA) su mandato della U.S. Navy, la pista di Wake diviene scalo tecnico chiave dei voli transatlantici-transpacifici tra Honolulu, Guam e Tokyo.",
+    s21: "Atollo di Wake (giugno 1948). Scalo civile e militare attivo sotto la CAA statunitense sulla dorsale aerea del Pacifico centrale.",
+    s22: "Atollo di Wake (dicembre 1948). Scalo aereo intercontinentale e stazione meteorologica della CAA/U.S. Navy tra le Hawaii e le Marianne.",
+    hist18: "Wake Island (Resa Giapponese del 4 Settembre 1945 — Ritorno agli USA)",
+    hist19: "Wake Island (Territorio Non Incorporato USA — Civil Aeronautics Administration, 1947–1948)",
+    hist22: "Wake Island (Scalo Transpacifico CAA / U.S. Navy, Dic 1948)",
+  },
+  US_AK_ALEUTIANS_WEST: {
+    s14_17: "Isole Aleutine Occidentali — Attu e Kiska (1944–maggio 1945). Dopo la riconquista di Attu (maggio 1943) e l'evacuazione giapponese di Kiska (luglio 1943), gli aerodromi di Attu e Shemya ospitano i bombardieri B-24 dell'11th Air Force impegnati nei raid sulle Curili giapponesi.",
+    s18: "Isole Aleutine Occidentali (settembre 1945). Cessate le missioni sulle Curili contro il Giappone, i presidi di Attu e Kiska avviano la smobilitazione subartica mentre resta presidiata la pista strategica di Shemya.",
+    s19_20: "Isole Aleutine Occidentali (1947). Kiska e gran parte degli impianti di Attu sono chiusi; l'avamposto aereo e radar di Shemya (Alaskan Air Command) e la stazione LORAN di Attu sorvegliano il Mare di Bering e la Kamčatka sovietica.",
+    s21: "Isole Aleutine Occidentali (giugno 1948). Presidio di ricognizione subartica e sorveglianza meteo-radar a Shemya e Attu lungo il confine aeronavale del Nord Pacifico.",
+    s22: "Isole Aleutine Occidentali (dicembre 1948). Shemya AFB e la stazione LORAN della Guardia Costiera ad Attu presidiano l'estremità occidentale delle Aleutine nella rete di allerta artica contro l'Estremo Oriente sovietico.",
+    hist18: "Western Aleutian Islands — Attu, Kiska & Shemya (Smobilitazione Post-1945)",
+    hist19: "Western Aleutian Islands — Shemya AFB & Sorveglianza Mare di Bering (1947–1948)",
+    hist22: "Western Aleutian Islands — Shemya AFB & Stazione LORAN Attu (Difesa Nord Pacifico, Dic 1948)",
+  },
+};
+
+// Override Step 9 (DIC 1941), Step 10 (AGO 1942), Steps 12-17 e Refresh Completo Dopoguerra Steps 18-22 (1945-Dic 1948)
 for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
   const origSov = meta.getSovereign.bind(meta);
   const origFac = meta.getFaction.bind(meta);
   const origHist = meta.getHistoricalName.bind(meta);
   const origAdmin = meta.getAdminTitle.bind(meta);
   const origNote = meta.getNote.bind(meta);
+  const upd = USA_LATE_UPDATES[meta.id];
 
   meta.getSovereign = (s: number) => {
     if (s >= 18 && meta.id === 'UM_WAKE') return 'USA';
@@ -2247,15 +2700,20 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
-    if (s >= 18 && meta.id === 'UM_WAKE') {
-      return s >= 19
-        ? 'Wake Island (Territorio Non Incorporato USA — Civil Aeronautics Administration)'
-        : 'Wake Island (Resa Giapponese del 4 Settembre 1945 — Ritorno agli USA)';
+    if (s >= 22 && upd?.hist22) return upd.hist22;
+    if (s >= 22) {
+      return `${origHist(8)} (Amministrazione Truman II · Ponte Aereo & Guerra Fredda, Dic 1948)`;
+    }
+    if (s >= 19 && upd?.hist19) return upd.hist19;
+    if (s >= 19) {
+      return `${origHist(8)} (Dottrina Truman · Piano Marshall & Dopoguerra, ${s >= 21 ? '1948' : '1947'})`;
+    }
+    if (s >= 18 && upd?.hist18) return upd.hist18;
+    if (s >= 18) {
+      return `${origHist(8)} (Vittoria Alleata & Riconversione Postbellica, 1945)`;
     }
     if (s >= 15 && meta.id === 'GU') {
-      return s >= 19
-        ? 'Territory of Guam (Amministrazione Navale USA — Ricostruzione Postbellica)'
-        : 'Territory of Guam (Liberazione Statunitense — 10 Agosto 1944)';
+      return 'Territory of Guam (Liberazione Statunitense — 10 Agosto 1944)';
     }
     if (s >= 12 && meta.id === 'US_AK_ALEUTIANS_WEST') {
       return 'Western Aleutian Islands — Attu & Kiska (Riconquista di Attu & Evacuazione Giapponese di Kiska, Luglio 1943)';
@@ -2281,8 +2739,16 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origHist(s);
   };
   meta.getAdminTitle = (s: number) => {
-    if (s >= 18 && meta.id === 'UM_WAKE') {
-      return 'United States Navy / Civil Aeronautics Administration — Wake Island';
+    if (s >= 22 && upd?.admin22) return upd.admin22;
+    if (s >= 22) {
+      return `United States of America — ${meta.modernName} (Amministrazione Truman II, Dic 1948)`;
+    }
+    if (s >= 19 && upd?.admin19) return upd.admin19;
+    if (s >= 18) {
+      if (meta.id === 'UM_WAKE') return 'United States Navy / Civil Aeronautics Administration — Wake Island';
+      if (meta.id === 'GU') return 'United States Navy — Territory of Guam (Apra Harbor / Marianas Command)';
+      if (meta.id === 'US_HAWAII') return 'United States of America — Territory of Hawaii (Governo Civile / HQ USPACOM)';
+      return `United States of America — ${meta.modernName} (Presidenza Harry S. Truman)`;
     }
     if (s >= 15 && meta.id === 'GU') {
       return 'United States of America — Territory of Guam (U.S. Navy & III Amphibious Corps — Maj. Gen. Roy Geiger)';
@@ -2301,6 +2767,13 @@ for (const meta of new Set(Object.values(USA_PROVINCES_META))) {
     return origAdmin(s);
   };
   meta.getNote = (s: number) => {
+    if (upd) {
+      if (s >= 22) return upd.s22;
+      if (s >= 21) return upd.s21;
+      if (s >= 19) return upd.s19_20;
+      if (s >= 18) return upd.s18;
+      if (s >= 14 && upd.s14_17) return upd.s14_17;
+    }
     if (s >= 18 && meta.id === 'UM_WAKE') {
       return s >= 19
         ? "Al 30 settembre 1947 l'atollo di Wake funge da strategico scalo transpacifico dell'aviazione civile e navale statunitense (CAA / U.S. Navy)."

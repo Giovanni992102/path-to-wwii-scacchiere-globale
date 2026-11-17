@@ -363,8 +363,27 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     p.REGION_KIND === 'KOREA_PROVINCE' ||
     p.REGION_KIND === 'RAJ_PROVINCE' ||
     p.REGION_KIND === 'ALGERIA_PROVINCE' ||
+    p.REGION_KIND === 'FR_COASTAL_POCKET' ||
+    cleanId.startsWith('FR_HIST_POCHE_') ||
     p.REGION_KIND === 'US_MILITARY_BASE' ||
     p.REGION_KIND === 'GERMANY_PROVINCE' ||
+    p.REGION_KIND === 'SPAIN_TERRITORY' ||
+    cleanId === 'ES_IFNI' ||
+    p.CNTR_CODE === 'ES_IFNI' ||
+    cleanId === 'ES_RIF' ||
+    p.CNTR_CODE === 'ES_RIF' ||
+    cleanId === 'TANGER' ||
+    cleanId === 'ES630' ||
+    cleanId === 'ES640' ||
+    cleanId === 'HIST_XX_SPANISH_SAHARA' ||
+    cleanId === 'HIST_XX_RIO_DE_ORO' ||
+    cleanId === 'HIST_XX_NEPAL' ||
+    cleanId === 'HIST_XX_ERITREA_ITALY' ||
+    p.REGION_KIND === 'CHINA_PROVINCE' ||
+    nid.startsWith('CHN_') ||
+    cleanId.startsWith('CHN_') ||
+    p.CNTR_CODE === 'CN_PROV' ||
+    (feature.__layer === 'hb' && step >= 18 && cleanId.includes('SOUTH_SEAS_MANDATE')) ||
     p.REGION_KIND === 'INDOCHINA_PROVINCE' ||
     p.REGION_KIND === 'FRENCH_PACIFIC_TERRITORY' ||
     cleanId === 'PF_POLYNESIA' ||

@@ -65,7 +65,296 @@ const FRANCE_ITALIAN_ZONE_1942 = new Set<string>([
   'FRM01', 'FRM02', 'FRK27', 'FRK28', 'FRK24', 'FRL02', 'FRK23', 'FRL01', 'FRL03', 'FRL05', 'FRL06',
 ]);
 
-const FRANCE_ATLANTIC_POCKETS_16_17 = new Set<string>(['FRH04', 'FRG01', 'FRI32']);
+const FRANCE_ATLANTIC_POCKETS_16_17 = new Set<string>([]);
+
+interface CoastalPocketProfile {
+  id: string;
+  preName: string;
+  baseName: string;
+  parentLabel: string;
+  occAdmin: string;
+  s0_1: string;
+  s2_4: string;
+  s5: string;
+  s6: string;
+  s7: string;
+  s8_9: string;
+  s10_11: string;
+  s12_13: string;
+  s14: string;
+  siege15: string;
+  siege16: string;
+  apr45Status: 'GER' | 'FRA';
+  apr45Note: string;
+  postNote18: string;
+  s19: string;
+  s20: string;
+  s21: string;
+  s22: string;
+  surrenderLabel: string;
+}
+
+const FRANCE_COASTAL_POCKET_PROFILES: Record<string, CoastalPocketProfile> = {
+  FR_HIST_POCHE_DUNKERQUE: {
+    id: 'FR_HIST_POCHE_DUNKERQUE',
+    preName: 'Dunkerque / Littoral des Flandres',
+    baseName: 'Poche de Dunkerque',
+    parentLabel: 'Nord — Settore Costiero di Dunkerque / Gravelines / Bergues',
+    occAdmin: 'Zone rattachée — Militärverwaltung in Belgien und Nordfrankreich (Brüssel)',
+    s0_1: 'Terzo porto commerciale di Francia sul Mare del Nord (cantieri degli Ateliers et Chantiers de France e raffinerie); agitazioni operaie e scioperi del Fronte Popolare nel maggio–giugno 1936.',
+    s2_4: 'Piazzaforte marittima della Terza Repubblica a guardia dello Stretto di Dover: rafforzamento delle batterie costiere di Zuydcoote e del Settore Difensivo delle Fiandre tra Gravelines e Bergues.',
+    s5: 'Drôle de guerre (sett. 1939 – mag. 1940): mobilitazione del Settore Fortificato delle Fiandre (SF Flandres); Dunkerque funge da scalo marittimo e logistico per la 1ª Armata francese e la BEF britannica.',
+    s6: 'Dopo l\'evacuazione anglo-francese dell\'Operazione Dynamo (26 maggio – 4 giugno 1940, oltre 338.000 uomini tratti in salvo), Dunkerque cade alla Wehrmacht ed è aggregata all\'amministrazione militare di Bruxelles (Belgien und Nordfrankreich).',
+    s7: 'Autunno 1940: durante la Battaglia d\'Inghilterra e la sospesa Operazione Seelöwe, la Kriegsmarine installa a Dunkerque flottiglie di Schnellboote e dragamine contro i convogli nella Manica.',
+    s8_9: 'Nel 1941 il porto di Dunkerque opera come base avanzata di motosiluranti S-Boote e artiglieria costiera lungo la costa fiamminga mentre si organizza la Resistenza clandestina nel dipartimento del Nord.',
+    s10_11: 'Nel 1942 (Direttiva 40 sull\'Atlantikwall e allerta costiera dopo il raid di Dieppe / Operazione Jubilee dell\'agosto 1942) l\'Organizzazione Todt potenzia chiuse allagabili e bunker tra Gravelines, Dunkerque e Bray-Dunes.',
+    s12_13: 'Nel 1943 la fascia costiera di Dunkerque è integrata nel settore difensivo della 15ª Armata tedesca (KVA Flandern) con vasti sbarramenti minati e casematte contro eventuali sbarchi nel Pas-de-Calais.',
+    s14: 'Giugno 1944 (post-D-Day): designata Festung Dünkirchen da Hitler e già ispezionata dal Feldmaresciallo Rommel nei mesi precedenti, la piazzaforte predispone l\'allagamento difensivo dei polder delle Fiandre.',
+    siege15: 'Agosto 1944: mentre la 1ª Armata canadese avanza verso Calais e il Belgio, il Vizeadmiral Friedrich Frisius trincera oltre 12.000 tedeschi nel perimetro allagato tra Gravelines, Bergues e Dunkerque.',
+    siege16: 'Dicembre 1944: la piazzaforte di Festung Dünkirchen (Vizeadm. Frisius) resiste isolata sotto il blocco della 1ª Brigata Corazzata cecoslovacca (Gen. Alois Liška) e reparti britannico-francesi mentre Lille e il Nord sono già liberi.',
+    apr45Status: 'GER',
+    apr45Note: 'Aprile 1945 (al 30 aprile): la guarnigione di Festung Dünkirchen (Vizeadm. Friedrich Frisius) resiste ancora nell\'estrema sacca sul Mare del Nord davanti al contingente cecoslovacco del Gen. Alois Liška fino alla resa del 9 maggio 1945.',
+    postNote18: 'Capitolata il 9 maggio 1945 (resa di Frisius ad Alois Liška), Dunkerque distrutta all\'80% avvia sminamento portuale e prosciugamento dei polder allagati sotto il GPRF.',
+    s19: 'Settembre 1947: il Piano Monnet avvia la ricostruzione del bacino portuale, delle chiuse Watier e dei grandi cantieri navali di Dunkerque sotto la Quarta Repubblica.',
+    s20: 'Dicembre 1947: scioperi portuali e carboniferi nel Nord-Pas-de-Calais durante la crisi sociale dell\'inverno 1947, mentre proseguono i lavori d\'urgenza sulle banchine.',
+    s21: 'Giugno 1948: i primi crediti ERP (Piano Marshall) accelerano il riattamento delle gru, dei moli petroliferi e del porto franco di Dunkerque sul Mare del Nord.',
+    s22: 'Dicembre 1948: completato il ripristino dei bacini principali di Dunkerque, che torna tra i primi scali marittimi francesi sotto la Quarta Repubblica.',
+    surrenderLabel: 'Festung Dünkirchen (Vizeadm. Friedrich Frisius)',
+  },
+  FR_HIST_POCHE_LORIENT: {
+    id: 'FR_HIST_POCHE_LORIENT',
+    preName: 'Lorient / Arsenale di Keroman',
+    baseName: 'Poche de Lorient',
+    parentLabel: 'Morbihan — Settore Costiero di Lorient / Quiberon / Belle-Île / Groix',
+    occAdmin: 'Zone occupée — Militärbefehlshaber in Frankreich',
+    s0_1: 'Storico arsenale militare marittimo della Marine Nationale e porto peschereccio di Keroman sulla rada del Blavet e dello Scorff, con le isole strategiche di Groix e Belle-Île-en-Mer.',
+    s2_4: 'Riarmo navale francese: i cantieri di Lorient allestiscono incrociatori e sommergibili mentre Groix e la penisola di Quiberon presidiano gli accessi marittimi della Bretagna meridionale.',
+    s5: 'Drôle de guerre (sett. 1939 – mag. 1940): l\'arsenale di Lorient supporta la scorta dei convogli atlantici; il 17–19 giugno 1940 la Marine Nationale sabota depositi e bacini prima dell\'arrivo tedesco.',
+    s6: 'Occupata dalla Wehrmacht il 21 giugno 1940: i primi sommergibili U-Boot della Kriegsmarine utilizzano provvisoriamente gli scali dell\'arsenale di Lorient dopo l\'armistizio di Compiègne.',
+    s7: 'Autunno 1940: nell\'ottobre 1940 l\'ammiraglio Karl Dönitz trasferisce a Kernével (rada di Lorient) il quartier generale sottomarino (BdU — Befehlshaber der U-Boote), coordinando da qui i branchi di lupi nell\'Atlantico.',
+    s8_9: 'Nel 1941 l\'Organizzazione Todt avvia la costruzione dei colossali bunker corazzati Kéroman I, II e III per la 2. e 10. U-Boot-Flottille (completati tra fine 1941 e il 1942), rendendo la base pressoché immune ai bombardamenti convenzionali.',
+    s10_11: 'Nel 1942 Lorient-Keroman è all\'apice come principale base atlantica di U-Boot; nell\'ambito dell\'Atlantikwall vengono fortificate Port-Louis, Forte Penthièvre (Quiberon), Groix e Belle-Île.',
+    s12_13: 'Tra gennaio e febbraio 1943 bombardamenti a tappeto della RAF radono al suolo la città civile di Lorient lasciando intatti i bunker Kéroman; dopo il trasferimento del BdU a Parigi (marzo 1943) e la sconfitta U-Boot nel Golfo di Biscaglia (maggio 1943), la base passa sulla difensiva.',
+    s14: 'Giugno 1944 (Overlord): proclamata Festung Lorient da Hitler; mentre i sommergibili superstiti tentano di contrastare l\'invasione o ripiegano verso la Norvegia, la guarnigione prepara la difesa ad oltranza.',
+    siege15: 'Agosto 1944: liberata Vannes e l\'interno del Morbihan dalla 4ª Corazzata USA e dalle FFI, oltre 26.000 tedeschi del Gen. Wilhelm Fahrmbacher restano asserragliati nella fascia costiera di Festung Lorient (dal fiume Laïta ad Étel) e sulle isole.',
+    siege16: 'Dicembre 1944: Festung Lorient (Gen. Fahrmbacher) resiste accerchiata lungo il perimetro Laïta–Hennebont–Étel–Quiberon–Belle-Île dalle Forces Françaises de l\'Ouest (Gen. Edgard de Larminat).',
+    apr45Status: 'GER',
+    apr45Note: 'Aprile 1945 (al 30 aprile): la piazzaforte di Lorient (Gen. Wilhelm Fahrmbacher), Quiberon e le isole di Groix e Belle-Île restano ancora sotto controllo della Wehrmacht fino alla resa di Caudan del 10 maggio 1945.',
+    postNote18: 'Liberata il 10 maggio 1945 a Caudan (resa di Fahrmbacher), la fascia costiera di Lorient-Keroman entra sotto amministrazione civile del GPRF avviando sminamento e baraccamenti provvisori.',
+    s19: 'Settembre 1947: avvio dei grandi cantieri di ricostruzione urbanistica di Lorient e rilancio dell\'arsenale e del porto peschereccio di Keroman nel Piano Monnet.',
+    s20: 'Dicembre 1947: tensioni sociali nei cantieri navali bretoni durante gli scioperi dell\'inverno 1947 mentre prosegue il ripristino della flotta peschereccia atlantica.',
+    s21: 'Giugno 1948: i crediti ERP (Piano Marshall) finanziano i nuovi moli di Keroman e la riedificazione dei quartieri cittadini distrutti nel 1943.',
+    s22: 'Dicembre 1948: l\'arsenale della Marine Nationale e il porto di Lorient-Keroman tornano pienamente operativi nella Quarta Repubblica francese.',
+    surrenderLabel: 'Festung Lorient (Gen. Wilhelm Fahrmbacher)',
+  },
+  FR_HIST_POCHE_ST_NAZAIRE: {
+    id: 'FR_HIST_POCHE_ST_NAZAIRE',
+    preName: 'Saint-Nazaire / Estuario della Loira',
+    baseName: 'Poche de Saint-Nazaire',
+    parentLabel: 'Loire-Atlantique — Estuario da La Roche-Bernard / Bouvron a Pornic',
+    occAdmin: 'Zone occupée — Militärbefehlshaber in Frankreich',
+    s0_1: 'Grande porto transatlantico dell\'estuario della Loira: i Cantieri di Penhoët e il monumentale bacino di carenaggio Forme Joubert (costruito per il transatlantico Normandie) guidano la cantieristica francese.',
+    s2_4: 'Potenziamento militare dei cantieri della Loira a Saint-Nazaire: sullo scalo di Penhoët è in allestimento la moderna corazzata francese Jean Bart.',
+    s5: 'Drôle de guerre (sett. 1939 – mag. 1940): Saint-Nazaire è scalo logistico britannico sulla Loira; il 17 giugno 1940, mentre la Jean Bart incompleta fugge verso Casablanca, la Luftwaffe affonda al largo il trasporto HMS Lancastria.',
+    s6: 'Caduta il 21 giugno 1940 subito dopo l\'affondamento dell\'HMS Lancastria e la partenza della Jean Bart: la Wehrmacht occupa i Cantieri di Penhoët e la Forme Joubert.',
+    s7: 'Autunno 1940: dall\'ottobre 1940 i primi sommergibili della 7. U-Boot-Flottille operano da Saint-Nazaire mentre la Kriegsmarine individua nella Forme Joubert l\'unico bacino atlantico adatto alla corazzata Bismarck.',
+    s8_9: 'Nel 1941 (con cantieri avviati tra febbraio e aprile 1941) l\'Organizzazione Todt edifica il gigantesco bunker U-Boot a 14 celle di Saint-Nazaire e le prime batterie costiere a guardia dell\'estuario.',
+    s10_11: '28 marzo 1942 (Operazione Chariot): il cacciatorpediniere britannico HMS Campbeltown imbottito d\'esplosivo sperona e distrugge la porta del bacino Forme Joubert rendendolo inutilizzabile per la Tirpitz per tutta la guerra.',
+    s12_13: 'Nel 1943 pesanti bombardamenti alleati (gennaio–maggio 1943) devastano la città di Saint-Nazaire ma lasciano intatti i bunker della 6. e 7. U-Boot-Flottille, mentre l\'estuario è potenziato nell\'Atlantikwall.',
+    s14: 'Giugno 1944 (Overlord): proclamata Festung Saint-Nazaire da Hitler, la piazzaforte concentra capisaldi dalla foce della Vilaine a Pornic mentre gli ultimi U-Boot lasciano la base dopo lo sbarco in Normandia.',
+    siege15: 'Agosto 1944: mentre Nantes è liberata il 12 agosto, il Gen. Hans Junck ritira 28.000 uomini nel vasto ridotto fortificato costiero dalla foce della Vilaine (La Roche-Bernard) via Guenrouët–Bouvron–Cordemais fino a Pornic (Festung Saint-Nazaire).',
+    siege16: 'Dicembre 1944: la sacca costiera di Saint-Nazaire (Gen. Hans Junck, circa 1.600 km²) blocca l\'estuario della Loira sotto assedio FFI/FFO e della 66th US Infantry Division (Brig. Gen. Herman F. Kramer).',
+    apr45Status: 'GER',
+    apr45Note: 'Aprile 1945 (al 30 aprile): Festung Saint-Nazaire (Gen. Hans Junck) continua a resistere lungo l\'estuario davanti alla 66ª Divisione USA e alle FFO del Col. Raymond Chomel fino alla resa di Bouvron dell\'11 maggio 1945 (ultima piazzaforte tedesca in Francia).',
+    postNote18: 'Arresasi l\'11 maggio 1945 a Bouvron (Gen. Junck al Brig. Gen. Kramer e al Col. Chomel), la regione dell\'estuario rientra sotto piena autorità del GPRF avviando lo sminamento di Saint-Nazaire e Pornic.',
+    s19: 'Settembre 1947: riapertura graduale della navigazione verso Nantes e avvio del Piano Monnet nei Cantieri di Penhoët e della Loira.',
+    s20: 'Dicembre 1947: mobilitazioni operaie nei cantieri navali della Bassa Loira durante gli scioperi dell\'inverno 1947 mentre prosegue lo sgombero urbano a Saint-Nazaire.',
+    s21: 'Giugno 1948: i fondi del Piano Marshall (ERP) accelerano il ripristino dei bacini di carenaggio, delle gru portuali e delle banchine mercantili sull\'estuario.',
+    s22: 'Dicembre 1948: pieno riassetto industriale dei cantieri navali di Saint-Nazaire e normalizzazione definitiva dei traffici marittimi verso Nantes nella Quarta Repubblica.',
+    surrenderLabel: 'Festung Saint-Nazaire (Gen. Hans Junck)',
+  },
+  FR_HIST_POCHE_LA_ROCHELLE: {
+    id: 'FR_HIST_POCHE_LA_ROCHELLE',
+    preName: 'La Rochelle–La Pallice',
+    baseName: 'Poche de La Rochelle–La Pallice',
+    parentLabel: 'Charente-Maritime Nord — Marans, La Rochelle, Île de Ré & Oléron',
+    occAdmin: 'Zone occupée — Militärbefehlshaber in Frankreich',
+    s0_1: 'Porto atlantico d\'acque profonde di La Pallice, piazzaforte marittima di La Rochelle e isole costiere di Ré e Oléron nella Charente-Inférieure (ridenominata Charente-Maritime nel 1941).',
+    s2_4: 'Potenziamento del grande molo d\'alto mare di La Pallice e delle batterie costiere su Île de Ré e Île d\'Oléron a guardia del Pertuis d\'Antioche e Pertuis Breton.',
+    s5: 'Drôle de guerre (sett. 1939 – mag. 1940): porto atlantico di appoggio commerciale e convogli alleati riparato dall\'arcipelago charentese fino al ripiegamento del giugno 1940.',
+    s6: 'Giugno 1940: occupazione tedesca del porto di La Pallice e delle isole di Ré e Oléron dopo l\'armistizio di giugno; la Kriegsmarine requisisce il molo d\'alto mare.',
+    s7: 'Autunno 1940: La Pallice diviene scalo logistico della Kriegsmarine nel Golfo di Biscaglia con il dispiegamento delle prime batterie costiere tedesche su Ré e Oléron.',
+    s8_9: 'Nel 1941 (dall\'aprile 1941) l\'Organizzazione Todt costruisce il grande bunker U-Boot a 10 celle di La Pallice per la 3. U-Boot-Flottille (insediata nell\'ottobre 1941); nel marzo 1941 vi sostano le corazzate Scharnhorst e Gneisenau.',
+    s10_11: 'Nel 1942 La Rochelle–La Pallice è cardine dell\'Atlantikwall nel Golfo di Biscaglia con possenti casematte Todt sull\'Île de Ré e sull\'Île d\'Oléron dopo gli attacchi aerei alle unità di superficie.',
+    s12_13: 'Nel 1943 la 3. U-Boot-Flottille opera da La Pallice sotto crescente caccia aeronavale alleata nel Golfo di Biscaglia mentre la Wehrmacht fortifica gli argini settentrionali verso Marans.',
+    s14: 'Giugno 1944 (Overlord): proclamata Festung La Rochelle da Hitler; le isole di Ré e Oléron vengono sbarrate ad oltranza mentre gli U-Boot superstiti abbandonano la base nell\'agosto 1944.',
+    siege15: 'Agosto–Settembre 1944: ritirandosi verso ovest, il Vizeadmiral Ernst Schirlitz organizza il ridotto fortificato costiero di Festung La Rochelle (Marans–La Pallice–Île de Ré–Oléron) mentre l\'entroterra si libera.',
+    siege16: 'Dicembre 1944: la sacca costiera di La Rochelle–La Pallice (Vizeadm. Schirlitz) è assediata dalle forze francesi del Gen. Edgard de Larminat, teatro di aspri combattimenti intorno a Marans all\'inizio di gennaio 1945.',
+    apr45Status: 'GER',
+    apr45Note: 'Aprile 1945 (al 30 aprile): caduta Royan, il Vizeadmiral Ernst Schirlitz tiene ancora La Rochelle, La Pallice, l\'Île de Ré e l\'Île d\'Oléron (attaccata il 30 apr.–1° mag. con Op. Jupiter) fino alla capitolazione dell\'8 maggio 1945.',
+    postNote18: 'Capitolata l\'8 maggio 1945 (resa di Ernst Schirlitz e grazie al patto di salvaguardia portuale), il porto quasi intatto di La Pallice torna subito operativo per il GPRF.',
+    s19: 'Settembre 1947: il porto d\'acque profonde di La Pallice garantisce un intenso traffico commerciale di rifornimento nazionale sotto il Piano Monnet.',
+    s20: 'Dicembre 1947: durante le agitazioni operaie dell\'inverno 1947 i bacini di La Pallice mantengono la continuità dei rifornimenti e riprende la pesca atlantica a La Rochelle.',
+    s21: 'Giugno 1948: i primi cargo del Piano Marshall (ERP) sbarcano cereali, carbone e macchinari sul molo d\'alto mare di La Pallice.',
+    s22: 'Dicembre 1948: La Rochelle–La Pallice consolida il proprio primato tra gli scali atlantici di commercio e pesca nella Quarta Repubblica francese.',
+    surrenderLabel: 'Festung La Rochelle (Vizeadm. Ernst Schirlitz)',
+  },
+  FR_HIST_POCHE_ROYAN: {
+    id: 'FR_HIST_POCHE_ROYAN',
+    preName: 'Royan / Penisola d\'Arvert',
+    baseName: 'Poche de Royan',
+    parentLabel: 'Charente-Maritime Sud — Penisola d\'Arvert (Royan / Saujon–Cozes)',
+    occAdmin: 'Zone occupée — Militärbefehlshaber in Frankreich',
+    s0_1: 'Stazione balneare di Royan e penisola d\'Arvert (Charente-Inférieure) sulla riva settentrionale dell\'imbocco della Gironda, stazione pilota per il grande porto di Bordeaux.',
+    s2_4: 'Sorveglianza marittima dell\'estuario della Gironda tra la Punta della Coubre e Royan nel dispositivo difensivo costiero della Terza Repubblica.',
+    s5: 'Drôle de guerre (sett. 1939 – mag. 1940): intenso traffico mercantile lungo la Gironda verso Bordeaux; nel giugno 1940 profughi e unità alleate imbarcano davanti a Royan prima dell\'occupazione.',
+    s6: 'Giugno 1940: occupazione tedesca di Royan e della penisola d\'Arvert dopo la caduta di Bordeaux e l\'armistizio di giugno; controllo tedesco dell\'estuario della Gironda.',
+    s7: 'Autunno 1940: installazione delle prime batterie costiere tedesche e posti di blocco navale alla Pointe de la Coubre e intorno a Royan.',
+    s8_9: 'Nel 1941 la Kriegsmarine integra la riva nord della Gironda nei settori di artiglieria costiera a scorta dei violatori di blocco navali diretti a Bordeaux (inclusa la base Betasom).',
+    s10_11: 'Nel 1942 l\'Organizzazione Todt costruisce i bunker di Festung Gironde-Nord a Royan e La Coubre (Atlantikwall); nel dicembre 1942 i commando britannici dell\'Operazione Frankton sfilano di notte in kayak davanti a Royan verso Bordeaux.',
+    s12_13: 'Nel 1943 la penisola d\'Arvert diventa uno dei perimetri più fittamente minati dell\'Atlantikwall sud-occidentale con batterie pesanti di marina puntate sul canale della Gironda.',
+    s14: 'Giugno 1944 (Overlord): fortificata come Festung Gironde-Nord, la guarnigione si prepara ad isolarsi sull\'estuario qualora le armate tedesche evacuino la Francia sud-occidentale.',
+    siege15: 'Agosto–Settembre 1944: dopo la liberazione dell\'entroterra aquitano, il Kontradmiral Hans Michahelles organizza la difesa della Poche de Royan lungo il perimetro Seudre–Saujon–Cozes.',
+    siege16: 'Dicembre 1944: la Poche de Royan (Kontradm. Hans Michahelles) sbarra l\'accesso navale a Bordeaux insieme alla Pointe de Grave, poco prima del tragico bombardamento alleato del 5 gennaio 1945 che distrusse la città.',
+    apr45Status: 'FRA',
+    apr45Note: 'Aprile 1945 (al 30 aprile): LIBERATA tra il 14 e il 17 aprile 1945 dall\'offensiva franco-americana (Operazione Vénérable, Gen. Edgard de Larminat e 2ª Divisione Corazzata di Leclerc), con la cattura del Kontradmiral Hans Michahelles.',
+    postNote18: 'Royan distrutta all\'85–90% dai bombardamenti di gennaio e dai combattimenti d\'aprile avvia lo sminamento della penisola d\'Arvert e i baraccamenti provvisori sotto il GPRF.',
+    s19: 'Settembre 1947: il cantiere pilota diretto dall\'architetto Claude Ferret imposta il piano regolatore modernista per la ricostruzione di Royan.',
+    s20: 'Dicembre 1947: avvio dei grandi cantieri edili in cemento armato e sminamento finale delle spiagge della Grande Côte durante l\'inverno 1947.',
+    s21: 'Giugno 1948: i lavori urbanistici del piano Ferret consacrano Royan quale laboratorio di architettura moderna della Quarta Repubblica.',
+    s22: 'Dicembre 1948: riapertura stabile dell\'accesso marittimo settentrionale della Gironda e avanzamento dei nuovi quartieri cittadini di Royan nella Quarta Repubblica.',
+    surrenderLabel: 'Festung Gironde-Nord (Kontradm. Hans Michahelles)',
+  },
+  FR_HIST_POCHE_POINTE_GRAVE: {
+    id: 'FR_HIST_POCHE_POINTE_GRAVE',
+    preName: 'Pointe de Grave / Le Verdon',
+    baseName: 'Poche de la Pointe de Grave',
+    parentLabel: 'Gironde Nord — Le Verdon-sur-Mer / Soulac-sur-Mer (Bas-Médoc)',
+    occAdmin: 'Zone occupée — Militärbefehlshaber in Frankreich',
+    s0_1: 'Estremità settentrionale del Médoc tra Soulac-sur-Mer e l\'avamporto d\'acque profonde di Le Verdon-sur-Mer a guardia dell\'imbocco meridionale della Gironda verso Bordeaux.',
+    s2_4: 'Molo transatlantico di Le Verdon e batterie costiere francesi a presidio del canale d\'accesso marittimo all\'estuario bordolese.',
+    s5: 'Drôle de guerre (sett. 1939 – mag. 1940): l\'avamporto di Le Verdon smista i convogli marittimi verso Bordeaux fino alle evacuazioni navali e al passaggio dell\'oro e profughi nel giugno 1940.',
+    s6: 'Giugno 1940: occupazione tedesca di Le Verdon e Soulac nel passaggio della costa atlantica alla Zone Occupée armistiziale.',
+    s7: 'Autunno 1940: installazione di osservatori costieri e prime batterie d\'artiglieria tedesche nel Bas-Médoc per controllare ogni nave diretta a Bordeaux.',
+    s8_9: 'Nel 1941 la Wehrmacht trasforma la Pointe de Grave in caposaldo difensivo a copertura dell\'avamporto di Le Verdon e delle rotte di accesso a Bordeaux.',
+    s10_11: 'Nel 1942 l\'Organizzazione Todt costruisce i bunker corazzati di Festung Gironde-Süd tra Soulac e Le Verdon (Atlantikwall); nel dicembre 1942 il commando dell\'Operazione Frankton elude i campi minati dell\'imbocco della Gironda.',
+    s12_13: 'Nel 1943 posa di estesi sbarramenti minati marittimi e terrestri tra Saint-Vivien-de-Médoc e Le Verdon a blocco permanente della riva sud dell\'estuario.',
+    s14: 'Giugno 1944 (Overlord): fortificata come Festung Gironde-Süd con batterie pesanti e bunker antisbarco tra Soulac e Le Verdon, la punta estrema del Médoc prepara la resistenza isolata.',
+    siege15: 'Agosto–Settembre 1944: mentre la Wehrmacht evacua Bordeaux (28 agosto 1944), circa 3.500–4.000 tedeschi restano asserragliati nella sacca isolata della Pointe de Grave fino a Saint-Vivien-de-Médoc.',
+    siege16: 'Dicembre 1944: la sacca della Pointe de Grave (Festung Gironde-Süd) fronteggia la Brigata Carnot (FFI del Médoc), continuando a interdire con mine e batterie l\'accesso a Bordeaux.',
+    apr45Status: 'FRA',
+    apr45Note: 'Aprile 1945 (al 30 aprile): LIBERATA tra il 15 e il 20 aprile 1945 dalla Brigata Carnot / FFI del Médoc nell\'Operazione Vénérable; catturato a Le Verdon il comandante tedesco Oberst Fritz Prahl, riaprendo definitivamente il porto di Bordeaux.',
+    postNote18: 'Bonifica prioritaria dei grandi campi minati di Soulac e Le Verdon-sur-Mer e riattivazione del canale navigabile di Bordeaux sotto il GPRF.',
+    s19: 'Settembre 1947: ripristino graduale dei moli danneggiati di Le Verdon-sur-Mer e ripresa regolare dei traffici lungo la Gironda nel Piano Monnet.',
+    s20: 'Dicembre 1947: sgombero dei relitti nell\'imbocco dell\'estuario e consolidamento delle difese costiere di Soulac nell\'inverno 1947.',
+    s21: 'Giugno 1948: riattivazione progressiva degli scali dell\'estuario bordolese sostenuta dalla ricostruzione nazionale e dal Piano Marshall.',
+    s22: 'Dicembre 1948: normalizzazione completa della navigazione verso Bordeaux attraverso Le Verdon e la Pointe de Grave nella Quarta Repubblica.',
+    surrenderLabel: 'Festung Gironde-Süd (Oberst Fritz Prahl)',
+  },
+};
+
+export const FRENCH_COASTAL_POCKET_IDS = new Set<string>(Object.keys(FRANCE_COASTAL_POCKET_PROFILES));
+
+export function resolveFrenchCoastalPocket(id: string, s: number): ResolvedTerritory | null {
+  const key = String(id || '').trim().toUpperCase();
+  const prof = FRANCE_COASTAL_POCKET_PROFILES[key];
+  if (!prof) return null;
+
+  if (s <= 5) {
+    const note = s <= 1 ? prof.s0_1 : s <= 4 ? prof.s2_4 : prof.s5;
+    return makeFrRes(
+      'FRA',
+      `${prof.preName} (${prof.parentLabel})`,
+      note,
+      'Alleati',
+      'Troisième République française'
+    );
+  }
+  if (s <= 9) {
+    const note = s === 6 ? prof.s6 : s === 7 ? prof.s7 : prof.s8_9;
+    return makeFrRes(
+      'GER',
+      `${prof.preName} (Zone Occupée — Wehrmacht)`,
+      note,
+      'Asse',
+      prof.occAdmin
+    );
+  }
+  if (s <= 14) {
+    const note = s <= 11 ? prof.s10_11 : s <= 13 ? prof.s12_13 : prof.s14;
+    const isDnk = prof.id === 'FR_HIST_POCHE_DUNKERQUE';
+    const name = s === 14
+      ? `${prof.baseName} (Atlantikwall — Festung)`
+      : `${prof.preName} (Atlantikwall — Zone Occupée)`;
+    const admin = isDnk
+      ? (s <= 13
+          ? 'Militärverwaltung in Belgien und Nordfrankreich · AOK 15 (Atlantikwall)'
+          : 'Deutsche Wehrmacht — Festung Dünkirchen / AOK 15 (Brüssel)')
+      : 'Deutsche Wehrmacht — Atlantikwall / OB West';
+    return makeFrRes('GER', name, note, 'Asse', admin);
+  }
+  if (s === 15) {
+    return makeFrRes(
+      'GER',
+      `${prof.baseName} (Festung Costiera — Assedio FFI/Alleati)`,
+      prof.siege15,
+      'Asse',
+      `Deutsche Wehrmacht — ${prof.surrenderLabel}`
+    );
+  }
+  if (s === 16) {
+    return makeFrRes(
+      'GER',
+      `${prof.baseName} (Festung Atlantica — Sacca Costiera)`,
+      prof.siege16,
+      'Asse',
+      `Deutsche Wehrmacht — ${prof.surrenderLabel}`
+    );
+  }
+  if (s === 17) {
+    if (prof.apr45Status === 'GER') {
+      return makeFrRes(
+        'GER',
+        `${prof.baseName} (Festung Atlantica — Assedio Alleato)`,
+        prof.apr45Note,
+        'Asse',
+        `Deutsche Wehrmacht — ${prof.surrenderLabel}`
+      );
+    }
+    return makeFrRes(
+      'FRA',
+      `${prof.preName} (Liberata — Operazione Vénérable, Apr 1945)`,
+      prof.apr45Note,
+      'Alleati',
+      'Gouvernement Provisoire de la République Française (GPRF — Gen. de Larminat)'
+    );
+  }
+  if (s === 18) {
+    return makeFrRes(
+      'FRA',
+      `${prof.preName} (GPRF — Liberata)`,
+      prof.postNote18,
+      'Alleati',
+      'Gouvernement Provisoire de la République Française (GPRF — Charles de Gaulle)'
+    );
+  }
+  const postNote = s === 19 ? prof.s19 : s === 20 ? prof.s20 : s === 21 ? prof.s21 : prof.s22;
+  const postAdmin =
+    s <= 19
+      ? 'Quatrième République Française — Pres. Vincent Auriol · PM Paul Ramadier'
+      : s === 20
+        ? 'Quatrième République Française — Pres. Vincent Auriol · PM Robert Schuman'
+        : s === 21
+          ? 'Quatrième République Française — Pres. Vincent Auriol · PM Robert Schuman / André Marie'
+          : 'Quatrième République Française — Pres. Vincent Auriol · PM Henri Queuille';
+  return makeFrRes(
+    'FRA',
+    `${prof.preName} (Quatrième République — Ricostruzione)`,
+    postNote,
+    'Alleati',
+    postAdmin
+  );
+}
 
 function makeFrRes(
   o: string,
@@ -197,38 +486,39 @@ const FRANCE_DEPT_OVERRIDES: Record<string, FranceDeptLateProfile> = {
   // === TASCHE ATLANTICHE & OVEST (BRETAGNA, LOIRA, AQUITANIA) ===
   FRH02: {
     s9_10: 'La gigantesca base sommergibili di Brest (U-Boot-Bunker) diviene bersaglio prioritario del RAF Bomber Command; sosta delle corazzate Scharnhorst, Gneisenau e Prinz Eugen fino all\'Op. Cerberus (feb 1942).',
-    s15: 'Agosto–Settembre 1944: feroce assedio di Festung Brest condotto dall\'VIII Corpo USA del Gen. Middleton contro i paracadutisti di Ramcke (resa il 18 settembre 1944 dopo la distruzione totale della città).',
+    s15: 'Agosto 1944: mentre il Finistère rurale viene liberato dall\'avanzata alleata in Bretagna, nella città-fortezza di Festung Brest infuria fino al 18–19 settembre 1944 il feroce assedio condotto dall\'VIII Corpo USA del Gen. Middleton contro i paracadutisti di Ramcke.',
     s18: 'Brest in rovina inizia lo sgombero delle macerie e il ripristino del porto militare Atlantico della Marine Nationale.',
     s19: 'Avvio del piano urbanistico di ricostruzione moderna di Brest (Mathon) e rilancio dei cantieri dell\'arsenale marittimo sotto la Quarta Repubblica.',
   },
   FRH04: {
     s9_10: 'A Lorient-Keroman l\'ammiraglio Dönitz spinge alla massima espansione i giganteschi bunker U-Boot ("Lorient invulnerabile"); incursioni di bombardamento alleate radono al suolo la città civile.',
-    s15: 'Agosto 1944: respinte in ritirata dalla liberazione della Bretagna di Patton, le forze tedesche si rinchiudono nella piazzaforte costiera di **Festung Lorient**.',
-    s16: 'Dicembre 1944: sacca costiera atlantica di Lorient (26.000 tedeschi) assediata dalle Forces Françaises de l\'Ouest e unità di partigiani bretoni FFI.',
-    s17: 'Aprile 1945: guarnigione tedesca del Gen. Wilhelm Fahrmbacher stretta nella **Festung Atlantica** di Lorient (Kéroman/Étel) fino alla capitolazione del 10 maggio 1945.',
-    s18: 'Lorient liberata (10 maggio 1945) entra nell\'immane sfida della ricostruzione civile del porto peschereccio di Keroman e dell\'arsenale.',
-    s19: 'Sotto la Quarta Repubblica la città martire di Lorient risorge attorno al porto di pesca industriale e alle baracche provvisorie del Dopoguerra.',
-    hist16: 'Morbihan — Sacca Atlantica di Lorient (Festung Lorient)',
-    hist17: 'Morbihan — Festung Atlantica di Lorient (Assedio Alleato FFO)',
+    s15: 'Agosto 1944: Vannes, Pontivy e l\'interno del Morbihan vengono liberati dalle colonne USA e dai maquis bretoni FFI, mentre le truppe tedesche ripiegano nella stretta fascia costiera di **Festung Lorient**.',
+    s16: 'Dicembre 1944: l\'interno del Morbihan (Vannes) è sotto piena amministrazione civile del GPRF, mentre la vicina piazzaforte costiera di Lorient resta accerchiata fino a maggio 1945.',
+    s17: 'Aprile 1945: il Morbihan interno opera sotto il GPRF (prime elezioni municipali col voto femminile del 29 aprile) mentre la sacca costiera di Lorient sta per capitolare (10 maggio 1945).',
+    s18: 'Con la resa della sacca di Lorient (10 maggio 1945), l\'intero Morbihan torna unito sotto il GPRF avviando la ricostruzione del litorale.',
+    s19: 'Sotto la Quarta Repubblica l\'intero Morbihan e la risorta città martire di Lorient sviluppano la pesca industriale e la ricostruzione portuale.',
+    hist16: 'Morbihan — Vannes Liberata (GPRF · Entroterra vs Poche de Lorient)',
+    hist17: 'Morbihan — GPRF (Entroterra Liberato · Poche de Lorient al litorale)',
   },
   FRG01: {
     s9_10: '28 marzo 1942: leggendaria **Operazione Chariot** britannica — il cacciatorpediniere HMS *Campbeltown* sperona ed esplode nel gigantesco bacino di carenaggio Normandie a Saint-Nazaire!',
-    s15: 'Agosto 1944: Nantes è liberata il 12 agosto, ma la fortezza tedesca della bassa Loira (Saint-Nazaire) si trincera lungo i corsi dell\'estuario.',
-    s16: 'Dicembre 1944: sacca costiera atlantica di Saint-Nazaire accerchiata e rifornita solo da sporadici voli notturni tedeschi.',
-    s17: 'Aprile 1945: la **Festung Atlantica** di Saint-Nazaire (Gen. Hans Junck, 28.000 soldati) resta assediata fino all\'11 maggio 1945 (l\'ultima tasca francese ad arrendersi!).',
-    s18: 'Resa della sacca dell\'estuario della Loira a Bouvron (11 maggio 1945) e ripristino completo dell\'autorità civile del GPRF a Nantes e Saint-Nazaire.',
+    s15: 'Agosto 1944: **Nantes è liberata il 12 agosto** insieme all\'entroterra fino a Châteaubriant e Ancenis, isolando i resti tedeschi nella fascia estuariale di Festung Saint-Nazaire.',
+    s16: 'Dicembre 1944: Nantes e la maggior parte della Loire-Inférieure operano sotto il GPRF, mentre il settore costiero occidentale di Saint-Nazaire rimane una sacca assediata.',
+    s17: 'Aprile 1945: la Loire-Inférieure interna e Nantes vivono la ripresa repubblicana sotto il GPRF, separati dal fronte statico attorno all\'estuario di Saint-Nazaire (arreso l\'11 maggio 1945).',
+    s18: 'Resa della sacca dell\'estuario della Loira a Bouvron (11 maggio 1945) e riunificazione amministrativa completa della Loire-Inférieure attorno a Nantes e Saint-Nazaire.',
     s19: 'Ripresa dei grandi cantieri navali Chantiers de l\'Atlantique a Saint-Nazaire e del traffico portuale atlantico di Nantes sotto il Piano Monnet.',
-    hist16: 'Loire-Atlantique — Sacca Atlantica di Saint-Nazaire (Festung Saint-Nazaire)',
-    hist17: 'Loire-Atlantique — Festung Atlantica di Saint-Nazaire (Assedio FFO)',
+    hist16: 'Loire-Inférieure — Nantes Liberata (GPRF · Estuario assediato a Saint-Nazaire)',
+    hist17: 'Loire-Inférieure — Nantes / GPRF (Fronte costiero di Saint-Nazaire)',
   },
   FRI32: {
     s9_10: 'Base sottomarina della Pallice a La Rochelle e presidio tedesco dell\'estuario della Gironda a Royan; intensa attività della rete partigiana dell\'Ovest.',
-    s16: 'Dicembre 1944: sacche costiere atlantiche gemelle di La Rochelle–La Pallice (Amm. Schirlitz) e di Royan accerchiate dai reparti francesi FFI/FFO.',
-    s17: 'Aprile 1945: mentre l\'Operazione Vénérable libera Royan (15–17 aprile), la **Festung Atlantica** di La Rochelle e l\'Île d\'Oléron resistono fino alla resa finale dell\'8–9 maggio 1945.',
-    s18: 'Charente-Maritime interamente liberata nel maggio 1945; avviato lo sminamento delle coste atlantiche e la ricostruzione di Royan rasa al suolo.',
+    s15: 'Agosto–Settembre 1944: l\'entroterra di Saintes, Saint-Jean-d\'Angély e Jonzac viene liberato da FFI e alleati, spingendo i presidi tedeschi nelle due ridotte costiere di La Rochelle e Royan.',
+    s16: 'Dicembre 1944: l\'interno della Charente-Maritime (Saintes, Jonzac) è liberato sotto il GPRF, mentre sul litorale restano assediate le fasce costiere di La Rochelle–La Pallice e Royan.',
+    s17: 'Aprile 1945: con la liberazione di Royan (Operazione Vénérable, 14–17 aprile), l\'intero entroterra è saldamente al GPRF mentre sola La Rochelle e le isole resistono fino all\'8 maggio.',
+    s18: 'Charente-Maritime interamente riunificata e liberata nel maggio 1945; avviato lo sminamento delle coste atlantiche e la ricostruzione di Royan rasa al suolo.',
     s19: 'Rilancio del porto atlantico di La Pallice e dei piani modernisti di ricostruzione balneare e urbana di Royan sotto la Quarta Repubblica.',
-    hist16: 'Charente-Maritime — Sacche di La Rochelle & Royan (Festung Atlantik)',
-    hist17: 'Charente-Maritime — Festung Atlantica di La Rochelle (Op. Vénérable a Royan, Apr 1945)',
+    hist16: 'Charente-Maritime — Saintes Liberata (GPRF · Sacche costiere di La Rochelle & Royan)',
+    hist17: 'Charente-Maritime — GPRF (Royan liberata Apr 1945 · Poche de La Rochelle)',
   },
   FRI12: {
     s9_10: 'La base Betasom di Bordeaux ospita i sommergibili italiani della Regia Marina e gli U-Boot della 12. U-Flottille; exploit del comando britannico "Cockleshell Heroes" (Operazione Frankton, dic 1942!).',

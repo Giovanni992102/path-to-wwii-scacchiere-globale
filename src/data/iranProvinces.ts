@@ -553,6 +553,15 @@ const IRAN_UK_SOUTH_ZONE = new Set([
 ]);
 
 function resolveIranMetaAtStep(meta: IranProvinceInfo, s: number): ResolvedTerritory {
+  if (s >= 20) {
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Dicembre 1947)`,
+      `${meta.nutsName} · Dicembre 1947: dopo il clamoroso rigetto da parte del Majlis (22 ottobre 1947, 102 voti contro 2) dell'accordo petrolifero sovietico-iraniano Qavam-Sadchikov e le conseguenti dimissioni del Primo Ministro Ahmad Qavam (dicembre 1947), l'Iran consolida la propria integrità territoriale e l'avvicinamento strategico agli Stati Uniti sotto lo Scià Mohammad Reza Pahlavi.`,
+      'Neutrale',
+      `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi (Post-Crisi del Majlis, Dic. 1947)`
+    );
+  }
   if (s >= 19) {
     return makeResult(
       'IRN',
@@ -560,6 +569,33 @@ function resolveIranMetaAtStep(meta: IranProvinceInfo, s: number): ResolvedTerri
       `${meta.nutsName} · Piena sovranità iraniana restaurata dopo lo sgombero delle truppe britanniche (marzo 1946), il ritiro sovietico dall'Iran settentrionale (maggio 1946) e la riconquista governativa dell'Azerbaigian iraniano e di Mahabad (dicembre 1946). Sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam, l'Iran affronta al Majlis il rifiuto della concessione petrolifera sovietica del nord difendendo la propria integrità territoriale.`,
       'Neutrale',
       `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi (P.M. Ahmad Qavam)`
+    );
+  }
+  if (s >= 18) {
+    if (IRAN_SOV_NORTH_ZONE.has(meta.id)) {
+      return makeResult(
+        'SOV',
+        `${meta.historicalName} (Presidio Sovietico Pre-Ritiro & Nascente Crisi dell'Azerbaigian — Settembre 1945)`,
+        `${meta.nutsName} · Settembre 1945: a conflitto mondiale concluso, l'Armata Rossa mantiene ancora l'occupazione del nord dell'Iran in attesa della scadenza semestrale del Trattato Tripartito (2 marzo 1946). Proprio il 3 settembre 1945 Ja'far Pishevari fonda a Tabriz il Partito Democratico dell'Azerbaigian con sostegno sovietico, aprendo la prima grave crisi della Guerra Fredda in Medio Oriente.`,
+        'Comintern',
+        `Presidio Militare Sovietico in Iran — Settore Settentrionale (${meta.adminTitle}, Set. 1945)`
+      );
+    }
+    if (IRAN_UK_SOUTH_ZONE.has(meta.id)) {
+      return makeResult(
+        'UK',
+        `${meta.historicalName} (Presidio Britannico Pre-Evacuazione — Settore Sud, Settembre 1945)`,
+        `${meta.nutsName} · Settembre 1945: con la resa del Giappone e la chiusura del Corridoio Persiano dei rifornimenti Lend-Lease, le forze britanniche PAIFORCE mantengono temporaneamente la sicurezza dei pozzi petroliferi dell'AIOC in Khuzestan e della raffineria di Abadan preparando lo sgombero pattuito entro il 2 marzo 1946.`,
+        'Alleati',
+        `Presidio Militare Britannico in Iran — PAIFORCE Settore Meridionale (${meta.adminTitle}, Set. 1945)`
+      );
+    }
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Transizione Postbellica, Settembre 1945)`,
+      `${meta.nutsName} · Settembre 1945: terminata la Seconda Guerra Mondiale, il governo di Teheran sotto lo Scià Mohammad Reza Pahlavi chiede il pieno ritiro delle truppe sovietiche e britanniche entro i termini del Trattato Tripartito del 1942 mentre crescono le tensioni autonomiste nel nord.`,
+      'Alleati',
+      `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi (Teheran, Settembre 1945)`
     );
   }
   if (s >= 9) {
@@ -619,18 +655,28 @@ export function resolveIranProvince(ft: any, s: number): ResolvedTerritory {
   }
 
   const fallbackName = p.NAME || p.HISTORICAL_NAME || "Impero dell'Iran (Persia)";
-  const fallbackAdmin = s >= 19
-    ? "Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell'Iran (Mohammad Reza Pahlavi · Ahmad Qavam)"
-    : s >= 9
-    ? "Keshvar-e Shāhanshāhi-ye Irān — Corridoio Persiano Anglo-Sovietico (Mohammad Reza Pahlavi)"
-    : (p.ADMIN || "Keshvar-e Shāhanshāhi-ye Irān (Impero dell'Iran)");
-  const fallbackNote = s >= 19
-    ? "Stato Imperiale dell'Iran pienamente sovrano dopo il ritiro delle forze anglo-sovietiche nel 1946 e il ristabilimento dell'autorità di Teheran su tutto il territorio nazionale sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam."
-    : s >= 9
-    ? "Impero dell'Iran spartito in zone di sicurezza militare tra Unione Sovietica (settore nord) e Regno Unito (settore sud) dopo l'Operazione Countenance (agosto-settembre 1941) per assicurare il Corridoio Persiano dei rifornimenti Alleati."
-    : s >= 8
-    ? "Impero dell'Iran sotto il regno di Reza Shah Pahlavi; neutrale all'inizio delle ostilità mondiali."
-    : "Impero dell'Iran (Dinastia Pahlavi) — Stato sovrano guidato da Reza Shah Pahlavi con capitale a Teheran; neutrale e impegnato nella modernizzazione infrastrutturale (Ferrovia Trans-Iraniana).";
+  const fallbackAdmin =
+    s >= 20
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell'Iran (Mohammad Reza Pahlavi · Post-Rigetto Petrolifero Dic. 1947)"
+      : s >= 19
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell'Iran (Mohammad Reza Pahlavi · Ahmad Qavam)"
+      : s >= 18
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Transizione Postbellica (Mohammad Reza Pahlavi, Settembre 1945)"
+      : s >= 9
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Corridoio Persiano Anglo-Sovietico (Mohammad Reza Pahlavi)"
+      : (p.ADMIN || "Keshvar-e Shāhanshāhi-ye Irān (Impero dell'Iran)");
+  const fallbackNote =
+    s >= 20
+      ? "Dicembre 1947: Stato Imperiale dell'Iran pienamente sovrano dopo il voto del Majlis del 22 ottobre 1947 che respinge la concessione petrolifera sovietica del nord e le dimissioni del governo Qavam."
+      : s >= 19
+      ? "Stato Imperiale dell'Iran pienamente sovrano dopo il ritiro delle forze anglo-sovietiche nel 1946 e il ristabilimento dell'autorità di Teheran su tutto il territorio nazionale sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam."
+      : s >= 18
+      ? "Settembre 1945: Iran in transizione postbellica con il governo di Teheran che sollecita l'evacuazione alleata entro la scadenza del Trattato Tripartito mentre nel nord esplode la questione azera."
+      : s >= 9
+      ? "Impero dell'Iran spartito in zone di sicurezza militare tra Unione Sovietica (settore nord) e Regno Unito (settore sud) dopo l'Operazione Countenance (agosto-settembre 1941) per assicurare il Corridoio Persiano dei rifornimenti Alleati."
+      : s >= 8
+      ? "Impero dell'Iran sotto il regno di Reza Shah Pahlavi; neutrale all'inizio delle ostilità mondiali."
+      : "Impero dell'Iran (Dinastia Pahlavi) — Stato sovrano guidato da Reza Shah Pahlavi con capitale a Teheran; neutrale e impegnato nella modernizzazione infrastrutturale (Ferrovia Trans-Iraniana).";
 
   return makeResult('IRN', fallbackName, fallbackNote, s >= 19 ? 'Neutrale' : s >= 9 ? 'Alleati' : 'Neutrale', fallbackAdmin);
 }

@@ -342,7 +342,7 @@ export const CANADA_PROVINCES_META: Record<string, CanadaProvinceInfo> = {
     },
     getHistoricalName: (s: number) => "Dominion of Newfoundland (Commission of Government - St. John's & Labrador)",
     getAdminTitle: (s: number) => "Dominion of Newfoundland (Commission of Government / United Kingdom)",
-    getSovereign: (s: number) => "UK",
+    getSovereign: (s: number) => (s >= 23 ? "CAN" : "UK"),
     getFaction: (s: number) => "Alleati" as FactionType
   },
 
@@ -468,6 +468,171 @@ CANADA_PROVINCES_META['YUKON'] = CANADA_PROVINCES_META['CA_YT'];
 CANADA_PROVINCES_META['CA-NU'] = CANADA_PROVINCES_META['CA_NU'];
 CANADA_PROVINCES_META['NU'] = CANADA_PROVINCES_META['CA_NU'];
 CANADA_PROVINCES_META['NUNAVUT'] = CANADA_PROVINCES_META['CA_NU'];
+
+interface CanadaLateUpdate {
+  s14_17?: string;
+  s18: string;
+  s19_20: string;
+  s21: string;
+  s22: string;
+  s23?: string;
+  hist18_21?: string;
+  hist22?: string;
+  hist23?: string;
+  admin18_21?: string;
+  admin22?: string;
+  admin23?: string;
+}
+
+/**
+ * Aggiornamento geostorico provincia per provincia delle 13 entità del Canada & Terranova
+ * per le fasi finali del conflitto (Steps 14-17) e il dopoguerra (Steps 18-22: 1945 – Dic 1948).
+ */
+const CANADA_LATE_UPDATES: Record<string, CanadaLateUpdate> = {
+  CA_ON: {
+    s14_17: "Provincia dell'Ontario (1944–maggio 1945). Le fabbriche belliche di Toronto, Windsor e Fort William toccano il picco di produzione per la 1st Canadian Army impegnata da Juno Beach in Normandia fino alla liberazione dei Paesi Bassi; presso Chalk River si prepara il polo atomico congiunto anglo-canadese.",
+    s18: "Provincia dell'Ontario (settembre 1945). A Ottawa il 5 settembre 1945 il cifrario sovietico Igor Gouzenko defeziona all'ambasciata URSS rivelando la rete spionistica atomica in Nord America: è l'episodio inaugurale della Guerra Fredda. Le industrie di Toronto e Windsor avviano la riconversione civile.",
+    s19_20: "Provincia dell'Ontario (1947). Entra in vigore il Canadian Citizenship Act (1° gennaio 1947); il 22 luglio 1947 entra in criticità a Chalk River il reattore nucleare NRX (il più potente al mondo), mentre a Malton (Toronto) Avro Canada sviluppa il caccia CF-100 e l'aereo di linea a reazione C102 Jetliner.",
+    s21: "Provincia dell'Ontario (giugno 1948). A Ottawa e Toronto il governo federale e la provincia (Premier George Drew) sostengono l'espansione idroelettrica sull'Ottawa River e le trattative segrete del Pentagono-Ottawa-Londra per un patto difensivo nordatlantico; l'uranio di Port Radium e la chimica di Sarnia alimentano il blocco occidentale.",
+    s22: "Provincia dell'Ontario (dicembre 1948). A Ottawa il 15 novembre 1948 Louis St. Laurent succede a William Lyon Mackenzie King come Primo Ministro; l'11 dicembre 1948 firma i Terms of Union per l'ingresso di Terranova nella Confederazione (previsto per il 31 marzo 1949) e spinge per la conclusione del Patto Atlantico (NATO).",
+    hist22: "Ontario (Ottawa — Governo Louis St. Laurent & Polo Industriale/Atomico di Chalk River, Dic 1948)",
+    admin22: "Dominion of Canada — Province of Ontario (Federal PM Louis St. Laurent / Ottawa)",
+  },
+  CA_QC: {
+    s14_17: "Provincia del Québec (1944–maggio 1945). Nonostante la seconda crisi della coscrizione del novembre 1944, i reggimenti francofoni (Royal 22e Régiment) combattono in Italia e in Europa nord-occidentale; Arvida e Shawinigan forniscono oltre un terzo dell'alluminio alleato.",
+    s18: "Provincia del Québec (settembre 1945). Il porto di Montréal riconverte i cantieri Vickers al traffico commerciale dell'Atlantico e all'invio di aiuti UNRRA verso l'Europa; il premier Maurice Duplessis (Union Nationale) consolida l'autonomia provinciale e il programma d'elettrificazione rurale.",
+    s19_20: "Provincia del Québec (1947). A Montréal ha sede l'ICAO (Organizzazione Internazionale dell'Aviazione Civile dell'ONU, aprile 1947). Nell'Ungava/Côte-Nord proseguono le grandi prospezioni del ferro della Hollinger-Hanna e lo sviluppo idroelettrico di Hydro-Québec sul fiume San Lorenzo.",
+    s21: "Provincia del Québec (giugno 1948). Rieletto largamente nell'estate 1948 sotto l'insegna del fleurdelisé adottato nel gennaio 1948, Duplessis promuove lo sfruttamento minerario di amianto ad Asbestos e ferro nel Labrador-Ungava in forte crescita economica postbellica.",
+    s22: "Provincia del Québec (dicembre 1948). L'ascesa del québécois Louis St. Laurent a Primo Ministro del Canada (15 novembre 1948) rafforza il consenso interno sulla politica atlantica e sui cantieri ferroviari/minerari della Côte-Nord (ferrovia Sept-Îles–Schefferville in preparazione per l'acciaio USA).",
+    hist22: "Québec (Montréal / Québec City & Polo Alluminio/Ferro dell'Ungava, Dic 1948)",
+    admin22: "Dominion of Canada — Province of Québec (Premier Maurice Duplessis / Federal PM St. Laurent)",
+  },
+  CA_NS: {
+    s14_17: "Nuova Scozia (1944–maggio 1945). Halifax coordina la fase finale della Battaglia dell'Atlantico: gli immensi convogli di truppe verso la Gran Bretagna (incluso l'incrocio dei transatlantici Queen Mary/Queen Elizabeth) e la resa degli U-Boot tedeschi nel maggio 1945.",
+    s18: "Nuova Scozia (settembre 1945). HMC Dockyard Halifax diventa centro principale del rimpatrio delle truppe canadesi dall'Europa sull'ondata di entusiasmo e dei disordini V-E Day del 1945; smobilitazione ordinata delle fregate e corvette della RCN.",
+    s19_20: "Nuova Scozia (1947). Riconversione commerciale del porto di Halifax e dei bacini carboniferi e siderurgici di Sydney/Cape Breton (DOSCO); ammodernamento della rete ferroviaria e peschereccia atlantica verso il mercato statunitense.",
+    s21: "Nuova Scozia (giugno 1948). Entrata in servizio della portaerei leggera HMCS Magnificent (aprile 1948) basata ad Halifax: la Royal Canadian Navy rilancia il comando operativo atlantico per la sorveglianza antisommergibile nella nascente Guerra Fredda.",
+    s22: "Nuova Scozia (dicembre 1948). Halifax funge da snodo marittimo primario tra il Canada continentale e Terranova alla vigilia dei Terms of Union (11 dicembre 1948) e base atlantica chiave nei piani difensivi nordamericani-europei del governo St. Laurent.",
+    hist22: "Nova Scotia (HMC Dockyard Halifax — RCN Atlantic Command & HMCS Magnificent, Dic 1948)",
+  },
+  CA_NB: {
+    s14_17: "Nuovo Brunswick (1944–maggio 1945). Il porto invernale libero dai ghiacci di Saint John e i centri d'addestramento aereo di Moncton/Chatham sostengono lo sforzo finale alleato verso il fronte occidentale.",
+    s18: "Nuovo Brunswick (settembre 1945). I cantieri di Saint John e la rete ferroviaria verso Moncton assorbono i trasporti di smobilitazione dall'Atlantico e avviano la ripresa dell'industria cartiera e boschiva.",
+    s19_20: "Nuovo Brunswick (1947). Espansione dell'industria forestale, della pasta di legno e della pesca commerciale atlantica, con investimenti provinciali nella rete elettrica e nelle rotte marittime della Baia di Fundy.",
+    s21: "Nuovo Brunswick (giugno 1948). Saint John e Chatham mantengono infrastrutture logistiche e aeroportuali di riserva della RCAF e del commercio atlantico canadese.",
+    s22: "Nuovo Brunswick (dicembre 1948). Nel quadro delle politiche marittime di Ottawa sotto Louis St. Laurent e della futura integrazione di Terranova, Saint John rafforza i collegamenti ferroviari e portuali delle Province Marittime.",
+  },
+  CA_PE: {
+    s14_17: "Isola del Principe Edoardo (1944–maggio 1945). Gli aerodromi militari di Summerside e Mount Pleasant completano la formazione dei navigatori del Commonwealth nel programma BCATP.",
+    s18: "Isola del Principe Edoardo (settembre 1945). Riconversione agricola verso l'esportazione di patate da semina e latticini verso i mercati europei devastati e il Nord America; chiusura progressiva delle scuole aeree belliche.",
+    s19_20: "Isola del Principe Edoardo (1947). Avvio dei nuovi traghetti rompighiaccio (Abegweit, 1947) sullo Stretto di Northumberland e sviluppo dell'agricoltura e pesca nell'economia postbellica.",
+    s21: "Isola del Principe Edoardo (giugno 1948). RCAF Station Summerside viene mantenuta e riorientata alla ricognizione marittima e all'addestramento strumentale postbellico.",
+    s22: "Isola del Principe Edoardo (dicembre 1948). Consolidamento rurale e portuale di Charlottetown nella Federazione Canadese del dopoguerra (PM Walter Jones / PM federale St. Laurent).",
+  },
+  CA_MB: {
+    s14_17: "Manitoba (1944–maggio 1945). Il nodo ferroviario di Winnipeg coordina l'export cerealicolo verso l'Europa liberata e l'addestramento aerotrasportato finale di Shilo.",
+    s18: "Manitoba (settembre 1945). Ripresa agricola ed espansione dei mercati del grano e del nichel-rame settentrionale (Flin Flon) nella transizione dalla produzione bellica alla ricostruzione internazionale.",
+    s19_20: "Manitoba (1947). Fort Churchill sulla Baia di Hudson diviene stazione sperimentale congiunta USA-Canada per test militari e logistici artici (Exercise Musk Ox e ricerche subartiche).",
+    s21: "Manitoba (giugno 1948). A Winnipeg e Flin Flon prosegue l'espansione mineraria e metallurgica mentre Camp Shilo rimane poligono centrale di artiglieria e paracadutismo dell'esercito canadese.",
+    s22: "Manitoba (dicembre 1948). Il polo ferroviario di Winnipeg e la base subartica di Churchill rafforzano l'asse logistico centrale canadese tra le Praterie e l'Artico occidentale nel clima della Guerra Fredda.",
+  },
+  CA_SK: {
+    s14_17: "Saskatchewan (1944–maggio 1945). Sotto il primo governo socialdemocratico CCF in Nord America (Tommy Douglas, eletto nel giugno 1944), le Praterie massimizzano la produzione di grano per i piani di soccorso europei UNRRA.",
+    s18: "Saskatchewan (settembre 1945). L'amministrazione Tommy Douglas avvia le riforme pionieristiche sul debito agrario, le cooperative elettriche rurali e il modello ospedaliero pubblico provinciale.",
+    s19_20: "Saskatchewan (1947). Il 1° gennaio 1947 entra in vigore lo Saskatchewan Hospital Services Plan, primo sistema sanitario ospedaliero universale in Nord America; avvio delle prospezioni di uranio nell'estremo nord attorno al Lago Athabasca (Uranium City).",
+    s21: "Saskatchewan (giugno 1948). Rielezione di Tommy Douglas nel giugno 1948; espansione dei giacimenti di uranio nel bacino di Athabasca sotto egida Eldorado Mining and Refining e crescita delle esportazioni di grano verso il Piano Marshall.",
+    s22: "Saskatchewan (dicembre 1948). Le riserve uranifere del nord e i raccolti cerealicoli sostengono il ruolo economico strategico del Canada occidentale e gli accordi commerciali transatlantici del dopoguerra.",
+    hist22: "Saskatchewan (Regina · Modello Sanitario Tommy Douglas & Uranio di Athabasca, Dic 1948)",
+  },
+  CA_AB: {
+    s14_17: "Alberta (1944–maggio 1945). Aerodromi di Edmonton (Northwest Staging Route) impegnati nel ponte aereo Lend-Lease di caccia e bombardieri verso l'Alaska e l'URSS; agricoltura e carbone a pieno regime.",
+    s18: "Alberta (settembre 1945). Termine delle consegne aeree ALSIB verso la Siberia e riconversione di Edmonton e Calgary all'aviazione civile settentrionale, all'allevamento e all'agricoltura meccanizzata.",
+    s19_20: "Alberta (1947). Svolta storica energetica il 13 febbraio 1947: il pozzo Leduc No. 1 (Imperial Oil, a sud di Edmonton) rivela giacimenti petroliferi colossali, innescando il grande boom petrolifero ed economico dell'Alberta occidentale.",
+    s21: "Alberta (giugno 1948). Dopo la scoperta di Leduc e Redwater, l'Alberta si trasforma rapidamente nel cuore petrolifero del Canada; iniziano gli studi per il grande oleodotto Interprovincial Pipe Line verso i Grandi Laghi.",
+    s22: "Alberta (dicembre 1948). Il boom di Leduc-Woodbend/Redwater moltiplica gli investimenti statunitensi e canadesi nell'energia nordamericana, mentre le basi aeree di Edmonton guidano la logistica verso lo Yukon e l'Artico.",
+    hist22: "Alberta (Edmonton, Calgary & Boom Petrolifero di Leduc No. 1, Dic 1948)",
+  },
+  CA_BC: {
+    s14_17: "Columbia Britannica (1944–maggio 1945). I cantieri di Vancouver e Victoria completano decine di navi mercantili Victory/North Sands e fregate RCN; a Trail COMINCO produce acqua pesante per il Progetto Manhattan.",
+    s18: "Columbia Britannica (settembre 1945). A seguito della resa del Giappone, il Pacific Command di Esquimalt gestisce il rientro navale dal Pacifico, mentre Vancouver avvia la ripresa commerciale marittima transpacifica.",
+    s19_20: "Columbia Britannica (1947). Espansione dell'industria forestale, idroelettrica e portuaria di Vancouver e New Westminster nel boom edilizio postbellico nordamericano.",
+    s21: "Columbia Britannica (giugno 1948). La grande piena del fiume Fraser (maggio-giugno 1948) mobilita argini e genio militare federale; Esquimalt opera come base pacifica postbellica della RCN.",
+    s22: "Columbia Britannica (dicembre 1948). Il porto di Vancouver diviene terminale asiatico-pacifico prioritario per grano e legname, mentre gli Stati Uniti e Ottawa coordinano la difesa navale nord-pacifica da Esquimalt e Prince Rupert.",
+    hist22: "British Columbia (Vancouver, Victoria & RCN Pacific Command Esquimalt, Dic 1948)",
+  },
+  CA_NL: {
+    s14_17: "Dominion di Terranova e Labrador (1944–maggio 1945). Sotto Commission of Government britannica, l'aeroporto di Gander, la base USA di Argentia e St. John's guidano il supporto atlantico fino alla resa dei sommergibili tedeschi del maggio 1945.",
+    s18: "Dominion di Terranova (settembre 1945). A guerra conclusa resta sospeso il governo responsabile; Londra istituisce le elezioni per la National Convention di Terranova incaricata di proporre il futuro costituzionale del Dominion.",
+    s19_20: "Dominion di Terranova (1947). Dibattiti infuocati nella National Convention tra i fautori dell'indipendenza responsabile (Peter Cashin) e l'ala confederale guidata da Joey Smallwood favorevole all'adesione al Canada.",
+    s21: "Dominion di Terranova (30 giugno 1948). Terranova resta ancora Dominion separato sotto Corona britannica (NON ancora provincia canadese): al primo referendum del 3 giugno 1948 nessuno schieramento raggiunge la maggioranza assoluta (Responsible Gov. 44,6%, Confederazione 41,1%), rendendo necessario il ballottaggio di luglio.",
+    s22: "Dominion di Terranova (31 dicembre 1948). Al ballottaggio del 22 luglio 1948 vince la Confederazione con il Canada (52,3% vs 47,7%), e l'11 dicembre 1948 a Ottawa vengono firmati i Terms of Union; tuttavia giuridicamente e sulla mappa fino al 31 marzo 1949 Terranova permane entità britannica distinta sotto Commission of Government (Governatore Sir Gordon Macdonald).",
+    s23: "Provincia di Terranova e Labrador (31 marzo – 30 giugno 1949). A mezzanotte del 31 marzo 1949 cessa il Dominion di Terranova sotto amministrazione britannica e l'intero territorio entra nella Confederazione Canadese come decima provincia (Premier Joey Smallwood), partecipando pochi giorni dopo con il Canada tra i membri fondatori del Patto Atlantico (NATO, 4 aprile 1949).",
+    hist18_21: "Dominion of Newfoundland (Commission of Government — Verso il Referendum 1948)",
+    hist22: "Dominion of Newfoundland (Post-Referendum 1948 & Terms of Union 11 Dic — Unione al Canada nel Mar 1949)",
+    hist23: "Province of Newfoundland and Labrador (10ª Provincia del Canada dal 31 Marzo 1949 · NATO)",
+    admin18_21: "Dominion of Newfoundland (British Commission of Government — Gov. Sir Gordon Macdonald)",
+    admin22: "Dominion of Newfoundland (British Commission of Government — Terms of Union 11 Dic 1948, Effettivo 31 Mar 1949)",
+    admin23: "Dominion of Canada — Province of Newfoundland (10th Province, 31 Mar 1949 · Premier Joey Smallwood · NATO)",
+  },
+  CA_NT: {
+    s14_17: "Territori del Nord-Ovest (1944–maggio 1945). Nel 1944 Ottawa nazionalizza la miniera Eldorado di Port Radium come Crown Corporation (Eldorado Mining and Refining) per garantire l'uranio al Progetto Manhattan; completato l'oleodotto CANOL da Norman Wells allo Yukon.",
+    s18: "Territori del Nord-Ovest (settembre 1945). Port Radium prosegue segretamente l'estrazione prioritaria di uranio per le scorte atomiche anglo-americane all'indomani di Hiroshima e Nagasaki, mentre Yellowknife conosce una nuova febbre aurifera.",
+    s19_20: "Territori del Nord-Ovest (1947). Con la legge federale sull'energia atomica, Eldorado Mining resta cardine nucleare del blocco occidentale; costruzione di nuove piste artiche e potenziamento radio di Fort Smith e Yellowknife.",
+    s21: "Territori del Nord-Ovest (giugno 1948). Ricognizioni congiunte USA-Canada per la difesa aerea transpolare e l'estrazione strategica nel distretto del Mackenzie.",
+    s22: "Territori del Nord-Ovest (dicembre 1948). L'uranio del Great Bear Lake e i rilievi artici consolidano il ruolo di prima linea dei Territori del Nord-Ovest nella difesa continentale nordamericana (avvio pianificazione radar del Nord).",
+    hist22: "Northwest Territories (Port Radium Eldorado Uranium & Yellowknife, Dic 1948)",
+  },
+  CA_YT: {
+    s14_17: "Territorio dello Yukon (1944–maggio 1945). L'Alaska Highway e la Northwest Staging Route da Whitehorse trasferiscono migliaia di velivoli e rifornimenti bellici verso l'Alaska e la Siberia sovietica (ALSIB).",
+    s18: "Territorio dello Yukon (settembre 1945). Chiuso il ponte aereo ALSIB, il territorio prepara il trasferimento dell'Alaska Highway dal controllo militare statunitense all'esercito canadese.",
+    s19_20: "Territorio dello Yukon (1947). Il 1° aprile 1946 il tratto canadese dell'Alaska Highway passa formalmente alla gestione del Northwest Highway System dell'esercito canadese; ripresa delle miniere argentifere di Mayo/Keno Hill e turismo/commercio su Whitehorse.",
+    s21: "Territorio dello Yukon (giugno 1948). Whitehorse sostituisce progressivamente Dawson City come vero centro amministrativo, stradale e aeroportuale dello Yukon postbellico.",
+    s22: "Territorio dello Yukon (dicembre 1948). L'arteria strategica dell'Alaska Highway e gli aeroporti di Whitehorse garantiscono il collegamento permanente tra la British Columbia, lo Yukon e i comandi statunitensi in Alaska.",
+    hist22: "Yukon Territory (Whitehorse & Northwest Highway System — Ex Alaska Highway, Dic 1948)",
+  },
+  CA_NU: {
+    s14_17: "Artico Orientale — Distretti di Franklin & Keewatin (1944–maggio 1945). Nel 1944 la goletta della RCMP St. Roch completa lo storico ritorno attraverso il Passaggio a Nord-Ovest in una sola stagione; Frobisher Bay (Iqaluit) opera come scalo chiave della Crimson Route.",
+    s18: "Artico Orientale — Distretti di Franklin & Keewatin (settembre 1945). Con la fine del conflitto le stazioni della Terra di Baffin e di Coral Harbour tornano a gestione civile-federale canadese sotto stretta tutela sulla sovranità artica.",
+    s19_20: "Artico Orientale (1947). Nel 1947 Canada e Stati Uniti inaugurano la rete congiunta JAWS (Joint Arctic Weather Stations): fondate le stazioni meteorologiche polari avanzate di Eureka (Isola Ellesmere, apr 1947) e Resolute Bay (Isola Cornwallis, ago 1947).",
+    s21: "Artico Orientale (giugno 1948). Espansione della rete meteo artica JAWS (Isachsen e Mould Bay nel 1948) con supporto aeronavale congiunto tra le isole dell'Alto Artico.",
+    s22: "Artico Orientale (dicembre 1948). La rete JAWS nell'Arcipelago Artico fornisce dati essenziali per le rotte aeree polari dell'USAF/RCAF e per la difesa strategica della frontiera boreale occidentale.",
+    hist22: "Eastern Arctic Districts (Franklin & Keewatin — Rete Artica JAWS Eureka/Resolute, Dic 1948)",
+  },
+};
+
+for (const meta of new Set(Object.values(CANADA_PROVINCES_META))) {
+  const upd = CANADA_LATE_UPDATES[meta.id];
+  if (!upd) continue;
+  const origNote = meta.getNote.bind(meta);
+  const origHist = meta.getHistoricalName.bind(meta);
+  const origAdmin = meta.getAdminTitle.bind(meta);
+
+  meta.getNote = (s: number) => {
+    if (s >= 23) return upd.s23 || `${upd.s22} Con il 31 marzo 1949 Terranova entra nel Canada come decima provincia e il 4 aprile 1949 il Canada sottoscrive il Patto Atlantico (NATO).`;
+    if (s >= 22) return upd.s22;
+    if (s >= 21) return upd.s21;
+    if (s >= 19) return upd.s19_20;
+    if (s >= 18) return upd.s18;
+    if (s >= 14 && upd.s14_17) return upd.s14_17;
+    return origNote(s);
+  };
+  meta.getHistoricalName = (s: number) => {
+    if (s >= 23 && upd.hist23) return upd.hist23;
+    if (s >= 22 && upd.hist22) return upd.hist22;
+    if (s >= 18 && upd.hist18_21) return upd.hist18_21;
+    return origHist(s);
+  };
+  meta.getAdminTitle = (s: number) => {
+    if (s >= 23) {
+      return upd.admin23 || `${origAdmin(s)} (Confederazione a 10 Province & Membro Fondatore NATO — 4 Apr 1949)`;
+    }
+    if (s >= 22) {
+      return upd.admin22 || `${origAdmin(s)} (Governo Federale Louis St. Laurent — Dic 1948)`;
+    }
+    if (s >= 18 && upd.admin18_21) return upd.admin18_21;
+    return origAdmin(s);
+  };
+}
 
 /**
  * Risolutore dinamico e timeline-sensitive per le Province, Territori e Terranova (1936-1941).

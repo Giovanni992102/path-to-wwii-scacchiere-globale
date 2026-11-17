@@ -28,7 +28,8 @@
  */
 
 import { ResolvedTerritory, FactionType } from '../types';
-import { resolveFranceExtendedStep } from './franceTimelineExtension';
+import { resolveFranceExtendedStep, resolveFrenchCoastalPocket, FRENCH_COASTAL_POCKET_IDS } from './franceTimelineExtension';
+export { resolveFrenchCoastalPocket, FRENCH_COASTAL_POCKET_IDS };
 
 function makeResult(
   o: string,
@@ -4858,6 +4859,10 @@ export function resolveFranceProvince(
   rawName?: string
 ): ResolvedTerritory | null {
   const cleanId = String(idOrKey || '').trim().toUpperCase();
+  if (FRENCH_COASTAL_POCKET_IDS.has(cleanId)) {
+    const pocketRes = resolveFrenchCoastalPocket(cleanId, s);
+    if (pocketRes) return pocketRes;
+  }
   let meta = FRANCE_PROVINCES_META[cleanId];
 
   if (!meta) {

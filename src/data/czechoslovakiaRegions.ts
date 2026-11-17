@@ -19,6 +19,15 @@ import { ResolvedTerritory } from '../types';
 
 // 1. Sudetenland: CZE (Step 0-1) -> GER (Step 2-17) -> CZE Reintegrato (Step 18+)
 export function resolveSudetenland(s: number, name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
+  if (s >= 21) {
+    return makeResult(
+      'CZE',
+      `${name} (Pohraničí — Repubblica Cecoslovacca Socialista / Colpo di Praga del Febbraio 1948)`,
+      "Dopo il colpo di Stato comunista di Praga (25 febbraio 1948), l'adozione della Costituzione del 9 maggio e l'elezione di Klement Gottwald alla Presidenza della Repubblica (14 giugno 1948 in seguito alle dimissioni di Edvard Beneš), la Repubblica Cecoslovacca (ČSR) diviene uno Stato socialista monopartitico del blocco sovietico, avviando la nazionalizzazione integrale dell'industria nei distretti di confine dei Sudeti.",
+      'Comintern',
+      'Československá republika (Prezident Klement Gottwald · Regime Comunista del Fronte Nazionale)'
+    );
+  }
   if (s >= 18) {
     return makeResult(
       'CZE',
@@ -37,6 +46,16 @@ export function resolveSudetenland(s: number, name: string, _itName: string, deN
       'Československá republika — Sudetendeutsche Gebiete'
     );
   }
+  const lowName = `${name} ${deName}`.toLowerCase();
+  if (s === 17 && (lowName.includes('troppau') || lowName.includes('opava') || lowName.includes('sudmahren') || lowName.includes('südmähren') || lowName.includes('suedmaehren') || lowName.includes('znaim') || lowName.includes('znojmo') || lowName.includes('lundenburg'))) {
+    return makeResult(
+      'SOV',
+      `${name} (Liberata — Armata Rossa, Aprile 1945)`,
+      '17-22 aprile 1945: le unità del 2° e 4° Fronte Ucraino sfondano nella Slesia ceca (Opava/Troppau, 22 aprile) e nella Moravia meridionale (Břeclav/Mikulov/Znojmo), ricollegandosi con il fronte austriaco.',
+      'Comintern',
+      'Armata Rossa — 2° & 4° Fronte Ucraino'
+    );
+  }
   return makeResult(
     'GER',
     deName || name,
@@ -48,6 +67,15 @@ export function resolveSudetenland(s: number, name: string, _itName: string, deN
 
 // 2. Zaolzie: CZE (Step 0-1) -> POL (Step 2-4) -> GER (Step 5-17) -> CZE Reintegrato (Step 18+)
 export function resolveZaolzie(s: number, _name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
+  if (s >= 21) {
+    return makeResult(
+      'CZE',
+      'Český Těšín (Těšínsko / Zaolzie — Repubblica Cecoslovacca Socialista, Giugno 1948)',
+      "In seguito al colpo di Stato di Praga (25 febbraio 1948) e alla Costituzione del 9 maggio 1948 sotto Klement Gottwald, il bacino carbonifero e siderurgico di Těšín/Ostrava è integrato nel piano economico socialista cecoslovacco.",
+      'Comintern',
+      'Československá republika (Prezident Klement Gottwald · KSČ)'
+    );
+  }
   if (s >= 18) {
     return makeResult(
       'CZE',
@@ -86,6 +114,15 @@ export function resolveZaolzie(s: number, _name: string, _itName: string, deName
 
 // 3. Rest-Tschechei (Bohemia & Moravia): CZE (Step 0-2) -> GER Protectorate (Step 3-17) -> CZE Restaurata (Step 18+)
 export function resolveRestTschechei(s: number, name: string, _itName: string, deName: string, _note: string): ResolvedTerritory {
+  if (s >= 21) {
+    return makeResult(
+      'CZE',
+      `${name} (Repubblica Cecoslovacca — Colpo di Stato di Praga del 25 Febbraio & Costituzione del 9 Maggio 1948)`,
+      "Tra il 20 e il 25 febbraio 1948 (Vítězný únor / Colpo di Praga) il Partito Comunista di Cecoslovacchia (KSČ) guidato da Klement Gottwald assume il monopolio del potere; dopo la morte del ministro degli esteri Jan Masaryk (10 marzo), la Costituzione del 9 maggio 1948 e le dimissioni di Edvard Beneš (7 giugno), il 14 giugno 1948 Gottwald diviene Presidente della Repubblica e Antonín Zápotocký Primo Ministro, allineando saldamente Praga all'URSS e al Cominform.",
+      'Comintern',
+      'Československá republika (Prezident Klement Gottwald · Premier Antonín Zápotocký — KSČ)'
+    );
+  }
   if (s >= 18) {
     return makeResult(
       'CZE',
@@ -113,6 +150,16 @@ export function resolveRestTschechei(s: number, name: string, _itName: string, d
       'Druhá Československá republika (Česko-Slovensko)'
     );
   }
+  const lowName = `${name} ${deName}`.toLowerCase();
+  if (s === 17 && (lowName.includes('ostrava') || lowName.includes('ostrau') || lowName.includes('brno') || lowName.includes('brünn') || lowName.includes('brunn') || lowName.includes('zlin') || lowName.includes('zlín') || lowName.includes('slovacko'))) {
+    return makeResult(
+      'SOV',
+      `${name} (Liberata — Offensiva di Brno & Ostrava, Aprile 1945)`,
+      '26-30 aprile 1945: il 2° Fronte Ucraino (Mareciallo Malinovskij) libera Brno (26 aprile) e la Moravia sud-orientale, mentre il 4° Fronte Ucraino ed il 1° Corpo Cecoslovacco espugnano Moravská Ostrava (30 aprile).',
+      'Comintern',
+      'Armata Rossa — 2° & 4° Fronte Ucraino'
+    );
+  }
   return makeResult(
     'GER',
     deName || name,
@@ -124,6 +171,15 @@ export function resolveRestTschechei(s: number, name: string, _itName: string, d
 
 // 4. Slovakia Core: CZE (Step 0-1) -> Autonomous CZE (Step 2) -> SLO Tiso (Step 3-16) -> CZE Liberata (Step 17+)
 export function resolveSlovakia(s: number, name: string, _itName: string, _deName: string, _note: string): ResolvedTerritory {
+  if (s >= 21) {
+    return makeResult(
+      'CZE',
+      `${name} (Slovensko — Repubblica Cecoslovacca Socialista / Costituzione del 9 Maggio 1948)`,
+      "A seguito del colpo di Stato di Praga (25 febbraio 1948) e dell'estromissione del Partito Democratico dal Corpo dei Commissari slovacco a Bratislava per mano di Gustáv Husák, la Slovacchia è pienamente integrata nel regime comunista cecoslovacco di Klement Gottwald (Costituzione del 9 maggio 1948).",
+      'Comintern',
+      'Československá republika — Slovensko (Zbor povereníkov · Gustáv Husák / KSČ)'
+    );
+  }
   if (s >= 17) {
     return makeResult(
       'CZE',
@@ -164,6 +220,28 @@ export function resolveSlovakia(s: number, name: string, _itName: string, _deNam
 export function resolveFelvidek(s: number, name: string, _itName: string, _deName: string, _note: string): ResolvedTerritory {
   if (s >= 17) {
     if (name.includes('Ruthenia') || name.includes('Karpatalja') || name.includes('Uzhorod') || name.includes('Mukacevo')) {
+      if (s >= 19) {
+        return makeResult(
+          'SOV',
+          s >= 20
+            ? 'Užgorod & Mukačevo (Oblast\' della Transcarpazia — RSS Ucraina, Dic. 1947)'
+            : 'Užgorod & Mukačevo (Zakarpatskaya Oblast\' — RSS Ucraina, 1947)',
+          s >= 20
+            ? 'Dicembre 1947 (Zakarpatskaya Oblast\', RSS Ucraina): completata l\'integrazione giuridico-monetaria nella RSS Ucraina con la riforma del rublo (14-16 dicembre), la chiusura della frontiera con Cecoslovacchia e Ungheria e la pressione sui kulaki carpatici.'
+            : 'Settembre 1947 (Zakarpatskaya Oblast\', RSS Ucraina): istituita formalmente il 22 gennaio 1946 dopo il trattato sovietico-cecoslovacco del giugno 1945; nazionalizzazione delle foreste e delle imprese di Užgorod e Mukačevo nel Quarto Piano Quinquennale.',
+          'Comintern',
+          'Zakarpatskij Oblispolkom — RSS Ucraina (URSS)'
+        );
+      }
+      if (s === 18) {
+        return makeResult(
+          'SOV',
+          'Zakarpatska Ukrajina (Užhorod e Mukačevo — Annessa alla RSS Ucraina, 1945)',
+          'Settembre 1945: in virtù del Trattato sovietico-cecoslovacco di Mosca del 29 giugno 1945, la Rutenia Subcarpatica viene ceduta formalmente all\'URSS ed entra nella fase di incorporazione nella RSS Ucraina.',
+          'Comintern',
+          'Consiglio Popolare della Zakarpatska Ukrajina — URSS'
+        );
+      }
       return makeResult(
         'SOV',
         'Zakarpatska Ukrajina (Užhorod e Mukačevo — URSS)',
@@ -174,9 +252,13 @@ export function resolveFelvidek(s: number, name: string, _itName: string, _deNam
     }
     return makeResult(
       'CZE',
-      `${name} (Južné Slovensko Reintegrované — Apríl 1945)`,
-      'Aprile 1945: con la liberazione della Slovacchia meridionale (Bratislava, Komárno, Lučenec, Košice) da parte dell\'Armata Rossa e l\'annullamento del Primo Arbitrato di Vienna, il territorio viene reintegrato nella Repubblica Cecoslovacca restaurata.',
-      'Alleati',
+      s >= 21
+        ? `${name} (Južné Slovensko — Repubblica Cecoslovacca Socialista, Giugno 1948)`
+        : `${name} (Južné Slovensko Reintegrované — Apríl 1945)`,
+      s >= 21
+        ? 'Dopo il colpo di Stato di Praga (25 febbraio 1948) e la Costituzione del 9 maggio 1948 sotto il presidente Klement Gottwald, la Slovacchia meridionale fa parte della Repubblica Cecoslovacca socialista allineata al blocco sovietico.'
+        : 'Aprile 1945: con la liberazione della Slovacchia meridionale (Bratislava, Komárno, Lučenec, Košice) da parte dell\'Armata Rossa e l\'annullamento del Primo Arbitrato di Vienna, il territorio viene reintegrato nella Repubblica Cecoslovacca restaurata.',
+      s >= 21 ? 'Comintern' : 'Alleati',
       'Československá republika — Južné Slovensko'
     );
   }
@@ -225,6 +307,28 @@ export function resolveCarpathoUkraine(s: number, _name: string, _itName: string
       _note ? `${_note} — Karpatska Ukrajina (Chust)` : 'Karpatska Ukrajina — Avtonomnyj kraj (Chust)',
       undefined,
       'Česko-Slovenská republika — Karpatska Ukrajina'
+    );
+  }
+  if (s >= 19) {
+    return makeResult(
+      'SOV',
+      s >= 20
+        ? 'Chust & Transcarpazia (Zakarpatskaya Oblast\' — RSS Ucraina, Dic. 1947)'
+        : 'Chust & Transcarpazia (Zakarpatskaya Oblast\' — RSS Ucraina, 1947)',
+      s >= 20
+        ? 'Dicembre 1947 (Zakarpatskaya Oblast\', RSS Ucraina): collettivizzazione incipiente nelle valli carpatiche attorno a Chust, riforma monetaria sovietica del 14-16 dicembre e presidio militare lungo i Carpazi.'
+        : 'Settembre 1947 (Zakarpatskaya Oblast\', RSS Ucraina): istituita formalmente il 22 gennaio 1946; integrazione forestale, amministrativa ed educativa nel sistema sovietico della RSS Ucraina.',
+      'Comintern',
+      'Zakarpatskij Oblispolkom — RSS Ucraina (URSS)'
+    );
+  }
+  if (s === 18) {
+    return makeResult(
+      'SOV',
+      'Chust (Zakarpatska Ukrajina — Cessione all\'URSS, 1945)',
+      'Settembre 1945: ratificato il Trattato del 29 giugno 1945 fra Mosca e Praga che trasferisce la Rutenia Subcarpatica all\'Unione Sovietica; transizione verso l\'Oblast\' della Transcarpazia (RSS Ucraina).',
+      'Comintern',
+      'Consiglio Popolare della Zakarpatska Ukrajina — URSS'
     );
   }
   if (s >= 16) {

@@ -1179,18 +1179,19 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
   // 2. Ricerca per nome o corrispondenze
   if (!meta) {
     const nrmRaw = norm(rawName);
-
-    for (const key of Object.keys(INDONESIA_PROVINCES_META)) {
-      const candidate = INDONESIA_PROVINCES_META[key];
-      if (
-        nrmRaw.includes(norm(candidate.name)) ||
-        norm(candidate.name).includes(nrmRaw) ||
-        nrmRaw.includes(norm(candidate.modernName)) ||
-        norm(candidate.historicalName).includes(nrmRaw) ||
-        norm(candidate.nutsName).includes(nrmRaw)
-      ) {
-        meta = candidate;
-        break;
+    if (nrmRaw.length > 0 && fidClean.toUpperCase() !== 'IDMD' && fidClean.toUpperCase() !== 'ID_MADURA') {
+      for (const key of Object.keys(INDONESIA_PROVINCES_META)) {
+        const candidate = INDONESIA_PROVINCES_META[key];
+        if (
+          nrmRaw.includes(norm(candidate.name)) ||
+          norm(candidate.name).includes(nrmRaw) ||
+          nrmRaw.includes(norm(candidate.modernName)) ||
+          norm(candidate.historicalName).includes(nrmRaw) ||
+          norm(candidate.nutsName).includes(nrmRaw)
+        ) {
+          meta = candidate;
+          break;
+        }
       }
     }
   }
@@ -1203,50 +1204,283 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
   // =========================================================================
   if (s >= 19) {
     const fid = (meta ? meta.id : fidClean).toUpperCase();
+    const isJune1948 = s >= 21;
+    const isDec1948 = s >= 22;
+    const isJune1949 = s >= 23;
+    const isDec1949 = s >= 24;
+    const isJune1950 = s >= 25;
+    const isDec1950 = s >= 26;
+
+    if (isDec1950) {
+      // Eccezione territoriale critica: Nuova Guinea Olandese (Nederlands-Nieuw-Guinea: IDPA, IDPB) rimane 100% colonia dei Paesi Bassi
+      const isPapua = meta && meta.islandGroup === 'Papua';
+      if (isPapua || fid.startsWith('IDP')) {
+        return makeResult(
+          'HOL',
+          `${meta ? meta.historicalName : rawName} (Nederlands-Nieuw-Guinea — 100% Colonia dei Paesi Bassi, Dic 1950)`,
+          "31 Dicembre 1950 (100% Paesi Bassi): nonostante lo scioglimento della federazione RIS nello Stato unitario della Repubblica d'Indonesia (17 agosto 1950) e il fallimento dei colloqui dell'Aia di dicembre, la Nuova Guinea Olandese resta sotto pieno controllo del Regno dei Paesi Bassi.",
+          'Alleati',
+          'Koninkrijk der Nederlanden — Nederlands-Nieuw-Guinea (100% Paesi Bassi)'
+        );
+      }
+      // Nov 1950: TNI riconquista Ambon; la RMS è ridotta a piccole sacche di guerriglia nell'interno di Seram
+      if (fid === 'IDMA' || norm(rawName).includes('ambon') || (norm(rawName).includes('maluku') && !norm(rawName).includes('utara') && fid !== 'IDMU')) {
+        return makeResult(
+          'IDN',
+          'Maluku / Ambon (Repubblica d\'Indonesia — Riconquista TNI di Ambon Nov 1950; Sacche RMS su Seram)',
+          "31 Dicembre 1950 (Repubblica d'Indonesia — controllo effettivo): dopo il blocco navale estivo e lo sbarco anfibio dell'esercito indonesiano (TNI) iniziato a fine settembre, nel novembre 1950 la città e l'isola di Ambon cadono definitivamente; i resti della secessionista RMS di Soumokil si ritirano in piccole sacche di guerriglia nell'interno montuoso di Seram.",
+          'Neutrale',
+          "Repubblica d'Indonesia (Stato Unitario) — Provincia di Maluku · Ambon (Sacche RMS su Seram)"
+        );
+      }
+      const isJakarta = fid === 'IDJK' || norm(rawName).includes('jakarta') || norm(rawName).includes('batavia');
+      const isFormerNst = fid === 'IDSU' || norm(rawName).includes('sumatera utara') || norm(rawName).includes('medan') || norm(rawName).includes('deli');
+      const isFormerNit =
+        (meta && (meta.islandGroup === 'Sulawesi' || meta.islandGroup === 'Maluku' || meta.islandGroup === 'Nusa Tenggara')) ||
+        fid.startsWith('IDSN') || fid.startsWith('IDSA') || fid.startsWith('IDST') || fid.startsWith('IDSG') ||
+        fid.startsWith('IDGO') || fid.startsWith('IDSR') || fid.startsWith('IDBA') || fid.startsWith('IDNB') ||
+        fid.startsWith('IDNT') || fid === 'IDMU';
+      const noteDetail = isFormerNst
+        ? "31 Dicembre 1950 (100% Repubblica d'Indonesia — Stato Unitario): il 17 agosto 1950 l'ex Stato di Sumatra Orientale (Negara Sumatera Timur — NST) è stato formalmente abolito insieme alla federazione RIS ed integrato come provincia nella Repubblica d'Indonesia unitaria (capitale Jakarta)."
+        : isFormerNit
+          ? "31 Dicembre 1950 (100% Repubblica d'Indonesia — Stato Unitario): il 17 agosto 1950 l'ultimo ex Stato federato dell'Indonesia Orientale (Negara Indonesia Timur — NIT) è stato formalmente sciolto ed integrato nella Repubblica d'Indonesia unitaria (capitale Jakarta)."
+          : isJakarta
+            ? "31 Dicembre 1950: nel quinto anniversario dell'indipendenza (17 agosto 1950), la federazione degli Stati Uniti d'Indonesia (RIS) viene ufficialmente sciolta e sostituita dallo Stato unitario della Repubblica d'Indonesia (Republik Indonesia) con capitale a Jakarta (Pres. Sukarno, PM Mohammad Natsir da settembre)."
+            : "31 Dicembre 1950 (100% Repubblica d'Indonesia — Stato Unitario): dal 17 agosto 1950 la federazione RIS è sciolta nella Repubblica d'Indonesia unitaria (capitale Jakarta), con tutti gli ex Stati federali aboliti (unica eccezione coloniale: la Nuova Guinea Olandese).";
+      return makeResult(
+        'IDN',
+        isJakarta
+          ? "Jakarta (Capitale dello Stato Unitario della Repubblica d'Indonesia — 17 Agosto 1950)"
+          : `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Stato Unitario, 17 Agosto 1950)`,
+        noteDetail,
+        'Neutrale',
+        "Repubblica d'Indonesia (Stato Unitario — Republik Indonesia · Pres. Sukarno · PM M. Natsir)"
+      );
+    }
+
+    if (isJune1950) {
+      // Eccezione territoriale critica: Nuova Guinea Olandese (Nederlands-Nieuw-Guinea: IDPA, IDPB) rimane 100% colonia dei Paesi Bassi
+      const isPapua = meta && meta.islandGroup === 'Papua';
+      if (isPapua || fid.startsWith('IDP')) {
+        return makeResult(
+          'HOL',
+          `${meta ? meta.historicalName : rawName} (Nederlands-Nieuw-Guinea — 100% Colonia dei Paesi Bassi, Esclusa dal RIS)`,
+          "30 Giugno 1950 (100% Paesi Bassi): la Nuova Guinea Olandese (Hollandia/Jayapura e Vogelkop/Manokwari) resta esclusa dalla sovranità degli Stati Uniti d'Indonesia (RIS) e rimane sotto pieno governo coloniale dei Paesi Bassi.",
+          'Alleati',
+          'Koninkrijk der Nederlanden — Nederlands-Nieuw-Guinea (100% Paesi Bassi · Esclusa dal RIS)'
+        );
+      }
+      // 25 Aprile 1950: Proclamazione secessionista della Repubblica delle Molucche Meridionali (RMS) ad Ambon
+      if (fid === 'IDMA' || norm(rawName).includes('ambon') || norm(rawName).includes('maluku') && !norm(rawName).includes('utara') && fid !== 'IDMU') {
+        return makeResult(
+          'RMS',
+          'Maluku Selatan / Ambon (Repubblica delle Molucche Meridionali — RMS, Proclamata il 25 Aprile 1950)',
+          "30 Giugno 1950: in opposizione allo scioglimento degli Stati federali nella Repubblica d'Indonesia, il 25 aprile 1950 ad Ambon l'ex ministro del NIT Chris Soumokil e J.H. Manuhutu proclamano la secessionista Repubblica delle Molucche Meridionali (Republik Maluku Selatan — RMS, bandiera Benang Raja) sostenuta dai reparti ambonesi ex-KNIL.",
+          'Neutrale',
+          'Republik Maluku Selatan — RMS (Pres. J.H. Manuhutu · PM Chris Soumokil — Ambon, 25 Apr 1950)'
+        );
+      }
+      // Stato Federato Residuo #2 nella RIS: Stato di Sumatra Orientale (Negara Sumatera Timur — Medan/Deli)
+      if (fid === 'IDSU' || norm(rawName).includes('sumatera utara') || norm(rawName).includes('medan') || norm(rawName).includes('deli')) {
+        return makeResult(
+          'IDN',
+          'Sumatera Utara / Medan (Stato di Sumatra Orientale — Negara Sumatera Timur, 2° Stato Federato Residuo nella RIS)',
+          "30 Giugno 1950: mentre tra marzo e maggio 1950 gli altri Stati federali si sciolgono nella Repubblica d'Indonesia, lo Stato di Sumatra Orientale (Negara Sumatera Timur — NST, retto da Tengku Mansur a Medan) rimane uno dei soli tre Stati componenti superstiti della federazione degli Stati Uniti d'Indonesia (RIS, che resterà formalmente vigente fino al 17 agosto 1950).",
+          'Neutrale',
+          'Republik Indonesia Serikat (RIS) — Negara Sumatera Timur (Wali Negara Tengku Mansur · Medan)'
+        );
+      }
+      // Stato Federato Residuo #3 nella RIS: Stato dell'Indonesia Orientale (Negara Indonesia Timur — Makassar)
+      const isGrooteOostNit =
+        (meta && (meta.islandGroup === 'Sulawesi' || meta.islandGroup === 'Maluku' || meta.islandGroup === 'Nusa Tenggara')) ||
+        fid.startsWith('IDSN') || fid.startsWith('IDSA') || fid.startsWith('IDST') || fid.startsWith('IDSG') ||
+        fid.startsWith('IDGO') || fid.startsWith('IDSR') || fid.startsWith('IDBA') || fid.startsWith('IDNB') ||
+        fid.startsWith('IDNT') || fid === 'IDMU';
+      if (isGrooteOostNit) {
+        return makeResult(
+          'IDN',
+          `${meta ? meta.historicalName : rawName} (Stato dell'Indonesia Orientale — Negara Indonesia Timur, 3° Stato Federato Residuo nella RIS)`,
+          "30 Giugno 1950: al 30 giugno 1950 lo Stato dell'Indonesia Orientale (Negara Indonesia Timur — NIT, capitale Makassar) sopravvive insieme alla Repubblica d'Indonesia e al Negara Sumatera Timur come uno dei tre soli Stati federati residui degli Stati Uniti d'Indonesia (RIS, non ancora trasformati in repubblica unitaria fino al 17 agosto 1950), mentre ad Ambon è scoppiata la secessione della RMS.",
+          'Neutrale',
+          'Republik Indonesia Serikat (RIS) — Negara Indonesia Timur (Makassar)'
+        );
+      }
+      const isJakarta = fid === 'IDJK' || norm(rawName).includes('jakarta') || norm(rawName).includes('batavia');
+      const isYogyakarta = fid === 'IDYO' || norm(rawName).includes('yogyakarta');
+      return makeResult(
+        'IDN',
+        isJakarta
+          ? 'Jakarta / Giacarta (Capitale Federale RIS — Centralizzazione di Giava & Kalimantan, Giugno 1950)'
+          : isYogyakarta
+            ? "Yogyakarta (Capitale della Repubblica d'Indonesia nella RIS — Confluenza degli Stati Federali, 1950)"
+            : `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia nella Federazione RIS — Centralizzazione Marzo–Maggio 1950)`,
+        isJakarta
+          ? "30 Giugno 1950: Jakarta è la capitale federale degli Stati Uniti d'Indonesia (RIS — Pres. Sukarno, PM Mohammad Hatta). Dopo la fallita insurrezione APRA di Westerling (gennaio 1950), tra marzo e maggio quasi tutti gli Stati federali (Pasundan, Jawa Timur, Madura, Sumatera Selatan, Jawa Tengah e i consigli del Kalimantan) confluiscono nella Repubblica d'Indonesia, lasciando nella RIS solo RI, Negara Sumatera Timur e Negara Indonesia Timur."
+          : "30 Giugno 1950: tra gennaio e maggio 1950 quasi tutti gli Stati federali creati nel 1947–1948 (Pasundan, Jawa Timur, Madura, Sumatera Selatan, Jawa Tengah, Bandjar, Dayak Besar e Kalimantan) si sciolgono confluendo direttamente nella Repubblica d'Indonesia (Yogyakarta), componente principale degli Stati Uniti d'Indonesia (RIS, ancora in vigore fino all'agosto 1950; superstiti solo Sumatra Orientale e Indonesia Orientale).",
+        'Neutrale',
+        "Republik Indonesia Serikat — RIS (Stato Componente Repubblica d'Indonesia · Pres. Sukarno · PM M. Hatta)"
+      );
+    }
+
+    if (isDec1949) {
+      // Eccezione territoriale critica: Nuova Guinea Olandese (Nederlands-Nieuw-Guinea: IDPA, IDPB) rimane 100% colonia dei Paesi Bassi
+      const isPapua = meta && meta.islandGroup === 'Papua';
+      if (isPapua || fid.startsWith('IDP')) {
+        return makeResult(
+          'HOL',
+          `${meta ? meta.historicalName : rawName} (Nederlands-Nieuw-Guinea — 100% Colonia dei Paesi Bassi, Esclusa dal RIS)`,
+          "31 Dicembre 1949 (100% Paesi Bassi): negli accordi della Conferenza della Tavola Rotonda dell'Aia (2 novembre 1949) e nell'atto di trasferimento della sovranità del 27 dicembre 1949, la Nuova Guinea Olandese (Nederlands-Nieuw-Guinea — Hollandia/Jayapura e Vogelkop/Manokwari) viene esplicitamente esclusa dalla sovranità degli Stati Uniti d'Indonesia (RIS) e rimane sotto pieno governo coloniale olandese.",
+          'Alleati',
+          'Koninkrijk der Nederlanden — Nederlands-Nieuw-Guinea (100% Paesi Bassi · Esclusa dal RIS)'
+        );
+      }
+      const isJakarta = fid === 'IDJK' || norm(rawName).includes('jakarta') || norm(rawName).includes('batavia');
+      const isYogyakarta = fid === 'IDYO' || norm(rawName).includes('yogyakarta');
+      return makeResult(
+        'IDN',
+        isJakarta
+          ? 'Jakarta / Giacarta (Capitale Federale degli Stati Uniti d\'Indonesia — RIS, 27 Dicembre 1949)'
+          : `${meta ? meta.historicalName : rawName} (Stati Uniti d'Indonesia — RIS, 27 Dicembre 1949)`,
+        isJakarta
+          ? "Il 27 dicembre 1949 i Paesi Bassi trasferiscono formalmente ad Amsterdam e al Palazzo Koningsplein (Istana Merdeka) di Jakarta la sovranità delle ex Indie Orientali Olandesi alla federazione degli Stati Uniti d'Indonesia (Republik Indonesia Serikat — RIS), con Jakarta capitale federale (Presidente Sukarno, Primo Ministro Mohammad Hatta; Nuova Guinea Olandese esclusa)."
+          : isYogyakarta
+          ? "Il 27 dicembre 1949 la Repubblica d'Indonesia (Yogyakarta) confluisce quale principale Stato membro nella federazione sovrana degli Stati Uniti d'Indonesia (Republik Indonesia Serikat — RIS) sancita dalla Conferenza della Tavola Rotonda dell'Aia."
+          : "31 Dicembre 1949: a seguito della Conferenza della Tavola Rotonda dell'Aia (23 agosto – 2 novembre 1949), dal 27 dicembre 1949 il territorio fa parte della federazione sovrana degli Stati Uniti d'Indonesia (Republik Indonesia Serikat — RIS, composta dalla Repubblica di Indonesia e dai 15 Stati/territori autonomi federali su Giava, Sumatra, Kalimantan, Sulawesi, Bali, Piccole Isole della Sonda e Molucche).",
+        'Neutrale',
+        'Republik Indonesia Serikat — RIS (Presidente Sukarno · PM Mohammad Hatta · Capitale Jakarta)'
+      );
+    }
 
     // 1. Giava Repubblicana: Capitale a Yogyakarta (IDYO), Giava Centrale (IDJT) e Banten (IDBT)
     if (fid === 'IDYO' || norm(rawName).includes('yogyakarta') || norm(rawName).includes('jogjakarta')) {
+      if (isJune1949) {
+        return makeResult(
+          'IDN',
+          'Yogyakarta (Restituzione alla Repubblica d\'Indonesia — Evacuazione Olandese 30 Giugno 1949)',
+          "Dopo il contrattacco repubblicano su Yogyakarta (Serangan Umum, 1 marzo 1949) e la forte pressione diplomatica di Washington e dell'ONU, gli Accordi Roem–Van Roijen (7 maggio 1949) stabiliscono il cessate il fuoco e la restaurazione della capitale repubblicana. Tra il 24 e il 30 giugno 1949 le forze olandesi completano l'evacuazione di Yogyakarta, restituendo l'amministrazione al Sultano Hamengkubuwono IX in attesa del rientro di Sukarno e Hatta (6 luglio) e dei preparativi per la Conferenza della Tavola Rotonda dell'Aia (sovranità RIS non ancora effettiva fino al 27 dicembre 1949).",
+          'Neutrale',
+          'Republik Indonesia — Ibu Kota Yogyakarta (Sultano Hamengkubuwono IX · Evacuazione Olandese 30 Giu 1949)'
+        );
+      }
+      if (isDec1948) {
+        return makeResult(
+          'HOL',
+          'Yogyakarta (Occupazione Olandese in Operatie Kraai del 19 Dicembre 1948 · Guerriglia TNI)',
+          "Il 19 dicembre 1948 le truppe aviotrasportate e meccanizzate olandesi lanciano la seconda Azione di Polizia (Operatie Kraai), conquistando l'aeroporto di Maguwo e la capitale repubblicana Yogyakarta e catturando il Presidente Sukarno e il Vicepresidente Mohammad Hatta. Prima della cattura, il gabinetto conferisce mandato a Sjafruddin Prawiranegara per formare il Governo d'Emergenza PDRI a Sumatra, mentre il Generale Soedirman esce dalla città avviando la guerra di guerriglia totale contro gli occupanti.",
+          'Alleati',
+          'Koninkrijk der Nederlanden — Occupazione Militare di Yogyakarta (Operatie Kraai · 19 Dic 1948)'
+        );
+      }
       return makeResult(
         'IDN',
-        'Yogyakarta (Capitale Rivoluzionaria della Repubblica d\'Indonesia — Sede di Sukarno & Kraton di Hamengkubuwono IX)',
-        "Capitale de facto della Repubblica d'Indonesia dal gennaio 1946, allorché il Sultano Hamengkubuwono IX offrì il proprio palazzo (Kraton) e il pieno sostegno finanziario e morale a Sukarno e Mohammad Hatta dopo l'occupazione olandese di Batavia. Al 30 settembre 1947 Yogyakarta è il cuore politico, diplomatico e militare della resistenza nazionale indonesiana, sede del governo del primo ministro Amir Sjarifuddin, del quartier generale delle forze armate (TNI) guidate dal Generale Soedirman e centro operativo per i colloqui con la Commissione di Buoni Uffici dell'ONU (KTN / GOC).",
+        isJune1948
+          ? 'Yogyakarta (Capitale della Repubblica d\'Indonesia — Governo Presidenziale Hatta & Post-Accordo di Renville)'
+          : 'Yogyakarta (Capitale Rivoluzionaria della Repubblica d\'Indonesia — Sede di Sukarno & Kraton di Hamengkubuwono IX)',
+        isJune1948
+          ? "Dopo la firma dell'Accordo di Renville (17 gennaio 1948) che sancisce la Linea Van Mook e la caduta del gabinetto Sjarifuddin, il 29 gennaio 1948 il vicepresidente Mohammad Hatta forma un governo presidenziale d'emergenza a Yogyakarta. La capitale accoglie i 35.000 soldati della Divisione Siliwangi del TNI evacuati da Giava Occidentale (Hijrah), mentre la sinistra di Amir Sjarifuddin organizza l'opposizione del Front Demokrasi Rakyat (FDR)."
+          : "Capitale de facto della Repubblica d'Indonesia dal gennaio 1946, allorché il Sultano Hamengkubuwono IX offrì il proprio palazzo (Kraton) e il pieno sostegno finanziario e morale a Sukarno e Mohammad Hatta dopo l'occupazione olandese di Batavia. Al 30 settembre 1947 Yogyakarta è il cuore politico, diplomatico e militare della resistenza nazionale indonesiana, sede del governo del primo ministro Amir Sjarifuddin, del quartier generale delle forze armate (TNI) guidate dal Generale Soedirman e centro operativo per i colloqui con la Commissione di Buoni Uffici dell'ONU (KTN / GOC).",
         'Neutrale',
-        'Republik Indonesia — Ibu Kota Revolusi (Presidente Sukarno / Sultano Hamengkubuwono IX)'
+        isJune1948
+          ? 'Republik Indonesia — Ibu Kota Yogyakarta (Pres. Sukarno · PM Mohammad Hatta · Gen. Soedirman)'
+          : 'Republik Indonesia — Ibu Kota Revolusi (Presidente Sukarno / Sultano Hamengkubuwono IX)'
       );
     }
 
     if (fid === 'IDJT' || (meta && meta.islandGroup === 'Java' && norm(meta.name).includes('jawa tengah'))) {
+      if (isJune1949) {
+        return makeResult(
+          'HOL',
+          'Jawa Tengah (Giava Centrale — Settori Urbani Olandesi & Tregua Post-Roem–Van Roijen, Giugno 1949)',
+          "Al 30 giugno 1949, dopo gli Accordi Roem–Van Roijen (7 maggio 1949) e l'evacuazione olandese di Yogyakarta appena conclusa, le guarnigioni olandesi mantengono ancora i principali centri urbani e gli assi stradali di Giava Centrale (Semarang, Surakarta, Magelang, Madiun) in regime di tregua mentre proseguono le intese preparatorie per la Conferenza della Tavola Rotonda dell'Aia (trasferimento formale della sovranità solo il 27 dicembre 1949).",
+          'Alleati',
+          'Nederlands-Indië — Presidio Urbano & Stradale di Jawa Tengah (Tregua Roem–Van Roijen · Pre-Tavola Rotonda)'
+        );
+      }
+      if (isDec1948) {
+        return makeResult(
+          'HOL',
+          'Jawa Tengah (Giava Centrale — Assi Stradali Occupati in Operatie Kraai & Guerriglia TNI)',
+          "Al 31 dicembre 1948, dopo che il governo Hatta ha represso in settembre-ottobre l'insurrezione comunista di Madiun (Affare Madiun), le colonne corazzate olandesi di Operatie Kraai (19–31 dicembre) occupano i principali centri urbani dell'altopiano giavanese (Surakarta/Solo, Magelang, Madiun), mentre il TNI del generale Soedirman mantiene un'intensa guerriglia rurale nei distretti montani.",
+          'Alleati',
+          'Nederlands-Indië — Controllo Militare Stradale di Jawa Tengah (Operatie Kraai · Guerriglia Rurale TNI)'
+        );
+      }
       return makeResult(
         'IDN',
-        'Jawa Tengah (Giava Centrale — Bastione Territoriale della Repubblica d\'Indonesia & Forze TNI)',
-        "Cuore demografico e bastione militare della Repubblica d'Indonesia non espugnato durante Operatie Product. Comprende le storiche città di Surakarta (Solo), Magelang, Madiun e Kediri. Sebbene gli olandesi abbiano occupato la fascia portuale costiera a Semarang lungo la Linea Van Mook, l'intero entroterra collinare e montano è difeso con tenacia dalle divisioni del TNI del generale Soedirman, sostenute dalle organizzazioni contadine e giovanili repubblicane.",
+        isJune1948
+          ? 'Jawa Tengah (Giava Centrale — Ridotta Repubblicana di Surakarta, Madiun e Kediri dopo Renville)'
+          : 'Jawa Tengah (Giava Centrale — Bastione Territoriale della Repubblica d\'Indonesia & Forze TNI)',
+        isJune1948
+          ? "Al 30 giugno 1948, in seguito all'Accordo di Renville (17 gennaio 1948), l'altopiano interno di Giava Centrale attorno a Surakarta (Solo), Magelang, Madiun e Kediri costituisce il cuore assediato della Repubblica d'Indonesia sotto blocco economico olandese, sovraffollato dalle truppe del TNI ripiegate da Giava Occidentale e Orientale e attraversato da crescenti tensioni tra il governo Hatta e il Front Demokrasi Rakyat (FDR)."
+          : "Cuore demografico e bastione militare della Repubblica d'Indonesia non espugnato durante Operatie Product. Comprende le storiche città di Surakarta (Solo), Magelang, Madiun e Kediri. Sebbene gli olandesi abbiano occupato la fascia portuale costiera a Semarang lungo la Linea Van Mook, l'intero entroterra collinare e montano è difeso con tenacia dalle divisioni del TNI del generale Soedirman, sostenute dalle organizzazioni contadine e giovanili repubblicane.",
         'Neutrale',
         'Republik Indonesia — Provinsi Jawa Tengah (Governatore Wongsonegoro / TNI)'
       );
     }
 
     if (fid === 'IDBT' || norm(rawName).includes('banten') || norm(rawName).includes('bantam')) {
+      if (isJune1949) {
+        return makeResult(
+          'HOL',
+          'Banten (Amministrazione Militare Olandese in Regime di Tregua — Giugno 1949)',
+          "Nel giugno 1949, a seguito degli Accordi Roem–Van Roijen (7 maggio 1949), i combattimenti tra le colonne mobili del KNIL insediate a Serang e le unità repubblicane della Brigata Tirtayasa cedono il passo alla tregua armistiziale mentre si prepara la Conferenza della Tavola Rotonda dell'Aia (sovranità RIS solo il 27 dicembre 1949).",
+          'Alleati',
+          'Nederlands-Indië — Amministrazione Militare di Banten (Tregua Roem–Van Roijen, Giu 1949)'
+        );
+      }
+      if (isDec1948) {
+        return makeResult(
+          'HOL',
+          'Banten (Settori Urbani Occupati in Operatie Kraai — Fine Dicembre 1948)',
+          "Nel quadro dell'offensiva olandese Operatie Kraai (fine dicembre 1948), colonne mobili del KNIL penetrano anche nell'enclave occidentale di Banten occupando Serang e le principali vie di comunicazione sullo Stretto della Sonda, contrastate dalla guerriglia della Brigata Tirtayasa.",
+          'Alleati',
+          'Nederlands-Indië — Operazioni Militari a Banten (Operatie Kraai, Dic 1948)'
+        );
+      }
       return makeResult(
         'IDN',
-        'Banten (Bantam — Roccaforte Rivoluzionaria Repubblicana e Musulmana)',
-        "Roccaforte rivoluzionaria repubblicana all'estremità occidentale di Giava retta dal carismatico leader islamico K.H. Achmad Chatib. Durante la Prima Azione di Polizia (Operatie Product) le colonne corazzate olandesi non sono riuscite a penetrare nella regione, che rimane sotto il saldo controllo del TNI e delle milizie popolari (Laskar), garantendo alla Repubblica una fondamentale finestra marittima sullo Stretto della Sonda per le comunicazioni con Sumatra.",
+        isJune1948
+          ? 'Banten (Enclave Repubblicana Occidentale — Isolata dallo Stato di Pasundan dopo Renville)'
+          : 'Banten (Bantam — Roccaforte Rivoluzionaria Repubblicana e Musulmana)',
+        isJune1948
+          ? "Anche dopo l'Accordo di Renville (17 gennaio 1948) e l'evacuazione della Divisione Siliwangi dal resto di Giava Occidentale, la residenza di Banten all'estremità occidentale dell'isola rimane un'enclave riconosciuta della Repubblica d'Indonesia sotto il residente K.H. Achmad Chatib e la Brigata Tirtayasa."
+          : "Roccaforte rivoluzionaria repubblicana all'estremità occidentale di Giava retta dal carismatico leader islamico K.H. Achmad Chatib. Durante la Prima Azione di Polizia (Operatie Product) le colonne corazzate olandesi non sono riuscite a penetrare nella regione, che rimane sotto il saldo controllo del TNI e delle milizie popolari (Laskar), garantendo alla Repubblica una fondamentale finestra marittima sullo Stretto della Sonda per le comunicazioni con Sumatra.",
         'Neutrale',
         'Republik Indonesia — Karesidenan Banten (Residente K.H. Achmad Chatib)'
       );
     }
 
-    // 2. Giava Occupata dagli Olandesi: Batavia (IDJK), Giava Occidentale (IDJB) e Giava Orientale / Madura (IDJI)
+    // 2. Giava Occupata dagli Olandesi & Stati Federali (Batavia IDJK, Negara Pasundan IDJB, Negara Madura IDMD & Giava Orientale IDJI)
     if (fid === 'IDJK' || norm(rawName).includes('jakarta') || norm(rawName).includes('batavia')) {
       return makeResult(
         'HOL',
-        'Batavia (Giacarta — Sede del Luogotenente Governatore Generale van Mook & Quartier Generale Olandese)',
-        "Occupata militarmente dalle forze olandesi e dal NICA fin dal tardo 1945 dopo il passaggio di consegne britannico. Sede dell'amministrazione coloniale del Luogotenente Governatore Generale Hubertus van Mook e del comando supremo delle forze terrestri del generale Simon Spoor. Da qui il 21 luglio 1947 è stata scatenata Operatie Product e il 29 agosto è stata proclamata unilateralmente la Linea Van Mook; a fine settembre 1947 la città accoglie i delegati della Commissione di Buoni Uffici delle Nazioni Unite (KTN).",
+        isJune1949
+          ? 'Batavia (Giacarta — Governo Federale Provvisorio Olandese & Preparazione Tavola Rotonda)'
+          : isJune1948
+            ? 'Batavia (Giacarta — Sede del Governo Federale Provvisorio Olandese di van Mook)'
+            : 'Batavia (Giacarta — Sede del Luogotenente Governatore Generale van Mook & Quartier Generale Olandese)',
+        isJune1949
+          ? "Al 30 giugno 1949 Batavia (Giacarta) ospita l'Alto Rappresentante della Corona olandese (A.H.J. Lovink) e le consultazioni tra Repubblica, Paesi Bassi e Stati Federali (BFO) dopo gli Accordi Roem–Van Roijen del 7 maggio 1949. Completata proprio il 30 giugno l'evacuazione olandese di Yogyakarta, si avviano i preparativi per la Conferenza della Tavola Rotonda dell'Aia (nessuno Stato federale sovrano RIS fino al 27 dicembre 1949)."
+          : isJune1948
+            ? "Dopo la firma dell'Accordo di Renville (17 gennaio 1948) a bordo della USS Renville nella baia di Batavia, il 9 marzo 1948 il Luogotenente Governatore Generale Hubertus van Mook insedia a Batavia il Governo Federale Provvisorio (Voorlopige Federale Regering) delle Indie Orientali Olandesi per preparare gli Stati Uniti d'Indonesia sotto egida olandese."
+            : "Occupata militarmente dalle forze olandesi e dal NICA fin dal tardo 1945 dopo il passaggio di consegne britannico. Sede dell'amministrazione coloniale del Luogotenente Governatore Generale Hubertus van Mook e del comando supremo delle forze terrestri del generale Simon Spoor. Da qui il 21 luglio 1947 è stata scatenata Operatie Product e il 29 agosto è stata proclamata unilateralmente la Linea Van Mook; a fine settembre 1947 la città accoglie i delegati della Commissione di Buoni Uffici delle Nazioni Unite (KTN).",
         'Alleati',
-        'Koninkrijk der Nederlanden — Hoofdstad Batavia (Lt. Gov.-Gen. H.J. van Mook / Gen. S.H. Spoor)'
+        isJune1949
+          ? 'Koninkrijk der Nederlanden — Hoofdstad Batavia (Hoge Vertegenwoordiger A.H.J. Lovink · Pre-Tavola Rotonda)'
+          : 'Koninkrijk der Nederlanden — Hoofdstad Batavia (Lt. Gov.-Gen. H.J. van Mook / Gen. S.H. Spoor)'
       );
     }
 
     if (fid === 'IDJB' || (meta && meta.islandGroup === 'Java' && norm(meta.name).includes('jawa barat'))) {
+      if (isJune1948) {
+        return makeResult(
+          'PAS',
+          'Stato di Pasundan (Negara Pasundan — Stato Federale sotto Egida Olandese, 24 Aprile 1948)',
+          "In attuazione dell'Accordo di Renville (17 gennaio 1948), nel febbraio 1948 circa 35.000 combattenti repubblicani della Divisione Siliwangi del TNI evacuano Giava Occidentale compiendo la 'lunga marcia' (Hijrah) verso Yogyakarta. Il 24 aprile 1948 viene formalmente istituito a Bandung lo Stato federale di Pasundan (Negara Pasundan) sotto il Wali Negara Raden Aria Adipati Wiranatakusumah V e il primo ministro Adil Puradiredja, integrato nel sistema federale olandese mentre nelle montagne del Priangan esplode l'insurrezione islamica del Darul Islam di Kartosuwiryo (maggio 1948).",
+          'Alleati',
+          'Negara Pasundan (Wali Negara R.A.A. Wiranatakusumah V · Cap. Bandung) · Egida Olandese'
+        );
+      }
       return makeResult(
         'HOL',
         'Jawa Barat (Giava Occidentale / Bandoeng — Occupazione Olandese & Progetto Stato di Pasundan)',
@@ -1256,18 +1490,63 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
       );
     }
 
+    if (fid === 'IDMD' || fid === 'ID_MADURA' || norm(rawName).includes('madura')) {
+      if (isJune1948) {
+        return makeResult(
+          'MAD',
+          'Stato di Madura (Negara Madura — Stato Federale sotto Egida Olandese, 20 Febbraio 1948)',
+          "A seguito del plebiscito organizzato dall'amministrazione militare olandese il 23 gennaio 1948, il 20 febbraio 1948 viene ufficialmente istituito sull'isola di Madura lo Stato federale di Madura (Negara Madura), riconosciuto da Batavia con alla guida il Wali Negara Raden Adipati Aria Tjakraningrat XII (reggente di Bangkalan).",
+          'Alleati',
+          'Negara Madura (Wali Negara R.A.A. Tjakraningrat XII · Cap. Pamekasan) · Egida Olandese'
+        );
+      }
+    }
+
     if (fid === 'IDJI' || (meta && meta.islandGroup === 'Java' && norm(meta.name).includes('jawa timur'))) {
+      if (isDec1948) {
+        return makeResult(
+          'NJT',
+          'Stato di Giava Orientale (Negara Jawa Timur — Istituito il 26 Novembre 1948 sotto Egida Olandese)',
+          "Il 26 novembre 1948 le autorità olandesi riconoscono formalmente a Surabaya lo Stato federale di Giava Orientale (Negara Jawa Timur — NJT) sotto il Wali Negara Raden Tumenggung Kusumonegoro, esteso nel dicembre 1948 verso Kediri e i distretti orientali durante Operatie Kraai.",
+          'Alleati',
+          'Negara Jawa Timur (Wali Negara R.T. Kusumonegoro · Capitale Surabaya — 26 Nov 1948) · Egida Olandese'
+        );
+      }
       return makeResult(
         'HOL',
-        'Jawa Timur & Madura (Giava Orientale / Soerabaja — Presidio della Mariniersbrigade & Stato di Madura)',
-        "La metropoli portuale e base navale di Surabaya, Malang e le grandi piantagioni di zucchero e gomma di Giava Orientale sono saldamente controllate dalla brigata dei Marines olandesi (Mariniersbrigade) e dalle truppe coloniali a seguito dell'Operazione Product. Sull'isola di Madura, occupata nell'agosto 1947, le autorità olandesi sponsorizzano la creazione dello stato fantoccio della Negara Madura retto da Raden T.A. Tjakraningrat per spezzare il fronte repubblicano giavanese.",
+        isJune1948
+          ? 'Jawa Timur & Negara Madura (Soerabaja, Malang & Stato Federale di Madura del 20 Febbraio 1948)'
+          : 'Jawa Timur & Madura (Giava Orientale / Soerabaja — Presidio della Mariniersbrigade & Stato di Madura)',
+        isJune1948
+          ? "Dopo l'Accordo di Renville (17 gennaio 1948), le forze olandesi consolidano il controllo sulla costa settentrionale di Giava Orientale (Surabaya), su Malang e sulla punta orientale (Besuki/Banyuwangi), mentre il 20 febbraio 1948 sull'isola di Madura viene formalmente istituito lo Stato federale di Madura (Negara Madura) sotto il Wali Negara R.A.A. Tjakraningrat XII; alla Repubblica d'Indonesia restano i distretti interni occidentali di Madiun e Kediri."
+          : "La metropoli portuale e base navale di Surabaya, Malang e le grandi piantagioni di zucchero e gomma di Giava Orientale sono saldamente controllate dalla brigata dei Marines olandesi (Mariniersbrigade) e dalle truppe coloniali a seguito dell'Operazione Product. Sull'isola di Madura, occupata nell'agosto 1947, le autorità olandesi sponsorizzano la creazione dello stato fantoccio della Negara Madura retto da Raden T.A. Tjakraningrat per spezzare il fronte repubblicano giavanese.",
         'Alleati',
-        'Nederlands-Indië — Recomba Oost-Java & Negara Madura (Raden T.A. Tjakraningrat)'
+        isJune1948
+          ? 'Nederlands-Indië — Recomba Oost-Java (Surabaya/Malang) & Negara Madura (Wali Negara Tjakraningrat XII)'
+          : 'Nederlands-Indië — Recomba Oost-Java & Negara Madura (Raden T.A. Tjakraningrat)'
       );
     }
 
     // 3. Sumatra Repubblicana: Aceh inviolata (IDAC), Sumatra Ovest (IDSB), Jambi (IDJA), Bengkulu (IDBE), Riau continentale (IDRI)
     if (fid === 'IDAC' || norm(rawName).includes('aceh') || norm(rawName).includes('atjeh')) {
+      if (isJune1949) {
+        return makeResult(
+          'IDN',
+          'Aceh (100% Republik Indonesia — Baluardo Inviolato & Chiusura Fase d\'Emergenza PDRI)',
+          "Al 30 giugno 1949, dopo gli Accordi Roem–Van Roijen (7 maggio 1949) e la restituzione di Yogyakarta appena completata dagli olandesi, Aceh sotto il governatore militare Teungku Daud Beureueh rimane la sola provincia mai occupata dalle forze coloniali e si appresta a sostenere il trasferimento del mandato d'emergenza dal PDRI di Sjafruddin Prawiranegara al governo centrale repubblicano in vista della Conferenza della Tavola Rotonda dell'Aia.",
+          'Neutrale',
+          'Republik Indonesia — Daerah Modal Aceh (Teungku Daud Beureueh — 100% Indipendente)'
+        );
+      }
+      if (isDec1948) {
+        return makeResult(
+          'IDN',
+          'Aceh (100% PDRI — Baluardo Inviolato della Repubblica d\'Indonesia durante Operatie Kraai)',
+          "Al 31 dicembre 1948, dopo la caduta di Yogyakarta e la cattura di Sukarno e Hatta durante Operatie Kraai, Aceh retta dal governatore militare Teungku Daud Beureueh rimane l'unica provincia dell'arcipelago interamente intatta e mai occupata dagli olandesi, base finanziaria, radiofonica (Radio Rimba Raya) e militare del Governo d'Emergenza PDRI.",
+          'Neutrale',
+          'Republik Indonesia (PDRI) — Daerah Modal Aceh (Teungku Daud Beureueh — 100% Indipendente)'
+        );
+      }
       return makeResult(
         'IDN',
         'Aceh (Koetaradja — Daerah Modal / Baluardo Inviolato della Repubblica d\'Indonesia)',
@@ -1278,6 +1557,15 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
     }
 
     if (fid === 'IDSB' || norm(rawName).includes('sumatera barat') || norm(rawName).includes('bukittinggi') || norm(rawName).includes('padang')) {
+      if (isDec1948) {
+        return makeResult(
+          'HOL',
+          'Sumatera Barat (Bukittinggi Occupata il 22 Dicembre 1948 · Proclamazione Governo d\'Emergenza PDRI)',
+          "Il 22 dicembre 1948 colonne olandesi avanzano da Padang occupando Bukittinggi nel quadro di Operatie Kraai; nello stesso giorno il ministro Sjafruddin Prawiranegara proclama nelle valli interne dei Minangkabau (Halaban / Payakumbuh) il Governo d'Emergenza della Repubblica d'Indonesia (PDRI) mantenendo attiva la resistenza nell'entroterra.",
+          'Alleati',
+          'Nederlands-Indië — Occupazione di Bukittinggi (22 Dic 1948) / Guerriglia PDRI Minangkabau'
+        );
+      }
       return makeResult(
         'IDN',
         'Sumatera Barat (Bukittinggi — Capitale Repubblicana di Sumatra & Altopiano dei Minangkabau)',
@@ -1288,6 +1576,15 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
     }
 
     if (fid === 'IDJA' || norm(rawName).includes('jambi') || norm(rawName).includes('djambi')) {
+      if (isDec1948) {
+        return makeResult(
+          'HOL',
+          'Jambi (Presa Olandese di Jambi City il 29 Dicembre 1948 — Operatie Kraai)',
+          "Nel tardo dicembre 1948 truppe aviotrasportate e fluviali olandesi catturano la città di Jambi (29 dicembre) e i campi petroliferi del Batang Hari durante Operatie Kraai, mentre reparti del TNI proseguono la guerriglia lungo i fiumi dell'interno.",
+          'Alleati',
+          'Nederlands-Indië — Occupazione di Jambi City (Operatie Kraai, 29 Dic 1948)'
+        );
+      }
       return makeResult(
         'IDN',
         'Jambi (Batang Hari — Entroterra e Vie Fluviali della Repubblica d\'Indonesia)',
@@ -1298,6 +1595,15 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
     }
 
     if (fid === 'IDBE' || norm(rawName).includes('bengkulu') || norm(rawName).includes('benkoelen')) {
+      if (isDec1948) {
+        return makeResult(
+          'HOL',
+          'Bengkulu (Incursioni Olandesi Costiere in Operatie Kraai · Entroterra PDRI)',
+          "Al 31 dicembre 1948 le colonne olandesi lanciate in Operatie Kraai raggiungono i principali capoluoghi lungo la costa di Sumatra sud-occidentale mentre le formazioni repubblicane fedeli al PDRI operano nell'entroterra di Bengkulu.",
+          'Alleati',
+          'Nederlands-Indië — Operazioni Militari a Bengkulu (Operatie Kraai, Dic 1948)'
+        );
+      }
       return makeResult(
         'IDN',
         'Bengkulu (Benkoelen — Costa Sud-Occidentale della Repubblica d\'Indonesia)',
@@ -1319,6 +1625,24 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
 
     // 4. Sumatra Occupata dagli Olandesi: Palembang/Plaju/Sungai Gerong (IDSS), Medan/Deli (IDSU), Lampung (IDLA), Bangka-Belitung (IDBB), Kepulauan Riau (IDKR)
     if (fid === 'IDSS' || norm(rawName).includes('palembang') || norm(rawName).includes('sumatera selatan')) {
+      if (isJune1949) {
+        return makeResult(
+          'NSS',
+          'Stato di Sumatra Meridionale (Negara Sumatera Selatan — Consultazioni BFO & Pre-Tavola Rotonda)',
+          "Al 30 giugno 1949 lo Stato federale di Sumatra Meridionale (Negara Sumatera Selatan — NSS), guidato dal Wali Negara Abdul Malik a Palembang, mantiene il controllo sui giacimenti petroliferi di Plaju e Sungai Gerong sotto egida olandese e partecipa alle consultazioni dell'Assemblea Consultiva Federale (BFO) in vista della Conferenza della Tavola Rotonda dell'Aia (sovranità RIS non ancora istituita fino al 27 dicembre 1949).",
+          'Alleati',
+          'Negara Sumatera Selatan (Wali Negara Abdul Malik · Cap. Palembang · BFO / Pre-Tavola Rotonda)'
+        );
+      }
+      if (isDec1948) {
+        return makeResult(
+          'NSS',
+          'Stato di Sumatra Meridionale (Negara Sumatera Selatan — 30 Agosto 1948)',
+          "Istituito formalmente il 30 agosto 1948 a Palembang sotto il Wali Negara Abdul Malik, lo Stato federale di Sumatra Meridionale (Negara Sumatera Selatan — NSS) amministra i ricchi complessi petroliferi di Plaju e Sungai Gerong nell'orbita del Governo Federale Provvisorio olandese.",
+          'Alleati',
+          'Negara Sumatera Selatan (Wali Negara Abdul Malik · Capitale Palembang — 30 Ago 1948) · Egida Olandese'
+        );
+      }
       return makeResult(
         'HOL',
         'Sumatera Selatan (Palembang — Occupazione Olandese dei Bacini Petroliferi di Pladjoe & Soengei Gerong)',
@@ -1329,16 +1653,50 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
     }
 
     if (fid === 'IDSU' || norm(rawName).includes('sumatera utara') || norm(rawName).includes('medan') || norm(rawName).includes('deli')) {
+      const isDec1947 = s >= 20;
       return makeResult(
         'HOL',
-        'Sumatera Utara (Medan / Deli — Occupazione Olandese & Nascita dello Stato di Sumatra Orientale)',
-        "Cuore delle piantagioni imperiali di caucciù, tabacco da sigari e palma da olio della costa orientale di Sumatra. Occupata militarmente dall'esercito olandese durante Operatie Product nel luglio 1947, la regione viene distaccata dalla Repubblica e riorganizzata nello stato federale cliente della Negara Sumatera Timur (NST) sotto la presidenza aristocratica di Tengku Mansur, con il pieno appoggio degli industriali europei e dei sultani locali.",
+        isDec1947
+          ? 'Sumatera Utara (Medan / Deli — Proclamazione del Negara Sumatera Timur, 25 Dicembre 1947)'
+          : 'Sumatera Utara (Medan / Deli — Occupazione Olandese & Nascita dello Stato di Sumatra Orientale)',
+        isDec1947
+          ? "Il 25 dicembre 1947 le autorità olandesi di Hubertus van Mook istituiscono formalmente a Medan lo Stato di Sumatra Orientale (Negara Sumatera Timur — NST) sotto la guida del Wali Negara Tengku Mansur e con bandiera tricolore giallo-bianco-verde, consolidando il controllo sulle piantagioni di caucciù, tabacco e palma da olio di Deli/Medan mentre l'entroterra di Tapanuli resta alla Repubblica d'Indonesia e l'8 dicembre si aprono i negoziati sulla nave trasporto statunitense USS Renville."
+          : "Cuore delle piantagioni imperiali di caucciù, tabacco da sigari e palma da olio della costa orientale di Sumatra. Occupata militarmente dall'esercito olandese durante Operatie Product nel luglio 1947, la regione viene distaccata dalla Repubblica e riorganizzata nello stato federale cliente della Negara Sumatera Timur (NST) sotto la presidenza aristocratica di Tengku Mansur, con il pieno appoggio degli industriali europei e dei sultani locali.",
         'Alleati',
-        'Nederlands-Indië — Recomba Oostkust van Sumatra & Negara Sumatera Timur (Tengku Mansur)'
+        isDec1947
+          ? 'Negara Sumatera Timur (Wali Negara Tengku Mansur · Capitale Medan — Proclamazione del 25 Dic 1947) · Tutela Olandese'
+          : 'Nederlands-Indië — Recomba Oostkust van Sumatra & Negara Sumatera Timur (Tengku Mansur)'
       );
     }
 
     if (fid === 'IDLA' || norm(rawName).includes('lampung')) {
+      if (isJune1949) {
+        return makeResult(
+          'HOL',
+          'Lampung (Telukbetung sotto Presidio Olandese in Regime di Tregua — Giugno 1949)',
+          "Al 30 giugno 1949, dopo gli Accordi Roem–Van Roijen (7 maggio 1949), le truppe olandesi mantengono il presidio di Telukbetung e degli approdi meridionali dello Stretto della Sonda in regime di cessate il fuoco in attesa della Conferenza della Tavola Rotonda dell'Aia.",
+          'Alleati',
+          'Nederlands-Indië — Presidio di Lampung (Tregua Roem–Van Roijen, Giu 1949)'
+        );
+      }
+      if (isDec1948) {
+        return makeResult(
+          'HOL',
+          'Lampung (Telukbetung Occupata in Operatie Kraai — Fine Dicembre 1948)',
+          "Nel dicembre 1948 (Operatie Kraai) le truppe olandesi sbarcano e avanzano nell'estremità meridionale di Sumatra occupando Telukbetung e Tanjungkarang per spezzare i collegamenti sullo Stretto della Sonda, pur affrontando sacche di resistenza TNI.",
+          'Alleati',
+          'Nederlands-Indië — Occupazione di Lampung (Operatie Kraai, Dic 1948)'
+        );
+      }
+      if (isJune1948) {
+        return makeResult(
+          'IDN',
+          'Lampung (Sumatra Meridionale — Territorio della Repubblica d\'Indonesia dopo Renville)',
+          "Al 30 giugno 1948, nell'assetto di Sumatra sancito dall'Accordo di Renville (17 gennaio 1948), la residenza meridionale di Lampung rimane sotto l'amministrazione della Repubblica d'Indonesia in collegamento con i bastioni repubblicani di Bengkulu, Jambi, Sumatera Barat e Aceh.",
+          'Neutrale',
+          'Republik Indonesia — Karesidenan Lampung (Sumatra)'
+        );
+      }
       return makeResult(
         'HOL',
         'Lampung (Telokbetoeng — Presidio Olandese dello Stretto della Sonda)',

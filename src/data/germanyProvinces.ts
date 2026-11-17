@@ -169,10 +169,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Vorpommern-R\u00fcgen (Meclemburgo-Pomerania Anteriore, Germania)",
     historicalName: "Vorpommern (Stralsund / R\u00fcgen)",
-    gau: "Gau Mecklenburg",
-    land: "Land Mecklenburg",
-    capital: "Schwerin",
-    gauleiter: "Friedrich Hildebrandt",
+    gau: "Gau Pommern",
+    land: "Provinz Pommern (Reg.-Bez. Stettin)",
+    capital: "Stettin",
+    gauleiter: "Franz Schwede-Coburg",
     role: "Basi costiere baltiche della Luftwaffe e cantieri navali: stabilimenti aeronautici Ernst Heinkel Flugzeugwerke a Rostock-Marienehe e Warnem\u00fcnde (primi velivoli a reazione e idrovolanti).",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Vorpommern-R\u00fcgen (Stadtkreis del Gau Mecklenburg, capoluogo: Schwerin, Gauleiter: Friedrich Hildebrandt) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Regierungsbezirk Stralsund / Stettin; Seebad Prora (KdF-Seebad R\u00fcgen). I cantieri navali e le basi costiere intensificano la costruzione segreta di U-Boot e navi maggiori della Kriegsmarine in violazione delle clausole di Versailles. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -209,10 +209,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Vorpommern-Greifswald (Meclemburgo-Pomerania Anteriore, Germania)",
     historicalName: "Vorpommern (Peenem\u00fcnde / Usedom)",
-    gau: "Gau Mecklenburg",
-    land: "Land Mecklenburg",
-    capital: "Schwerin",
-    gauleiter: "Friedrich Hildebrandt",
+    gau: "Gau Pommern",
+    land: "Provinz Pommern (Reg.-Bez. Stettin)",
+    capital: "Stettin",
+    gauleiter: "Franz Schwede-Coburg",
     role: "Basi costiere baltiche della Luftwaffe e cantieri navali: stabilimenti aeronautici Ernst Heinkel Flugzeugwerke a Rostock-Marienehe e Warnem\u00fcnde (primi velivoli a reazione e idrovolanti).",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Vorpommern-Greifswald (Stadtkreis del Gau Mecklenburg, capoluogo: Schwerin, Gauleiter: Friedrich Hildebrandt) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Heeresversuchsanstalt Peenem\u00fcnde auf Usedom (Wernher von Braun, Walter Dornberger, Entwicklung der A4/V2 Raketen ab 1936/1937). I cantieri navali e le basi costiere intensificano la costruzione segreta di U-Boot e navi maggiori della Kriegsmarine in violazione delle clausole di Versailles. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -2408,7 +2408,7 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameLatn: "Landshut, Kreisfreie Stadt",
     nameEngl: "Germany",
     modernName: "Landshut (Baviera, Germania)",
-    historicalName: "Regensburg (Messerschmitt GmbH)",
+    historicalName: "Landshut & Regensburg (Messerschmitt GmbH)",
     gau: "Gau Bayerische Ostmark",
     land: "Freistaat Bayern (Niederbayern)",
     capital: "Bayreuth / Regensburg",
@@ -2888,7 +2888,7 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameLatn: "Aschaffenburg, Landkreis",
     nameEngl: "Germany",
     modernName: "Aschaffenburg (Baviera, Germania)",
-    historicalName: "Schweinfurt (Kugellager-Zentrum)",
+    historicalName: "Aschaffenburg / Schweinfurt (Kugellager-Zentrum)",
     gau: "Gau Mainfranken",
     land: "Freistaat Bayern (Unterfranken)",
     capital: "W\u00fcrzburg",
@@ -4809,10 +4809,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "D\u00fcsseldorf (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "D\u00fcsseldorf",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), D\u00fcsseldorf (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Verwaltungszentrum der rheinisch-westf\u00e4lischen Wirtschaft und R\u00fcstungsindustrie (Rheinmetall-Borsig AG). Gauleiter Friedrich Karl Florian. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -4829,10 +4829,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Duisburg (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Duisburg (Ruhrort)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Essen",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Essen",
+    gauleiter: "Josef Terboven",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Duisburg (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Gr\u00f6\u00dfter Binnenhafen der Welt und Montanzentrum (August-Thyssen-H\u00fctte Hamborn). A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -4849,10 +4849,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Essen (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Essen (Krupp-Werke)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Essen",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Essen",
+    gauleiter: "Josef Terboven",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Essen (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Schwerpunkt der deutschen R\u00fcstungs- und Artillerieproduktion (Friedrich Krupp AG). Gauleiter Josef Terboven. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -4869,10 +4869,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Krefeld (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Stadtkreis Krefeld (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Krefeld (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6029,10 +6029,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "G\u00f6rlitz (Sassonia, Germania)",
     historicalName: "Landkreis G\u00f6rlitz (Gau Sachsen)",
-    gau: "Gau Sachsen",
-    land: "Freistaat Sachsen (Dresden)",
-    capital: "Dresden",
-    gauleiter: "Martin Mutschmann",
+    gau: "Gau Schlesien",
+    land: "Provinz Niederschlesien (Reg.-Bez. Liegnitz)",
+    capital: "Breslau",
+    gauleiter: "Josef Wagner / Karl Hanke",
     role: "Capitale della Sassonia e distretto d'ingegneria ottica e meccanica fine (Zeiss Ikon Dresda); snodo ferroviario nevralgico verso la Boemia e i Sudeti; manifatture tessili e chimiche dell'Elba.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), G\u00f6rlitz (Landkreis del Gau Sachsen, capoluogo: Dresden, Gauleiter: Martin Mutschmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6249,10 +6249,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Dessau-Ro\u00dflau (Sassonia-Anhalt, Germania)",
     historicalName: "Dessau (Junkers Flugzeugwerke)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Dessau-Ro\u00dflau (Stadtkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Hauptwerk der Junkers Flugzeug- und Motorenwerke AG: Serienbau der Ju 52, Ju 87 Stuka und Ju 88. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6269,10 +6269,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Halle (Saale) (Sassonia-Anhalt, Germania)",
     historicalName: "Halle an der Saale",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Halle-Merseburg",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Halle (Saale)",
+    gauleiter: "Rudolf Jordan / Joachim Albrecht Eggeling",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Halle (Saale) (Stadtkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Gauhauptstadt und wirtschaftliches Drehkreuz des mitteldeutschen Braunkohle- und Chemiereviers. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6289,10 +6289,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Magdeburg (Sassonia-Anhalt, Germania)",
     historicalName: "Magdeburg (Krupp Grusonwerk)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Magdeburg (Stadtkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Gro\u00dfes R\u00fcstungszentrum: Krupp Grusonwerk (Panzerproduktion) und Brabag Synthesewerk. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6309,10 +6309,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Altmarkkreis Salzwedel (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Altmarkkreis Salzwedel (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Altmarkkreis Salzwedel (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6329,10 +6329,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Anhalt-Bitterfeld (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Anhalt-Bitterfeld (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Anhalt-Bitterfeld (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6349,10 +6349,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Jerichower Land (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Jerichower Land (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Jerichower Land (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6369,10 +6369,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "B\u00f6rde (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis B\u00f6rde (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), B\u00f6rde (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6389,10 +6389,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Burgenlandkreis (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Burgenlandkreis (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Halle-Merseburg",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Halle (Saale)",
+    gauleiter: "Rudolf Jordan / Joachim Albrecht Eggeling",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Burgenlandkreis (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6629,10 +6629,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "M\u00f6nchengladbach (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Stadtkreis M\u00f6nchengladbach (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), M\u00f6nchengladbach (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6649,10 +6649,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Harz (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Harz (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Harz (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6669,10 +6669,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Mansfeld-S\u00fcdharz (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Mansfeld-S\u00fcdharz (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Halle-Merseburg",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Halle (Saale)",
+    gauleiter: "Rudolf Jordan / Joachim Albrecht Eggeling",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Mansfeld-S\u00fcdharz (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6689,10 +6689,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Saalekreis (Sassonia-Anhalt, Germania)",
     historicalName: "Leuna / Merseburg (Leuna-Werke)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Halle-Merseburg",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Halle (Saale)",
+    gauleiter: "Rudolf Jordan / Joachim Albrecht Eggeling",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Saalekreis (Stadtkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Leuna-Werke der I.G. Farben: Weltgr\u00f6\u00dftes Synthesewerk f\u00fcr Treibstoffe (Kohlehydrierung nach Bergius) und Stickstoffd\u00fcnger. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6709,10 +6709,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Salzlandkreis (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Salzlandkreis (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Salzlandkreis (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6729,10 +6729,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Stendal (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Stendal (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Magdeburg-Anhalt",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Magdeburg",
+    gauleiter: "Joachim Albrecht Eggeling / Rudolf Jordan",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Stendal (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -6749,10 +6749,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Wittenberg (Sassonia-Anhalt, Germania)",
     historicalName: "Landkreis Wittenberg (Gau Halle-Merseburg / Gau Magdeburg-Anhalt)",
-    gau: "Gau Halle-Merseburg / Gau Magdeburg-Anhalt",
+    gau: "Gau Halle-Merseburg",
     land: "Provinz Sachsen & Land Anhalt",
-    capital: "Dessau / Halle / Magdeburg",
-    gauleiter: "Rudolf Jordan / Rudolf Hartmann",
+    capital: "Halle (Saale)",
+    gauleiter: "Rudolf Jordan / Joachim Albrecht Eggeling",
     role: "Centro mondiale della chimica sintetica e dei bombardieri d'assalto Junkers a Dessau (Ju 87 Stuka e Ju 88); complessi Leuna-Werke (carburante sintetico) e Buna-Werke a Schkopau (gomma sintetica); acciaierie Krupp Gruson a Magdeburgo.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Wittenberg (Landkreis del Gau Halle-Merseburg / Gau Magdeburg-Anhalt, capoluogo: Dessau / Halle / Magdeburg, Gauleiter: Rudolf Jordan / Rudolf Hartmann) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7309,10 +7309,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "M\u00fclheim an der Ruhr (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Stadtkreis M\u00fclheim an der Ruhr (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Essen",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Essen",
+    gauleiter: "Josef Terboven",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), M\u00fclheim an der Ruhr (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7329,10 +7329,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Oberhausen (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Stadtkreis Oberhausen (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Essen",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Essen",
+    gauleiter: "Josef Terboven",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Oberhausen (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7349,10 +7349,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Remscheid (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Stadtkreis Remscheid (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Remscheid (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7369,10 +7369,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Solingen (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Solingen (Klingenstadt)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Solingen (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Traditionelles Zentrum der Klingen-, Blankwaffen- und Schneidwarenindustrie. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7389,10 +7389,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Wuppertal (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Wuppertal",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Wuppertal (Stadtkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. Bergische Industriestadt, Chemie- und Pharmawerk der I.G. Farben (Bayer Elberfeld). A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7409,10 +7409,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Kleve (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Landkreis Kleve (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Essen",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Essen",
+    gauleiter: "Josef Terboven",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Kleve (Landkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7429,10 +7429,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Mettmann (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Landkreis Mettmann (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Mettmann (Landkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7449,10 +7449,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Rhein-Kreis Neuss (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Landkreis Rhein-Kreis Neuss (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Rhein-Kreis Neuss (Landkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7469,10 +7469,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Viersen (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Landkreis Viersen (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Düsseldorf",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Düsseldorf",
+    gauleiter: "Friedrich Karl Florian",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Viersen (Landkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -7489,10 +7489,10 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
     nameEngl: "Germany",
     modernName: "Wesel (Renania Settentrionale-Vestfalia, Germania)",
     historicalName: "Landkreis Wesel (Gau Essen / Gau D\u00fcsseldorf)",
-    gau: "Gau Essen / Gau D\u00fcsseldorf",
+    gau: "Gau Essen",
     land: "Rheinprovinz (Ruhrgebiet)",
-    capital: "Essen / D\u00fcsseldorf",
-    gauleiter: "Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)",
+    capital: "Essen",
+    gauleiter: "Josef Terboven",
     role: "\"La Fucina del Terzo Reich\": arsenali Krupp a Essen, acciaierie Thyssen a Duisburg (massimo porto fluviale interno), Rheinmetall-Borsig a D\u00fcsseldorf, polo chimico Bayer a Leverkusen e lame speciali a Solingen.",
     notes: {
       s0_1: "Nel periodo anteguerra e riarmo (1936-marzo 1938), Wesel (Landkreis del Gau Essen / Gau D\u00fcsseldorf, capoluogo: Essen / D\u00fcsseldorf, Gauleiter: Josef Terboven (Essen) / Friedrich Karl Florian (D\u00fcsseldorf)) \u00e8 pienamente mobilitato nel Piano Quadriennale autarchico per l'autosufficienza bellica del Terzo Reich. A seguito della rimilitarizzazione della Renania (marzo 1936) e della fortificazione della Linea Sigfrido (Westwall), il settore consolida sbarramenti e casematte d'arresto. Il distretto partecipa all'espansione culminata nell'Anschluss dell'Austria (marzo 1938).",
@@ -8092,18 +8092,18 @@ GERMANY_PROVINCES_META['DE300_WEST'] = {
   nameLatn: 'Berlin (West)',
   nameEngl: 'West Berlin',
   modernName: 'Berlino Ovest (Germania)',
-  historicalName: 'West-Berlin (Settori Alleati: Tiergarten, Charlottenburg, Spandau, Schöneberg, Neukölln)',
-  gau: 'Gau Berlin (West)',
-  land: 'Reichshauptstadt Berlin (Westsektoren)',
-  capital: 'Berlin-Charlottenburg / Schöneberg',
+  historicalName: 'Reichshauptstadt Berlin — Settori Occidentali (Charlottenburg, Spandau, Tiergarten, Schöneberg, Neukölln)',
+  gau: 'Gau Berlin',
+  land: 'Reichshauptstadt Berlin',
+  capital: 'Berlin',
   gauleiter: 'Joseph Goebbels (1936-1945) / Allied Kommandatura (post-1945)',
-  role: "Polo industriale d'armamento ed elettrotecnica (Siemensstadt, Borsig, Alkett a Spandau, Argus Motoren), snodo aereo strategico di Tempelhof e Gatow, sede dell'Olympiastadion e del Kaiser-Wilhelm-Institut di Dahlem; futuro bastione occidentale nella Guerra Fredda (Settori Americano, Britannico e Francese).",
+  role: "Polo industriale d'armamento ed elettrotecnica (Siemensstadt, Borsig, Alkett a Spandau, Argus Motoren), snodo aereo strategico di Tempelhof e Gatow, Olympiastadion e Kaiser-Wilhelm-Institut di Dahlem; dal 1945 settori americani, britannici e francesi nella Berlino quadripartita.",
   notes: {
-    s0_1: "1936-inizio 1938: I distretti occidentali di Berlino (Charlottenburg, Spandau, Tiergarten, Schöneberg, Wilmersdorf, Steglitz, Zehlendorf, Tempelhof, Neukölln, Reinickendorf, Wedding) sono la vetrina mondiale del regime con i Giochi della XI Olimpiade del 1936 nell'Olympiastadion (Reichssportfeld) a Charlottenburg. I giganti industriali della Siemensstadt e della Borsig operano a pieno regime per il Piano Quadriennale di Hermann Göring. All'aeroporto di Tempelhof viene avviata la costruzione del gigantesco terminal monumentale di Ernst Sagebiel. Mobilitazione logistica per l'Anschluss dell'Austria (marzo 1938).",
-    s2_4: "1938-inizio 1939: Durante la crisi dei Sudeti e la Conferenza di Monaco, gli stabilimenti Alkett di Spandau e Borsig convertono le linee alla produzione accelerata di carri armati e munizioni per la Wehrmacht. Nella notte del 9-10 novembre 1938 (Kristallnacht), le squadre SA e SS devastano i negozi ebraici lungo la Kurfürstendamm e danno alle fiamme la sontuosa Sinagoga di Fasanenstraße a Charlottenburg. A Dahlem, presso il Kaiser-Wilhelm-Institut, Otto Hahn e Fritz Strassmann realizzano nel dicembre 1938 la prima scissione nucleare dell'uranio.",
-    s5: "Primavera-Estate 1939: Il 20 aprile 1939 la monumentale Ost-West-Achse (asse est-ovest progettato da Albert Speer attraverso il Tiergarten e la Charlottenburger Chaussee) fa da scenario alla più imponente parata militare della Wehrmacht per il 50° compleanno di Hitler. Dopo l'occupazione della Boemia e Moravia (marzo) e la firma del Patto d'Acciaio con l'Italia (maggio), la produzione di motori aeronautici alla Argus di Reinickendorf e velivoli a Spandau passa ai ritmi di guerra totale.",
-    s6_7: "Settembre 1939 - Fine 1940: Con l'inizio della guerra (Fall Weiß) e la vittoriosa campagna di Francia (giugno 1940), la capitale affronta i primi razionamenti ferrei. Nella notte tra il 25 e il 26 agosto 1940 la Royal Air Force britannica effettua la prima incursione aerea su Berlino, colpendo installazioni a Tempelhof e Siemensstadt. Nel Tiergarten e a Humboldthain viene ordinata la costruzione immediata delle ciclopiche Torri Contraeree (Flaktürme) dotate di bunker antiaerei civili e radar Wurzburg-Riese. Il 27 settembre 1940 viene siglato il Patto Tripartito.",
-    s8: "Aprile 1941: Mobilitazione industriale suprema in vista dell'Operazione Barbarossa contro l'URSS. Dalle officine Alkett di Spandau e dai depositi ferroviari di Moabit partono centinaia di cannoni d'assalto StuG III e convogli corazzati verso i comandi di raggruppamento a oriente. L'aeroporto di Tempelhof funge da perno logistico per i collegamenti aerei di stato maggiore dell'Asse verso i Balcani e il Mediterraneo.",
+    s0_1: "1936-inizio 1938: I distretti occidentali della Reichshauptstadt Berlin (Charlottenburg, Spandau, Tiergarten, Wilmersdorf, Schöneberg, Steglitz, Zehlendorf, Tempelhof, Neukölln, Reinickendorf, Wedding) sono la vetrina del regime ai Giochi della XI Olimpiade del 1936 nell'Olympiastadion. I giganti industriali Siemensstadt e Borsig operano a pieno regime per il riarmo del Terzo Reich e l'aeroporto di Tempelhof avvia il grande terminal di Ernst Sagebiel.",
+    s2_4: "1938-inizio 1939: Durante la crisi dei Sudeti e Monaco, gli stabilimenti Alkett di Spandau e Borsig convertono le linee alla produzione di carri armati e cannoni d'assalto. Nella Kristallnacht (9-10 novembre 1938), SA e SS devastano la Kurfürstendamm e incendiano la Sinagoga di Fasanenstraße a Charlottenburg; a dicembre Hahn e Strassmann ottengono a Dahlem la prima fissione dell'uranio.",
+    s5: "Primavera-Estate 1939: Il 20 aprile 1939 la Ost-West-Achse di Albert Speer attraverso il Tiergarten ospita la parata del 50° compleanno di Hitler. Dopo l'occupazione di Praga (marzo) e i patti d'alleanza estivi, gli impianti Argus di Reinickendorf e Spandau passano ai ritmi di mobilitazione bellica.",
+    s6_7: "Settembre 1939 - Fine 1940: Nella notte del 25-26 agosto 1940 la RAF effettua il primo bombardamento su Berlino colpendo Tempelhof e Siemensstadt. Nel Tiergarten e a Humboldthain sorgono le colossali torri contraeree Flaktürme; il 27 settembre 1940 è firmato il Patto Tripartito.",
+    s8: "Primavera 1941: Dalle officine Alkett di Spandau e dagli scali di Moabit partono centinaia di cannoni d'assalto StuG III e treni corazzati verso il fronte orientale in preparazione dell'Operazione Barbarossa.",
   },
 };
 GERMANY_PROVINCES_META['DE300_EAST'] = {
@@ -8112,39 +8112,367 @@ GERMANY_PROVINCES_META['DE300_EAST'] = {
   nameLatn: 'Berlin (Ost)',
   nameEngl: 'East Berlin',
   modernName: 'Berlino Est (Germania)',
-  historicalName: 'Ost-Berlin (Settore Centrale-Orientale: Mitte, Friedrichshain, Prenzlauer Berg, Pankow)',
-  gau: 'Gau Berlin (Mitte-Ost)',
-  land: 'Reichshauptstadt Berlin (Zentrum und Ostsektoren)',
-  capital: 'Berlin-Mitte / Alexanderplatz',
+  historicalName: 'Reichshauptstadt Berlin — Centro e Settori Orientali (Mitte, Wilhelmstraße, Pankow, Lichtenberg)',
+  gau: 'Gau Berlin',
+  land: 'Reichshauptstadt Berlin',
+  capital: 'Berlin',
   gauleiter: 'Joseph Goebbels (1936-1945) / SMAD (post-1945)',
-  role: "Cuore politico, governativo e decisionale supremo del Reich: Vecchia e Nuova Cancelleria del Reich sulla Wilhelmstraße, Führerbunker, Ministeri di Stato, Alexanderplatz, Rotes Rathaus e cantieri lungo la Sprea; futuro settore di occupazione sovietico e capitale della Repubblica Democratica Tedesca (DDR).",
+  role: "Cuore politico e governativo supremo del Reich (Cancelleria sulla Wilhelmstraße, Reichsluftfahrtministerium, Ministero della Propaganda, Alexanderplatz, Prinz-Albrecht-Straße) e centro industriale orientale lungo la Sprea; dal 1945 settore di occupazione sovietico.",
   notes: {
-    s0_1: "1936-inizio 1938: Il cuore storico e governativo di Berlino (Mitte, Prenzlauer Berg, Friedrichshain, Pankow, Weißensee, Lichtenberg, Treptow, Köpenick) ospita i centri di comando assoluto del Terzo Reich: la Cancelleria del Reich sulla Wilhelmstraße, il Ministero della Propaganda di Goebbels su Wilhelmplatz e il Ministero dell'Aeronautica (Reichsluftfahrtministerium) di Göring sulla Leipziger Straße. Nel gennaio 1937 Hitler nomina Albert Speer Ispettore Generale dell'Edilizia per avviare il piano titanico di sventramento e ricostruzione della 'Welthauptstadt Germania'.",
-    s2_4: "1938-inizio 1939: Nel gennaio 1939 viene completata a tempo di record sulla Voßstraße la monumentale Nuova Cancelleria del Reich (Neue Reichskanzlei) di Albert Speer, con la leggendaria Galleria di Marmo lunga 146 metri. Durante il pogrom della Notte dei Cristalli (9-10 novembre 1938), le squadre naziste assaltano e incendiano la Sinagoga Nuova di Oranienburger Straße a Mitte, mentre la Gestapo e l'SD nel complesso centrale di Prinz-Albrecht-Straße coordinano l'arresto e la deportazione di migliaia di cittadini ebrei a Sachsenhausen.",
-    s5: "Primavera-Estate 1939: Il centro nevralgico della Wilhelmstraße è il teatro delle frenetiche manovre diplomatiche che precedono l'invasione della Polonia. Il 23 agosto 1939 il ministro degli Esteri Joachim von Ribbentrop parte dalla Cancelleria per Mosca per siglare il Patto Molotov-Ribbentrop. La mattina del 1° settembre 1939, dalla tribuna dell'Opera Kroll di fronte al Reichstag, Hitler annuncia al Reichstag e al mondo l'inizio delle ostilità contro la Polonia: 'Seit 5:45 Uhr wird jetzt zurückgeschossen!'.",
-    s6_7: "Settembre 1939 - Fine 1940: Il 18 luglio 1940 le truppe tedesche reduci dalla Campagna di Francia sfilano trionfalmente attraverso la Porta di Brandeburgo lungo Unter den Linden tra ali di folla. Il 27 settembre 1940, nella Cancelleria del Reich, Germania, Italia e Giappone firmano solennemente il Patto Tripartito. Nel novembre 1940 il commissario del popolo sovietico Vjačeslav Molotov è accolto alla Cancelleria e alla stazione di Anhalt per consultazioni strategiche di massima tensione con Hitler e Ribbentrop, interrotte da un'incursione aerea della RAF.",
-    s8: "Aprile 1941: Nella Cancelleria del Reich e negli uffici del comando supremo OKW fervono le riunioni segrete operative per definire gli ultimi dettagli della Direttiva 21 (Operazione Barbarossa). L'intero apparato della propaganda nazista su Wilhelmplatz orchestra la campagna d'odio antibolscevica e l'imminente rottura del patto con Mosca, mentre dalle stazioni dell'Ostbahnhof partono i treni rifornimento destinati ai fronti orientale e balcanico.",
+    s0_1: "1936-inizio 1938: Il centro governativo della Reichshauptstadt Berlin (Mitte, Prenzlauer Berg, Friedrichshain, Pankow, Weißensee, Lichtenberg, Treptow, Köpenick) concentra la Cancelleria del Reich sulla Wilhelmstraße, il Ministero della Propaganda di Goebbels e il Reichsluftfahrtministerium di Göring; dal gennaio 1937 Albert Speer dirige i piani urbanistici della 'Welthauptstadt Germania'.",
+    s2_4: "1938-inizio 1939: Nel gennaio 1939 è inaugurata sulla Voßstraße la monumentale Nuova Cancelleria del Reich di Albert Speer. Durante la Kristallnacht (9-10 novembre 1938) viene assaltata la Sinagoga Nuova di Oranienburger Straße a Mitte mentre Gestapo e SD dalla Prinz-Albrecht-Straße coordinano arresti e deportazioni verso Sachsenhausen.",
+    s5: "Primavera-Estate 1939: La Wilhelmstraße è il centro delle manovre diplomatiche prebelliche fino al Patto Molotov-Ribbentrop (23 agosto). Il 1° settembre 1939 all'Opera Kroll di fronte al Reichstag Hitler annuncia l'invasione della Polonia.",
+    s6_7: "Settembre 1939 - Fine 1940: Il 18 luglio 1940 la Wehrmacht sfila sotto la Porta di Brandeburgo lungo Unter den Linden; il 27 settembre viene siglato il Patto Tripartito e in novembre Molotov incontra Hitler e Ribbentrop sotto gli allarmi aerei della RAF.",
+    s8: "Primavera 1941: Nella Cancelleria del Reich e negli uffici dell'OKW si finalizza la Direttiva 21 (Operazione Barbarossa), mentre dall'Ostbahnhof partono i convogli logistici verso i fronti orientale e balcanico.",
   },
 };
 
+function getTemporalGau(rawGau: string, step: number): string {
+  if (rawGau === 'Gau Kurmark' && step >= 6) return 'Gau Mark Brandenburg';
+  if (rawGau === 'Gau Saarpfalz' && step >= 7) return 'Gau Westmark';
+  if (rawGau === 'Gau Koblenz-Trier' && step >= 8) return 'Gau Moselland';
+  if (rawGau === 'Gau Moselland' && step < 8) return 'Gau Koblenz-Trier';
+  if (rawGau === 'Gau Bayerische Ostmark' && step >= 10) return 'Gau Bayreuth';
+  if (rawGau === 'Gau Schlesien' && step >= 8) return 'Gau Niederschlesien';
+  return rawGau;
+}
+
+function getPostwarGermanLand(cleanId: string, label: string): { land: string; detail: string } {
+  if (cleanId === 'DEA22') {
+    return {
+      land: 'Nordrhein-Westfalen',
+      detail: 'Sede dal 1° settembre 1948 del Consiglio Parlamentare (Parlamentarischer Rat) guidato da Konrad Adenauer al Museum Koenig per redigere la Legge Fondamentale.',
+    };
+  }
+  if (cleanId === 'DEA13') {
+    return {
+      land: 'Nordrhein-Westfalen (Ruhrgebiet)',
+      detail: 'Cuore carbonifero-siderurgico della Ruhr (impianti Krupp) sottoposto a smantellamento alleato e dal 28 dicembre 1948 allo Statuto dell\'Autorità Internazionale della Ruhr.',
+    };
+  }
+  if (cleanId === 'DE712') {
+    return {
+      land: 'Hessen',
+      detail: 'Capitale economica delle zone occidentali: sede a Francoforte sul Meno del Wirtschaftsrat bizonale (1947), della Bank deutscher Länder (marzo 1948) e base centrale del Ponte Aereo da Rhein-Main.',
+    };
+  }
+  if (cleanId === 'DE254') {
+    return {
+      land: 'Bayern',
+      detail: 'Sede presso il Palazzo di Giustizia del Tribunale Militare Internazionale e dei Processi secondari di Norimberga contro i criminali di guerra e le élite industriali.',
+    };
+  }
+  if (cleanId === 'DE111') {
+    return {
+      land: 'Württemberg-Baden',
+      detail: 'Capoluogo del Land Württemberg-Baden nella zona OMGUS, teatro dello storico discorso di politica tedesca pronunciato il 6 settembre 1946 dal Segretario di Stato USA James F. Byrnes.',
+    };
+  }
+  if (cleanId === 'DE600') {
+    return {
+      land: 'Freie und Hansestadt Hamburg',
+      detail: 'Città-stato ricostituita dopo le devastazioni belliche (Operazione Gomorrah), maggiore porto della Zona Britannica sul Mare del Nord.',
+    };
+  }
+  if (cleanId === 'DEF02') {
+    return {
+      land: 'Schleswig-Holstein',
+      detail: 'Capoluogo del nuovo Land Schleswig-Holstein (1946), impegnato nella smobilitazione navale dei cantieri e nell\'accoglienza di centinaia di migliaia di profughi orientali.',
+    };
+  }
+  if (cleanId === 'DED21') {
+    return {
+      land: 'Sachsen',
+      detail: 'Capoluogo del Land Sassonia nella zona sovietica: ricostruzione tra le macerie del bombardamento del febbraio 1945 e requisizioni industriali e ferroviarie in conto riparazioni all\'URSS.',
+    };
+  }
+  if (cleanId === 'DED51') {
+    return {
+      land: 'Sachsen',
+      detail: 'Snodo fieristico e tipografico della Sassonia riaperto dalla SMAD per la Fiera di Lipsia, con grandi complessi convertiti in Società per Azioni Sovietiche (SAG).',
+    };
+  }
+  if (cleanId === 'DE404') {
+    return {
+      land: 'Brandenburg',
+      detail: 'Capoluogo del Land Brandeburgo nella Zona Sovietica e sede al Castello di Cecilienhof della Conferenza di Potsdam (luglio-agosto 1945).',
+    };
+  }
+  if (cleanId === 'DE80N') {
+    return {
+      land: 'Mecklenburg-Vorpommern',
+      detail: 'Area della Pomerania Anteriore (Greifswald, Anklam, isola di Usedom/Peenemünde) aggregata dalla SMAD al nuovo Land Meclemburgo-Pomerania Anteriore dopo il fissaggio del confine sull\'Oder-Neiße.',
+    };
+  }
+  if (cleanId.startsWith('DEA')) return { land: 'Nordrhein-Westfalen', detail: `${label} nel Land Renania Settentrionale-Vestfalia (costituito nella zona britannica nel 1946).` };
+  if (cleanId.startsWith('DE9')) return { land: 'Niedersachsen', detail: `${label} nel Land Bassa Sassonia (istituito nel novembre 1946 unificando Hannover, Braunschweig, Oldenburg e Schaumburg-Lippe).` };
+  if (cleanId.startsWith('DEF')) return { land: 'Schleswig-Holstein', detail: `${label} nello Schleswig-Holstein sotto amministrazione britannica e alta pressione di profughi da est.` };
+  if (cleanId.startsWith('DE7')) return { land: 'Hessen', detail: `${label} nel Land Assia (Groß-Hessen costituito dall\'OMGUS nel settembre 1945, Costituzione del dicembre 1946).` };
+  if (cleanId.startsWith('DE2')) return { land: 'Bayern', detail: `${label} nello Stato Libero di Baviera (Zona USA — Costituzione bavarese del dicembre 1946).` };
+  if (cleanId.startsWith('DEB')) return { land: 'Rheinland-Pfalz', detail: `${label} nel Land Renania-Palatinato (costituito nella zona francese il 30 agosto 1946 con capoluogo a Coblenza/Magonza).` };
+  if (cleanId.startsWith('DE13') || cleanId === 'DE121' || cleanId === 'DE124' || cleanId === 'DE12A' || cleanId === 'DE12C') {
+    return { land: 'Baden (Südbaden)', detail: `${label} nel Land Baden meridionale (Zona Francese, capoluogo Friburgo in Brisgovia).` };
+  }
+  if (cleanId.startsWith('DE14')) {
+    return { land: 'Württemberg-Hohenzollern', detail: `${label} nel Land Württemberg-Hohenzollern (Zona Francese, capoluogo Tubinga).` };
+  }
+  if (cleanId.startsWith('DE1')) {
+    return { land: 'Württemberg-Baden', detail: `${label} nel Land Württemberg-Baden (Zona USA a nord dell\'Autobahn A8, capoluogo Stoccarda).` };
+  }
+  if (cleanId.startsWith('DE4')) return { land: 'Brandenburg', detail: `${label} nel Land Brandeburgo (Zona Sovietica — riforma agraria del 1945 e smantellamenti industriali).` };
+  if (cleanId.startsWith('DE8')) return { land: 'Mecklenburg', detail: `${label} nel Land Meclemburgo-Pomerania Anteriore (Zona Sovietica — riforma fondiaria Bodenreform).` };
+  if (cleanId.startsWith('DED')) return { land: 'Sachsen', detail: `${label} nel Land Sassonia (Zona Sovietica — statalizzazione delle industrie dopo il referendum sassone del giugno 1946).` };
+  if (cleanId.startsWith('DEE')) return { land: 'Sachsen-Anhalt', detail: `${label} nel Land Sassonia-Anhalt (Zona Sovietica, con gli impianti chimici Leuna/Buna convertiti in SAG).` };
+  if (cleanId.startsWith('DEG')) return { land: 'Thüringen', detail: `${label} nel Land Turingia (passato alla Zona Sovietica nel luglio 1945 secondo gli accordi interalleati).` };
+  return { land: 'Deutschland', detail: `${label} nell'amministrazione quadripartita alleata.` };
+}
+
+function buildStep0PreAnschlussNote(meta: GermanyProvinceMeta, cleanId: string, temporalGau: string): string {
+  const isRhenishDmz =
+    cleanId.startsWith('DEA1') ||
+    cleanId.startsWith('DEA2') ||
+    cleanId.startsWith('DEB') ||
+    cleanId.startsWith('DE12') ||
+    cleanId.startsWith('DE13');
+  const isSaar = cleanId.startsWith('DEC');
+  const extra = isSaar
+    ? "Territorio della Saar appena reintegrato nel Terzo Reich il 1° marzo 1935 dopo il plebiscito del gennaio 1935 (Gauleiter Josef Bürckel), ancora incluso nella fascia smilitarizzata occidentale fino al marzo 1936."
+    : isRhenishDmz
+    ? "Al gennaio 1936 il distretto sulla sponda e riva destra del Reno è ancora formalmente fascia smilitarizzata secondo gli artt. 42-44 di Versailles e il Patto di Locarno, alla vigilia della rimilitarizzazione ordinata da Hitler il 7 marzo 1936."
+    : "Piena mobilitazione nel riarmo del Terzo Reich e nell'apparato produttivo e militare del regime alla vigilia del Piano Quadriennale e dei Giochi Olimpici del 1936.";
+  return `Gennaio 1936 (${temporalGau} — ${meta.land}, capoluogo ${meta.capital}, Gauleiter ${meta.gauleiter}): ${meta.role} ${extra}`;
+}
+
+function buildGermanyWarPhaseNote(meta: GermanyProvinceMeta, cleanId: string, step: number, temporalGau: string): string {
+  const label = meta.nutsName || meta.modernName || cleanId;
+  const header = `${label} (${temporalGau}, Gauleiter ${meta.gauleiter}): ${meta.role}`;
+
+  if (step === 9 || step === 10) {
+    if (cleanId === 'DEA23') {
+      return `${header} — 30 maggio 1942: la RAF esegue su Colonia l'Operazione "Millennium", il primo bombardamento dei "1.000 bombardieri" sul Terzo Reich, devastando ampi quartieri cittadini.`;
+    }
+    if (cleanId === 'DEF03' || cleanId === 'DE803') {
+      return `${header} — Primavera 1942: i primi grandi bombardamenti a tappeto incendiari del RAF Bomber Command colpiscono Lubecca (marzo) e gli impianti Heinkel di Rostock (aprile).`;
+    }
+    return `${header} — 1942 (Economia Bellica Totale): dopo la dichiarazione di guerra agli USA (11 dic. 1941) e la nomina di Albert Speer a Ministro degli Armamenti (feb. 1942), gli impianti ricorrono massicciamente a lavoro coatto Ostarbeiter mentre l'offensiva aerea alleata colpisce città e bacini industriali tedeschi.`;
+  }
+
+  if (step >= 11 && step <= 13) {
+    if (cleanId === 'DE600') {
+      return `${header} — Luglio 1943 (Operazione Gomorrah): massiccia campagna di bombardamenti congiunta RAF-USAAF che scatena una tempesta di fuoco su Amburgo causando circa 37.000 vittime e devastando cantieri e quartieri operai.`;
+    }
+    if (cleanId === 'DE80N') {
+      return `${header} — 17-18 agosto 1943 (Operazione Hydra): il Bomber Command della RAF colpisce il centro sperimentale missilistico di Peenemünde sull'isola di Usedom per ritardare lo sviluppo dei razzi V-1 e V-2.`;
+    }
+    if (cleanId === 'DE264' || cleanId === 'DE262' || cleanId === 'DE221' || cleanId === 'DE232') {
+      return `${header} — Agosto-Ottobre 1943: incursioni strategiche diurne dell'8ª Air Force statunitense (missione Schweinfurt-Regensburg) contro i cuscinetti a sfera e gli stabilimenti aeronautici Messerschmitt.`;
+    }
+    if (cleanId.startsWith('DEA1') || cleanId.startsWith('DEA5') || cleanId.startsWith('DEA3')) {
+      return `${header} — 1943 (Battaglia della Ruhr): incessante offensiva aerea britannica contro il cuore minerario e siderurgico della Ruhr e incursione della RAF sulle dighe Möhne ed Eder (Operazione Chastise, maggio 1943).`;
+    }
+    return `${header} — 1943 (Totaler Krieg): dopo la catastrofe di Stalingrado e il discorso di Goebbels allo Sportpalast (18 feb. 1943), il distretto mobilita ogni risorsa nella Guerra Totale sotto i bombardamenti strategici alleati sempre più pesanti.`;
+  }
+
+  if (step === 14 || step === 15) {
+    if (cleanId === 'DE300' || cleanId === 'DE300_WEST' || cleanId === 'DE300_EAST') {
+      return `${header} — Estate 1944: la capitale del Reich è sconvolta dalle incursioni strategiche diurne dell'USAAF e dal fallito attentato del 20 luglio 1944 (Operazione Walküre guidata da Stauffenberg al Bendlerblock), seguito da spietata repressione delle SS.`;
+    }
+    if (cleanId === 'DEE0B' || cleanId === 'DEA32' || cleanId === 'DEA27') {
+      return `${header} — Maggio-Agosto 1944 (Oil Campaign): bombardamenti prioritari alleati contro gli impianti di idrogenazione e carburante sintetico (Leuna, Gelsenkirchen, Wesseling), paralizzando il rifornimento di aviazione e mezzi corazzati della Wehrmacht.`;
+    }
+    if (cleanId === 'DE_HIST_KONIGSBERG') {
+      return `${header} — Estate 1944: dopo il crollo del Gruppo d'Armate Centro in Bielorussia (Operazione Bagration), l'Armata Rossa raggiunge i confini della Prussia Orientale; il 20 luglio 1944 alla Wolfsschanze presso Rastenburg Hitler scampa all'attentato di Stauffenberg.`;
+    }
+    return `${header} — Estate 1944: dopo lo sbarco in Normandia e il collasso del fronte orientale, il Reich affronta la crisi dell'industria sintetica e ferroviaria sotto supremazia aerea alleata e si prepara alla mobilitazione d'emergenza.`;
+  }
+
+  // Step 16 (Dicembre 1944)
+  if (cleanId === 'DEA26' || cleanId === 'DEA28' || cleanId === 'DEA29' || cleanId === 'DEB23' || cleanId === 'DEB24' || cleanId === 'DEB25') {
+    return `${header} — Dicembre 1944: settore di prima linea tra la foresta dell'Hürtgenwald, il Westwall e l'Eifel da cui scatta il 16 dicembre l'ultima controffensiva tedesca alle Ardenne (Wacht am Rhein).`;
+  }
+  if (cleanId.startsWith('DEC') || cleanId === 'DE121' || cleanId === 'DE124' || cleanId.startsWith('DE13')) {
+    return `${header} — Dicembre 1944: difesa delle fortificazioni del Westwall lungo Saar e Alto Reno contro la 7ª Armata USA e la 1ª Armata Francese alla vigilia dell'Operazione Nordwind.`;
+  }
+  if (cleanId === 'DE_HIST_KONIGSBERG') {
+    return `${header} — Dicembre 1944: la Prussia Orientale è trincerata tra Gumbinnen e la linea del Memel dopo gli scontri d'ottobre contro il 3° Fronte Bielorusso, alla vigilia della grande offensiva sovietica del gennaio 1945.`;
+  }
+  return `${header} — Dicembre 1944: mobilitazione della milizia territoriale Volkssturm (settembre-ottobre 1944), rete ferroviaria e industrie belliche sconvolte dai bombardamenti continui su tutto il territorio del Reich.`;
+}
+
+function resolveStep17Collapse(cleanId: string, meta: GermanyProvinceMeta): ResolvedTerritory {
+  const label = meta.nutsName || meta.modernName || cleanId;
+
+  if (cleanId === 'DE_HIST_KONIGSBERG') {
+    return makeResult(
+      'SOV',
+      "Königsberg (Espugnata dall'Armata Rossa — 9 Aprile 1945)",
+      "Il 9 aprile 1945 le truppe del 3° Fronte Bielorusso (Maresciallo Vasilevskij) espugnano la piazzaforte di Königsberg costringendo il generale Otto Lasch alla resa.",
+      'Comintern',
+      'SSSR — 3° Fronte Bielorusso (Maresciallo Aleksandr Vasilevskij)'
+    );
+  }
+  if (cleanId === 'DED51') {
+    return makeResult(
+      'USA',
+      'Leipzig (Torgau — Giunzione sull\'Elba tra 1ª Armata USA e 1° Fronte Ucraino Sovietico)',
+      'Il 25 aprile 1945 a Torgau sul fiume Elba (a nord-est di Lipsia), la 69ª Divisione USA della 1ª Armata Hodges si congiunge con la 58ª Divisione Guardie dell\'Armata Rossa, spezzando in due il territorio del Reich.',
+      'Alleati',
+      'First United States Army / 12th Army Group (Gen. Courtney Hodges)'
+    );
+  }
+  if (cleanId === 'DE300' || cleanId === 'DE300_WEST' || cleanId === 'DE300_EAST') {
+    return makeResult(
+      'SOV',
+      'Berlin (Battaglia di Berlino — Assalto Finale al Reichstag & Führerbunker)',
+      'Aprile 1945: il 1° Fronte Bielorusso (Žukov) e il 1° Fronte Ucraino (Konev) accerchiano la capitale del Reich e sferrano l\'assalto urbano finale al Reichstag.',
+      'Comintern',
+      '1° Fronte Bielorusso dell\'Armata Rossa (Maresciallo Georgij Žukov)'
+    );
+  }
+  if (cleanId === 'DEA12' || cleanId === 'DEA11' || cleanId === 'DEA23') {
+    return makeResult(
+      'USA',
+      `Ruhr — ${label} (Sacca della Ruhr Cancellata — 1ª e 9ª Armata USA)`,
+      'Aprile 1945: la 1ª e la 9ª Armata USA chiudono e liquidano la Sacca della Ruhr catturando oltre 317.000 soldati tedeschi dell\'Heeresgruppe B (feldmaresciallo Walter Model).',
+      'Alleati',
+      'First & Ninth United States Armies'
+    );
+  }
+  if (cleanId === 'DE212' || cleanId === 'DE254') {
+    return makeResult(
+      'USA',
+      `${cleanId === 'DE212' ? 'München' : 'Nürnberg / München'} (Baviera Liberata — 7ª Armata USA)`,
+      'Avanzata della 7ª Armata statunitense in Franconia e Baviera: caduta di Norimberga (20 aprile) e liberazione di Dachau e Monaco (29-30 aprile 1945).',
+      'Alleati',
+      'Seventh United States Army (Lt. Gen. Alexander Patch)'
+    );
+  }
+  if (cleanId === 'DE111') {
+    return makeResult(
+      'FRA',
+      'Stuttgart (Baden-Württemberg — 1ª Armata Francese Rhin et Danube)',
+      'Il 21 aprile 1945 la 1ª Armata francese del generale Jean de Lattre de Tassigny espugna Stoccarda nel Baden-Württemberg.',
+      'Alleati',
+      '1ère Armée Française (Général de Lattre de Tassigny)'
+    );
+  }
+  if (cleanId === 'DE600') {
+    return makeResult(
+      'GER',
+      'Hamburg (Festung Hamburg — Wehrmacht)',
+      'Amburgo rimane presidiata dalla Wehrmacht come piazzaforte nord-occidentale fino alla capitolazione parziale di Lüneburg (3 maggio 1945).',
+      'Asse',
+      'Wehrmacht — Festung Hamburg'
+    );
+  }
+  if (cleanId === 'DEF02' || cleanId.startsWith('DEF')) {
+    return makeResult(
+      'GER',
+      `${label} (Schleswig-Holstein — Presidio della Wehrmacht & Base Kriegsmarine)`,
+      'Corridoio settentrionale tra Elbe, Kiel e Flensburg tenuto dalla Wehrmacht e dalla Kriegsmarine negli ultimi giorni del Reich.',
+      'Asse',
+      'Kriegsmarine / Wehrmacht Nordbereich'
+    );
+  }
+
+  // Ultime sacche tedesche ancora in armi al 30 aprile 1945
+  if (
+    cleanId === 'DE945' ||
+    cleanId === 'DE502' ||
+    cleanId === 'DE803' ||
+    cleanId === 'DE804' ||
+    cleanId === 'DE80K' ||
+    cleanId === 'DE80L' ||
+    cleanId === 'DE80M' ||
+    cleanId === 'DE80O' ||
+    cleanId.startsWith('DED2') ||
+    cleanId === 'DE215' ||
+    cleanId === 'DE21M'
+  ) {
+    const pocketDesc = cleanId.startsWith('DED2')
+      ? 'Fascia di Dresda e Sassonia orientale ancora presidiata dall\'Heeresgruppe Mitte (Ferdinand Schörner) fino all\'offensiva di Praga dell\'8 maggio 1945.'
+      : cleanId === 'DE215' || cleanId === 'DE21M'
+      ? 'Estremo lembo alpino di Berchtesgaden, Obersalzberg e Traunstein ancora presidiato da reparti tedeschi prima della resa dell\'inizio maggio 1945.'
+      : cleanId === 'DE945' || cleanId === 'DE502'
+      ? 'Piazzaforte navale del Mare del Nord assediata dalle forze anglo-canadesi fino alla capitolazione del maggio 1945.'
+      : 'Fascia costiera del Meclemburgo e di Rügen presidiata da resti dell\'Heeresgruppe Weichsel fino al 1°-4 maggio 1945.';
+    return makeResult('GER', `${label} (Presidio Wehrmacht — Aprile 1945)`, pocketDesc, 'Asse', 'Wehrmacht — Ultime Sacche di Difesa');
+  }
+
+  // Settore sovietico al 30 aprile 1945: Brandeburgo (DE4*), Pomerania Anteriore orientale (DE80N, DE80J)
+  if (cleanId.startsWith('DE4') || cleanId === 'DE80N' || cleanId === 'DE80J') {
+    return makeResult(
+      'SOV',
+      `${label} (Offensiva Berlino-Oder — Armata Rossa, Aprile 1945)`,
+      'Territorio attraversato dall\'offensiva sovietica delle Alture di Seelow (16-19 aprile), dall\'accerchiamento di Berlino e dalla sacca di Halbe.',
+      'Comintern',
+      '1° e 2° Fronte Bielorusso / 1° Fronte Ucraino (Armata Rossa)'
+    );
+  }
+
+  // Settore britannico/canadese al 30 aprile 1945: Brema (DE501, presa il 26 apr), Lüneburg/Stade (DE93*), Oldenburg/Osnabrück/Emsland (DE94* escl. DE945)
+  if (cleanId === 'DE501' || cleanId.startsWith('DE93') || cleanId.startsWith('DE94')) {
+    return makeResult(
+      'UK',
+      `${label} (Avanzata 21st Army Group / 2ª Armata Britannica — Aprile 1945)`,
+      'Territorio conquistato dalla 2ª Armata britannica e dal 2° Corpo canadese nell\'avanzata verso il Basso Elba e Brema (presa il 26 aprile 1945).',
+      'Alleati',
+      'British 21st Army Group (FM Bernard Montgomery)'
+    );
+  }
+
+  // Settore 1ª Armata Francese al 30 aprile 1945: Palatinato sud-orientale (testa di ponte Germersheim-Speyer-Landau),
+  // Karlsruhe/Baden-Baden/Südbaden, corridoio Calw-Böblingen-Stuttgart, Württemberg meridionale e Lindau (poligono unico contiguo;
+  // Mainz DEB35, Worms DEB39 e Neckar-Odenwald DE127 furono liberate dalle armate USA a marzo/aprile e passano alla ZFO solo a luglio 1945).
+  const FRA_STEP17 = new Set([
+    'DE111', 'DE112',
+    'DE121', 'DE122', 'DE123', 'DE124', 'DE129', 'DE12A', 'DE12B', 'DE12C',
+    'DE141', 'DE142', 'DE143', 'DE146', 'DE147', 'DE148', 'DE149',
+    'DE27A', 'DEB33', 'DEB38', 'DEB3E', 'DEB3H',
+  ]);
+  if (cleanId.startsWith('DE13') || FRA_STEP17.has(cleanId)) {
+    return makeResult(
+      'FRA',
+      `${label} (Avanzata 1ª Armata Francese Rhin et Danube — Aprile 1945)`,
+      'Settore sud-occidentale liberato dalla 1ª Armata francese del generale de Lattre de Tassigny tra Reno, Foresta Nera, Stoccarda e Lago di Costanza.',
+      'Alleati',
+      '1ère Armée Française (Général de Lattre de Tassigny)'
+    );
+  }
+
+  // Tutto il resto della Germania centrale, occidentale, renana, sassone occidentale e bavarese liberato dalle Armate USA (1ª, 3ª, 7ª, 9ª)
+  return makeResult(
+    'USA',
+    `${label} (Avanzata Alleata USA verso l'Elba e la Baviera — Aprile 1945)`,
+    'Territorio tedesco occupato dalle armate statunitensi (1ª, 3ª, 7ª e 9ª Armata USA) dopo il superamento del Reno a Remagen/Oppenheim, la chiusura della Ruhr e la spinta verso Elba, Mulde e Danubio.',
+    'Alleati',
+    'SHAEF — U.S. 12th & 6th Army Groups (Gen. Eisenhower)'
+  );
+}
+
 /**
- * Risolve una provincia / distretto del Terzo Reich (GER) per uno step temporale specifico.
+ * Risolve una provincia / distretto del Terzo Reich / Germania (GER / Zone Alleate) per uno step temporale specifico.
  */
 export function resolveGermanyProvince(feature: any, step: number): ResolvedTerritory {
   const p = feature.properties || {};
   const id = feature.id || p.NUTS_ID || p.CNTR_ID || p.id || p.__resolverId || '';
+  const cleanId = String(id).toUpperCase().trim();
+
   let meta =
     GERMANY_PROVINCES_META[id] ||
     (p.NUTS_ID && GERMANY_PROVINCES_META[p.NUTS_ID]) ||
     (p.CNTR_ID && GERMANY_PROVINCES_META[p.CNTR_ID]) ||
     (p.id && GERMANY_PROVINCES_META[p.id]);
 
-  if (!meta && (id.includes('KONIGSBERG') || (p.CNTR_ID && p.CNTR_ID.includes('KONIGSBERG')) || (p.NAME && p.NAME.includes('Königsberg')))) {
+  if (!meta && (cleanId.includes('KONIGSBERG') || (p.CNTR_ID && String(p.CNTR_ID).includes('KONIGSBERG')) || (p.NAME && String(p.NAME).includes('Königsberg')))) {
     meta = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
   }
 
   if (!meta) {
     const rawName = p.HISTORICAL_NAME || p.NUTS_NAME || p.NAME_LATN || 'Deutschland';
+    if (step >= 18) {
+      return makeResult('USA', `${rawName} (Amministrazione Alleata)`, 'Territorio tedesco sotto autorità quadripartita postbellica.', 'Alleati', 'Allied Control Council');
+    }
     return makeResult(
       'GER',
       rawName,
@@ -8154,176 +8482,148 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     );
   }
 
-  let note = meta.notes.s0_1;
-  if (step >= 2 && step <= 4) {
-    note = meta.notes.s2_4;
-  } else if (step === 5) {
-    note = meta.notes.s5;
-  } else if (step >= 6 && step <= 7) {
-    note = meta.notes.s6_7;
-  } else if (step >= 8) {
-    note = meta.notes.s8;
-  }
-
+  const temporalGau = getTemporalGau(meta.gau, step);
   const nationalEntity = step === 0 ? 'Deutsches Reich' : 'Großdeutsches Reich';
-  const adminEntity = `${meta.gau} — ${meta.land} (${nationalEntity})`;
+  const adminEntity = `${temporalGau} — ${meta.land} (${nationalEntity})`;
 
-  // Step 17: Aprile 1945 — Crollo del Terzo Reich, Giunzione a Torgau, Sacca della Ruhr e Battaglia di Berlino
-  if (step === 17) {
-    const cleanId = String(id).toUpperCase().trim();
-    const nrm = (cleanId + ' ' + (meta.nutsName || '') + ' ' + (meta.modernName || '')).toLowerCase();
-
-    if (cleanId === 'DED51' || nrm.includes('leipzig') || nrm.includes('torgau')) {
-      return makeResult(
-        'USA',
-        'Leipzig (Torgau — Giunzione sull\'Elba tra 1ª Armata USA e 1° Fronte Ucraino Sovietico)',
-        'Il 25 aprile 1945 a Torgau sul fiume Elba (a nord-est di Lipsia), le truppe della 69ª Divisione di Fanteria della 1ª Armata USA del generale Courtney Hodges si congiungono con la 58ª Divisione Fucilieri Guardie dell\'Armata Rossa, spezzando in due il territorio del Reich.',
-        'Alleati',
-        'First United States Army / 12th Army Group (Gen. Courtney Hodges)'
-      );
-    }
-
-    if (cleanId === 'DE300' || nrm.includes('berlin')) {
-      return makeResult(
-        'SOV',
-        'Berlin (Battaglia di Berlino — Assalto Finale al Reichstag & Führerbunker)',
-        'Aprile 1945: l\'Armata Rossa sovietica (1° Fronte Bielorusso di Žukov e 1° Fronte Ucraino di Konev) circonda la capitale del Reich e sferra l\'assalto urbano finale conquistando il Reichstag.',
-        'Comintern',
-        '1° Fronte Bielorusso dell\'Armata Rossa (Maresciallo Georgij Žukov)'
-      );
-    }
-
-    if (cleanId === 'DEA12' || cleanId === 'DEA11' || cleanId === 'DEA23' || nrm.includes('duisburg') || nrm.includes('ruhr') || nrm.includes('essen')) {
-      return makeResult(
-        'USA',
-        'Ruhr (Sacca della Ruhr Cancellata — 1ª e 9ª Armata USA)',
-        'Aprile 1945: le forze statunitensi liquidano la Sacca della Ruhr catturando oltre 317.000 prigionieri della Wehrmacht (Heeresgruppe B del feldmaresciallo Walter Model).',
-        'Alleati',
-        'Ninth / First United States Army'
-      );
-    }
-
-    if (cleanId === 'DE212' || cleanId === 'DE254' || nrm.includes('munchen') || nrm.includes('munich') || nrm.includes('nurnberg')) {
-      return makeResult(
-        'USA',
-        'München (Baviera Liberata — 7ª Armata USA)',
-        'Avanzata della 7ª Armata statunitense in Baviera e liberazione di Monaco e Norimberga.',
-        'Alleati',
-        'Seventh United States Army (Lt. Gen. Alexander Patch)'
-      );
-    }
-
-    if (cleanId === 'DE111' || nrm.includes('stuttgart')) {
-      return makeResult(
-        'FRA',
-        'Stuttgart (Baden-Württemberg — 1ª Armata Francese Rhin et Danube)',
-        'La 1ª Armata francese del generale Jean de Lattre de Tassigny espugna Stoccarda e libera il Baden-Württemberg.',
-        'Alleati',
-        '1ère Armée Française (Général de Lattre de Tassigny)'
-      );
-    }
-
-    if (cleanId === 'DE600' || nrm.includes('hamburg')) {
-      return makeResult(
-        'GER',
-        'Hamburg (Festung Hamburg — Wehrmacht)',
-        'Amburgo rimane presidiata dalla Wehrmacht fino alla capitolazione di Lüneburg.',
-        'Asse',
-        'Wehrmacht — Festung Hamburg'
-      );
-    }
-
-    if (cleanId === 'DEF02' || cleanId.startsWith('DEF') || nrm.includes('kiel')) {
-      return makeResult(
-        'GER',
-        'Kiel (Schleswig-Holstein — Presidio della Wehrmacht)',
-        'Roccaforte settentrionale e base navale della Kriegsmarine.',
-        'Asse',
-        'Kriegsmarine / Wehrmacht'
-      );
-    }
-
-    if (cleanId === 'LV003' || nrm.includes('kurzem') || nrm.includes('curlandia')) {
-      return makeResult(
-        'GER',
-        'Kurzeme (Sacca di Curlandia — Heeresgruppe Kurland)',
-        'Heeresgruppe Kurland isolato nella penisola di Curlandia.',
-        'Asse',
-        'Wehrmacht — Heeresgruppe Kurland'
-      );
-    }
-
-    if (cleanId === 'PL514' || nrm.includes('breslau') || nrm.includes('wroclaw')) {
-      return makeResult(
-        'GER',
-        'Festung Breslau (Breslavia — Wehrmacht)',
-        'Fortezza di Breslavia assediata dall\'Armata Rossa fino al 6 maggio 1945.',
-        'Asse',
-        'Wehrmacht — Festung Breslau'
-      );
-    }
+  // Step 16 (Dicembre 1944): Caduta di Aquisgrana (21 ottobre 1944) alla 1ª Armata USA
+  if (step === 16 && cleanId === 'DEA2D') {
+    return makeResult(
+      'USA',
+      'Aachen (Prima Grande Città Tedesca Espugnata dagli Alleati — 21 Ottobre 1944)',
+      'Il 21 ottobre 1944 la 1ª Divisione di Fanteria USA (First US Army) espugna Aquisgrana dopo feroci combattimenti urbani lungo la Linea Sigfrido; nel dicembre 1944 l\'area funge da retrovia immediata nella Battaglia dell\'Hürtgenwald e delle Ardenne.',
+      'Alleati',
+      'First United States Army — SHAEF Military Government Aachen'
+    );
   }
 
-  // Step 18-19: Settembre 1945 – Settembre 1947 — Germania Quadripartita (Potsdam), Bizona & Saarland
+  // Step 17: Aprile 1945 — Crollo del Terzo Reich su tutti i 403 distretti DE*
+  if (step === 17) {
+    return resolveStep17Collapse(cleanId, meta);
+  }
+
+  // Step 18-23: Settembre 1945 – Giugno 1949 — Germania Quadripartita, Trizona, RFT/BRD (23 Maggio 1949), Saarland & SBZ
   if (step >= 18) {
-    const cleanId = String(id).toUpperCase().trim();
     const nrm = (cleanId + ' ' + (meta.nutsName || '') + ' ' + (meta.modernName || '')).toLowerCase();
     const label = meta.nutsName || meta.modernName || 'Deutschland';
     const isStep19 = step >= 19;
+    const isStep20 = step >= 20;
+    const isStep21 = step >= 21;
+    const isStep22 = step >= 22;
+    const isStep23 = step >= 23;
+    const isStep24 = step >= 24;
 
     // 1. Königsberg / Kaliningrad (annessa all'URSS — RSFSR)
     if (cleanId === 'DE_HIST_KONIGSBERG' || nrm.includes('konigsberg') || nrm.includes('kaliningrad')) {
       return makeResult(
         'SOV',
-        'Königsberg (Kaliningrad — Annessione Sovietica)',
-        isStep19
-          ? 'Kaliningradskaya Oblast (RSFSR / URSS): città e Prussia Orientale settentrionale interamente integrate nell\'Unione Sovietica secondo gli accordi di Potsdam.'
-          : 'Città e distretto settentrionale della Prussia Orientale annessi all\'URSS.',
+        isStep20
+          ? 'Kaliningrad (Oblast\' di Kaliningrad — RSFSR, Dic. 1947)'
+          : isStep19
+          ? 'Kaliningrad (Kaliningradskaya Oblast\' — RSFSR / URSS, 1947)'
+          : 'Königsberg (Kaliningrad — Annessione Sovietica, Potsdam 1945)',
+        isStep20
+          ? 'Dicembre 1947 (Kaliningradskaya Oblast\', RSFSR): fase conclusiva dell\'espulsione dei tedeschi residui verso la Zona Sovietica in Germania (1947-48), riforma monetaria del 14-16 dicembre e potenziamento navale di Baltijsk.'
+          : isStep19
+          ? 'Settembre 1947 (Kaliningradskaya Oblast\', RSFSR / URSS): istituita nell\'aprile-luglio 1946 dopo la morte di Michail Kalinin; ricostruzione dei cantieri Yantar e insediamento di coloni da Russia e Bielorussia nel Quarto Piano Quinquennale.'
+          : 'Settembre 1945: il settore settentrionale della regione storica di Königsberg è assegnato all\'URSS dagli accordi di Potsdam sotto amministrazione speciale della RSFSR.',
         'Comintern',
-        'SSSR — Kaliningrad'
+        isStep19 ? 'Kaliningradskij Oblispolkom — RSFSR (URSS)' : 'URSS — Amministrazione Speciale di Königsberg (RSFSR)'
       );
     }
 
-    // 2. Berlino Partita: DE300_WEST (Settori Occidentali USA/UK/FRA), DE300_EAST (Settore Sovietico), più fallback DE300
-    if (cleanId === 'DE300_WEST' || (nrm.includes('west-berlin') || nrm.includes('berlino ovest'))) {
+    // 2. Berlino Partita: DE300_WEST, DE300_EAST e DE300
+    if (cleanId === 'DE300_WEST' || nrm.includes('west-berlin') || nrm.includes('berlino ovest')) {
       return makeResult(
-        'USA',
-        isStep19
+        isStep23 ? 'BRD' : 'USA',
+        isStep24
+          ? 'West-Berlin (Associata alla RFT di Adenauer · Status Quadripartito & AHK, Dicembre 1949)'
+          : isStep23
+          ? 'West-Berlin (Fine del Blocco Sovietico, 12 Maggio 1949 — Associata alla RFT sotto Status Quadripartito)'
+          : isStep22
+          ? 'West-Berlin (Scissione Municipale del 5 Dicembre 1948 — Blocco Sovietico & Ponte Aereo Invernale)'
+          : isStep21
+          ? 'West-Berlin (Blocco di Berlino del 24 Giugno 1948 & Ponte Aereo Alleato / Berliner Luftbrücke)'
+          : isStep19
           ? 'West-Berlin (Settori Occidentali — USA, Regno Unito, Francia)'
           : 'West-Berlin (Settori Occidentali Alleati — Kommandatura Tripartita)',
-        isStep19
-          ? 'Settori americano (Kreuzberg, Neukölln, Tempelhof, Schöneberg, Steglitz, Zehlendorf), britannico (Tiergarten, Charlottenburg, Wilmersdorf, Spandau) e francese (Wedding, Reinickendorf) presidiati dalle potenze occidentali al cuore della Zona Sovietica.'
-          : 'Dall\'estate 1945 i settori occidentali di Berlino sono presidiati congiuntamente da USA, Regno Unito e Francia sotto il coordinamento dell\'Alliierte Kommandantur.',
+        isStep24
+          ? 'Al 31 dicembre 1949: Berlino Ovest (sindaco Ernst Reuter) invia deputati senza diritto di voto al Bundestag di Bonn e si coordina economicamente con la Repubblica Federale Tedesca di Konrad Adenauer (Accordi del Petersberg), pur rimanendo sotto l\'autorità di riserva dell\'Alta Commissione Alleata (AHK) dopo la conclusione ufficiale del Ponte Aereo Alleato il 30 settembre 1949.'
+          : isStep23
+          ? 'Al 30 giugno 1949: il 12 maggio 1949 l\'URSS ha revocato il Blocco terrestre di Berlino (il Ponte Aereo Alleato resta attivo per accumulo di scorte fino a settembre). Sotto il sindaco Ernst Reuter, Berlino Ovest è associata alla neonata Repubblica Federale Tedesca (inviando osservatori non votanti a Bonn), ma la clausola alleata di riserva del 12 maggio (Berlin-Vorbehalt) ne sospende la piena adesione federale mantenendo lo status speciale sotto la Kommandatura Tripartita.'
+          : isStep22
+          ? 'Al 31 dicembre 1948 la divisione municipale di Berlino è consumata: dopo la creazione di un Magistrat separato nel settore sovietico (30 novembre), il 5 dicembre i settori occidentali eleggono Ernst Reuter sindaco di Berlino Ovest mentre prosegue il Ponte Aereo invernale su Tempelhof, Gatow e Tegel.'
+          : isStep21
+          ? 'Dopo il cambio monetario del Deutsche Mark, dal 24 giugno 1948 l\'URSS blocca gli accessi terrestri e fluviali a Berlino Ovest (Blocco di Berlino); dal 26 giugno il generale Lucius D. Clay dirige il Ponte Aereo Alleato (Berliner Luftbrücke / Operation Vittles & Plainfare).'
+          : isStep19
+          ? 'Settori americano, britannico e francese di Berlino presidiati dalle potenze occidentali al centro della Zona Sovietica.'
+          : 'Dall\'estate 1945 i settori occidentali di Berlino sono presidiati congiuntamente da USA, Regno Unito e Francia sotto l\'Alliierte Kommandantur.',
         'Alleati',
-        'Allied Kommandatura — Western Sectors (US, British, French Military Governments)'
+        isStep24
+          ? 'Senato West-Berlin (Ernst Reuter) · Associata RFT (AHK · Fine Luftbrücke 30 Sett 1949)'
+          : isStep23
+          ? 'Senato/Magistrat West-Berlin (Ernst Reuter) · Associata RFT (Berlin-Vorbehalt 12 Mag 1949 · Alliierte Kommandantur Tripartita)'
+          : isStep22
+          ? 'Allied Kommandatura Tripartita — West-Berlin (Sindaco Ernst Reuter, 5 Dic 1948 · Ponte Aereo Invernale)'
+          : isStep21
+          ? 'Allied Kommandatura — Western Sectors under Soviet Blockade (Berliner Luftbrücke / Operation Vittles, 26 June 1948)'
+          : 'Allied Kommandatura — Western Sectors (US, British, French Military Governments)'
       );
     }
 
     if (cleanId === 'DE300_EAST' || nrm.includes('hauptstadt der ddr') || nrm.includes('ost-berlin') || nrm.includes('berlino est')) {
       return makeResult(
-        'SOV',
-        isStep19
+        isStep24 ? 'DDR' : 'SOV',
+        isStep24
+          ? 'Ost-Berlin (Capitale della Repubblica Democratica Tedesca — RDT / DDR, 7 Ottobre 1949)'
+          : isStep23
+          ? 'Ost-Berlin (Fine Blocco di Berlino 12 Maggio 1949 — Settore Sovietico SMAD & Magistrat SED, Pre-RDT)'
+          : isStep22
+          ? 'Ost-Berlin (Magistrat Separato SED del 30 Novembre 1948 — Settore Sovietico SMAD & Blocco)'
+          : isStep21
+          ? 'Ost-Berlin (Settore Sovietico SMAD — Riforma dell\'Ostmark e Blocco di Berlino Ovest, Giugno 1948)'
+          : isStep19
           ? 'Ost-Berlin (Settore di Occupazione Sovietico — SMAD)'
           : 'Ost-Berlin (Settore Sovietico — Kommandatura Interalleata)',
-        isStep19
-          ? 'Settore orientale di Berlino (Mitte, Prenzlauer Berg, Friedrichshain, Treptow, Köpenick, Lichtenberg, Weißensee, Pankow) sotto Amministrazione Militare Sovietica (SMAD).'
-          : 'Settore orientale di Berlino sotto controllo sovietico della SMAD nell\'ambito della Kommandatura quadrigemina.',
+        isStep24
+          ? 'Al 31 dicembre 1949: il 7 ottobre 1949 viene proclamata a Berlino Est la Repubblica Democratica Tedesca (RDT / DDR) con Ost-Berlin designata capitale dello Stato socialista (Presidente Wilhelm Pieck, Primo Ministro Otto Grotewohl, Segretario SED Walter Ulbricht e sindaco Friedrich Ebert Jr.), mentre l\'URSS istituisce la Commissione di Controllo Sovietica (SKK) guidata dal gen. Vasilij Čujkov.'
+          : isStep23
+          ? 'Al 30 giugno 1949, revocato il Blocco terrestre di Berlino (12 maggio 1949), Berlino Est resta sotto amministrazione militare sovietica (SMAD del Gen. Vasilij Čujkov / SBZ) e Magistrat SED di Friedrich Ebert Jr., mentre il 3° Congresso Popolare (maggio 1949) approva il progetto costituzionale della futura RDT (che sarà proclamata solo il 7 ottobre 1949).'
+          : isStep22
+          ? 'Il 30 novembre 1948 la SED insedia nel settore sovietico un Magistrat municipale separato guidato da Friedrich Ebert Jr., consumando la spaccatura amministrativa della città mentre la SMAD mantiene il blocco verso Berlino Ovest (nessuna RDT prima dell\'ottobre 1949).'
+          : isStep21
+          ? 'Dopo il ritiro sovietico dalla Kommandatura (16 giugno 1948), il maresciallo Sokolovskij introduce l\'Ostmark il 23-24 giugno e impone il blocco attorno a Berlino Ovest.'
+          : isStep19
+          ? 'Settore orientale di Berlino sotto Amministrazione Militare Sovietica (SMAD).'
+          : 'Settore orientale di Berlino sotto controllo sovietico della SMAD nella Kommandatura quadrigemina.',
         isStep19 ? 'Comintern' : 'Alleati',
-        'Sowjetische Militäradministration in Deutschland (SMAD — Sowjetischer Sektor)'
+        isStep24
+          ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (Wilhelm Pieck · Otto Grotewohl · SKK, 7 Ott 1949)'
+          : isStep23
+          ? 'Sowjetische Militäradministration (SMAD / SBZ) & Magistrat Ost-Berlin (Giugno 1949 · Pre-RDT)'
+          : isStep22
+          ? 'Sowjetische Militäradministration (SMAD) & Magistrat SED (Friedrich Ebert Jr., 30 Nov 1948)'
+          : 'Sowjetische Militäradministration in Deutschland (SMAD — Sowjetischer Sektor)'
       );
     }
 
     if (cleanId === 'DE300' || nrm.includes('berlin')) {
       return makeResult(
-        'SOV',
-        'Groß-Berlin (Settore di Occupazione Sovietica & Autorità Quadripartita Kommandatura)',
-        'Berlino quadripartita retta dalla Kommandatura interalleata.',
-        'Alleati',
-        'Amministrazione Militare Sovietica in Germania (SMAD / Kommandatura)'
+        isStep24 ? 'DDR' : 'SOV',
+        isStep24
+          ? 'Berlin (Capitale della Repubblica Democratica Tedesca a Est · Quadripartita, Dicembre 1949)'
+          : 'Groß-Berlin (Settore di Occupazione Sovietica & Autorità Quadripartita Kommandatura)',
+        isStep24
+          ? 'Al 31 dicembre 1949 Ost-Berlin è capitale della neonata Repubblica Democratica Tedesca (RDT / DDR, 7 ottobre 1949), mentre Berlino Ovest è associata alla RFT sotto status quadripartito.'
+          : 'Berlino quadripartita retta dalla Kommandatura interalleata.',
+        isStep24 ? 'Comintern' : 'Alleati',
+        isStep24
+          ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (RDT / SKK, Dic 1949)'
+          : 'Amministrazione Militare Sovietica in Germania (SMAD / Kommandatura)'
       );
     }
 
-    // 3. Protettorato della Saar (DEC01-DEC06): GMZFO a Step 18, Protettorato economico distaccato a Step 19 (esclusa DEB25 Trier-Saarburg)
+    // 3. Protettorato della Saar (DEC01-DEC06): GMZFO a Step 18, Protettorato economico dal 1947 (esclusa DEB25 Trier-Saarburg)
     const isSaarDistrict =
       (cleanId.startsWith('DEC') || nrm.includes('saar')) &&
       cleanId !== 'DEB25' &&
@@ -8335,10 +8635,26 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
         const saarLabel = isSaarlouis ? 'Saarlouis' : cleanId === 'DEC01' || nrm.includes('saarbrucken') ? 'Saarbrücken' : label;
         return makeResult(
           'SAAR',
-          `${saarLabel} (Protettorato della Saar — Unione Economica con la Francia)`,
-          'Il Protettorato della Saar viene formalmente distaccato dalla Germania occupata con l\'introduzione del Marco della Saar e l\'unione economica e doganale con la Francia di Monnet.',
+          isStep23
+            ? `${saarLabel} (Protettorato della Saar — Separata dalla RFT · Unione Economica con la Francia, Giugno 1949)`
+            : isStep21
+            ? `${saarLabel} (Protettorato della Saar — Unione Doganale & Monetaria con la Francia, 1948)`
+            : isStep20
+            ? `${saarLabel} (Protettorato della Saar — Costituzione Autonoma del 15 Dicembre 1947 & Unione Economica Francese)`
+            : `${saarLabel} (Protettorato della Saar — Unione Economica con la Francia)`,
+          isStep23
+            ? 'Al 30 giugno 1949 il Protettorato autonomo della Saar (Ministro-Presidente Johannes Hoffmann, CVP · Alto Commissario francese Gilbert Grandval) resta formalmente escluso dalla Repubblica Federale Tedesca e non sottoscrive la Legge Fondamentale del 23 maggio 1949, conservando l\'unione economica, doganale e monetaria con la Francia.'
+            : isStep21
+            ? 'Dal 1° aprile 1948 si perfeziona l\'unione doganale ed economica completa con la Francia sotto l\'Alto Commissario Gilbert Grandval e il governo autonomo del Ministro-Presidente Johannes Hoffmann (CVP), mentre nella Saar circola il Franco francese.'
+            : isStep20
+            ? 'Il 15 dicembre 1947 entra in vigore la Costituzione del Saarland (Verfassung des Saarlandes), che sancisce l\'autonomia politica del Protettorato sotto Johannes Hoffmann (CVP), l\'unione economica e monetaria con la Francia (Franco della Saar) e la bandiera a croce nordica.'
+            : 'Il Protettorato della Saar è formalmente distaccato dalla Germania occupata con l\'unione economica e doganale con la Francia.',
           'Neutrale',
-          'Protectorat de la Sarre — Haut-Commissaire Gilbert Grandval'
+          isStep23
+            ? 'Saarland (Protectorat de la Sarre — Autonoma dalla RFT · MP Johannes Hoffmann & Haut-Commissaire Gilbert Grandval, Giu 1949)'
+            : isStep20
+            ? 'Saarland (Protectorat de la Sarre — Ministerpräsident Johannes Hoffmann & Haut-Commissaire Gilbert Grandval)'
+            : 'Protectorat de la Sarre — Haut-Commissaire Gilbert Grandval'
         );
       }
       return makeResult(
@@ -8352,102 +8668,146 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
 
     if (cleanId === 'DEB25' || nrm.includes('trier-saarburg')) {
       return makeResult(
-        'FRA',
-        'Trier-Saarburg (Renania-Palatinato — Zona di Occupazione Francese GMZFO)',
-        'Distretto della Renania-Palatinato nella zona di occupazione militare francese (GMZFO), mantenuto separato dal vicino Protettorato della Saar.',
+        isStep23 ? 'BRD' : 'FRA',
+        isStep23
+          ? 'Trier-Saarburg (Rheinland-Pfalz — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)'
+          : 'Trier-Saarburg (Rheinland-Pfalz — Zona di Occupazione Francese GMZFO)',
+        isStep23
+          ? 'Con la promulgazione della Legge Fondamentale (23 maggio 1949), Trier-Saarburg entra nella Repubblica Federale Tedesca (RFT) restando distinto dal vicino Protettorato autonomo della Saar (che rimane separato in unione economica con la Francia).'
+          : 'Distretto della Renania-Palatinato nella zona francese (GMZFO), mantenuto separato dal vicino Protettorato della Saar.',
         'Alleati',
-        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
+        isStep23
+          ? 'Bundesrepublik Deutschland (Rheinland-Pfalz · RFT · Governatori Militari Alleati / Pre-Elezioni 14 Ago 1949)'
+          : 'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Rheinland-Pfalz)'
       );
     }
 
-    // 4. Eccezioni speciali del Sud-Ovest: Corridoio di Lindau (FRA), HQ Baden-Baden (FRA) e Ulm/Alb-Donau (USA)
+    // 4. Eccezioni speciali Sud-Ovest e Brema
     if (cleanId === 'DE27A' || nrm.includes('lindau')) {
       return makeResult(
-        'FRA',
-        'Lindau (Bodensee — Corridoio Francese di Collegamento con il Vorarlberg)',
-        'Distretto bavarese di Lindau assegnato alla Zona Francese per garantire la continuità territoriale fra il Württemberg-Hohenzollern e il Vorarlberg austriaco.',
+        isStep23 ? 'BRD' : 'FRA',
+        isStep23
+          ? 'Lindau (Bodensee — Repubblica Federale Tedesca RFT / BRD, Amministrazione Speciale Francese)'
+          : 'Lindau (Bodensee — Corridoio Francese di Collegamento con il Vorarlberg)',
+        isStep23
+          ? 'Dal 23 maggio 1949 il distretto bavarese di Lindau entra nell\'ambito costituzionale della Repubblica Federale Tedesca (Legge Fondamentale di Bonn) pur conservando transitoriamente uno statuto amministrativo speciale sotto controllo francese lungo il corridoio verso il Vorarlberg austriaco.'
+          : 'Distretto bavarese di Lindau assegnato alla Zona Francese per garantire continuità territoriale fra Württemberg-Hohenzollern e Vorarlberg austriaco.',
         'Alleati',
-        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
+        isStep23
+          ? 'Bundesrepublik Deutschland (Kreis Lindau · RFT · Amministrazione Transitoria GMZFO)'
+          : 'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Kreis Lindau)'
       );
     }
 
     if (cleanId === 'DE121' || nrm.includes('baden-baden')) {
       return makeResult(
-        'FRA',
-        'Baden-Baden (Quartier Generale della Zona di Occupazione Francese GMZFO)',
-        isStep19
-          ? 'Sede centrale del Governatore Militare francese Pierre Kœnig e della GMZFO, ancora esterna alla Bizona anglo-americana al settembre 1947.'
-          : 'Sede del Governatore Militare francese generale Pierre Kœnig.',
+        isStep23 ? 'BRD' : 'FRA',
+        isStep23
+          ? 'Baden-Baden (Baden — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)'
+          : isStep21
+          ? 'Baden-Baden (HQ GMZFO — Trizona Economica & Riforma del Deutsche Mark)'
+          : 'Baden-Baden (Quartier Generale della Zona di Occupazione Francese GMZFO)',
+        isStep23
+          ? 'Con la Legge Fondamentale di Bonn (23 maggio 1949), Baden-Baden entra nella Repubblica Federale Tedesca (Land Baden), continuando a ospitare il comando GMZFO del generale Pierre Kœnig fino alla formazione del governo federale dopo le elezioni del 14 agosto 1949 (quando entrerà in funzione l\'Alta Commissione Alleata a settembre).'
+          : isStep21
+          ? 'Sede del Governatore Militare francese gen. Pierre Kœnig: con gli Accordi di Londra del giugno 1948 e il Deutsche Mark (20 giugno), la GMZFO si integra economicamente nella Trizona.'
+          : 'Sede centrale del Governatore Militare francese generale Pierre Kœnig a Baden-Baden (Baden / Südbaden).',
         'Alleati',
-        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Gen. Pierre Kœnig)'
+        isStep23
+          ? 'Bundesrepublik Deutschland (Baden · RFT · Governatori Militari Alleati / Pre-Elezioni Ago 1949)'
+          : 'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Gen. Pierre Kœnig)'
       );
     }
 
     if (cleanId === 'DE144' || nrm.includes('ulm, stadtkreis')) {
       return makeResult(
-        'USA',
-        isStep19 ? 'Ulm (Zona Statunitense OMGUS — Bizona / Württemberg-Baden)' : 'Ulm (Zona di Occupazione Statunitense — Württemberg-Baden)',
-        isStep19
+        isStep23 ? 'BRD' : 'USA',
+        isStep23
+          ? 'Ulm (Württemberg-Baden — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)'
+          : isStep21
+          ? 'Ulm (Württemberg-Baden — Zona OMGUS / Trizona & Deutsche Mark)'
+          : isStep19
+          ? 'Ulm (Zona Statunitense OMGUS — Bizona / Württemberg-Baden)'
+          : 'Ulm (Zona di Occupazione Statunitense — Württemberg-Baden)',
+        isStep23
+          ? 'Dal 23 maggio 1949 Ulm (Württemberg-Baden, ex zona statunitense OMGUS) entra nella Repubblica Federale Tedesca con la Legge Fondamentale di Bonn, in attesa delle prime elezioni del Bundestag (14 agosto 1949) sotto tutela dei Governatori Militari Alleati.'
+          : isStep21
+          ? 'Città strategica lungo l\'Autobahn A8 nel Land Württemberg-Baden integrata nella Trizona e nel Consiglio Parlamentare di Bonn.'
+          : isStep19
           ? 'Distretto strategico lungo l\'autostrada A8 nel Württemberg-Baden statunitense integrato nella Bizona economica (Vereinigtes Wirtschaftsgebiet).'
           : 'Distretto a sud dell\'autostrada A8 assegnato alla Zona di Occupazione USA.',
         'Alleati',
-        'Office of Military Government, United States (OMGUS)'
+        isStep23
+          ? 'Bundesrepublik Deutschland (Württemberg-Baden · RFT · Governatori Militari Alleati / Pre-Elezioni Ago 1949)'
+          : 'Office of Military Government, United States (OMGUS — Württemberg-Baden)'
       );
     }
 
-    // 5. Enclave portuale statunitense di Brema / Bremerhaven nella Zona Britannica
     if (cleanId === 'DE501' || cleanId === 'DE502' || cleanId.startsWith('DE5') || nrm.includes('bremen') || nrm.includes('bremerhaven')) {
       return makeResult(
-        'USA',
-        isStep19
+        isStep23 ? 'BRD' : 'USA',
+        isStep23
+          ? `Brema — ${label} (Land Bremen · Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
+          : isStep21
+          ? `Brema — ${label} (Land Bremen · Enclave OMGUS nella Trizona)`
+          : isStep19
           ? `Brema — ${label} (Enclave Portuale Statunitense OMGUS — Bizona)`
           : 'Brema (Bremen — Enclave Portuale della Zona di Occupazione Statunitense)',
-        isStep19
-          ? 'Enclave portuale di Brema e Bremerhaven costituita in Land Bremen sotto amministrazione OMGUS nella Bizona anglo-americana.'
+        isStep23
+          ? 'Con la Legge Fondamentale di Bonn (23 maggio 1949), la Città Libera Anseatica di Brema (Land Bremen) entra come Land costituente nella Repubblica Federale Tedesca, principale scalo atlantico del Piano Marshall sotto tutela dei Governatori Militari Alleati in attesa delle elezioni federali del 14 agosto 1949.'
+          : isStep21
+          ? 'Free Hanseatic City of Bremen (Land Bremen costituito il 23 gennaio 1947): sbocco marittimo strategico USA per il Piano Marshall (ERP) e i rifornimenti verso la Trizona.'
+          : isStep19
+          ? 'Enclave portuale di Brema e Bremerhaven costituita in Land Bremen nel gennaio 1947 sotto amministrazione OMGUS nella Bizona anglo-americana.'
           : 'Enclave portuale strategica di Brema e Bremerhaven assegnata all\'amministrazione USA come sbocco marittimo sul Mare del Nord.',
         'Alleati',
-        'Office of Military Government, United States (OMGUS — Bremen Enclave)'
+        isStep23
+          ? 'Bundesrepublik Deutschland (Freie Hansestadt Bremen · RFT · Governatori Militari Alleati)'
+          : 'Office of Military Government, United States (OMGUS — Land Bremen)'
       );
     }
 
-    // 6. Ripartizione storica del Baden-Württemberg lungo l'Autobahn A8 (Karlsruhe–Stuttgart–Ulm):
-    //    - USA (Württemberg-Baden): tutto DE11* (Stuttgart/Heilbronn/Ostalb), Nord-Karlsruhe/Mannheim/Heidelberg/Pforzheim (DE122, DE123, DE125..DE129, DE12B) e corridoio Danubio-A8 (DE144 Ulm, DE145 Alb-Donau-Kreis).
-    //    - FRA (Südbaden & Württemberg-Hohenzollern): DE13* (Freiburg/Konstanz/Ortenau), DE121/DE124/DE12A/DE12C (Baden-Baden, Rastatt, Calw, Freudenstadt), DE141..DE143 & DE146..DE149 (Tübingen, Reutlingen, Sigmaringen, Biberach, Ravensburg, Bodensee).
+    const landInfo = getPostwarGermanLand(cleanId, label);
     const US_BADEN_WURTT_DISTRICTS = new Set([
       'DE122', 'DE123', 'DE125', 'DE126', 'DE127', 'DE128', 'DE129', 'DE12B',
       'DE144', 'DE145',
     ]);
     const isUsBadenWurtt = cleanId.startsWith('DE11') || US_BADEN_WURTT_DISTRICTS.has(cleanId);
-    if (isUsBadenWurtt) {
+
+    // 5. Zona Francese / RFT (ex GMZFO): Rheinland-Pfalz (DEB*), Südbaden (DE13*), Württemberg-Hohenzollern
+    if (!isUsBadenWurtt && (cleanId.startsWith('DEB') || cleanId.startsWith('DE1'))) {
       return makeResult(
-        'USA',
-        isStep19
-          ? `${label} (Württemberg-Baden — Zona Statunitense OMGUS / Bizona)`
-          : `${label} (Württemberg-Baden — US Occupation Zone OMGUS)`,
-        isStep19
-          ? 'Territorio del Land Württemberg-Baden nella zona americana (fascia settentrionale dell\'Autobahn A8 Karlsruhe–Stuttgart–Ulm), parte della Bizona economica anglo-americana dal 1° gennaio 1947.'
-          : 'Territorio del Baden settentrionale e Württemberg settentrionale (a nord dell\'asse autostradale A8) assegnato alla Zona di Occupazione Statunitense (OMGUS).',
+        isStep23 ? 'BRD' : 'FRA',
+        isStep23
+          ? `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
+          : isStep22
+          ? `${label} (${landInfo.land} — Zone Française / Trizona & Consiglio di Bonn, Dicembre 1948)`
+          : isStep21
+          ? `${label} (${landInfo.land} — Zone Française / Trizona Economica & Riforma del Deutsche Mark, Giugno 1948)`
+          : isStep19
+          ? `${label} (${landInfo.land} — Zone d'Occupation Française GMZFO, fuori dalla Bizona)`
+          : `${label} (${landInfo.land} — Zone d'Occupation Française GMZFO)`,
+        isStep23
+          ? `${landInfo.detail} Con la promulgazione della Legge Fondamentale di Bonn (23 maggio 1949), i Länder dell'ex zona francese confluiscono con le zone britannica e americana nella Repubblica Federale Tedesca (RFT / BRD), preparandosi alle prime elezioni del Bundestag (14 agosto 1949) sotto tutela transitoria dei Governatori Militari Alleati (il Protettorato della Saar resta separato).`
+          : isStep22
+          ? `${landInfo.detail} Al 31 dicembre 1948 i rappresentanti del Land partecipano al Consiglio Parlamentare di Bonn (Parlamentarischer Rat sotto Konrad Adenauer) nella Trizona (nessuna RFT prima del maggio 1949).`
+          : isStep21
+          ? `${landInfo.detail} Con gli Accordi di Londra (2 giugno 1948) e l'introduzione del Deutsche Mark il 20 giugno 1948, la Zona Francese (Gen. Kœnig) entra nella Trizona economica.`
+          : isStep19
+          ? `${landInfo.detail} Territorio nella Zona di Occupazione Francese (Gen. Kœnig), ancora esterna alla Bizona anglo-americana al settembre 1947.`
+          : `${landInfo.detail} Zona di occupazione militare francese in Germania (GMZFO).`,
         'Alleati',
-        'Office of Military Government, United States (OMGUS — Württemberg-Baden)'
+        isStep23
+          ? `Bundesrepublik Deutschland (${landInfo.land} · RFT · Governatori Militari / Pre-Elezioni 14 Ago 1949)`
+          : isStep22
+          ? `GMZFO (${landInfo.land}) · Trizona & Parlamentarischer Rat di Bonn (Dic 1948)`
+          : isStep21
+          ? `GMZFO (${landInfo.land}) · Trizona & Deutsche Mark (Giugno 1948)`
+          : `Gouvernement Militaire de la Zone Française d'Occupation (GMZFO — ${landInfo.land})`
       );
     }
 
-    // 7. Zona Francese (GMZFO): tutta la Renania-Palatinato (DEB*), Südbaden (DE13*) e restanti distretti (DE121/124/12A/12C, DE14* eccetto Ulm/Alb-Donau)
-    if (cleanId.startsWith('DEB') || cleanId.startsWith('DE1')) {
-      return makeResult(
-        'FRA',
-        isStep19
-          ? `${label} (Zone d'Occupation Française — GMZFO, fuori dalla Bizona)`
-          : `${label} (Zone d'Occupation Française — GMZFO)`,
-        isStep19
-          ? 'Territorio della Renania-Palatinato, Südbaden o Württemberg-Hohenzollern nella Zona di Occupazione Francese retta dal Gen. Kœnig (ancora esterna alla Bizona anglo-americana nel settembre 1947).'
-          : 'Zona di occupazione militare francese in Germania (Renania-Palatinato, Baden meridionale e Württemberg-Hohenzollern).',
-        'Alleati',
-        'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO)'
-      );
-    }
-
-    // 8. Zona Britannica (CCG/BE): Amburgo (DE6), Nordrhein-Westfalen (DEA), Niedersachsen (DE9), Schleswig-Holstein (DEF)
+    // 6. Zona Britannica / RFT (ex CCG/BE): Hamburg (DE6), Nordrhein-Westfalen (DEA incl. Bonn DEA22), Niedersachsen (DE9), Schleswig-Holstein (DEF)
     if (
       cleanId === 'DE600' ||
       cleanId === 'DEA23' ||
@@ -8456,39 +8816,86 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
       cleanId.startsWith('DE9') ||
       cleanId.startsWith('DEF')
     ) {
+      const isBonnCapital = cleanId === 'DEA22' || nrm.includes('bonn');
       return makeResult(
-        'UK',
-        isStep19
-          ? `${label} (British Occupation Zone CCG/BE — Bizona)`
-          : `${label} (British Occupation Zone — CCG/BE)`,
-        isStep19
-          ? 'Zona di occupazione britannica in Germania (Amburgo, Schleswig-Holstein, Bassa Sassonia, Renania Settentrionale-Vestfalia e Ruhr), unita dal 1° gennaio 1947 con la zona USA nella Bizona economica (Vereinigtes Wirtschaftsgebiet).'
-          : 'Zona di occupazione britannica in Germania (Control Commission for Germany — British Element).',
+        isStep23 ? 'BRD' : 'UK',
+        isStep23
+          ? isBonnCapital
+            ? `Bonn (${landInfo.land} — Capitale Provvisoria della Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
+            : `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
+          : isStep22
+          ? `${label} (${landInfo.land} — British Zone CCG/BE / Trizona & Consiglio di Bonn, Dicembre 1948)`
+          : isStep21
+          ? `${label} (${landInfo.land} — British Zone CCG/BE / Trizona & Riforma del Deutsche Mark, Giugno 1948)`
+          : isStep19
+          ? `${label} (${landInfo.land} — British Occupation Zone CCG/BE / Bizona)`
+          : `${label} (${landInfo.land} — British Occupation Zone CCG/BE)`,
+        isStep24
+          ? isBonnCapital
+            ? `${landInfo.detail} Il 12 settembre Theodor Heuss è eletto Presidente Federale, il 15 settembre Konrad Adenauer diventa Cancelliere e il 3 novembre 1949 il Bundestag conferma definitivamente Bonn capitale provvisoria della Repubblica Federale Tedesca (Accordi del Petersberg con l'Alta Commissione Alleata AHK il 22 novembre 1949).`
+            : `${landInfo.detail} Al 31 dicembre 1949 il Land fa parte della Repubblica Federale Tedesca sotto il primo governo Adenauer (eletto dopo il voto del 14 agosto 1949) e l'Alta Commissione Alleata AHK (Statuto d'Occupazione del 21 settembre e Accordi del Petersberg del 22 novembre 1949).`
+          : isStep23
+          ? isBonnCapital
+            ? `${landInfo.detail} Il 10 maggio 1949 il Consiglio Parlamentare designa Bonn capitale provvisoria della Repubblica Federale Tedesca (preferita a Francoforte) e il 23 maggio 1949 vi promulga la Legge Fondamentale (Grundgesetz), in attesa delle prime elezioni del Bundestag (14 agosto) e dell'insediamento dell'Alta Commissione Alleata previsto a settembre.`
+            : `${landInfo.detail} Con la promulgazione della Legge Fondamentale (23 maggio 1949), i Länder dell'ex zona britannica si uniscono alle zone USA e francese nella Repubblica Federale Tedesca (capitale provvisoria Bonn), sotto tutela transitoria dei Governatori Militari Alleati in attesa delle elezioni del 14 agosto 1949.`
+          : isStep22
+          ? `${landInfo.detail} Al 31 dicembre 1948 a Bonn si redige la Legge Fondamentale e il 28 dicembre è firmato lo Statuto della Ruhr, sotto autorità militare della Trizona (nessuna RFT prima del maggio 1949).`
+          : isStep21
+          ? `${landInfo.detail} Con gli Accordi di Londra (2 giugno) e il Marco Tedesco (Deutsche Mark, 20 giugno 1948), la zona britannica (gen. Brian Robertson) salda la Bizona nella Trizona.`
+          : isStep19
+          ? `${landInfo.detail} Integrata dal 1° gennaio 1947 con la zona statunitense nella Bizona economica (Vereinigtes Wirtschaftsgebiet).`
+          : `${landInfo.detail} Zona di occupazione britannica in Germania (Control Commission for Germany — British Element).`,
         'Alleati',
-        isStep19
-          ? 'Control Commission for Germany — British Element (CCG/BE · Bizona Anglo-Americana)'
-          : 'Control Commission for Germany — British Element (CCG/BE)'
+        isStep23
+          ? `Bundesrepublik Deutschland (${landInfo.land}${isBonnCapital ? ' · Capitale Provvisoria Bonn' : ''} · Governatori Militari / Pre-Elezioni 14 Ago 1949)`
+          : isStep22
+          ? `Control Commission for Germany — British Element (${landInfo.land} · Trizona & Bonn, Dic 1948)`
+          : isStep21
+          ? `Control Commission for Germany — British Element (${landInfo.land} · Trizona & Deutsche Mark, Giugno 1948)`
+          : isStep19
+          ? `Control Commission for Germany — British Element (${landInfo.land} · Bizona Anglo-Americana)`
+          : `Control Commission for Germany — British Element (CCG/BE — ${landInfo.land})`
       );
     }
 
-    // 9. Zona Statunitense (OMGUS): Baviera (DE2*, esclusa Lindau già gestita) & Assia (DE7*)
-    if (cleanId === 'DE212' || cleanId.startsWith('DE2') || cleanId.startsWith('DE7')) {
+    // 7. Zona Statunitense / RFT (ex OMGUS): Bayern (DE2*), Hessen (DE7*), Württemberg-Baden (DE11* & A8)
+    if (cleanId === 'DE212' || cleanId.startsWith('DE2') || cleanId.startsWith('DE7') || isUsBadenWurtt) {
       return makeResult(
-        'USA',
-        isStep19
-          ? `${label} (US Occupation Zone OMGUS — Bizona)`
-          : `${label} (US Occupation Zone — OMGUS)`,
-        isStep19
-          ? 'Zona di occupazione statunitense in Germania (Baviera ed Assia con sede del Wirtschaftsrat a Francoforte sul Meno), fusa con la zona britannica nella Bizona dal 1° gennaio 1947.'
-          : 'Zona di occupazione statunitense in Germania (OMGUS).',
+        isStep23 ? 'BRD' : 'USA',
+        isStep23
+          ? `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
+          : isStep22
+          ? `${label} (${landInfo.land} — US Zone OMGUS / Trizona, Bonn & Ponte Aereo, Dicembre 1948)`
+          : isStep21
+          ? `${label} (${landInfo.land} — US Zone OMGUS / Trizona & Riforma del Deutsche Mark, Giugno 1948)`
+          : isStep19
+          ? `${label} (${landInfo.land} — US Occupation Zone OMGUS / Bizona)`
+          : `${label} (${landInfo.land} — US Occupation Zone OMGUS)`,
+        isStep23
+          ? `${landInfo.detail} Con la promulgazione della Legge Fondamentale (Grundgesetz) il 23 maggio 1949, i Länder dell'ex zona statunitense si fondono con le zone britannica e francese nella Repubblica Federale Tedesca (capitale provvisoria Bonn), preparando le elezioni federali del 14 agosto 1949 sotto i Governatori Militari Alleati in attesa dell'entrata in vigore dello Statuto d'Occupazione a settembre.`
+          : isStep22
+          ? `${landInfo.detail} Al 31 dicembre 1948 gli aeroporti dell'OMGUS alimentano il Ponte Aereo invernale verso Berlino Ovest mentre i Länder redigono a Bonn la Legge Fondamentale nella Trizona (nessuna RFT ancora istituita).`
+          : isStep21
+          ? `${landInfo.detail} Dopo gli Accordi di Londra (2 giugno 1948) e l'introduzione del Deutsche Mark di Ludwig Erhard (20 giugno), i Länder OMGUS (gen. Lucius D. Clay) formano con UK e Francia la Trizona e lanciano il Ponte Aereo per Berlino (26 giugno).`
+          : isStep19
+          ? `${landInfo.detail} Parte del Consiglio Economico di Francoforte (Wirtschaftsrat) nella Bizona anglo-americana istituita il 1° gennaio 1947.`
+          : `${landInfo.detail} Zona di occupazione statunitense in Germania (OMGUS).`,
         'Alleati',
-        isStep19
-          ? 'Office of Military Government, United States (OMGUS · Bizona Anglo-Americana)'
-          : 'Office of Military Government, United States (OMGUS)'
+        isStep24
+          ? `Bundesrepublik Deutschland (${landInfo.land} · Governo Adenauer & AHK · Accordi Petersberg, Dic 1949)`
+          : isStep23
+          ? `Bundesrepublik Deutschland (${landInfo.land} · Governatori Militari / Pre-Elezioni 14 Ago 1949)`
+          : isStep22
+          ? `Office of Military Government, United States (${landInfo.land} · Trizona, Ponte Aereo & Bonn, Dic 1948)`
+          : isStep21
+          ? `Office of Military Government, United States (${landInfo.land} · Trizona & Deutsche Mark, Giugno 1948)`
+          : isStep19
+          ? `Office of Military Government, United States (${landInfo.land} · Bizona Anglo-Americana)`
+          : `Office of Military Government, United States (OMGUS — ${landInfo.land})`
       );
     }
 
-    // 10. Zona Sovietica (SBZ / SMAD): Brandeburgo (DE4), Meclemburgo-Pomerania Anteriore (DE8), Sassonia (DED), Sassonia-Anhalt (DEE), Turingia (DEG)
+    // 8. Zona Sovietica (SBZ / SMAD) -> Repubblica Democratica Tedesca (RDT / DDR dal 7 Ottobre 1949): Brandenburg (DE4), Mecklenburg-Vorpommern (DE8), Sachsen (DED), Sachsen-Anhalt (DEE), Thüringen (DEG)
     if (
       cleanId === 'DED21' ||
       cleanId.startsWith('DE4') ||
@@ -8498,19 +8905,55 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
       cleanId.startsWith('DEG')
     ) {
       return makeResult(
-        'SOV',
-        isStep19
-          ? `${label} (Sowjetische Besatzungszone SBZ — SMAD / DWK)`
-          : `${label} (Sowjetische Besatzungszone — SBZ)`,
-        isStep19
-          ? 'Zona di occupazione sovietica in Germania (SMAD e Deutsche Wirtschaftskommission istituita nel giugno 1947): riforma agraria e nazionalizzazione dell\'industria nei Länder Brandeburgo, Meclemburgo, Sassonia, Sassonia-Anhalt e Turingia.'
-          : 'Zona di occupazione sovietica in Germania (Sowjetische Militäradministration in Deutschland — SMAD).',
+        isStep24 ? 'DDR' : 'SOV',
+        isStep24
+          ? `${label} (${landInfo.land} — Repubblica Democratica Tedesca RDT / DDR, 7 Ottobre 1949)`
+          : isStep23
+          ? `${label} (${landInfo.land} — Zona d'Occupazione Sovietica SBZ · SMAD & DWK, Giugno 1949)`
+          : isStep22
+          ? `${label} (${landInfo.land} — Sowjetische Besatzungszone SBZ · SMAD, DWK & Volksrat, Dicembre 1948)`
+          : isStep19
+          ? `${label} (${landInfo.land} — Sowjetische Besatzungszone SBZ · SMAD / DWK)`
+          : `${label} (${landInfo.land} — Sowjetische Besatzungszone SBZ)`,
+        isStep24
+          ? `${landInfo.detail} Il 7 ottobre 1949 cessa la Zona d'Occupazione Sovietica (SBZ) con la proclamazione a Berlino Est della Repubblica Democratica Tedesca (RDT / DDR; Presidente Wilhelm Pieck, Primo Ministro Otto Grotewohl, SED Walter Ulbricht), con trasferimento delle funzioni civili dalla SMAD alla Repubblica sotto supervisione della Commissione di Controllo Sovietica (SKK, gen. Vasilij Čujkov).`
+          : isStep23
+          ? `${landInfo.detail} Al 30 giugno 1949, dopo la nascita della RFT ad ovest e la fine del Blocco di Berlino (12 maggio), la Germania orientale resta ancora Zona d'Occupazione Sovietica (SBZ) amministrata dalla SMAD del Gen. Vasilij Čujkov, dalla DWK e dal 3° Congresso Popolare/Volksrat guidato dalla SED (la RDT verrà proclamata solo il 7 ottobre 1949).`
+          : isStep22
+          ? `${landInfo.detail} Al 31 dicembre 1948 la SBZ è governata da SMAD e DWK con circolazione dell'Ostmark mentre il Deutscher Volksrat guidato dalla SED prepara la futura costituzione (nessuna RDT prima dell'ottobre 1949).`
+          : isStep19
+          ? `${landInfo.detail} Zona Sovietica sotto SMAD e Deutsche Wirtschaftskommission (DWK, giugno 1947): nazionalizzazioni industriali e consolidamento del potere della SED.`
+          : `${landInfo.detail} Zona di occupazione sovietica in Germania (Sowjetische Militäradministration in Deutschland — SMAD).`,
         'Comintern',
-        isStep19
-          ? 'Sowjetische Militäradministration in Deutschland (SMAD / DWK 1947)'
-          : 'Sowjetische Militäradministration in Deutschland (SMAD)'
+        isStep24
+          ? `Deutsche Demokratische Republik (${landInfo.land} · RDT / DDR · SKK, Dic 1949)`
+          : isStep23
+          ? `Sowjetische Besatzungszone SBZ (SMAD / DWK · ${landInfo.land} — Giugno 1949 · Pre-RDT)`
+          : isStep22
+          ? `Sowjetische Militäradministration (SMAD · ${landInfo.land} & Deutscher Volksrat — Dic 1948)`
+          : isStep19
+          ? `Sowjetische Militäradministration in Deutschland (SMAD / DWK — ${landInfo.land})`
+          : `Sowjetische Militäradministration in Deutschland (SMAD — ${landInfo.land})`
       );
     }
+  }
+
+  // Steps 0-16: risoluzione storica Terzo Reich priva di anacronismi
+  let note: string;
+  if (step === 0) {
+    note = buildStep0PreAnschlussNote(meta, cleanId, temporalGau);
+  } else if (step === 1) {
+    note = meta.notes.s0_1;
+  } else if (step >= 2 && step <= 4) {
+    note = meta.notes.s2_4;
+  } else if (step === 5) {
+    note = meta.notes.s5;
+  } else if (step >= 6 && step <= 7) {
+    note = meta.notes.s6_7;
+  } else if (step === 8) {
+    note = meta.notes.s8;
+  } else {
+    note = buildGermanyWarPhaseNote(meta, cleanId, step, temporalGau);
   }
 
   return makeResult(

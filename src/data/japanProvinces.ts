@@ -1321,19 +1321,35 @@ export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
     if (fidClean === 'JP_KARAFUTO' || fidClean.includes('KARAFUTO') || nrm.includes('karafuto') || nrm.includes('sachalin') || nrm.includes('sakhalin')) {
       return makeResult(
         'SOV',
-        'Yuzhno-Sakhalinsk (Sachalin Meridionale — Annessa all\'URSS)',
-        "Agosto-Settembre 1945: l'Armata Rossa (2° Fronte dell'Estremo Oriente e Flotta del Pacifico) invade Karafuto (Operazione Sachalin Sud). Con la resa del Giappone, l'intero territorio a sud del 50° parallelo viene annesso direttamente all'Unione Sovietica e ridenominato Yuzhno-Sakhalinskaya Oblast'.",
+        s >= 20
+          ? 'Južno-Sachalinsk (Oblast\' Unificata di Sachalin — RSFSR, Dic. 1947)'
+          : s >= 19
+          ? 'Yuzhno-Sakhalinsk (Sachalin Unificata — RSFSR dal Gen. 1947)'
+          : 'Yuzhno-Sakhalinsk (Sachalin Meridionale — Annessa all\'URSS)',
+        s >= 20
+          ? "Dicembre 1947: integrata definitivamente nell'Oblast' unificata di Sachalin (RSFSR), ex-Karafuto vede il massiccio rimpatrio della popolazione giapponese residua e l'afflusso di coloni sovietici nelle miniere di carbone e cellulosa."
+          : s >= 19
+          ? "Settembre 1947: il 2 gennaio 1947 l'Oblast' di Sachalin Meridionale (ex Karafuto, istituita nel feb. 1946 nel Chabarovskij Krai) viene fusa con il nord nell'unica Oblast' di Sachalin sotto subordinazione diretta della RSFSR con capoluogo Južno-Sachalinsk."
+          : "Agosto-Settembre 1945: l'Armata Rossa (2° Fronte dell'Estremo Oriente e Flotta del Pacifico) invade Karafuto (Operazione Sachalin Sud). Con la resa del Giappone, l'intero territorio a sud del 50° parallelo viene annesso direttamente all'Unione Sovietica.",
         'Comintern',
-        'SSSR — Yuzhno-Sakhalinskaya Oblast\' (2° Fronte dell\'Estremo Oriente)'
+        s >= 19 ? 'Sachalinskij Oblispolkom — RSFSR (URSS)' : 'SSSR — Amministrazione Civile Sachalin Sud (2° Fronte Estremo Oriente)'
       );
     }
     if (fidClean === 'JP_CHISHIMA' || fidClean.includes('CHISHIMA') || nrm.includes('chishima') || nrm.includes('curili') || nrm.includes('kuril')) {
       return makeResult(
         'SOV',
-        'Kuril\'skie Ostrova (Isole Curili — Annesse all\'URSS)',
-        "Operazione di sbarco delle Curili (18 agosto - 1° settembre 1945): le truppe della Flotta del Pacifico sovietica e della 101ª Divisione Fucilieri conquistano l'intero arco delle isole Curili da Paramushir a Etorofu, Kunashiri e Shikotan, annettendo l'arcipelago all'URSS.",
+        s >= 20
+          ? 'Kuril\'skie Ostrova (Isole Curili — Oblast\' di Sachalin RSFSR, Dic. 1947)'
+          : s >= 19
+          ? 'Kuril\'skie Ostrova (Isole Curili — Oblast\' di Sachalin RSFSR, 1947)'
+          : 'Kuril\'skie Ostrova (Isole Curili — Annesse all\'URSS)',
+        s >= 20
+          ? "Dicembre 1947: completata l'evacuazione della popolazione civile giapponese da Kunashiri, Etorofu e Shikotan; le Isole Curili formano i distretti insulari dell'Oblast' di Sachalin (RSFSR) a guardia dello stretto di La Pérouse."
+          : s >= 19
+          ? "Settembre 1947: con la riforma amministrativa del 2 gennaio 1947 l'arcipelago delle Curili entra stabilmente nell'Oblast' di Sachalin della RSFSR con presidi della Flotta del Pacifico e della guardia confinaria MGB."
+          : "Operazione di sbarco delle Curili (18 agosto - 1° settembre 1945): le truppe della Flotta del Pacifico sovietica e della 101ª Divisione Fucilieri conquistano l'intero arco delle isole Curili da Paramushir a Etorofu, Kunashiri e Shikotan, annettendo l'arcipelago all'URSS.",
         'Comintern',
-        'SSSR — Flotta del Pacifico / 2° Fronte dell\'Estremo Oriente'
+        s >= 19 ? 'Sachalinskij Oblispolkom & Flotta del Pacifico — RSFSR (URSS)' : 'SSSR — Flotta del Pacifico / 2° Fronte dell\'Estremo Oriente'
       );
     }
     // Port Arthur e Dalian (Kantō-shū): Base Navale Sovietica e Distretto Speciale (Accordi di Yalta e Trattato Sino-Sovietico 1945)
@@ -1350,8 +1366,12 @@ export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
     ) {
       return makeResult(
         'SOV',
-        'Port Arthur e Dalian (Base Navale e Distretto Militare Sovietico — Lüshun / Dalny)',
-        "In attuazione degli Accordi di Yalta e del Trattato Sino-Sovietico del 14 agosto 1945, la rada fortificata di Port Arthur (Lüshunkou) viene affittata per 30 anni all'Unione Sovietica come base navale chiusa della Flotta del Pacifico dell'Armata Rossa, mentre il porto di Dalian (Dalny) è posto sotto amministrazione e controllo navale sovietico. Il presidio militare dell'URSS rimarrà attivo fino al maggio 1955.",
+        s >= 20
+          ? 'Port Arthur e Dalian (Base Navale Sovietica — Lüshun / Dalny, Dic. 1947)'
+          : 'Port Arthur e Dalian (Base Navale e Distretto Militare Sovietico — Lüshun / Dalny)',
+        s >= 20
+          ? "Dicembre 1947: nella Manciuria sconvolta dall'Offensiva d'Inverno del PCC, la penisola del Liaodong meridionale resta sotto salda occupazione militare e navale sovietica a Port Arthur (Lüshun) e nel porto libero di Dalian (Dalny), escludendo di fatto il Kuomintang."
+          : "In attuazione degli Accordi di Yalta e del Trattato Sino-Sovietico del 14 agosto 1945, la rada fortificata di Port Arthur (Lüshunkou) viene affittata per 30 anni all'Unione Sovietica come base navale chiusa della Flotta del Pacifico dell'Armata Rossa, mentre il porto di Dalian (Dalny) è posto sotto amministrazione e controllo navale sovietico. Il presidio militare dell'URSS rimarrà attivo fino al maggio 1955.",
         'Comintern',
         'Voenno-Morskoj Flot SSSR — Distretto Navale Speciale di Port-Artur'
       );
@@ -1404,9 +1424,10 @@ export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
         'Nihon-koku / Supreme Commander for the Allied Powers (SCAP — Gen. Douglas MacArthur / P.M. Tetsu Katayama)'
       );
     }
+    const occ1945Name = basePrefName.replace(/^Dai Nippon Teikoku\s*[—-]\s*/i, 'Giappone — ');
     return makeResult(
       'JAP',
-      `${basePrefName} (Occupazione Alleata del Giappone — Comando Supremo SCAP)`,
+      `${occ1945Name} (Occupazione Alleata del Giappone — Comando Supremo SCAP)`,
       "Il 2 settembre 1945 nella Baia di Tokyo, a bordo della corazzata USS Missouri, i plenipotenziari nipponici firmano l'Atto di Resa del Giappone. L'intero arcipelago metropolitano viene posto sotto l'autorità indivisa del Comando Supremo delle Potenze Alleate (SCAP) guidato dal Generale d'Armata Douglas MacArthur, mantenendo l'Imperatore Hirohito e la struttura burocratica giapponese sotto stretto controllo alleato.",
       'Alleati',
       'Supreme Commander for the Allied Powers (SCAP — General of the Army Douglas MacArthur / Tokyo)'

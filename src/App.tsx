@@ -42,7 +42,12 @@ import { InfoModal } from './components/InfoModal';
 
 import { ToastNotice } from './components/ToastNotice';
 
-import { TacticalMap } from './components/TacticalMap';
+import {
+  TacticalMap,
+  HISTORICAL_CITIES,
+  getCityOwner,
+  getCityIsCapital,
+} from './components/TacticalMap';
 
 import { processHistoricalCartographyPipeline, resolveHistoricalTruth } from './data/historicalEngine';
 
@@ -87,6 +92,8 @@ import { IT_PROVINCES_META, resolveItalyProvince } from './data/italyProvinces';
 import { SPAIN_PROVINCES_META, resolveSpainProvince } from './data/spainProvinces';
 
 import { SOVIET_PROVINCES_META, resolveSovietProvince } from './data/sovietProvinces';
+
+import { FRENCH_INDOCHINA_PROVINCES_META } from './data/frenchIndochinaProvinces';
 
 
 
@@ -590,7 +597,33 @@ export default function App() {
 
           resolveFeature({ properties: { CNTR_CODE: 'JE', NAME: 'Jersey' } }, 0).o === 'UK' &&
 
-          resolveFeature({ properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 0).o === 'UK',
+          resolveFeature({ properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 0).o === 'UK' &&
+
+          !resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 0).name.includes('Festung') &&
+
+          !resolveFeature({ id: 'JE', properties: { CNTR_CODE: 'JE', NAME: 'Jersey' } }, 0).name.includes('Festung') &&
+
+          !resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 5).note.includes('Giugno 1940') &&
+
+          resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 6).o === 'GER' &&
+
+          resolveFeature({ id: 'JE', properties: { CNTR_CODE: 'JE', NAME: 'Jersey' } }, 6).o === 'GER' &&
+
+          !resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 6).name.includes('Festung') &&
+
+          !resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 14).note.includes('Starvation Winter') &&
+
+          resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 16).note.includes('SS Vega') &&
+
+          resolveFeature({ id: 'JE', properties: { CNTR_CODE: 'JE', NAME: 'Jersey' } }, 16).note.includes('SS Vega') &&
+
+          resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 18).o === 'UK' &&
+
+          resolveFeature({ id: 'JE', properties: { CNTR_CODE: 'JE', NAME: 'Jersey' } }, 18).o === 'UK' &&
+
+          resolveFeature({ id: 'GG', properties: { CNTR_CODE: 'GG', NAME: 'Guernsey' } }, 23).note.includes('Alderney') &&
+
+          !resolveFeature({ id: 'JE', properties: { CNTR_CODE: 'JE', NAME: 'Jersey' } }, 23).note.includes('SET 1947'),
 
       },
 
@@ -4872,9 +4905,9 @@ export default function App() {
 
             croFlag.includes('412') &&
 
-            irqFlag.includes('#ce1126') &&
+            irqFlag.includes('data:image/svg+xml;base64') &&
 
-            irqFlag.includes('#007a3d') &&
+            irqFlag.includes('0 0 600 300') &&
 
             zag7.o === 'YUG' &&
 
@@ -7111,6 +7144,19 @@ export default function App() {
           const rRif8 = resolveFeature({ properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF' } }, 8);
 
           if (!rRif8 || rRif8.o !== 'SPA') return false;
+
+          const fIfni = loadedProvs.find((f: any) => f.id === 'ES_IFNI');
+          if (!fIfni) return false;
+          if (resolveFeature(fIfni, 0)?.o !== 'SPR') return false;
+          if (resolveFeature(fIfni, 8)?.o !== 'SPA') return false;
+          const ifni11 = resolveFeature(fIfni, 11);
+          const ifni18 = resolveFeature(fIfni, 18);
+          const ifni19 = resolveFeature(fIfni, 19);
+          const ifni24 = resolveFeature(fIfni, 24);
+          if (!ifni11.note?.includes('Torch')) return false;
+          if (ifni18.o !== 'SPA' || ifni18.fac !== 'Neutrale' || ifni18.note?.includes('1946')) return false;
+          if (!ifni19.name.includes('África Occidental Española') || !ifni19.adminEntity?.includes('Bermejo')) return false;
+          if (ifni24.o !== 'SPA' || ifni24.fac !== 'Neutrale' || !ifni24.adminEntity?.includes('Rosaleny Burguet')) return false;
 
 
 
@@ -9832,13 +9878,16 @@ export default function App() {
 
           // 2. Fronte Occidentale:
 
-          // Saliente delle Ardenne (Bulge): Bastogne, Eupen-Malmedy, Dinant/Celles, Lussemburgo Wehrmacht (GER / Asse)
+          // Saliente delle Ardenne (Bulge al 31 dic 1944): Bastogne, Eupen-Malmedy/St. Vith, Lussemburgo Wehrmacht (GER / Asse)
+          // mentre Dinant/Celles (BE351, liquidata il 27 dic) e Marche-en-Famenne (BE343) sono sotto controllo alleato (BEL / Alleati)
 
           const bastogneGER = resolveFeature({ properties: { NUTS_ID: 'BE342', CNTR_CODE: 'BE', NAME: 'Bastogne' } }, 16);
 
           const eupenGER = resolveFeature({ properties: { NUTS_ID: 'BE336', CNTR_CODE: 'BE', NAME: 'Bezirk Verviers' } }, 16);
 
-          const dinantGER = resolveFeature({ properties: { NUTS_ID: 'BE351', CNTR_CODE: 'BE', NAME: 'Dinant' } }, 16);
+          const dinantBEL = resolveFeature({ properties: { NUTS_ID: 'BE351', CNTR_CODE: 'BE', NAME: 'Dinant' } }, 16);
+
+          const marcheBEL = resolveFeature({ properties: { NUTS_ID: 'BE343', CNTR_CODE: 'BE', NAME: 'Marche-en-Famenne' } }, 16);
 
           const luxGER = resolveFeature({ properties: { CNTR_CODE: 'LU', NAME: 'Luxembourg' } }, 16);
 
@@ -9852,7 +9901,9 @@ export default function App() {
 
           if (eupenGER.o !== 'GER' || eupenGER.fac !== 'Asse') return false;
 
-          if (dinantGER.o !== 'GER' || dinantGER.fac !== 'Asse') return false;
+          if (dinantBEL.o !== 'BEL' || dinantBEL.fac !== 'Alleati' || !dinantBEL.note?.includes('Celles')) return false;
+
+          if (marcheBEL.o !== 'BEL' || marcheBEL.fac !== 'Alleati' || !marcheBEL.note?.includes('Marche-en-Famenne')) return false;
 
           if (luxGER.o !== 'GER' || luxGER.fac !== 'Asse' || !luxGER.name.includes('Ardenne')) return false;
 
@@ -10328,7 +10379,7 @@ export default function App() {
 
 
 
-          // 5. Festungen e Sacche Isolate: Curlandia, Breslavia, Creta, Tasche Atlantiche Francesi
+          // 5. Festungen e Sacche Isolate: Curlandia, Breslavia, Creta, Tasche Atlantiche Costiere Francesi (con Royan/Pointe de Grave già liberate Op. Vénérable)
 
           const kurzemeGER = resolveFeature({ properties: { NUTS_ID: 'LV003', CNTR_CODE: 'LV', NAME: 'Kurzeme' } }, 17);
 
@@ -10336,9 +10387,13 @@ export default function App() {
 
           const creteGER = resolveFeature({ properties: { NUTS_ID: 'EL431', CNTR_CODE: 'EL', NAME: 'Crete' } }, 17);
 
-          const lorientGER = resolveFeature({ properties: { NUTS_ID: 'FRH04', CNTR_CODE: 'FR', NAME: 'Morbihan' } }, 17);
+          const lorientGER = resolveFeature({ id: 'FR_HIST_POCHE_LORIENT', properties: { NUTS_ID: 'FR_HIST_POCHE_LORIENT', CNTR_CODE: 'FR', REGION_KIND: 'FR_COASTAL_POCKET', NAME: 'Poche de Lorient' } }, 17);
 
-          const rochelleGER = resolveFeature({ properties: { NUTS_ID: 'FRI32', CNTR_CODE: 'FR', NAME: 'Charente-Maritime' } }, 17);
+          const rochelleGER = resolveFeature({ id: 'FR_HIST_POCHE_LA_ROCHELLE', properties: { NUTS_ID: 'FR_HIST_POCHE_LA_ROCHELLE', CNTR_CODE: 'FR', REGION_KIND: 'FR_COASTAL_POCKET', NAME: 'Poche de La Rochelle' } }, 17);
+
+          const royanFRA = resolveFeature({ id: 'FR_HIST_POCHE_ROYAN', properties: { NUTS_ID: 'FR_HIST_POCHE_ROYAN', CNTR_CODE: 'FR', REGION_KIND: 'FR_COASTAL_POCKET', NAME: 'Poche de Royan' } }, 17);
+
+          const nantesFRA = resolveFeature({ properties: { NUTS_ID: 'FRG01', CNTR_CODE: 'FR', NAME: 'Loire-Atlantique' } }, 17);
 
           const parisFRA = resolveFeature({ properties: { NUTS_ID: 'FR101', CNTR_CODE: 'FR', NAME: 'Paris' } }, 17);
 
@@ -10353,6 +10408,10 @@ export default function App() {
           if (lorientGER.o !== 'GER' || lorientGER.fac !== 'Asse' || !lorientGER.name.includes('Festung Atlantica')) return false;
 
           if (rochelleGER.o !== 'GER' || rochelleGER.fac !== 'Asse') return false;
+
+          if (royanFRA.o !== 'FRA' || royanFRA.fac !== 'Alleati' || !royanFRA.name.includes('Vénérable')) return false;
+
+          if (nantesFRA.o !== 'FRA' || nantesFRA.fac !== 'Alleati') return false;
 
           if (parisFRA.o !== 'FRA' || parisFRA.fac !== 'Alleati') return false;
 
@@ -11600,7 +11659,7 @@ export default function App() {
 
           if (itaMonarchia.asset.file_name !== 'Flag_of_Italy_(1861-1946).svg') return false;
 
-          if (itaRepubblica.asset.file_name !== 'Flag_of_Italy.svg') return false;
+          if (itaRepubblica.asset.file_name !== 'Flag_of_Italy_(1946–2003).svg') return false;
 
           if (!itaMonarchia.historical_rationale.includes('stemma sabaudo')) return false;
 
@@ -11842,7 +11901,7 @@ export default function App() {
 
           const buie = resolveFeature({ properties: { id: 'HR_HIST_BUIE', NUTS_ID: 'HR_HIST_BUIE', CNTR_CODE: 'HR', NAME_LATN: 'Buje' } }, 19);
 
-          if (koper.o !== 'DFJ' || buie.o !== 'DFJ' || !koper.name.includes('Zona B') || !buie.name.includes('Zona B')) return false;
+          if (koper.o !== 'VUJA' || buie.o !== 'VUJA' || !koper.name.includes('Zona B') || !buie.name.includes('Zona B')) return false;
 
 
 
@@ -11896,15 +11955,15 @@ export default function App() {
 
           if (!flagInd || flagInd.asset.file_name !== 'Flag_of_India.svg') return false;
 
-          if (!flagHyd || flagHyd.asset.file_name !== 'Flag_of_Hyderabad.svg') return false;
+          if (!flagHyd || flagHyd.asset.file_name !== 'Asafia_flag_of_Hyderabad_State.svg') return false;
 
-          if (!flagKas || flagKas.asset.file_name !== 'Flag_of_Jammu_and_Kashmir_(princely_state).svg') return false;
+          if (!flagKas || flagKas.asset.file_name !== 'Flag_of_Jammu_and_Kashmir_(1936-1953).svg') return false;
 
           if (!flagSaar || flagSaar.asset.file_name !== 'Flag_of_Saar_(1947–1956).svg') return false;
           const flagSaarSvg = getCountryFlagSvg('SAAR', 19);
           if (!flagSaarSvg.includes('data:image/png;base64') || !flagSaarSvg.includes('#002654') || !flagSaarSvg.includes('#CE1126')) return false;
 
-          if (!flagIta19 || flagIta19.asset.file_name !== 'Flag_of_Italy.svg') return false;
+          if (!flagIta19 || flagIta19.asset.file_name !== 'Flag_of_Italy_(1946–2003).svg') return false;
 
 
 
@@ -11932,7 +11991,7 @@ export default function App() {
 
           const flagItaSvg19 = getCountryFlagSvg('ITA', 19);
 
-          if (flagItaSvg19.includes('image') || !flagItaSvg19.includes('#008C45')) return false;
+          if (flagItaSvg19.includes('image') || !flagItaSvg19.toLowerCase().includes('#007a5e') || !flagItaSvg19.toLowerCase().includes('#ce1126')) return false;
 
           const ravenna19 = resolveFeature({ properties: { id: 'ITH57', NUTS_ID: 'ITH57', CNTR_CODE: 'IT', NAME_LATN: 'Ravenna' } }, 19);
 
@@ -12325,7 +12384,7 @@ export default function App() {
 
           if (!fIta18 || fIta18.asset.file_name !== 'Flag_of_Italy_(1861-1946).svg') return false;
 
-          if (!fIta19 || fIta19.asset.file_name !== 'Flag_of_Italy.svg') return false;
+          if (!fIta19 || fIta19.asset.file_name !== 'Flag_of_Italy_(1946–2003).svg') return false;
 
           if (!fRsi13 || !fRsi16 || fRsi16.asset.file_name !== 'Flag_of_the_Italian_Social_Republic.svg') return false;
 
@@ -13065,7 +13124,7 @@ export default function App() {
 
             const fid = String(f.id || f.properties?.NUTS_ID || '');
 
-            return f.properties?.CNTR_CODE === 'FR' && fid.startsWith('FR') && fid !== 'FR_HIST_GUIANA' && !fid.startsWith('FRY');
+            return f.properties?.CNTR_CODE === 'FR' && fid.startsWith('FR') && !fid.startsWith('FR_HIST_') && !fid.startsWith('FRY');
 
           });
 
@@ -13169,7 +13228,7 @@ export default function App() {
 
 
 
-          // Step 16 (Dic 1944 Sacca di Colmar vs Strasburgo/Metz liberate) & Step 17 (Apr 1945 Colmar liberata vs Tasche Atlantiche)
+          // Step 16 (Dic 1944 Sacca di Colmar vs Strasburgo/Metz liberate) & Step 17 (Apr 1945 Colmar liberata vs Tasche Costiere Atlantiche)
 
           const colmar16 = resolveFranceProvince('FRF12', 16);
 
@@ -13177,7 +13236,9 @@ export default function App() {
 
           const colmar17 = resolveFranceProvince('FRF12', 17);
 
-          const lorient17 = resolveFranceProvince('FRH04', 17);
+          const morbihanInt17 = resolveFranceProvince('FRH04', 17);
+
+          const lorientPoche17 = resolveFranceProvince('FR_HIST_POCHE_LORIENT', 17);
 
           if (!colmar16 || colmar16.o !== 'GER' || !colmar16.name.includes('Colmar')) return false;
 
@@ -13185,7 +13246,9 @@ export default function App() {
 
           if (!colmar17 || colmar17.o !== 'FRA' || !colmar17.note?.includes('Colmar')) return false;
 
-          if (!lorient17 || lorient17.o !== 'GER' || !lorient17.name.includes('Festung Atlantica')) return false;
+          if (!morbihanInt17 || morbihanInt17.o !== 'FRA' || !morbihanInt17.adminEntity?.includes('GPRF')) return false;
+
+          if (!lorientPoche17 || lorientPoche17.o !== 'GER' || !lorientPoche17.name.includes('Festung Atlantica')) return false;
 
 
 
@@ -13525,6 +13588,2263 @@ export default function App() {
 
         },
 
+      },
+
+      {
+
+        name: '125. Scenario 31 Dicembre 1947 (Step 20 — DIC 1947): Controffensiva PCC in Cina (ADM1), Prima Guerra del Kashmir & Junagadh/Hyderabad, Operazione Léa & Cocincina, Negara Sumatera Timur, Risoluzione ONU 181 Palestina, RPR Romania, Costituzione Dimitrov Bulgaria, Governo Provvisorio DSE, Costituzione Saar & Bandiere/Anti-Anacronismo',
+
+        run: () => {
+
+          // 0. Verifica timeline Step 20 (DIC 1947 = 1947-12-31)
+
+          if (STEPS.length < 21 || STEPS[20].d !== 'DIC 1947') return false;
+
+          if (resolveHistoricalFlag('USA', 20)?.query_date !== '1947-12-31') return false;
+
+
+
+          // 1. Baseline Settembre 1947 -> Dicembre 1947 (Dodecaneso GRE, TLT Zona A/B, Fezzan FRA, Port Arthur SOV, 2ª ETR Xinjiang, Okinawa USA, Goa POR, Pondicherry FRA)
+          const fDod = { properties: { id: 'EL421', NUTS_ID: 'EL421', CNTR_CODE: 'EL', NAME_LATN: 'Dodekanisos' } };
+          const fTltA = { properties: { id: 'ITH44', NUTS_ID: 'ITH44', CNTR_CODE: 'IT', NAME_LATN: 'Trieste' } };
+          const fTltB = { properties: { id: 'SI_HIST_KOPER', NUTS_ID: 'SI_HIST_KOPER', CNTR_CODE: 'SI', NAME_LATN: 'Koper' } };
+          const fFez = { id: 'LYSB', properties: { id: 'LYSB', CNTR_CODE: 'LY', NAME_LATN: 'Sebha' } };
+          const fPortArthur = { id: 'JP_KANTO_SHU', properties: { id: 'JP_KANTO_SHU', NUTS_ID: 'JP_KANTO_SHU', CNTR_CODE: 'CN_PROV' } };
+          const fEtr = { id: 'CHN_XINJIANG_ETR', properties: { id: 'CHN_XINJIANG_ETR', NUTS_ID: 'CHN_XINJIANG_ETR', CNTR_CODE: 'CN_PROV' } };
+          const fOki = { properties: { id: 'JP47', NUTS_ID: 'JP47', CNTR_CODE: 'JP', NAME_LATN: 'Okinawa' } };
+          const fGoa = { id: 'IN_GOA', properties: { id: 'IN_GOA' } };
+          const fPon = { id: 'IN_PON', properties: { id: 'IN_PON' } };
+          if (resolveFeature(fDod, 20).o !== 'GRE') return false;
+          if (resolveFeature(fTltA, 20).o !== 'AMG' || resolveFeature(fTltB, 20).o !== 'VUJA') return false;
+          if (resolveFeature(fFez, 20).o !== 'FRA') return false;
+          if (resolveFeature(fPortArthur, 20).o !== 'SOV') return false;
+          if (resolveFeature(fEtr, 20).o !== 'ETR' || resolveFeature(fEtr, 20).fac !== 'Comintern') return false;
+          if (resolveFeature(fOki, 20).o !== 'USA') return false;
+          if (resolveFeature(fGoa, 20).o !== 'POR' || resolveFeature(fPon, 20).o !== 'FRA') return false;
+
+          // 2. Cina ADM1 (Guerra Civile Cinese al 31 dicembre 1947: Offensiva d'Autunno/Inverno, Shijiazhuang 12 nov 1947, Monti Dabie)
+          const findChn = (id: string) => ({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'CN_PROV' } });
+          const cHeil = resolveFeature(findChn('CHN_HEILONGJIANG'), 20);
+          const cJil = resolveFeature(findChn('CHN_JILIN'), 20);
+          const cLiao19 = resolveFeature(findChn('CHN_LIAONING'), 19);
+          const cLiao20 = resolveFeature(findChn('CHN_LIAONING'), 20);
+          const cNmg = resolveFeature(findChn('CHN_INNER_MONGOLIA'), 20);
+          const cHeb = resolveFeature(findChn('CHN_HEBEI'), 20);
+          const cBjp = resolveFeature(findChn('CHN_BEIJING'), 20);
+          const cTjn = resolveFeature(findChn('CHN_TIANJIN'), 20);
+          const cShx = resolveFeature(findChn('CHN_SHANXI'), 20);
+          const cSdg = resolveFeature(findChn('CHN_SHANDONG'), 20);
+          const cHen19 = resolveFeature(findChn('CHN_HENAN'), 19);
+          const cHen20 = resolveFeature(findChn('CHN_HENAN'), 20);
+          const cSnx20 = resolveFeature(findChn('CHN_SHAANXI'), 20);
+          const cGan20 = resolveFeature(findChn('CHN_GANSU'), 20);
+          const cAnh20 = resolveFeature(findChn('CHN_ANHUI'), 20);
+          const cHub20 = resolveFeature(findChn('CHN_HUBEI'), 20);
+          const cJsu20 = resolveFeature(findChn('CHN_JIANGSU'), 20);
+          const cSich20 = resolveFeature(findChn('CHN_SICHUAN'), 20);
+          const cTw20 = resolveFeature(findChn('CHN_TAIWAN'), 20);
+
+          if (cHeil.o !== 'CCP_CHI' || !cHeil.name.includes('100% PCC')) return false;
+          if (cJil.o !== 'CCP_CHI' || !cJil.name.includes('92% PCC') || !cJil.note?.includes('Changchun')) return false;
+          if (cLiao19.o !== 'CHI' || cLiao20.o !== 'CCP_CHI' || !cLiao20.name.includes('75% PCC') || !cLiao20.note?.includes('Shenyang')) return false;
+          if (cNmg.o !== 'CCP_CHI' || !cNmg.name.includes('70% PCC')) return false;
+          if (cHeb.o !== 'CCP_CHI' || !cHeb.name.includes('85% PCC') || !cHeb.note?.includes('Shijiazhuang')) return false;
+          if (cBjp.o !== 'CHI' || cTjn.o !== 'CHI') return false;
+          if (cShx.o !== 'CCP_CHI' || !cShx.name.includes('85% PCC') || !cShx.note?.includes('Taiyuan')) return false;
+          if (cSdg.o !== 'CCP_CHI' || !cSdg.name.includes('75% PCC') || !cSdg.note?.includes('Yantai')) return false;
+          if (cHen19.o !== 'CHI' || cHen20.o !== 'CCP_CHI' || !cHen20.name.includes('55% PCC')) return false;
+          if (cSnx20.o !== 'CHI' || !cSnx20.name.includes('40% PCC') || !cSnx20.name.includes('60% ROC')) return false;
+          if (cGan20.o !== 'CHI' || !cGan20.name.includes('85% ROC')) return false;
+          if (cAnh20.o !== 'CHI' || !cAnh20.name.includes('45% PCC') || !cAnh20.name.includes('55% ROC')) return false;
+          if (cHub20.o !== 'CHI' || !cHub20.name.includes('75% ROC') || !cHub20.name.includes('25% PCC')) return false;
+          if (cJsu20.o !== 'CHI' || !cJsu20.name.includes('60% ROC') || !cJsu20.name.includes('40% PCC')) return false;
+          if (cSich20.o !== 'CHI' || cTw20.o !== 'CHI') return false;
+
+          // 3. Subcontinente Indiano (Prima Guerra del Kashmir, Junagadh all'India, Hyderabad autonomo Standstill, Birmania e Ceylon UK fino al 1948)
+          const fJk = { id: 'IN_JK', properties: { id: 'IN_JK' } };
+          const fLad = { id: 'IN_LAD', properties: { id: 'IN_LAD' } };
+          const fAjk = { id: 'PK_AJK', properties: { id: 'PK_AJK' } };
+          const fGb = { id: 'PK_GB', properties: { id: 'PK_GB' } };
+          const fGuj = { id: 'IN_GUJ', properties: { id: 'IN_GUJ' } };
+          const fHyd = { id: 'IN_HYD', properties: { id: 'IN_HYD' } };
+          const fBurma = { id: 'MM_RAN', properties: { id: 'MM_RAN' } };
+          if (resolveFeature(fJk, 19).o !== 'KAS' || resolveFeature(fJk, 20).o !== 'IND') return false;
+          if (resolveFeature(fLad, 20).o !== 'IND') return false;
+          if (resolveFeature(fAjk, 19).o !== 'KAS' || resolveFeature(fAjk, 20).o !== 'PAK' || !resolveFeature(fAjk, 20).name.includes('Azad')) return false;
+          if (resolveFeature(fGb, 20).o !== 'PAK' || !resolveFeature(fGb, 20).name.includes('Gilgit')) return false;
+          if (resolveFeature(fGuj, 20).o !== 'IND' || !resolveFeature(fGuj, 20).name.includes('Junagadh')) return false;
+          if (resolveFeature(fHyd, 20).o !== 'HYD' || resolveFeature(fHyd, 20).fac !== 'Neutrale' || !resolveFeature(fHyd, 20).name.includes('Standstill')) return false;
+          if (resolveFeature(fBurma, 20).o !== 'UK') return false; // Anti-anacronismo: Birmania indipendente solo il 4 gennaio 1948
+
+          // 4. Indocina Francese (Operazione Léa: Cao Bằng VN04, Lạng Sơn VN09, Lào Cai VN02 -> FRA; Bắc Kạn VN53 & Tuyên Quang VN07 -> VIE; Cocincina Governo Provvisorio)
+          const fCaoBang = { id: 'VN04', properties: { id: 'VN04', ISO2: 'VN', NUTS_ID: 'VN04' } };
+          const fLangSon = { id: 'VN09', properties: { id: 'VN09', ISO2: 'VN', NUTS_ID: 'VN09' } };
+          const fLaoCai = { id: 'VN02', properties: { id: 'VN02', ISO2: 'VN', NUTS_ID: 'VN02' } };
+          const fTuyenQuang = { id: 'VN07', properties: { id: 'VN07', ISO2: 'VN', NUTS_ID: 'VN07' } };
+          const fSaigon = { id: 'VNSG', properties: { id: 'VNSG', ISO2: 'VN', NUTS_ID: 'VNSG' } };
+          if (resolveFeature(fCaoBang, 19).o !== 'VIE' || resolveFeature(fCaoBang, 20).o !== 'FRA') return false;
+          if (resolveFeature(fLangSon, 19).o !== 'VIE' || resolveFeature(fLangSon, 20).o !== 'FRA') return false;
+          if (resolveFeature(fLaoCai, 19).o !== 'VIE' || resolveFeature(fLaoCai, 20).o !== 'FRA') return false;
+          if (resolveFeature(fTuyenQuang, 20).o !== 'VIE') return false;
+          if (resolveFeature(fSaigon, 20).o !== 'FRA' || !resolveFeature(fSaigon, 20).name.includes('Governo Provvisorio del Vietnam del Sud')) return false;
+
+          // 5. Indonesia (Sumatra Orientale IDSU: Negara Sumatera Timur 25 dic 1947 & negoziati USS Renville)
+          const fIdsu = { id: 'IDSU', properties: { id: 'IDSU', ISO2: 'ID', NUTS_ID: 'IDSU' } };
+          if (resolveFeature(fIdsu, 20).o !== 'HOL' || !resolveFeature(fIdsu, 20).name.includes('Negara Sumatera Timur')) return false;
+
+          // 6. Europa, Mediterraneo & Commonwealth (Romania RPR, Bulgaria Costituzione Dimitrov, Grecia DSE Governo Provvisorio & Konitsa, Saar Costituzione, Palestina ONU 181 UK, Cecoslovacchia pre-golpe 1948)
+          const fBuc = { properties: { id: 'RO321', NUTS_ID: 'RO321', CNTR_CODE: 'RO', NAME_LATN: 'București' } };
+          const fSof = { properties: { id: 'BG411', NUTS_ID: 'BG411', CNTR_CODE: 'BG', NAME_LATN: 'Sofia' } };
+          const fGrammos = { properties: { id: 'EL532', NUTS_ID: 'EL532', CNTR_CODE: 'EL', NAME_LATN: 'Kastoria' } };
+          const fKonitsa = { properties: { id: 'EL543', NUTS_ID: 'EL543', CNTR_CODE: 'EL', NAME_LATN: 'Ioannina' } };
+          const fSaar = { properties: { id: 'DEC01', NUTS_ID: 'DEC01', CNTR_CODE: 'DE', NAME_LATN: 'Saarbrücken' } };
+          const fJer = { id: 'PAL_JRS', properties: { id: 'PAL_JRS', CNTR_CODE: 'PS', NAME_LATN: 'Jerusalem' } };
+          const fPraha = { properties: { id: 'CZ010', NUTS_ID: 'CZ010', CNTR_CODE: 'CZ', NAME_LATN: 'Praha' } };
+          if (resolveFeature(fBuc, 20).o !== 'ROM' || !getOwnerMeta('ROM', 20).l(20).includes('Repubblica Popolare Romena')) return false;
+          if (resolveFeature(fSof, 20).o !== 'BUL' || !getOwnerMeta('BUL', 20).l(20).includes('Costituzione Dimitrov')) return false;
+          if (resolveFeature(fGrammos, 20).o !== 'DSE' || !resolveFeature(fGrammos, 20).name.includes('Governo Democratico Provvisorio')) return false;
+          if (resolveFeature(fKonitsa, 20).o !== 'GRE' || !resolveFeature(fKonitsa, 20).name.includes('Battaglia di Konitsa')) return false;
+          if (resolveFeature(fSaar, 20).o !== 'SAAR' || !resolveFeature(fSaar, 20).name.includes('Costituzione Autonoma del 15 Dicembre 1947')) return false;
+          if (resolveFeature(fJer, 20).o !== 'UK' || !resolveFeature(fJer, 20).name.includes('Risoluzione ONU 181')) return false; // Anti-anacronismo: Israele solo il 14 maggio 1948
+          if (resolveFeature(fPraha, 20).o !== 'CZE' || resolveFeature(fPraha, 20).fac !== 'Alleati') return false; // Anti-anacronismo: Golpe di Praga solo nel febbraio 1948
+
+
+
+          // 7. Verifica le 7 bandiere storiche richieste al 31 dicembre 1947
+
+          const flgInd = resolveHistoricalFlag('IND', '1947-12-31');
+
+          const flgPak = resolveHistoricalFlag('PAK', '1947-12-31');
+
+          const flgAzk = resolveHistoricalFlag('AZK', '1947-12-31');
+
+          const flgSaar = resolveHistoricalFlag('SAAR', '1947-12-31');
+
+          const flgBul = resolveHistoricalFlag('BUL', '1947-12-31');
+
+          const flgRom = resolveHistoricalFlag('ROM', '1947-12-31');
+
+          const flgPdg = resolveHistoricalFlag('PDG', '1947-12-31');
+
+          const flgNst = resolveHistoricalFlag('NST', '1947-12-31');
+
+          if (!flgInd || flgInd.asset.file_name !== 'Flag_of_India.svg') return false;
+
+          if (!flgPak || flgPak.asset.file_name !== 'Flag_of_Pakistan.svg') return false;
+
+          if (!flgAzk || flgAzk.entity_id !== 'AZK_1947' || flgAzk.asset.file_name !== 'Flag_of_Azad_Kashmir.svg') return false;
+
+          if (!flgSaar || flgSaar.asset.file_name !== 'Flag_of_Saar_(1947–1956).svg') return false;
+
+          if (!flgBul || flgBul.entity_id !== 'BUL_NRB_1947' || flgBul.asset.file_name !== 'Flag_of_Bulgaria_(1946–1948).svg') return false;
+
+          if (!flgRom || flgRom.entity_id !== 'ROM_RPR_1947' || flgRom.asset.file_name !== 'Flag_of_Romania.svg') return false;
+
+          if (!flgPdg || flgPdg.entity_id !== 'PDG_1947') return false;
+
+          if (!flgNst || flgNst.entity_id !== 'NST_1947' || flgNst.asset.file_name !== 'Flag_of_East_Sumatra.svg') return false;
+
+
+
+          return true;
+
+        },
+
+      },
+
+      {
+
+        name: '126. Audit Integrale Bandiere Storiche negli Ultimi Punti della Timeline (Steps 18, 19 e 20 — 1945–1947: Austria Catene Spezzate, Ungheria Kossuth 1946, Polonia Aquila Senza Corona, Albania Stella 1946, Mongolia Soyombo 1945, Romania RPR, Bulgaria Dimitrov, Venezuela 7 Stelle, Paraguay & Tutti gli Stati Sovrani)',
+
+        run: () => {
+
+          // 1. Austria: Seconda Repubblica dal 1° Maggio 1945 (Catene spezzate, NON Ständestaat 1934–38)
+
+          const aus18Meta = resolveHistoricalFlag('AUS', 18);
+
+          const aus20Meta = resolveHistoricalFlag('AUS', 20);
+
+          const aus18Svg = getCountryFlagSvg('AUS', 18);
+
+          const aus0Svg = getCountryFlagSvg('AUS', 0);
+
+          if (!aus18Meta || aus18Meta.entity_id !== 'AUS_SECOND_REP' || aus18Meta.asset.file_name !== 'Flag_of_Austria_(state).svg') return false;
+
+          if (!aus20Meta || aus20Meta.entity_id !== 'AUS_SECOND_REP') return false;
+
+          if (aus18Svg.includes('data:image/png;base64') || !aus18Svg.includes('data:image/svg+xml;base64')) return false;
+
+          if (!aus0Svg.includes('data:image/png;base64')) return false;
+
+
+
+          // 2. Ungheria: Regno fino al 31 gen 1946 (Step 18) vs Seconda Repubblica Kossuth-címer dal 1° feb 1946 (Steps 19–20)
+
+          const hun18Meta = resolveHistoricalFlag('HUN', 18);
+
+          const hun19Meta = resolveHistoricalFlag('HUN', 19);
+
+          const hun20Meta = resolveHistoricalFlag('HUN', 20);
+
+          if (!hun18Meta || hun18Meta.entity_id !== 'HUN_KINGDOM') return false;
+
+          if (!hun19Meta || hun19Meta.entity_id !== 'HUN_SECOND_REP' || hun19Meta.asset.file_name !== 'Flag_of_Hungary_(1946-1949,_1956-1957).svg') return false;
+
+          if (!hun20Meta || hun20Meta.entity_id !== 'HUN_SECOND_REP') return false;
+
+          if (!getCountryFlagSvg('HUN', 18).includes('data:image/png;base64')) return false;
+
+          if (!getCountryFlagSvg('HUN', 19).includes('data:image/svg+xml;base64') || !getCountryFlagSvg('HUN', 20).includes('data:image/svg+xml;base64')) return false;
+
+
+
+          // 3. Polonia: Seconda Repubblica prebellica (Aquila Incoronata) vs Dopoguerra 1945–1947 (Aquila Bianca Senza Corona)
+
+          const pol0Meta = resolveHistoricalFlag('POL', 0);
+
+          const pol18Meta = resolveHistoricalFlag('POL', 18);
+
+          const pol20Meta = resolveHistoricalFlag('POL', 20);
+
+          if (!pol0Meta || pol0Meta.entity_id !== 'POL_SECOND_REP') return false;
+
+          if (!pol18Meta || pol18Meta.entity_id !== 'POL_POSTWAR' || !pol20Meta || pol20Meta.entity_id !== 'POL_POSTWAR') return false;
+
+          if (!getCountryFlagSvg('POL', 0).includes('data:image/png;base64')) return false;
+
+          if (!getCountryFlagSvg('POL', 19).includes('data:image/svg+xml;base64') || !getCountryFlagSvg('POL', 20).includes('data:image/svg+xml;base64')) return false;
+
+
+
+          // 4. Albania: Zog (Step 0) vs Governo Democratico 1944–1946 (Step 18) vs Repubblica Popolare Stella Rossa Bordata d'Oro (Steps 19–20)
+
+          const alb0Meta = resolveHistoricalFlag('ALB', 0);
+
+          const alb18Meta = resolveHistoricalFlag('ALB', 18);
+
+          const alb19Meta = resolveHistoricalFlag('ALB', 19);
+
+          const alb20Meta = resolveHistoricalFlag('ALB', 20);
+
+          if (!alb0Meta || alb0Meta.entity_id !== 'ALB_KINGDOM') return false;
+
+          if (!alb18Meta || alb18Meta.entity_id !== 'ALB_DEM_GOV') return false;
+
+          if (!alb19Meta || alb19Meta.entity_id !== 'ALB_PR_1946' || alb19Meta.asset.file_name !== 'Flag_of_Albania_(1946–1992).svg') return false;
+
+          if (!alb20Meta || alb20Meta.entity_id !== 'ALB_PR_1946') return false;
+
+          if (!getCountryFlagSvg('ALB', 0).includes('data:image/png;base64')) return false;
+
+          if (!getCountryFlagSvg('ALB', 18).includes('data:image/svg+xml;base64') || !getCountryFlagSvg('ALB', 20).includes('data:image/svg+xml;base64')) return false;
+
+
+
+          // 5. Mongolia: 1930–40 (Step 0) vs Soyombo Tricolore con Stella dal 10 Luglio 1945 (Steps 18–20)
+
+          const mon0Meta = resolveHistoricalFlag('MON', 0);
+
+          const mon18Meta = resolveHistoricalFlag('MON', 18);
+
+          const mon20Meta = resolveHistoricalFlag('MON', 20);
+
+          if (!mon0Meta || mon0Meta.entity_id !== 'MON_1930') return false;
+
+          if (!mon18Meta || mon18Meta.entity_id !== 'MON_1945' || mon18Meta.asset.file_name !== "Flag_of_the_Mongolian_People's_Republic_(1945–1992).svg") return false;
+
+          if (!mon20Meta || mon20Meta.entity_id !== 'MON_1945') return false;
+
+          if (!getCountryFlagSvg('MON', 18).includes('data:image/svg+xml;base64') || !getCountryFlagSvg('MON', 20).includes('data:image/svg+xml;base64')) return false;
+
+
+
+          // 6. Romania & Bulgaria transizioni dic 1947 (ROM RPR 30 dic; BUL Costituzione Dimitrov 4 dic — file ufficiali Wikimedia Commons)
+
+          if (resolveHistoricalFlag('ROM', 19)?.entity_id !== 'ROM_KINGDOM' || resolveHistoricalFlag('ROM', 20)?.entity_id !== 'ROM_RPR_1947') return false;
+
+          if (!getCountryFlagSvg('ROM', 19).includes('data:image/png;base64') || !getCountryFlagSvg('ROM', 20).includes('data:image/svg+xml;base64')) return false;
+
+          if (resolveHistoricalFlag('BUL', 19)?.entity_id !== 'BUL_PR_1946' || resolveHistoricalFlag('BUL', 20)?.entity_id !== 'BUL_NRB_1947') return false;
+
+          if (!getCountryFlagSvg('BUL', 19).includes('data:image/png;base64') || !getCountryFlagSvg('BUL', 20).includes('data:image/svg+xml;base64')) return false;
+
+
+
+          // 7. Venezuela (7 stelle esatte) & Paraguay (stemma repubblicano, NON Paesi Bassi) — file ufficiali Wikimedia Commons
+
+          const venSvg = getCountryFlagSvg('VEN', 20);
+
+          const parSvg = getCountryFlagSvg('PAR', 20);
+
+          if (!venSvg.includes('data:image/svg+xml;base64') || !parSvg.includes('data:image/svg+xml;base64')) return false;
+
+
+
+          // 8. Copertura universale di tutti gli stati attivi su Steps 18, 19, 20 senza alcun null né violazioni anti-anacronismo
+
+          const active18 = [
+
+            'USA', 'UK', 'SOV', 'FRA', 'GER', 'ACC', 'JAP', 'ITA', 'CHI', 'CCP_CHI', 'ETR',
+
+            'CAN', 'AST', 'NZL', 'SAF', 'RAJ', 'PHL', 'VIE', 'IDN', 'POL', 'CZE', 'DFJ',
+
+            'ROM', 'BUL', 'HUN', 'AUS', 'ALB', 'GRE', 'FIN', 'SWE', 'NOR', 'DEN', 'ICE',
+
+            'SWI', 'IRE', 'BEL', 'HOL', 'LUX', 'POR', 'SPA', 'TUR', 'EGY', 'SYR', 'LEB',
+
+            'IRQ', 'IRN', 'SAU', 'YEM', 'AFG', 'TIB', 'NEP', 'BHU', 'MON', 'SIA', 'ETH',
+
+            'LBR', 'BRA', 'MEX', 'ARG', 'CHL', 'COL', 'PRU', 'VEN', 'ECU', 'BOL', 'PAR',
+
+            'URU', 'CUB', 'DOM', 'HAI', 'GTM', 'SLV', 'HND', 'NIC', 'CRI', 'PAN', 'TANGER',
+
+            'SMR', 'VAT', 'AND', 'LIE', 'MCO', 'GIB',
+
+          ];
+
+          for (const code of active18) {
+
+            const m18 = resolveHistoricalFlag(code, 18);
+
+            if (!m18 || !validateFlagAgainstAnachronism(m18, '1945-09-02').isValid) return false;
+
+          }
+
+
+
+          const active19 = [
+
+            ...active18.filter((c) => c !== 'RAJ'),
+
+            'IND', 'PAK', 'HYD', 'KAS', 'JOR', 'SAAR', 'TLT', 'DSE',
+
+          ];
+
+          for (const code of active19) {
+
+            const m19 = resolveHistoricalFlag(code, 19);
+
+            if (!m19 || !validateFlagAgainstAnachronism(m19, '1947-09-30').isValid) return false;
+
+          }
+
+
+
+          const active20 = [
+
+            ...active19.filter((c) => c !== 'KAS'),
+
+            'AZK', 'NST', 'PDG',
+
+          ];
+
+          for (const code of active20) {
+
+            const m20 = resolveHistoricalFlag(code, 20);
+
+            if (!m20 || !validateFlagAgainstAnachronism(m20, '1947-12-31').isValid) return false;
+
+          }
+
+
+
+          return true;
+
+        },
+
+      },
+
+      {
+        name: '127. Audit Geostorico Integrale Medio Oriente Negli Ultimi Punti della Timeline (Steps 18, 19 e 20 — SET 1945 – DIC 1947)',
+        run: () => {
+          // 1. Siria & Libano: zero anacronismi 1941-43 (Hasani/Naccache) al Step 18, piena sovranità 1945-47 & mobilitazione Lega Araba Dic. 1947
+          const syr18 = resolveFeature({ properties: { CNTR_CODE: 'SY', NAME_LATN: 'Damascus', NUTS_ID: 'SY01' } }, 18);
+          const leb18 = resolveFeature({ properties: { CNTR_CODE: 'LB', NAME_LATN: 'Beirut', NUTS_ID: 'LBBA' } }, 18);
+          const syr20 = resolveFeature({ properties: { CNTR_CODE: 'SY', NAME_LATN: 'Damascus', NUTS_ID: 'SY01' } }, 20);
+          const leb20 = resolveFeature({ properties: { CNTR_CODE: 'LB', NAME_LATN: 'Beirut', NUTS_ID: 'LBBA' } }, 20);
+          if (syr18.o !== 'SYR' || syr18.note.includes('Hasani') || !syr18.note.includes('Quwatli')) return false;
+          if (leb18.o !== 'LEB' || leb18.note.includes('Naccache') || !leb18.note.includes('Khoury')) return false;
+          if (syr20.o !== 'SYR' || !syr20.note.includes('181') || !syr20.note.includes('Qatana')) return false;
+          if (leb20.o !== 'LEB' || !leb20.note.includes('181') || !leb20.note.includes('Galilea')) return false;
+
+          // 2. Palestina: tutti gli 8 distretti + fallback HB aggiornati a Risoluzione ONU 181 al Step 20 (DIC 1947)
+          const palIds = ['PAL_JRS', 'PAL_HFA', 'PAL_TLV', 'PAL_GAL', 'PAL_SAM', 'PAL_LYD', 'PAL_GAZ', 'PAL_BEER'];
+          for (const pid of palIds) {
+            const p20 = resolveFeature({ id: pid, properties: { id: pid, CNTR_CODE: 'PS', NUTS_ID: pid } }, 20);
+            if (p20.o !== 'UK' || !p20.note.includes('181')) return false;
+          }
+          const palHb20 = resolveHB({ properties: { NAME: 'Palestine' } }, 20);
+          if (palHb20.o !== 'UK' || !palHb20.note.includes('181')) return false;
+
+          // 3. Iran: transizione post-bellica Set. 1945 (no testo 1941) e rigetto petrolifero del Majlis Dic. 1947
+          const irnEaz18 = resolveFeature({ id: 'IRN_EAZ', properties: { id: 'IRN_EAZ', CNTR_CODE: 'IR', NAME_LATN: 'East Azerbaijan' } }, 18);
+          const irnKhz18 = resolveFeature({ id: 'IRN_KHZ', properties: { id: 'IRN_KHZ', CNTR_CODE: 'IR', NAME_LATN: 'Khuzestan' } }, 18);
+          const irnTeh18 = resolveFeature({ id: 'IRN_TEH', properties: { id: 'IRN_TEH', CNTR_CODE: 'IR', NAME_LATN: 'Tehran' } }, 18);
+          const irnTeh20 = resolveFeature({ id: 'IRN_TEH', properties: { id: 'IRN_TEH', CNTR_CODE: 'IR', NAME_LATN: 'Tehran' } }, 20);
+          if (irnEaz18.o !== 'SOV' || !irnEaz18.note.includes('Pishevari')) return false;
+          if (irnKhz18.o !== 'UK' || !irnKhz18.note.includes('1945')) return false;
+          if (irnTeh18.o !== 'IRN' || irnTeh18.note.includes('in preparazione')) return false;
+          if (irnTeh20.o !== 'IRN' || !irnTeh20.note.includes('22 ottobre 1947')) return false;
+
+          // 4. Yemen & Colonia/Protettorato di Aden (Steps 19 & 20 — ammissione ONU & disordini Aden dic. 1947)
+          const yemSan19 = resolveFeature({ id: 'YESA', properties: { id: 'YESA', CNTR_CODE: 'YE', REGION_KIND: 'YEMEN_PROVINCE' } }, 19);
+          const yemSan20 = resolveFeature({ id: 'YESA', properties: { id: 'YESA', CNTR_CODE: 'YE', REGION_KIND: 'YEMEN_PROVINCE' } }, 20);
+          const yead20 = resolveFeature({ id: 'YEAD', properties: { id: 'YEAD', CNTR_CODE: 'YE', REGION_KIND: 'YEMEN_PROVINCE' } }, 20);
+          const yela20 = resolveFeature({ id: 'YELA', properties: { id: 'YELA', CNTR_CODE: 'YE', REGION_KIND: 'YEMEN_PROVINCE' } }, 20);
+          if (yemSan19.o !== 'YEM' || !yemSan19.note.includes('30 settembre 1947')) return false;
+          if (yemSan20.o !== 'YEM' || !yemSan20.note.includes('Dicembre 1947')) return false;
+          if (yead20.o !== 'UK' || !yead20.note.includes('2–4 dicembre 1947')) return false;
+          if (yela20.o !== 'UK' || !yela20.note.includes('Dicembre 1947')) return false;
+
+          // 5. Golfo Persico & Penisola di Musandam (mai RAJ/British India!) + Iraq, Egitto, Transgiordania, Arabia Saudita Dic. 1947
+          const musandam20 = resolveHB({ properties: { NAME: 'India', SUBJECTO: 'India', PARTOF: 'India' }, __cent: [56.194, 25.777] }, 20);
+          const oman20 = resolveHB({ properties: { NAME: 'Muscat and Oman', SUBJECTO: 'United Kingdom of Great Britain and Ireland' } }, 20);
+          const qat20 = resolveHB({ properties: { NAME: 'Qatar', SUBJECTO: 'United Kingdom of Great Britain and Ireland' } }, 20);
+          const trc20 = resolveHB({ properties: { NAME: 'Trucial Oman', SUBJECTO: 'United Kingdom of Great Britain and Ireland' } }, 20);
+          const irq20 = resolveFeature({ id: 'IQ', properties: { CNTR_CODE: 'IQ', NAME_LATN: 'Iraq' } }, 20);
+          const egy20 = resolveFeature({ id: 'EGC', properties: { id: 'EGC', CNTR_CODE: 'EG', NAME_LATN: 'Cairo' } }, 20);
+          const jor20 = resolveFeature({ id: 'JO', properties: { CNTR_CODE: 'JO', NAME_LATN: 'Jordan' } }, 20);
+          const sau20 = resolveHB({ properties: { NAME: 'Saudi Arabia' } }, 20);
+          if (musandam20.o !== 'UK' || !musandam20.name.includes('Musandam')) return false;
+          if (oman20.o !== 'UK' || !oman20.note.includes('Foreign Office')) return false;
+          if (qat20.o !== 'UK' || !qat20.note.includes('Foreign Office')) return false;
+          if (trc20.o !== 'UK' || !trc20.note.includes('Foreign Office')) return false;
+          if (irq20.o !== 'IRQ' || !irq20.note.includes('Dicembre 1947')) return false;
+          if (egy20.o !== 'EGY' || !egy20.note.includes('Dicembre 1947')) return false;
+          if (jor20.o !== 'JOR' || !jor20.note.includes('Dicembre 1947')) return false;
+          if (sau20.o !== 'SAU' || !sau20.note.includes('Dicembre 1947')) return false;
+
+          // 6. Distinzione cromatica stati confinanti Arabia/Levante & preservazione colore Egitto (#2f7d73)
+          if (getOwnerMeta('EGY', 20).c !== '#2f7d73') return false;
+          if (getOwnerMeta('JOR', 20).c === getOwnerMeta('SAU', 20).c) return false;
+          if (getOwnerMeta('YEM', 20).c === getOwnerMeta('SAU', 20).c) return false;
+
+          return true;
+        },
+      },
+
+      {
+        name: '128. Refresh Integrale Postbellico URSS Provincia per Provincia (1945 -> Dicembre 1947: Tutte le 240 Entità Sovietiche + Territori Annessi)',
+        run: () => {
+          const allSovIds = Object.keys(SOVIET_PROVINCES_META);
+          if (allSovIds.length !== 240) return false;
+
+          const leakRx = /\b(wehrmacht|reichskommissariat|heeresgebiet|operationsgebiet|hitler|paulus|kessel)\b/i;
+
+          // 1. Verifica sistematica di tutte le 240 entità sovietiche su Steps 18, 19 e 20
+          for (const pid of allSovIds) {
+            for (const step of [18, 19, 20]) {
+              const r = resolveSovietProvince(pid, step);
+              if (!r || r.o !== 'SOV' || r.fac !== 'Comintern') return false;
+              if (!r.name || !r.note || !r.adminEntity) return false;
+              if (leakRx.test(`${r.name} ${r.note} ${r.adminEntity}`)) return false;
+            }
+            // Step 20 deve evolvere rispetto a Step 18 su nome o nota
+            const r18 = resolveSovietProvince(pid, 18);
+            const r20 = resolveSovietProvince(pid, 20);
+            if (r18.note === r20.note) return false;
+          }
+
+          // 2. Verifiche storiche puntuali provincia per provincia (1945 -> Set. 1947 -> Dic. 1947)
+          const mos19 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 19);
+          const mos20 = resolveSovietProvince('SOV_ADM1_RUS_42_Moscow', 20);
+          if (!mos19.adminEntity?.includes('Sovet Ministrov') || !mos19.name.includes('800')) return false;
+          if (!mos20.note.includes('riforma monetaria') || !mos20.note.includes('tessere annonarie')) return false;
+
+          const len19 = resolveSovietProvince('SOV_ADM1_RUS_49_Saint_Petersburg', 19);
+          const stKessel20 = resolveSovietProvince('SOV_STALINGRAD_KESSEL', 20);
+          const crimea18 = resolveSovietProvince('SOV_ADM1_UKR_91_Autonomous_Republic_of_Crimea', 18);
+          const chech19 = resolveSovietProvince('SOV_ADM1_RUS_31_Chechnya', 19);
+          const kalm19 = resolveSovietProvince('SOV_ADM1_RUS_70_Kalmykia', 19);
+          const kab19 = resolveSovietProvince('SOV_ADM1_RUS_38_Kabardino_Balkaria', 19);
+          const kch19 = resolveSovietProvince('SOV_ADM1_RUS_72_Karachay_Cherkessia', 19);
+          if (!len19.name.includes('Ždanovščina')) return false;
+          if (!stKessel20.name.includes('Settore Centrale') || leakRx.test(stKessel20.name)) return false;
+          if (!crimea18.adminEntity?.includes('RSFSR') || !crimea18.note.includes('30 giugno 1945')) return false;
+          if (!chech19.adminEntity?.includes('Groznenskij')) return false;
+          if (!kalm19.adminEntity?.includes('Astrachanskij')) return false;
+          if (!kab19.adminEntity?.includes('Kabardinskoj ASSR')) return false;
+          if (!kch19.adminEntity?.includes('Kluchori')) return false;
+
+          // Progetto atomico & Quarto Piano Quinquennale (1946-1947)
+          const gork19 = resolveSovietProvince('SOV_ADM1_RUS_25_Nizhny_Novgorod_Oblast', 19);
+          const chel19 = resolveSovietProvince('SOV_ADM1_RUS_32_Chelyabinsk_Oblast', 19);
+          const sver19 = resolveSovietProvince('SOV_ADM1_RUS_12_Sverdlovsk_Oblast', 19);
+          const ekaz19 = resolveSovietProvince('SOV_ADM1_KAZ_136_East_Kazakhstan_Region', 19);
+          const sugh19 = resolveSovietProvince('SOV_ADM1_TJK_165_Sughd_Region', 19);
+          const jal19 = resolveSovietProvince('SOV_ADM1_KGZ_173_Jalal_Abad_Region', 19);
+          const sakh19 = resolveSovietProvince('SOV_ADM1_RUS_50_Sakhalin_Oblast', 19);
+          const mag19 = resolveSovietProvince('SOV_ADM1_RUS_60_Magadan_Oblast', 19);
+          if (!gork19.name.includes('Arzamas-16')) return false;
+          if (!chel19.name.includes('Majak')) return false;
+          if (!sver19.name.includes('Sverdlovsk-44')) return false;
+          if (!ekaz19.name.includes('Semipalatinsk') || !ekaz19.note.includes('21 agosto 1947')) return false;
+          if (!sugh19.name.includes('Čkalovsk') || !sugh19.adminEntity?.includes('Kombinat n. 6') || !sugh19.note.includes('Kurčatov')) return false;
+          if (!jal19.note.includes('Mailuu-Suu')) return false;
+          if (!sakh19.note.includes('2 gennaio 1947')) return false;
+          if (!mag19.name.includes('Dal\'stroj')) return false;
+
+          // Ucraina, DneproGES, Carestia 1946-47, Moldavia, Bielorussia, Caucaso, Nord-Ovest
+          const zap19 = resolveSovietProvince('SOV_ADM1_UKR_88_Zaporizhia_Oblast', 19);
+          const mda19 = resolveSovietProvince('SOV_MASSR_310_Transnistria', 19);
+          const minsk19 = resolveSovietProvince('SOV_ADM1_BLR_103_Minsk', 19);
+          const erevan19 = resolveSovietProvince('SOV_ADM1_ARM_126_Yerevan', 19);
+          const baku19 = resolveSovietProvince('SOV_ADM1_AZE_129_Contiguous_Azerbaijan', 19);
+          const vaj19 = resolveSovietProvince('SOV_NW_RUS_266_________________', 19);
+          const petr19 = resolveSovietProvince('SOV_NW_RUS_261_Petroskoi_District', 19);
+          if (!zap19.name.includes('DneproGES') || !zap19.note.includes('Brežnev')) return false;
+          if (!mda19.note.includes('carestia 1946-47')) return false;
+          if (!minsk19.name.includes('MAZ-200')) return false;
+          if (!erevan19.name.includes('Nergaght')) return false;
+          if (!baku19.note.includes('Mingəçevir')) return false;
+          if (!vaj19.note.includes('Flotta del Nord')) return false;
+          if (!petr19.note.includes('Kuusinen')) return false;
+
+          // 3. Territori annessi ed esterni (Tuva HB, Kaliningrad, Karafuto/Curili/Port Arthur, Transcarpazia, Baltici, Petsamo, Bucovina, Kresy)
+          const tuvaHB20 = resolveHB({ properties: { NAME: 'Tannu Tuva' } }, 20);
+          const kon19 = resolveFeature({ id: 'DE_HIST_KONIGSBERG', properties: { NUTS_ID: 'DE_HIST_KONIGSBERG', CNTR_CODE: 'DE', NAME: 'Königsberg' } }, 19);
+          const kon20 = resolveFeature({ id: 'DE_HIST_KONIGSBERG', properties: { NUTS_ID: 'DE_HIST_KONIGSBERG', CNTR_CODE: 'DE', NAME: 'Königsberg' } }, 20);
+          const kar20 = resolveFeature({ id: 'JP_KARAFUTO', properties: { NUTS_ID: 'JP_KARAFUTO', CNTR_CODE: 'JP', NAME: 'Karafuto' } }, 20);
+          const kur20 = resolveFeature({ id: 'JP_CHISHIMA', properties: { NUTS_ID: 'JP_CHISHIMA', CNTR_CODE: 'JP', NAME: 'Chishima' } }, 20);
+          const kanto20 = resolveFeature({ id: 'JP_KANTO_SHU', properties: { NUTS_ID: 'JP_KANTO_SHU', CNTR_CODE: 'JP', NAME: 'Kantō-shū' } }, 20);
+          const carpFeat = loadedProvs.find((f: any) => f.__kind === 'CARPATHO_UKRAINE' || f.properties?.REGION_KIND === 'CARPATHO_UKRAINE');
+          const carp20 = carpFeat ? resolveFeature(carpFeat, 20) : null;
+          const est20 = resolveFeature({ id: 'EE001', properties: { NUTS_ID: 'EE001', CNTR_CODE: 'EE', NAME_LATN: 'Põhja-Eesti' } }, 20);
+          const lat20 = resolveFeature({ id: 'LV003', properties: { NUTS_ID: 'LV003', CNTR_CODE: 'LV', NAME_LATN: 'Kurzeme' } }, 20);
+          const mem20 = resolveFeature({ id: 'LT023', properties: { NUTS_ID: 'LT023', CNTR_CODE: 'LT', NAME_LATN: 'Klaipėdos apskritis' } }, 20);
+          const pet20 = resolveFeature({ id: 'FIN_PETSAMO', properties: { NUTS_ID: 'FIN_PETSAMO', CNTR_CODE: 'FIN_PETSAMO', NAME_LATN: 'Petsamo' } }, 20);
+          const buk20 = resolveFeature({ id: 'RO_BUK', properties: { NUTS_ID: 'RO_BUK', CNTR_CODE: 'RO_BUK', NAME_LATN: 'Cernăuți' } }, 20);
+          const lvo20 = resolveFeature({ id: 'PL_KRESY_LVO_1', properties: { NUTS_ID: 'PL_KRESY_LVO_1', CNTR_CODE: 'PL', NAME_LATN: 'Lwów', VOIVODESHIP: 'Lwów' } }, 20);
+          const brest20 = resolveFeature({ id: 'PL_KRESY_BLR_2_Brest', properties: { NUTS_ID: 'PL_KRESY_BLR_2_Brest', CNTR_CODE: 'PL', NAME_LATN: 'Brześć', VOIVODESHIP: 'Polesie', SOV_SSR: 'BSSR' } }, 20);
+
+          if (tuvaHB20.o !== 'SOV' || tuvaHB20.fac !== 'Comintern' || !tuvaHB20.name.includes('Tuva')) return false;
+          if (kon19.o !== 'SOV' || !kon19.note.includes('1946')) return false;
+          if (kon20.o !== 'SOV' || !kon20.note.includes('espulsione') || !kon20.note.includes('Baltijsk')) return false;
+          if (kar20.o !== 'SOV' || !kar20.name.includes('Dic. 1947')) return false;
+          if (kur20.o !== 'SOV' || !kur20.name.includes('Curili')) return false;
+          if (kanto20.o !== 'SOV' || !kanto20.name.includes('Lüshun') || !kanto20.note.includes('Dicembre 1947')) return false;
+          if (!carp20 || carp20.o !== 'SOV' || !carp20.name.includes('Zakarpatskaya Oblast')) return false;
+          if (est20.o !== 'SOV' || !est20.note.includes('Metsavennad')) return false;
+          if (lat20.o !== 'SOV' || !lat20.name.includes('Dic. 1947')) return false;
+          if (mem20.o !== 'SOV' || !mem20.name.includes('Klaipėda')) return false;
+          if (pet20.o !== 'SOV' || !pet20.name.includes('Pečenga')) return false;
+          if (buk20.o !== 'SOV' || !buk20.name.includes('Černovickaya')) return false;
+          if (lvo20.o !== 'SOV' || !lvo20.note.includes('Zapad')) return false;
+          if (brest20.o !== 'SOV' || !brest20.note.includes('Brest/Grodno/Molodečno')) return false;
+
+          return true;
+        },
+      },
+
+      {
+        name: '129. Scenario 30 Giugno 1948 (Step 21 — GIU 1948): Israele & Prima Tregua ONU, Birmania e Ceylon Indipendenti, Colpo di Praga, Rottura Tito-Stalin, Blocco di Berlino e Trizona, Cina Primavera 1948, Accordo di Renville (Pasundan/Madura), Emergenza Malese, Apartheid, Bogotazo & 7 Bandiere 1948',
+        run: () => {
+          // 0. Verifica timeline Step 21 (GIU 1948 = 1948-06-30)
+          if (STEPS.length < 22 || STEPS[21].d !== 'GIU 1948') return false;
+          if (resolveHistoricalFlag('USA', 21)?.query_date !== '1948-06-30') return false;
+
+          // 1. Nuovi Stati Sovrani e Riallineamenti Diplomatici (Gennaio–Giugno 1948)
+          const fBurmaRangoon = { id: 'MM_RAN', properties: { id: 'MM_RAN' } };
+          const fBurmaBago = { id: 'MM_BAG', properties: { id: 'MM_BAG' } };
+          const fCeylon = { id: 'LK', properties: { id: 'LK', CNTR_CODE: 'LK', NAME: 'Ceylon' } };
+          const fPraha = { properties: { id: 'CZ010', NUTS_ID: 'CZ010', CNTR_CODE: 'CZ', NAME_LATN: 'Praha' } };
+          const fBratislava = { properties: { id: 'SK010', NUTS_ID: 'SK010', CNTR_CODE: 'SK', NAME_LATN: 'Bratislava' } };
+          const fBeograd = { properties: { id: 'RS110', NUTS_ID: 'RS110', CNTR_CODE: 'RS', NAME_LATN: 'Beograd' } };
+          const fZagreb = { properties: { id: 'HR041', NUTS_ID: 'HR041', CNTR_CODE: 'HR', NAME_LATN: 'Grad Zagreb' } };
+          const fWestBerlin = { properties: { id: 'DE300_WEST', NUTS_ID: 'DE300_WEST', CNTR_CODE: 'DE', NAME_LATN: 'West-Berlin' } };
+          const fRheinland = { properties: { id: 'DEB11', NUTS_ID: 'DEB11', CNTR_CODE: 'DE', NAME_LATN: 'Koblenz' } };
+          const fSaf = { properties: { id: 'ZA', CNTR_CODE: 'ZA', NAME: 'South Africa' } };
+
+          const rBur21 = resolveFeature(fBurmaRangoon, 21);
+          const rBago21 = resolveFeature(fBurmaBago, 21);
+          const rCey21 = resolveFeature(fCeylon, 21);
+          const rPraha21 = resolveFeature(fPraha, 21);
+          const rBrat21 = resolveFeature(fBratislava, 21);
+          const rBeo21 = resolveFeature(fBeograd, 21);
+          const rZag21 = resolveFeature(fZagreb, 21);
+          const rWBer21 = resolveFeature(fWestBerlin, 21);
+          const rRhein21 = resolveFeature(fRheinland, 21);
+          const rSaf21 = resolveFeature(fSaf, 21);
+
+          if (rBur21.o !== 'BUR' || rBur21.fac !== 'Neutrale' || !rBur21.name.includes('Unione della Birmania')) return false;
+          if (rBago21.o !== 'BUR' || !rBago21.note.includes('Partito Comunista della Birmania')) return false;
+          if (rCey21.o !== 'CEY' || rCey21.fac !== 'Alleati' || !rCey21.name.includes('Dominion di Ceylon')) return false;
+          if (rPraha21.o !== 'CZE' || rPraha21.fac !== 'Comintern' || !rPraha21.note.includes('Gottwald')) return false;
+          if (rBrat21.o !== 'CZE' || rBrat21.fac !== 'Comintern') return false;
+          if (rBeo21.o !== 'DFJ' || rBeo21.fac !== 'Neutrale' || !rBeo21.name.includes('Tito-Stalin')) return false;
+          if (rZag21.o !== 'DFJ' || rZag21.fac !== 'Neutrale') return false;
+          if (getOwnerMeta('DFJ', 21).f !== 'Neutrale' || getOwnerMeta('CZE', 21).f !== 'Comintern') return false;
+          if (rWBer21.o !== 'USA' || !rWBer21.name.includes('Blocco di Berlino') || !rWBer21.note.includes('Luftbrücke')) return false;
+          if (rRhein21.o !== 'FRA' || !rRhein21.name.includes('Trizona') || !rRhein21.note.includes('Deutsche Mark')) return false;
+          if (rSaf21.o !== 'SAF' || !rSaf21.name.includes('Malan') || !rSaf21.note.includes('Apartheid')) return false;
+
+          // 2. Medio Oriente: Guerra Arabo-Israeliana — Prima Tregua ONU al 30 Giugno 1948
+          const rTlv21 = resolveFeature({ id: 'PAL_TLV', properties: { id: 'PAL_TLV', CNTR_CODE: 'PS', NUTS_ID: 'PAL_TLV' } }, 21);
+          const rHfa21 = resolveFeature({ id: 'PAL_HFA', properties: { id: 'PAL_HFA', CNTR_CODE: 'PS', NUTS_ID: 'PAL_HFA' } }, 21);
+          const rLyd21 = resolveFeature({ id: 'PAL_LYD', properties: { id: 'PAL_LYD', CNTR_CODE: 'PS', NUTS_ID: 'PAL_LYD' } }, 21);
+          const rGal21 = resolveFeature({ id: 'PAL_GAL', properties: { id: 'PAL_GAL', CNTR_CODE: 'PS', NUTS_ID: 'PAL_GAL' } }, 21);
+          const rJrs21 = resolveFeature({ id: 'PAL_JRS', properties: { id: 'PAL_JRS', CNTR_CODE: 'PS', NUTS_ID: 'PAL_JRS' } }, 21);
+          const rSam21 = resolveFeature({ id: 'PAL_SAM', properties: { id: 'PAL_SAM', CNTR_CODE: 'PS', NUTS_ID: 'PAL_SAM' } }, 21);
+          const rGaz21 = resolveFeature({ id: 'PAL_GAZ', properties: { id: 'PAL_GAZ', CNTR_CODE: 'PS', NUTS_ID: 'PAL_GAZ' } }, 21);
+          const rBeer21 = resolveFeature({ id: 'PAL_BEER', properties: { id: 'PAL_BEER', CNTR_CODE: 'PS', NUTS_ID: 'PAL_BEER' } }, 21);
+
+          if (rTlv21.o !== 'ISR' || !rTlv21.name.includes('14 Maggio 1948')) return false;
+          if (rHfa21.o !== 'ISR' || !rHfa21.name.includes('100%')) return false;
+          if (rLyd21.o !== 'ISR' || !rLyd21.note.includes('Latrun') || !rLyd21.note.includes('Burma Road')) return false;
+          if (rGal21.o !== 'ISR' || !rGal21.note.includes('Nazareth') || !rGal21.note.includes('Mishmar HaYarden')) return false;
+          if (rJrs21.o !== 'ISR' || !rJrs21.name.includes('Gerusalemme Ovest') || !rJrs21.note.includes('Città Vecchia')) return false;
+          if (rSam21.o !== 'JOR' || !rSam21.name.includes('Transgiordania')) return false;
+          if (rGaz21.o !== 'EGY' || !rGaz21.name.includes('Isdud')) return false;
+          if (rBeer21.o !== 'EGY' || !rBeer21.note.includes('Beersheba')) return false;
+
+          // 3. Cina ADM1 (Offensive di Primavera 1948: Jilin 97%, Liaoning 90%, Shanxi 92% Linfen, Shandong 88% Weifang, Henan 65% Luoyang, Shaanxi 45% Yan'an)
+          const findChn = (id: string) => ({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'CN_PROV' } });
+          const cJil21 = resolveFeature(findChn('CHN_JILIN'), 21);
+          const cLiao21 = resolveFeature(findChn('CHN_LIAONING'), 21);
+          const cNmg21 = resolveFeature(findChn('CHN_INNER_MONGOLIA'), 21);
+          const cHeb21 = resolveFeature(findChn('CHN_HEBEI'), 21);
+          const cShx21 = resolveFeature(findChn('CHN_SHANXI'), 21);
+          const cSdg21 = resolveFeature(findChn('CHN_SHANDONG'), 21);
+          const cHen21 = resolveFeature(findChn('CHN_HENAN'), 21);
+          const cSnx21 = resolveFeature(findChn('CHN_SHAANXI'), 21);
+          const cJsu21 = resolveFeature(findChn('CHN_JIANGSU'), 21);
+
+          if (cJil21.o !== 'CCP_CHI' || !cJil21.name.includes('97% PCC') || !cJil21.note.includes('9 marzo 1948')) return false;
+          if (cLiao21.o !== 'CCP_CHI' || !cLiao21.name.includes('90% PCC') || !cLiao21.note.includes('Siping')) return false;
+          if (cNmg21.o !== 'CCP_CHI' || !cNmg21.name.includes('75% PCC')) return false;
+          if (cHeb21.o !== 'CCP_CHI' || !cHeb21.name.includes('88% PCC')) return false;
+          if (cShx21.o !== 'CCP_CHI' || !cShx21.name.includes('92% PCC') || !cShx21.note.includes('Linfen')) return false;
+          if (cSdg21.o !== 'CCP_CHI' || !cSdg21.name.includes('88% PCC') || !cSdg21.note.includes('Weifang')) return false;
+          if (cHen21.o !== 'CCP_CHI' || !cHen21.name.includes('65% PCC') || !cHen21.note.includes('Luoyang')) return false;
+          if (cSnx21.o !== 'CHI' || !cSnx21.name.includes('45% PCC') || !cSnx21.note.includes('21 aprile 1948')) return false;
+          if (cJsu21.o !== 'CHI' || !cJsu21.name.includes('20 Maggio 1948')) return false;
+
+          // 4. Subcontinente Indiano (Kashmir Maggio 1948: Dras/Kargil/Leh/Skardu, Saurashtra, Himachal Pradesh, Madhya Bharat, Hyderabad ancora indipendente)
+          const rLad21 = resolveFeature({ id: 'IN_LAD', properties: { id: 'IN_LAD' } }, 21);
+          const rGb21 = resolveFeature({ id: 'PK_GB', properties: { id: 'PK_GB' } }, 21);
+          const rGuj21 = resolveFeature({ id: 'IN_GUJ', properties: { id: 'IN_GUJ' } }, 21);
+          const rHp21 = resolveFeature({ id: 'IN_HP', properties: { id: 'IN_HP' } }, 21);
+          const rMp21 = resolveFeature({ id: 'IN_MP', properties: { id: 'IN_MP' } }, 21);
+          const rHyd21 = resolveFeature({ id: 'IN_HYD', properties: { id: 'IN_HYD' } }, 21);
+
+          if (rLad21.o !== 'IND' || !rLad21.name.includes('Kargil')) return false;
+          if (rGb21.o !== 'PAK' || !rGb21.name.includes('Skardu')) return false;
+          if (rGuj21.o !== 'IND' || !rGuj21.name.includes('Saurashtra')) return false;
+          if (rHp21.o !== 'IND' || !rHp21.name.includes('Himachal Pradesh')) return false;
+          if (rMp21.o !== 'IND' || !rMp21.name.includes('Madhya Bharat')) return false;
+          if (rHyd21.o !== 'HYD' || rHyd21.fac !== 'Neutrale') return false; // Anti-anacronismo: Operazione Polo solo nel settembre 1948
+
+          // 5. Sud-Est Asiatico (Accordo di Renville: Pasundan PAS, Madura MAD, Lampung IDN; Federazione della Malesia & Emergenza Malese)
+          const rIdjb21 = resolveFeature({ id: 'IDJB', properties: { id: 'IDJB', ISO2: 'ID', NUTS_ID: 'IDJB' } }, 21);
+          const rIdmd21 = resolveFeature({ id: 'IDMD', properties: { id: 'IDMD', ISO2: 'ID', NUTS_ID: 'IDMD', NAME: 'Madura' } }, 21);
+          const rIdla21 = resolveFeature({ id: 'IDLA', properties: { id: 'IDLA', ISO2: 'ID', NUTS_ID: 'IDLA' } }, 21);
+          const rMyPerak21 = resolveFeature({ id: 'MY08', properties: { id: 'MY08', ISO2: 'MY', NUTS_ID: 'MY08' } }, 21);
+
+          if (rIdjb21.o !== 'PAS' || !rIdjb21.name.includes('Negara Pasundan')) return false;
+          if (rIdmd21.o !== 'MAD' || !rIdmd21.name.includes('Negara Madura')) return false;
+          if (rIdla21.o !== 'IDN' || !rIdla21.name.includes('Renville')) return false;
+          if (rMyPerak21.o !== 'UK' || !rMyPerak21.name.includes('Emergenza Malese')) return false;
+
+          // 6. Grecia (Operazione Koronis), Romania (Costituzione 13 Aprile 1948), Costa Rica (Giunta Figueres) & Colombia (El Bogotazo)
+          const rGrammos21 = resolveFeature({ properties: { id: 'EL532', NUTS_ID: 'EL532', CNTR_CODE: 'EL', NAME_LATN: 'Kastoria' } }, 21);
+          const rRom21 = resolveFeature({ properties: { id: 'RO321', NUTS_ID: 'RO321', CNTR_CODE: 'RO', NAME_LATN: 'București' } }, 21);
+          const rCri21 = resolveFeature({ properties: { id: 'CR', CNTR_CODE: 'CR', NAME: 'Costa Rica' } }, 21);
+          const rCol21 = resolveFeature({ properties: { id: 'CO', CNTR_CODE: 'CO', NAME: 'Tolima' } }, 21);
+
+          if (rGrammos21.o !== 'DSE' || !rGrammos21.name.includes('Operazione Koronis')) return false;
+          if (rRom21.o !== 'ROM' || !rRom21.name.includes('13 Aprile 1948')) return false;
+          if (rCri21.o !== 'CRI' || !rCri21.name.includes('Figueres Ferrer')) return false;
+          if (rCol21.o !== 'COL' || !rCol21.name.includes('Bogotazo')) return false;
+
+          // 7. Verifica delle 7 nuove bandiere storiche autentiche 1948 (100% Wikimedia Commons SVG)
+          const flgBur = resolveHistoricalFlag('BUR', 21);
+          const flgCey = resolveHistoricalFlag('CEY', 21);
+          const flgIsr = resolveHistoricalFlag('ISR', 21);
+          const flgRom48 = resolveHistoricalFlag('ROM', 21);
+          const flgPas = resolveHistoricalFlag('PAS', 21);
+          const flgMad = resolveHistoricalFlag('MAD', 21);
+          const flgMal = resolveHistoricalFlag('MAL', 21);
+
+          if (!flgBur || flgBur.entity_id !== 'BUR_1948' || flgBur.asset.file_name !== 'Flag_of_Burma_(1948–1974).svg') return false;
+          if (!flgCey || flgCey.entity_id !== 'CEY_1948' || flgCey.asset.file_name !== 'Flag_of_Ceylon_(1948–1951).svg') return false;
+          if (!flgIsr || flgIsr.entity_id !== 'ISR_1948' || flgIsr.asset.file_name !== 'Flag_of_Israel.svg') return false;
+          if (!flgRom48 || flgRom48.entity_id !== 'ROM_RPR_1948' || flgRom48.asset.file_name !== 'Flag_of_Romania_(1948–1952).svg') return false;
+          if (!flgPas || flgPas.entity_id !== 'PAS_1948' || flgPas.asset.file_name !== 'Flag_of_Pasundan.svg') return false;
+          if (!flgMad || flgMad.entity_id !== 'MAD_1948' || flgMad.asset.file_name !== 'Flag_of_Various_Autonomous_Indonesian_States.svg') return false;
+          if (!flgMal || flgMal.entity_id !== 'MAL_FED_1948' || flgMal.asset.file_name !== 'Flag_of_the_Federated_Malay_States_(1895–1946).svg') return false;
+
+          for (const code of ['BUR', 'CEY', 'ISR', 'ROM', 'PAS', 'MAD', 'MAL']) {
+            const svgUri = getCountryFlagSvg(code, 21);
+            if (!svgUri || !(svgUri.startsWith('data:image/svg+xml;base64,') || svgUri.trim().startsWith('<svg'))) return false;
+          }
+
+          return true;
+        },
+      },
+
+      {
+        name: '130. Evoluzione Geostorica Isole Maldive (Steps 0-21): Sultano Hassan Nooraddeen II fino ad Aprile 1943, Base Port T Addu Atoll (1941-1945), Reggenza/Abdul Majeed Didi e Accordo Anglo-Maldiviano del 24 Aprile 1948',
+        run: () => {
+          const hbMaldives = { id: 'MV_MALDIVE', properties: { NAME: 'Maldive Islands' } };
+          const ftMaldives = { id: 'MV', properties: { id: 'MV', CNTR_CODE: 'MV', NAME: 'Maldive Islands' } };
+
+          const r0 = resolveHB(hbMaldives, 0);
+          const r9 = resolveHB(hbMaldives, 9);
+          const r12 = resolveHB(hbMaldives, 12);
+          const r18 = resolveHB(hbMaldives, 18);
+          const r19 = resolveHB(hbMaldives, 19);
+          const r21 = resolveHB(hbMaldives, 21);
+          const f21 = resolveFeature(ftMaldives, 21);
+
+          // Step 0 (GEN 1936): Hassan Nooraddeen II + Ceylon Dependency
+          if (r0.o !== 'UK' || !r0.note.includes('Hassan Nooraddeen II') || !(r0.adminEntity || '').includes('Ceylon Dependency')) return false;
+          // Step 9 (DIC 1941): Port T (Addu Atoll) + ancora Hassan Nooraddeen II
+          if (!r9.name.includes('Port T') || !r9.note.includes('Addu') || !r9.note.includes('Hassan Nooraddeen II')) return false;
+          // Step 12 (LUG 1943): dopo abdicazione dell'8 aprile 1943 -> Reggenza, Abdul Majeed Didi, Port T
+          if (!r12.name.includes('Reggenza') || !r12.note.includes('8 aprile 1943') || !r12.note.includes('Abdul Majeed Didi')) return false;
+          // Step 18 (SET 1945): smobilitazione Port T
+          if (!r18.name.includes('Smobilitazione') || !r18.note.includes('Port T')) return false;
+          // Step 19 (SET 1947): dopoguerra, chiusura Port T, Mohamed Amin Didi
+          if (!r19.name.includes('Mohamed Amin Didi') || !r19.note.includes('British Loyalty')) return false;
+          // Step 21 (GIU 1948): nessun anacronismo (niente "Ceylon Dependency" o "Governatore di Ceylon" né regno attivo di Nooraddeen II)
+          for (const res of [r21, f21]) {
+            if (res.o !== 'UK' || res.fac !== 'Alleati') return false;
+            if (!res.name.includes('24 Aprile 1948')) return false;
+            if ((res.adminEntity || '').includes('Ceylon Dependency')) return false;
+            if (res.note.includes('Governatore di Ceylon') || res.note.includes('Hassan Nooraddeen II')) return false;
+            if (!res.note.includes('24 aprile 1948') || !res.note.includes('Mohamed Amin Didi')) return false;
+          }
+
+          return true;
+        },
+      },
+
+      {
+        name: '131. Copertura Geostorica Integrale Guerra d\'Indocina & Vietnam (Steps 17–21: Meigo Sakusen Mar 1945, Indipendenza RDV Set 1945, Nam-Ngãi-Bình-Phú Incl. Quảng Nam VN27, Santuari Cocincina Đồng Tháp Mười VN45 & Rừng U Minh VN59, RC4 Léa/Ceinture Dic 1947, Accordi Hạ Long & Interzone I–V Giu 1948 + Battaglie & Bandiere)',
+        run: () => {
+          const allVnIds = Object.keys(FRENCH_INDOCHINA_PROVINCES_META).filter((id) => FRENCH_INDOCHINA_PROVINCES_META[id].cntrCode === 'VN');
+          if (allVnIds.length !== 63) return false;
+
+          // 1. Verifica di tutte le 63 province VN su Steps 17, 18, 19, 20, 21 (nessuna province indefinita o incoerente)
+          for (const pid of allVnIds) {
+            const ft = { id: pid, properties: { id: pid, ISO2: 'VN', NUTS_ID: pid, NAME: FRENCH_INDOCHINA_PROVINCES_META[pid].name } };
+            const r17 = resolveFeature(ft, 17);
+            const r18 = resolveFeature(ft, 18);
+            const r21 = resolveFeature(ft, 21);
+            if (r17.o !== 'JAP' || !r17.note.includes('Meigo Sakusen')) return false;
+            if (r18.o !== 'VIE') return false;
+            if (r21.o !== 'FRA' && r21.o !== 'VIE') return false;
+            // Anti-anacronismo su Step 21 (GIU 1948): nessun residuo di settembre 1947 o lancio futuro di Léa
+            if (r21.note.includes('30 settembre 1947') || r21.note.includes('preparativi operativi per l\'Operazione Léa')) return false;
+          }
+
+          // 2. Interzona V (Vùng Tự Do Nam-Ngãi-Bình-Phú): VN27 Quảng Nam unita a VN29/VN31/VN32 sotto VIE mentre Đà Nẵng (VNDN) resta FRA
+          for (const iz5Id of ['VN27', 'VN29', 'VN31', 'VN32']) {
+            for (const step of [19, 20, 21]) {
+              const r = resolveFeature({ id: iz5Id, properties: { id: iz5Id, ISO2: 'VN', NUTS_ID: iz5Id } }, step);
+              if (r.o !== 'VIE') return false;
+            }
+          }
+          const rDanang21 = resolveFeature({ id: 'VNDN', properties: { id: 'VNDN', ISO2: 'VN', NUTS_ID: 'VNDN' } }, 21);
+          if (rDanang21.o !== 'FRA' || !rDanang21.note.includes('Hạ Long')) return false;
+
+          // 3. Roccaforti del Việt Minh in Cocincina (Nam Bộ): Đồng Tháp Mười (VN45) & Rừng U Minh / Cà Mau (VN59)
+          for (const nbId of ['VN45', 'VN59']) {
+            for (const step of [19, 20, 21]) {
+              const r = resolveFeature({ id: nbId, properties: { id: nbId, ISO2: 'VN', NUTS_ID: nbId } }, step);
+              if (r.o !== 'VIE') return false;
+            }
+          }
+
+          // 4. Capisaldi francesi & Governo Centrale Provvisorio a GIU 1948 (Hanoi, Haiphong, Saigon, Hue, RC4)
+          for (const frId of ['VNHN', 'VNHP', 'VNSG', 'VN26', 'VN04', 'VN09', 'VN02']) {
+            const r21 = resolveFeature({ id: frId, properties: { id: frId, ISO2: 'VN', NUTS_ID: frId } }, 21);
+            if (r21.o !== 'FRA' || r21.fac !== 'Alleati') return false;
+          }
+          const rSg21 = resolveFeature({ id: 'VNSG', properties: { id: 'VNSG', ISO2: 'VN', NUTS_ID: 'VNSG' } }, 21);
+          if (!rSg21.name.includes('Governo Centrale Provvisorio') || !rSg21.note.includes('5 giugno 1948')) return false;
+
+          // 5. Cambogia & Laos a Dicembre 1947 e Giugno 1948 privi di testo statico di settembre 1947
+          const rKh21 = resolveFeature({ id: 'KH12', properties: { id: 'KH12', ISO2: 'KH', NUTS_ID: 'KH12' } }, 21);
+          const rLa21 = resolveFeature({ id: 'LA1', properties: { id: 'LA1', ISO2: 'LA', NUTS_ID: 'LA1' } }, 21);
+          if (rKh21.o !== 'FRA' || rKh21.note.includes('30 settembre 1947')) return false;
+          if (rLa21.o !== 'FRA' || rLa21.note.includes('30 settembre 1947')) return false;
+
+          // 6. Layer Battaglie & Bandiere Vietnam (Steps 17, 18, 19, 20, 21)
+          const battleSteps = new Set(HISTORICAL_BATTLES.filter((b) => [17, 18, 19, 20, 21].includes(b.step) && /vietnam|indocina|hanoi|léa/i.test(b.name + b.id)).map((b) => b.step));
+          for (const st of [17, 18, 19, 20, 21]) {
+            if (!battleSteps.has(st)) return false;
+          }
+          const flgVie = resolveHistoricalFlag('VIE', 21);
+          if (!flgVie || flgVie.entity_id !== 'VIE_DRV' || flgVie.asset.file_name !== 'Flag_of_North_Vietnam_(1945-1955).svg') return false;
+
+          return true;
+        },
+      },
+
+      {
+        name: '132. Copertura Geostorica Integrale Territorio Libero di Trieste (TLT / FTT: Zona A ITH44 AMG-FTT, Zona B SI_HIST_KOPER & HR_HIST_BUIE VUJA, Linea Morgan Belgrado/Duino 1945, Regime Provvisorio Allegato VII, Dichiarazione Tripartita Mar 1948 & Fazione Neutrale DFJ Giu 1948)',
+        run: () => {
+          const fTri = { properties: { id: 'ITH44', NUTS_ID: 'ITH44', CNTR_CODE: 'IT', NAME_LATN: 'Trieste' } };
+          const fGor = { properties: { id: 'ITH43', NUTS_ID: 'ITH43', CNTR_CODE: 'IT', NAME_LATN: 'Gorizia' } };
+          const fKoper = { properties: { id: 'SI_HIST_KOPER', NUTS_ID: 'SI_HIST_KOPER', CNTR_CODE: 'SI', NAME_LATN: 'Koper (Capodistria)' } };
+          const fBuie = { properties: { id: 'HR_HIST_BUIE', NUTS_ID: 'HR_HIST_BUIE', CNTR_CODE: 'HR', NAME_LATN: 'Buje (Buiese)' } };
+          const fPola = { properties: { id: 'HR036', NUTS_ID: 'HR036', CNTR_CODE: 'HR', NAME_LATN: 'Pula' } };
+
+          // 1. Step 18 (Linea Morgan: Belgrado 9 giugno / Duino 20 giugno 1945)
+          const rTri18 = resolveFeature(fTri, 18);
+          const rGor18 = resolveFeature(fGor, 18);
+          const rKoper18 = resolveFeature(fKoper, 18);
+          const rBuie18 = resolveFeature(fBuie, 18);
+          const rPola18 = resolveFeature(fPola, 18);
+          if (rTri18.o !== 'AMG' || rGor18.o !== 'AMG' || rPola18.o !== 'AMG') return false;
+          if (rKoper18.o !== 'DFJ' || rKoper18.fac !== 'Alleati' || !rKoper18.note.includes('20 giugno 1945')) return false;
+          if (rBuie18.o !== 'DFJ' || rBuie18.fac !== 'Alleati' || !rBuie18.note.includes('20 giugno 1945')) return false;
+
+          // 2. Step 19 & 20 (Trattato di Parigi 15 set 1947 -> Dic 1947 stallo Governatore ONU, Allegato VII, DFJ Comintern)
+          const rTri20 = resolveFeature(fTri, 20);
+          const rKoper19 = resolveFeature(fKoper, 19);
+          const rKoper20 = resolveFeature(fKoper, 20);
+          const rBuie20 = resolveFeature(fBuie, 20);
+          if (rTri20.o !== 'AMG' || !rTri20.note.includes('Allegato VII') || !rTri20.note.includes('Governatore')) return false;
+          if (rKoper19.o !== 'VUJA' || rKoper19.fac !== 'Comintern' || !rKoper19.note.includes('Allegato VII')) return false;
+          if (rKoper20.o !== 'VUJA' || rKoper20.fac !== 'Comintern' || !rKoper20.note.includes('Governatore')) return false;
+          if (rBuie20.o !== 'VUJA' || rBuie20.fac !== 'Comintern' || !rBuie20.note.includes('Allegato VII')) return false;
+
+          // 3. Step 21 (Giugno 1948: Dichiarazione Tripartita 20 mar 1948, Tito-Stalin 28 giu -> DFJ/VUJA Neutrale)
+          const rTri21 = resolveFeature(fTri, 21);
+          const rGor21 = resolveFeature(fGor, 21);
+          const rKoper21 = resolveFeature(fKoper, 21);
+          const rBuie21 = resolveFeature(fBuie, 21);
+          const rPola21 = resolveFeature(fPola, 21);
+          if (rTri21.o !== 'AMG' || rTri21.fac !== 'Alleati' || !rTri21.note.includes('Dichiarazione Tripartita')) return false;
+          if (rGor21.o !== 'ITA' || !rGor21.note.includes('Cominform')) return false;
+          if (rPola21.o !== 'DFJ' || rPola21.fac !== 'Neutrale') return false;
+          if (rKoper21.o !== 'VUJA' || rKoper21.fac !== 'Neutrale' || !rKoper21.note.includes('Dichiarazione Tripartita')) return false;
+          if (rBuie21.o !== 'VUJA' || rBuie21.fac !== 'Neutrale' || !rBuie21.note.includes('Tito–Stalin')) return false;
+
+          // 4. Battaglie, Fortificazioni, Bandiera & Metadati TLT
+          const morganFort = HISTORICAL_FORTIFICATION_LINES.find((x) => x.id === 'morgan_line_1945');
+          const tltFort = HISTORICAL_FORTIFICATION_LINES.find((x) => x.id === 'ftt_trieste_line_1947');
+          if (!morganFort || !morganFort.name.includes('Belgrado 9 & Duino 20')) return false;
+          if (!tltFort || tltFort.description.includes('all\'entrata in vigore dello Statuto Permanente') || !tltFort.description.includes('Allegato VII')) return false;
+          const bat21 = HISTORICAL_BATTLES.find((b) => b.id === 'trieste_tripartite_declaration_1948' && b.step === 21);
+          if (!bat21) return false;
+          const flgAmg = resolveHistoricalFlag('AMG', 21);
+          if (!flgAmg || flgAmg.asset.file_name !== 'Flag_of_the_Free_Territory_of_Trieste.svg') return false;
+          const flgVuja19 = resolveHistoricalFlag('VUJA', 19);
+          const flgVuja21 = resolveHistoricalFlag('VUJA', 21);
+          const svgVuja21 = getCountryFlagSvg('VUJA', 21);
+          if (!flgVuja19 || !flgVuja21 || flgVuja21.entity_id !== 'VUJA_TLT_B' || flgVuja21.flag_status !== 'de_facto') return false;
+          if (flgVuja21.asset.file_name !== 'Flag_of_Yugoslavia_(1946-1992).svg') return false;
+          if (typeof svgVuja21 !== 'string' || !svgVuja21.startsWith('<svg') || !svgVuja21.includes('data:image/png;base64,')) return false;
+          const metaAmg21 = getOwnerMeta('AMG', 21);
+          if (!metaAmg21.l(21).includes('Dichiarazione Tripartita')) return false;
+
+          return true;
+        },
+      },
+
+
+      {
+        name: '133. Coerenza Geostorica Integrale dei Layer Porti/Basi Navali e Città Strategiche (Steps 0–21: Owner Validati, Capitali Dinamiche, Evacuazioni 1947–48 e Transizioni Postbelliche)',
+        run: () => {
+          // 1. Tutte le città devono risolvere verso un proprietario censito in owners.ts su ogni step 0..21
+          for (const city of HISTORICAL_CITIES) {
+            for (let s = 0; s <= 21; s++) {
+              const rawOwner = getCityOwner(city, s);
+              if (!rawOwner) return false;
+              const resolved = getOwnerMeta(rawOwner, s);
+              if (rawOwner !== 'NEU' && resolved.id === 'NEU') return false;
+            }
+          }
+
+          // 2. Transizioni chiave di città & capitali (Italia, Cina, Birmania, Ceylon, Pakistan, Israele, Europa 1947-48)
+          const findCity = (id: string) => HISTORICAL_CITIES.find((c) => c.id === id);
+          const roma = findCity('roma');
+          const nanjing = findCity('nanjing');
+          const rangoon = findCity('rangoon');
+          const colombo = findCity('colombo');
+          const karachi = findCity('karachi');
+          const telAviv = findCity('tel_aviv');
+          const haifa = findCity('haifa');
+          const bucuresti = findCity('bucuresti');
+          const berlin = findCity('berlin');
+          const beograd = findCity('beograd');
+          if (!roma || !nanjing || !rangoon || !colombo || !karachi || !telAviv || !haifa || !bucuresti || !berlin || !beograd) {
+            return false;
+          }
+
+          if (getCityOwner(roma, 19) !== 'ITA' || getCityOwner(roma, 21) !== 'ITA') return false;
+          if (getCityOwner(nanjing, 6) !== 'WJ_CHI' || getCityOwner(nanjing, 21) !== 'CHI') return false;
+          if (getCityOwner(rangoon, 0) !== 'UK' || getCityOwner(rangoon, 10) !== 'JAP' || getCityOwner(rangoon, 21) !== 'BUR') return false;
+          if (!rangoon.historicalNames.step21?.includes('Unione della Birmania')) return false;
+          if (getCityOwner(colombo, 0) !== 'UK' || getCityOwner(colombo, 21) !== 'CEY' || !getCityIsCapital(colombo, 21)) return false;
+          if (getCityOwner(karachi, 0) !== 'IND' || getCityIsCapital(karachi, 0) || getCityOwner(karachi, 19) !== 'PAK' || !getCityIsCapital(karachi, 19)) return false;
+          if (getCityOwner(telAviv, 0) !== 'UK' || getCityOwner(telAviv, 21) !== 'ISR' || getCityIsCapital(telAviv, 20) || !getCityIsCapital(telAviv, 21)) return false;
+          if (getCityOwner(haifa, 20) !== 'UK' || getCityOwner(haifa, 21) !== 'ISR') return false;
+          if (!bucuresti.historicalNames.step20?.includes('Repubblica Popolare Romena')) return false;
+          if (!berlin.historicalNames.step21?.includes('Blocco')) return false;
+          if (!beograd.historicalNames.step21?.includes('Tito-Stalin')) return false;
+
+          // 3. Transizioni e nomi dinamici delle basi navali / porti strategici su Steps 0..21
+          const baseStatus = (id: string, step: number) => {
+            const b = HISTORICAL_NAVAL_BASES.find((x) => x.id === id);
+            return b ? getDynamicNavalBaseStatus(b, step) : null;
+          };
+          const gdynia0 = baseStatus('gotenhafen', 0);
+          const gotenhafen5 = baseStatus('gotenhafen', 5);
+          const gdynia21 = baseStatus('gotenhafen', 21);
+          const swino21 = baseStatus('swinemunde', 21);
+          const portArthur21 = baseStatus('ryojun_naval', 21);
+          const hanko7 = baseStatus('hanko', 7);
+          const hanko18 = baseStatus('hanko', 18);
+          const massawa21 = baseStatus('massawa', 21);
+          const tobruk21 = baseStatus('tobruk_naval', 21);
+          const trinco21 = baseStatus('trincomalee', 21);
+          const alex21 = baseStatus('alexandria', 21);
+          const haifaNaval0 = baseStatus('haifa_naval', 0);
+          const haifaNaval21 = baseStatus('haifa_naval', 21);
+          const pola21 = baseStatus('pola_naval', 21);
+          const kotor21 = baseStatus('kotor_naval_base', 21);
+          const varna21 = baseStatus('varna_naval_base', 21);
+
+          if (!gdynia0 || gdynia0.displayName !== 'Gdynia') return false;
+          if (!gotenhafen5 || gotenhafen5.displayName !== 'Gotenhafen (Gdynia)') return false;
+          if (!gdynia21 || gdynia21.displayName !== 'Gdynia' || !gdynia21.nation.includes('Polonia')) return false;
+          if (!swino21 || !swino21.displayName?.includes('Świnoujście')) return false;
+          if (!portArthur21 || !portArthur21.displayName?.includes('Port Arthur') || !portArthur21.nation.includes('URSS')) return false;
+          if (!hanko7 || hanko7.nation !== 'URSS' || !hanko18 || !hanko18.nation.includes('Finlandia') || !hanko18.historicalName?.includes('Porkkala-Udd')) return false;
+          if (!massawa21 || !massawa21.nation.includes('BMA Eritrea')) return false;
+          if (!tobruk21 || !tobruk21.nation.includes('BMA Cyrenaica')) return false;
+          if (!trinco21 || !trinco21.nation.includes('Ceylon') || !trinco21.nation.includes('Defence Agreement')) return false;
+          if (!alex21 || !alex21.nation.includes('Egitto')) return false;
+          if (!haifaNaval0 || haifaNaval0.nation !== 'Regno Unito' || !haifaNaval21 || !haifaNaval21.nation.includes('Israele')) return false;
+          if (!pola21 || !pola21.nation.includes('Non Allineata') || !kotor21 || !kotor21.nation.includes('Non Allineata')) return false;
+          if (!varna21 || !varna21.nation.includes('Repubblica Popolare di Bulgaria')) return false;
+
+          return true;
+        },
+      },
+
+
+      {
+        name: '134. Scenario Geopolitico 31 Dicembre 1948 (Step 22 DIC 1948: ROK/PRK/APG/NSS/NJT, Cina Manciuria & Pingjin, Operazione Polo Hyderabad & Kashmir, Operatie Kraai & PDRI, Gerico & Negev, Berlino Divisa & Bandiere Autentiche)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[Test 134 FAIL]', tag); return false; };
+          // 1. Timeline Step 22 & Nuovi Enti Sovrani/Protetti/Federali
+          if (STEPS.length < 23 || !STEPS[22] || STEPS[22].d !== 'DIC 1948') return fail('step22');
+          const metaRok = getOwnerMeta('ROK', 22);
+          const metaPrk = getOwnerMeta('PRK', 22);
+          const metaApg = getOwnerMeta('APG', 22);
+          const metaNss = getOwnerMeta('NSS', 22);
+          const metaNjt = getOwnerMeta('NJT', 22);
+          const metaIdn22 = getOwnerMeta('IDN', 22);
+          const metaJor22 = getOwnerMeta('JOR', 22);
+          const metaPru22 = getOwnerMeta('PRU', 22);
+          const metaVen22 = getOwnerMeta('VEN', 22);
+          const metaSlv22 = getOwnerMeta('SLV', 22);
+          if (metaRok.id !== 'ROK' || !metaRok.l(22).includes('Corea')) return fail('metaRok');
+          if (metaPrk.id !== 'PRK' || metaPrk.f !== 'Comintern' || !metaPrk.l(22).includes('Corea')) return fail('metaPrk');
+          if (metaApg.id !== 'APG' || !metaApg.l(22).includes('Tutto-Palestina')) return fail('metaApg');
+          if (metaNss.id !== 'NSS' || metaNjt.id !== 'NJT') return fail('metaNss/Njt');
+          if (!metaIdn22.l(22).includes('PDRI') && !metaIdn22.capital.includes('Bukittinggi')) return fail('metaIdn22');
+          if (!metaJor22.l(22).includes('Hascemita') && !metaJor22.leader.includes('Abdallah')) return fail('metaJor22');
+          if (!metaPru22.leader.includes('Odría')) return fail('metaPru22');
+          if (!metaVen22.leader.includes('Delgado Chalbaud')) return fail('metaVen22');
+          if (!metaSlv22.leader.includes('Osorio') && !metaSlv22.leader.includes('Giunta')) return fail('metaSlv22');
+
+          // 2. Bandiere Storiche Autentiche & Guardrail Anti-Anacronismo
+          for (const cid of ['ROK', 'PRK', 'APG', 'NSS', 'NJT']) {
+            const ok22 = resolveHistoricalFlag(cid, 22);
+            if (!ok22) return fail(`flag_${cid}_missing`);
+            const bad21 = validateFlagAgainstAnachronism(ok22, '1948-06-30');
+            const okCheck22 = validateFlagAgainstAnachronism(ok22, '1948-12-31');
+            if (!okCheck22.isValid || bad21.isValid) return fail(`flag_${cid}_anach:${okCheck22.isValid}/${bad21.isValid}`);
+          }
+          const hun22 = resolveHistoricalFlag('HUN', 22);
+          if (!hun22 || hun22.asset.file_name !== 'Flag_of_Hungary_(1946-1949,_1956-1957).svg') return fail('hun22');
+
+          // 3. Cina Dicembre 1948 (Manciuria & Nord 100% EPL, Pechino/Tientsin/Shanghai ancora ROC — NO RPC 1949)
+          const chn = (id: string) => resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'CN_PROV' } }, 22);
+          if (chn('CHN_LIAONING').o !== 'CCP_CHI' || chn('CHN_JILIN').o !== 'CCP_CHI' || chn('CHN_HEILONGJIANG').o !== 'CCP_CHI') return fail('chn_manchuria');
+          if (chn('CHN_JIANGSU').o !== 'CCP_CHI' || chn('CHN_ANHUI').o !== 'CCP_CHI') return fail('chn_huaihai');
+          if (chn('CHN_BEIJING').o !== 'CHI' || chn('CHN_TIANJIN').o !== 'CHI' || chn('CHN_SHANGHAI').o !== 'CHI') return fail('chn_roc');
+
+          // 4. Subcontinente Indiano (Operazione Polo a Hyderabad & Kashmir)
+          const raj = (id: string) => resolveFeature({ id, properties: { id } }, 22);
+          const rHyd22 = raj('IN_HYD');
+          if (rHyd22.o !== 'IND' || (!rHyd22.note.includes('Polo') && !rHyd22.note.includes('Hyderabad'))) return fail(`hyd:${rHyd22.o}`);
+          if (raj('IN_JK').o !== 'IND' || raj('IN_LAD').o !== 'IND') return fail('kashmir_ind');
+          if (raj('PK_AJK').o !== 'PAK' || raj('PK_GB').o !== 'PAK') return fail('kashmir_pak');
+
+          // 5. Medio Oriente (Gaza APG, Cisgiordania Gerico->JOR, Negev/Galilea ISR — no Eilat mar 1949)
+          const pal = (id: string) => resolveFeature({ id, properties: { id, CNTR_CODE: 'PS', NUTS_ID: id } }, 22);
+          if (pal('PAL_GAZ').o !== 'APG') return fail(`pal_gaz:${pal('PAL_GAZ').o}`);
+          if (pal('PAL_SAM').o !== 'JOR') return fail(`pal_sam:${pal('PAL_SAM').o}`);
+          const rBeer22 = pal('PAL_BEER');
+          if (rBeer22.o !== 'ISR' || pal('PAL_GAL').o !== 'ISR' || pal('PAL_JRS').o !== 'ISR') return fail(`pal_isr:${rBeer22.o}`);
+          if (!rBeer22.note.includes('Horev') && !rBeer22.note.includes('Faluja')) return fail('pal_beer_note');
+
+          // 6. Corea (Nord PRK vs Sud ROK al 38° parallelo)
+          const kp22 = resolveFeature({ properties: { id: 'KP01', NUTS_ID: 'KP01', CNTR_CODE: 'KP', NAME_LATN: 'Pyongyang' } }, 22);
+          const kr22 = resolveFeature({ properties: { id: 'KR11', NUTS_ID: 'KR11', CNTR_CODE: 'KR', NAME_LATN: 'Seoul' } }, 22);
+          if (kp22.o !== 'PRK' || kr22.o !== 'ROK') return fail(`korea:${kp22.o}/${kr22.o}`);
+
+          // 7. Indonesia (Operatie Kraai, NSS/NJT & PDRI Bukittinggi)
+          const indo = (id: string) => resolveFeature({ id, properties: { id, ISO2: 'ID', NUTS_ID: id } }, 22);
+          if (indo('IDSS').o !== 'NSS' || indo('IDJI').o !== 'NJT') return fail(`indo_states:${indo('IDSS').o}/${indo('IDJI').o}`);
+          if (indo('IDYO').o !== 'HOL' || indo('IDAC').o !== 'IDN') return fail(`indo_kraai:${indo('IDYO').o}/${indo('IDAC').o}`);
+
+          // 8. Grecia (Vitsi/Grammos DSE) & Berlino Divisa (NO RFT/RDT 1949)
+          const vitsi22 = resolveFeature({ id: 'EL533', properties: { CNTR_CODE: 'EL', NUTS_ID: 'EL533', NAME: 'Florina' } }, 22);
+          if (vitsi22.o !== 'DSE') return fail(`vitsi:${vitsi22.o}`);
+          const berW22 = resolveFeature({ properties: { id: 'DE300_WEST', NUTS_ID: 'DE300_WEST', CNTR_CODE: 'DE', NAME_LATN: 'Berlin (West)' } }, 22);
+          const berE22 = resolveFeature({ properties: { id: 'DE300_EAST', NUTS_ID: 'DE300_EAST', CNTR_CODE: 'DE', NAME_LATN: 'Berlin (Ost)' } }, 22);
+          if (berW22.o !== 'USA' || berE22.o !== 'SOV') return fail(`berlin:${berW22.o}/${berE22.o}`);
+
+          // 9. Battaglie, Fortificazioni, Rotte Navali & Città Step 22
+          const step22Battles = HISTORICAL_BATTLES.filter((b) => b.step === 22);
+          if (step22Battles.length < 7) return fail(`battles:${step22Battles.length}`);
+          const arIsLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'arab_israeli_dec1948_frontline');
+          const triLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'ftt_trieste_line_1947');
+          const korLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'korea_38th_parallel_1945');
+          const kashLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'radcliffe_kashmir_line_1947');
+          if (!arIsLine?.activeSteps.includes(22) || !triLine?.activeSteps.includes(22) || !korLine?.activeSteps.includes(22) || !kashLine?.activeSteps.includes(22)) {
+            return fail('forts');
+          }
+          const atlLane = HISTORICAL_SEA_LANES.find((l) => l.id === 'north_atlantic_convoy');
+          if (!atlLane?.activeSteps.includes(22)) return fail('sealane');
+
+          for (const city of HISTORICAL_CITIES) {
+            const rawOwner = getCityOwner(city, 22);
+            if (!rawOwner) return fail(`city_no_owner:${city.id}`);
+            const resolved = getOwnerMeta(rawOwner, 22);
+            if (rawOwner !== 'NEU' && resolved.id === 'NEU') return fail(`city_neu:${city.id}:${rawOwner}`);
+          }
+          const cKeijo = HISTORICAL_CITIES.find((c) => c.id === 'keijo');
+          const cPyong = HISTORICAL_CITIES.find((c) => c.id === 'pyongyang');
+          const cHsin = HISTORICAL_CITIES.find((c) => c.id === 'hsinking');
+          const cNanj = HISTORICAL_CITIES.find((c) => c.id === 'nanjing');
+          if (!cKeijo || getCityOwner(cKeijo, 22) !== 'ROK' || !getCityIsCapital(cKeijo, 22)) return fail('city_keijo');
+          if (!cPyong || getCityOwner(cPyong, 22) !== 'PRK' || !getCityIsCapital(cPyong, 22)) return fail('city_pyongyang');
+          if (!cHsin || getCityOwner(cHsin, 22) !== 'CCP_CHI') return fail('city_hsinking');
+          if (!cNanj || getCityOwner(cNanj, 22) !== 'CHI') return fail('city_nanjing');
+
+          // 10. Indocina Francese & Guerra d'Indocina al 31 Dicembre 1948 (Fédération Taï, Pays Mường, RC4, Léon Pignon, RDV Interzone I–V & Santuari Nam Bộ)
+          const vnAll22 = Object.keys(FRENCH_INDOCHINA_PROVINCES_META).filter((id) => FRENCH_INDOCHINA_PROVINCES_META[id].cntrCode === 'VN');
+          if (vnAll22.length !== 63) return fail('indo_count');
+          for (const pid of vnAll22) {
+            const r22 = resolveFeature({ id: pid, properties: { id: pid, ISO2: 'VN', NUTS_ID: pid } }, 22);
+            if ((r22.o !== 'FRA' && r22.o !== 'VIE') || r22.note.includes('Al 30 giugno 1948')) {
+              return fail(`indo_prov_22:${pid}`);
+            }
+          }
+          for (const taiId of ['VN01', 'VN05', 'VN71', 'VN14']) {
+            const rTai = resolveFeature({ id: taiId, properties: { id: taiId, ISO2: 'VN', NUTS_ID: taiId } }, 22);
+            if (rTai.o !== 'FRA' || rTai.fac !== 'Alleati') return fail(`indo_tai:${taiId}:${rTai.o}`);
+          }
+          for (const vieId of ['VN53', 'VN69', 'VN21', 'VN27', 'VN31', 'VN45', 'VN59']) {
+            const rVie = resolveFeature({ id: vieId, properties: { id: vieId, ISO2: 'VN', NUTS_ID: vieId } }, 22);
+            if (rVie.o !== 'VIE' || rVie.fac !== 'Comintern') return fail(`indo_vie:${vieId}:${rVie.o}`);
+          }
+          const rKh22 = resolveFeature({ id: 'KH12', properties: { id: 'KH12', ISO2: 'KH', NUTS_ID: 'KH12' } }, 22);
+          const rLa22 = resolveFeature({ id: 'LA1', properties: { id: 'LA1', ISO2: 'LA', NUTS_ID: 'LA1' } }, 22);
+          if (rKh22.o !== 'FRA' || !rKh22.note.includes('Léon Pignon') || rLa22.o !== 'FRA' || !rLa22.note.includes('Léon Pignon')) {
+            return fail('indo_kh_la_22');
+          }
+          const indoBat22 = HISTORICAL_BATTLES.find((b) => b.id === 'indochina_phu_thong_hoa_pays_tai_1948' && b.step === 22);
+          const rc4Fort22 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'indochina_rc4_viet_bac_1948');
+          const saigonNavalObj = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'saigon_naval');
+          const saigonNaval22 = saigonNavalObj ? getDynamicNavalBaseStatus(saigonNavalObj, 22) : null;
+          const cSaigon22 = HISTORICAL_CITIES.find((c) => c.id === 'saigon');
+          const cHanoi22 = HISTORICAL_CITIES.find((c) => c.id === 'hanoi');
+          if (!indoBat22 || !rc4Fort22?.activeSteps.includes(22)) return fail('indo_tactical_22');
+          if (!saigonNaval22 || !saigonNaval22.historicalName?.includes('Dicembre 1948') || !saigonNaval22.description?.includes('Léon Pignon')) {
+            return fail('indo_saigon_naval_22');
+          }
+          if (!cSaigon22?.historicalNames.step22?.includes('Léon Pignon') || !cHanoi22?.historicalNames.step22?.includes('Dicembre 1948')) {
+            return fail('indo_cities_22');
+          }
+
+          return true;
+        },
+      },
+
+      {
+        name: '135. Refresh Geostorico Provincia per Provincia USA (60 Entità) e Canada / Terranova (13 Entità) nelle Ultime Tappe della Timeline (Steps 14-22)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 135 FAIL]', tag); return false; };
+          const usaIds = [
+            'US_AL','US_AZ','US_AR','US_CA','US_CO','US_CT','US_DE','US_FL','US_GA','US_ID',
+            'US_IL','US_IN','US_IA','US_KS','US_KY','US_LA','US_ME','US_MD','US_MA','US_MI',
+            'US_MN','US_MS','US_MO','US_MT','US_NE','US_NV','US_NH','US_NJ','US_NM','US_NY',
+            'US_NC','US_ND','US_OH','US_OK','US_OR','US_PA','US_RI','US_SC','US_SD','US_TN',
+            'US_TX','US_UT','US_VT','US_VA','US_WA','US_WV','US_WI','US_WY','US_DC','US_AK',
+            'US_HAWAII','US_GUANTANAMO','US_PCZ','PR','VI','GU','AS','UM_MIDWAY','UM_WAKE','US_AK_ALEUTIANS_WEST',
+          ];
+          const canadaIds = [
+            'CA_ON','CA_QC','CA_NS','CA_NB','CA_PE','CA_MB','CA_SK','CA_AB','CA_BC','CA_NL','CA_NT','CA_YT','CA_NU',
+          ];
+          const lateSteps = [18, 19, 21, 22];
+
+          for (const id of usaIds) {
+            for (const s of lateSteps) {
+              const r = resolveFeature({ properties: { id, NUTS_ID: id, shapeISO: id, shapeName: id, NAME: id, CNTR_CODE: 'USA', adm0_a3: 'USA' } }, s);
+              if (r.o !== 'USA' || r.fac !== 'Alleati') return fail(`usa_owner_${id}_${s}`);
+              if (r.name.includes('Mobilitazione Post-Pearl Harbor')) return fail(`usa_anach_name_${id}_${s}`);
+              if ((r.note || '').includes("Dopo l'attacco giapponese a Pearl Harbor")) return fail(`usa_anach_note_${id}_${s}`);
+            }
+          }
+
+          const usDc22 = resolveFeature({ properties: { id: 'US_DC', NUTS_ID: 'US_DC', CNTR_CODE: 'USA', shapeISO: 'US_DC', shapeName: 'Washington, D.C.' } }, 22);
+          const usNm22 = resolveFeature({ properties: { id: 'US_NM', NUTS_ID: 'US_NM', CNTR_CODE: 'USA', shapeISO: 'US_NM', shapeName: 'New Mexico' } }, 22);
+          const usTn19 = resolveFeature({ properties: { id: 'US_TN', NUTS_ID: 'US_TN', CNTR_CODE: 'USA', shapeISO: 'US_TN', shapeName: 'Tennessee' } }, 19);
+          const usTn22 = resolveFeature({ properties: { id: 'US_TN', NUTS_ID: 'US_TN', CNTR_CODE: 'USA', shapeISO: 'US_TN', shapeName: 'Tennessee' } }, 22);
+          const usWa19 = resolveFeature({ properties: { id: 'US_WA', NUTS_ID: 'US_WA', CNTR_CODE: 'USA', shapeISO: 'US_WA', shapeName: 'Washington' } }, 19);
+          const usWa22 = resolveFeature({ properties: { id: 'US_WA', NUTS_ID: 'US_WA', CNTR_CODE: 'USA', shapeISO: 'US_WA', shapeName: 'Washington' } }, 22);
+          const usVa19 = resolveFeature({ properties: { id: 'US_VA', NUTS_ID: 'US_VA', CNTR_CODE: 'USA', shapeISO: 'US_VA', shapeName: 'Virginia' } }, 19);
+          const usVa22 = resolveFeature({ properties: { id: 'US_VA', NUTS_ID: 'US_VA', CNTR_CODE: 'USA', shapeISO: 'US_VA', shapeName: 'Virginia' } }, 22);
+          const usNy22 = resolveFeature({ properties: { id: 'US_NY', NUTS_ID: 'US_NY', CNTR_CODE: 'USA', shapeISO: 'US_NY', shapeName: 'New York' } }, 22);
+          const pr22 = resolveFeature({ properties: { id: 'PR', NUTS_ID: 'PR', CNTR_CODE: 'USA', shapeISO: 'PR', shapeName: 'Puerto Rico' } }, 22);
+          const hi22 = resolveFeature({ properties: { id: 'US_HAWAII', NUTS_ID: 'US_HAWAII', CNTR_CODE: 'USA', shapeISO: 'US_HAWAII', shapeName: 'Hawaii' } }, 22);
+          if (!(usDc22.note || '').includes('Truman')) return fail('us_dc_22');
+          if (!(usNm22.note || '').includes('Los Alamos') && !(usNm22.note || '').includes('Sandia')) return fail('us_nm_22');
+          if (!(usTn19.note || '').includes('Oak Ridge') || !usTn22.name.includes('Oak Ridge')) return fail('us_tn_22');
+          if ((!(usWa19.note || '').includes('Hanford') && !(usWa19.note || '').includes('XB-47')) || !(usWa22.note || '').includes('Truman')) return fail('us_wa_22');
+          if (!(usVa19.note || '').includes('Pentagono') || !(usVa22.note || '').includes('Truman')) return fail('us_va_22');
+          if (!(usNy22.note || '').includes('ONU')) return fail('us_ny_22');
+          if (!(pr22.note || '').includes('Muñoz Marín')) return fail('us_pr_22');
+          if ((hi22.note || '').includes('legge marziale vigente')) return fail('us_hi_22_anach');
+
+          for (const id of canadaIds) {
+            for (const s of lateSteps) {
+              const iso0 = id === 'CA_NL' ? 'GBR' : 'CAN';
+              const cntr0 = id === 'CA_NL' ? 'UK' : 'CA';
+              const r = resolveFeature({ properties: { id, NUTS_ID: id, shapeISO: id, shapeName: id, NAME: id, CNTR_CODE: cntr0, adm0_a3: iso0 } }, s);
+              const expectedOwner = id === 'CA_NL' ? 'UK' : 'CAN';
+              if (r.o !== expectedOwner || r.fac !== 'Alleati') return fail(`can_owner_${id}_${s}_${r.o}`);
+            }
+          }
+
+          const caNl22 = resolveFeature({ properties: { id: 'CA_NL', NUTS_ID: 'CA_NL', CNTR_CODE: 'UK', adm0_a3: 'GBR', shapeISO: 'CA_NL', shapeName: 'Newfoundland' } }, 22);
+          const caAb22 = resolveFeature({ properties: { id: 'CA_AB', NUTS_ID: 'CA_AB', CNTR_CODE: 'CA', adm0_a3: 'CAN', shapeISO: 'CA_AB', shapeName: 'Alberta' } }, 22);
+          const caOn22 = resolveFeature({ properties: { id: 'CA_ON', NUTS_ID: 'CA_ON', CNTR_CODE: 'CA', adm0_a3: 'CAN', shapeISO: 'CA_ON', shapeName: 'Ontario' } }, 22);
+          const caNu22 = resolveFeature({ properties: { id: 'CA_NU', NUTS_ID: 'CA_NU', CNTR_CODE: 'CA', adm0_a3: 'CAN', shapeISO: 'CA_NU', shapeName: 'Nunavut' } }, 22);
+          if (!(caNl22.note || '').includes('Terms of Union') && !(caNl22.note || '').includes('Ottawa')) return fail('ca_nl_22');
+          if (!(caAb22.note || '').includes('Leduc')) return fail('ca_ab_22');
+          if (!(caOn22.note || '').includes('Chalk River') && !(caOn22.note || '').includes('St. Laurent')) return fail('ca_on_22');
+          if (!(caNu22.note || '').includes('JAWS')) return fail('ca_nu_22');
+
+          const metaCan22 = getOwnerMeta('CAN', 22);
+          const metaUsa22 = getOwnerMeta('USA', 22);
+          if (!metaCan22.leader.includes('Louis St. Laurent') || !metaCan22.l(22).includes('St. Laurent')) return fail('meta_can_22');
+          if (!metaUsa22.leader.includes('Truman') || !metaUsa22.l(22).includes('Truman')) return fail('meta_usa_22');
+
+          const halifaxObj = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'halifax');
+          const pearlObj = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'pearl_harbor');
+          const halifax22 = halifaxObj ? getDynamicNavalBaseStatus(halifaxObj, 22) : null;
+          const pearl22 = pearlObj ? getDynamicNavalBaseStatus(pearlObj, 22) : null;
+          if (!halifax22?.historicalName || !pearl22?.historicalName) return fail('na_naval_22');
+
+          for (const cid of ['ottawa', 'washington', 'new_york', 'honolulu']) {
+            const c = HISTORICAL_CITIES.find((x) => x.id === cid);
+            if (!c?.historicalNames?.step22) return fail(`na_city_${cid}_22`);
+          }
+
+          return true;
+        },
+      },
+
+      {
+        name: '136. Etiopia ADM1 (12 Divisioni da et.json — Topologia Watertight & Approfondimento Storico-Militare Steps 0-22)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 136 FAIL]', tag); return false; };
+          const ethIds = ['ETAA', 'ETAF', 'ETAM', 'ETBE', 'ETDD', 'ETGA', 'ETHA', 'ETOR', 'ETSI', 'ETSN', 'ETSO', 'ETTI'];
+          const redoubtsStep8 = new Set(['ETAM', 'ETSN', 'ETSI']);
+          if (loadedProvs && loadedProvs.length > 0) {
+            const ethProvs = loadedProvs.filter((f: any) => f?.properties?.REGION_KIND === 'ETHIOPIA_PROVINCE');
+            if (ethProvs.length !== 12) return fail(`loaded_eth_count_${ethProvs.length}`);
+            const totalArea = ethProvs.reduce((acc: number, f: any) => acc + Number(f?.properties?.area_deg2 || 0), 0);
+            if (Math.abs(totalArea - 92.996363) > 0.01) return fail(`eth_total_area_${totalArea}`);
+          }
+          if (loadedHbs && loadedHbs.some((f: any) => f?.properties?.NAME === 'Ethiopia (Italy)')) {
+            return fail('hb_ethiopia_still_present');
+          }
+
+          for (const id of ethIds) {
+            const ft = { id, properties: { id, NUTS_ID: id, CNTR_CODE: 'ET', REGION_KIND: 'ETHIOPIA_PROVINCE', name: id } };
+            const r0 = resolveFeature(ft, 0);
+            const r1 = resolveFeature(ft, 1);
+            const r3 = resolveFeature(ft, 3);
+            const r6 = resolveFeature(ft, 6);
+            const r7 = resolveFeature(ft, 7);
+            const r8 = resolveFeature(ft, 8);
+            const r9 = resolveFeature(ft, 9);
+            const r13 = resolveFeature(ft, 13);
+            const r18 = resolveFeature(ft, 18);
+            const r19 = resolveFeature(ft, 19);
+            const r21 = resolveFeature(ft, 21);
+            const r22 = resolveFeature(ft, 22);
+            if (r0.o !== 'ETH' || r0.fac !== 'Neutrale') return fail(`eth_${id}_s0`);
+            if (r1.o !== 'ITA' || r1.fac !== 'Asse') return fail(`eth_${id}_s1`);
+            if (r3.o !== 'ITA' || r3.fac !== 'Asse') return fail(`eth_${id}_s3`);
+            if (r6.o !== 'ITA' || r6.fac !== 'Asse') return fail(`eth_${id}_s6`);
+            if (r7.o !== 'ITA' || r7.fac !== 'Asse') return fail(`eth_${id}_s7`);
+            const exp8 = redoubtsStep8.has(id) ? 'ITA' : 'ETH';
+            const expFac8 = redoubtsStep8.has(id) ? 'Asse' : 'Alleati';
+            if (r8.o !== exp8 || r8.fac !== expFac8) return fail(`eth_${id}_s8_${r8.o}`);
+            if (r9.o !== 'ETH' || r9.fac !== 'Alleati') return fail(`eth_${id}_s9`);
+            if (r13.o !== 'ETH' || r13.fac !== 'Alleati') return fail(`eth_${id}_s13`);
+            if (r18.o !== 'ETH' || r18.fac !== 'Alleati') return fail(`eth_${id}_s18`);
+            if (r19.o !== 'ETH' || r19.fac !== 'Neutrale') return fail(`eth_${id}_s19`);
+            if (r21.o !== 'ETH' || r21.fac !== 'Neutrale') return fail(`eth_${id}_s21`);
+            if (r22.o !== 'ETH' || r22.fac !== 'Neutrale') return fail(`eth_${id}_s22`);
+          }
+
+          // Anti-anacronismo & snodi storici specifici per provincia
+          const etaa1 = resolveFeature({ id: 'ETAA', properties: { id: 'ETAA', CNTR_CODE: 'ET', REGION_KIND: 'ETHIOPIA_PROVINCE' } }, 1);
+          const etaa3 = resolveFeature({ id: 'ETAA', properties: { id: 'ETAA', CNTR_CODE: 'ET', REGION_KIND: 'ETHIOPIA_PROVINCE' } }, 3);
+          const etti13 = resolveFeature({ id: 'ETTI', properties: { id: 'ETTI', CNTR_CODE: 'ET', REGION_KIND: 'ETHIOPIA_PROVINCE' } }, 13);
+          const etti19 = resolveFeature({ id: 'ETTI', properties: { id: 'ETTI', CNTR_CODE: 'ET', REGION_KIND: 'ETHIOPIA_PROVINCE' } }, 19);
+          const etso21 = resolveFeature({ id: 'ETSO', properties: { id: 'ETSO', CNTR_CODE: 'ET', REGION_KIND: 'ETHIOPIA_PROVINCE' } }, 21);
+          const etso22 = resolveFeature({ id: 'ETSO', properties: { id: 'ETSO', CNTR_CODE: 'ET', REGION_KIND: 'ETHIOPIA_PROVINCE' } }, 22);
+          if (!(etaa1.note || '').includes('Governatorato di Addis Abeba') || (etaa1.note || '').includes('R.D.L. 11 novembre 1938')) return fail('etaa1_anach');
+          if (!(etaa3.note || '').includes('Governatorato dello Scioa')) return fail('etaa3_scioa');
+          if (!(etti13.note || '').includes('Weyane')) return fail('etti13_woyane');
+          if (!(etti19.note || '').includes('Axum')) return fail('etti19_axum');
+          if (!(etso21.note || '').includes('Bevin Plan')) return fail('etso21_bma');
+          if (!(etso22.note || '').includes('settembre 1948')) return fail('etso22_restitution');
+
+          // Layer tattici: Battaglia di Gondar (Step 9) & Città Addis Abeba / Gondar
+          const bGondar = HISTORICAL_BATTLES.find((b) => b.id === 'battle_of_gondar_1941');
+          const cAddis = HISTORICAL_CITIES.find((c) => c.id === 'addis_ababa');
+          const cGondar = HISTORICAL_CITIES.find((c) => c.id === 'gondar');
+          if (!bGondar || bGondar.step !== 9) return fail('battle_gondar_9');
+          if (!cAddis?.historicalNames?.step22?.includes('Ogaden') || !cGondar) return fail('eth_cities');
+          if (getCityOwner(cGondar, 8) !== 'ITA' || getCityOwner(cGondar, 9) !== 'ETH') return fail('gondar_owner_8_9');
+
+          // Preserva inoltre la risoluzione generica country-level ETH esistente
+          const ethGeneric8 = resolveFeature({ properties: { CNTR_CODE: 'ET', NAME: 'Ethiopia' } }, 8);
+          if (ethGeneric8.o !== 'ETH' || !ethGeneric8.name.includes('6 Aprile 1941')) return fail('eth_generic_s8');
+
+          return true;
+        },
+      },
+
+      {
+        name: '137. Revamp Geostorico Integrale Germania e Terzo Reich (403 Distretti DE* / Gaue / Crollo 1944-45 / Zone & Länder Postbellici Steps 0-22)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 137 FAIL]', tag); return false; };
+
+          // 1. Copertura totale di tutti i distretti DE* caricati su Steps 0..22
+          const deLoaded = loadedProvs.filter((f: any) => {
+            const p = f?.properties || {};
+            const cid = String(f?.id || p.NUTS_ID || p.id || '');
+            return p.CNTR_CODE === 'DE' || cid.startsWith('DE');
+          });
+          if (deLoaded.length < 403) return fail(`de_count_${deLoaded.length}`);
+          for (const ft of deLoaded) {
+            for (const s of [0, 5, 9, 13, 16]) {
+              const r = resolveFeature(ft, s);
+              const cid = String(ft.id || ft.properties?.NUTS_ID || '');
+              if (s === 16 && cid === 'DEA2D') {
+                if (r.o !== 'USA') return fail(`aachen_s16_${r.o}`);
+              } else if (r.o !== 'GER') {
+                return fail(`de_not_ger_${cid}_s${s}_${r.o}`);
+              }
+            }
+            for (const s of [18, 19, 20, 21, 22]) {
+              const r = resolveFeature(ft, s);
+              if (r.o === 'GER') return fail(`de_postwar_ger_${ft.id}_s${s}`);
+            }
+          }
+
+          // 2. Anti-anacronismo Step 0 (GEN 1936): niente Anschluss 1938, fascia smilitarizzata Reno, no West/Ost-Berlin Alleati prima del 1945
+          const bw0 = resolveFeature({ id: 'DE300_WEST', properties: { id: 'DE300_WEST', NUTS_ID: 'DE300_WEST', CNTR_CODE: 'DE' } }, 0);
+          const be0 = resolveFeature({ id: 'DE300_EAST', properties: { id: 'DE300_EAST', NUTS_ID: 'DE300_EAST', CNTR_CODE: 'DE' } }, 0);
+          const col0 = resolveFeature({ id: 'DEA23', properties: { id: 'DEA23', NUTS_ID: 'DEA23', CNTR_CODE: 'DE' } }, 0);
+          if (bw0.name.includes('Settori Alleati') || bw0.name.includes('West-Berlin')) return fail(`berlin_w_s0_anach:${bw0.name}`);
+          if (be0.name.includes('Ost-Berlin') || (be0.adminEntity || '').includes('DDR')) return fail(`berlin_e_s0_anach:${be0.name}`);
+          if ((col0.note || '').includes('marzo 1938') || !(col0.note || '').includes('smilitarizzata')) return fail('koln_s0_dmz');
+
+          // 3. Correzione Gaue storici & ridenominazioni belliche
+          const peen0 = resolveFeature({ id: 'DE80N', properties: { id: 'DE80N', NUTS_ID: 'DE80N', CNTR_CODE: 'DE' } }, 0);
+          const gor0 = resolveFeature({ id: 'DED2D', properties: { id: 'DED2D', NUTS_ID: 'DED2D', CNTR_CODE: 'DE' } }, 0);
+          const ess0 = resolveFeature({ id: 'DEA13', properties: { id: 'DEA13', NUTS_ID: 'DEA13', CNTR_CODE: 'DE' } }, 0);
+          const dus0 = resolveFeature({ id: 'DEA11', properties: { id: 'DEA11', NUTS_ID: 'DEA11', CNTR_CODE: 'DE' } }, 0);
+          const hal0 = resolveFeature({ id: 'DEE02', properties: { id: 'DEE02', NUTS_ID: 'DEE02', CNTR_CODE: 'DE' } }, 0);
+          const mag0 = resolveFeature({ id: 'DEE03', properties: { id: 'DEE03', NUTS_ID: 'DEE03', CNTR_CODE: 'DE' } }, 0);
+          const pot6 = resolveFeature({ id: 'DE404', properties: { id: 'DE404', NUTS_ID: 'DE404', CNTR_CODE: 'DE' } }, 6);
+          const sb7 = resolveFeature({ id: 'DEC01', properties: { id: 'DEC01', NUTS_ID: 'DEC01', CNTR_CODE: 'DE' } }, 7);
+          const kob0 = resolveFeature({ id: 'DEB11', properties: { id: 'DEB11', NUTS_ID: 'DEB11', CNTR_CODE: 'DE' } }, 0);
+          const kob8 = resolveFeature({ id: 'DEB11', properties: { id: 'DEB11', NUTS_ID: 'DEB11', CNTR_CODE: 'DE' } }, 8);
+          const reg10 = resolveFeature({ id: 'DE221', properties: { id: 'DE221', NUTS_ID: 'DE221', CNTR_CODE: 'DE' } }, 10);
+          if (!(peen0.adminEntity || '').includes('Gau Pommern') || !(peen0.note || '').includes('Franz Schwede-Coburg')) return fail('peen_gau_pommern');
+          if (!(gor0.adminEntity || '').includes('Gau Schlesien')) return fail('gorlitz_gau_schlesien');
+          if (!(ess0.adminEntity || '').includes('Gau Essen') || !(dus0.adminEntity || '').includes('Gau Düsseldorf')) return fail('essen_dusseldorf_split');
+          if (!(hal0.adminEntity || '').includes('Gau Halle-Merseburg') || !(mag0.adminEntity || '').includes('Gau Magdeburg-Anhalt')) return fail('halle_magdeburg_split');
+          if (!(pot6.adminEntity || '').includes('Gau Mark Brandenburg')) return fail('potsdam_s6_brandenburg');
+          if (!(sb7.adminEntity || '').includes('Gau Westmark')) return fail('saar_s7_westmark');
+          if (!(kob0.adminEntity || '').includes('Gau Koblenz-Trier') || !(kob8.adminEntity || '').includes('Gau Moselland')) return fail('koblenz_moselland');
+          if (!(reg10.adminEntity || '').includes('Gau Bayreuth')) return fail('bayreuth_s10');
+
+          // 4. Dinamica bellica Steps 10..16 (niente nota Barbarossa congelata)
+          const col10 = resolveFeature({ id: 'DEA23', properties: { id: 'DEA23', NUTS_ID: 'DEA23', CNTR_CODE: 'DE' } }, 10);
+          const ham13 = resolveFeature({ id: 'DE600', properties: { id: 'DE600', NUTS_ID: 'DE600', CNTR_CODE: 'DE' } }, 13);
+          const peen13 = resolveFeature({ id: 'DE80N', properties: { id: 'DE80N', NUTS_ID: 'DE80N', CNTR_CODE: 'DE' } }, 13);
+          const leuna14 = resolveFeature({ id: 'DEE0B', properties: { id: 'DEE0B', NUTS_ID: 'DEE0B', CNTR_CODE: 'DE' } }, 14);
+          const dur16 = resolveFeature({ id: 'DEA26', properties: { id: 'DEA26', NUTS_ID: 'DEA26', CNTR_CODE: 'DE' } }, 16);
+          if (!(col10.note || '').includes('Millennium')) return fail('col10_millennium');
+          if (!(ham13.note || '').includes('Gomorrah')) return fail('ham13_gomorrah');
+          if (!(peen13.note || '').includes('Hydra')) return fail('peen13_hydra');
+          if (!(leuna14.note || '').includes('Leuna')) return fail('leuna14_oil');
+          if (dur16.o !== 'GER' || !(dur16.note || '').includes('Hürtgenwald')) return fail('dur16_hurtgen');
+
+          // 5. Crollo multi-fronte Aprile 1945 (Step 17) & Königsberg (SOV 9 Apr 1945)
+          const kon17 = resolveFeature({ id: 'DE_HIST_KONIGSBERG', properties: { id: 'DE_HIST_KONIGSBERG', NUTS_ID: 'DE_HIST_KONIGSBERG', CNTR_CODE: 'DE' } }, 17);
+          const pot17 = resolveFeature({ id: 'DE404', properties: { id: 'DE404', NUTS_ID: 'DE404', CNTR_CODE: 'DE' } }, 17);
+          const peen17 = resolveFeature({ id: 'DE80N', properties: { id: 'DE80N', NUTS_ID: 'DE80N', CNTR_CODE: 'DE' } }, 17);
+          const brem17 = resolveFeature({ id: 'DE501', properties: { id: 'DE501', NUTS_ID: 'DE501', CNTR_CODE: 'DE' } }, 17);
+          const freib17 = resolveFeature({ id: 'DE131', properties: { id: 'DE131', NUTS_ID: 'DE131', CNTR_CODE: 'DE' } }, 17);
+          const fra17 = resolveFeature({ id: 'DE712', properties: { id: 'DE712', NUTS_ID: 'DE712', CNTR_CODE: 'DE' } }, 17);
+          const dres17 = resolveFeature({ id: 'DED21', properties: { id: 'DED21', NUTS_ID: 'DED21', CNTR_CODE: 'DE' } }, 17);
+          const bgl17 = resolveFeature({ id: 'DE215', properties: { id: 'DE215', NUTS_ID: 'DE215', CNTR_CODE: 'DE' } }, 17);
+          if (kon17.o !== 'SOV' || pot17.o !== 'SOV' || peen17.o !== 'SOV') return fail('step17_sov_east');
+          if (brem17.o !== 'UK' || freib17.o !== 'FRA' || fra17.o !== 'USA') return fail('step17_allied_west');
+          if (dres17.o !== 'GER' || bgl17.o !== 'GER') return fail('step17_ger_holdouts');
+
+          // 6. Länder postbellici, Protettorato della Saar 1948 & Berlino Step 22
+          const bonn22 = resolveFeature({ id: 'DEA22', properties: { id: 'DEA22', NUTS_ID: 'DEA22', CNTR_CODE: 'DE' } }, 22);
+          const peen22 = resolveFeature({ id: 'DE80N', properties: { id: 'DE80N', NUTS_ID: 'DE80N', CNTR_CODE: 'DE' } }, 22);
+          const saar21 = resolveFeature({ id: 'DEC01', properties: { id: 'DEC01', NUTS_ID: 'DEC01', CNTR_CODE: 'DE' } }, 21);
+          const nurn18 = resolveFeature({ id: 'DE254', properties: { id: 'DE254', NUTS_ID: 'DE254', CNTR_CODE: 'DE' } }, 18);
+          if (bonn22.o !== 'UK' || !bonn22.name.includes('Nordrhein-Westfalen') || !(bonn22.note || '').includes('Parlamentarischer Rat')) return fail('bonn22_nrw');
+          if (peen22.o !== 'SOV' || !peen22.name.includes('Mecklenburg-Vorpommern')) return fail('peen22_mv');
+          if (saar21.o !== 'SAAR' || !(saar21.note || '').includes('Franco francese')) return fail('saar21_customs');
+          if (nurn18.o !== 'USA' || !(nurn18.note || '').includes('Tribunale Militare Internazionale')) return fail('nurn18_trials');
+
+          return true;
+        },
+      },
+
+      {
+        name: '138. Fix Radice Fronte Aprile 1945 (Pomerania/Masuria/Slesia/Moravia) & Ingegneria Uniforme GeoJSON Worldwide',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 138 FAIL]', tag); return false; };
+
+          // 1. Invarianti schema uniforme GeoJSON su tutti i poligoni caricati
+          const seen = new Set<string>();
+          for (const ft of loadedProvs) {
+            const p = ft?.properties || {};
+            const cid = String(ft?.id || '');
+            if (!cid || !p.id) return fail(`missing_id_${cid}`);
+            if (seen.has(cid)) return fail(`dup_id_${cid}`);
+            seen.add(cid);
+            if (!Array.isArray(p.centroid) || p.centroid.length < 2) return fail(`missing_centroid_${cid}`);
+            if (p.__sanitized !== true) return fail(`unsanitized_${cid}`);
+            if (ft.__layer !== 'prov' || p.__layer !== 'prov') return fail(`layer_mismatch_${cid}`);
+          }
+
+          // 2. Step 17 (Apr 1945): Masuria, Pomerania, Lubusz, Slesia (eccetto Festung Breslau PL514 e crinale Sudeti PL515/PL517) sotto Armata Rossa (SOV)
+          const byId = new Map<string, any>();
+          for (const ft of loadedProvs) {
+            const p = ft?.properties || {};
+            for (const k of [ft.id, p.NUTS_ID, p.id]) if (k) byId.set(String(k), ft);
+          }
+          for (const sovPl of ['PL621', 'PL622', 'PL623', 'PL636', 'PL424', 'PL426', 'PL427', 'PL428', 'PL411', 'PL431', 'PL432', 'PL228', 'PL229', 'PL523', 'PL524', 'PL516', 'PL518']) {
+            const f = byId.get(sovPl);
+            if (!f) return fail(`missing_${sovPl}`);
+            if (resolveFeature(f, 17).o !== 'SOV') return fail(`step17_pl_not_sov_${sovPl}`);
+            if (resolveFeature(f, 18).o !== 'POL') return fail(`step18_pl_not_pol_${sovPl}`);
+          }
+          for (const gerPl of ['PL514', 'PL515', 'PL517']) {
+            const f = byId.get(gerPl);
+            if (!f || resolveFeature(f, 17).o !== 'GER') return fail(`step17_pl_pocket_${gerPl}`);
+          }
+
+          // 3. Parità __resolve vs georesolver su Cecoslovacchia / Moravia orientale & meridionale @ Step 17
+          for (const sovCz of ['CZE_OSTRAVA', 'CZE_SUD_TROPPAU', 'CZE_BRNO', 'CZE_ZLIN', 'CZE_SUD_SUEDMAEHREN', 'CZE_RUTHENIA_NORTH', 'CZE_RUTHENIA_SOUTH']) {
+            const f = byId.get(sovCz);
+            if (!f) return fail(`missing_${sovCz}`);
+            if (resolveFeature(f, 17).o !== 'SOV') return fail(`step17_cz_not_sov_${sovCz}`);
+            if (resolveFeature({ ...f, __resolve: undefined }, 17).o !== 'SOV') return fail(`step17_cz_parity_${sovCz}`);
+          }
+          for (const czeCz of ['CZE_SLO_BRATISLAVA', 'CZE_FEL_KOSICE']) {
+            const f = byId.get(czeCz);
+            if (!f || resolveFeature(f, 17).o !== 'CZE' || resolveFeature({ ...f, __resolve: undefined }, 17).o !== 'CZE') return fail(`step17_slo_parity_${czeCz}`);
+          }
+          const eger17 = byId.get('CZE_SUD_EGER');
+          if (!eger17 || resolveFeature(eger17, 17).o !== 'GER' || resolveFeature({ ...eger17, __resolve: undefined }, 17).o !== 'GER') return fail('step17_eger_parity');
+
+          // 4. Baviera ridotta alpina: Traunstein (DE21M) GER vs Mühldorf (DE21G) USA @ Step 17
+          const tr17 = resolveFeature({ id: 'DE21M', properties: { NUTS_ID: 'DE21M', CNTR_CODE: 'DE', NAME_LATN: 'Traunstein' } }, 17);
+          const muh17 = resolveFeature({ id: 'DE21G', properties: { NUTS_ID: 'DE21G', CNTR_CODE: 'DE', NAME_LATN: 'Mühldorf a. Inn' } }, 17);
+          if (tr17.o !== 'GER' || muh17.o !== 'USA') return fail(`bavaria_alp_${tr17.o}_${muh17.o}`);
+
+          return true;
+        },
+      },
+
+      {
+        name: '139. Tailandia ADM1 (78 Divisioni da th.json — Topologia Watertight & Risoluzione Geopolitica Steps 0-22)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 139 FAIL]', tag); return false; };
+          const thProvs = loadedProvs.filter((f: any) => f?.properties?.REGION_KIND === 'THAILAND_PROVINCE');
+          if (thProvs.length !== 78) return fail(`loaded_th_count_${thProvs.length}`);
+
+          const totalArea = thProvs.reduce((acc: number, f: any) => acc + Number(f?.properties?.area_deg2 || 0), 0);
+          if (Math.abs(totalArea - 42.457352) > 0.01) return fail(`th_total_area_${totalArea}`);
+
+          if (loadedHbs && loadedHbs.some((f: any) => f?.id === 'HIST_XX_SIAM' || f?.properties?.NAME === 'Siam')) {
+            return fail('hb_siam_still_present');
+          }
+
+          for (const ft of thProvs) {
+            const p = ft.properties || {};
+            if (!ft.id || p.CNTR_CODE !== 'TH' || !Array.isArray(p.centroid) || p.__sanitized !== true) {
+              return fail(`th_schema_${ft.id}`);
+            }
+            for (const s of [0, 8, 18, 19, 22]) {
+              const r = resolveFeature(ft, s);
+              if (r.o !== 'SIA' || r.fac !== 'Neutrale') return fail(`th_${ft.id}_s${s}_${r.o}_${r.fac}`);
+            }
+            for (const s of [9, 13, 17]) {
+              const r = resolveFeature(ft, s);
+              if (r.o !== 'SIA' || r.fac !== 'Asse') return fail(`th_${ft.id}_s${s}_${r.o}_${r.fac}`);
+            }
+          }
+
+          const bkk0 = resolveFeature(thProvs.find((f: any) => f.id === 'TH10'), 0);
+          const cm9 = resolveFeature(thProvs.find((f: any) => f.id === 'TH50'), 9);
+          const pat18 = resolveFeature(thProvs.find((f: any) => f.id === 'TH94'), 18);
+          if (!bkk0.name.includes('Bangkok Metropolis') || !cm9.name.includes('Chiang Mai') || !pat18.name.includes('Pattani')) {
+            return fail('th_prov_names');
+          }
+
+          return true;
+        },
+      },
+
+      {
+        name: '140. Tailandia — Approfondimento Geostorico & Layer Tattici Steps 0-22 (Siam/Thailandia, Ko Chang, Seri Thai, Dusun Nyor)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 140 FAIL]', tag); return false; };
+          const thProvs = loadedProvs.filter((f: any) => f?.properties?.REGION_KIND === 'THAILAND_PROVINCE');
+          const byId = (id: string) => thProvs.find((f: any) => f.id === id);
+
+          // 1. Anti-anacronismo Siam (Steps 0-4) vs Thailandia (Steps 5+)
+          for (const s of [0, 4]) {
+            const bkk = resolveFeature(byId('TH10'), s);
+            const cmi = resolveFeature(byId('TH50'), s);
+            if (!bkk.name.includes('Regno del Siam') || bkk.name.includes('Thailandia') || !bkk.adminEntity?.includes('Prathet Sayam')) {
+              return fail(`siam_pre39_${s}_${bkk.name}`);
+            }
+            if (!cmi.note?.includes('Sayam') || cmi.note?.includes('Rathaniyom')) return fail(`siam_note_${s}`);
+          }
+          const bkk5 = resolveFeature(byId('TH10'), 5);
+          if (!bkk5.name.includes('Regno di Thailandia') || !bkk5.note?.includes('Rathaniyom')) return fail('thai_s5_rename');
+
+          // 2. Guerra Franco-Thailandese (Step 7-8) & Sbarchi Dic 1941 (Step 9)
+          const trat8 = resolveFeature(byId('TH23'), 8);
+          if (!trat8.note?.includes('Ko Chang') || trat8.fac !== 'Neutrale') return fail('trat_s8_ko_chang');
+          const sgk9 = resolveFeature(byId('TH90'), 9);
+          const prk9 = resolveFeature(byId('TH77'), 9);
+          const bkk9 = resolveFeature(byId('TH10'), 9);
+          if (sgk9.fac !== 'Asse' || !sgk9.note?.includes('Yamashita')) return fail('singora_s9');
+          if (!prk9.note?.includes('Ao Manao')) return fail('prachuap_s9');
+          if (!bkk9.note?.toLowerCase().includes('21 dicembre') || !bkk9.note?.includes('Wat Phra Kaew')) return fail('bkk_s9_ally');
+
+          // 3. Ferrovia della Morte, Phetchabun/Seri Thai, Pace 1945 & Trattato di Washington 1946/47
+          const kan10 = resolveFeature(byId('TH71'), 10);
+          const phb14 = resolveFeature(byId('TH67'), 14);
+          const bkk18 = resolveFeature(byId('TH10'), 18);
+          const bkk19 = resolveFeature(byId('TH10'), 19);
+          if (!kan10.note?.includes('Ferrovia Thailandia–Birmania')) return fail('kan_s10_railway');
+          if (!phb14.note?.includes('Phetchabun') || !phb14.adminEntity?.includes('Khuang')) return fail('phetchabun_s14');
+          if (bkk18.fac !== 'Neutrale' || !bkk18.note?.includes('Seri Thai')) return fail('bkk_s18_peace');
+          if (!bkk19.note?.includes('Washington') || !bkk19.adminEntity?.includes('Rama IX')) return fail('bkk_s19_wash');
+
+          // 4. Golpe 1947, Rivolta Dusun Nyor 1948 & Emergenza Malese Dic 1948
+          const bkk20 = resolveFeature(byId('TH10'), 20);
+          const nar21 = resolveFeature(byId('TH96'), 21);
+          const yala22 = resolveFeature(byId('TH95'), 22);
+          if (!bkk20.note?.includes('novembre 1947')) return fail('bkk_s20_coup');
+          if (!nar21.note?.includes('Dusun Nyor')) return fail('narathiwat_s21');
+          if (!yala22.note?.includes('Emergenza Malese') || yala22.o !== 'SIA') return fail('yala_s22');
+
+          // 5. Layer tattici thailandesi: Base Navale di Sattahip, Battaglia di Ko Chang, Città storiche
+          const koChang = HISTORICAL_BATTLES.find((b) => b.id === 'battle_of_ko_chang_1941');
+          if (!koChang || koChang.step !== 8 || koChang.theater !== 'Asia') return fail('ko_chang_battle');
+          const sattahip = HISTORICAL_NAVAL_BASES.find((n) => n.id === 'sattahip_naval');
+          if (!sattahip) return fail('sattahip_missing');
+          const sat0 = getDynamicNavalBaseStatus(sattahip, 0);
+          const sat9 = getDynamicNavalBaseStatus(sattahip, 9);
+          const sat18 = getDynamicNavalBaseStatus(sattahip, 18);
+          if (!sat0.nation.includes('Siam') || !sat9.nation.includes('Asse') || !sat18.nation.includes('Thailandia')) {
+            return fail(`sattahip_dyn_${sat0.nation}_${sat9.nation}_${sat18.nation}`);
+          }
+          const bkkCity = HISTORICAL_CITIES.find((c) => c.id === 'bangkok');
+          const cmiCity = HISTORICAL_CITIES.find((c) => c.id === 'chiang_mai');
+          const kanCity = HISTORICAL_CITIES.find((c) => c.id === 'kanchanaburi');
+          if (!bkkCity || !cmiCity || !kanCity || !bkkCity.historicalNames?.step22) return fail('th_cities_missing');
+          if (getCityOwner(cmiCity, 10) !== 'SIA' || getCityOwner(kanCity, 22) !== 'SIA') return fail('th_cities_owner');
+
+          return true;
+        },
+      },
+      {
+        name: '141. Fasce Costiere di Resistenza Wehrmacht (Poches Atlantiques & Dunkerque Steps 0-22 — Coerenza Spazio-Temporale & Zero Blinking)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 141 FAIL]', tag); return false; };
+          const pocketIds = [
+            'FR_HIST_POCHE_DUNKERQUE',
+            'FR_HIST_POCHE_LORIENT',
+            'FR_HIST_POCHE_ST_NAZAIRE',
+            'FR_HIST_POCHE_LA_ROCHELLE',
+            'FR_HIST_POCHE_ROYAN',
+            'FR_HIST_POCHE_POINTE_GRAVE',
+          ];
+
+          for (const pid of pocketIds) {
+            const ft = loadedProvs.find((f: any) => f.id === pid);
+            if (!ft || ft.properties?.REGION_KIND !== 'FR_COASTAL_POCKET') return fail(`missing_${pid}`);
+
+            // 1. Prebellico (Steps 0-5): FRA, nessuna etichetta anacronistica ('Poche'/'Festung'/'Zone Occupée'/'Fès'/'Maroc') & evoluzione 1936->1938->Drôle de guerre
+            for (const s of [0, 1, 2, 3, 4, 5]) {
+              const r = resolveFeature(ft, s);
+              const rt = resolveHistoricalTruth(ft, s);
+              if (r.o !== 'FRA' || r.fac !== 'Alleati') return fail(`${pid}_pre_${s}`);
+              if (/Poche|Festung|Zone Occupée|Fès|Maroc/i.test(r.name) || rt.name !== r.name) return fail(`${pid}_pre_anach_name_${s}_${rt.name}`);
+            }
+            for (const s of [6, 10, 14, 15, 16, 17, 18, 19, 22]) {
+              const r = resolveFeature(ft, s);
+              const rt = resolveHistoricalTruth(ft, s);
+              if (rt.name !== r.name || /Fès|Maroc/i.test(rt.name)) return fail(`${pid}_truth_parity_${s}_${rt.name}`);
+            }
+            const n0 = resolveFeature(ft, 0).note || '';
+            const n2 = resolveFeature(ft, 2).note || '';
+            const n5 = resolveFeature(ft, 5).note || '';
+            if (!n0 || !n2 || !n5 || n0 === n2 || n2 === n5) return fail(`${pid}_pre_static_notes`);
+
+            // 2. Occupazione & Atlantikwall (Steps 6-14): progressione cronologica 1940 -> autunno 1940 -> 1941 -> 1942 -> 1943 -> giu 1944
+            for (const s of [6, 7, 8, 9, 10, 11, 12, 13, 14]) {
+              const r = resolveFeature(ft, s);
+              if (r.o !== 'GER' || r.fac !== 'Asse') return fail(`${pid}_occ_${s}_${r.o}`);
+            }
+            const r6 = resolveFeature(ft, 6);
+            const r7 = resolveFeature(ft, 7);
+            const r8 = resolveFeature(ft, 8);
+            const r10 = resolveFeature(ft, 10);
+            const r12 = resolveFeature(ft, 12);
+            const r14 = resolveFeature(ft, 14);
+            if (r6.note === r7.note || r7.note === r8.note || r8.note === r10.note || r10.note === r12.note || r12.note === r14.note) {
+              return fail(`${pid}_occ_collapsed_timeline`);
+            }
+            if (/Festung/i.test(r10.name) || !/Festung/i.test(r14.name)) return fail(`${pid}_festung_step_timing`);
+
+            // 3. Continuità assedio senza "blinking" a Step 15 (Ago 1944) e Step 16 (Dic 1944): tutte GER con comandanti reali
+            for (const s of [15, 16]) {
+              const r = resolveFeature(ft, s);
+              if (r.o !== 'GER' || r.fac !== 'Asse' || !r.name.includes('Festung')) return fail(`${pid}_siege_${s}_${r.o}`);
+            }
+
+            // 4. Postbellico (Steps 18-22): GPRF -> 1947–1948 Quatrième République senza stasi e senza 'Poche' nel nome
+            const r18 = resolveFeature(ft, 18);
+            const r19 = resolveFeature(ft, 19);
+            const r20 = resolveFeature(ft, 20);
+            const r21 = resolveFeature(ft, 21);
+            const r22 = resolveFeature(ft, 22);
+            for (const r of [r18, r19, r20, r21, r22]) {
+              if (r.o !== 'FRA' || r.fac !== 'Alleati') return fail(`${pid}_post_owner`);
+              if (r.name.includes('Poche')) return fail(`${pid}_post_anach_name`);
+            }
+            if (!r18.adminEntity?.includes('GPRF')) return fail(`${pid}_s18_gprf`);
+            if (r19.note === r20.note || r20.note === r21.note || r21.note === r22.note) {
+              return fail(`${pid}_post_static_notes`);
+            }
+          }
+
+          // Verifiche storiche puntuali anti-anacronismo e comandanti:
+          // Dunkerque sotto amministrazione militare di Bruxelles (Belgien und Nordfrankreich) nel 1940-1944
+          const dnk6 = resolveFeature(loadedProvs.find((f: any) => f.id === 'FR_HIST_POCHE_DUNKERQUE'), 6);
+          if (!dnk6.adminEntity?.includes('Belgien und Nordfrankreich')) return fail('dnk6_brussels_admin');
+          // Lorient: giu 1940 niente bunker/BdU; ott 1940 BdU Kernével; 1941 Todt Kéroman
+          const lor6 = resolveFeature(loadedProvs.find((f: any) => f.id === 'FR_HIST_POCHE_LORIENT'), 6);
+          const lor7 = resolveFeature(loadedProvs.find((f: any) => f.id === 'FR_HIST_POCHE_LORIENT'), 7);
+          const lor8 = resolveFeature(loadedProvs.find((f: any) => f.id === 'FR_HIST_POCHE_LORIENT'), 8);
+          if (/bunker|BdU/i.test(lor6.note || '')) return fail('lor6_anachronism');
+          if (!lor7.note?.includes('BdU') || !lor7.note?.includes('Kernével')) return fail('lor7_bdu');
+          if (!lor8.note?.includes('1941') || !lor8.note?.includes('Todt')) return fail('lor8_todt_1941');
+
+          // Step 17 (30 aprile 1945): Royan (Michahelles catturato) e Pointe de Grave (Prahl catturato) liberate (Op. Vénérable 14-20 apr),
+          // mentre Dunkerque (Frisius, 9 mag), Lorient (Fahrmbacher, 10 mag), St-Nazaire (Junck, 11 mag) e La Rochelle (Schirlitz, 8 mag) resistono;
+          // gli entroterra (Nantes FRG01, Vannes FRH04, Lille FRE11, Saintes FRI32, Bordeaux FRI12) sono FRA!
+          const expectedCmd17: Record<string, string> = {
+            FR_HIST_POCHE_DUNKERQUE: 'Frisius',
+            FR_HIST_POCHE_LORIENT: 'Fahrmbacher',
+            FR_HIST_POCHE_ST_NAZAIRE: 'Junck',
+            FR_HIST_POCHE_LA_ROCHELLE: 'Schirlitz',
+          };
+          for (const hold17 of Object.keys(expectedCmd17)) {
+            const r = resolveFeature(loadedProvs.find((f: any) => f.id === hold17), 17);
+            if (r.o !== 'GER' || r.fac !== 'Asse') return fail(`s17_hold_${hold17}`);
+            if (!r.note?.includes(expectedCmd17[hold17])) return fail(`s17_cmd_${hold17}`);
+          }
+          const roy17 = resolveFeature(loadedProvs.find((f: any) => f.id === 'FR_HIST_POCHE_ROYAN'), 17);
+          const pg17 = resolveFeature(loadedProvs.find((f: any) => f.id === 'FR_HIST_POCHE_POINTE_GRAVE'), 17);
+          if (!roy17.note?.includes('Vénérable') || !roy17.note?.includes('Michahelles')) return fail('roy17_venerable_cmd');
+          if (!pg17.note?.includes('Vénérable') || !pg17.note?.includes('Prahl')) return fail('pg17_venerable_cmd');
+          for (const lib17 of ['FR_HIST_POCHE_ROYAN', 'FR_HIST_POCHE_POINTE_GRAVE', 'FRE11', 'FRH04', 'FRG01', 'FRI32', 'FRI12']) {
+            const r = resolveFeature(loadedProvs.find((f: any) => f.id === lib17), 17);
+            if (r.o !== 'FRA' || r.fac !== 'Alleati') return fail(`s17_lib_${lib17}_${r.o}`);
+          }
+          for (const int16 of ['FRE11', 'FRH04', 'FRG01', 'FRI32', 'FRI12']) {
+            const r = resolveFeature(loadedProvs.find((f: any) => f.id === int16), 16);
+            if (r.o !== 'FRA') return fail(`s16_int_${int16}_${r.o}`);
+          }
+
+          // Basi Navali Atlantiche: Brest ancora assediata al 31 ago 1944 (Step 15) -> liberata 19 set (Step 16+);
+          // Saint-Nazaire, La Pallice e Dunkerque tedesche fino a Step 17 -> francesi a Step 18+
+          const brest = HISTORICAL_NAVAL_BASES.find((b) => b.id === 'brest')!;
+          if (!getDynamicNavalBaseStatus(brest, 15).nation.includes('Germania')) return fail('brest_s15_ger');
+          if (!getDynamicNavalBaseStatus(brest, 16).nation.includes('Francia')) return fail('brest_s16_fra');
+
+          for (const bid of ['saint_nazaire_naval', 'la_pallice_naval', 'dunkerque_naval']) {
+            const b = HISTORICAL_NAVAL_BASES.find((n) => n.id === bid);
+            if (!b) return fail(`missing_base_${bid}`);
+            if (!getDynamicNavalBaseStatus(b, 16).nation.includes('Germania')) return fail(`${bid}_s16_ger`);
+            if (!getDynamicNavalBaseStatus(b, 17).nation.includes('Germania')) return fail(`${bid}_s17_ger`);
+            if (!getDynamicNavalBaseStatus(b, 18).nation.includes('Francia')) return fail(`${bid}_s18_fra`);
+          }
+
+          return true;
+        },
+      },
+
+      {
+        name: '142. Scenario Geopolitico 30 Giugno 1949 (Step 23 GIU 1949: RFT/BRD & Bonn, Berlino Senza Blocco, Stato del Vietnam SVN, Terranova in Canada, Repubblica d\'Irlanda, Cina Attraversamento Yangtze & Canton ROC, Armistizi di Rodi & Linea Verde, Evacuazione Yogyakarta & Grecia)',
+        run: () => {
+          const fail = (tag: string) => { console.error('[TEST 142 FAIL]', tag); return false; };
+
+          // 1. Timeline Step 23 & Nuove Entità/Trasformazioni Costituzionali
+          if (STEPS.length < 24 || !STEPS[23] || STEPS[23].d !== 'GIU 1949') return fail('step23');
+          const metaBrd = getOwnerMeta('BRD', 23);
+          const metaSvn = getOwnerMeta('SVN', 23);
+          const metaChi = getOwnerMeta('CHI', 23);
+          const metaCan = getOwnerMeta('CAN', 23);
+          const metaJor = getOwnerMeta('JOR', 23);
+          const metaIre = getOwnerMeta('IRE', 23);
+          const metaIdn = getOwnerMeta('IDN', 23);
+          const metaGre = getOwnerMeta('GRE', 23);
+          if (metaBrd.id !== 'BRD' || metaBrd.c === getOwnerMeta('FRA', 23).c || metaBrd.c !== '#268073' || !metaBrd.l(23).includes('Repubblica Federale Tedesca') || !metaBrd.capital.includes('Bonn') || metaBrd.f !== 'Alleati') return fail('meta_brd');
+          if (metaSvn.id !== 'SVN' || !isSubjectOf('SVN', 'FRA', 23) || !metaSvn.capital.includes('Saigon')) return fail('meta_svn');
+          if (!metaChi.capital.includes('Guangzhou') && !metaChi.capital.includes('Canton')) return fail('meta_chi_canton');
+          if (!metaCan.l(23).includes('Canada') || !metaJor.l(23).includes('Hascemita')) return fail('meta_can_jor');
+          if (!metaIre.l(23).includes('Repubblica d\'Irlanda') || !metaIdn.capital.includes('Yogyakarta') || !metaGre.leader.includes('Papagos')) return fail('meta_ire_idn_gre');
+
+          // 2. Bandiere Storiche Autentiche & Guardrail Anti-Anacronismo Step 23 (no PRC 1 ott, no RDT 7 ott, no Rákosi 20 ago)
+          const fBrd = resolveHistoricalFlag('BRD', 23);
+          const fSvn = resolveHistoricalFlag('SVN', 23);
+          const fHun = resolveHistoricalFlag('HUN', 23);
+          if (!fBrd || fBrd.asset.file_name !== 'Flag_of_Germany.svg') return fail('flag_brd');
+          if (!fSvn || fSvn.asset.file_name !== 'Flag_of_South_Vietnam.svg') return fail('flag_svn');
+          if (!fHun || fHun.asset.file_name !== 'Flag_of_Hungary_(1946-1949,_1956-1957).svg') return fail('flag_hun23');
+          if (!validateFlagAgainstAnachronism(fBrd, '1949-06-30').isValid || validateFlagAgainstAnachronism(fBrd, '1949-05-22').isValid) return fail('flag_brd_anach');
+          if (!validateFlagAgainstAnachronism(fSvn, '1949-06-30').isValid || validateFlagAgainstAnachronism(fSvn, '1949-06-01').isValid) return fail('flag_svn_anach');
+          if (!validateFlagAgainstAnachronism(fHun, '1949-06-30').isValid) return fail('flag_hun23_anach');
+
+          // 3. Germania, Berlino & Saar al 30 Giugno 1949 (NO RDT fino al 7 Ott 1949)
+          const de = (id: string, name = id) => resolveFeature({ properties: { id, NUTS_ID: id, CNTR_CODE: 'DE', NAME_LATN: name } }, 23);
+          const rBonn = de('DEA22', 'Bonn');
+          const rMun = de('DE212', 'München');
+          const rFrei = de('DE131', 'Freiburg');
+          const rBerW = de('DE300_WEST', 'Berlin (West)');
+          const rBerE = de('DE300_EAST', 'Berlin (Ost)');
+          const rDres = de('DED21', 'Dresden');
+          const rSaar = de('DEC01', 'Saarbrücken');
+          if (rBonn.o !== 'BRD' || rMun.o !== 'BRD' || rFrei.o !== 'BRD' || rBerW.o !== 'BRD') return fail(`de_brd:${rBonn.o}/${rMun.o}/${rFrei.o}/${rBerW.o}`);
+          if (rBerE.o !== 'SOV' || rDres.o !== 'SOV' || rSaar.o !== 'SAAR') return fail(`de_east_saar:${rBerE.o}/${rDres.o}/${rSaar.o}`);
+          if (!rBerW.note.includes('Berlin-Vorbehalt') || !rBerW.note.includes('12 maggio 1949') || !rBonn.note.includes('Bonn') || !rSaar.note.includes('23 maggio 1949') || !rDres.note.includes('Čujkov')) return fail('de_notes');
+          if ((rMun.adminEntity || '').includes('Alta Commissione') || (rBerW.adminEntity || '').includes('Alta Commissione')) return fail('de_ahk_anach');
+
+          // 4. Cina al 30 Giugno 1949 (Yangtze attraversato: Pechino/Tianjin/Nanchino/Shanghai/Taiyuan/Qingdao PCC; Canton ROC!)
+          const chn23 = (id: string) => resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'CN_PROV' } }, 23);
+          for (const ccpId of ['CHN_BEIJING', 'CHN_TIANJIN', 'CHN_HEBEI', 'CHN_SHANXI', 'CHN_SHANDONG', 'CHN_HENAN', 'CHN_JIANGSU', 'CHN_SHANGHAI', 'CHN_ANHUI', 'CHN_INNER_MONGOLIA', 'CHN_ZHEJIANG', 'CHN_HUBEI', 'CHN_JIANGXI', 'CHN_SHAANXI']) {
+            if (chn23(ccpId).o !== 'CCP_CHI') return fail(`chn_ccp:${ccpId}:${chn23(ccpId).o}`);
+          }
+          for (const rocId of ['CHN_FUJIAN', 'CHN_HUNAN', 'CHN_GUANGDONG', 'CHN_HAINAN', 'CHN_GUANGXI', 'CHN_SICHUAN', 'CHN_CHONGQING', 'CHN_XIKANG', 'CHN_GUIZHOU', 'CHN_YUNNAN', 'CHN_QINGHAI', 'CHN_GANSU', 'CHN_NINGXIA', 'CHN_TAIWAN', 'CHN_XINJIANG']) {
+            if (chn23(rocId).o !== 'CHI') return fail(`chn_roc:${rocId}:${chn23(rocId).o}`);
+          }
+          if (chn23('CHN_XINJIANG_ETR').o !== 'ETR') return fail('chn_etr');
+
+          // 5. Medio Oriente (Armistizi di Rodi, Eilat Uvda, Piccolo Triangolo -> ISR; Cisgiordania -> JOR; Gaza -> APG; Siria ancora aperta fino al 20 Lug)
+          const pal23 = (id: string) => resolveFeature({ id, properties: { id, CNTR_CODE: 'PS', NUTS_ID: id } }, 23);
+          const rGal23 = pal23('PAL_GAL');
+          if (pal23('PAL_BEER').o !== 'ISR' || pal23('PAL_LYD').o !== 'ISR' || pal23('PAL_JRS').o !== 'ISR' || rGal23.o !== 'ISR') return fail('pal_isr_23');
+          if (!rGal23.note.includes('Mishmar HaYarden') && !rGal23.note.includes('20 luglio')) return fail('pal_syria_open');
+          if (pal23('PAL_SAM').o !== 'JOR' || pal23('PAL_GAZ').o !== 'APG') return fail('pal_jor_apg_23');
+
+          // 6. Indonesia (Evacuazione Olandese di Yogyakarta -> IDN), Vietnam (Stato del Vietnam -> SVN vs Việt Bắc -> VIE), Canada (Terranova), Irlanda, Grecia
+          const indo23 = (id: string) => resolveFeature({ id, properties: { id, ISO2: 'ID', NUTS_ID: id } }, 23);
+          if (indo23('IDYO').o !== 'IDN' || indo23('IDAC').o !== 'IDN' || indo23('IDJK').o !== 'HOL' || indo23('IDSS').o !== 'NSS') return fail('indo_23');
+          for (const svnId of ['VN01', 'VN05', 'VN71', 'VN04', 'VN14']) {
+            if (resolveFeature({ id: svnId, properties: { id: svnId, ISO2: 'VN', NUTS_ID: svnId } }, 23).o !== 'SVN') return fail(`vn_svn:${svnId}`);
+          }
+          for (const vieId of ['VN53', 'VN69', 'VN27', 'VN31']) {
+            if (resolveFeature({ id: vieId, properties: { id: vieId, ISO2: 'VN', NUTS_ID: vieId } }, 23).o !== 'VIE') return fail(`vn_vie:${vieId}`);
+          }
+          const caNl23 = resolveFeature({ properties: { id: 'CA_NL', NUTS_ID: 'CA_NL', CNTR_CODE: 'CA', NAME_LATN: 'Newfoundland and Labrador' } }, 23);
+          if (caNl23.o !== 'CAN') return fail(`ca_nl:${caNl23.o}`);
+          const ire23 = resolveFeature({ properties: { id: 'IE01', NUTS_ID: 'IE01', CNTR_CODE: 'IE', NAME_LATN: 'Dublin' } }, 23);
+          if (ire23.o !== 'IRE' || !ire23.note.includes('Republic of Ireland Act')) return fail('ire_23');
+          const elKarp23 = resolveFeature({ id: 'EL643', properties: { CNTR_CODE: 'EL', NUTS_ID: 'EL643', NAME: 'Evrytania' } }, 23);
+          const elPel23 = resolveFeature({ id: 'EL651', properties: { CNTR_CODE: 'EL', NUTS_ID: 'EL651', NAME: 'Argolis' } }, 23);
+          const elVitsi23 = resolveFeature({ id: 'EL533', properties: { CNTR_CODE: 'EL', NUTS_ID: 'EL533', NAME: 'Florina' } }, 23);
+          if (elKarp23.o !== 'GRE' || elPel23.o !== 'GRE' || elVitsi23.o !== 'DSE') return fail('greece_23');
+
+          // 7. Battaglie, Fortificazioni, Rotte Navali & Città Step 23
+          if (HISTORICAL_BATTLES.filter((b) => b.step === 23).length < 6) return fail('battles_23');
+          const greenLine = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'arab_israeli_green_line_1949');
+          if (!greenLine?.activeSteps.includes(23)) return fail('green_line_23');
+          const atl23 = HISTORICAL_SEA_LANES.find((l) => l.id === 'north_atlantic_convoy');
+          if (!atl23?.activeSteps.includes(23)) return fail('atl_23');
+          for (const city of HISTORICAL_CITIES) {
+            const rawOwner = getCityOwner(city, 23);
+            if (!rawOwner || (rawOwner !== 'NEU' && getOwnerMeta(rawOwner, 23).id === 'NEU')) return fail(`city_23:${city.id}`);
+          }
+          const cBonn = HISTORICAL_CITIES.find((c) => c.id === 'bonn');
+          const cGua = HISTORICAL_CITIES.find((c) => c.id === 'guangzhou');
+          const cNanj = HISTORICAL_CITIES.find((c) => c.id === 'nanjing');
+          const cSai = HISTORICAL_CITIES.find((c) => c.id === 'saigon');
+          const cYog = HISTORICAL_CITIES.find((c) => c.id === 'yogyakarta');
+          const cStj = HISTORICAL_CITIES.find((c) => c.id === 'st_johns');
+          if (!cBonn || getCityOwner(cBonn, 23) !== 'BRD' || !getCityIsCapital(cBonn, 23)) return fail('city_bonn');
+          if (!cGua || getCityOwner(cGua, 23) !== 'CHI' || !getCityIsCapital(cGua, 23)) return fail('city_guangzhou');
+          if (!cNanj || getCityOwner(cNanj, 23) !== 'CCP_CHI' || getCityIsCapital(cNanj, 23)) return fail('city_nanjing_23');
+          if (!cSai || getCityOwner(cSai, 23) !== 'SVN' || !getCityIsCapital(cSai, 23)) return fail('city_saigon_23');
+          if (!cYog || getCityOwner(cYog, 23) !== 'IDN' || !getCityIsCapital(cYog, 23)) return fail('city_yogyakarta_23');
+          if (!cStj || getCityOwner(cStj, 23) !== 'CAN') return fail('city_st_johns_23');
+
+          // 8. Evoluzione Benelux Post-1945 (Steps 18 -> 23: zero congelamento 1945, Regina Giuliana dal Dic 1948, Benelux/Patto Bruxelles/NATO)
+          const ben = (id: string, cn: string, nm: string, st: number) =>
+            resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: cn, NAME: nm } }, st);
+          const beBrux19 = ben('BE100', 'BE', 'Bruxelles', 19);
+          const beEupen23 = ben('BE336', 'BE', 'Bezirk Verviers', 23);
+          const nlAmst21 = ben('NL329', 'NL', 'Groot-Amsterdam', 21);
+          const nlAmst22 = ben('NL329', 'NL', 'Groot-Amsterdam', 22);
+          const nlElten23 = ben('NL226', 'NL', 'Arnhem/Nijmegen', 23);
+          const lu23 = ben('LU000', 'LU', 'Luxembourg', 23);
+          if (!beBrux19.note.includes('Spaak') || beBrux19.note.includes('Maggio-Settembre 1945')) return fail('ben_be19');
+          if (!beEupen23.note.includes('NATO') || !beEupen23.note.includes('Bildchen')) return fail('ben_eupen23');
+          if (!nlAmst21.note.includes('Bruxelles') || !nlAmst22.note.includes('Giuliana') || nlAmst22.adminEntity?.includes('Wilhelmina')) return fail('ben_nl22');
+          if (!nlElten23.note.includes('Elten') || !nlElten23.note.includes('NATO')) return fail('ben_nl23');
+          if (!lu23.note.includes('NATO') || !lu23.note.includes('Kammerwald')) return fail('ben_lu23');
+          if (!getOwnerMeta('HOL', 22).leader?.includes('Giuliana') || !getOwnerMeta('BEL', 23).leader?.includes('Spaak')) return fail('ben_owners_post45');
+
+          // 9. Evoluzione Ministati & Micro-Territori Post-1945 (Steps 18 -> 23: San Marino, Vaticano, Gibilterra, Andorra, Liechtenstein, Monaco Ranieri III, Malta & Gozo)
+          const micro = (id: string, cn: string, nm: string, st: number) =>
+            resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: cn, NAME: nm } }, st);
+          const smr23 = micro('SMR_HIST', 'SM', 'San Marino', 23);
+          const vat23 = micro('VAT_HIST', 'VA', 'Vatican City', 23);
+          const gib23 = micro('GIB_HIST', 'GI', 'Gibraltar', 23);
+          const and23 = micro('AND_HIST', 'AD', 'Andorra', 23);
+          const lie18 = micro('LIE_HIST', 'LI', 'Liechtenstein', 18);
+          const lie23 = micro('LIE_HIST', 'LI', 'Liechtenstein', 23);
+          const mco18 = micro('MCO_HIST', 'MC', 'Monaco', 18);
+          const mco23 = micro('MCO_HIST', 'MC', 'Monaco', 23);
+          const mlt23 = micro('MT001', 'MT', 'Malta', 23);
+          const gozo23 = micro('MT002', 'MT', 'Gozo and Comino', 23);
+          const tan18 = resolveFeature({ id: 'TANGER', properties: { id: 'TANGER', NUTS_ID: 'TANGER', NAME: 'Zone Internationale de Tanger' } }, 18);
+          const tan19 = resolveFeature({ id: 'TANGER', properties: { id: 'TANGER', NUTS_ID: 'TANGER', NAME: 'Zone Internationale de Tanger' } }, 19);
+          const tan21 = resolveFeature({ id: 'TANGER', properties: { id: 'TANGER', NUTS_ID: 'TANGER', NAME: 'Zone Internationale de Tanger' } }, 21);
+          const tan23 = resolveFeature({ id: 'TANGER', properties: { id: 'TANGER', NUTS_ID: 'TANGER', NAME: 'Zone Internationale de Tanger' } }, 23);
+          if (!smr23.note.includes('1949') || !vat23.note.includes('Mindszenty')) return fail('micro_smr_vat23');
+          if (!gib23.note.includes('NATO') || !and23.note.includes('Auriol')) return fail('micro_gib_and23');
+          if (!lie18.note.includes('500') || !lie23.note.includes('Frick')) return fail('micro_lie');
+          if (mco18.fac !== 'Neutrale' || !mco23.note.includes('Ranieri III') || mco23.adminEntity?.includes('Louis II')) return fail('micro_mco23');
+          if (!mlt23.note.includes('NATO') || !gozo23.name.includes('Gozo')) return fail('micro_mlt23');
+          if (!tan18.note.includes('Magalh') || !tan19.note.includes('Mohammed V') || !tan21.note.includes('Italia') || !tan23.note.includes('Istiqlal')) return fail('micro_tan');
+          if (!getOwnerMeta('TANGER', 18).leader?.includes('Magalh') || !getOwnerMeta('TANGER', 23).leader?.includes('Vredenburch')) return fail('micro_tan_leader');
+
+          // 10. Coerenza Storica Governi & Forme di Stato lungo la Timeline (Steps 0-23)
+          if (!getOwnerMeta('UK', 0).leader?.includes('Baldwin') || !getOwnerMeta('UK', 6).leader?.includes('Churchill')) return fail('gov_uk');
+          if (!getOwnerMeta('FRA', 2).leader?.includes('Daladier') || !getOwnerMeta('FRA', 23).leader?.includes('Queuille')) return fail('gov_fra');
+          if (!getOwnerMeta('ITA', 21).leader?.includes('Einaudi') || !getOwnerMeta('ITA', 23).l(23).includes('NATO')) return fail('gov_ita_einaudi');
+          if (!getOwnerMeta('USA', 17).leader?.includes('Truman') || !getOwnerMeta('SOV', 23).leader?.includes('Švernik')) return fail('gov_usa_sov');
+          if (getOwnerMeta('ALB', 23).f !== 'Comintern' || !getOwnerMeta('ALB', 23).leader?.includes('Hoxha') || getOverlord('ALB', 23) !== null) return fail('gov_alb23');
+          if (!getOwnerMeta('HUN', 23).leader?.includes('Dobi') || !getOwnerMeta('FIN', 23).leader?.includes('Fagerholm') || !getOwnerMeta('DEN', 23).leader?.includes('Hedtoft')) return fail('gov_hun_nord');
+          if (!getOwnerMeta('IND', 21).leader?.includes('Rajagopalachari') || !getOwnerMeta('PAK', 22).leader?.includes('Nazimuddin') || !getOwnerMeta('AST', 18).leader?.includes('Chifley')) return fail('gov_commonwealth');
+          if (!getOwnerMeta('SYR', 23).leader?.includes('Za\'im') || !getOwnerMeta('EGY', 23).leader?.includes('Abdel Hadi') || !getOwnerMeta('IRN', 23).leader?.includes('Sa\'ed') || !getOwnerMeta('YEM', 21).leader?.includes('Ahmad')) return fail('gov_me');
+          if (!getOwnerMeta('BRA', 23).leader?.includes('Dutra') || !getOwnerMeta('ARG', 23).leader?.includes('Perón') || !getOwnerMeta('MEX', 23).leader?.includes('Alemán') || !getOwnerMeta('GTM', 23).leader?.includes('Arévalo')) return fail('gov_latam');
+          if (!getOwnerMeta('XIN', 23).leader?.includes('Burhan') || getOwnerMeta('MAN', 23).f !== 'Alleati') return fail('gov_xin_man');
+          if (!getOwnerMeta('SMR', 0).leader?.includes('Gozi') || !getOwnerMeta('SMR', 23).leader?.includes('Giacomini')) return fail('gov_micro_smr');
+          if (!getOwnerMeta('VAT', 0).leader?.includes('Pio XI') || !getOwnerMeta('VAT', 23).leader?.includes('Pio XII')) return fail('gov_micro_vat');
+          if (!getOwnerMeta('GIB', 10).leader?.includes('Mason-MacFarlane') || !getOwnerMeta('GIB', 23).leader?.includes('Kenneth Anderson')) return fail('gov_micro_gib');
+          if (!getOwnerMeta('AND', 0).leader?.includes('Lebrun') || !getOwnerMeta('AND', 23).leader?.includes('Auriol')) return fail('gov_micro_and');
+          if (!getOwnerMeta('LIE', 0).leader?.includes('Franz I') || !getOwnerMeta('LIE', 23).leader?.includes('Frick')) return fail('gov_micro_lie');
+          if (!getOwnerMeta('MCO', 0).leader?.includes('Luigi II') || !getOwnerMeta('MCO', 23).leader?.includes('Ranieri III') || !getOwnerMeta('MCO', 23).leader?.includes('Blanchy')) return fail('gov_micro_mco');
+
+          return true;
+        },
+      },
+      {
+        name: 'Scenario Globale Dicembre 1949 (Step 24): RPC/ROC Taipei, RDT senza stemma, RIS escludendo Nuova Guinea, Ungheria Rep. Popolare, Grecia riunificata, Armistizio Israele-Siria & Stati Associati Laos/Cambogia',
+        run: () => {
+          const fail = (tag: string) => {
+            console.error('[Test #143 Step 24 Failure]', tag);
+            return false;
+          };
+
+          // 1. Timeline Step 24 & Nuove Entità / Governi / Alias
+          if (STEPS.length < 25 || !STEPS[24] || STEPS[24].d !== 'DIC 1949') return fail('step24');
+          const metaPrc = getOwnerMeta('PRC', 24);
+          const metaRpc = getOwnerMeta('RPC', 24);
+          const metaRoc = getOwnerMeta('CHI', 24);
+          const metaDdr = getOwnerMeta('DDR', 24);
+          const metaBrd = getOwnerMeta('BRD', 24);
+          const metaRis = getOwnerMeta('RIS', 24);
+          const metaHun = getOwnerMeta('HUN', 24);
+          const metaLao = getOwnerMeta('LAO', 24);
+          const metaCam = getOwnerMeta('CAM', 24);
+          const metaInd = getOwnerMeta('IND', 24);
+          if (metaPrc.id !== 'CCP_CHI' || metaRpc.id !== 'CCP_CHI' || !metaPrc.capital.includes('Beijing')) return fail('meta_prc');
+          if (!metaRoc.capital.includes('Taipei')) return fail('meta_roc_taipei');
+          if (metaDdr.id !== 'DDR' || getOwnerMeta('RDT', 24).id !== 'DDR' || metaDdr.f !== 'Comintern' || !metaDdr.capital.includes('Berlino Est')) return fail('meta_ddr');
+          if (!metaBrd.capital.includes('Bonn') || !metaBrd.leader.includes('Adenauer')) return fail('meta_brd24');
+          if (metaRis.id !== 'IDN' || !metaRis.capital.includes('Jakarta')) return fail('meta_ris');
+          if (!metaHun.l(24).includes('Popolare')) return fail('meta_hun24');
+          if (metaLao.id !== 'LAO' || !isSubjectOf('LAO', 'FRA', 24)) return fail('meta_lao');
+          if (metaCam.id !== 'CAM' || !isSubjectOf('CAM', 'FRA', 24)) return fail('meta_cam');
+          if (!metaInd.l(24).includes('Dominion')) return fail('meta_ind24_dominion');
+
+          // 2. Bandiere Storiche Autentiche & Guardrail Anti-Anacronismo Step 24 (1949-12-31)
+          const fPrc = resolveHistoricalFlag('CCP_CHI', 24);
+          const fDdr = resolveHistoricalFlag('DDR', 24);
+          const fHun = resolveHistoricalFlag('HUN', 24);
+          const fRis = resolveHistoricalFlag('IDN', 24);
+          const fLao = resolveHistoricalFlag('LAO', 24);
+          const fCam = resolveHistoricalFlag('CAM', 24);
+          const fRok = resolveHistoricalFlag('ROK', 24);
+          if (!fPrc || !fPrc.asset.file_name || !validateFlagAgainstAnachronism(fPrc, '1949-12-31').isValid || validateFlagAgainstAnachronism(fPrc, '1949-06-30').isValid) return fail('flag_prc');
+          if (!fDdr || !fDdr.asset.file_name || !validateFlagAgainstAnachronism(fDdr, '1949-12-31').isValid || validateFlagAgainstAnachronism(fDdr, '1949-06-30').isValid || validateFlagAgainstAnachronism(fDdr, '1960-01-01').isValid) return fail('flag_ddr');
+          if (!fHun || !fHun.asset.file_name || !validateFlagAgainstAnachronism(fHun, '1949-12-31').isValid || validateFlagAgainstAnachronism(fHun, '1949-06-30').isValid) return fail('flag_hun24');
+          if (!fRis || !fRis.asset.file_name || !validateFlagAgainstAnachronism(fRis, '1949-12-31').isValid) return fail('flag_ris');
+          if (!fLao || !fLao.asset.file_name || !validateFlagAgainstAnachronism(fLao, '1949-12-31').isValid) return fail('flag_lao');
+          if (!fCam || !fCam.asset.file_name || !validateFlagAgainstAnachronism(fCam, '1949-12-31').isValid) return fail('flag_cam');
+          if (!fRok || !fRok.asset.file_name || !validateFlagAgainstAnachronism(fRok, '1949-12-31').isValid) return fail('flag_rok');
+          if (!getCountryFlagSvg('DDR', 24) || !getCountryFlagSvg('LAO', 24) || !getCountryFlagSvg('CAM', 24) || !getCountryFlagSvg('PRC', 24)) return fail('flag_svg_render');
+
+          // 3. Cina & Tibet al 31 Dicembre 1949
+          const chn24 = (id: string) => resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'CN_PROV' } }, 24);
+          for (const prcId of ['CHN_BEIJING', 'CHN_TIANJIN', 'CHN_HEBEI', 'CHN_SHANXI', 'CHN_SHANDONG', 'CHN_HENAN', 'CHN_JIANGSU', 'CHN_SHANGHAI', 'CHN_ANHUI', 'CHN_HEILONGJIANG', 'CHN_JILIN', 'CHN_LIAONING', 'CHN_INNER_MONGOLIA', 'CHN_GANSU', 'CHN_NINGXIA', 'CHN_QINGHAI', 'CHN_SHAANXI', 'CHN_XINJIANG', 'CHN_XINJIANG_ETR', 'CHN_HUBEI', 'CHN_HUNAN', 'CHN_JIANGXI', 'CHN_GUANGDONG', 'CHN_FUJIAN', 'CHN_ZHEJIANG', 'CHN_GUANGXI', 'CHN_GUIZHOU', 'CHN_SICHUAN', 'CHN_CHONGQING', 'CHN_XIKANG', 'CHN_YUNNAN']) {
+            if (chn24(prcId).o !== 'CCP_CHI') return fail(`chn24_prc:${prcId}:${chn24(prcId).o}`);
+          }
+          if (chn24('CHN_TAIWAN').o !== 'CHI' || chn24('CHN_HAINAN').o !== 'CHI') return fail('chn24_roc_islands');
+          if (chn24('CHN_TIBET').o !== 'TIB') return fail('chn24_tibet');
+          if (!chn24('CHN_FUJIAN').note.includes('Kinmen') || !chn24('CHN_ZHEJIANG').note.includes('Zhoushan') || !chn24('CHN_LIAONING').note.includes('Port Arthur')) return fail('chn24_pockets_notes');
+
+          // 4. Germania (RDT / DDR vs RFT / BRD & Saar) al 31 Dicembre 1949
+          const de24 = (id: string, name = id) => resolveFeature({ properties: { id, NUTS_ID: id, CNTR_CODE: 'DE', NAME_LATN: name } }, 24);
+          if (de24('DE300_EAST', 'Berlin (Ost)').o !== 'DDR' || de24('DED21', 'Dresden').o !== 'DDR' || de24('DE401', 'Brandenburg').o !== 'DDR') return fail('de24_ddr');
+          if (de24('DE300_WEST', 'Berlin (West)').o !== 'BRD' || de24('DEA22', 'Bonn').o !== 'BRD' || de24('DE212', 'München').o !== 'BRD') return fail('de24_brd');
+          if (de24('DEC01', 'Saarbrücken').o !== 'SAAR') return fail('de24_saar');
+
+          // 5. Indonesia (RIS excl. Nuova Guinea Olandese -> HOL), Indocina (LAO/CAM) & Grecia (100% GRE)
+          const indo24 = (id: string) => resolveFeature({ id, properties: { id, ISO2: 'ID', NUTS_ID: id } }, 24);
+          for (const risProv of ['IDJK', 'IDYO', 'IDJB', 'IDAC', 'IDSN', 'IDSS']) {
+            if (indo24(risProv).o !== 'IDN') return fail(`indo24_ris:${risProv}:${indo24(risProv).o}`);
+          }
+          if (indo24('IDPA').o !== 'HOL' || indo24('IDPB').o !== 'HOL') return fail('indo24_papua_hol');
+          if (resolveFeature({ id: 'KH12', properties: { id: 'KH12', ISO2: 'KH', NUTS_ID: 'KH12', NAME: 'Phnom Penh' } }, 24).o !== 'CAM') return fail('cam24');
+          const kh1_24 = resolveFeature({ id: 'KH1', properties: { id: 'KH1', ISO2: 'KH', NUTS_ID: 'KH1', NAME: 'Banteay Meanchey' } }, 24);
+          const kh2_24 = resolveFeature({ id: 'KH2', properties: { id: 'KH2', ISO2: 'KH', NUTS_ID: 'KH2', NAME: 'Battambang' } }, 24);
+          if (kh1_24.o !== 'CAM' || kh2_24.o !== 'CAM' || kh2_24.name.includes('Changwat') || kh2_24.note.includes('Bollaert')) return fail('cam24_retroceded');
+          if (resolveFeature({ id: 'LA01', properties: { id: 'LA01', ISO2: 'LA', NUTS_ID: 'LA01', NAME: 'Vientiane' } }, 24).o !== 'LAO') return fail('lao24');
+          const laLch24 = resolveFeature({ id: 'LACH', properties: { id: 'LACH', ISO2: 'LA', NUTS_ID: 'LACH', NAME: 'Champasack' } }, 24);
+          const laLax24 = resolveFeature({ id: 'LAXA', properties: { id: 'LAXA', ISO2: 'LA', NUTS_ID: 'LAXA', NAME: 'Xaignabouly' } }, 24);
+          if (laLch24.o !== 'LAO' || laLax24.o !== 'LAO' || laLch24.name.includes('Changwat') || laLax24.name.includes('Changwat') || laLch24.note.includes('Bollaert') || laLax24.note.includes('Bollaert')) return fail('lao24_retroceded');
+          const laLax0 = resolveFeature({ id: 'LAXA', properties: { id: 'LAXA', ISO2: 'LA', NUTS_ID: 'LAXA', NAME: 'Xaignabouly' } }, 0);
+          if (laLax0.note.includes('Bolovens') || laLax0.note.includes('Trattato di Tokyo')) return fail('lao0_sayaboury_geo');
+          if (resolveFeature({ id: 'EL533', properties: { CNTR_CODE: 'EL', NUTS_ID: 'EL533', NAME: 'Florina' } }, 24).o !== 'GRE') return fail('gre24_vitsi');
+          if (resolveFeature({ id: 'EL532', properties: { CNTR_CODE: 'EL', NUTS_ID: 'EL532', NAME: 'Kastoria' } }, 24).o !== 'GRE') return fail('gre24_grammos');
+
+          // 6. Medio Oriente (Armistizio Israele-Siria 20 Luglio 1949), India & Vietnam (DIC 1949)
+          const pal24 = (id: string) => resolveFeature({ id, properties: { id, CNTR_CODE: 'PS', NUTS_ID: id } }, 24);
+          if (pal24('PAL_GAL').o !== 'ISR' || pal24('PAL_BEER').o !== 'ISR' || pal24('PAL_LYD').o !== 'ISR' || pal24('PAL_JRS').o !== 'ISR') return fail('pal24_isr');
+          if (pal24('PAL_SAM').o !== 'JOR' || pal24('PAL_GAZ').o !== 'APG') return fail('pal24_jor_apg');
+          const inTri = resolveFeature({ id: 'IN_TRI', properties: { id: 'IN_TRI', CNTR_CODE: 'IN', NUTS_ID: 'IN_TRI', NAME: 'Tripura' } }, 24);
+          const inMan = resolveFeature({ id: 'IN_MAN', properties: { id: 'IN_MAN', CNTR_CODE: 'IN', NUTS_ID: 'IN_MAN', NAME: 'Manipur' } }, 24);
+          if (inTri.o !== 'IND' || inMan.o !== 'IND') return fail('ind24_mergers');
+          const vn24 = (id: string, name = id) => resolveFeature({ id, properties: { id, ISO2: 'VN', NUTS_ID: id, NAME: name } }, 24);
+          const vnNinhBinh24 = vn24('VN18', 'Ninh Bình');
+          const vnNamDinh24 = vn24('VN67', 'Nam Định');
+          const vnHaiDuong24 = vn24('VN61', 'Hải Dương');
+          const vnThanhHoa24 = vn24('VN21', 'Thanh Hóa');
+          const vnLangSon24 = vn24('VN09', 'Lạng Sơn');
+          const vnCaoBang24 = vn24('VN04', 'Cao Bằng');
+          const vnHaGiang24 = vn24('VN03', 'Hà Giang');
+          const vnDongThap24 = vn24('VN45', 'Đồng Tháp');
+          const vnSaigon24 = vn24('VNSG', 'Hồ Chí Minh city');
+          if (vnNinhBinh24.o !== 'SVN' || !vnNinhBinh24.name.includes('Anthracite') || !vnNinhBinh24.note.includes('Phát Diệm')) return fail('vn24_phat_diem');
+          if (vnNamDinh24.o !== 'SVN' || !vnNamDinh24.name.includes('Anthracite') || !vnNamDinh24.note.includes('Bùi Chu')) return fail('vn24_bui_chu');
+          if (vnHaiDuong24.o !== 'SVN' || vnHaiDuong24.name.includes('Anthracite')) return fail('vn24_haiduong_anthracite_leak');
+          if (vnThanhHoa24.o !== 'VIE' || !vnThanhHoa24.name.includes('Liên khu IV') || vnThanhHoa24.note.includes('Zhennanguan')) return fail('vn24_lk4_thanhhoa');
+          if (vnLangSon24.o !== 'SVN' || vnCaoBang24.o !== 'SVN' || !vnLangSon24.note.includes('Huang Jie')) return fail('vn24_rc4_langson');
+          if (vnHaGiang24.o !== 'VIE' || vnDongThap24.o !== 'VIE' || vnSaigon24.o !== 'SVN') return fail('vn24_vietbac_nambo_svn');
+          if (!HISTORICAL_BATTLES.some((b) => b.step === 24 && b.id === 'indochina_anthracite_rc4_elysee_1949')) return fail('vn24_battle');
+          const tltA24 = resolveFeature({ id: 'ITH44', properties: { CNTR_CODE: 'IT', NUTS_ID: 'ITH44', NAME: 'Trieste' } }, 24);
+          const tltKoper24 = resolveFeature({ id: 'SI_HIST_KOPER', properties: { CNTR_CODE: 'SI', NUTS_ID: 'SI_HIST_KOPER', NAME: 'Koper' } }, 24);
+          const tltBuie24 = resolveFeature({ id: 'HR_HIST_BUIE', properties: { CNTR_CODE: 'HR', NUTS_ID: 'HR_HIST_BUIE', NAME: 'Buie' } }, 24);
+          if (tltA24.o !== 'AMG' || tltKoper24.o !== 'VUJA' || tltBuie24.o !== 'VUJA') return fail('tlt24_zone_a_b');
+          if (tltKoper24.fac !== 'Neutrale' || tltBuie24.fac !== 'Neutrale') return fail('tlt24_vuja_fac');
+
+          // 7. Regola anti-anacronismo toponimi postbellici (Hainan, Taiwan, Cina, Giappone, Pacifico)
+          const hainanTop24 = getExtendedToponym('Hainan', 'CHI', 'CHN_HAINAN', [109.7, 19.2], 24);
+          const taiwanTop24 = getExtendedToponym('Taiwan', 'CHI', 'CHN_TAIWAN', [121.0, 23.7], 24);
+          const liaoTop24 = getExtendedToponym('Liaoning', 'CCP_CHI', 'CHN_LIAONING', [123.4, 41.8], 24);
+          const jp18 = resolveFeature({ id: 'JP46', properties: { id: 'JP46', REGION_KIND: 'JAPAN_PREFECTURE', NAME: 'Kagoshima' } }, 18);
+          if (!hainanTop24 || /Hainan-tō|Kainan-tō|Kaigun/i.test(`${hainanTop24.name} ${hainanTop24.adminTitle || ''}`)) return fail('hainan24_toponym_leak');
+          if (!taiwanTop24 || /Sōtokufu/i.test(`${taiwanTop24.name} ${taiwanTop24.adminTitle || ''}`)) return fail('taiwan24_toponym_leak');
+          if (!liaoTop24 || /Damanzhoudiguo/i.test(`${liaoTop24.name} ${liaoTop24.adminTitle || ''}`)) return fail('liao24_toponym_leak');
+          if (/^Dai Nippon Teikoku/i.test(jp18.name)) return fail('jp18_pref_leak');
+          if (/Manciukuò/i.test(chn24('CHN_JILIN').name) || /Manciukuò/i.test(chn24('CHN_HEILONGJIANG').name)) return fail('manchuria24_leak');
+
+          // 7. Battaglie, Fortificazioni, Rotte Navali & Città Step 24
+          if (HISTORICAL_BATTLES.filter((b) => b.step === 24).length < 6) return fail('battles_24');
+          const arm24 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'arab_israeli_armistice_complete_1949');
+          const tw24 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'taiwan_strait_front_1949');
+          const igb24 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'inner_german_border_1949');
+          const gr24 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'grammos_vitsi_civil_war_front_1947');
+          if (!arm24?.activeSteps.includes(24) || !tw24?.activeSteps.includes(24) || !igb24?.activeSteps.includes(24) || gr24?.activeSteps.includes(24)) return fail('fort_24');
+          const atl24 = HISTORICAL_SEA_LANES.find((l) => l.id === 'north_atlantic_convoy');
+          if (!atl24?.activeSteps.includes(24)) return fail('atl_24');
+          for (const city of HISTORICAL_CITIES) {
+            const rawOwner = getCityOwner(city, 24);
+            if (!rawOwner || (rawOwner !== 'NEU' && getOwnerMeta(rawOwner, 24).id === 'NEU')) return fail(`city_24:${city.id}`);
+          }
+          const cBei = HISTORICAL_CITIES.find((c) => c.id === 'beiping');
+          const cTpe = HISTORICAL_CITIES.find((c) => c.id === 'taipei');
+          const cGua = HISTORICAL_CITIES.find((c) => c.id === 'guangzhou');
+          const cCkg = HISTORICAL_CITIES.find((c) => c.id === 'chongqing');
+          const cJkt = HISTORICAL_CITIES.find((c) => c.id === 'batavia');
+          const cJer = HISTORICAL_CITIES.find((c) => c.id === 'jerusalem');
+          const cTlv = HISTORICAL_CITIES.find((c) => c.id === 'tel_aviv');
+          if (!cBei || getCityOwner(cBei, 24) !== 'CCP_CHI' || !getCityIsCapital(cBei, 24)) return fail('city_beijing_24');
+          if (!cTpe || getCityOwner(cTpe, 24) !== 'CHI' || !getCityIsCapital(cTpe, 24)) return fail('city_taipei_24');
+          if (!cGua || getCityOwner(cGua, 24) !== 'CCP_CHI' || getCityIsCapital(cGua, 24)) return fail('city_guangzhou_24');
+          if (!cCkg || getCityOwner(cCkg, 24) !== 'CCP_CHI') return fail('city_chongqing_24');
+          if (!cJkt || getCityOwner(cJkt, 24) !== 'IDN' || !getCityIsCapital(cJkt, 24)) return fail('city_jakarta_24');
+          if (!cJer || !getCityIsCapital(cJer, 24) || !cTlv || getCityIsCapital(cTlv, 24)) return fail('city_jerusalem_24');
+
+          return true;
+        },
+      },
+      {
+        name: 'Scenario Globale 30 Giugno 1950 (Step 25): Guerra di Corea al Fiume Han, Repubblica dell\'India & Chandernagore, Cisgiordania Giordana, AFIS Somalia, Hainan/Zhoushan/Xichang RPC, RIS & RMS & Malesia 11 Strisce',
+        run: () => {
+          const fail = (tag: string) => {
+            console.error('[Test 144 FAIL]', tag);
+            return false;
+          };
+
+          // 1. Timeline Step 25 & Metadati Sovrani
+          if (STEPS.length < 26 || !STEPS[25] || STEPS[25].d !== 'GIU 1950') return fail('step25');
+          const metaInd25 = getOwnerMeta('IND', 25);
+          const metaAfis25 = getOwnerMeta('AFIS', 25);
+          const metaJor25 = getOwnerMeta('JOR', 25);
+          const metaMal25 = getOwnerMeta('MAL', 25);
+          const metaRms25 = getOwnerMeta('RMS', 25);
+          const metaRok25 = getOwnerMeta('ROK', 25);
+          const metaChi25 = getOwnerMeta('CHI', 25);
+          const metaPrc25 = getOwnerMeta('CCP_CHI', 25);
+          const metaIdn25 = getOwnerMeta('IDN', 25);
+          if (metaInd25.id !== 'IND' || metaInd25.l(25).includes('Dominion') || !metaInd25.leader?.includes('Rajendra Prasad') || isSubjectOf('IND', 'UK', 25)) return fail('meta_ind25');
+          if (metaAfis25.id !== 'AFIS' || !metaAfis25.leader?.includes('Giovanni Fornari') || !metaAfis25.capital?.includes('Mogadiscio') || !isSubjectOf('AFIS', 'ITA', 25)) return fail('meta_afis25');
+          if (!metaJor25.l(25).includes('24 Aprile 1950') || !metaJor25.l(25).includes('Cisgiordania')) return fail('meta_jor25');
+          if (!metaMal25.l(25).includes('11 Strisce')) return fail('meta_mal25');
+          if (metaRms25.id !== 'RMS' || metaRms25.capital !== 'Ambon') return fail('meta_rms25');
+          if (!metaRok25.capital?.includes('Daejeon')) return fail('meta_rok25');
+          if (!metaChi25.leader?.includes('Chiang Kai-shek')) return fail('meta_chi25');
+          if (!metaPrc25.l(25).includes('14 Febbraio 1950')) return fail('meta_prc25');
+          if (!metaIdn25.l(25).includes('Stati Uniti d\'Indonesia') || !metaIdn25.l(25).includes('RIS')) return fail('meta_idn25');
+
+          // 2. Bandiere Storiche Autentiche & Guardrail Anti-Anacronismo Step 25 (1950-06-30)
+          const fMal25 = resolveHistoricalFlag('MAL', 25);
+          const fAfis25 = resolveHistoricalFlag('AFIS', 25);
+          const fRms25 = resolveHistoricalFlag('RMS', 25);
+          const fInd25 = resolveHistoricalFlag('IND', 25);
+          if (!fMal25 || fMal25.entity_id !== 'MAL_FED_1950' || fMal25.asset.file_name !== 'Flag_of_Malaya_(1950–1963).svg') return fail('flag_mal25_meta');
+          if (!validateFlagAgainstAnachronism(fMal25, '1950-06-30').isValid || validateFlagAgainstAnachronism(fMal25, '1949-12-31').isValid || validateFlagAgainstAnachronism(fMal25, '1964-01-01').isValid) return fail('flag_mal25_anach');
+          if (!fAfis25 || fAfis25.entity_id !== 'AFIS_1950' || fAfis25.asset.file_name !== 'Flag_of_the_United_Nations.svg') return fail('flag_afis25_meta');
+          if (!validateFlagAgainstAnachronism(fAfis25, '1950-06-30').isValid || validateFlagAgainstAnachronism(fAfis25, '1949-12-31').isValid) return fail('flag_afis25_anach');
+          if (!fRms25 || fRms25.entity_id !== 'RMS_1950' || fRms25.asset.file_name !== 'Flag_of_South_Moluccas.svg') return fail('flag_rms25_meta');
+          if (!validateFlagAgainstAnachronism(fRms25, '1950-06-30').isValid || validateFlagAgainstAnachronism(fRms25, '1949-12-31').isValid) return fail('flag_rms25_anach');
+          if (!fInd25 || fInd25.entity_id !== 'IND_REP_1950' || fInd25.asset.file_name !== 'Flag_of_India.svg' || !validateFlagAgainstAnachronism(fInd25, '1950-06-30').isValid) return fail('flag_ind25');
+          for (const code of ['MAL', 'AFIS', 'RMS', 'IND']) {
+            if (!getCountryFlagSvg(code, 25).includes('<svg')) return fail(`flag_svg_${code}`);
+          }
+
+          // 3. Penisola Coreana al 30 Giugno 1950 (6° giorno di guerra, fronte al fiume Han)
+          const kr25 = (id: string) => resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: id.startsWith('KP') ? 'KP' : 'KR' } }, 25);
+          for (const prkId of ['KR11', 'KR41_S', 'KR28', 'KP05_S', 'KP06_S', 'KR42_S', 'KP01', 'KR41_N', 'KR42_N']) {
+            if (kr25(prkId).o !== 'PRK') return fail(`kr25_prk:${prkId}`);
+          }
+          if (!kr25('KR41_S').name.includes('90%') || !kr25('KR42_S').name.includes('85%')) return fail('kr25_pct');
+          for (const rokId of ['KR30', 'KR43', 'KR44', 'KR47', 'KR48', 'KR27', 'KR26', 'KR31', 'KR45', 'KR46', 'KR29', 'KR49']) {
+            if (kr25(rokId).o !== 'ROK') return fail(`kr25_rok:${rokId}`);
+          }
+          if (!kr25('KR30').name.includes('Daejeon')) return fail('kr25_daejeon');
+
+          // 4. Cina & Tibet al 30 Giugno 1950
+          const chn25 = (id: string) => resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'CN_PROV' } }, 25);
+          for (const prcId of ['CHN_HAINAN', 'CHN_SICHUAN', 'CHN_XIKANG', 'CHN_YUNNAN', 'CHN_ZHEJIANG', 'CHN_GUANGDONG', 'CHN_FUJIAN', 'CHN_LIAONING']) {
+            if (chn25(prcId).o !== 'CCP_CHI') return fail(`chn25_prc:${prcId}`);
+          }
+          if (!chn25('CHN_ZHEJIANG').name.includes('99,5%') || !chn25('CHN_ZHEJIANG').note.includes('Dachen')) return fail('chn25_zhejiang');
+          if (chn25('CHN_TAIWAN').o !== 'CHI' || !chn25('CHN_TAIWAN').note.includes('Chiang Kai-shek')) return fail('chn25_taiwan');
+          if (chn25('CHN_TIBET').o !== 'TIB' || chn25('CHN_TIBET').note.includes('invasa')) return fail('chn25_tibet');
+
+          // 5. Indonesia, Vietnam, Malesia, India, Cisgiordania & Somalia
+          const indo25 = (id: string) => resolveFeature({ id, properties: { id, ISO2: 'ID', NUTS_ID: id } }, 25);
+          if (indo25('IDPA').o !== 'HOL' || indo25('IDPB').o !== 'HOL') return fail('indo25_papua');
+          if (indo25('IDMA').o !== 'RMS' || !indo25('IDMA').name.includes('Ambon')) return fail('indo25_rms');
+          if (indo25('IDSU').o !== 'IDN' || !indo25('IDSU').name.includes('Negara Sumatera Timur')) return fail('indo25_nst');
+          if (indo25('IDSN').o !== 'IDN' || !indo25('IDSN').name.includes('Negara Indonesia Timur')) return fail('indo25_nit');
+          for (const riId of ['IDJK', 'IDYO', 'IDJB', 'IDJI', 'IDSS']) {
+            if (indo25(riId).o !== 'IDN') return fail(`indo25_ri:${riId}`);
+          }
+
+          const vn25 = (id: string, cntr = 'VN') => resolveFeature({ id, properties: { id, ISO2: cntr, NUTS_ID: id } }, 25);
+          const vn04_25 = vn25('VN04');
+          const vn09_25 = vn25('VN09');
+          const vnSG_25 = vn25('VNSG');
+          const vn28_25 = vn25('VN28');
+          const vn53_25 = vn25('VN53');
+          const vn45_25 = vn25('VN45');
+          const cam25 = vn25('KH12', 'KH');
+          const lao25 = vn25('LAVI', 'LA');
+          if (vn04_25.o !== 'SVN' || !vn04_25.note.includes('Đông Khê')) return fail('vn25_rc4_caobang');
+          if (vn09_25.o !== 'SVN' || !vn09_25.name.includes('Giugno 1950')) return fail('vn25_rc4_langson');
+          if (vnSG_25.o !== 'SVN' || !vnSG_25.note.includes('Trần Văn Hữu') || !vnSG_25.note.includes('MAAG')) return fail('vn25_saigon');
+          if (vn28_25.o !== 'SVN' || !vn28_25.name.includes('Hoàng triều Cương thổ')) return fail('vn25_pmsi');
+          if (vn53_25.o !== 'VIE' || !vn53_25.note.includes('CMAG')) return fail('vn25_vietbac');
+          if (vn45_25.o !== 'VIE' || !vn45_25.name.includes('Giugno 1950')) return fail('vn25_nambo');
+          if (cam25.o !== 'CAM' || !cam25.adminEntity?.includes('Sisowath Monipong')) return fail('cam25_monipong');
+          if (lao25.o !== 'LAO' || !lao25.adminEntity?.includes('Phoui Sananikone')) return fail('lao25_sananikone');
+          if (!getOwnerMeta('VIE', 25).l(25).includes('Gen 1950') || !getOwnerMeta('SVN', 25).leader?.includes('Trần Văn Hữu')) return fail('owners25_indo');
+          if (!HISTORICAL_BATTLES.some((b) => b.id === 'indochina_dong_khe_may_pau_1950' && b.step === 25)) return fail('battle25_indo');
+          if (resolveFeature({ id: 'MY01', properties: { id: 'MY01', ISO2: 'MY', NUTS_ID: 'MY01' } }, 25).o !== 'MAL') return fail('my25_johor');
+          if (resolveFeature({ id: 'MY10', properties: { id: 'MY10', ISO2: 'MY', NUTS_ID: 'MY10' } }, 25).o !== 'MAL') return fail('my25_selangor');
+          if (resolveFeature({ id: 'SG01', properties: { id: 'SG01', ISO2: 'SG', NUTS_ID: 'SG01' } }, 25).o !== 'UK') return fail('sg25_uk');
+          if (resolveFeature({ id: 'MY12', properties: { id: 'MY12', ISO2: 'MY', NUTS_ID: 'MY12' } }, 25).o !== 'UK') return fail('sabah25_uk');
+
+          const in25 = (id: string) => resolveFeature({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'IN' } }, 25);
+          for (const indId of ['IN_DEL', 'IN_BEN', 'IN_HYD', 'IN_RAJ', 'IN_TRI', 'IN_ANI']) {
+            const rInd = in25(indId);
+            if (rInd.o !== 'IND' || !rInd.name.includes('Repubblica dell\'India') || rInd.name.includes('Dominion')) return fail(`in25_ind:${indId}`);
+          }
+          if (!in25('IN_BEN').note.includes('Chandernagore') || !in25('IN_BEN').note.includes('Cooch Behar')) return fail('in25_ben');
+          if (in25('IN_PON').o !== 'FRA' || !in25('IN_PON').note.includes('Chandernagore')) return fail('in25_pon');
+
+          const palSam25 = resolveFeature({ id: 'PAL_SAM', properties: { id: 'PAL_SAM', CNTR_CODE: 'PS', NUTS_ID: 'PAL_SAM' } }, 25);
+          if (palSam25.o !== 'JOR' || !palSam25.note.toLowerCase().includes('24 aprile 1950')) return fail('pal_sam25_jor');
+
+          const som25 = resolveFeature({ id: 'HIST_XX_ITALIAN_SOMALILAND', __layer: 'hb', properties: { id: 'HIST_XX_ITALIAN_SOMALILAND', CNTR_CODE: 'SO', NAME: 'Italian Somaliland' } }, 25);
+          const somUk25 = resolveFeature({ id: 'HIST_XX_BRITISH_SOMALILAND', __layer: 'hb', properties: { id: 'HIST_XX_BRITISH_SOMALILAND', CNTR_CODE: 'UK_SOMALILAND', NAME: 'British Somaliland' } }, 25);
+          const ogaden25 = resolveFeature({ id: 'ETSO', properties: { id: 'ETSO', CNTR_CODE: 'ET', NUTS_ID: 'ETSO', NAME: 'Somali (Ogaden)' } }, 25);
+          if (som25.o !== 'AFIS' || somUk25.o !== 'UK' || ogaden25.o !== 'ETH') return fail('horn25');
+
+          // 6. Layer Tattici Step 25
+          if (HISTORICAL_BATTLES.filter((b) => b.step === 25).length < 6) return fail('battles_25');
+          const han25 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'korean_war_han_river_front_june1950');
+          const tw25 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'taiwan_strait_seventh_fleet_1950');
+          const par38 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'korea_38th_parallel_1945');
+          if (!han25?.activeSteps.includes(25) || !tw25?.activeSteps.includes(25) || par38?.activeSteps.includes(25)) return fail('fort_25');
+          const pac25 = HISTORICAL_SEA_LANES.find((l) => l.id === 'transpacific_us_hawaii');
+          if (!pac25?.activeSteps.includes(25)) return fail('sea_25');
+          const cSeo = HISTORICAL_CITIES.find((c) => c.id === 'keijo');
+          const cMog = HISTORICAL_CITIES.find((c) => c.id === 'mogadishu');
+          if (!cSeo || getCityOwner(cSeo, 25) !== 'PRK' || getCityIsCapital(cSeo, 25)) return fail('city_seoul_25');
+          if (!cMog || getCityOwner(cMog, 25) !== 'AFIS' || !getCityIsCapital(cMog, 25)) return fail('city_mogadishu_25');
+
+          return true;
+        },
+      },
+      {
+        name: '145. Approfondimento Cronologico Marocco Spagnolo, Plazas, Ifni, Tangeri & Sahara (Steps 0–25)',
+        run: () => {
+          const fail = (msg: string) => {
+            console.error('[Test #145 FALLITO]:', msg);
+            return false;
+          };
+          const fRif = loadedProvs.find((f: any) => f.id === 'ES_RIF') || { id: 'ES_RIF', __layer: 'hb', properties: { id: 'ES_RIF', CNTR_CODE: 'ES_RIF', NAME: 'Spanish Morocco' } };
+          const fCeuta = loadedProvs.find((f: any) => f.id === 'ES630') || { id: 'ES630', properties: { id: 'ES630', NUTS_ID: 'ES630', CNTR_CODE: 'ES', NAME: 'Ceuta' } };
+          const fMel = loadedProvs.find((f: any) => f.id === 'ES640') || { id: 'ES640', properties: { id: 'ES640', NUTS_ID: 'ES640', CNTR_CODE: 'ES', NAME: 'Melilla' } };
+          const fIfni = loadedProvs.find((f: any) => f.id === 'ES_IFNI') || { id: 'ES_IFNI', properties: { id: 'ES_IFNI', CNTR_CODE: 'ES_IFNI', NAME: 'Ifni' } };
+          const fTan = loadedProvs.find((f: any) => f.id === 'TANGER') || { id: 'TANGER', __layer: 'hb', properties: { id: 'TANGER', CNTR_CODE: 'TANGER', NAME: 'Tangier International Zone' } };
+          const fSah = loadedProvs.find((f: any) => f.id === 'HIST_XX_SPANISH_SAHARA') || { id: 'HIST_XX_SPANISH_SAHARA', __layer: 'hb', properties: { id: 'HIST_XX_SPANISH_SAHARA', NAME: 'Spanish Sahara' } };
+          const fRio = loadedProvs.find((f: any) => f.id === 'HIST_XX_RIO_DE_ORO') || { id: 'HIST_XX_RIO_DE_ORO', __layer: 'hb', properties: { id: 'HIST_XX_RIO_DE_ORO', NAME: 'Rio De Oro' } };
+
+          const rif0 = resolveHistoricalTruth(fRif, 0);
+          const rif6 = resolveHistoricalTruth(fRif, 6);
+          const rif11 = resolveHistoricalTruth(fRif, 11);
+          const rif18 = resolveHistoricalTruth(fRif, 18);
+          const rif21 = resolveHistoricalTruth(fRif, 21);
+          const rif25 = resolveHistoricalTruth(fRif, 25);
+          if (rif0.o !== 'SPR' || !rif0.name.includes('Yebala') || !rif0.adminEntity?.includes('Moles')) return fail('rif0');
+          if (rif6.o !== 'SPA' || !rif6.note?.includes('Tangeri')) return fail('rif6');
+          if (rif11.o !== 'SPA' || !rif11.note?.includes('Torch') || !rif11.adminEntity?.includes('Orgaz')) return fail('rif11');
+          if (rif18.o !== 'SPA' || rif18.fac !== 'Neutrale' || !rif18.note?.includes('Parigi')) return fail('rif18');
+          if (rif21.o !== 'SPA' || rif21.fac !== 'Neutrale' || !rif21.note?.includes('Abdelkhalek Torres')) return fail('rif21');
+          if (rif25.o !== 'SPA' || rif25.fac !== 'Neutrale' || !rif25.adminEntity?.includes('Varela')) return fail('rif25');
+
+          const ceuta1 = resolveHistoricalTruth(fCeuta, 1);
+          const ceuta11 = resolveHistoricalTruth(fCeuta, 11);
+          const ceuta25 = resolveHistoricalTruth(fCeuta, 25);
+          if (ceuta1.o !== 'SPA' || !ceuta1.note?.includes('Convoy de la Victoria')) return fail('ceuta1');
+          if (!ceuta11.note?.includes('Monte Hacho') || !ceuta11.note?.includes('Torch')) return fail('ceuta11');
+          if (ceuta25.fac !== 'Neutrale' || !ceuta25.note?.includes('1950')) return fail('ceuta25');
+
+          const mel1 = resolveHistoricalTruth(fMel, 1);
+          const mel11 = resolveHistoricalTruth(fMel, 11);
+          const mel25 = resolveHistoricalTruth(fMel, 25);
+          if (mel1.o !== 'SPA' || !mel1.note?.includes('17 luglio 1936')) return fail('mel1');
+          if (!mel11.note?.includes('Orano') || !mel11.note?.includes('Torch')) return fail('mel11');
+          if (mel25.fac !== 'Neutrale' || !mel25.note?.includes('Minas del Rif')) return fail('mel25');
+
+          const tan7 = resolveHistoricalTruth(fTan, 7);
+          const tan14 = resolveHistoricalTruth(fTan, 14);
+          if (tan7.o !== 'SPA' || !tan7.note?.includes('1940')) return fail('tan7');
+          if (tan14.o !== 'SPA' || !tan14.note?.includes('Wolframio')) return fail('tan14');
+
+          const sah19 = resolveHistoricalTruth(fSah, 19);
+          const rio1 = resolveHistoricalTruth(fRio, 1);
+          const rio25 = resolveHistoricalTruth(fRio, 25);
+          const ifni25 = resolveHistoricalTruth(fIfni, 25);
+          if (!sah19.name.includes('Cabo Juby') || !sah19.note?.includes('Alía Medina')) return fail('sah19');
+          if (!rio1.note?.includes('Viera y Clavijo') || !rio25.name.includes('Villa Cisneros')) return fail('rio');
+          if (!ifni25.adminEntity?.includes('Rosaleny Burguet') || !ifni25.note?.includes('1950')) return fail('ifni25');
+
+          const cTet = HISTORICAL_CITIES.find((c) => c.id === 'tetuan');
+          const cIfni = HISTORICAL_CITIES.find((c) => c.id === 'sidi_ifni');
+          if (!cTet || getCityOwner(cTet, 0) !== 'SPR' || getCityOwner(cTet, 25) !== 'SPA') return fail('city_tetuan');
+          if (!cIfni || getCityOwner(cIfni, 0) !== 'SPR' || getCityOwner(cIfni, 25) !== 'SPA') return fail('city_ifni');
+          if (!HISTORICAL_BATTLES.some((b) => b.id === 'occupazione_tangeri_1940' && b.step === 6)) return fail('battle_tan40');
+          if (!HISTORICAL_BATTLES.some((b) => b.id === 'moti_tetuan_1948' && b.step === 21)) return fail('battle_tet48');
+
+          return true;
+        },
+      },
+      {
+        name: '146. Scenario Globale 31 Dicembre 1950 (Step 26 — DIC 1950) & Anti-Anacronismi',
+        run: () => {
+          const fail = (msg: string) => {
+            console.error('[Test #146 FALLITO]:', msg);
+            return false;
+          };
+
+          // 1. Timeline Step 26 & Metadati Sovrani / Costituzionali (Lug–Dic 1950)
+          if (STEPS.length !== 27 || !STEPS[26] || STEPS[26].d !== 'DIC 1950') return fail('step26_timeline');
+          const metaIdn26 = getOwnerMeta('IDN', 26);
+          const metaRok26 = getOwnerMeta('ROK', 26);
+          const metaPrk26 = getOwnerMeta('PRK', 26);
+          const metaBel26 = getOwnerMeta('BEL', 26);
+          const metaTib26 = getOwnerMeta('TIB', 26);
+          const metaNep26 = getOwnerMeta('NEP', 26);
+          const metaVie26 = getOwnerMeta('VIE', 26);
+          const metaSvn26 = getOwnerMeta('SVN', 26);
+          if (!metaIdn26.l(26).includes('Stato Unitario') || !metaIdn26.leader?.includes('Mohammad Natsir') || metaIdn26.l(26).includes('Stati Uniti d\'Indonesia')) return fail('meta_idn26');
+          if (!metaRok26.l(26).includes('UNC') || !metaRok26.capital?.includes('Seoul')) return fail('meta_rok26');
+          if (!metaPrk26.l(26).includes('PVA') || !metaPrk26.capital?.includes('5 Dicembre 1950')) return fail('meta_prk26');
+          if (!metaBel26.l(26).includes('Baldovino') || !metaBel26.leader?.includes('11 Ago 1950')) return fail('meta_bel26');
+          if (!metaTib26.leader?.includes('17 Novembre 1950')) return fail('meta_tib26');
+          if (!metaNep26.l(26).includes('Tribhuvan') || !metaNep26.l(26).includes('Terai')) return fail('meta_nep26');
+          if (!metaVie26.l(26).includes('RC4') || !metaSvn26.leader?.includes('Lattre de Tassigny')) return fail('meta_indochina26');
+
+          // 2. Bandiere Storiche Autentiche & Guardrail 13 (Step 26 = 1950-12-31)
+          const fIdn26 = resolveHistoricalFlag('IDN', 26);
+          const fUnc26 = resolveHistoricalFlag('UNC', 26);
+          const fRisCheck = resolveHistoricalFlag('RIS', 25);
+          const fNstCheck = resolveHistoricalFlag('NST', 25);
+          const fNitCheck = resolveHistoricalFlag('NIT', 25);
+          if (!fIdn26 || fIdn26.entity_id !== 'IDN_UNITARY_1950') return fail('flag_idn26_meta');
+          if (!validateFlagAgainstAnachronism(fIdn26, '1950-12-31').isValid || validateFlagAgainstAnachronism(fIdn26, '1950-06-30').isValid) return fail('flag_idn26_anach');
+          if (!fUnc26 || fUnc26.entity_id !== 'UNC_1950' || !validateFlagAgainstAnachronism(fUnc26, '1950-12-31').isValid || validateFlagAgainstAnachronism(fUnc26, '1950-06-30').isValid) return fail('flag_unc26_anach');
+          if (!fRisCheck || validateFlagAgainstAnachronism(fRisCheck, '1950-12-31').isValid) return fail('flag_ris_expired');
+          if (!fNstCheck || validateFlagAgainstAnachronism(fNstCheck, '1950-12-31').isValid) return fail('flag_nst_expired');
+          if (!fNitCheck || validateFlagAgainstAnachronism(fNitCheck, '1950-12-31').isValid) return fail('flag_nit_expired');
+          const rokSvg26 = getCountryFlagSvg('ROK', 26);
+          if (!rokSvg26.includes('0 0 600 400') || !rokSvg26.includes('<svg')) return fail('flag_rok_unc_joint');
+
+          // 3. Penisola Coreana al 31 Dicembre 1950 (Seul ANCORA ROK-UNC, fronte sull'Imjin)
+          const kr26 = (id: string) => resolveHistoricalTruth({ id, properties: { id, NUTS_ID: id, CNTR_CODE: id.startsWith('KP') ? 'KP' : 'KR', REGION_KIND: 'KOREA_PROVINCE' } }, 26);
+          for (const prkId of ['KP01', 'KR41_N', 'KR42_N', 'KP05_S', 'KP06_S']) {
+            if (kr26(prkId).o !== 'PRK') return fail(`kr26_prk:${prkId}`);
+          }
+          const seoul26 = kr26('KR11');
+          const gyeonggi26 = kr26('KR41_S');
+          const incheon26 = kr26('KR28');
+          const gangwonS26 = kr26('KR42_S');
+          if (seoul26.o !== 'ROK' || !seoul26.name.includes('75%') || !seoul26.note?.includes('4 gennaio 1951')) return fail('kr26_seoul_must_stay_rok');
+          if (gyeonggi26.o !== 'ROK' || !gyeonggi26.name.includes('75%') || !gyeonggi26.note?.includes('Imjin')) return fail('kr26_gyeonggi');
+          if (incheon26.o !== 'ROK' || !incheon26.name.includes('60%')) return fail('kr26_incheon');
+          if (gangwonS26.o !== 'ROK' || !gangwonS26.name.includes('85%')) return fail('kr26_gangwon');
+          for (const rokId of ['KR43', 'KR44', 'KR30', 'KR47', 'KR48', 'KR27', 'KR26', 'KR31', 'KR45', 'KR46', 'KR29', 'KR49']) {
+            if (kr26(rokId).o !== 'ROK') return fail(`kr26_rok:${rokId}`);
+          }
+
+          // 4. Cina & Tibet al 31 Dicembre 1950 (Chamdo EPL, ma Lhasa/Tibet resta 100% TIB!)
+          const chn26 = (id: string) => resolveHistoricalTruth({ id, properties: { id, NUTS_ID: id, CNTR_CODE: 'CN_PROV', REGION_KIND: 'CHINA_PROVINCE' } }, 26);
+          const tib26 = chn26('CHN_TIBET');
+          const sik26 = chn26('CHN_XIKANG');
+          const sic26 = chn26('CHN_SICHUAN');
+          const lia26 = chn26('CHN_LIAONING');
+          const tw26 = chn26('CHN_TAIWAN');
+          if (tib26.o !== 'TIB' || !tib26.note?.includes('17 novembre 1950')) return fail('chn26_tibet_must_stay_tib');
+          if (sik26.o !== 'CCP_CHI' || !sik26.note?.includes('Chamdo')) return fail('chn26_xikang_chamdo');
+          if (sic26.o !== 'CCP_CHI' || lia26.o !== 'CCP_CHI' || !lia26.name.includes('URSS')) return fail('chn26_mainland');
+          if (tw26.o !== 'CHI' || chn26('CHN_ZHEJIANG').o !== 'CCP_CHI' || chn26('CHN_FUJIAN').o !== 'CCP_CHI') return fail('chn26_taiwan_coast');
+
+          // 5. Indocina RC4 Ott–Nov 1950 (VN04/VN09/VN02/VN14 flip -> VIE; Delta & Taï -> SVN)
+          const ind26 = (id: string, cntr = 'VN') => resolveHistoricalTruth({ id, properties: { id, ISO2: cntr, NUTS_ID: id, CNTR_CODE: cntr, REGION_KIND: 'INDOCHINA_PROVINCE' } }, 26);
+          for (const flipId of ['VN04', 'VN09', 'VN02', 'VN14']) {
+            const r = ind26(flipId);
+            if (r.o !== 'VIE' || r.fac !== 'Comintern') return fail(`vn26_flip_vie:${flipId}`);
+          }
+          if (ind26('VN01').o !== 'SVN' || ind26('VNSG').o !== 'SVN' || ind26('VNHN').o !== 'SVN' || !ind26('VNHN').note?.includes('de Lattre')) return fail('vn26_svn_hold');
+          if (ind26('VN45').o !== 'VIE' || ind26('KH12', 'KH').o !== 'CAM' || ind26('LAVI', 'LA').o !== 'LAO') return fail('vn26_south_laos_cam');
+
+          // 6. Indonesia Unitaria (IDMA Ambon -> IDN, Papua -> HOL) + Eritrea (UK), Nepal (NEP), Belgio (BEL)
+          const indo26 = (id: string) => resolveHistoricalTruth({ id, properties: { id, ISO2: 'ID', NUTS_ID: id, REGION_KIND: 'INDONESIA_PROVINCE' } }, 26);
+          if (indo26('IDPA').o !== 'HOL' || indo26('IDPB').o !== 'HOL') return fail('indo26_papua');
+          if (indo26('IDMA').o !== 'IDN' || !indo26('IDMA').note?.includes('Seram')) return fail('indo26_ambon_to_idn');
+          if (indo26('IDSU').o !== 'IDN' || !indo26('IDSU').name.includes('Stato Unitario') || !indo26('IDJK').name.includes('Stato Unitario')) return fail('indo26_unitary');
+
+          const er26 = resolveHistoricalTruth({ id: 'HIST_XX_ERITREA_ITALY', __layer: 'hb', properties: { id: 'HIST_XX_ERITREA_ITALY', NAME: 'Eritrea (Italy)' } }, 26);
+          const nep26 = resolveHistoricalTruth({ id: 'HIST_XX_NEPAL', __layer: 'hb', properties: { id: 'HIST_XX_NEPAL', NAME: 'Nepal' } }, 26);
+          const be26 = resolveHistoricalTruth({ id: 'BE100', properties: { id: 'BE100', NUTS_ID: 'BE100', CNTR_CODE: 'BE', NAME: 'Bruxelles' } }, 26);
+          if (er26.o !== 'UK' || !er26.note?.includes('390 A(V)')) return fail('eritrea26_uk');
+          if (nep26.o !== 'NEP' || !nep26.note?.includes('Terai')) return fail('nepal26');
+          if (be26.o !== 'BEL' || !be26.adminEntity?.includes('Baldovino')) return fail('bel26_baudouin');
+
+          // 7. Layer Tattici & Città Dinamiche Step 26
+          if (HISTORICAL_BATTLES.filter((b) => b.step === 26).length < 5) return fail('battles_26');
+          const imjin26 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'korean_war_imjin_38th_front_dec1950');
+          const hanOld = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'korean_war_han_river_front_june1950');
+          const delattre26 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'indochina_de_lattre_line_1950');
+          const rc4Old = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'indochina_rc4_viet_bac_1948');
+          const chamdo26 = HISTORICAL_FORTIFICATION_LINES.find((f) => f.id === 'chamdo_salween_tibet_front_1950');
+          if (!imjin26?.activeSteps.includes(26) || hanOld?.activeSteps.includes(26)) return fail('fort_korea_26');
+          if (!delattre26?.activeSteps.includes(26) || rc4Old?.activeSteps.includes(26) || !chamdo26?.activeSteps.includes(26)) return fail('fort_indo_tibet_26');
+          const pac26 = HISTORICAL_SEA_LANES.find((l) => l.id === 'transpacific_us_hawaii');
+          const nat26 = HISTORICAL_SEA_LANES.find((l) => l.id === 'north_atlantic_convoy');
+          if (!pac26?.activeSteps.includes(26) || !nat26?.activeSteps.includes(26)) return fail('sea_26');
+          const cSeo26 = HISTORICAL_CITIES.find((c) => c.id === 'keijo');
+          if (!cSeo26 || getCityOwner(cSeo26, 26) !== 'ROK' || !getCityIsCapital(cSeo26, 26)) return fail('city_seoul_26');
+
+          return true;
+        },
       },
 
     ];

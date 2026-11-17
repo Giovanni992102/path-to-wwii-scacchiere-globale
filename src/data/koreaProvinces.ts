@@ -913,6 +913,180 @@ export function resolveKoreaProvince(ft: any, s: number): ResolvedTerritory {
     }
   }
 
+  // STEP 26 (31 Dicembre 1950): Controffensiva Cinese PVA (Ott–Dic 1950) — Evacuazione di Hungnam (24 Dic) & Fronte sul Fiume Imjin / 38° Parallelo
+  if (s >= 26) {
+    const kid = (meta ? meta.id : fidClean).toUpperCase();
+    const provLabel = meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || fidClean || 'Corea');
+    const isNorth38 =
+      kid === 'KR41_N' ||
+      kid === 'KR42_N' ||
+      ((meta?.cntrCode === 'KP' || kid.startsWith('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP') && kid !== 'KP05_S' && kid !== 'KP06_S');
+
+    if (isNorth38 || kid === 'KP05_S' || kid === 'KP06_S') {
+      const label = kid === 'KP05_S'
+        ? 'Penisola di Ongjin (100% RPDC-PVA — Riconquistata nel Dicembre 1950)'
+        : kid === 'KP06_S'
+          ? 'Kaesong (100% RPDC-PVA — Riconquistata a Metà Dicembre 1950)'
+          : `${provLabel} (100% RPDC-PVA — Evacuazione ONU Completata il 24 Dicembre 1950)`;
+      const note = kid === 'KP05_S' || kid === 'KP06_S'
+        ? "31 Dicembre 1950 (100% RPDC / Volontari del Popolo Cinese PVA): a metà dicembre 1950 le forze cino-nordcoreane hanno riattraversato il 38° parallelo riconquistando Kaesong e la penisola di Ongjin fino alla linea del fiume Imjin."
+        : "31 Dicembre 1950 (100% RPDC / Volontari del Popolo Cinese PVA): dopo la caduta di Pyongyang (5 dicembre) e il completamento dell'evacuazione navale ONU da Hungnam (24 dicembre), l'intera Corea del Nord a nord del 38° parallelo è tornata sotto controllo RPDC-PVA alla vigilia dell'Offensiva di Capodanno.";
+      return makeResult(
+        'PRK',
+        label,
+        note,
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Pyongyang · Gen. Peng Dehuai & Kim Il-sung)'
+      );
+    }
+    if (kid === 'KR28') {
+      return makeResult(
+        'ROK',
+        'Incheon (40% ROK-UNC / 60% RPDC-PVA Settore Ongjin — Porto e Ganghwa sotto Comando ONU)',
+        "31 Dicembre 1950 (60% RPDC-PVA / 40% ROK-UNC): mentre la penisola di Ongjin (a sud del 38° parallelo) è tornata sotto controllo RPDC-PVA, l'area portuaria strategica di Incheon (teatro dello sbarco ONU del 15 settembre 1950) e l'isola di Ganghwa restano sotto saldo controllo ROK-UNC.",
+        'Alleati',
+        'Comando delle Nazioni Unite (UNC) & Repubblica di Corea — Settore Portuario di Incheon / Ganghwa'
+      );
+    }
+    if (kid === 'KR11') {
+      return makeResult(
+        'ROK',
+        'Seoul / Seul (75% ROK-UNC / 25% RPDC-PVA a Nord dell\'Imjin — Capitale Ancora sotto Controllo ROK-ONU)',
+        "31 Dicembre 1950 (75% ROK-UNC / 25% RPDC-PVA nell'entroterra settentrionale): riconquistata nel settembre 1950, Seul resta ancora sotto controllo della Repubblica di Corea e del Comando delle Nazioni Unite alla vigilia dell'Offensiva Cinese di Capodanno (cadrà il 4 gennaio 1951).",
+        'Alleati',
+        'Comando Nazioni Unite (UNC) & Repubblica di Corea — Difesa di Seul (Linea del Fiume Imjin)'
+      );
+    }
+    if (kid === 'KR41_S') {
+      return makeResult(
+        'ROK',
+        'Gyeonggi-do Meridionale (75% ROK-UNC / 25% RPDC-PVA — Fronte lungo il Fiume Imjin e a Nord di Uijeongbu)',
+        "31 Dicembre 1950 (75% ROK-UNC / 25% RPDC-PVA): a metà dicembre le forze cino-nordcoreane hanno preso Kaesong, Yeoncheon e la fascia a nord del fiume Imjin; il fronte difensivo dell'8ª Armata USA/ONU e ROK corre lungo l'Imjin e a nord di Uijeongbu mentre nella notte scatta la Terza Offensiva Cinese.",
+        'Alleati',
+        'Fronte del Gyeonggi-do (75% ROK-UNC / 25% RPDC-PVA — Linea Fiume Imjin / Uijeongbu)'
+      );
+    }
+    if (kid === 'KR42_S') {
+      return makeResult(
+        'ROK',
+        'Gangwon-do Meridionale (85% ROK-UNC / 15% RPDC-PVA — Chuncheon, Wonju e Gangneung sotto Controllo ONU)',
+        "31 Dicembre 1950 (85% ROK-UNC / 15% RPDC-PVA): Chuncheon, Hongcheon, Wonju e la costa fino a Gangneung restano sotto controllo ROK-UNC; le valli settentrionali di confine (Hwacheon, Yanggu, Inje e Yangyang) sono presidiate da unità RPDC e PVA.",
+        'Alleati',
+        'Fronte del Gangwon-do (85% ROK-UNC / 15% RPDC-PVA — Settore Centrale e Orientale)'
+      );
+    }
+    return makeResult(
+      'ROK',
+      `${provLabel} (100% ROK / Comando ONU — Retrovia Meridionale & Logistica Pusan, 31 Dicembre 1950)`,
+      "31 Dicembre 1950 (100% ROK / Comando delle Nazioni Unite UNC): le province centro-meridionali della Corea del Sud, incluso il porto logistico di Pusan, restano interamente sotto controllo della Repubblica di Corea e del Comando ONU istituito il 7 luglio 1950.",
+      'Alleati',
+      'Repubblica di Corea & Comando Nazioni Unite (UNC · Istituito con Ris. 84 del 7 Luglio 1950)'
+    );
+  }
+
+  // STEP 25 (30 Giugno 1950): Scoppio della Guerra di Corea (25 Giu) — Caduta di Seul (28 Giu) & Fronte del Fiume Han (6° Giorno)
+  if (s >= 25) {
+    const kid = (meta ? meta.id : fidClean).toUpperCase();
+    const provLabel = meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || fidClean || 'Corea');
+    const isNorth38 =
+      kid === 'KR41_N' ||
+      kid === 'KR42_N' ||
+      ((meta?.cntrCode === 'KP' || kid.startsWith('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP') && kid !== 'KP05_S' && kid !== 'KP06_S');
+
+    if (kid === 'KR11') {
+      return makeResult(
+        'PRK',
+        'Seoul / Seul (90% RPDC / 10% Periferia Sud — Caduta di Seul il 28 Giugno 1950 & Attraversamento del Fiume Han)',
+        "30 Giugno 1950 (90% Corea del Nord RPDC / 10% Corea del Sud ROK): dopo l'invasione nordcoreana del 25 giugno lungo i corridoi di Uijeongbu e Munsan, Seul cade il 28 giugno 1950 e il 30 giugno le avanguardie dell'Armata Popolare Coreana attraversano il fiume Han occupando Yeongdeungpo.",
+        'Comintern',
+        'Armata Popolare Coreana (KPA — Occupazione di Seul, 28 Giugno 1950)'
+      );
+    }
+    if (kid === 'KR41_S') {
+      return makeResult(
+        'PRK',
+        'Gyeonggi-do (90% RPDC / 10% ROK — Fronte a Sud del Fiume Han; ROK a Suwon, Pyeongtaek e Anseong)',
+        "30 Giugno 1950 (90% Corea del Nord RPDC / 10% Corea del Sud ROK): caduta Seul (28 giugno) e attraversato il fiume Han a Yeongdeungpo (30 giugno), la RPDC controlla il 90% del Gyeonggi-do mentre l'esercito sudcoreano in ritirata tiene solo la fascia meridionale attorno a Suwon, Pyeongtaek e Anseong alla vigilia dell'arrivo della Task Force Smith statunitense.",
+        'Comintern',
+        'Fronte del Gyeonggi-do (90% RPDC / 10% ROK — Linea Suwon–Pyeongtaek–Anseong)'
+      );
+    }
+    if (kid === 'KR28' || kid === 'KP05_S' || kid === 'KP06_S') {
+      const label = kid === 'KR28'
+        ? 'Incheon (100% RPDC — Occupata il 29–30 Giugno 1950)'
+        : kid === 'KP05_S'
+          ? 'Penisola di Ongjin (100% RPDC — Caduta il 25–26 Giugno 1950)'
+          : 'Kaesong (100% RPDC — Caduta il 25 Giugno 1950)';
+      return makeResult(
+        'PRK',
+        label,
+        "30 Giugno 1950 (100% RPDC): la penisola isolata di Ongjin e Kaesong cadono nei primi due giorni dell'offensiva del 25–26 giugno; l'aeroporto di Gimpo e il porto di Incheon vengono investiti dall'Armata Popolare Coreana tra il 29 e il 30 giugno 1950.",
+        'Comintern',
+        'Armata Popolare Coreana (KPA — Settore Occidentale, Giugno 1950)'
+      );
+    }
+    if (kid === 'KR42_S') {
+      return makeResult(
+        'PRK',
+        'Gangwon-do Meridionale (85% RPDC / 15% ROK — Caduta di Chuncheon, Hongcheon e Gangneung; ROK a Wonju e Yeongwol)',
+        "30 Giugno 1950 (85% Corea del Nord RPDC / 15% Corea del Sud ROK): le colonne nordcoreane conquistano Chuncheon (27 giugno), Hongcheon (29 giugno) e avanzano lungo la costa orientale oltre Gangneung verso Samcheok; la Corea del Sud mantiene solo l'estremità meridionale montana attorno a Wonju e Yeongwol.",
+        'Comintern',
+        'Fronte del Gangwon-do (85% RPDC / 15% ROK — Linea Wonju–Yeongwol)'
+      );
+    }
+    if (isNorth38) {
+      return makeResult(
+        'PRK',
+        `${provLabel} (100% RPDC — Base d'Offensiva dell'Armata Popolare Coreana, Giugno 1950)`,
+        "30 Giugno 1950 (100% RPDC): l'intero territorio a nord del 38° parallelo costituisce la retrovia e la base d'offensiva della Repubblica Popolare Democratica di Corea (Premier Kim Il-sung) dopo lo scoppio della Guerra di Corea il 25 giugno 1950.",
+        'Comintern',
+        "Repubblica Popolare Democratica di Corea (KPA — Premier Kim Il-sung · Capitale Pyongyang)"
+      );
+    }
+    if (kid === 'KR30') {
+      return makeResult(
+        'ROK',
+        'Daejeon (100% ROK — Capitale Provvisoria della Repubblica di Corea dal 27 Giugno 1950)',
+        "30 Giugno 1950 (100% ROK): evacuata Seul il 27 giugno dinanzi all'avanzata nordcoreana, il governo della Repubblica di Corea di Syngman Rhee si insedia provvisoriamente a Daejeon mentre i Chungcheong, il Gyeongsang, il Jeolla e Jeju restano al 100% sotto controllo sudcoreano.",
+        'Alleati',
+        'Repubblica di Corea — Capitale Provvisoria Daejeon (Presidente Syngman Rhee, 27 Giu 1950)'
+      );
+    }
+    return makeResult(
+      'ROK',
+      `${provLabel} (100% Repubblica di Corea — Retrovia Meridionale, 30 Giugno 1950)`,
+      "30 Giugno 1950 (100% ROK): al sesto giorno della Guerra di Corea la provincia rimane interamente sotto controllo della Repubblica di Corea (governo provvisorio trasferito a Daejeon il 27 giugno), alla vigilia dello schieramento delle prime truppe USA/ONU.",
+      'Alleati',
+      'Repubblica di Corea — Daehan Minguk (Governo Provvisorio a Daejeon · Supporto ONU/USA)'
+    );
+  }
+
+  // STEP 22+ (31 Dicembre 1948): Proclamazione delle due Repubbliche Sovrane Coreane (ROK 15 Ago 1948 · RPDC 9 Set 1948)
+  if (s >= 22) {
+    const isNorth38 =
+      fidClean === 'KR41_N' ||
+      fidClean === 'KR42_N' ||
+      ((meta?.cntrCode === 'KP' || fidClean.startsWith('KP') || fidClean.includes('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP') && fidClean !== 'KP05_S' && fidClean !== 'KP06_S');
+
+    if (isNorth38) {
+      return makeResult(
+        'PRK',
+        `${meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || 'Corea del Nord')} (Repubblica Popolare Democratica di Corea — 9 Settembre 1948)`,
+        "9 Settembre 1948: cessa l'Amministrazione Civile Sovietica e viene proclamata a Pyongyang la Repubblica Popolare Democratica di Corea (RPDC / PRK) guidata dal premier Kim Il-sung con la nuova bandiera adottata l'8 settembre. Entro il 26 dicembre 1948 si completa il ritiro delle truppe sovietiche dal nord del 38° parallelo.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea (Premier Kim Il-sung · Capitale Pyongyang — Ritiro Sovietico 26 Dic 1948)'
+      );
+    } else {
+      return makeResult(
+        'ROK',
+        `${meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || 'Corea del Sud')} (Repubblica di Corea — 15 Agosto 1948)`,
+        "15 Agosto 1948: cessa il governo militare statunitense (USAMGIK) e viene proclamata a Seul la Repubblica di Corea (Corea del Sud / ROK) sotto il Presidente Syngman Rhee, riconosciuta dall'Assemblea Generale ONU (Ris. 195 del 12 dicembre 1948) su tutto il territorio a sud del 38° parallelo.",
+        'Alleati',
+        'Repubblica di Corea — Daehan Minguk (Presidente Syngman Rhee · Capitale Seul)'
+      );
+    }
+  }
+
   // STEP 18+ (Settembre 1945): Divisione della Corea al 38° Parallelo tra Unione Sovietica e Stati Uniti
   if (s >= 18) {
     const isNorth38 =

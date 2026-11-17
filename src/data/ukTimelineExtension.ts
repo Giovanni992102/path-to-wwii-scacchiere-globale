@@ -570,76 +570,184 @@ function resolveCrownDependencyLate(
   const id = meta.nuts.toUpperCase();
 
   if (id === 'GG') {
+    if (s >= 22) {
+      return makeUKRes(
+        'UK',
+        'Guernsey (Bailiwick of Guernsey — Riforme Costituzionali & Alderney 1949)',
+        "Baliato autonomo della Corona Britannica (1948–GIU 1949). Dopo le prime elezioni degli States of Deliberation rinnovati ai sensi della Reform (Guernsey) Law 1948, il 1° gennaio 1949 entra in vigore il Government of Alderney Law, 1948: i nuovi States of Alderney integrano servizi pubblici e fiscalità con Guernsey, consolidando la rinascita postbellica del Baliato sotto il Balivo Sir Ambrose Sherwill (Union Flag / Croce di San Giorgio; croce d'oro solo dal 1985).",
+        'Alleati',
+        'Bailiwick of Guernsey (British Crown Dependency — Reform Law 1948 & Alderney Union 1949)'
+      );
+    }
+    if (s === 21) {
+      return makeUKRes(
+        'UK',
+        'Guernsey (Bailiwick of Guernsey — Reform Law 1948)',
+        "GIU 1948: approvata la storica Reform (Guernsey) Law, 1948, che separa il potere legislativo degli States of Deliberation da quello giudiziario della Royal Court (Jurats), istituendo i Conseillers e i People's Deputies elettivi mentre procede il recupero economico di Alderney e Sark.",
+        'Alleati',
+        'Bailiwick of Guernsey (British Crown Dependency — Reform (Guernsey) Law 1948)'
+      );
+    }
     if (s >= 19) {
       return makeUKRes(
         'UK',
-        'Guernsey (Bailiwick of Guernsey — Ricostruzione Postbellica & Crown Dependency)',
-        "Baliato autonomo della Corona Britannica nelle Isole del Canale (SET 1947). Completato il rimpatrio degli sfollati e degli scolari rientrati dall'Inghilterra nel 1945–46, Guernsey intraprende lo sminamento costiero dei bunker del Vallo Atlantico (Alderney/Guernsey), le riforme costituzionali degli Stati e la ripresa orticola. Bandiera: Union Flag (nessuna bandiera ufficiale autonoma con croce d'oro fino al 1985).",
+        'Guernsey (Bailiwick of Guernsey — Ricostruzione Postbellica & Inchiesta 1947)',
+        "Baliato autonomo della Corona Britannica nelle Isole del Canale (1947). Completato il rimpatrio dei 17.000 sfollati dall'Inghilterra e il reinsediamento di Alderney (avviato dal dicembre 1945), una Commissione del Privy Council istruisce la riforma costituzionale degli Stati mentre prosegue lo sminamento costiero del Vallo Atlantico.",
         'Alleati',
-        'Bailiwick of Guernsey (British Crown Dependency — Attlee Era Reconstruction)'
+        'Bailiwick of Guernsey (British Crown Dependency — Post-War Reconstruction 1946–47)'
       );
     }
     if (s >= 18) {
       return makeUKRes(
         'UK',
-        'Guernsey (Bailiwick of Guernsey — Liberata 9 Maggio 1945)',
-        "9 maggio 1945 (Liberation Day): a bordo del cacciatorpediniere HMS Bulldog al largo di Saint Peter Port, le forze britanniche della Task Force 135 ricevono la resa della guarnigione tedesca, riportando il Baliato di Guernsey e Alderney sotto sovranità britannica dopo cinque anni d'occupazione nazista e il durissimo inverno di fame 1944–45. A settembre 1945 prosegue il disarmo dei bunker e il rientro degli sfollati.",
+        'Guernsey (Bailiwick of Guernsey — Liberata 9–16 Maggio 1945)',
+        "9 maggio 1945 (Liberation Day): a bordo del cacciatorpediniere HMS Bulldog al largo di Saint Peter Port, la Task Force 135 riceve la resa tedesca di Guernsey (10 maggio Sark; 16 maggio Alderney, ultima guarnigione tedesca su suolo britannico ad arrendersi). Dopo il governo militare britannico (fino al 25 agosto 1945), tornano i poteri civili del Baliato e i primi convogli di sfollati.",
         'Alleati',
         'Bailiwick of Guernsey (British Crown Dependency — Task Force 135 Liberation)'
       );
     }
-    if (s >= 14) {
+    if (s >= 16) {
       return makeUKRes(
         'GER',
-        'Guernsey (Festung Guernsey — Assediata dopo D-Day)',
-        "Dall'agosto 1944, liberata la Normandia dagli Alleati, Guernsey (Festung Guernsey) resta completamente isolata dal continente europeo: il 1944–45 segna il drammatico \"Starvation Winter\" per civili e guarnigione, mitigato solo dagli arrivi della nave della Croce Rossa SS Vega da dicembre 1944; resisterà fino alla resa del 9 maggio 1945.",
+        'Guernsey (Festung Guernsey — Starvation Winter & SS Vega)',
+        "Inverno 1944–45 (\"Starvation Winter\"): completamente isolata dal continente dopo la caduta della Normandia, Festung Guernsey soffre grave penuria alimentare ed esaurimento di carbone ed elettricità; dal 27 dicembre 1944 i pacchi viveri della Croce Rossa portati dalla nave svedese SS Vega evitano la carestia fino alla resa del 9 maggio 1945.",
         'Asse',
         'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Guernsey Assediata)'
       );
     }
+    if (s === 15) {
+      return makeUKRes(
+        'GER',
+        'Guernsey (Festung Guernsey — Assedio Totale post-Normandia)',
+        "Agosto 1944: dopo la liberazione della Normandia e la caduta di Saint-Malo si spezza ogni rotta di rifornimento dalla Francia; il comando di Festung Guernsey resta accerchiato nella Manica con razionamenti severissimi per civili e guarnigione.",
+        'Asse',
+        'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Guernsey Assediata)'
+      );
+    }
+    if (s === 14) {
+      return makeUKRes(
+        'GER',
+        'Guernsey (Festung Guernsey — Allerta D-Day & Sgombero Lager Alderney)',
+        "Giugno 1944: con lo sbarco alleato in Normandia (D-Day) e i combattimenti per Cherbourg, le vie marittime verso il Cotentin vengono interrotte dagli Alleati; a fine giugno le SS evacuano sul continente gli ultimi prigionieri dei lager di Alderney.",
+        'Asse',
+        'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Guernsey)'
+      );
+    }
+    if (s >= 12) {
+      return makeUKRes(
+        'GER',
+        'Guernsey (Festung Guernsey — Batterie Atlantikwall & Lager SS Sylt)',
+        "1943: apice del sistema fortificato Festung Guernsey con l'entrata in funzione della grande batteria costiera Mirus (cannoni da 30,5 cm). Dal marzo 1943 la SS-Totenkopfverbände (SS Baubrigade I) assume direttamente il controllo del campo di concentramento Lager Sylt ad Alderney accanto ai campi OT (Norderney, Borkum, Helgoland).",
+        'Asse',
+        'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Guernsey)'
+      );
+    }
+    if (s >= 11) {
+      return makeUKRes(
+        'GER',
+        'Guernsey (Festung Guernsey — Deportazioni Set. 1942 & Operation Basalt)',
+        "Autunno 1942: in attuazione dell'ordine di Hitler, nel settembre 1942 oltre 800 residenti di Guernsey nati in Gran Bretagna vengono deportati nei campi d'internamento di Biberach e Dorsten in Germania; il 3–4 ottobre 1942 un commando britannico compie Operation Basalt su Sark.",
+        'Asse',
+        'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Guernsey)'
+      );
+    }
     return makeUKRes(
       'GER',
-      'Guernsey (Deutsche Dienststelle / Festung Guernsey)',
-      "Nel periodo 1941–44 la Wehrmacht e l'Organisation Todt completano imponenti fortificazioni costiere dell'Atlantikwall su Guernsey e i lager SS Norderney e Sylt ad Alderney, con deportazioni di residenti nati in Gran Bretagna verso la Germania nel settembre 1942.",
+      'Guernsey (Festung Guernsey — Direttiva Atlantikwall)',
+      "Dall'autunno 1941, su direttiva di Hitler (20 ottobre 1941), la Wehrmacht e l'Organisation Todt trasformano Guernsey e Alderney in fortezza inespugnabile dell'Atlantikwall impiegando migliaia di lavoratori forzati nei cantieri e nei campi OT di Alderney (attivi da inizio 1942).",
       'Asse',
-      'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Channel Islands)'
+      'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Guernsey)'
     );
   }
 
   if (id === 'JE') {
+    if (s >= 22) {
+      return makeUKRes(
+        'UK',
+        'Jersey (Bailiwick of Jersey — Riforma degli States 1948–1949)',
+        "Baliato autonomo della Corona Britannica (DIC 1948–GIU 1949). Nel dicembre 1948 si tengono le prime elezioni generali per gli States of Jersey riformati (senatori e deputati eletti a suffragio pieno, senza Jurats né Rettori nell'assemblea); nel 1949 sotto il Balivo Sir Alexander Coutanche riprendono a pieno ritmo agricoltura (Jersey Royal) e turismo nell'area della sterlina (Union Flag fino al 1979–81).",
+        'Alleati',
+        'Bailiwick of Jersey (British Crown Dependency — Reformed States of Jersey 1948–49)'
+      );
+    }
+    if (s === 21) {
+      return makeUKRes(
+        'UK',
+        'Jersey (Bailiwick of Jersey — Assembly of the States Law 1948)',
+        "GIU 1948: promulgazione della storica Assembly of the States (Jersey) Law, 1948 (approvata nella primavera 1948), che separa nettamente legislativo e giudiziario sostituendo Jurats e Rettori con Senatori e Deputati eletti.",
+        'Alleati',
+        'Bailiwick of Jersey (British Crown Dependency — Assembly Reform Law 1948)'
+      );
+    }
     if (s >= 19) {
       return makeUKRes(
         'UK',
-        'Jersey (Bailiwick of Jersey — Riforma Costituzionale & Crown Dependency)',
-        "Baliato autonomo della Corona Britannica (SET 1947). Sotto gli Stati di Jersey si prepara la profonda modernizzazione parlamentare (Assembly Reforms 1947–48) dopo l'occupazione bellica, bonificando i tunnel ospedalieri e le batterie dell'Atlantikwall e rilanciando agricoltura e turismo. Bandiera: Union Flag fino alla legge araldica locale del 1979–81.",
+        'Jersey (Bailiwick of Jersey — Ricostruzione & Inchiesta Costituzionale 1947)',
+        "Baliato autonomo della Corona Britannica (1947). Sotto il Balivo Sir Alexander Coutanche e gli Stati di Jersey (States of Jersey) prosegue la bonifica delle batterie dell'Atlantikwall e dei tunnel sotterranei, mentre la Commissione del Privy Council definisce i progetti della grande riforma parlamentare del 1948.",
         'Alleati',
-        'Bailiwick of Jersey (British Crown Dependency — Post-War Constitutional Reform)'
+        'Bailiwick of Jersey (British Crown Dependency — Post-War Reconstruction 1946–47)'
       );
     }
     if (s >= 18) {
       return makeUKRes(
         'UK',
         'Jersey (Bailiwick of Jersey — Liberata 9 Maggio 1945)',
-        "9 maggio 1945: al Pomme d'Or Hotel di Saint Helier viene issata nuovamente la Union Jack tra l'esultanza popolare dopo la resa della guarnigione tedesca di Festung Jersey (Admiral Hüffmeier) al comando britannico; termina l'unica occupazione tedesca di suolo della Corona britannica nella WWII.",
+        "9 maggio 1945: al Pomme d'Or Hotel di Saint Helier viene issata nuovamente la Union Jack dopo la resa della guarnigione di Festung Jersey (Vizeadmiral Hüffmeier / Gen.-Maj. Heine) alla Task Force 135; dopo l'amministrazione militare transitoria (maggio–25 agosto 1945), termina l'unica occupazione tedesca di suolo della Corona britannica nella WWII.",
         'Alleati',
         'Bailiwick of Jersey (British Crown Dependency — Liberation Day 9 May 1945)'
       );
     }
-    if (s >= 14) {
+    if (s >= 16) {
       return makeUKRes(
         'GER',
-        'Jersey (Festung Jersey — Blocco Navale & Starvation Winter)',
-        "Isolata dal continente dopo la caduta di Saint-Malo e della Normandia (agosto 1944), l'isola di Jersey vive razionamenti estremi nell'inverno 1944–45 e tagli di elettricità e carbone, sostenuta da cinque viaggi umanitari della SS Vega fino al 9 maggio 1945.",
+        'Jersey (Festung Jersey — Starvation Winter, SS Vega & Raid su Granville)',
+        "Inverno 1944–45 (\"Starvation Winter\"): assediata e priva di carbone e gas, Jersey viene sostenuta dai cinque viaggi umanitari della nave della Croce Rossa SS Vega (primo approdo a Saint Helier il 30 dicembre 1944); l'8–9 marzo 1945 la guarnigione lancia da Jersey il raid navale su Granville fino alla resa del 9 maggio 1945.",
         'Asse',
         'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Jersey Assediata)'
       );
     }
+    if (s === 15) {
+      return makeUKRes(
+        'GER',
+        'Jersey (Festung Jersey — Assedio Totale post-Normandia)',
+        "Agosto 1944: caduta Saint-Malo e liberato il continente francese dagli Alleati, Jersey resta completamente isolata in stato d'assedio navale e aereo, con drastici razionamenti su cibo, combustibile e trasporti.",
+        'Asse',
+        'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Jersey Assediata)'
+      );
+    }
+    if (s === 14) {
+      return makeUKRes(
+        'GER',
+        'Jersey (Festung Jersey — Allerta D-Day & Interruzione Rotte Normanne)',
+        "Giugno 1944: in seguito allo sbarco alleato in Normandia (D-Day) e all'avanzata verso Cherbourg, la guarnigione di Festung Jersey entra in massima allerta militare perdendo i collegamenti regolari con la costa del Cotentin.",
+        'Asse',
+        'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Jersey)'
+      );
+    }
+    if (s >= 12) {
+      return makeUKRes(
+        'GER',
+        'Jersey (Festung Jersey — Bunker Atlantikwall & Complesso Ho8)',
+        "1943: potenziamento massimo di Festung Jersey con l'allestimento del tunnel ospedaliero sotterraneo Hohlgangsanlage 8 a St Lawrence, delle torri telemetriche della Kriegsmarine e delle batterie pesanti costiere costruite dall'Organisation Todt; nel febbraio 1943 si registra una nuova ondata di deportazioni verso la Germania.",
+        'Asse',
+        'Befehlshaber der Kanalinseln (Deutsche Wehrmacht / Festung Jersey)'
+      );
+    }
+    if (s >= 11) {
+      return makeUKRes(
+        'GER',
+        'Jersey (Festung Jersey — Deportazioni del Settembre 1942)',
+        "Autunno 1942: su ordine diretto di Hitler, oltre 1.200 residenti di Jersey nati nel Regno Unito vengono deportati nel settembre 1942 verso i campi d'internamento di Bad Wurzach, Biberach e Laufen, mentre prosegue lo scavo forzato dei tunnel militari di St Lawrence.",
+        'Asse',
+        'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Jersey)'
+      );
+    }
     return makeUKRes(
       'GER',
-      'Jersey (Deutsche Wehrmacht Kommandantur / Festung Jersey)',
-      "1941–1944: la fortezza di Jersey è irrobustita con tunnel sotterranei scavati a St Lawrence (Hohlgangsanlage 8) e gigantesche torri telemetriche della Kriegsmarine, mentre il Baliato subisce deportazioni in Germania nel 1942–43 e la confisca delle radio.",
+      'Jersey (Festung Jersey — Direttiva Atlantikwall & Scavi Ho8)',
+      "Dall'autunno 1941 (direttiva di Hitler del 20 ottobre 1941), Jersey è trasformata in caposaldo dell'Atlantikwall con i primi grandi scavi sotterranei dell'Organisation Todt a St Lawrence (Hohlgangsanlage 8), confisca delle radio civili (giugno 1942) e casematte costiere.",
       'Asse',
-      'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Channel Islands)'
+      'Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Jersey)'
     );
   }
 

@@ -1,6 +1,8 @@
 import { toCanonicalCountryCode } from './countryCodes';
 import { getGreeceFirstPhaseContextNote } from './greeceCivilWarTimeline';
 import { resolveIranProvince } from './iranProvinces';
+import { resolveEthiopiaProvince, ETHIOPIA_ADM1_IDS } from './ethiopiaProvinces';
+import { resolveThailandProvince, THAILAND_ADM1_IDS } from './thailandProvinces';
 import { resolveBritishRajProvince } from './britishRajProvinces';
 import { resolveKoreaProvince, KOREA_PROVINCES_META } from './koreaProvinces';
 import { resolveJapanProvince, JAPAN_PROVINCES_META } from './japanProvinces';
@@ -65,6 +67,8 @@ import {
 import {
   resolveFranceProvince,
   FRANCE_PROVINCES_META,
+  resolveFrenchCoastalPocket,
+  FRENCH_COASTAL_POCKET_IDS,
 } from './franceProvinces';
 import {
   resolveNorwayProvince,
@@ -82,6 +86,7 @@ import {
 import { resolveItalyExtendedStep } from './italyTimelineExtension';
 import {
   resolveSpainProvince,
+  resolveSpanishAfricanTerritory,
   SPAIN_PROVINCES_META,
 } from './spainProvinces';
 import {
@@ -667,6 +672,97 @@ export function makeResult(
   adminEntity?: string
 ): ResolvedTerritory {
   return { o, name, note, fac, adminEntity };
+}
+
+function resolveTangierZone(s: number): ResolvedTerritory {
+  if (s >= 23) {
+    return makeResult(
+      'TANGER',
+      'Zone Internationale de Tanger (Statut de 1945 — Porto Franco Internazionale)',
+      "Porto franco bancario, commerciale e diplomatico sullo Stretto di Gibilterra sotto il Comitato di Controllo (Francia, Regno Unito, USA, Spagna, Italia riammessa nel 1948, Belgio, Paesi Bassi, Portogallo), amministrato da H. F. L. K. van Vredenburch. Sede di Radio Tanger e crescente fermento nazionalista dell'Istiqlal verso l'indipendenza marocchina.",
+      'Neutrale',
+      'Zone Internationale de Tanger (Comité de Contrôle)'
+    );
+  }
+  if (s >= 21) {
+    return makeResult(
+      'TANGER',
+      'Zone Internationale de Tanger (Riammissione Italiana & Polo Franco)',
+      "Nell'estate 1948 il diplomatico olandese H. F. L. K. van Vredenburch assume l'amministrazione della Zona Internazionale, mentre l'Italia viene riammessa nel Comitato di Controllo dopo la parentesi bellica. Tangeri si afferma come piazza finanziaria franca e snodo di traffico mediterraneo-atlantico.",
+      'Neutrale',
+      'Zone Internationale de Tanger (Comité de Contrôle)'
+    );
+  }
+  if (s >= 19) {
+    return makeResult(
+      'TANGER',
+      'Zone Internationale de Tanger (Discorso di Tangeri — Mohammed V)',
+      "Il 10 aprile 1947 il Sultano del Marocco Mohammed V pronuncia a Tangeri lo storico discorso pubblico davanti ai delegati dell'Istiqlal e alle potenze del Comitato di Controllo, rivendicando l'unità territoriale e l'indipendenza del Marocco e aprendo un duro braccio di ferro diplomatico con il Residente Generale francese Alphonse Juin.",
+      'Neutrale',
+      'Zone Internationale de Tanger (Comité de Contrôle)'
+    );
+  }
+  if (s >= 18) {
+    return makeResult(
+      'TANGER',
+      'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)',
+      "In base all'Accordo di Parigi del 31 agosto 1945, le truppe spagnole evacuano Tangeri l'11 ottobre 1945 e viene restaurato il regime internazionale provvisorio sotto l'amministratore portoghese Luís Magalhães Correia e il Comitato di Controllo.",
+      'Neutrale',
+      'Zone Internationale de Tanger (Comité de Contrôle)'
+    );
+  }
+  if (s >= 14) {
+    return makeResult(
+      'SPA',
+      'Tánger (Zona Ocupada por España — Chiusura Consolato Tedesco)',
+      "In base all'accordo anglo-statunitense con Madrid del maggio 1944 (Accordo sul Wolframio / Tangeri), le autorità spagnole chiudono il Consolato tedesco nella Mendoubia ed espellono gli agenti dell'Abwehr, preludio alla restituzione internazionale del 1945.",
+      'Asse',
+      'Ocupación Militar Española de Tánger (Alta Comisaría — Madrid)'
+    );
+  }
+  if (s === 11 || s === 12 || s === 13) {
+    return makeResult(
+      'SPA',
+      'Tánger (Zona Ocupada por España — Fronte Post-Torch)',
+      "Dopo gli sbarchi anglo-americani dell'Operazione Torch nel vicino Marocco francese (novembre 1942), il presidio spagnolo di Tangeri mantiene stretta sorveglianza militare e doganale sotto crescente pressione diplomatica alleata per la chiusura della rete tedesca.",
+      'Asse',
+      'Ocupación Militar Española de Tánger (Ejército de Marruecos — Gen. Luis Orgaz)'
+    );
+  }
+  if (s >= 8) {
+    return makeResult(
+      'SPA',
+      'Tánger (Annessa di fatto all\'Alta Comisaría — Centro Spionaggio)',
+      "Incorporata al Protettorato spagnolo (Legge spagnola del 23 novembre 1940), Tangeri ospita dal marzo 1941 il Consolato Generale del Terzo Reich nella Mendoubia, trasformandosi nel principale epicentro di spionaggio navale dell'Abwehr sullo Stretto e snodo di intelligence alleata.",
+      'Asse',
+      'Administración Española de Tánger (Alta Comisaría de España en Marruecos)'
+    );
+  }
+  if (s === 7) {
+    return makeResult(
+      'SPA',
+      'Tánger (Scioglimento Statuto Internazionale — Nov 1940)',
+      "Nel novembre 1940 il governo spagnolo scioglie il Comité de Contrôle, l'Assemblea Legislativa Internazionale e la Gendarmeria mista, sostituendo la peseta e le autorità coloniali all'amministrazione internazionale sullo Stretto.",
+      'Asse',
+      'Ocupación Militar Española de Tánger (Col. Antonio Yuste Segura)'
+    );
+  }
+  if (s >= 6) {
+    return makeResult(
+      'SPA',
+      'Tánger (Zona Ocupada por España — 14 Giugno 1940)',
+      "Il 14 giugno 1940, giorno dell'ingresso tedesco a Parigi, truppe coloniali spagnole (Mehal-la Jalifiana e Regulares da Ceuta e Tetuán) al comando del Col. Antonio Yuste occupano la Zona Internazionale di Tangeri per assicurarne la neutralità sotto controllo di Madrid.",
+      'Asse',
+      'Ocupación Militar Española (Col. Antonio Yuste Segura — 14 de junio de 1940)'
+    );
+  }
+  return makeResult(
+    'TANGER',
+    'Zone Internationale de Tanger',
+    'Administration Internationale (Statut de Tanger de 1923 — zone démilitarisée et neutre)',
+    'Neutrale',
+    'Zone Internationale de Tanger (Comité de Contrôle)'
+  );
 }
 
 export function normStr(s: string): string {
@@ -1482,14 +1578,25 @@ export function resolveReunion(s: number): ResolvedTerritory {
 
 export function resolveKoperZoneB(s: number): ResolvedTerritory {
   if (s >= 18) {
+    const fac: FactionType = s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati';
+    const note =
+      s >= 21
+        ? 'Primo semestre 1948: Belgrado e Mosca respingono la Dichiarazione Tripartita occidentale del 20 marzo 1948 sul ritorno del TLT all\'Italia. Nella Zona B (Capodistria, Isola, Pirano) la VUJA del Gen. Mirko Lenac accelera il distacco economico introducendo la Jugo-lira/dinaro; il 28 giugno 1948 la rottura Tito–Stalin spacca il PCTLT e spinge la Jugoslavia fuori dal Cominform, rafforzando il presidio militare jugoslavo lungo il confine di Rabuiese.'
+        : s === 20
+        ? 'Dicembre 1947: stallo al Consiglio di Sicurezza ONU sulla nomina del Governatore del Territorio Libero di Trieste. Restando inattuato lo Statuto Permanente (Allegato VI), la fascia costiera da Capodistria a Pirano resta sotto il Regime Provvisorio (Allegato VII) amministrato militarmente dalla VUJA jugoslava.'
+        : s === 19
+        ? 'Trattato di Pace di Parigi (15 settembre 1947): istituzione formale del Territorio Libero di Trieste (TLT / FTT) in Regime Provvisorio (Allegato VII) in attesa della nomina (mai avvenuta) del Governatore ONU; la fascia costiera da Capodistria a Pirano e Isola d\'Istria forma il settore nord della Zona B sotto amministrazione militare jugoslava (VUJA).'
+        : 'Accordo di Belgrado (9 giugno 1945) e Accordo di Duino (20 giugno 1945 — Linea Morgan): la fascia costiera settentrionale da Capodistria a Pirano e Isola d\'Istria costituisce il settore nord della Zona B amministrato militarmente dall\'Esercito Jugoslavo (VUJA).';
     return makeResult(
-      'DFJ',
+      s >= 19 ? 'VUJA' : 'DFJ',
       s >= 19
         ? 'Territorio Libero di Trieste — Zona B (Capodistria / Slovenska Istra — VUJA)'
         : 'Zona B del Territorio di Trieste (Capodistria / Slovenska Istra — Amministrazione Militare Jugoslava VUJA)',
-      'Accordo di Belgrado (9 giugno 1945) e Trattato di Pace di Parigi (15 settembre 1947): la fascia costiera settentrionale da Capodistria a Pirano e Isola d\'Istria costituisce il settore nord della Zona B del Territorio Libero di Trieste (TLT / FTT), amministrato militarmente dall\'Esercito Popolare Jugoslavo (VUJA).',
-      'Alleati',
-      'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
+      note,
+      fac,
+      s >= 21
+        ? 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — Gen. Mirko Lenac)'
+        : 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
     );
   }
   if (s >= 13) {
@@ -1512,14 +1619,25 @@ export function resolveKoperZoneB(s: number): ResolvedTerritory {
 
 export function resolveBuieZoneB(s: number): ResolvedTerritory {
   if (s >= 18) {
+    const fac: FactionType = s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati';
+    const note =
+      s >= 21
+        ? 'Primo semestre 1948: dopo il rigetto della Dichiarazione Tripartita occidentale del 20 marzo 1948, la VUJA consolida il controllo militare ed economico sul Buiese (Buie, Umago, Cittanova d\'Istria), mentre la rottura Tito–Stalin del 28 giugno 1948 isola la Jugoslavia dal Cominform e inasprisce la pressione sui residenti italiani lungo il confine del Quieto.'
+        : s === 20
+        ? 'Dicembre 1947: il veto al Consiglio di Sicurezza ONU sulla scelta del Governatore blocca l\'entrata in vigore dello Statuto Permanente; nel Buiese vige il Regime Provvisorio (Allegato VII) sotto amministrazione militare jugoslava (VUJA) con crescente esodo verso Trieste.'
+        : s === 19
+        ? 'Trattato di Pace di Parigi (15 settembre 1947): il Buiese (Buie d\'Istria, Umago, Cittanova d\'Istria, Grisignana e Verteneglio a nord del Quieto) forma il settore meridionale della Zona B del TLT / FTT sotto Regime Provvisorio (Allegato VII) amministrato dalla VUJA jugoslava.'
+        : 'Accordo di Belgrado (9 giugno 1945) e Accordo di Duino (20 giugno 1945 — Linea Morgan): il Buiese (Buie d\'Istria, Umago, Cittanova d\'Istria, Grisignana e Verteneglio a nord del Quieto) costituisce il settore meridionale della Zona B sotto amministrazione militare jugoslava (VUJA).';
     return makeResult(
-      'DFJ',
+      s >= 19 ? 'VUJA' : 'DFJ',
       s >= 19
         ? 'Territorio Libero di Trieste — Zona B (Buie e Umago / Buiese — VUJA)'
         : 'Zona B del Territorio di Trieste (Buie e Umago / Buiese — Amministrazione Militare Jugoslava VUJA)',
-      'Accordo di Belgrado (9 giugno 1945) e Trattato di Pace di Parigi (15 settembre 1947): il Buiese (Buie d\'Istria, Umago, Cittanova d\'Istria, Grisignana e Verteneglio a nord del Quieto) costituisce il settore meridionale della Zona B del Territorio Libero di Trieste (TLT / FTT) sotto amministrazione militare jugoslava (VUJA).',
-      'Alleati',
-      'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
+      note,
+      fac,
+      s >= 21
+        ? 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — Gen. Mirko Lenac)'
+        : 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
     );
   }
   if (s >= 13) {
@@ -1919,6 +2037,15 @@ export function resolveEcuador(s: number, _rawName?: string): ResolvedTerritory 
  * Step 10-12 (Ago 1942 - Lug 1943+): Consolidamento del Protocollo di Rio, sgombero di El Oro, rottura con l'Asse e fornitura di materie prime strategiche agli Alleati (PRU, Neutrale).
  */
 export function resolvePeru(s: number, _rawName?: string): ResolvedTerritory {
+  if (s >= 22) {
+    return makeResult(
+      'PRU',
+      'República Peruana (Giunta Militare di Governo — Gen. Manuel A. Odría, 29 Ottobre 1948)',
+      'Il 27–29 ottobre 1948 la "Rivoluzione Restauratrice" partita da Arequipa sotto il generale Manuel A. Odría rovescia il presidente costituzionale José Luis Bustamante y Rivero, instaurando una Giunta Militare conservatrice e filo-occidentale che mette fuorilegge l\'APRA e il Partito Comunista.',
+      'Alleati',
+      'Junta Militar de Gobierno del Perú (Gen. Manuel A. Odría — dal 29 Ott 1948)'
+    );
+  }
   if (s < 9) {
     return makeResult(
       'PRU',
@@ -1952,8 +2079,7 @@ export function resolveChinaProvince(
   p: any,
   rawName: string
 ): ResolvedTerritory {
-  const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
-  const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
+  const rawHistName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
   const pidUp = String(p?.id || p?.NUTS_ID || '').toUpperCase().trim();
   const nidUp = String(nid || '').toUpperCase().trim();
   const chnId = nidUp.startsWith('CHN_')
@@ -1961,9 +2087,1036 @@ export function resolveChinaProvince(
     : pidUp.startsWith('CHN_')
     ? pidUp
     : nidUp;
+  const MANCHURIA_INNER_MONGOLIA_POSTWAR_NAMES: Record<string, string> = {
+    CHN_HEILONGJIANG: 'Heilongjiang (Harbin)',
+    CHN_JILIN: 'Jilin (Changchun)',
+    CHN_LIAONING: 'Liaoning (Shenyang / Mukden)',
+    CHN_MANCHUKUO_XINGAN_NORTH: 'Hulunbuir / Heilongjiang Occidentale (Hailar)',
+    CHN_MANCHUKUO_XINGAN_SOUTH: 'Rehe / Liaoxi (Chengde & Chifeng)',
+    CHN_INNER_MONGOLIA: 'Nei Mongol / Mongolia Interna (Chahar & Suiyuan)',
+  };
+  const histName =
+    s >= 18 && MANCHURIA_INNER_MONGOLIA_POSTWAR_NAMES[chnId]
+      ? MANCHURIA_INNER_MONGOLIA_POSTWAR_NAMES[chnId]
+      : rawHistName;
+  const nrm = normStr(nid + ' ' + (histName || '') + ' ' + (rawName || ''));
 
-  // Step >= 19 (Settembre 1947): Guerra Civile Cinese — Controffensiva Strategica dell'EPL (Zhanlüe Jingong)
+  // Step >= 19 (Settembre 1947 – Giugno 1949): Guerra Civile Cinese — Controffensiva Strategica dell'EPL (Zhanlüe Jingong)
   if (s >= 19) {
+    const isDec1947 = s >= 20;
+    const isJune1948 = s >= 21;
+    const isDec1948 = s >= 22;
+    const isJune1949 = s >= 23;
+    const isDec1949 = s >= 24;
+    const isJune1950 = s >= 25;
+    const isDec1950 = s >= 26;
+    if (isDec1950) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Base Logistica PVA sul Confine del Fiume Yalu)`,
+            '31 Dicembre 1950 (100% RPC): retrovia industriale e logistica della Manciuria da cui dal 19 ottobre 1950 i Volontari del Popolo Cinese (PVA) attraversano il fiume Yalu per intervenire nella Guerra di Corea.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Manciuria / Comando Retrovia PVA (100% RPC)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Port Arthur e Dalian Presenza Militare URSS — Fronte Logistico Yalu)',
+            '31 Dicembre 1950 (98% RPC / 2% URSS): base di partenza per i PVA (Dandong / Andong sullo Yalu) verso la Corea; Port Arthur (Lüshunkou) e Dalian mantengono ancora il presidio militare sovietico in base al Trattato del 14 febbraio 1950 (restituzione prevista entro fine 1952).',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Escl. Port Arthur/Dalian URSS)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Capitale della Repubblica Popolare Cinese)',
+            '31 Dicembre 1950 (100% RPC): capitale della Repubblica Popolare Cinese (Presidente Mao Zedong, Premier Zhou Enlai) impegnata su due fronti: intervento PVA in Corea e campagna di Chamdo sul confine tibetano.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (100% RPC)'
+          );
+        case 'CHN_SICHUAN':
+        case 'CHN_XIKANG':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Conquista di Chamdo & Kham Orientale fino al Salween, Ott 1950)`,
+            '31 Dicembre 1950 (100% RPC): nell\'ottobre 1950 (Battaglia di Chamdo, 6–19 ottobre) la 18ª Armata dell\'EPL attraversa l\'alto Yangtze conquistando Qamdo / Chamdo e l\'intero Xikang occidentale (Kham orientale) fino al fiume Salween, aprendo la via negoziale verso Lhasa.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Sichuan / Xikang & Chamdo (100% RPC)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (99,5% RPC · 0,5% ROC Isole Dachen e Yijiangshan)',
+            '31 Dicembre 1950 (99,5% RPC / 0,5% ROC): terraferma e arcipelago di Zhoushan interamente sotto controllo RPC; restano presidiate dalla Repubblica di Cina solo le isole di Dachen e Yijiangshan.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (99,5% RPC · Dachen/Yijiangshan ROC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma · 1% ROC Kinmen / Matsu / Wuqiu)',
+            '31 Dicembre 1950 (99% RPC / 1% ROC): terraferma sotto piena sovranità RPC; le enclave insulari fortificate di Kinmen (Quemoy), Matsu e Wuqiu restano sotto la Repubblica di Cina.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · Kinmen/Matsu/Wuqiu ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% Repubblica di Cina — Taipei & Pattugliamento 7ª Flotta USA)',
+            '31 Dicembre 1950 (100% ROC): Taiwan, Penghu e le isole costiere residue (Kinmen, Matsu, Dachen, Yijiangshan, Wuqiu) restano sotto controllo della Repubblica di Cina guidata a Taipei da Chiang Kai-shek e protette nello Stretto dalla 7ª Flotta USA.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Governo Centrale a Taipei (100% ROC)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'TIB',
+            'Tibet / Xizang (Lhasa, Ü-Tsang e Ngari 100% Tibet Indipendente · Settore Orientale Chamdo Occupato dall\'EPL Ott 1950)',
+            '31 Dicembre 1950 (Tibet centrale e occidentale ancora 100% indipendente): dopo la caduta di Chamdo (6–19 ottobre 1950) nel settore orientale del Kham fino al fiume Salween, l\'EPL sospende l\'avanzata militare su Lhasa. Il 17 novembre 1950 il XIV Dalai Lama assume anticipatamente i pieni poteri; Lhasa, Shigatse, Gyantse, Nagqu, Ngari e Nyingchi restano sotto sovranità tibetana.',
+            'Neutrale',
+            'Governo Ganden Phodrang del Tibet — XIV Dalai Lama a Lhasa (Tibet Indipendente)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1950: Colonia della Corona Britannica sul confine chiuso con la RPC (Governatore Sir Alexander Grantham).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1950: Provincia d\'oltremare portoghese enclave sulla costa del Guangdong.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese)`,
+            '31 Dicembre 1950 (100% RPC): provincia continentale interamente amministrata dalla Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+      }
+    }
+    if (isJune1950) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Cina Nord-Orientale)`,
+            '30 Giugno 1950 (100% RPC): base industriale nord-orientale della Repubblica Popolare Cinese collegata logisticamente all\'URSS dopo il Trattato Sino-Sovietico del 14 febbraio 1950.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Port Arthur e Dalian Occupazione Militare URSS — Trattato Sino-Sovietico 14 Feb 1950)',
+            '30 Giugno 1950 (98% RPC / 2% URSS): il Trattato di Amicizia, Alleanza e Mutua Assistenza Sino-Sovietico del 14 febbraio 1950 prevede la futura restituzione entro fine 1952, ma al 30 giugno 1950 Port Arthur (Lüshunkou) e Dalian restano ancora sotto occupazione militare dell\'URSS.',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Escl. Port Arthur/Dalian URSS)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Capitale della Repubblica Popolare Cinese)',
+            '30 Giugno 1950 (100% RPC): capitale della Repubblica Popolare Cinese (Presidente Mao Zedong, Premier Zhou Enlai); stipulato il 14 febbraio 1950 il Trattato di Alleanza Sino-Sovietico.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (100% RPC)'
+          );
+        case 'CHN_TIANJIN':
+        case 'CHN_HEBEI':
+        case 'CHN_SHANXI':
+        case 'CHN_SHANDONG':
+        case 'CHN_HENAN':
+        case 'CHN_JIANGSU':
+        case 'CHN_SHANGHAI':
+        case 'CHN_ANHUI':
+        case 'CHN_INNER_MONGOLIA':
+        case 'CHN_MANCHUKUO_XINGAN_NORTH':
+        case 'CHN_MANCHUKUO_XINGAN_SOUTH':
+        case 'CHN_GANSU':
+        case 'CHN_NINGXIA':
+        case 'CHN_QINGHAI':
+        case 'CHN_SHAANXI':
+        case 'CHN_XINJIANG':
+        case 'CHN_XINJIANG_ETR':
+        case 'CHN_HUBEI':
+        case 'CHN_HUNAN':
+        case 'CHN_JIANGXI':
+        case 'CHN_GUANGXI':
+        case 'CHN_GUIZHOU':
+        case 'CHN_CHONGQING':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese)`,
+            '30 Giugno 1950 (100% RPC): provincia interamente amministrata dalla Repubblica Popolare Cinese dopo il completamento delle operazioni sul continente.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+        case 'CHN_SICHUAN':
+        case 'CHN_XIKANG':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Caduta di Xichang il 27 Marzo 1950)`,
+            '30 Giugno 1950 (100% RPC): con la Campagna di Xichang (12 marzo – 7 aprile 1950) e la caduta di Xichang il 27 marzo 1950, viene eliminata l\'ultima grande sacca militare regolare della Repubblica di Cina sul continente.',
+            'Comintern',
+            'Repubblica Popolare Cinese (100% RPC)'
+          );
+        case 'CHN_YUNNAN':
+          return makeResult(
+            'CCP_CHI',
+            'Yunnan (100% RPC — Campagna dello Yunnan Meridionale, Gennaio 1950)',
+            '30 Giugno 1950 (100% RPC): con la Campagna dello Yunnan Meridionale (gennaio 1950), i reparti residui dell\'8ª e 26ª Armata ROC di Li Mi attorno a Mengzi vengono sbaragliati o respinti oltre il confine in Birmania; l\'intera provincia è sotto controllo della RPC.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Provincia dello Yunnan (100% RPC)'
+          );
+        case 'CHN_HAINAN':
+          return makeResult(
+            'CCP_CHI',
+            'Hainan (100% RPC — Campagna di Sbarco sull\'Isola di Hainan, 5 Marzo – 1° Maggio 1950)',
+            '30 Giugno 1950 (100% RPC): con la Campagna dell\'Isola di Hainan (5 marzo – 1° maggio 1950), il XV Corpo dell\'EPL attraversa lo stretto di Qiongzhou conquistando Haikou (23 aprile) e le basi navali di Yulin e Sanya (30 aprile – 1° maggio 1950), eliminando interamente la presenza della ROC sull\'isola.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Regione Amministrativa di Hainan (100% RPC)'
+          );
+        case 'CHN_GUANGDONG':
+          return makeResult(
+            'CCP_CHI',
+            'Guangdong (100% RPC — Conquista delle Isole Wanshan / Guishan, Maggio 1950)',
+            '30 Giugno 1950 (100% RPC): con la Campagna dell\'Arcipelago di Wanshan (presa dell\'isola principale di Guishan il 25 maggio 1950), la Marina dell\'EPL sgombera le isole all\'imboccatura dell\'estuario del Fiume delle Perle, portando il Guangdong al 100% sotto la RPC.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Provincia del Guangdong (100% RPC)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (99,5% RPC Liberazione di Zhoushan 16–19 Mag · 0,5% ROC Isole Dachen e Yijiangshan)',
+            '30 Giugno 1950 (99,5% RPC / 0,5% ROC): tra il 16 e il 19 maggio 1950 le forze nazionaliste evacuano segretamente l\'intero Arcipelago di Zhoushan (125.000 uomini trasferiti a Taiwan), subito occupato dall\'EPL. Restano alla ROC esclusivamente le piccole isole meridionali di Dachen e Yijiangshan al largo di Taizhou.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (99,5% RPC · Dachen/Yijiangshan ROC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma · 1% ROC Kinmen / Matsu / Wuqiu)',
+            '30 Giugno 1950 (99% RPC / 1% ROC): sulla terraferma l\'EPL controlla l\'intera provincia, mentre la Repubblica di Cina mantiene e fortifica le enclave insulari di Kinmen (Quemoy), Matsu e Wuqiu.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · Kinmen/Matsu/Wuqiu ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% Repubblica di Cina — Presidenza Chiang Kai-shek dal 1° Marzo 1950 & 7ª Flotta USA)',
+            '30 Giugno 1950 (100% ROC): il 1° marzo 1950 Chiang Kai-shek riassume formalmente la carica di Presidente della Repubblica di Cina a Taipei (con i 125.000 soldati evacuati da Zhoushan a maggio); il 27 giugno 1950, dopo lo scoppio della Guerra di Corea, il Presidente Truman ordina alla 7ª Flotta USA di presidiare lo Stretto di Taiwan.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Governo Centrale a Taipei (100% ROC)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'TIB',
+            'Tibet / Xizang incl. Chamdo (100% Tibet De Facto Indipendente — 30 Giugno 1950)',
+            '30 Giugno 1950 (100% Tibet de facto indipendente): sotto il Kashag di Lhasa e il XIV Dalai Lama, l\'intero Tibet (incluso il Chamdo / Xikang occidentale) rimane indipendente e non invaso dall\'EPL al 30 giugno 1950 (l\'offensiva su Chamdo avverrà solo nell\'ottobre 1950).',
+            'Neutrale',
+            'Governo Ganden Phodrang del Tibet — Kashag di Lhasa (100% Tibet)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '30 Giugno 1950: Colonia della Corona Britannica sul confine chiuso con la Repubblica Popolare Cinese (Governatore Sir Alexander Grantham).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '30 Giugno 1950: Provincia d\'oltremare portoghese enclave sulla costa del Guangdong.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese)`,
+            '30 Giugno 1950: provincia continentale sotto piena amministrazione della Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC)'
+          );
+      }
+    }
+    if (isDec1949) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Cina Nord-Orientale)`,
+            '31 Dicembre 1949 (100% RPC): la Manciuria settentrionale e centrale costituisce la base industriale consolidata della Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Port Arthur / Dalian Occupazione Militare URSS)',
+            '31 Dicembre 1949 (98% RPC / 2% URSS): l\'intera provincia è integrata nella Repubblica Popolare Cinese, mentre restano sotto occupazione militare dell\'Unione Sovietica esclusivamente Port Arthur (Lüshunkou) e Dalian sull\'estremità meridionale della penisola del Liaodong.',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Escl. Port Arthur/Dalian URSS)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Capitale della Repubblica Popolare Cinese)',
+            '31 Dicembre 1949 (100% RPC): il 1° ottobre 1949 Mao Zedong proclama in Piazza Tiananmen la Repubblica Popolare Cinese; la città viene ripristinata capitale nazionale e rinominata da Beiping a Beijing.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (100% RPC)'
+          );
+        case 'CHN_TIANJIN':
+        case 'CHN_HEBEI':
+        case 'CHN_SHANXI':
+        case 'CHN_SHANDONG':
+        case 'CHN_HENAN':
+        case 'CHN_JIANGSU':
+        case 'CHN_SHANGHAI':
+        case 'CHN_ANHUI':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Cina Orientale & Settentrionale)`,
+            '31 Dicembre 1949 (100% RPC): territorio interamente amministrato dal Governo Centrale Popolare della Repubblica Popolare Cinese dopo le campagne di Pingjin, Huaihai e dello Yangtze.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+        case 'CHN_MANCHUKUO_XINGAN_NORTH':
+        case 'CHN_MANCHUKUO_XINGAN_SOUTH':
+        case 'CHN_INNER_MONGOLIA':
+          return makeResult(
+            'CCP_CHI',
+            'Nei Mongol / Mongolia Interna (100% RPC — Resa del Suiyuan 19 Sett 1949)',
+            '31 Dicembre 1949 (100% RPC): il 19 settembre 1949 il governatore nazionalista Dong Qiwu firma la resa pacifica della provincia del Suiyuan (Guisui/Hohhot e Baotou), completando l\'unificazione della Mongolia Interna sotto la RPC.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Regione Autonoma Nei Mongol (100% RPC)'
+          );
+        case 'CHN_GANSU':
+        case 'CHN_NINGXIA':
+        case 'CHN_QINGHAI':
+        case 'CHN_SHAANXI':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Cina Nord-Occidentale)`,
+            '31 Dicembre 1949 (100% RPC): con la caduta di Lanzhou (26 agosto), Xining (5 settembre) e Yinchuan (23 settembre 1949) e l\'avanzata nel sud dello Shaanxi, l\'intero Nord-Ovest passa sotto la Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Cina Nord-Occidentale (100% RPC)'
+          );
+        case 'CHN_XINJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Xinjiang / Ürümqi (100% RPC — Resa Pacifica del 25–26 Settembre 1949)',
+            '31 Dicembre 1949 (100% RPC): il 25–26 settembre 1949 le autorità provinciali nazionaliste (Burhan Shahidi e Tao Zhiyue) dichiarano la resa pacifica a Ürümqi e l\'EPL entra nel Bacino del Tarim.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Provincia dello Xinjiang (100% RPC)'
+          );
+        case 'CHN_XINJIANG_ETR':
+          return makeResult(
+            'CCP_CHI',
+            'Xinjiang Nord-Occidentale ex-ETR (100% RPC — Integrazione dei Tre Distretti)',
+            '31 Dicembre 1949 (100% RPC): contestualmente alla resa pacifica dello Xinjiang (settembre 1949), i tre distretti della Seconda Repubblica del Turkestan Orientale (Ili, Tarbagatay, Altay) vengono integrati nella Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Tre Distretti dello Xinjiang (100% RPC)'
+          );
+        case 'CHN_HUBEI':
+        case 'CHN_HUNAN':
+        case 'CHN_JIANGXI':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Cina Centro-Meridionale)`,
+            '31 Dicembre 1949 (100% RPC): dopo la defezione pacifica di Changsha (4 agosto 1949), la presa di Ganzhou (14 agosto) e il crollo della linea dello Hunan, l\'intera Cina centrale è sotto controllo della RPC.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+        case 'CHN_GUANGDONG':
+          return makeResult(
+            'CCP_CHI',
+            'Guangdong Continentale (99% RPC Caduta di Guangzhou · 1% ROC Isole Wanshan)',
+            '31 Dicembre 1949 (99% RPC / 1% ROC): il 14 ottobre 1949 cade Guangzhou (Canton) e a dicembre è occupata la penisola di Leizhou (Zhanjiang); restano alla ROC solo le piccole isole dell\'arcipelago di Wanshan al largo di Zhuhai (l\'isola di Hainan resta 100% ROC).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Guangdong Continentale (99% RPC · Isole Wanshan ROC)'
+          );
+        case 'CHN_HAINAN':
+          return makeResult(
+            'CHI',
+            'Hainan (100% ROC — Isola Presidiata dalla Repubblica di Cina)',
+            '31 Dicembre 1949 (100% ROC): amministrativamente parte del Guangdong ma separata dallo stretto di Qiongzhou, l\'isola di Hainan rimane interamente sotto controllo della Repubblica di Cina (resisterà fino all\'aprile–maggio 1950).',
+            'Alleati',
+            'Zhōnghuá Mínguó — Comando Difensivo di Hainan (100% ROC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Fuzhou & Xiamen · 1% ROC Kinmen / Matsu / Wuqiu)',
+            '31 Dicembre 1949 (99% RPC / 1% ROC): cadono Fuzhou (17 agosto) e Xiamen/Amoy (17 ottobre), ma nella battaglia di Guningtou (25–27 ottobre 1949) la ROC respinge lo sbarco comunista su Kinmen (Quemoy), conservando Kinmen, Matsu e Wuqiu.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · Kinmen/Matsu/Wuqiu ROC)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (98% RPC Terraferma · 2% ROC Arcipelago Zhoushan & Dachen)',
+            '31 Dicembre 1949 (98% RPC / 2% ROC): il controllo della RPC sulla terraferma è totale, mentre la ROC conserva l\'Arcipelago di Zhoushan e le isole Dachen / Yijiangshan (fino al maggio 1950 / 1955).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (98% RPC · Zhoushan/Dachen ROC)'
+          );
+        case 'CHN_GUANGXI':
+        case 'CHN_GUIZHOU':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Campagna del Sud-Ovest)`,
+            '31 Dicembre 1949 (100% RPC): con la caduta di Guiyang (15 novembre), Guilin (22 novembre), Nanning (4 dicembre) e Zhennanguan al confine vietnamita (11 dicembre 1949), Guangxi e Guizhou passano interamente alla RPC.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+        case 'CHN_CHONGQING':
+          return makeResult(
+            'CCP_CHI',
+            'Chongqing (100% RPC — Caduta il 30 Novembre 1949)',
+            '31 Dicembre 1949 (100% RPC): la temporanea capitale nazionalista del Sud-Ovest cade il 30 novembre 1949, costringendo il governo KMT a ripiegare su Chengdu e infine su Taipei (7 dicembre).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Chongqing (100% RPC)'
+          );
+        case 'CHN_SICHUAN':
+        case 'CHN_XIKANG':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (95% RPC Caduta di Chengdu 27 Dic · 5% ROC Sacca di Xichang)`,
+            '31 Dicembre 1949 (95% RPC / 5% ROC): dopo la presa di Chongqing (30 novembre) e Chengdu (27 dicembre 1949), le ultime truppe regolari della ROC sul continente ripiegano nella conca montana attorno a Xichang (estremità sud-occidentale / ex Xikang orientale), dove resistono fino al marzo 1950.',
+            'Comintern',
+            'Repubblica Popolare Cinese (95% RPC · Sacca di Xichang ROC)'
+          );
+        case 'CHN_YUNNAN':
+          return makeResult(
+            'CCP_CHI',
+            'Yunnan (95% RPC Defezione di Kunming 9 Dic · 5% ROC Area di Mengzi)',
+            '31 Dicembre 1949 (95% RPC / 5% ROC): il 9 dicembre 1949 il governatore Lu Han dichiara la defezione di Kunming alla RPC; reparti residui della ROC (armata di Li Mi) controllano temporaneamente l\'area meridionale attorno a Mengzi lungo il confine birmano/indocinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Yunnan (95% RPC · Area di Mengzi ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% ROC — Sede Provvisoria a Taipei dal 7 Dicembre 1949)',
+            '31 Dicembre 1949 (100% ROC): dopo la caduta di Guangzhou (14 ottobre) e Chongqing (30 novembre), il 7 dicembre 1949 il governo nazionalista della Repubblica di Cina trasferisce la propria capitale provvisoria a Taipei.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Capitale Provvisoria Taipei / Taiwan (100% ROC)'
+          );
+        case 'CHN_TIBET':
+          return makeResult('TIB', 'Bod (Tibet — 100% De Facto Indipendente)', '31 Dicembre 1949 (100% Tibet): il Tibet (incluso il Chamdo / Xikang occidentale) rimane interamente de facto indipendente sotto il Kashag di Lhasa, senza alcun controllo della RPC.', 'Neutrale', 'Kashag — Bod (Lhasa)');
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1949: Colonia della Corona Britannica sul confine chiuso con la Repubblica Popolare Cinese (Governatore Sir Alexander Grantham).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1949: Provincia d\'oltremare portoghese enclave sulla costa del Guangdong (il Portogallo è membro NATO).', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (Repubblica Popolare Cinese — RPC)`,
+            '31 Dicembre 1949: provincia continentale sotto amministrazione della Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC)'
+          );
+      }
+    }
+    if (isJune1949) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% PCC / EPL — Manciuria Consolidata)`,
+            '30 Giugno 1949 (100% PCC): l\'intera Manciuria settentrionale e centrale funge da retrovia industriale, ferroviaria e logistica consolidata dell\'Esercito Popolare di Liberazione (nessuna RPC ancora proclamata prima del 1° ottobre 1949).',
+            'Comintern',
+            'Partito Comunista Cinese — Ufficio del Nord-Est & EPL (100% PCC)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (100% PCC · Punta Sud Port Arthur / Dalian Occupazione Militare URSS)',
+            '30 Giugno 1949 (100% PCC; punta meridionale Port Arthur/Dalian sotto presidio URSS): dopo la vittoria di Liaoshen, la provincia è interamente controllata dal PCC/EPL, mentre la base navale di Lüshun/Port Arthur e il porto di Dalian restano sotto amministrazione militare sovietica.',
+            'Comintern',
+            'Partito Comunista Cinese — Liaoning (100% PCC · Escl. Port Arthur/Dalian URSS)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beiping / Pechino (100% PCC — Resa Pacifica del 31 Gennaio 1949)',
+            '30 Giugno 1949 (100% PCC): a conclusione della Campagna di Pingjin, le forze nazionaliste di Fu Zuoyi accettano la resa pacifica di Beiping (Pechino), dove l\'EPL sfila solennemente il 31 gennaio 1949; il Comitato Centrale del PCC vi trasferisce il proprio quartier generale da Xibaipo nel marzo 1949.',
+            'Comintern',
+            'Partito Comunista Cinese — Comitato Centrale & QG EPL (Beiping — 100% PCC)'
+          );
+        case 'CHN_TIANJIN':
+          return makeResult(
+            'CCP_CHI',
+            'Tianjin / Tientsin (100% PCC — Espugnata il 15 Gennaio 1949)',
+            '30 Giugno 1949 (100% PCC): dopo 29 ore di assalto generale nella Campagna di Pingjin, il 15 gennaio 1949 l\'EPL di Lin Biao e Liu Yalou espugna Tianjin catturando il gen. Chen Changjie.',
+            'Comintern',
+            'Partito Comunista Cinese — Municipalità di Tianjin (100% PCC)'
+          );
+        case 'CHN_HEBEI':
+          return makeResult(
+            'CCP_CHI',
+            'Hebei (100% PCC — Fine della Campagna di Pingjin)',
+            '30 Giugno 1949 (100% PCC): completata la Campagna di Pingjin con la caduta di Tianjin (15 gen) e la resa di Beiping (31 gen), l\'intero Hebei è unificato sotto il Governo Popolare della Cina del Nord.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Cina del Nord (100% PCC)'
+          );
+        case 'CHN_SHANXI':
+          return makeResult(
+            'CCP_CHI',
+            'Shanxi (100% PCC — Caduta di Taiyuan il 24 Aprile 1949)',
+            '30 Giugno 1949 (100% PCC): il 24 aprile 1949 cade d\'assalto Taiyuan (ultimo bastione di Yan Xishan) dopo sei mesi d\'assedio, seguita da Datong il 1° maggio: l\'intero Shanxi è sotto controllo comunista.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Shanxi (Xu Xiangqian — 100% PCC)'
+          );
+        case 'CHN_SHANDONG':
+          return makeResult(
+            'CCP_CHI',
+            'Shandong (100% PCC — Caduta di Qingdao il 2 Giugno 1949)',
+            '30 Giugno 1949 (100% PCC): con la ritirata della flotta USA e l\'evacuazione nazionalista, il 2 giugno 1949 l\'EPL entra a Qingdao, eliminando l\'ultima enclave KMT nello Shandong.',
+            'Comintern',
+            'Partito Comunista Cinese — Shandong (100% PCC)'
+          );
+        case 'CHN_HENAN':
+          return makeResult(
+            'CCP_CHI',
+            'Henan (100% PCC — Fine Campagna di Huaihai)',
+            '30 Giugno 1949 (100% PCC): conclusa la vittoriosa Campagna di Huaihai (10 gennaio 1949), l\'intera provincia dell\'Henan è consolidata sotto l\'amministrazione comunista.',
+            'Comintern',
+            'Partito Comunista Cinese — Pianura Centrale (100% PCC)'
+          );
+        case 'CHN_ANHUI':
+          return makeResult(
+            'CCP_CHI',
+            'Anhui (100% PCC — Attraversamento dello Yangtze, Aprile 1949)',
+            '30 Giugno 1949 (100% PCC): tra il 20 e il 23 aprile 1949 le armate dell\'EPL attraversano in forze il fiume Yangtze espugnando Anqing e Wuhu ed eliminando ogni presidio nazionalista nell\'Anhui.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Anhui (100% PCC)'
+          );
+        case 'CHN_JIANGSU':
+          return makeResult(
+            'CCP_CHI',
+            'Jiangsu (100% PCC — Caduta di Nanchino il 23 Aprile 1949)',
+            '30 Giugno 1949 (100% PCC): il 21 aprile 1949 l\'EPL supera il basso Yangtze ed entra il 23 aprile nella capitale nazionalista Nanchino (Nanjing); il governo KMT ripiega prima a Shanghai e poi a Guangzhou.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Nanchino & Jiangsu (100% PCC)'
+          );
+        case 'CHN_SHANGHAI':
+          return makeResult(
+            'CCP_CHI',
+            'Shanghai (100% PCC — Caduta di Shanghai il 27 Maggio 1949)',
+            '30 Giugno 1949 (100% PCC): al termine della Battaglia di Shanghai (12–27 maggio 1949), le truppe di Chen Yi e Su Yu liberano la metropoli finanziaria e Wusong mentre gli ultimi trasporti KMT salpano verso Taiwan.',
+            'Comintern',
+            'Partito Comunista Cinese — Comitato Militare di Shanghai (Chen Yi — 100% PCC)'
+          );
+        case 'CHN_MANCHUKUO_XINGAN_NORTH':
+        case 'CHN_MANCHUKUO_XINGAN_SOUTH':
+        case 'CHN_INNER_MONGOLIA':
+          return makeResult(
+            'CCP_CHI',
+            'Nei Mongol / Mongolia Interna (92% PCC · 8% ROC Suiyuan Occidentale)',
+            '30 Giugno 1949 (92% PCC / Governo Autonomo della Mongolia Interna · 8% ROC): l\'amministrazione di Ulanhu e l\'EPL controllano il 92% del territorio; la ROC conserva esclusivamente la fascia occidentale attorno a Guisui (Hohhot) e Baotou nel Suiyuan occidentale.',
+            'Comintern',
+            'Governo Autonomo della Mongolia Interna & EPL (Ulanhu — 92% PCC)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (85% PCC Caduta di Hangzhou, Ningbo e Wenzhou · 15% ROC Arcipelago Zhoushan)',
+            '30 Giugno 1949 (85% PCC / 15% ROC): nel maggio 1949 l\'EPL espugna Hangzhou (3 maggio), Wenzhou (7 maggio) e Ningbo (25 maggio); la ROC mantiene esclusivamente l\'Arcipelago fortificato di Zhoushan e le isole costiere minori.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Zhejiang (85% PCC · Isole Zhoushan ROC)'
+          );
+        case 'CHN_HUBEI':
+          return makeResult(
+            'CCP_CHI',
+            'Hubei (80% PCC Caduta di Wuhan 16–17 Maggio · 20% ROC Ovest Montano Yichang/Enshi)',
+            '30 Giugno 1949 (80% PCC / 20% ROC): il 16–17 maggio 1949 la 4ª Armata da Campo di Lin Biao occupa la triplice metropoli di Wuhan (Wuchang, Hankou, Hanyang) dopo la ritirata di Bai Chongxi verso lo Hunan; la ROC conserva solo l\'estremità montuosa occidentale attorno a Yichang ed Enshi.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Wuhan & Hubei (80% PCC)'
+          );
+        case 'CHN_JIANGXI':
+          return makeResult(
+            'CCP_CHI',
+            'Jiangxi (75% PCC Caduta di Nanchang 22 Maggio · 25% ROC Meridionale Ganzhou)',
+            '30 Giugno 1949 (75% PCC / 25% ROC): il 22 maggio 1949 cade Nanchang; l\'EPL controlla il nord e il centro della provincia, mentre la ROC mantiene il meridione attorno a Ganzhou.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Jiangxi (75% PCC · Sud Ganzhou ROC)'
+          );
+        case 'CHN_SHAANXI':
+          return makeResult(
+            'CCP_CHI',
+            'Shaanxi (70% PCC Caduta di Xi\'an 20 Maggio & Guanzhong · 30% ROC Sud Hanzhong/Ankang)',
+            '30 Giugno 1949 (70% PCC / 30% ROC): il 20 maggio 1949 l\'Armata Campale del Nord-Ovest di Peng Dehuai conquista Xi\'an e l\'intera pianura del Guanzhong; le truppe di Hu Zongnan ripiegano sulla fascia montuosa meridionale (Hanzhong / Ankang).',
+            'Comintern',
+            'Esercito Popolare di Liberazione — 1ª Armata Campale (Peng Dehuai · Xi\'an — 70% PCC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CHI',
+            'Fujian (90% ROC Fuzhou & Xiamen · 10% PCC Guerriglia Confine Nord)',
+            '30 Giugno 1949 (90% ROC / 10% PCC): bande di guerriglia comunista premono lungo il confine settentrionale con lo Zhejiang e lo Jiangxi, ma Fuzhou, Xiamen (Amoy) e quasi tutta la provincia restano saldamente sotto controllo della Repubblica di Cina fino all\'agosto–ottobre 1949.',
+            'Alleati',
+            'Repubblica di Cina — Provincia del Fujian (Fuzhou / Xiamen — 90% ROC)'
+          );
+        case 'CHN_HUNAN':
+          return makeResult(
+            'CHI',
+            'Hunan (95% ROC Changsha & Hengyang · 5% PCC Infiltrazioni Nord)',
+            '30 Giugno 1949 (95% ROC / 5% PCC): provincia presidiata quasi interamente dalle forze nazionaliste di Cheng Qian e Bai Chongxi attorno a Changsha e Hengyang (la defezione di Changsha avverrà solo il 4 agosto 1949).',
+            'Alleati',
+            'Repubblica di Cina — Comando di Changsha (95% ROC)'
+          );
+        case 'CHN_GUANGDONG':
+          return makeResult(
+            'CHI',
+            'Guangdong / Canton (100% ROC — Capitale Provvisoria della Repubblica di Cina)',
+            '30 Giugno 1949 (100% ROC): dopo la caduta di Nanchino (23 aprile 1949), il governo della Repubblica di Cina (Presidente f.f. Li Zongren, Premier Yan Xishan dal giugno 1949) trasferisce la propria sede nazionale provvisoria a Guangzhou (Canton), che resterà capitale nazionalista fino all\'ottobre 1949.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Capitale Provvisoria Guangzhou / Canton (100% ROC)'
+          );
+        case 'CHN_HAINAN':
+        case 'CHN_GUANGXI':
+        case 'CHN_SICHUAN':
+        case 'CHN_CHONGQING':
+        case 'CHN_XIKANG':
+        case 'CHN_GUIZHOU':
+        case 'CHN_YUNNAN':
+        case 'CHN_QINGHAI':
+        case 'CHN_GANSU':
+        case 'CHN_NINGXIA':
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            `${histName} (100% ROC — Repubblica di Cina Nazionalista)`,
+            chnId === 'CHN_TAIWAN'
+              ? '30 Giugno 1949 (100% ROC): sotto il governatore Chen Cheng, Taiwan accoglie le riserve auree, gli archivi, la marina e centinaia di migliaia di evacuati dalla Cina continentale come bastione insulare del Kuomintang.'
+              : '30 Giugno 1949 (100% ROC): provincia della Cina meridionale, sud-occidentale o nord-occidentale interamente sotto controllo della Repubblica di Cina (il crollo KMT nel Sud-Ovest e Nord-Ovest avverrà solo tra agosto e dicembre 1949).',
+            'Alleati',
+            chnId === 'CHN_TAIWAN'
+              ? 'Zhōnghuá Mínguó — Táiwān Shěng (Governatore Chen Cheng — 100% ROC)'
+              : 'Zhōnghuá Mínguó — Governo Nazionalista (Sede Provvisoria Guangzhou — 100% ROC)'
+          );
+        case 'CHN_XINJIANG_ETR':
+          return makeResult(
+            'ETR',
+            'Seconda Repubblica del Turkestan Orientale (Ili, Tarbagatay & Altay — Ghulja)',
+            '30 Giugno 1949: i tre distretti nord-occidentali di Ili, Tarbagatay e Altay restano invariati sotto la Seconda Repubblica del Turkestan Orientale (Ehmetjan Qasimi) lungo la linea del fiume Manas.',
+            'Comintern',
+            'Shärqiy Türkistan Jumhuriyiti — Consiglio dei Tre Distretti (Ehmetjan Qasimi · Ghulja)'
+          );
+        case 'CHN_XINJIANG':
+          return makeResult(
+            'CHI',
+            'Xinjiang / Ürümqi & Bacino del Tarim (100% ROC — Governatore Burhan Shahidi)',
+            '30 Giugno 1949 (100% ROC, esclusi i Tre Distretti ETR): la guarnigione nazionalista di Tao Zhiyue e il governo provinciale di Burhan Shahidi presidiano Ürümqi, Hami e il Bacino del Tarim fino al settembre 1949.',
+            'Alleati',
+            'Repubblica di Cina — Provincia dello Xinjiang (Ürümqi — 100% ROC)'
+          );
+        case 'CHN_TIBET':
+          return makeResult('TIB', 'Bod (Tibet — Lhasa)', 'Stato teocratico tibetano de facto indipendente sotto il Kashag di Lhasa.', 'Neutrale', 'Kashag — Bod (Lhasa)');
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', 'Colonia della Corona Britannica (Governatore Sir Alexander Grantham); massiccio afflusso di profughi da Shanghai e dalla Cina meridionale.', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', 'Provincia d\'oltremare portoghese neutrale (il Portogallo è membro fondatore della NATO dal 4 aprile 1949).', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CHI',
+            `${histName} (Repubblica di Cina — KMT)`,
+            '30 Giugno 1949: territorio cinese sotto controllo nazionalista ROC con sede governativa provvisoria a Guangzhou.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Governo Nazionalista (Guangzhou)'
+          );
+      }
+    }
+    if (isDec1948) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Heilongjiang / Harbin (100% PCC — Retrovia Strategica della Manciuria Liberata)',
+            '31 Dicembre 1948 (100% PCC): consolidata retrovia industriale e logistica dell\'Armata Campale del Nord-Est che ha appena completato la liberazione dell\'intera Manciuria nella Campagna di Liaoshen e marcia attraverso lo Shanhaiguan verso Pechino e Tientsin.',
+            'Comintern',
+            'Partito Comunista Cinese — Ufficio del Nord-Est & EPL (Harbin — 100% PCC)'
+          );
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            'Jilin (100% PCC — Capitolazione di Changchun il 19 Ottobre 1948)',
+            '31 Dicembre 1948 (100% PCC): dopo cinque mesi di blocco totale, il 19 ottobre 1948 la 1ª Armata nazionalista di Zheng Dongguo capitola a Changchun a seguito della defezione della 60ª Armata dello Yunnan: l\'intero Jilin è sotto saldo controllo comunista.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Manciuria Liberata (100% PCC)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (100% PCC — Fine della Campagna di Liaoshen: Caduta di Jinzhou e Shenyang)',
+            '31 Dicembre 1948 (100% PCC): nella decisiva Campagna di Liaoshen (12 set – 2 nov 1948), l\'Armata Campale del Nord-Est di Lin Biao espugna Jinzhou (15 ottobre), annienta le truppe di Liao Yaoxiang nello Heishan e conquista Shenyang (Mukden) e Yingkou il 2 novembre 1948, chiudendo ogni presidio nazionalista in Manciuria (Port Arthur/Dalian restano sotto amministrazione sovietica).',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Manciuria Liberata (Lin Biao — 100% PCC · Escl. Dalian/Port Arthur URSS)'
+          );
+        case 'CHN_MANCHUKUO_XINGAN_NORTH':
+        case 'CHN_MANCHUKUO_XINGAN_SOUTH':
+        case 'CHN_INNER_MONGOLIA':
+          return makeResult(
+            'CCP_CHI',
+            'Mongolia Interna / Nei Mongol (85% PCC — Presa di Kalgan/Chahar; Suiyuan Ovest ROC)',
+            '31 Dicembre 1948 (85% PCC / Governo Autonomo della Mongolia Interna · 15% ROC): consolidati Rehe e Chahar durante la Campagna di Pingjin (presa di Zhangjiakou il 24 dicembre 1948); al Kuomintang (ROC) resta solo la fascia occidentale del Suiyuan attorno a Guisui (Hohhot) e Baotou.',
+            'Comintern',
+            'Governo Autonomo della Mongolia Interna & EPL (Ulanhu — 85% PCC)'
+          );
+        case 'CHN_HEBEI':
+          return makeResult(
+            'CCP_CHI',
+            'Hebei (94% PCC — Campagna di Pingjin & Accerchiamento di Pechino e Tientsin)',
+            '31 Dicembre 1948 (94% PCC / 6% ROC): scattata il 29 novembre 1948 la Campagna di Pingjin, le armate di Lin Biao e Nie Rongzhen conquistano Zhangjiakou (Kalgan, 24 dic) e Tangshan, tagliando ogni collegamento tra le ultime sacche ROC accerchiate di Beiping (Pechino) e Tianjin (che capitoleranno solo nel gennaio 1949).',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Fronte di Pingjin (Lin Biao & Nie Rongzhen — 94% PCC)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CHI',
+            'Beiping / Pechino (Sacca ROC Strettamente Accerchiata — Campagna di Pingjin, Dicembre 1948)',
+            '31 Dicembre 1948 (ROC ancora resistente sotto stretto assedio EPL): tagliate tutte le vie verso Kalgan, Tientsin e il mare, Beiping (Pechino) resta presidiata al 31 dicembre 1948 dalle armate del generale Fu Zuoyi mentre fervono le trattative segrete prima della capitolazione pacifica del gennaio 1949.',
+            'Alleati',
+            'Repubblica di Cina — Comando Cina del Nord (Gen. Fu Zuoyi · Accerchiamento di Beiping al 31 Dic 1948)'
+          );
+        case 'CHN_TIANJIN':
+          return makeResult(
+            'CHI',
+            'Tianjin / Tientsin (Piazzaforte Portuale ROC Accerchiata — Campagna di Pingjin, Dicembre 1948)',
+            '31 Dicembre 1948 (ROC ancora resistente sotto assedio): la guarnigione nazionalista di Chen Changjie a Tianjin resiste circondata dalle colonne d\'assalto dell\'EPL di Lin Biao e Liu Yalou alla vigilia della battaglia finale di gennaio 1949.',
+            'Alleati',
+            'Repubblica di Cina — Guarnigione Assediata di Tientsin (Gen. Chen Changjie al 31 Dic 1948)'
+          );
+        case 'CHN_SHANXI':
+          return makeResult(
+            'CCP_CHI',
+            'Shanxi (97% PCC — Solo Taiyuan e Datong Resistenti al 31 Dicembre 1948)',
+            '31 Dicembre 1948 (97% PCC / 3% ROC): l\'intera provincia dello Shanxi è liberata dall\'EPL di Xu Xiangqian, mentre le forze di Yan Xishan restano strettamente assediate nelle due isole urbane fortificate di Taiyuan e Datong (destinate a cadere nell\'aprile–maggio 1949).',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Fronte dello Shanxi (Xu Xiangqian — 97% PCC)'
+          );
+        case 'CHN_SHANDONG':
+          return makeResult(
+            'CCP_CHI',
+            'Shandong (98% PCC — Caduta di Jinan il 24 Settembre 1948; Solo Qingdao alla ROC)',
+            '31 Dicembre 1948 (98% PCC / 2% ROC): tra il 16 e il 24 settembre 1948 l\'EPL (Su Yu e Xu Shiyou) espugna d\'assalto la capitale provinciale Jinan (catturando il gen. Wang Yaowu) e libera Yantai; al 31 dicembre 1948 al Kuomintang resta unicamente l\'enclave costiera di Qingdao (supportata dalla flotta USA) e le isole Changshan.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Armata della Cina Orientale (98% PCC · Escl. Enclave ROC di Qingdao)'
+          );
+        case 'CHN_HENAN':
+          return makeResult(
+            'CCP_CHI',
+            'Henan (95% PCC — Liberazione di Zhengzhou e Kaifeng in Ottobre; Sconfitta ROC a Nanyang)',
+            '31 Dicembre 1948 (95% PCC / 5% ROC): tra il 22 e il 24 ottobre 1948 le forze nazionaliste abbandonano Zhengzhou e Kaifeng, seguite il 4 novembre dallo sgombero di Nanyang e dallo sfondamento dell\'EPL verso il fiume Huai; quasi l\'intero Henan è sotto controllo comunista.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Armata della Pianura Centrale (Liu-Deng — 95% PCC)'
+          );
+        case 'CHN_ANHUI':
+          return makeResult(
+            'CCP_CHI',
+            'Anhui (65% PCC — Offensiva di Huaihai a Nord & Battaglia di Shuangduiji; Sud Yangtze ROC)',
+            '31 Dicembre 1948 (65% PCC / 35% ROC): nel pieno della gigantesca Campagna di Huaihai (dal 6 novembre 1948), il 15 dicembre l\'EPL annienta la 12ª Armata nazionalista del gen. Huang Wei a Shuangduiji (Anhui settentrionale) avanzando fino alla riva settentrionale dello Yangtze; la ROC conserva Anqing, Wuhu e il settore a sud del fiume.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Fronte di Huaihai (Anhui Settentrionale & Centrale 65% PCC)'
+          );
+        case 'CHN_JIANGSU':
+          return makeResult(
+            'CCP_CHI',
+            'Jiangsu (65% PCC Subei & Xuzhou in Huaihai / 35% ROC Capitale Nanchino & Sud Yangtze)',
+            '31 Dicembre 1948 (65% PCC / 35% ROC): mentre nella Campagna di Huaihai l\'EPL espugna l\'intero Subei (Xuzhou evacuata l\'1° dicembre, sacche KMT schiacciate a Nianzhuang e in accerchiamento a Chen Guanzhuang) raggiungendo il basso Yangtze settentrionale, la capitale nazionale Nanchino (Nanjing), Suzhou e l\'intera fascia meridionale del delta restano ancora sotto controllo ROC (Nanchino cadrà solo nell\'aprile 1949).',
+            'Comintern',
+            'EPL Fronte di Huaihai (Subei 65% PCC) / Capitale ROC Nanchino & Basso Yangtze (35% ROC)'
+          );
+        case 'CHN_SHANGHAI':
+          return makeResult(
+            'CHI',
+            'Shanghai (Metropoli Finanziaria ROC & Trasferimento Riserve Auree verso Taiwan — Dicembre 1948)',
+            '31 Dicembre 1948 (100% ROC): la metropoli portuale di Shanghai resta saldamente presidiata dalla Repubblica di Cina (che vi avvia il trasferimento marittimo delle riserve auree della Banca Centrale verso Taipei mentre infuria l\'offensiva di Huaihai a nord del fiume Azzurro). Resisterà fino al maggio 1949.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Guarnigione di Shanghai-Wusong (ROC al 31 Dic 1948)'
+          );
+        case 'CHN_HUBEI':
+          return makeResult(
+            'CHI',
+            'Hubei (70% ROC Wuhan & Medio Yangtze / 30% PCC Pianura Nord & Monti Dabie)',
+            '31 Dicembre 1948 (30% PCC / 70% ROC): mentre reparti dell\'EPL si attestano a nord verso Xiangyang e Huanggang sui Monti Dabie, il generale Bai Chongxi mantiene la roccaforte strategica di Wuhan e la linea dello Yangtze.',
+            'Alleati',
+            'Repubblica di Cina — Comando Generale della Cina Centrale (Gen. Bai Chongxi · Wuhan)'
+          );
+        case 'CHN_SHAANXI':
+          return makeResult(
+            'CHI',
+            'Shaanxi (50% PCC Nord & Yan\'an / 50% ROC Valle del Wei e Xi\'an)',
+            '31 Dicembre 1948 (50% PCC / 50% ROC): Peng Dehuai consolida l\'intero Shaanxi settentrionale da Yan\'an verso la valle del Wei, dove il gen. Hu Zongnan presidia Xi\'an e il corso meridionale dello Shaanxi.',
+            'Alleati',
+            'Repubblica di Cina — Pacification HQ di Xi\'an (Gen. Hu Zongnan — 50% ROC / 50% PCC)'
+          );
+      }
+    }
+    if (isJune1948) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Heilongjiang / Harbin (100% PCC — Base Strategica Consolidata del Nord-Est, Lin Biao)',
+            '30 Giugno 1948 (100% Partito Comunista Cinese): l\'intera Manciuria settentrionale (Heilongjiang, Nenjiang, Hejiang, Songjiang, Xing\'an) con capitale Harbin costituisce il retrovia industriale, agricolo e ferroviario inviolato dell\'Armata Campale del Nord-Est di Lin Biao e Luo Ronghuan.',
+            'Comintern',
+            'Partito Comunista Cinese — Ufficio del Nord-Est & EPL (Lin Biao · Harbin — 100% PCC)'
+          );
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            'Jilin (97% PCC — Caduta di Jilin City il 9 Marzo 1948 & Assedio di Changchun)',
+            '30 Giugno 1948 (97% PCC / 3% ROC): il 9 marzo 1948 le forze comuniste di Lin Biao conquistano Jilin City (Yongji); al 30 giugno 1948 al Kuomintang (ROC) resta unicamente la città assediata di Changchun (1ª Armata del gen. Zheng Dongguo), completamente isolata dal blocco terrestre e aereo dell\'EPL iniziato nel maggio 1948.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Comando del Nord-Est (Lin Biao — 97% PCC / Assedio di Changchun)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (90% PCC — Presa di Yingkou e Siping; Sacche ROC di Shenyang e Jinzhou)',
+            '30 Giugno 1948 (90% PCC / 10% ROC): al termine dell\'Offensiva d\'Inverno nel Nord-Est, l\'EPL espugna il porto di Yingkou (25 febbraio 1948) e lo snodo strategico ferroviario di Siping (13 marzo 1948). Al 30 giugno 1948 le forze nazionaliste di Wei Lihuang sono ridotte a due sole sacche isolate: Shenyang (Mukden) e il corridoio Jinzhou–Huludao (escluso Port Arthur/Dalian a sud sotto occupazione sovietica).',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Comando del Nord-Est (Lin Biao — 90% PCC)'
+          );
+        case 'CHN_MANCHUKUO_XINGAN_NORTH':
+        case 'CHN_MANCHUKUO_XINGAN_SOUTH':
+        case 'CHN_INNER_MONGOLIA':
+          return makeResult(
+            'CCP_CHI',
+            'Mongolia Interna / Nei Mongol (75% PCC — Consolidamento di Rehe e Chahar Orientale)',
+            '30 Giugno 1948 (75% PCC / Governo Autonomo della Mongolia Interna · 25% ROC): l\'EPL e il Governo Autonomo di Ulanhu consolidano il controllo sul Rehe e sul Chahar orientale; la ROC (Gen. Fu Zuoyi) mantiene esclusivamente il settore occidentale del Suiyuan attorno a Guisui (Hohhot) e Baotou.',
+            'Comintern',
+            'Governo Autonomo della Mongolia Interna & EPL (Ulanhu — 75% PCC)'
+          );
+        case 'CHN_HEBEI':
+          return makeResult(
+            'CCP_CHI',
+            'Hebei (88% PCC — Unificazione della Regione Militare della Cina del Nord, Maggio 1948)',
+            '30 Giugno 1948 (88% PCC / 12% ROC): nel maggio 1948 il PCC fonde formalmente le regioni liberate di Jin-Cha-Ji e Jin-Ji-Lu-Yu nella Regione Militare della Cina del Nord (Nie Rongzhen) e nel Governo Popolare della Cina del Nord; il Kuomintang (Gen. Fu Zuoyi) è confinato al corridoio ferroviario Beiping–Tianjin–Tangshan–Qinhuangdao e alle città isolate di Baoding e Zhangjiakou.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Regione Militare della Cina del Nord (Nie Rongzhen — 88% PCC)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CHI',
+            'Beiping / Pechino (Corridoio Ferroviario ROC Assediato nell\'Hebei — Gen. Fu Zuoyi)',
+            '30 Giugno 1948: mentre l\'88% dell\'Hebei è controllato dall\'EPL, Beiping (Pechino) e il corridoio ferroviario verso Tianjin e Zhangjiakou restano presidiati dalle armate nazionaliste del generale Fu Zuoyi.',
+            'Alleati',
+            'Repubblica di Cina — Comando di Soppressione della Cina del Nord (Gen. Fu Zuoyi · Beiping)'
+          );
+        case 'CHN_TIANJIN':
+          return makeResult(
+            'CHI',
+            'Tianjin / Tientsin (Piazzaforte Portuale e Ferroviaria ROC nell\'Hebei)',
+            '30 Giugno 1948: il polo portuale di Tianjin e il corridoio ferroviario verso Beiping, Tangshan e Qinhuangdao restano sotto il controllo nazionalista ROC, circondati dalle campagne dell\'Hebei (88% PCC).',
+            'Alleati',
+            'Repubblica di Cina — Guarnigione di Tientsin (KMT / ROC)'
+          );
+        case 'CHN_SHANXI':
+          return makeResult(
+            'CCP_CHI',
+            'Shanxi (92% PCC — Caduta di Linfen il 17 Maggio 1948; ROC solo a Taiyuan e Datong)',
+            '30 Giugno 1948 (92% PCC / 8% ROC): il 17 maggio 1948, al termine di 72 giorni di assedio e guerra di mine sotterranee, le truppe dell\'EPL di Xu Xiangqian espugnano la piazzaforte di Linfen eliminando ogni presenza nazionalista nello Shanxi meridionale; a Yan Xishan (ROC) restano solo le due isole fortificate e accerchiate di Taiyuan e Datong.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — 1° Corpo della Cina del Nord (Xu Xiangqian — 92% PCC)'
+          );
+        case 'CHN_SHANDONG':
+          return makeResult(
+            'CCP_CHI',
+            'Shandong (88% PCC — Presa di Weixian/Weifang in Aprile; ROC Isolata a Jinan, Qingdao e Yantai)',
+            '30 Giugno 1948 (88% PCC / 12% ROC): nell\'aprile 1948 l\'Armata della Cina Orientale (Xu Shiyou e Tan Zhenlin) espugna Weixian (Weifang), spezzando in due la ferrovia Jiaoji e congiungendo le basi di Bohai, Luzhong e Jiaodong; al 30 giugno 1948 la ROC tiene soltanto le tre enclave isolate di Jinan (Gen. Wang Yaowu), Qingdao (con base navale USA) e Yantai.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Armata della Cina Orientale (Su Yu · Xu Shiyou — 88% PCC)'
+          );
+        case 'CHN_HENAN':
+          return makeResult(
+            'CCP_CHI',
+            'Henan (65% PCC / 35% ROC — Presa di Luoyang il 5 Aprile & Campagna dell\'Henan Orientale)',
+            '30 Giugno 1948 (65% PCC / 35% ROC — Maggioranza PCC): il 5 aprile 1948 le armate comuniste riconquistano definitivamente l\'antica capitale Luoyang e tra maggio e fine giugno 1948 (Campagna di Wanxi e Campagna dell\'Henan Orientale / Kaifeng, 17–26 giugno) Su Yu e Chen Yi travolgono le difese nazionaliste nella pianura centrale; alla ROC restano solo i nodi ferroviari di Zhengzhou, Kaifeng, Xuchang e Nanyang assediata.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Armate della Pianura Centrale e Cina Orientale (Liu-Deng & Su Yu — 65% PCC)'
+          );
+        case 'CHN_SHAANXI':
+          return makeResult(
+            'CHI',
+            'Shaanxi (45% PCC Riconquista di Yan\'an il 21 Aprile 1948 / 55% ROC Valle del Wei e Xi\'an)',
+            '30 Giugno 1948 (45% PCC / 55% ROC): dopo la schiacciante vittoria di Yichuan (marzo 1948), il 21 aprile 1948 l\'Armata Campale del Nord-Ovest di Peng Dehuai riconquista definitivamente la storica capitale rossa di Yan\'an e lo Shaanxi settentrionale; il Kuomintang (Gen. Hu Zongnan) conserva il 55% della provincia con la popolosa valle del fiume Wei (Xi\'an) e lo Shaanxi meridionale.',
+            'Alleati',
+            'Repubblica di Cina — Pacification HQ di Xi\'an (55% ROC Valle del Wei / 45% PCC Yan\'an Riconquistata)'
+          );
+        case 'CHN_JIANGSU':
+        case 'CHN_SHANGHAI':
+          return makeResult(
+            'CHI',
+            chnId === 'CHN_SHANGHAI'
+              ? 'Shanghai (Metropoli Finanziaria ROC & Iperinflazione del Fabi — Giugno 1948)'
+              : 'Jiangsu & Capitale Nanchino (Insediamento Presidenziale di Chiang Kai-shek, 20 Maggio 1948)',
+            '30 Giugno 1948 (60% ROC / 40% PCC Subei): mentre il PCC presidia il Jiangsu settentrionale (Subei), a Nanchino (Nanjing) l\'Assemblea Nazionale elegge Chiang Kai-shek primo Presidente costituzionale della Repubblica di Cina (con Li Zongren vicepresidente), insediato solennemente il 20 maggio 1948 nel pieno di una devastante crisi iperinflazionistica a Shanghai.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Presidenza Costituzionale di Chiang Kai-shek (Nanjing, 20 Maggio 1948 — 60% ROC / 40% PCC)'
+          );
+      }
+    }
+    if (isDec1947) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Heilongjiang / Harbin (100% PCC — Base Strategica del Nord-Est, Lin Biao)',
+            '31 Dicembre 1947 (100% Partito Comunista Cinese): eliminato ogni residuo controllo nazionalista nelle province storiche di Heilongjiang, Nenjiang, Hejiang, Songjiang e Xing\'an; Harbin è la capitale politica, industriale e ferroviaria dell\'Armata Democratica Unita del Nord-Est di Lin Biao e Luo Ronghuan.',
+            'Comintern',
+            'Partito Comunista Cinese — Ufficio del Nord-Est & EPL (Lin Biao · Harbin — 100% PCC)'
+          );
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            'Jilin (92% PCC — Sacche Nazionaliste Assediate di Changchun e Jilin City)',
+            '31 Dicembre 1947 (92% PCC / 8% ROC): a seguito dell\'Offensiva d\'Autunno nel Nord-Est, l\'Esercito Popolare di Liberazione di Lin Biao controlla il 92% della provincia (inclusa Yanbian e Mudanjiang); il Kuomintang (ROC) mantiene esclusivamente le due sacche urbane assediate e isolate lungo la ferrovia di Changchun e Jilin City.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Comando del Nord-Est (Lin Biao — 92% PCC)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (75% PCC — Offensiva d\'Inverno & Assedio del Corridoio di Shenyang)',
+            '31 Dicembre 1947 (75% PCC / 25% ROC): dopo l\'Offensiva d\'Autunno (settembre–novembre 1947) e l\'avvio dell\'Offensiva d\'Inverno (15 dicembre 1947), il PCC controlla il 75% della provincia (aree rurali, penisola di Andong/Dandong, entroterra orientale e occidentale); la ROC è ridotta a un corridoio ferroviario assediato e discontinuo attorno a Shenyang (Mukden), Siping, Jinzhou e Yingkou (escluso Port Arthur/Dalian a sud sotto controllo URSS).',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Offensiva d\'Inverno in Manciuria (Lin Biao — 75% PCC)'
+          );
+        case 'CHN_MANCHUKUO_XINGAN_NORTH':
+        case 'CHN_MANCHUKUO_XINGAN_SOUTH':
+        case 'CHN_INNER_MONGOLIA':
+          return makeResult(
+            'CCP_CHI',
+            'Mongolia Interna / Nei Mongol (70% PCC — Governo Autonomo di Ulanhu & Suiyuan Contesa)',
+            '31 Dicembre 1947 (70% PCC / Governo Autonomo della Mongolia Interna · 30% ROC): il Governo Autonomo della Mongolia Interna guidato da Ulanhu e l\'EPL controllano l\'intera sezione orientale e centro-orientale (Hulunbuir, Hinggan, Tongliao, Chifeng, Xilin Gol); la ROC (Gen. Fu Zuoyi) mantiene la sezione occidentale attorno a Guisui (Hohhot) e Baotou nella provincia storica del Suiyuan.',
+            'Comintern',
+            'Governo Autonomo della Mongolia Interna & EPL (Ulanhu — 70% PCC)'
+          );
+        case 'CHN_HEBEI':
+          return makeResult(
+            'CCP_CHI',
+            'Hebei (85% PCC — Presa di Shijiazhuang del 12 Novembre 1947 & Unificazione del Nord)',
+            '31 Dicembre 1947 (85% PCC / 15% ROC): con la storica conquista di Shijiazhuang il 12 novembre 1947 da parte delle forze di Nie Rongzhen, il PCC salda le regioni liberate di Jin-Cha-Ji e Jin-Ji-Lu-Yu unificando la pianura dell\'Hebei; la ROC controlla solo Beiping (Pechino), Tianjin, Baoding, Tangshan, Zhangjiakou (Kalgan) e la fascia ferroviaria Pechino–Tientsin–Shanhaiguan.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Regione Militare della Cina del Nord (Nie Rongzhen — 85% PCC)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CHI',
+            'Beiping / Pechino (Corridoio Ferroviario Nazionalista ROC — Gen. Fu Zuoyi)',
+            '31 Dicembre 1947: mentre le campagne dell\'Hebei sono per l\'85% sotto controllo comunista dopo la presa di Shijiazhuang (12 novembre 1947), la città di Beiping (Pechino) e il corridoio ferroviario verso Kalgan e Tientsin restano presidiati dalle armate nazionaliste del generale Fu Zuoyi (Comando di Soppressione della Cina Settentrionale).',
+            'Alleati',
+            'Repubblica di Cina — Comando di Soppressione della Cina del Nord (Gen. Fu Zuoyi · Beiping)'
+          );
+        case 'CHN_TIANJIN':
+          return makeResult(
+            'CHI',
+            'Tianjin / Tientsin (Piazzaforte Portuale e Ferroviaria ROC nell\'Hebei)',
+            '31 Dicembre 1947: il grande porto industriale di Tianjin (Tientsin) e l\'asse ferroviario Pechino–Tientsin–Tangshan–Shanhaiguan restano sotto il controllo del Kuomintang (ROC), circondati dall\'entroterra rurale dell\'Hebei (85% PCC).',
+            'Alleati',
+            'Repubblica di Cina — Guarnigione di Tientsin (KMT / ROC)'
+          );
+        case 'CHN_SHANXI':
+          return makeResult(
+            'CCP_CHI',
+            'Shanxi (85% PCC — Enclave Fortificate ROC di Taiyuan, Datong e Linfen)',
+            '31 Dicembre 1947 (85% PCC / 15% ROC): dopo la presa comunista di Yuncheng (dicembre 1947), l\'Esercito Popolare di Liberazione controlla l\'85% dello Shanxi; le forze nazionaliste del signore della guerra Yan Xishan sono confinate alle sole enclave fortificate e assediate di Taiyuan, Datong e Linfen.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Fronte dello Shanxi (Xu Xiangqian — 85% PCC)'
+          );
+        case 'CHN_SHANDONG':
+          return makeResult(
+            'CCP_CHI',
+            'Shandong (75% PCC — Base dei Monti Yimeng & Penisola dello Jiaodong)',
+            '31 Dicembre 1947 (75% PCC / 25% ROC): l\'Armata Campale della Cina Orientale (Chen Yi e Su Yu) controlla il 75% dello Shandong (entroterra centrale/meridionale dei Monti Yimeng e gran parte della penisola dello Jiaodong); la ROC mantiene Jinan, Qingdao, Weifang, il corridoio ferroviario Jiaoji e il porto di Yantai (Chefoo, riconquistato dai nazionalisti il 1° ottobre 1947).',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Armata della Cina Orientale (Chen Yi · Su Yu — 75% PCC)'
+          );
+        case 'CHN_HENAN':
+          return makeResult(
+            'CCP_CHI',
+            'Henan (55% PCC / 45% ROC — Offensiva della Pianura Centrale & Monti Dabie)',
+            '31 Dicembre 1947 (55% PCC / 45% ROC): il PCC (armate di Liu Bocheng, Deng Xiaoping, Chen Geng e Chen Yi) controlla la metà settentrionale dell\'Henan a nord del Fiume Giallo, vaste aree della pianura orientale e il settore sud-orientale dei Monti Dabie (Xinyang); la ROC mantiene Zhengzhou, Kaifeng, Luoyang e il corridoio ferroviario Lunghai.',
+            'Comintern',
+            'Esercito Popolare di Liberazione — Pianura Centrale & Monti Dabie (Liu Bocheng · Deng Xiaoping — 55% PCC)'
+          );
+        case 'CHN_SHAANXI':
+          return makeResult(
+            'CHI',
+            'Shaanxi (40% PCC Nord / 60% ROC Valle del Wei e Xi\'an)',
+            '31 Dicembre 1947 (40% PCC / 60% ROC): l\'Armata Campale del Nord-Ovest di Peng Dehuai controlla l\'intera fascia settentrionale dello Shaanxi (regione di confine Shaan-Gan-Ning, altopiano del Loess e aree rurali attorno a Yan\'an), mentre il Kuomintang (Gen. Hu Zongnan) controlla il 60% della provincia inclusa la popolosa valle del Wei (Xi\'an) e il sud.',
+            'Alleati',
+            'Repubblica di Cina — Pacification HQ di Xi\'an (Gen. Hu Zongnan — 60% ROC / 40% PCC)'
+          );
+        case 'CHN_GANSU':
+        case 'CHN_NINGXIA':
+          return makeResult(
+            'CHI',
+            `${histName} (85% ROC / 15% PCC Longdong Orientale)`,
+            '31 Dicembre 1947 (15% PCC / 85% ROC): il Partito Comunista Cinese controlla l\'estremità orientale del Gansu (prefettura di Qingyang / Longdong nella base Shaan-Gan-Ning), mentre l\'85% del territorio (Lanzhou, il Corridoio di Hexi e l\'intero Ningxia governato da Ma Hongkui) resta sotto saldo controllo nazionalista ROC.',
+            'Alleati',
+            'Repubblica di Cina — Comando del Nord-Ovest (Lanzhou / Ningxia — 85% ROC / 15% PCC)'
+          );
+        case 'CHN_ANHUI':
+          return makeResult(
+            'CHI',
+            'Anhui (45% PCC Nord & Monti Dabie / 55% ROC Hefei, Anqing e Sud Yangtze)',
+            '31 Dicembre 1947 (45% PCC / 55% ROC): il PCC controlla la fascia settentrionale dell\'Anhui (a nord del fiume Huai) e l\'area montuosa sud-occidentale dei Monti Dabie a nord dello Yangtze; la ROC controlla il 55% della provincia con Hefei, Anqing, Bengbu e l\'intero settore a sud dello Yangtze.',
+            'Alleati',
+            'Repubblica di Cina — Provincia dell\'Anhui (55% ROC / 45% PCC Fronte Huai-Dabie)'
+          );
+        case 'CHN_HUBEI':
+          return makeResult(
+            'CHI',
+            'Hubei (75% ROC Wuhan & Yangtze / 25% PCC Monti Dabie Nord-Orientali)',
+            '31 Dicembre 1947 (25% PCC / 75% ROC): l\'Armata di Liu-Deng del PCC controlla il quadrante nord-orientale dell\'Hubei (versante meridionale dei Monti Dabie a nord di Wuhan, tra Huanggang e Xiaogan); la ROC (Gen. Bai Chongxi) mantiene Wuhan e il 75% della provincia.',
+            'Alleati',
+            'Repubblica di Cina — Quartier Generale di Wuhan (Gen. Bai Chongxi — 75% ROC / 25% PCC)'
+          );
+        case 'CHN_JIANGSU':
+        case 'CHN_SHANGHAI':
+          return makeResult(
+            'CHI',
+            chnId === 'CHN_SHANGHAI'
+              ? 'Shanghai (Metropoli Finanziaria ROC — Jiangsu 60% ROC / 40% PCC Subei)'
+              : 'Jiangsu & Capitale Nanchino (60% ROC Sud / 40% PCC Jiangsu Settentrionale Subei)',
+            '31 Dicembre 1947 (40% PCC / 60% ROC): il PCC controlla gran parte del Jiangsu Settentrionale (Subei) a nord del fiume Huai e dello Yangtze; la Repubblica di Cina (ROC) controlla saldamente la capitale nazionale Nanchino (Nanjing, dove il 25 dicembre 1947 entra in vigore la nuova Costituzione della Repubblica di Cina), la metropoli di Shanghai, Suzhou e l\'intero Jiangsu meridionale.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Capitale Nazionale Nanchino & Shanghai (60% ROC / 40% PCC Subei)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan (100% ROC — Governatorato di Wei Tao-ming)',
+            '31 Dicembre 1947 (100% ROC): la provincia insulare di Taiwan è interamente sotto controllo del Governo Nazionalista della Repubblica di Cina sotto il governatore civile Wei Tao-ming.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Táiwān Shěng (Wei Tao-ming — 100% ROC)'
+          );
+        case 'CHN_XINJIANG_ETR':
+          return makeResult(
+            'ETR',
+            'Seconda Repubblica del Turkestan Orientale (Ili, Tarbagatay & Altay — Ghulja)',
+            '31 Dicembre 1947: i tre distretti nord-occidentali dello Xinjiang (Ili, Tarbagatay e Altay) costituiscono la Seconda Repubblica del Turkestan Orientale con capitale a Ghulja (Yining) sotto Ehmetjan Qasimi, Stato secessionista filo-sovietico de facto indipendente da Nanchino lungo la linea del fiume Manas.',
+            'Comintern',
+            'Shärqiy Türkistan Jumhuriyiti — Consiglio dei Tre Distretti (Ehmetjan Qasimi · Ghulja)'
+          );
+        case 'CHN_XINJIANG':
+          return makeResult(
+            'CHI',
+            'Xinjiang / Ürümqi & Bacino del Tarim (Governo Nazionalista ROC — Masud Sabri)',
+            '31 Dicembre 1947: il Governo Nazionalista della Repubblica di Cina (governatore Masud Sabri e guarnigione del Gen. Song Xilian) controlla Dihua/Ürümqi, Hami, Turpan e il Bacino del Tarim a est e a sud del fronte del fiume Manas.',
+            'Alleati',
+            'Repubblica di Cina — Provincia dello Xinjiang (Ürümqi / ROC — Masud Sabri)'
+          );
+        case 'CHN_TIBET':
+          return makeResult('TIB', 'Bod (Tibet — Lhasa)', 'Stato teocratico tibetano de facto indipendente sotto il Kashag di Lhasa.', 'Neutrale', 'Kashag — Bod (Lhasa)');
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', 'Colonia della Corona Britannica nel dopoguerra (Governatore Sir Alexander Grantham).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', 'Provincia d\'oltremare portoghese neutrale.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CHI',
+            `${histName} (100% ROC — Repubblica di Cina Nazionalista)`,
+            '31 Dicembre 1947 (100% ROC): provincia della Cina meridionale/occidentale interamente sotto il controllo del Governo Nazionalista della Repubblica di Cina (con sole sacche minori di guerriglia comunista locale nell\'entroterra montano di Hainan e del confine Fujian-Zhejiang).',
+            'Alleati',
+            'Zhōnghuá Mínguó Guómín Zhèngfǔ (Nanjing — 100% ROC)'
+          );
+      }
+    }
     switch (chnId) {
       case 'CHN_HEILONGJIANG':
         return makeResult(
@@ -2144,23 +3297,34 @@ export function resolveChinaProvince(
       );
     }
     if (
-      nid === 'CHN_HEILONGJIANG' ||
-      nid === 'CHN_JILIN' ||
-      nid === 'CHN_LIAONING' ||
-      nid === 'CHN_MANCHUKUO_XINGAN_NORTH' ||
-      nid === 'CHN_MANCHUKUO_XINGAN_SOUTH'
+      chnId === 'CHN_HEILONGJIANG' ||
+      chnId === 'CHN_JILIN' ||
+      chnId === 'CHN_LIAONING' ||
+      chnId === 'CHN_MANCHUKUO_XINGAN_NORTH' ||
+      chnId === 'CHN_MANCHUKUO_XINGAN_SOUTH'
     ) {
+      const manchuriaNames18: Record<string, string> = {
+        CHN_HEILONGJIANG: 'Heilongjiang (Harbin)',
+        CHN_JILIN: 'Jilin (Changchun)',
+        CHN_LIAONING: 'Liaoning (Shenyang / Mukden)',
+        CHN_MANCHUKUO_XINGAN_NORTH: 'Hulunbuir / Heilongjiang Occidentale (Hailar)',
+        CHN_MANCHUKUO_XINGAN_SOUTH: 'Rehe / Liaoxi (Chengde & Chifeng)',
+      };
       return makeResult(
         'SOV',
-        `${histName} (Occupazione Sovietica della Manciuria)`,
-        'Agosto-Settembre 1945: Operazione Tempesta d\'Agosto dell\'Armata Rossa sovietica contro l\'Armata del Kwantung; amministrazione militare sovietica transitoria in Manciuria.',
+        `${manchuriaNames18[chnId] || histName} (Occupazione Sovietica della Manciuria)`,
+        'Agosto-Settembre 1945: Operazione Tempesta d\'Agosto dell\'Armata Rossa sovietica contro l\'Armata del Kwantung; crollo definitivo del Manciukuò e amministrazione militare sovietica transitoria in Manciuria.',
         'Comintern',
-        'Armata Rossa Sovietica — Comando dell\'Estremo Oriente (Mareciallo Vasilevskij)'
+        'Armata Rossa Sovietica — Comando dell\'Estremo Oriente (Maresciallo Vasilevskij)'
       );
     }
+    const cleanStep18Name =
+      chnId === 'CHN_INNER_MONGOLIA'
+        ? 'Nei Mongol / Mongolia Interna (Chahar & Suiyuan)'
+        : histName;
     return makeResult(
       'CHI',
-      `${histName} (Repubblica di Cina — Vittorio Governo Nazionalista)`,
+      `${cleanStep18Name} (Repubblica di Cina — Vittorio Governo Nazionalista)`,
       'Settembre 1945: resa dell\'Esercito di Spedizione Giapponese in Cina (Gen. Okamura) al governo nazionalista di Chiang Kai-shek (Nanchino / Chongqing).',
       'Alleati',
       'Zhōnghuá Mínguó Guómín Zhèngfǔ (Chiang Kai-shek)'
@@ -2562,84 +3726,22 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
           'Fantoccio',
           'Résidence Générale de France au Maroc (Vichy)'
         ),
-  'Spanish Morocco': (s) =>
-    s === 0
-      ? makeResult('SPR', 'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)', 'Segunda República Española — Alta Comisaría')
-      : makeResult('SPA', 'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)', 'Bando Nacional — Ejército de África y Regulares'),
-  'Spanish Morocco (Rif)': (s) =>
-    s === 0
-      ? makeResult('SPR', 'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)', 'Segunda República Española — Alta Comisaría')
-      : makeResult('SPA', 'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)', 'Bando Nacional — Ejército de África y Regulares'),
-  'Marruecos Español': (s) =>
-    s === 0
-      ? makeResult('SPR', 'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)', 'Segunda República Española — Alta Comisaría')
-      : makeResult('SPA', 'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)', 'Bando Nacional — Ejército de África y Regulares'),
-  Rif: (s) =>
-    s === 0
-      ? makeResult('SPR', 'Protectorado Español de Marruecos (Zona del Rif / Tetuán)', 'Segunda República Española — Alta Comisaría')
-      : makeResult('SPA', 'Protectorado Español de Marruecos (Zona del Rif / Tetuán)', 'Bando Nacional — Ejército de África y Regulares'),
-  'El Rif': (s) =>
-    s === 0
-      ? makeResult('SPR', 'Protectorado Español de Marruecos (Zona del Rif / Tetuán)', 'Segunda República Española — Alta Comisaría')
-      : makeResult('SPA', 'Protectorado Español de Marruecos (Zona del Rif / Tetuán)', 'Bando Nacional — Ejército de África y Regulares'),
-  Tetuán: (s) =>
-    s === 0
-      ? makeResult('SPR', 'Tetuán (Capital del Protectorado Español)', 'Segunda República Española')
-      : makeResult('SPA', 'Tetuán (Alta Comisaría de España en Marruecos)', 'Bando Nacional / Estado Español'),
-  Tetuan: (s) =>
-    s === 0
-      ? makeResult('SPR', 'Tetuán (Capital del Protectorado Español)', 'Segunda República Española')
-      : makeResult('SPA', 'Tetuán (Alta Comisaría de España en Marruecos)', 'Bando Nacional / Estado Español'),
-  Ceuta: (s) =>
-    s === 0
-      ? makeResult('SPR', 'Ceuta (Plaza de Soberanía)', 'Segunda República Española')
-      : makeResult('SPA', 'Ceuta (Plaza de Soberanía)', 'Bando Nacional — Base del Ejército de África'),
-  Melilla: (s) =>
-    s === 0
-      ? makeResult('SPR', 'Melilla (Plaza de Soberanía)', 'Segunda República Española')
-      : makeResult('SPA', 'Melilla (Plaza de Soberanía)', 'Bando Nacional — Cuna del Alzamiento del 17 de julio de 1936'),
-  Tangier: (s) =>
-    s >= 18
-      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
-      : s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
-  'International Zone of Tangier': (s) =>
-    s >= 18
-      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
-      : s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
-  'Tangier International Zone': (s) =>
-    s >= 18
-      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
-      : s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
-  'Zona Internacional de Tanger': (s) =>
-    s >= 18
-      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
-      : s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
-  'Zona Internazionale di Tangeri': (s) =>
-    s >= 18
-      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
-      : s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
-  Tanger: (s) =>
-    s >= 18
-      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
-      : s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
-  Tangeri: (s) =>
-    s >= 18
-      ? makeResult('TANGER', 'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)', 'Statut International de Tanger restauré le 11 octobre 1945 suite au retrait des troupes espagnoles', 'Neutrale')
-      : s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)'),
+  'Spanish Morocco': (s) => resolveSpanishAfricanTerritory('ES_RIF', s),
+  'Spanish Morocco (Rif)': (s) => resolveSpanishAfricanTerritory('ES_RIF', s),
+  'Marruecos Español': (s) => resolveSpanishAfricanTerritory('ES_RIF', s),
+  Rif: (s) => resolveSpanishAfricanTerritory('ES_RIF', s),
+  'El Rif': (s) => resolveSpanishAfricanTerritory('ES_RIF', s),
+  Tetuán: (s) => resolveSpanishAfricanTerritory('ES_RIF', s),
+  Tetuan: (s) => resolveSpanishAfricanTerritory('ES_RIF', s),
+  Ceuta: (s) => resolveSpanishAfricanTerritory('ES630', s),
+  Melilla: (s) => resolveSpanishAfricanTerritory('ES640', s),
+  Tangier: (s) => resolveTangierZone(s),
+  'International Zone of Tangier': (s) => resolveTangierZone(s),
+  'Tangier International Zone': (s) => resolveTangierZone(s),
+  'Zona Internacional de Tanger': (s) => resolveTangierZone(s),
+  'Zona Internazionale di Tangeri': (s) => resolveTangierZone(s),
+  Tanger: (s) => resolveTangierZone(s),
+  Tangeri: (s) => resolveTangierZone(s),
   Menorca: (s) =>
     s < 3
       ? makeResult('SPR', 'Menorca (Isla Republicana)', 'Base naval fiel a la República (Mahón)')
@@ -3223,6 +4325,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
 
   if (isSaudi) {
+    if (s >= 20) {
+      return makeResult(
+        'SAU',
+        "Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah (Regno dell'Arabia Saudita — Dicembre 1947)",
+        "Dicembre 1947: il Regno dell'Arabia Saudita di Re Abdulaziz ibn Saud consolida la propria centralità energetica (boom estrattivo ARAMCO tra Dhahran, Abqaiq e i cantieri dell'oleodotto Trans-Arabico TAPLINE) mentre al vertice della Lega Araba del Cairo appoggia diplomaticamente la causa araba palestinese contro la Ris. ONU 181 preservando gli accordi strategici con Washington.",
+        'Neutrale',
+        "Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah — Malik Abdulaziz Al Saud (Riyadh, Dic. 1947)"
+      );
+    }
+    if (s >= 19) {
+      return makeResult(
+        'SAU',
+        "Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah (Regno dell'Arabia Saudita — Re Abdulaziz Al Saud)",
+        "Regno sovrano dell'Arabia Saudita sotto Re Abdulaziz ibn Saud, membro fondatore della Lega Araba (1945) e delle Nazioni Unite. Rapida espansione estrattiva ARAMCO ad Al-Hasa / Dhahran e accordi del 1947 per il futuro oleodotto Trans-Arabico (TAPLINE).",
+        'Neutrale',
+        "Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah — Malik Abdulaziz Al Saud (Riyadh)"
+      );
+    }
     let topName = name;
     if (!topName && c) {
       if (c[0] >= 38 && c[0] <= 44 && c[1] >= 28 && c[1] <= 32) {
@@ -3262,6 +4382,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   if (isSyriaLebanon) {
     const isLeb = nrm_hb.includes('lebanon') || nrm_hb.includes('libano') || P.CNTR_CODE === 'LB';
+    if (s >= 20) {
+      if (isLeb) {
+        return makeResult(
+          'LEB',
+          'Repubblica Libanese (Sovranità & Vertice della Lega Araba — Beirut, Dicembre 1947)',
+          "Dicembre 1947: pienamente sovrana dopo l'evacuazione alleata del 1946, la Repubblica Libanese di Béchara El Khoury e Riad Al Solh partecipa al vertice della Lega Araba del Cairo contro la spartizione della Palestina (Ris. ONU 181), rafforzando il dispositivo militare al confine meridionale con la Galilea.",
+          'Neutrale',
+          'Repubblica Libanese (Presidente Béchara El Khoury & P.M. Riad Al Solh — Dic. 1947)'
+        );
+      }
+      return makeResult(
+        'SYR',
+        'Repubblica Siriana (Sovranità & Mobilitazione ALA — Damasco, Dicembre 1947)',
+        "Dicembre 1947: al vertice della Lega Araba del Cairo (8–17 dicembre 1947), la Repubblica Siriana di Shukri al-Quwatli e Jamil Mardam Bey respinge la Risoluzione ONU 181 e apre vicino a Damasco il campo di Qatana per i volontari dell'Esercito Arabo di Liberazione (Jaysh al-Inqadh) guidato da Fawzi al-Qawuqji.",
+        'Neutrale',
+        'Repubblica Siriana (Presidente Shukri al-Quwatli · P.M. Jamil Mardam Bey — Dic. 1947)'
+      );
+    }
     if (s >= 19) {
       if (isLeb) {
         return makeResult(
@@ -3278,6 +4416,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'Il 17 aprile 1946 (Giorno dell\'Evacuazione, Eid al-Jalaa) le ultime truppe francesi e britanniche lasciano la Siria: la Repubblica Siriana è pienamente sovrana, guidata dal Presidente Shukri al-Quwatli e dal Primo Ministro Jamil Mardam Bey, membro fondatore della Lega Araba e delle Nazioni Unite.',
         'Neutrale',
         'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco)'
+      );
+    }
+    if (s >= 18) {
+      if (isLeb) {
+        return makeResult(
+          'LEB',
+          'Repubblica Libanese (Patto Nazionale & Transizione Postbellica — Settembre 1945)',
+          "Settembre 1945: la Repubblica Libanese indipendente sotto il Presidente Béchara El Khoury e il Patto Nazionale del 1943 (membro fondatore ONU e Lega Araba) tratta a Parigi e Londra lo sgombero definitivo delle residue forze francesi e britanniche.",
+          'Alleati',
+          'Repubblica Libanese (Presidente Béchara El Khoury — Beirut, Settembre 1945)'
+        );
+      }
+      return makeResult(
+        'SYR',
+        'Repubblica Siriana (Post-Crisi del Levante & Negoziati di Evacuazione — Settembre 1945)',
+        "Settembre 1945: dopo la Crisi del Levante di maggio-giugno 1945 (bombardamento francese di Damasco e intervento britannico), il governo sovrano del Presidente Shukri al-Quwatli — membro fondatore dell'ONU e della Lega Araba — negozia il ritiro delle ultime guarnigioni franco-britanniche.",
+        'Alleati',
+        'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco, Settembre 1945)'
       );
     }
     if (s >= 9) {
@@ -3320,6 +4476,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     P.ADM0_A3 === 'IRN';
 
   if (isIran) {
+    if (s >= 20) {
+      return makeResult(
+        'IRN',
+        "Keshvar-e Shāhanshāhi-ye Irān (Stato Imperiale dell'Iran — Dicembre 1947)",
+        "Dicembre 1947: dopo il rigetto da parte del Majlis (22 ottobre 1947, 102 voti contro 2) dell'accordo petrolifero sovietico-iraniano e la crisi di governo di Ahmad Qavam, l'Iran consolida la propria sovranità nazionale sotto lo Scià Mohammad Reza Pahlavi.",
+        'Neutrale',
+        "Keshvar-e Shāhanshāhi-ye Irān — Mohammad Reza Pahlavi (Dic. 1947)"
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'IRN',
@@ -3327,6 +4492,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         "Piena sovranità iraniana restaurata dopo lo sgombero delle forze britanniche e sovietiche nel 1946 e lo scioglimento delle repubbliche separatiste di Azerbaigian e Mahabad (dicembre 1946). Sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam, l'Iran difende l'integrità nazionale e discute al Majlis il rifiuto delle concessioni petrolifere sovietiche.",
         'Neutrale',
         'Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell\'Iran (Mohammad Reza Pahlavi · P.M. Ahmad Qavam)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'IRN',
+        "Keshvar-e Shāhanshāhi-ye Irān (Transizione Postbellica — Settembre 1945)",
+        "Settembre 1945: a guerra mondiale conclusa, Teheran chiede il ritiro alleato entro i termini del Trattato Tripartito (2 marzo 1946) mentre nel nord la nascita del Partito Democratico dell'Azerbaigian di Pishevari apre la crisi iraniana.",
+        'Alleati',
+        "Keshvar-e Shāhanshāhi-ye Irān — Mohammad Reza Pahlavi (Settembre 1945)"
       );
     }
     if (s >= 9) {
@@ -3369,6 +4543,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
 
   if (isMesopotamia) {
+    if (s >= 20) {
+      return makeResult(
+        'IRQ',
+        "Al-Mamlakah al-‘Irāqiyyah (Regno dell'Iraq — Dicembre 1947)",
+        "Dicembre 1947: il governo iracheno di Salih Jabr e del Reggente 'Abd al-Ilah guida al vertice della Lega Araba del Cairo la linea contro la spartizione della Palestina (Ris. ONU 181), avviando parallelamente negoziati segreti con Londra per la revisione del trattato anglo-iracheno.",
+        'Neutrale',
+        "Al-Mamlakah al-‘Irāqiyyah — Re Faysal II · Reggente ‘Abd al-Ilah · P.M. Salih Jabr (Baghdad, Dic. 1947)"
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'IRQ',
@@ -3376,6 +4559,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         "Regno Hashemita dell'Iraq pienamente sovrano dopo la fine dell'occupazione militare bellica PAIFORCE (1946). Governato dal Reggente ‘Abd al-Ilah per conto del giovane Re Faysal II e dal Primo Ministro Salih Jabr, membro fondatore della Lega Araba e delle Nazioni Unite.",
         'Neutrale',
         'Al-Mamlakah al-‘Irāqiyyah — Re Faysal II · Reggente ‘Abd al-Ilah · P.M. Salih Jabr (Baghdad)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'UK',
+        "Al-Mamlakah al-‘Irāqiyyah (Smobilitazione Postbellica PAIFORCE — Settembre 1945)",
+        "Settembre 1945: a guerra conclusa il governo iracheno del P.M. Hamdi al-Pachachi e del Reggente 'Abd al-Ilah — membro fondatore ONU e Lega Araba — avvia la smobilitazione del presidio britannico PAIFORCE.",
+        'Alleati',
+        "Al-Mamlakah al-‘Irāqiyyah — Reggente ‘Abd al-Ilah & British PAIFORCE (Settembre 1945)"
       );
     }
     if (s >= 9) {
@@ -3482,13 +4674,32 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('CHI', 'Zhōnghuá Mínguó (Kàngzhan)', 'Guómín Zhèngfǔ');
   }
 
-  // Tannu Tuva (Stato indipendente alleato fino al 1944)
+  // Tannu Tuva (Stato indipendente alleato fino all'11 ott 1944 -> Oblast' Autonoma di Tuva, RSFSR / URSS)
   if (
     nrm_hb.includes('tannu') ||
     nrm_hb.includes('tuva') ||
     nrm_subj.includes('tuva') ||
     nrm_subj.includes('tannu')
   ) {
+    if (s >= 16) {
+      return makeResult(
+        'SOV',
+        s >= 20
+          ? 'Kyzyl — Oblast\' Autonoma di Tuva (RSFSR, Dic. 1947)'
+          : s >= 19
+          ? 'Kyzyl — Oblast\' Autonoma di Tuva (RSFSR / URSS, 1947)'
+          : s >= 18
+          ? 'Kyzyl — Oblast\' Autonoma di Tuva (RSFSR / URSS, 1945)'
+          : 'Oblast\' Autonoma di Tuva (RSFSR / URSS)',
+        s >= 20
+          ? 'Dicembre 1947: piena integrazione economica e monetaria dell\'Oblast\' Autonoma di Tuva nella RSFSR sovietica.'
+          : s >= 19
+          ? 'Settembre 1947: collettivizzazione degli arat, alfabeto cirillico tuvano e sviluppo minerario dell\'Oblast\' Autonoma di Tuva (RSFSR).'
+          : 'Incorporata nell\'URSS l\'11 ottobre 1944 come Oblast\' Autonoma di Tuva della RSFSR sotto Salčak Toka.',
+        'Comintern',
+        'Tuvinskij Oblispolkom — RSFSR (URSS)'
+      );
+    }
     return makeResult(
       'TUV',
       getTop('TUV').name || 'Tyva Arat Respublika (Kyzyl)',
@@ -3889,6 +5100,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Libia Italiana (Quarta Sponda)', 'Governo Generale della Libia');
   }
   if (nrm_hb.includes('eritrea')) {
+    if (s >= 26) {
+      return makeResult(
+        'UK',
+        'Eritrea (BMA Britannica — Risoluzione ONU 390 A(V) del 2 Dicembre 1950)',
+        '31 Dicembre 1950 (Amministrazione Militare Britannica): il 2 dicembre 1950 l\'Assemblea Generale ONU approva la Risoluzione 390 A(V) che predispone la futura federazione dell\'Eritrea con l\'Etiopia entro settembre 1952. Al 31 dicembre 1950 il territorio resta ancora amministrato dalla British Military Administration (BMA Eritrea).',
+        'Alleati',
+        'British Military Administration of Eritrea (BMA — In Attesa Federazione Ris. ONU 390 A(V))'
+      );
+    }
     if (s >= 8) {
       if (s >= 19) {
         return makeResult(
@@ -3908,6 +5128,18 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       );
     }
     return makeResult('ITA', 'Colonia Eritrea (Asmara)', 'Africa Orientale Italiana');
+  }
+  if (nrm_hb === 'nepal' || nrm_hb.includes('kingdom of nepal')) {
+    if (s >= 26) {
+      return makeResult(
+        'NEP',
+        'Regno del Nepal (Crisi Costituzionale del Nov 1950 & Insurrezione nel Terai)',
+        '31 Dicembre 1950 (Regno del Nepal): nel novembre 1950 Re Tribhuvan lascia il palazzo reale rifugiandosi all\'Ambasciata indiana e poi in India, mentre le forze armate del Congresso Nepalese (Mukti Sena) lanciano un\'offensiva nel Terai (Birgunj, Biratnagar, Jhapa) contro il regime autocratico Rana del PM Mohan Shumsher.',
+        'Neutrale',
+        'Regno del Nepal (Regime Rana — Crisi Tribhuvan & Insurrezione Terai Nov 1950)'
+      );
+    }
+    return makeResult('NEP', 'Nepal Adhirajya (Kathmandu)', 'Regno del Nepal (Dinastia Shah / Primi Ministri Rana)', 'Neutrale', 'Nepal Adhirajya (Shah Vamsha / Rana)');
   }
   if (nrm_hb.includes('dodecanese') || (nrm_hb.includes('rhodes') && !nrm_hb.includes('rhodesia'))) {
     if (s >= 13) {
@@ -3951,6 +5183,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       : makeResult('ITA', 'Regno d\'Albania', 'Unione Personale con la Corona d\'Italia (aprile 1939)');
   }
   if (nrm_hb.includes('somali') && (nrm_hb.includes('ital') || subj === 'Italy' || name.includes('(Italy)'))) {
+    if (s >= 25) {
+      return makeResult(
+        'AFIS',
+        'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU dal 1° Aprile 1950, Mogadiscio)',
+        'Il 1° aprile 1950 cessa l\'amministrazione militare britannica (BMA) nell\'ex Somalia Italiana e inizia ufficialmente il mandato decennale (1950–1960) dell\'Amministrazione Fiduciaria Italiana della Somalia (AFIS) per conto delle Nazioni Unite (Risoluzione ONU 289 del 21 novembre 1949), con esposizione congiunta della bandiera ONU e del Tricolore della Repubblica Italiana sotto l\'Amministratore Giovanni Fornari a Mogadiscio (il Somaliland Britannico e l\'Ogaden restano rispettivamente a Regno Unito ed Etiopia).',
+        'Alleati',
+        'Amministrazione Fiduciaria Italiana della Somalia — AFIS (ONU / Repubblica Italiana — Amb. Giovanni Fornari, Mogadiscio)'
+      );
+    }
     if (s >= 8) {
       if (s >= 19) {
         return makeResult(
@@ -4010,57 +5251,26 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('nador') ||
     nrm_hb.includes('cabo de agua')
   ) {
-    if (s === 0) {
-      return makeResult(
-        'SPR',
-        'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)',
-        'Segunda República Española — Alta Comisaría (Arturo Álvarez-Buylla)'
-      );
-    }
-    if (s >= 19) {
-      return makeResult(
-        'SPA',
-        'Protectorado Español de Marruecos (Tetuán)',
-        'Estado Español — Alta Comisaría en Marruecos (Tte. Gen. José Enrique Varela) e Jalifato de Tetuán nell\'isolamento diplomatico postbellico.',
-        'Neutrale',
-        'Estado Español — Alta Comisaría en Marruecos (Tetuán)'
-      );
-    }
-    if (s < 3) {
-      return makeResult(
-        'SPA',
-        'Protectorado Español de Marruecos (Zona del Rif / Tetuán)',
-        'Bando Nacional — Cuna del Alzamiento del 17-18 de julio de 1936, Ejército de África y Regulares'
-      );
-    }
-    return makeResult(
-      'SPA',
-      'Protectorado Español de Marruecos (Tetuán)',
-      'Estado Español — Alta Comisaría de España en Marruecos / Delegación Jalifiana',
-      s >= 18 ? 'Neutrale' : undefined
-    );
+    return resolveSpanishAfricanTerritory('ES_RIF', s);
   }
   if (nrm_hb.includes('ceuta')) {
-    return s === 0
-      ? makeResult('SPR', 'Ceuta (Plaza de Soberanía)', 'Segunda República Española')
-      : makeResult('SPA', 'Ceuta (Plaza de Soberanía)', s >= 19 ? 'Plaza de Soberanía de España en el Estrecho de Gibraltar (Estado Español)' : 'Bando Nacional — Base del Ejército de África', s >= 18 ? 'Neutrale' : undefined);
+    return resolveSpanishAfricanTerritory('ES630', s);
   }
   if (nrm_hb.includes('melilla')) {
-    return s === 0
-      ? makeResult('SPR', 'Melilla (Plaza de Soberanía)', 'Segunda República Española')
-      : makeResult('SPA', 'Melilla (Plaza de Soberanía)', s >= 19 ? 'Plaza de Soberanía de España en el Norte de África (Estado Español)' : 'Bando Nacional — Cuna del Alzamiento del 17 de julio de 1936', s >= 18 ? 'Neutrale' : undefined);
+    return resolveSpanishAfricanTerritory('ES640', s);
+  }
+  if (nrm_hb.includes('rio de oro')) {
+    return resolveSpanishAfricanTerritory('ES_RIO_DE_ORO', s);
   }
   if (
-    nrm_hb.includes('rio de oro') ||
     nrm_hb.includes('spanish sahara') ||
     nrm_hb.includes('sp. sahara') ||
-    nrm_hb.includes('sahara espanol')
+    nrm_hb.includes('sahara espanol') ||
+    nrm_hb.includes('cabo juby') ||
+    nrm_hb.includes('tarfaya') ||
+    nrm_hb.includes('saguia')
   ) {
-    return s === 0
-      ? makeResult('SPR', 'Sáhara Español (Río de Oro)', 'Segunda República Española')
-      : s >= 19
-      ? makeResult('SPA', 'África Occidental Española — Sáhara Español (Villa Cisneros / Cabo Juby)', 'Gobierno del África Occidental Española (Decreto del 20 luglio 1946: unione amministrativa di Sáhara Español e Ifni sotto Sidi Ifni).', 'Neutrale', 'Gobierno del África Occidental Española (Gen. José Bermejo López)')
-      : makeResult('SPA', 'Sáhara Español (Río de Oro)', 'Bando Nacional (Franco)', s >= 18 ? 'Neutrale' : undefined);
+    return resolveSpanishAfricanTerritory('ES_SAHARA_NORTE', s);
   }
   if (
     nrm_hb.includes('spanish guinea') ||
@@ -4076,11 +5286,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       : makeResult('SPA', 'Guinea Española (Santa Isabel / Fernando Poo y Río Muni)', 'Bando Nacional / Estado Español — Territorios Españoles del Golfo de Guinea', s >= 18 ? 'Neutrale' : undefined);
   }
   if (nrm_hb.includes('ifni')) {
-    return s === 0
-      ? makeResult('SPR', 'Territorio de Ifni (Sidi Ifni)', 'Segunda República Española')
-      : s >= 19
-      ? makeResult('SPA', 'África Occidental Española — Territorio de Ifni (Sidi Ifni)', 'Sede del Gobierno del África Occidental Española istituito nel luglio 1946 (Ifni e Sahara Spagnolo).', 'Neutrale', 'Gobierno del África Occidental Española (Sidi Ifni)')
-      : makeResult('SPA', 'Territorio de Ifni (Sidi Ifni)', 'Bando Nacional (Franco)', s >= 18 ? 'Neutrale' : undefined);
+    return resolveSpanishAfricanTerritory('ES_IFNI', s);
   }
   if (nrm_hb.includes('canary islands') || nrm_hb.includes('canarias')) {
     return s === 0
@@ -4088,17 +5294,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       : makeResult('SPA', 'Islas Canarias (Tenerife / Las Palmas)', s >= 19 ? 'Arcipelago Atlantico dell\'Estado Español (Santa Cruz de Tenerife / Las Palmas)' : 'Bando Nacional (Franco)', s >= 18 ? 'Neutrale' : undefined);
   }
   if (nid === 'TANGER' || nrm_hb.includes('tangier') || nrm_hb.includes('tanger') || nrm_hb.includes('tangeri')) {
-    if (s >= 18) {
-      return makeResult(
-        'TANGER',
-        'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)',
-        'L\'11 ottobre 1945 le truppe spagnole di Franco evacuano la città su intimazione delle potenze alleate: viene restaurato il regime di amministrazione internazionale (Comitato di Controllo internazionale)',
-        'Neutrale'
-      );
-    }
-    return s < 6
-      ? makeResult('TANGER', 'Zone Internationale de Tanger', 'Administration Internationale (Statut de 1923)')
-      : makeResult('SPA', 'Tánger (Zona Ocupada por España)', 'Ocupación Militar Española (14 de junio de 1940)');
+    return resolveTangierZone(s);
   }
   if (nrm_hb.includes('menorca') || nrm_hb.includes('minorca') || nrm_hb.includes('mahon')) {
     return s < 3
@@ -4129,6 +5325,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Medio Oriente
   if (cleanId === 'HB_YEMEN' || (nrm_hb.includes('yemen') && !nrm_hb.includes('aden') && !nrm_hb.includes('uk'))) {
+    if (s >= 20) {
+      return makeResult(
+        'YEM',
+        "Regno Mutawakkilita dello Yemen (Sana'a — Membro ONU & Lega Araba, Dicembre 1947)",
+        "Dicembre 1947: membro dell'ONU dal 30 settembre 1947, il Regno Mutawakkilita dell'anziano Imam Yahya Muhammad Hamid ed-Din partecipa al vertice della Lega Araba del Cairo contro la spartizione della Palestina (Ris. ONU 181), mentre a Sana'a cresce la fronda costituzionalista dei Liberi Yemeniti.",
+        'Neutrale',
+        "Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Imam Yahya — Sana'a, Dic. 1947)"
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'YEM',
@@ -4148,6 +5353,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
   }
   if (cleanId === 'HB_ADEN' || nrm_hb.includes('aden') || nrm_hb.includes('yemen (uk)')) {
+    if (s >= 20) {
+      return makeResult(
+        'UK',
+        'Colonia e Protettorato di Aden (Stato di Emergenza — Dicembre 1947)',
+        "Dicembre 1947: all'indomani del voto ONU sulla Palestina (2–4 dicembre 1947) esplodono ad Aden gravi disordini anti-ebraici (82 ebrei e oltre 30 arabi uccisi); il Governatore britannico Sir Reginald Champion proclama lo stato di emergenza e dispiega le Aden Protectorate Levies e truppe britanniche tra Aden, l'Hadhramaut e il Protettorato Occidentale/Orientale.",
+        'Alleati',
+        'British Crown Colony & Protectorate of Aden (Gov. Sir Reginald Champion — Dic. 1947)'
+      );
+    }
+    if (s >= 19) {
+      return makeResult(
+        'UK',
+        'Colonia e Protettorato di Aden (Crown Colony & WAP/EAP — 1947)',
+        'Colonia della Corona di Aden (hub navale e carbonifero britannico sul Mar Rosso) e Protettorati Occidentale e Orientale (Sultanati di Lahej, Shihr e Mukalla/Qu\'aiti, Kathiri e Mahra) amministrati dal Colonial Office di Londra.',
+        'Alleati',
+        'British Crown Colony & Protectorate of Aden (Colonial Office)'
+      );
+    }
     const top = getTop('UK');
     return makeResult(
       'UK',
@@ -4158,6 +5381,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     );
   }
   if (nrm_hb.includes('iraq')) {
+    if (s >= 20) {
+      return makeResult(
+        'IRQ',
+        "Al-Mamlakah al-‘Irāqiyyah (Regno dell'Iraq — Dicembre 1947)",
+        "Dicembre 1947: al vertice della Lega Araba del Cairo il governo iracheno di Salih Jabr e del Reggente 'Abd al-Ilah guida l'opposizione diplomatica e militare alla spartizione della Palestina (Ris. ONU 181), mentre avvia con Londra i negoziati segreti per la revisione del trattato anglo-iracheno (futuro Trattato di Portsmouth del gennaio 1948).",
+        'Neutrale',
+        "Al-Mamlakah al-‘Irāqiyyah — Re Faysal II · Reggente ‘Abd al-Ilah · P.M. Salih Jabr (Baghdad)"
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'IRQ',
@@ -4165,6 +5397,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         "Regno Hashemita dell'Iraq pienamente sovrano dopo la fine dell'occupazione militare bellica PAIFORCE (1946). Governato dal Reggente ‘Abd al-Ilah per conto di Re Faysal II e dal Primo Ministro Salih Jabr, membro fondatore della Lega Araba e delle Nazioni Unite.",
         'Neutrale',
         'Al-Mamlakah al-‘Irāqiyyah — Re Faysal II · Reggente ‘Abd al-Ilah · P.M. Salih Jabr (Baghdad)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'UK',
+        'Regno dell\'Iraq (Smobilitazione Postbellica PAIFORCE — Settembre 1945)',
+        "Settembre 1945: a conflitto mondiale concluso, il governo iracheno del Primo Ministro Hamdi al-Pachachi e del Reggente 'Abd al-Ilah (membro fondatore dell'ONU e della Lega Araba) avvia la transizione alla piena smobilitazione del presidio militare britannico PAIFORCE dalle basi di Bassora, Habbaniya e Baghdad.",
+        'Alleati',
+        "Al-Mamlakah al-‘Irāqiyyah — Reggente 'Abd al-Ilah & British PAIFORCE (Baghdad)"
       );
     }
     if (s >= 9) {
@@ -4188,6 +5429,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('UK', 'Kingdom of Iraq (Baghdad)', 'British Sphere of Influence (Anglo-Iraqi Treaty of 1930)');
   }
   if (nrm_hb.includes('transjordan')) {
+    if (s >= 20) {
+      return makeResult(
+        'JOR',
+        'Regno Hashemita di Transgiordania (Amman — Dicembre 1947)',
+        "Dicembre 1947: il Regno Hashemita di Re Abd Allah I partecipa al vertice della Lega Araba del Cairo mantenendo una propria linea strategica sulla futura spartizione palestinese (Ris. ONU 181), mentre la Legione Araba comandata da Glubb Pasha si disloca in allerta lungo la valle del Giordano.",
+        'Neutrale',
+        'Regno Hashemita di Transgiordania (Re Abd Allah I bin al-Husayn & Glubb Pasha — Dic. 1947)'
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'JOR',
@@ -4200,6 +5450,33 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('UK', 'Emirate of Transjordan (Amman)', 'League of Nations Mandate');
   }
   if (nrm_hb.includes('palestine')) {
+    if (s >= 22) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele (Confini Post-Yoav, Hiram & Horev al 31 Dicembre 1948)',
+        "Al 31 dicembre 1948 le offensive israeliane Dani, Dekel, Yoav, Hiram e Horev hanno assicurato a Israele l'intera Galilea (inclusa una fascia di controllo oltre il confine libanese), la piana di Sharon-Lydda-Ramle, Gerusalemme Ovest, Beersheba e gran parte del Negev (con la brigata egiziana accerchiata nella sacca di Faluja e il Negev estremo fino a Umm Rashrash/Eilat non ancora raggiunto), mentre a Gaza opera il Governo di Tutto-Palestina sotto tutela egiziana e la Cisgiordania aderisce alla Transgiordania (Conferenza di Gerico, 1° dic).",
+        'Neutrale',
+        'Medinat Yisrael — Governo Provvisorio (IDF / Fronti Settentrionale, Centrale & del Negev)'
+      );
+    }
+    if (s >= 21) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele (Proclamazione del 14 Maggio 1948 & Linee della Prima Tregua ONU)',
+        "Il 14 maggio 1948, alla scadenza del Mandato Britannico, David Ben-Gurion proclama a Tel Aviv lo Stato di Israele (Medinat Yisrael). Al 30 giugno 1948 vige la Prima Tregua mediata dall'ONU (11 giugno – 8 luglio 1948) tra le Forze di Difesa Israeliane (IDF) e gli eserciti della Lega Araba.",
+        'Neutrale',
+        'Medinat Yisrael — Governo Provvisorio (PM David Ben-Gurion · Pres. Chaim Weizmann)'
+      );
+    }
+    if (s >= 20) {
+      return makeResult(
+        'UK',
+        'Mandato di Palestina (Risoluzione ONU 181 & Guerra Civile — Dicembre 1947)',
+        "Dicembre 1947: dopo l'approvazione della Risoluzione ONU 181 del 29 novembre 1947 (Piano di Partizione della Palestina in uno Stato ebraico, uno Stato arabo e il Corpus Separatum di Gerusalemme), esplode la guerra civile intercomunitaria in tutto il Mandato mentre l'amministrazione dell'Alto Commissario Sir Alan Cunningham avvia l'evacuazione verso il termine del 14 maggio 1948.",
+        'Alleati',
+        'Government of Palestine (High Commissioner Sir Alan Cunningham — UN Res. 181, Dic. 1947)'
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'UK',
@@ -4212,6 +5489,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('UK', 'British Mandate for Palestine (Jerusalem)', 'League of Nations Mandate');
   }
   if (nrm_hb.includes('syria')) {
+    if (s >= 21) {
+      return makeResult(
+        'SYR',
+        'Repubblica Siriana (Intervento nella Guerra Arabo-Israeliana & Testa di Ponte a Mishmar HaYarden — Giugno 1948)',
+        "Giugno 1948: entrata in guerra il 15 maggio 1948 contro il neonato Stato di Israele, l'armata della Repubblica Siriana del Presidente Shukri al-Quwatli conquista il 10 giugno 1948 la testa di ponte di Mishmar HaYarden a ovest del Giordano e mantiene posizioni presso Samakh/Ein Gev allo scattare della Prima Tregua ONU (11 giugno 1948).",
+        'Neutrale',
+        'Repubblica Siriana (Presidente Shukri al-Quwatli · P.M. Jamil Mardam Bey — Giugno 1948)'
+      );
+    }
+    if (s >= 20) {
+      return makeResult(
+        'SYR',
+        'Repubblica Siriana (Sovranità & Mobilitazione ALA — Damasco, Dicembre 1947)',
+        "Dicembre 1947: al vertice della Lega Araba del Cairo (8–17 dicembre 1947), la Repubblica Siriana del Presidente Shukri al-Quwatli e del Primo Ministro Jamil Mardam Bey respinge la Risoluzione ONU 181 e apre vicino a Damasco il campo di addestramento di Qatana per i volontari dell'Esercito Arabo di Liberazione (Jaysh al-Inqadh) guidato da Fawzi al-Qawuqji.",
+        'Neutrale',
+        'Repubblica Siriana (Presidente Shukri al-Quwatli · P.M. Jamil Mardam Bey — Dic. 1947)'
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'SYR',
@@ -4219,6 +5514,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'Il 17 aprile 1946 (Giorno dell\'Evacuazione, Eid al-Jalaa) le ultime truppe francesi e britanniche lasciano la Siria: la Repubblica Siriana è pienamente sovrana, guidata dal Presidente Shukri al-Quwatli e dal Primo Ministro Jamil Mardam Bey, membro fondatore della Lega Araba e delle Nazioni Unite.',
         'Neutrale',
         'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'SYR',
+        'Repubblica Siriana (Post-Crisi del Levante & Negoziati di Evacuazione — Settembre 1945)',
+        "Settembre 1945: dopo la Crisi del Levante di maggio-giugno 1945 (bombardamento francese di Damasco ed intervento britannico), il governo sovrano del Presidente Shukri al-Quwatli — membro fondatore dell'ONU e della Lega Araba — negozia il ritiro definitivo delle ultime guarnigioni francesi e britanniche.",
+        'Alleati',
+        'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco, Settembre 1945)'
       );
     }
     if (s >= 9) {
@@ -4236,6 +5540,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       : makeResult('VIC_SYR', top.name || 'Syrie (Mandat français — Vichy)', top.note || 'Mandat sous administration du gouvernement de Vichy', 'Fantoccio', top.adminTitle || 'Haut-Commissaire Général Henri Dentz (Vichy — Damas)');
   }
   if (nrm_hb.includes('lebanon')) {
+    if (s >= 20) {
+      return makeResult(
+        'LEB',
+        'Repubblica Libanese (Sovranità & Vertice della Lega Araba — Beirut, Dicembre 1947)',
+        "Dicembre 1947: pienamente sovrana dopo l'evacuazione alleata del 1946, la Repubblica Libanese di Béchara El Khoury e Riad Al Solh partecipa al vertice della Lega Araba del Cairo contro la partizione della Palestina (Ris. ONU 181), rafforzando il dispositivo militare al confine meridionale con la Galilea.",
+        'Neutrale',
+        'Repubblica Libanese (Presidente Béchara El Khoury & P.M. Riad Al Solh — Dic. 1947)'
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'LEB',
@@ -4243,6 +5556,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'Il 31 dicembre 1946 si completa l\'evacuazione definitiva di tutte le truppe francesi e britanniche dal territorio libanese. La Repubblica Libanese è pienamente indipendente e sovrana sotto la presidenza di Béchara El Khoury e il governo di Riad Al Solh (Patto Nazionale del 1943), membro fondatore dell\'ONU e della Lega Araba.',
         'Neutrale',
         'Repubblica Libanese (Presidente Béchara El Khoury & Primo Ministro Riad Al Solh — Beirut)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'LEB',
+        'Repubblica Libanese (Patto Nazionale & Transizione Postbellica — Settembre 1945)',
+        "Settembre 1945: la Repubblica Libanese indipendente sotto il Presidente Béchara El Khoury e il Patto Nazionale del 1943 (membro fondatore ONU e Lega Araba) tratta a Parigi e Londra lo sgombero definitivo delle residue forze francesi e britanniche.",
+        'Alleati',
+        'Repubblica Libanese (Presidente Béchara El Khoury — Beirut, Settembre 1945)'
       );
     }
     if (s >= 9) {
@@ -4268,6 +5590,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('shal\'an') ||
     nrm_hb.includes('shalan')
   ) {
+    if (s >= 20) {
+      return makeResult(
+        'SAU',
+        "Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah (Regno dell'Arabia Saudita — Dicembre 1947)",
+        "Dicembre 1947: il Regno dell'Arabia Saudita di Re Abdulaziz ibn Saud consolida la propria centralità energetica (boom estrattivo ARAMCO tra Dhahran, Abqaiq e i cantieri dell'oleodotto Trans-Arabico TAPLINE) mentre al vertice della Lega Araba del Cairo appoggia diplomaticamente la causa araba palestinese contro la Ris. ONU 181 preservando gli accordi strategici con Washington.",
+        'Neutrale',
+        "Al-Mamlakah al-‘Arabiyyah as-Su‘ūdiyyah — Malik Abdulaziz Al Saud (Riyadh, Dic. 1947)"
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'SAU',
@@ -4298,7 +5629,11 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       top.note
     );
   }
+  const isMusandamIndia =
+    (nrm_hb === 'india' || nrm_subj === 'india' || String(P.PARTOF || '').toLowerCase() === 'india') &&
+    Boolean(c && c[0] >= 55.5 && c[0] <= 57.0 && c[1] >= 25.0 && c[1] <= 26.8);
   if (
+    isMusandamIndia ||
     nrm_hb.includes('oman') ||
     nrm_hb.includes('muscat') ||
     nrm_hb.includes('trucial') ||
@@ -4307,11 +5642,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     nrm_hb.includes('qatar')
   ) {
     const gFac = s >= 4 ? 'Alleati' : 'Neutrale';
+    const gulfJurisdictionNote =
+      s >= 19
+        ? ' Dopo l\'indipendenza dell\'India dell\'agosto 1947, la giurisdizione degli Ufficiali Politici britannici nel Golfo Persico passa dal governo di Nuova Delhi al Foreign Office di Londra tramite la British Political Residency di Manama (Sir Rupert Hay).'
+        : '';
+    if (isMusandamIndia) {
+      return makeResult(
+        'UK',
+        'Musandam Peninsula (Sultanate of Muscat and Oman — Stretto di Hormuz)',
+        `Exclave settentrionale del Sultanato di Mascate e Oman (Sultano Said bin Taimur) affacciata sullo Stretto di Hormuz, legata da trattati di protezione alla Corona britannica.${gulfJurisdictionNote}`,
+        gFac,
+        'Sultanate of Muscat and Oman — Musandam Exclave (British Political Residency Persian Gulf)'
+      );
+    }
     if (nrm_hb.includes('kuwait')) {
       return makeResult(
         'UK',
         'Sheikhdom of Kuwait (Protettorato Britannico — Al-Kuwait)',
-        "Sceiccato del Kuwait sotto protettorato britannico (Emiro Ahmad Al-Jaber Al-Sabah): dal giugno 1946 è avviata l'esportazione commerciale su vasta scala di petrolio dal giacimento gigante di Burgan (Kuwait Oil Company).",
+        `Sceiccato del Kuwait sotto protettorato britannico (Emiro Ahmad Al-Jaber Al-Sabah): dal giugno 1946 è avviata l'esportazione commerciale su vasta scala di petrolio dal giacimento gigante di Burgan (Kuwait Oil Company).${gulfJurisdictionNote}`,
         gFac,
         'British Persian Gulf Residency — Political Agency Kuwait (Ahmad Al-Jaber Al-Sabah)'
       );
@@ -4320,7 +5668,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       return makeResult(
         'UK',
         'Sheikhdom of Bahrain (Sede della British Persian Gulf Residency — Manama)',
-        "Protettorato britannico del Bahrein sotto lo Sceicco Salman bin Hamad Al Khalifa. Nel 1946 la sede principale della British Political Residency in the Persian Gulf viene trasferita da Bushehr (Iran) a Manama, accanto alla base navale HMS Jufair.",
+        `Protettorato britannico del Bahrein sotto lo Sceicco Salman bin Hamad Al Khalifa. Nel 1946 la sede principale della British Political Residency in the Persian Gulf viene trasferita da Bushehr (Iran) a Manama, accanto alla base navale HMS Jufair.${gulfJurisdictionNote}`,
         gFac,
         'British Political Residency in the Persian Gulf (Manama, Bahrain — Sir Rupert Hay)'
       );
@@ -4329,7 +5677,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       return makeResult(
         'UK',
         'Sheikhdom of Qatar (Protettorato Britannico — Doha)',
-        "Protettorato britannico del Qatar (Trattato Anglo-Qatariota del 1916) sotto l'Emiro Abdullah bin Jassim Al Thani, sotto la giurisdizione della British Political Residency del Golfo Persico.",
+        `Protettorato britannico del Qatar (Trattato Anglo-Qatariota del 1916) sotto l'Emiro Abdullah bin Jassim Al Thani, sotto la giurisdizione della British Political Residency del Golfo Persico.${gulfJurisdictionNote}`,
         gFac,
         'British Persian Gulf Residency — Sheikhdom of Qatar (Abdullah bin Jassim Al Thani)'
       );
@@ -4338,7 +5686,7 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
       return makeResult(
         'UK',
         'Trucial States / Trucial Oman (Stati della Tregua — Sharjah & Dubai)',
-        "I sette emirati della Costa della Tregua (Abu Dhabi, Dubai, Sharjah, Ajman, Umm al-Quwain, Ras al-Khaimah, Fujairah) sotto protettorato britannico, con scalo strategico RAF Sharjah verso l'India.",
+        `I sette emirati della Costa della Tregua (Abu Dhabi, Dubai, Sharjah, Ajman, Umm al-Quwain, Ras al-Khaimah, Fujairah) sotto protettorato britannico, con scalo strategico aeronavale RAF Sharjah sul Golfo Persico.${gulfJurisdictionNote}`,
         gFac,
         'British Political Residency in the Persian Gulf — Trucial States (Sharjah & Dubai)'
       );
@@ -4346,9 +5694,9 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult(
       'UK',
       'Sultanate of Muscat and Oman (Protettorato & Sfera Britannica — Mascate)',
-      "Sultanato di Mascate e Oman sotto il Sultano Said bin Taimur e il Trattato di Seeb, legato da accordi esclusivi alla Corona britannica e coordinato con la British Political Residency nel Golfo Persico.",
+      `Sultanato di Mascate e Oman sotto il Sultano Said bin Taimur e il Trattato di Seeb del 1920 (distinzione tra Sultanato costiero e Imamato dell'Oman interno), legato da accordi esclusivi alla Corona britannica.${gulfJurisdictionNote}`,
       gFac,
-      'Sultanate of Muscat and Oman — British Political Agency (Said bin Taimur)'
+      'Sultanate of Muscat and Oman — British Political Agency Muscat (Said bin Taimur)'
     );
   }
 
@@ -4782,14 +6130,30 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         if (vicKey === 'VIC_IND' && s >= 18) {
           return makeResult(
             'FRA',
-            s >= 19
+            s >= 22
+              ? 'Indocina Francese (Unione Francese — Léon Pignon, Fédération Taï & Guerra d\'Indocina, Dicembre 1948)'
+              : s >= 21
+              ? 'Indocina Francese (Unione Francese — Accordi di Hạ Long, 5 Giugno 1948 & Guerra d\'Indocina)'
+              : s >= 20
+              ? 'Indocina Francese (Unione Francese — Post-Operazioni Léa e Ceinture, Dicembre 1947)'
+              : s >= 19
               ? 'Indocina Francese (Unione Francese — Conflitto contro la RDV/Việt Minh)'
               : 'Indocina Francese (Ristabilimento Amministrazione Francese & Resa Giapponese)',
-            s >= 19
+            s >= 22
+              ? 'Al 31 dicembre 1948, sotto il nuovo Alto Commissario Léon Pignon (subentrato a Bollaert il 21 ottobre) e il Governo Centrale Provvisorio di Nguyễn Văn Xuân, la Francia consolida la Fédération Taï (Lai Châu–Sơn La–Điện Biên Phủ, Đèo Văn Long), il Pays Mường (Hòa Bình), il Delta del Fiume Rosso e la Cocincina, mentre il CEFEO fronteggia la RDV di Hồ Chí Minh tra Phủ Thông Hóa, la RC4, il Việt Bắc, le Interzone IV–V e il Nam Bộ.'
+              : s >= 21
+              ? 'Al 30 giugno 1948, dopo gli Accordi della Baia di Hạ Long (5 giugno 1948) che istituiscono il Governo Centrale Provvisorio del Vietnam (Gen. Nguyễn Văn Xuân) associato all\'Unione Francese, il CEFEO (Gen. Roger Blaizot) presidia le città, il delta del Fiume Rosso, la Cocincina e i capisaldi assediati della RC4, fronteggiando la RDV di Hồ Chí Minh nei santuari di Việt Bắc, Interzone IV–V, Đồng Tháp Mười e U Minh.'
+              : s >= 20
+              ? 'Al 31 dicembre 1947, concluse le offensive francesi Léa e Ceinture lungo la Route Coloniale 4, la Francia controlla i grandi centri urbani e la Cocincina (Governo Provvisorio del Vietnam del Sud) mentre il Việt Minh conserva il Việt Bắc, l\'Interzona IV e V.'
+              : s >= 19
               ? 'Al 30 settembre 1947 la Francia (Union Française) controlla la Cocincina, Cambogia, Laos e le principali arterie e città del Tonchino e dell\'Annam, fronteggiando la Repubblica Democratica del Vietnam guidata da Hồ Chí Minh.'
               : 'Settembre 1945: capitolazione delle truppe giapponesi della 38ª Armata a Saigon dinanzi al generale britannico Douglas Gracey (SEAC) e ritorno delle truppe francesi del generale Leclerc, mentre nel nord Hồ Chí Minh proclama la Repubblica Democratica del Vietnam.',
             'Alleati',
-            s >= 19
+            s >= 22
+              ? 'Union Française — Haut-Commissariat (Léon Pignon) / Governo Centrale Provvisorio (Nguyễn Văn Xuân)'
+              : s >= 21
+              ? 'Union Française — Haut-Commissariat (Émile Bollaert) / Governo Centrale Provvisorio del Vietnam (Nguyễn Văn Xuân)'
+              : s >= 19
               ? 'Union Française — Haut-Commissariat de France en Indochine (Émile Bollaert)'
               : 'Gouvernement Provisoire (GPRF — Amiral Thierry d\'Argenlieu / Gén. Leclerc)'
           );
@@ -5207,6 +6571,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           'Dai Nippon Teikoku — Nanpōgun (Gruppo d\'Armate di Spedizione Meridionale) & Kaigun'
         );
       }
+      if (s >= 21 && nrm_hb.includes('burma')) {
+        return makeResult(
+          'BUR',
+          'Unione della Birmania (Repubblica Sovrana Indipendente — 4 Gennaio 1948)',
+          'Il 4 gennaio 1948 la Birmania proclama la piena indipendenza dal Regno Unito come Repubblica sovrana fuori dal Commonwealth sotto il Presidente Sao Shwe Thaik e il Primo Ministro U Nu.',
+          'Neutrale',
+          'Union of Burma · Pyidaungzu Myanma Naingngandaw (Pres. Sao Shwe Thaik · PM U Nu)'
+        );
+      }
+      if (s >= 21 && (nrm_hb.includes('ceylon') || nrm_hb.includes('sri lanka'))) {
+        return makeResult(
+          'CEY',
+          'Dominion di Ceylon (Reame Indipendente del Commonwealth — 4 Febbraio 1948)',
+          'Il 4 febbraio 1948 l\'isola di Ceylon diviene il Dominion di Ceylon, reame indipendente all\'interno del Commonwealth delle Nazioni sotto il Primo Ministro D.S. Senanayake.',
+          'Alleati',
+          'Dominion of Ceylon (PM D.S. Senanayake · Gov.-Gen. Sir Henry Monck-Mason Moore)'
+        );
+      }
       return makeResult(
         'UK',
         top.name,
@@ -5457,12 +6839,22 @@ export function resolveEstonianProvince(
   if (s >= 16) {
     return makeResult(
       'SOV',
-      `${histName || 'Tallinn'} — Estonskaya SSR`,
-      s >= 19
-        ? 'Settembre 1947: Repubblica Socialista Sovietica Estone (URSS).'
+      s >= 20
+        ? `${histName || 'Tallinn'} — RSS Estone (URSS, Dic. 1947)`
+        : s >= 19
+        ? `${histName || 'Tallinn'} — Estonskaya SSR (URSS, 1947)`
+        : s >= 18
+        ? `${histName || 'Tallinn'} — Estonskaya SSR (Dopoguerra 1945)`
+        : `${histName || 'Tallinn'} — Estonskaya SSR`,
+      s >= 20
+        ? 'Dicembre 1947: nella RSS Estone avanzano la collettivizzazione forzata iniziale, la repressione della resistenza clandestina dei "Fratelli della Foresta" (Metsavennad) e la riforma monetaria sovietica.'
+        : s >= 19
+        ? 'Settembre 1947: Repubblica Socialista Sovietica Estone (Sovet Ministrov a Tallinn — Nikolai Karotamm); ricostruzione portuale, estrazione di scisti bituminosi a Kohtla-Järve e sovietizzazione.'
+        : s >= 18
+        ? 'Settembre 1945: consolidamento della RSS Estone nel dopoguerra (rettifica confinaria di Petseri/Narva est trasferita alla RSFSR nel 1944-45) e sgombero dei danni bellici a Tallinn e Tartu.'
         : 'Settembre-Novembre 1944: riconquista sovietica di Tallinn (22 settembre) e dell\'Estonia continentale e insulare; ristabilimento della RSS Estone.',
       'Comintern',
-      'SSSR — Estonskaya SSR (Tallinn)'
+      s >= 19 ? 'Sovet Ministrov Estonskoj SSR — Tallinn (URSS)' : 'SSSR — Estonskaya SSR (Tallinn)'
     );
   }
   if (s >= 9) {
@@ -5651,14 +7043,24 @@ export function resolveLatvianProvince(
     }
     return makeResult(
       'SOV',
-      isCourland
+      s >= 20
+        ? isCourland
+          ? 'Kurzeme (Curlandia — RSS Lettone / URSS, Dic. 1947)'
+          : `${histName || 'Riga'} — RSS Lettone (URSS, Dic. 1947)`
+        : s >= 19
+        ? isCourland
+          ? 'Kurzeme (RSS Lettone — Ricostruzione Liepāja & Ventspils, 1947)'
+          : `${histName || 'Riga'} — Latviyskaya SSR (URSS, 1947)`
+        : isCourland
         ? 'Kurzeme (Sacca di Curlandia Liberata — Latviyskaya SSR)'
         : `${histName || 'Riga'} (Liberata — Latviyskaya SSR)`,
-      s >= 19
-        ? 'Settembre 1947: Repubblica Socialista Sovietica Lettone (URSS).'
-        : 'Ottobre 1944 - 1945: liberazione sovietica di Riga e resa della sacca di Curlandia (maggio 1945); piena reintegrazione nella RSS Lettone.',
+      s >= 20
+        ? 'Dicembre 1947: nella RSS Lettone (Jānis Kalnbērziņš / Vilis Lācis) si intensifica la lotta ai partigiani antisovietici delle foreste, avanza la preparazione alla collettivizzazione e entra in vigore la riforma del rublo.'
+        : s >= 19
+        ? 'Settembre 1947: Repubblica Socialista Sovietica Lettone (Sovet Ministrov a Riga); riattivazione industriale dei porti baltici di Riga, Liepāja e Ventspils nel Quarto Piano Quinquennale.'
+        : 'Ottobre 1944 - 1945: liberazione sovietica di Riga e resa della sacca di Curlandia (maggio 1945); piena reintegrazione nella RSS Lettone e distacco del distretto di Abrene verso Pskov.',
       'Comintern',
-      'SSSR — Latviyskaya SSR (Riga)'
+      s >= 19 ? 'Sovet Ministrov Latvijskoj SSR — Riga (URSS)' : 'SSSR — Latviyskaya SSR (Riga)'
     );
   }
   if (s >= 9) {
@@ -5852,12 +7254,24 @@ export function resolveLithuanianProvince(
   if (s >= 16 && (!isMemel || s >= 17)) {
     return makeResult(
       'SOV',
-      `${isMemel ? 'Klaipėda / Memel' : histName || 'Vilnius'} — Lietuvos TSR`,
-      isMemel
+      s >= 20
+        ? `${isMemel ? 'Klaipėda / Memel' : histName || 'Vilnius'} — RSS Lituana (URSS, Dic. 1947)`
+        : s >= 19
+        ? `${isMemel ? 'Klaipėda / Memel' : histName || 'Vilnius'} — Lietuvos TSR (URSS, 1947)`
+        : `${isMemel ? 'Klaipėda / Memel' : histName || 'Vilnius'} — Lietuvos TSR`,
+      s >= 20
+        ? isMemel
+          ? 'Dicembre 1947: Klaipėda (Memel) opera come principale scalo commerciale e peschereccio libero dai ghiacci della RSS Lituana nel sistema sovietico post-riforma monetaria.'
+          : 'Dicembre 1947: sotto Antanas Sniečkus prosegue nella RSS Lituana l\'aspra controguerriglia MVD contro i partigiani lituani (Miško broliai), mentre entra in vigore la riforma monetaria di fine anno.'
+        : s >= 19
+        ? isMemel
+          ? 'Settembre 1947: ricostruzione del porto di Klaipėda, annesso definitivamente alla RSS Lituana dal gennaio 1945 con afflusso di coloni dalle repubbliche interne.'
+          : 'Settembre 1947: Repubblica Socialista Sovietica Lituana (Sovet Ministrov a Vilnius); ricostruzione di Vilnius e Kaunas nel Quarto Piano Quinquennale e rimpatrio della popolazione polacca verso la Polonia.'
+        : isMemel
         ? '28 gennaio 1945: conquista sovietica della piazzaforte di Memel (Klaipėda) e integrazione nella RSS Lituana (URSS).'
-        : 'Luglio-Ottobre 1944: liberazione di Vilnius, Kaunas e Palanga da parte dell\'Armata Rossa; reintegrazione nella RSS Lituana.',
+        : 'Luglio-Ottobre 1944 - 1945: liberazione di Vilnius, Kaunas e Palanga da parte dell\'Armata Rossa; reintegrazione nella RSS Lituana.',
       'Comintern',
-      'SSSR — Lietuvos TSR (Vilnius)'
+      s >= 19 ? 'Sovet Ministrov Litovskoj SSR — Vilnius (URSS)' : 'SSSR — Lietuvos TSR (Vilnius)'
     );
   }
   if (s >= 9 && !isMemel) {
@@ -6190,6 +7604,48 @@ export function resolveLevantMandateProvince(ft: any, s: number): ResolvedTerrit
     pName.includes('lebanon') ||
     pName.includes('libano');
 
+  // Step 24 (DIC 1949): Siria (Armistizio del 20 Luglio 1949 & Golpe Hinnawi/Shishakli) e Libano Sovrano
+  if (s >= 24) {
+    const rawTitle = props.HISTORICAL_NAME || props.NAME || props.name || (isLeb ? 'Beirut' : 'Damasco');
+    if (isLeb) {
+      return makeResult(
+        'LEB',
+        `Repubblica Libanese (Confini della Linea Verde 1949) — ${rawTitle}`,
+        `${rawTitle} · Al 31 dicembre 1949 la Repubblica Libanese (Presidente Béchara El Khoury · Primo Ministro Riad Al Solh) mantiene la piena sovranità entro la frontiera internazionale del 1923 sancita dall'Armistizio di Ras en-Naqura con Israele (23 marzo 1949).`,
+        'Neutrale',
+        'Repubblica Libanese (Presidente Béchara El Khoury & Primo Ministro Riad Al Solh — Beirut)'
+      );
+    }
+    return makeResult(
+      'SYR',
+      `Repubblica Siriana (Armistizio Israele-Siria del 20 Luglio 1949 & Governo Atassi) — ${rawTitle}`,
+      `${rawTitle} · Al 31 dicembre 1949 la Siria (dopo l'Armistizio con Israele firmato il 20 luglio 1949 con evacuazione della testa di ponte di Mishmar HaYarden nelle Zone Demilitarizzate, e dopo i colpi di Stato militari di agosto e del 19 dicembre 1949 contro al-Za'im e al-Hinnawi) è guidata dal Capo di Stato Hashim al-Atassi con l'influenza militare del Col. Adib al-Shishakli.`,
+      'Neutrale',
+      'Repubblica Siriana (Capo di Stato Hashim al-Atassi · Col. Adib al-Shishakli — Damasco, Dic 1949)'
+    );
+  }
+
+  // Step 20 (DIC 1947): Arab League Cairo Summit & Arab Liberation Army (ALA) mobilization
+  if (s >= 20) {
+    const rawTitle = props.HISTORICAL_NAME || props.NAME || props.name || (isLeb ? 'Beirut' : 'Damasco');
+    if (isLeb) {
+      return makeResult(
+        'LEB',
+        `Repubblica Libanese (Sovranità & Vertice della Lega Araba, Dic. 1947) — ${rawTitle}`,
+        `${rawTitle} · Dicembre 1947: pienamente sovrana dopo il ritiro alleato del 1946, la Repubblica Libanese di Béchara El Khoury e Riad Al Solh partecipa al vertice della Lega Araba al Cairo contro la spartizione della Palestina (Risoluzione ONU 181), schierando l'esercito lungo la frontiera meridionale con la Galilea.`,
+        'Neutrale',
+        'Repubblica Libanese (Presidente Béchara El Khoury & P.M. Riad Al Solh — Beirut, Dic. 1947)'
+      );
+    }
+    return makeResult(
+      'SYR',
+      `Repubblica Siriana (Sovranità & Mobilitazione ALA, Dic. 1947) — ${rawTitle}`,
+      `${rawTitle} · Dicembre 1947: al vertice della Lega Araba al Cairo (8–17 dicembre 1947), la Repubblica Siriana di Shukri al-Quwatli e Jamil Mardam Bey respinge la Risoluzione ONU 181 e organizza presso Damasco (campo di Qatana) l'Esercito Arabo di Liberazione (Jaysh al-Inqadh) sotto il comando di Fawzi al-Qawuqji.`,
+      'Neutrale',
+      'Repubblica Siriana (Presidente Shukri al-Quwatli & P.M. Jamil Mardam Bey — Damasco, Dic. 1947)'
+    );
+  }
+
   // Step 19 (SET 1947): Sovereign independent Syria and Lebanon post-Allied evacuation
   if (s >= 19) {
     const rawTitle = props.HISTORICAL_NAME || props.NAME || props.name || (isLeb ? 'Beirut' : 'Damasco');
@@ -6208,6 +7664,27 @@ export function resolveLevantMandateProvince(ft: any, s: number): ResolvedTerrit
       `${rawTitle} · Piena sovranità della Repubblica Siriana celebrata con l'Evacuazione del 17 aprile 1946 (Eid al-Jalaa) delle ultime unità militari francesi e britanniche. Presidenza di Shukri al-Quwatli e governo di Jamil Mardam Bey, membro fondatore della Lega Araba e dell'ONU.`,
       'Neutrale',
       'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco)'
+    );
+  }
+
+  // Step 18 (SET 1945): Post-Levant Crisis sovereign republics negotiating Allied troop withdrawal
+  if (s >= 18) {
+    const rawTitle = props.HISTORICAL_NAME || props.NAME || props.name || (isLeb ? 'Beirut' : 'Damasco');
+    if (isLeb) {
+      return makeResult(
+        'LEB',
+        `Repubblica Libanese (Post-Crisi del Levante, Set. 1945) — ${rawTitle}`,
+        `${rawTitle} · Settembre 1945: la Repubblica Libanese guidata dal Presidente Béchara El Khoury e retta dal Patto Nazionale del 1943 — membro fondatore delle Nazioni Unite e della Lega Araba — negozia lo sgombero definitivo delle ultime guarnigioni francesi e britanniche dopo la crisi del Levante di maggio-giugno 1945.`,
+        'Alleati',
+        'Repubblica Libanese (Presidente Béchara El Khoury — Beirut, Settembre 1945)'
+      );
+    }
+    return makeResult(
+      'SYR',
+      `Repubblica Siriana (Post-Crisi del Levante, Set. 1945) — ${rawTitle}`,
+      `${rawTitle} · Settembre 1945: dopo la Crisi del Levante (bombardamento francese di Damasco del maggio 1945 e intervento della 9ª Armata britannica), il governo sovrano del Presidente Shukri al-Quwatli — membro fondatore dell'ONU e della Lega Araba — sollecita l'evacuazione totale delle forze franco-britanniche.`,
+      'Alleati',
+      'Repubblica Siriana (Presidente Shukri al-Quwatli — Damasco, Settembre 1945)'
     );
   }
 
@@ -6619,6 +8096,348 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
   const pOrig = String(props.ORIG_ID || '').trim().toUpperCase();
   const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
 
+  // STEP >= 25 (30 Giugno 1950): Annessione Formale Giordana della Cisgiordania e Gerusalemme Est (Ratifica Parlamentare 24 Aprile 1950)
+  if (s >= 25) {
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme — Gerusalemme Ovest Capitale d\'Israele · Gerusalemme Est Annessa dalla Giordania (24 Apr 1950)',
+        'Al 30 giugno 1950 Gerusalemme Ovest ospita la sede del governo israeliano (capitale dal dicembre 1949), mentre Gerusalemme Est (Città Vecchia) e la Cisgiordania sono formalmente unite al Regno Hascemita di Giordania in base all\'Atto di Unione ratificato dal Parlamento di Amman il 24 aprile 1950.',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest Capitale) / Regno Hascemita di Giordania (Gerusalemme Est Annessa, 24 Apr 1950)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Regno Hascemita di Giordania — Cisgiordania / West Bank (Annessione Formale del 24 Aprile 1950)',
+        'Il 24 aprile 1950 il Parlamento di Amman ratifica ufficialmente l\'Atto di Unione che annette formalmente la Cisgiordania (Giudea e Samaria) e Gerusalemme Est come parte integrante del Regno Hascemita di Giordania di Re Abdallah I (riconosciuta da Regno Unito, Iraq e Pakistan), ponendo fine allo status di occupazione militare provvisoria.',
+        'Neutrale',
+        'Regno Hascemita di Giordania — Provincia Integrata della Cisgiordania (Atto di Unione, 24 Aprile 1950)'
+      );
+    }
+  }
+
+  // STEP >= 24 (31 Dicembre 1949): Chiusura degli Armistizi Arabo-Israeliani (Armistizio Israele-Siria del 20 Luglio 1949 & DMZ) e Proclamazione di Gerusalemme Ovest Capitale (Dicembre 1949)
+  if (s >= 24) {
+    if (pNid === 'PAL_BEER' || pOrig === 'ILD' || pName.includes('beersheba') || pName.includes('negev') || pName.includes('ashkelon') || pName.includes('eilat') || pName.includes('aqaba')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Meridionale / Negev (100% Israele · Linea Verde 1949)',
+        'Al 31 dicembre 1949 (100% Israele, esclusa la Striscia di Gaza): il Negev fino a Eilat (Umm Rashrash) sul Mar Rosso è stabilmente sotto sovranità israeliana con la Zona Demilitarizzata di al-Auja/Nitzana lungo il confine dell\'Armistizio israelo-egiziano.',
+        'Neutrale',
+        'Medinat Yisrael — Distretto Meridionale (100% Negev fino a Eilat · Auja DMZ)'
+      );
+    }
+    if (pNid === 'PAL_LYD' || pOrig === 'ILM' || pName.includes('lydda') || pName.includes('ramle') || pName.includes('sharon') || pName.includes('lod')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Centrale / Lydda & Sharon (100% Israele)',
+        'Al 31 dicembre 1949 (100% Israele): l\'intera fascia costiera e pedemontana con il Piccolo Triangolo (Wadi Ara) fa parte dello Stato di Israele lungo la Linea Verde stabilita dagli armistizi del 1949.',
+        'Neutrale',
+        'Medinat Yisrael — Distretto Centrale (100% Israele · Linea Verde)'
+      );
+    }
+    if (pNid === 'PAL_HFA' || pOrig === 'ILHA' || pName.includes('haifa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto di Haifa (100% Israele)',
+        'Al 31 dicembre 1949 (100% Israele): porto strategico di Haifa, piana di Zevulun e settore meridionale del Wadi Ara integrati nello Stato di Israele.',
+        'Neutrale',
+        'Medinat Yisrael — Distretto di Haifa (100% Israele)'
+      );
+    }
+    if (pNid === 'PAL_TLV' || pOrig === 'ILTA' || pName.includes('tel aviv') || pName.includes('jaffa') || pName.includes('yafa') || pName.includes('giaffa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto di Tel Aviv e Giaffa (100% Israele)',
+        'Al 31 dicembre 1949: Tel Aviv e Giaffa rimangono il cuore economico e demografico di Israele, mentre a dicembre il governo Ben-Gurion e la Knesset trasferiscono ufficialmente la capitale politica a Gerusalemme Ovest.',
+        'Neutrale',
+        'Medinat Yisrael — Tel Aviv-Giaffa (Governo Ben-Gurion)'
+      );
+    }
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme — Gerusalemme Ovest Capitale d\'Israele (Dic 1949) · Gerusalemme Est alla Giordania',
+        'Nel dicembre 1949 Israele proclama Gerusalemme Ovest capitale dello Stato e vi trasferisce la Knesset e i ministeri, mentre il Regno Hascemita di Giordania amministra Gerusalemme Est (Città Vecchia) e la Cisgiordania lungo lo status quo della Linea Verde (senza annessione formale prima dell\'aprile 1950).',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest Capitale, Dic 1949) / Regno Hascemita di Giordania (Gerusalemme Est)'
+      );
+    }
+    if (pNid === 'PAL_GAL' || pOrig === 'ILZ' || pName.includes('galilea') || pName.includes('nazareth') || pName.includes('safed') || pName.includes('tiberias') || pName.includes('acre') || pName.includes('acri')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Settentrionale / Galilea (100% Israele · Armistizio Israele-Siria del 20 Luglio 1949 & DMZ)',
+        'Il 20 luglio 1949 viene firmato l\'ultimo accordo d\'armistizio arabo-israeliano tra Israele e Siria (Collina 272 / Mahanayim): la Siria evacua la testa di ponte di Mishmar HaYarden e le strisce territoriali a ovest del confine mandatario del 1923, che assumono lo status di Zone Demilitarizzate (DMZ) lungo la Linea Verde. Cessa ogni ostilità attiva della guerra del 1948.',
+        'Neutrale',
+        'Medinat Yisrael — Fronte Nord (100% Galilea ISR · DMZ Linea Verde Armistizio 20 Lug 1949)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Cisgiordania / West Bank (Amministrazione del Regno Hascemita di Giordania — Linea Verde)',
+        'Al 31 dicembre 1949 la Giordania (Re Abdallah I) esercita l\'amministrazione civile e militare sulla Cisgiordania e su Gerusalemme Est entro la Linea Verde dell\'armistizio del 3 aprile 1949 (mantenendo lo status quo armistiziale in attesa della formale unione parlamentare dell\'aprile 1950).',
+        'Neutrale',
+        'Regno Hascemita di Giordania — Amministrazione Cisgiordania & Gerusalemme Est (Linea Verde)'
+      );
+    }
+    if (pNid === 'PAL_GAZ' || pOrig === 'PSGZA' || pName.includes('gaza') || pName.includes('rafah') || pName.includes('khan')) {
+      return makeResult(
+        'APG',
+        'Striscia di Gaza (Governo di Tutto-Palestina · Amministrazione Militare Egiziana — Linea Verde)',
+        'Al 31 dicembre 1949 la Striscia di Gaza resta delimitata lungo la Linea Verde dell\'armistizio israelo-egiziano, sotto amministrazione militare egiziana e Governo di Tutto-Palestina (APG).',
+        'Neutrale',
+        'Governo di Tutto-Palestina (APG) · Amministrazione Militare Egiziana — Striscia di Gaza'
+      );
+    }
+  }
+
+  // STEP >= 23 (30 Giugno 1949): Armistizi di Rodi (Egitto, Libano, Giordania) & Consolidamento della Linea Verde (Fronte Siriano Ancora Aperto)
+  if (s >= 23) {
+    if (pNid === 'PAL_BEER' || pOrig === 'ILD' || pName.includes('beersheba') || pName.includes('negev') || pName.includes('ashkelon') || pName.includes('eilat') || pName.includes('aqaba')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Meridionale / Negev (100% Israele dopo Armistizio con l\'Egitto & Operazione Uvda)',
+        'Al 30 giugno 1949 (100% Israele, esclusa Gaza): in attuazione dell\'Armistizio israelo-egiziano di Rodi (24 febbraio 1949), l\'esercito egiziano evacua la sacca di Faluja (26–27 febbraio), l\'area di al-Auja/Nitzana diviene Zona Demilitarizzata (DMZ) e con l\'Operazione Uvda (5–10 marzo 1949) le brigate Negev e Golani raggiungono Umm Rashrash (Eilat) sul Mar Rosso (10 marzo 1949).',
+        'Neutrale',
+        'Medinat Yisrael — Distretto Meridionale (100% Negev fino a Umm Rashrash/Eilat · Auja DMZ)'
+      );
+    }
+    if (pNid === 'PAL_LYD' || pOrig === 'ILM' || pName.includes('lydda') || pName.includes('ramle') || pName.includes('sharon') || pName.includes('lod')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Centrale (100% Israele · Annessione del Piccolo Triangolo / Wadi Ara)',
+        'Al 30 giugno 1949 (100% Israele): con l\'Armistizio israelo-giordano firmato a Rodi il 3 aprile 1949, le truppe irachene si ritirano dal fronte della Samaria e la Giordania trasferisce a Israele la fascia strategica del Piccolo Triangolo / Wadi Ara (Umm al-Fahm, Baqa al-Gharbiyye, Tayibe, Tira, Qalansawe).',
+        'Neutrale',
+        'Medinat Yisrael — Distretto Centrale (100% Israele · Piccolo Triangolo / Wadi Ara)'
+      );
+    }
+    if (pNid === 'PAL_HFA' || pOrig === 'ILHA' || pName.includes('haifa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto di Haifa (100% Israele · Wadi Ara Consolidata)',
+        'Al 30 giugno 1949 (100% Israele): integrato il settore meridionale attorno a Umm al-Fahm e al corridoio di Wadi Ara trasferito dall\'Armistizio con la Giordania (3 aprile 1949).',
+        'Neutrale',
+        'Medinat Yisrael — Distretto di Haifa (100% Israele)'
+      );
+    }
+    if (pNid === 'PAL_TLV' || pOrig === 'ILTA' || pName.includes('tel aviv') || pName.includes('jaffa') || pName.includes('yafa') || pName.includes('giaffa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto di Tel Aviv e Giaffa (Sede Governativa Provvisoria)',
+        'Al 30 giugno 1949: dopo le elezioni della prima Knesset (25 gennaio 1949), l\'elezione di Chaim Weizmann a Presidente, il primo governo stabile di David Ben-Gurion e l\'ammissione di Israele all\'ONU (11 maggio 1949), gli uffici governativi iniziano il progressivo trasferimento da Tel Aviv a Gerusalemme Ovest.',
+        'Neutrale',
+        'Medinat Yisrael — Governo Ben-Gurion & I Knesset'
+      );
+    }
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme — Linea Verde del 3 Aprile 1949 (Ovest & Monte Scopus a Israele · Est & Latrun alla Giordania)',
+        'Al 30 giugno 1949 l\'Armistizio israelo-giordano (3 aprile 1949) sancisce la partizione lungo la Linea Verde: Gerusalemme Ovest e l\'exclave demilitarizzata del Monte Scopus sotto Israele; Gerusalemme Est (Città Vecchia) e il saliente di Latrun (terra di nessuno / presidio giordano) sotto il Regno Hascemita di Giordania.',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest & Monte Scopus) / Regno Hascemita di Giordania (Gerusalemme Est & Latrun)'
+      );
+    }
+    if (pNid === 'PAL_GAL' || pOrig === 'ILZ' || pName.includes('galilea') || pName.includes('nazareth') || pName.includes('safed') || pName.includes('tiberias') || pName.includes('acre') || pName.includes('acri')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Settentrionale / Galilea (98% Israele · Testa di Ponte Siriana a Mishmar HaYarden Ancora Attiva)',
+        'Al 30 giugno 1949 (98% Israele): con l\'Armistizio israelo-libanese di Ras en-Naqura (23 marzo 1949), Israele evacua i villaggi del Libano meridionale occupati nell\'Operazione Hiram riportando la frontiera sulla linea internazionale mandataria. Eccezione critica sul fronte siriano: poiché l\'armistizio con la Siria sarà siglato solo il 20 luglio 1949, al 30 giugno la Siria occupa ancora la testa di ponte di Mishmar HaYarden (ovest del Giordano) e la fascia SE di Tiberiade (al-Hamma / Samakh).',
+        'Neutrale',
+        'Medinat Yisrael — Fronte Nord (98% Galilea ISR · Testa di Ponte Siriana a Mishmar HaYarden fino al 20 Lug 1949)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Cisgiordania / West Bank (Regno Hascemita di Giordania — Linea Verde del 3 Aprile 1949)',
+        'Al 30 giugno 1949: adottata dall\'aprile 1949 la denominazione ufficiale di Regno Hascemita di Giordania, Amman esercita piena amministrazione civile e militare sulla Cisgiordania (entro la Linea Verde dell\'armistizio del 3 aprile 1949, dopo il ritiro iracheno e la cessione a Israele del Piccolo Triangolo/Wadi Ara) e su Gerusalemme Est.',
+        'Neutrale',
+        'Regno Hascemita di Giordania — Cisgiordania & Gerusalemme Est (Linea Verde 3 Apr 1949)'
+      );
+    }
+    if (pNid === 'PAL_GAZ' || pOrig === 'PSGZA' || pName.includes('gaza') || pName.includes('rafah') || pName.includes('khan')) {
+      return makeResult(
+        'APG',
+        'Striscia di Gaza (Governo di Tutto-Palestina · Amministrazione Militare Egiziana — Linea Verde del 24 Febbraio 1949)',
+        'Al 30 giugno 1949 l\'Armistizio israelo-egiziano di Rodi (24 febbraio 1949) delimita definitivamente la Striscia di Gaza lungo la Linea Verde da Rafah a Beit Hanoun, sotto amministrazione militare egiziana ed egida nominale del Governo di Tutto-Palestina (APG).',
+        'Neutrale',
+        'Governo di Tutto-Palestina (APG) · Amministrazione Militare Egiziana — Striscia di Gaza (Linea Verde 24 Feb 1949)'
+      );
+    }
+  }
+
+  // STEP >= 22 (31 Dicembre 1948): Esiti delle Offensive Israeliane (Dani, Dekel, Yoav, Hiram, Horev), Governo di Tutto-Palestina a Gaza (22 Settembre) & Conferenza di Gerico (1° Dicembre)
+  if (s >= 22) {
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme (Linea del Cessate il Fuoco "Sincero" del 30 Novembre 1948: Ovest a Israele · Città Vecchia & Est alla Transgiordania)',
+        'Al 31 dicembre 1948 l\'accordo di cessate il fuoco urbano del 30 novembre (Moshe Dayan – Abdullah el-Tell) consolida la partizione della città lungo la Linea Verde: Gerusalemme Ovest e il corridoio verso la costa (espanso da Ramle/Lydda) allo Stato di Israele; Gerusalemme Est e la Città Vecchia alla Transgiordania di Re Abdallah (dopo la Conferenza di Gerico del 1° dicembre 1948).',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest) / Regno Hashemita di Transgiordania (Gerusalemme Est & Città Vecchia)'
+      );
+    }
+    if (pNid === 'PAL_HFA' || pOrig === 'ILHA' || pName.includes('haifa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto di Haifa (100% Sovranità Israeliana)',
+        'Al 31 dicembre 1948 l\'intero distretto e il porto petrolifero e commerciale di Haifa sono saldamente integrati nello Stato di Israele.',
+        'Neutrale',
+        'Medinat Yisrael — Distretto di Haifa (100% Israele)'
+      );
+    }
+    if (pNid === 'PAL_TLV' || pOrig === 'ILTA' || pName.includes('tel aviv') || pName.includes('jaffa') || pName.includes('yafa') || pName.includes('giaffa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Tel Aviv e Giaffa (Capitale Provvisoria — Vigilia Elezioni Knesset)',
+        'Al 31 dicembre 1948 Tel Aviv funge da capitale provvisoria del Governo di David Ben-Gurion alla vigilia delle prime elezioni parlamentari per l\'Assemblea Costituente del gennaio 1949.',
+        'Neutrale',
+        'Medinat Yisrael — Capitale Provvisoria Tel Aviv (PM David Ben-Gurion)'
+      );
+    }
+    if (pNid === 'PAL_LYD' || pOrig === 'ILM' || pName.includes('lydda') || pName.includes('ramle') || pName.includes('sharon') || pName.includes('lod')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Centrale (Lydda e Ramle Espugnate in Op. Dani · Saliente di Latrun alla Transgiordania)',
+        'Al 31 dicembre 1948, a seguito dell\'Operazione Dani (9–18 luglio 1948), l\'IDF controlla quasi tutto il Distretto Centrale incluse Lydda (Lod) e Ramle e l\'aeroporto internazionale; il solo saliente fortificato di Latrun resta presidiato dalla Legione Araba transgiordana.',
+        'Neutrale',
+        'Medinat Yisrael — Distretto Centrale (Lydda/Ramle ISR · Saliente di Latrun JOR)'
+      );
+    }
+    if (pNid === 'PAL_GAL' || pOrig === 'ILZ' || pName.includes('galilea') || pName.includes('nazareth') || pName.includes('safed') || pName.includes('tiberias') || pName.includes('acre') || pName.includes('acri')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Settentrionale / Galilea (100% Israele dopo Op. Dekel & Hiram)',
+        'Al 31 dicembre 1948, con la conquista di Nazareth (Operazione Dekel, 16 luglio 1948) e l\'offensiva lampo nell\'Alta Galilea (Operazione Hiram, 29–31 ottobre 1948), l\'intero Distretto Settentrionale è sotto controllo militare israeliano (incluso un saliente di sicurezza oltre il confine in alcuni villaggi del Libano meridionale fino all\'armistizio del 1949, mentre la Siria conserva l\'enclave di Mishmar HaYarden fino al luglio 1949).',
+        'Neutrale',
+        'Medinat Yisrael — Fronte Nord (100% Galilea IDF dopo Op. Hiram, Ott 1948)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Cisgiordania e Gerusalemme Est (Conferenza di Gerico del 1° Dicembre 1948 — Unificazione con la Transgiordania)',
+        'Il 1° dicembre 1948 i notabili palestinesi riuniti alla Conferenza di Gerico proclamano Re Abdallah di Transgiordania sovrano della Palestina araba, avviando l\'incorporazione amministrativa della Cisgiordania (Samaria e Giudea, incluse Nablus, Jenin, Hebron, Ramallah, Betlemme, Latrun e Gerusalemme Est) nel Regno Hashemita di Transgiordania (sotto presidio della Legione Araba e del corpo iracheno nel triangolo settentrionale).',
+        'Neutrale',
+        'Regno Hashemita di Transgiordania — Cisgiordania Unificata (Conferenza di Gerico, 1° Dic 1948)'
+      );
+    }
+    if (pNid === 'PAL_GAZ' || pOrig === 'PSGZZ' || pName.includes('gaza') || pName.includes('ghazzah') || pName.includes('khan yunis') || pName.includes('rafah')) {
+      return makeResult(
+        'APG',
+        'Striscia di Gaza — Governo di Tutto-Palestina (Protettorato Militare Egiziano, 22 Settembre 1948)',
+        'Proclamato a Gaza il 22 settembre 1948 sotto protezione militare dell\'Egitto (Presidente Amin al-Husseini, Primo Ministro Ahmed Hilmi Pasha), il Governo di Tutto-Palestina amministra formalmente la Striscia di Gaza ridotta tra Gaza City, Khan Yunis e Rafah (dopo il ritiro egiziano da Majdal e Isdud nell\'Operazione Yoav e sotto la pressione finale israeliana dell\'Operazione Horev al 31 dicembre 1948).',
+        'Neutrale',
+        'Governo di Tutto-Palestina (Hukumat Umum Filastin) — Protettorato Militare Egiziano di Gaza'
+      );
+    }
+    if (pNid === 'PAL_BEER' || pOrig === 'ILD' || pName.includes('beersheba') || pName.includes('negev') || pName.includes('darom') || pName.includes('aqaba')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Beersheba e Negev (Israele post-Yoav & Horev · Sacca Egiziana di Faluja Assediata; Eilat Non Ancora Raggiunta)',
+        'Al 31 dicembre 1948 l\'Operazione Yoav (15–22 ottobre, conquista di Beersheba, Beit Hanoun, Ashdod e Ashkelon) e l\'Operazione Horev in corso dal 22 dicembre (sfondamento su Bir Asluj e Auja al-Hafir fino al Sinai) consegnano a Israele Beersheba e quasi l\'intero Negev; tuttavia la brigata egiziana (con il maggiore Gamal Abdel Nasser) resiste ancora strettamente assediata nella sacca di Faluja (evacuata solo a fine febbraio 1949) e l\'estremità meridionale fino a Umm Rashrash (Eilat) sul Mar Rosso non è ancora sotto controllo israeliano (lo sarà solo con l\'Operazione Uvda nel marzo 1949).',
+        'Neutrale',
+        'Medinat Yisrael — Fronte Sud / Negev (Beersheba & Auja IDF · Sacca di Faluja EGY · Eilat Non Ancora Presa)'
+      );
+    }
+  }
+
+  // STEP >= 21 (30 Giugno 1948): Fine del Mandato Britannico (14 Maggio 1948), Proclamazione dello Stato di Israele e Linee della Prima Tregua ONU (11 Giugno – 8 Luglio 1948)
+  if (s >= 21) {
+    // 1. Gerusalemme (PAL_JRS / ILJM): Divisa lungo il fronte urbano (Gerusalemme Ovest e corridoio Burma Road a Israele; Gerusalemme Est e Città Vecchia alla Legione Araba transgiordana)
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme (Fronte Urbano Diviso: Gerusalemme Ovest a Israele via Burma Road · Città Vecchia e Gerusalemme Est alla Transgiordania)',
+        'Al 30 giugno 1948 (Prima Tregua ONU, 11 giugno – 8 luglio 1948) Gerusalemme è divisa lungo la linea del fuoco urbano: lo Stato di Israele controlla Gerusalemme Ovest (Città Nuova, Monte Scopus isolato e il corridoio montano rifornito attraverso la pista alternativa della "Burma Road" aperta in giugno a sud di Latrun), mentre la Legione Araba della Transgiordania (Glubb Pasha / Col. Abdullah el-Tell) occupa Gerusalemme Est e l\'intera Città Vecchia (il cui Quartiere Ebraico è capitolato il 28 maggio 1948) oltre a Betlemme.',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest · Gov. Militare Dov Yosef) / Legione Araba Transgiordana (Gerusalemme Est & Città Vecchia)'
+      );
+    }
+    // 2. Haifa (PAL_HFA / ILHA): 100% Israele
+    if (pNid === 'PAL_HFA' || pOrig === 'ILHA' || pName.includes('haifa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto di Haifa (100% Controllo Israeliano)',
+        'Al 30 giugno 1948 l\'intero distretto e il grande porto industriale di Haifa sono al 100% sotto il controllo dello Stato di Israele: la città di Haifa è stata conquistata dalla Brigata Carmeli dell\'Haganah il 21–22 aprile 1948 (Operazione Bi\'ur Hametz), mentre le ultime truppe britanniche del gen. Cunningham si sono imbarcate dall\'enclave portuale il 30 giugno 1948.',
+        'Neutrale',
+        'Medinat Yisrael — Distretto di Haifa (100% Israele · Porto & Raffinerie di Haifa)'
+      );
+    }
+    // 3. Tel Aviv e Giaffa (PAL_TLV / ILTA): 100% Israele (Capitale provvisoria)
+    if (pNid === 'PAL_TLV' || pOrig === 'ILTA' || pName.includes('tel aviv') || pName.includes('jaffa') || pName.includes('yafa') || pName.includes('giaffa')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Tel Aviv e Giaffa (Capitale Provvisoria — Proclamazione del 14 Maggio 1948)',
+        'Il 14 maggio 1948 (5 Iyar 5708), al Museo di Tel Aviv, David Ben-Gurion proclama l\'indipendenza dello Stato di Israele (Medinat Yisrael) alla scadenza del Mandato Britannico, con Chaim Weizmann Presidente del Consiglio di Stato Provvisorio. Dopo la resa dell\'enclave araba di Giaffa il 13 maggio 1948, l\'intero distretto di Tel Aviv è al 100% sotto sovranità israeliana (dove il 21–22 giugno si consuma l\'affondamento della nave Altalena dell\'Irgun per unificare tutte le milizie nelle IDF / Tzahal).',
+        'Neutrale',
+        'Medinat Yisrael — Capitale Provvisoria Tel Aviv (PM David Ben-Gurion · Pres. Chaim Weizmann · IDF / Tzahal)'
+      );
+    }
+    // 4. Distretto Centrale / Pianura di Sharon / Lydda (PAL_LYD / ILM): Israele (escluso saliente arabo di Latrun e città arabe di Lydda/Ramle fino a luglio 1948)
+    if (pNid === 'PAL_LYD' || pOrig === 'ILM' || pName.includes('lydda') || pName.includes('ramle') || pName.includes('sharon') || pName.includes('lod')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Centrale / Pianura di Sharon (Petah Tikva, Rehovot & Burma Road · Saliente di Latrun e Lydda/Ramle Contesi)',
+        'Al 30 giugno 1948 (Prima Tregua ONU) lo Stato di Israele controlla l\'intera pianura costiera di Sharon (Petah Tikva, Netanya, Rishon LeZion, Rehovot) e la pista alternativa della "Burma Road" aperta a sud di Latrun per rifornire Gerusalemme, mentre la Legione Araba transgiordana tiene saldamente il saliente fortificato di Latrun (dopo aver respinto gli attacchi israeliani di maggio–giugno) e le città arabe interne di Lydda (Lod) e Ramle restano in mano araba fino all\'Operazione Dani del luglio 1948.',
+        'Neutrale',
+        'Medinat Yisrael — Central District / Pianura di Sharon (Saliente di Latrun tenuto dalla Legione Araba)'
+      );
+    }
+    // 5. Galilea / Northern District (PAL_GAL / ILZ): Israele su Galilea Orientale, Jezreel e Costa Occidentale; ALA su Galilea Centrale (Nazareth); teste di ponte siriane a Mishmar HaYarden e Samakh
+    if (pNid === 'PAL_GAL' || pOrig === 'ILZ' || pName.includes('galilea') || pName.includes('nazareth') || pName.includes('safed') || pName.includes('tiberias') || pName.includes('acre') || pName.includes('acri')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Settentrionale / Galilea (Galilea Orientale, Jezreel e Acri a Israele · Sacca ALA a Nazareth & Testa di Ponte Siriana a Mishmar HaYarden)',
+        'Al 30 giugno 1948 (Prima Tregua ONU) le forze israeliane (Brigate Golani, Carmeli e Yiftach) controllano la Galilea Orientale (Valle di Hula, Tiberiade conquistata il 18 aprile, Safed conquistata l\'11 maggio), la Valle di Jezreel (Afula, Beit She\'an, dopo aver respinto l\'ALA a Mishmar HaEmek) e la fascia costiera della Galilea Occidentale (Acri conquistata il 17 maggio e Nahariya fino a Rosh HaNikra). La Galilea Centrale montuosa (Nazareth, Sakhnin, Tarshiha) resta ancora sotto il controllo dell\'Esercito Arabo di Liberazione (ALA) di Fawzi al-Qawuqji (Nazareth cadrà solo il 16 luglio 1948), mentre l\'Esercito Siriano tiene una testa di ponte a ovest del Giordano a Mishmar HaYarden (espugnata il 10 giugno 1948) e posizioni presso Samakh/Ein Gev.',
+        'Neutrale',
+        'Medinat Yisrael — Fronte Settentrionale (Galilea Orientale/Costiera ISR · Nazareth ALA · Mishmar HaYarden SYR)'
+      );
+    }
+    // 6. Samaria e Giudea / Cisgiordania (PAL_SAM / PSWBK): Occupazione militare della Transgiordania (Legione Araba + corpo di spedizione iracheno nel triangolo Nablus-Jenin-Tulkarm)
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Giudea e Samaria / Cisgiordania (Occupazione Militare della Transgiordania & Corpo di Spedizione Iracheno — Prima Tregua ONU)',
+        'Al 30 giugno 1948 l\'intera dorsale montuosa della Cisgiordania (Samaria e Giudea: Jenin — dove all\'inizio di giugno è stato respinto l\'attacco israeliano — Nablus, Tulkarm, Qalqilya, Ramallah, Gerico, Betlemme, Hebron, il saliente strategico di Latrun e Gerusalemme Est con la Città Vecchia) è sotto il controllo militare del Regno Hashemita di Transgiordania (Legione Araba di Glubb Pasha) affiancato nel triangolo settentrionale Nablus–Jenin–Tulkarm dal corpo di spedizione del Regno dell\'Iraq.',
+        'Neutrale',
+        'Regno Hashemita di Transgiordania — Amministrazione Militare della Cisgiordania (Legione Araba & Corpo Iracheno)'
+      );
+    }
+    // 7. Striscia di Gaza e Costa Meridionale (PAL_GAZ / PSGZZ): Occupazione militare del Regno d'Egitto
+    if (pNid === 'PAL_GAZ' || pOrig === 'PSGZZ' || pName.includes('gaza') || pName.includes('ghazzah') || pName.includes('khan yunis') || pName.includes('rafah')) {
+      return makeResult(
+        'EGY',
+        'Striscia di Gaza e Costa Meridionale fino a Isdud (Occupazione Militare del Regno d\'Egitto — Prima Tregua ONU)',
+        'Entrato in Palestina il 15 maggio 1948 sotto il comando del generale Ahmed Ali al-Mwawi, al 30 giugno 1948 il corpo di spedizione del Regno d\'Egitto controlla l\'intera fascia costiera meridionale da Rafah, Khan Yunis e Gaza fino a Majdal (Ashkelon) e al ponte di Isdud (Ashdod), punto di massima avanzata settentrionale egiziana verso Tel Aviv (non è ancora stato proclamato il Governo di tutta la Palestina, che nascerà solo nel settembre 1948).',
+        'Neutrale',
+        'Al-Mamlakah al-Miṣriyyah — Amministrazione Militare Egiziana di Gaza e Majdal (Gen. Ahmed Ali al-Mwawi)'
+      );
+    }
+    // 8. Beersheba e Negev (PAL_BEER / ILD): Occupazione militare del Regno d'Egitto (con kibbutz israeliani isolati nel Negev settentrionale)
+    if (pNid === 'PAL_BEER' || pOrig === 'ILD' || pName.includes('beersheba') || pName.includes('negev') || pName.includes('darom') || pName.includes('aqaba')) {
+      return makeResult(
+        'EGY',
+        'Distretto di Beersheba e Negev (Occupazione Militare del Regno d\'Egitto & Enclave di Kibbutz Israeliani Assediati)',
+        'Al 30 giugno 1948 (Prima Tregua ONU) l\'Esercito del Regno d\'Egitto presidia l\'asse interno del Negev da Auja al-Hafir e Asluj a Beersheba (collegandosi alle forze arabe di Hebron e Betlemme) e controlla la linea trasversale Majdal–Faluja–Beit Jibrin, tagliando fuori e assediando l\'enclave dei kibbutz israeliani del Negev settentrionale (Nir Am, Negba, Revivim, Nirim, difesi dalla Brigata Negev del Palmach); Beersheba e il Negev meridionale fino a Umm Rashrash/Aqaba non sono ancora in mano israeliana.',
+        'Neutrale',
+        'Al-Mamlakah al-Miṣriyyah — Fronte Egiziano del Negev & Beersheba (Enclave Kibbutz Negev Settentrionale a Israele)'
+      );
+    }
+
+    return makeResult(
+      'ISR',
+      'Stato di Israele (Proclamazione del 14 Maggio 1948 & Prima Tregua ONU)',
+      'Stato di Israele proclamato a Tel Aviv il 14 maggio 1948 da David Ben-Gurion; al 30 giugno 1948 vige la Prima Tregua ONU della guerra arabo-israeliana.',
+      'Neutrale',
+      'Medinat Yisrael — Governo Provvisorio (PM David Ben-Gurion · Pres. Chaim Weizmann)'
+    );
+  }
+
   const ownerCode = 'UK';
   const factionCode = 'Alleati';
   const prefix = 'Mandato di Palestina';
@@ -6628,7 +8447,10 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
     const subName = `${prefix} — Distretto di Gerusalemme`;
     const adminEntity = "Jerusalem District · Sede dell'Alto Commissario Britannico (Government House, Armon HaNetziv)";
     let note = '';
-    if (s >= 19) {
+    if (s >= 20) {
+      note = "Gerusalemme (Risoluzione ONU 181 & Guerra Civile Mandataria) · Il 29 novembre 1947 l'Assemblea Generale dell'ONU approva la Risoluzione 181 per la partizione della Palestina, designando Gerusalemme e Betlemme come Corpus Separatum internazionale. Il 30 novembre scoppia la guerra civile tra l'Haganah/Irgun e le milizie dell'Esercito del Santo Jihad di Abd al-Qadir al-Husseini: incendi al centro commerciale di Mamilla (2 dicembre), cecchinaggio tra quartieri, blocchi ai convogli sulla strada di Bab el-Oued/Sha'ar HaGai e istituzione delle prime zone di sicurezza blindate britanniche ('Bevingrad') mentre Londra prepara il ritiro definitivo del 14 maggio 1948.";
+      return makeResult(ownerCode, `${prefix} — Distretto di Gerusalemme (Risoluzione ONU 181 Corpus Separatum & Guerra Civile)`, note, factionCode, "British Mandate for Palestine · Jerusalem District (UN Res. 181 Corpus Separatum · High Commissioner Sir Alan Cunningham)");
+    } else if (s >= 19) {
       note = "Gerusalemme · Il 31 agosto 1947 la commissione speciale UNSCOP consegna all'Assemblea Generale dell'ONU il suo rapporto formale raccomandando la spartizione della Palestina e l'istituzione per Gerusalemme e Betlemme di un Corpus Separatum sotto tutela internazionale dell'ONU. Nel settembre 1947 il governo laburista britannico di Clement Attlee e il Segretario alle Colonie Arthur Creech Jones annunciano ufficialmente la decisione di rimettere il mandato e iniziare l'evacuazione militare del contingente britannico.";
       return makeResult(ownerCode, `${prefix} — Distretto di Gerusalemme (UNSCOP Proposta Corpus Separatum)`, note, factionCode, "Jerusalem District · UNSCOP Proposed Corpus Separatum & Sede dell'Alto Commissario Britannico (Sir Alan Cunningham)");
     } else if (s === 0) {
@@ -6658,6 +8480,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Haifa · Con lo scoppio della guerra Haifa diviene il polmone energetico insostituibile della Mediterranean Fleet britannica e delle forze aeree in Egitto; scalo di convogli armati e idrovolanti.";
     } else if (s <= 7) {
       note = "Haifa · Bersaglio di ripetuti e devastanti bombardamenti della Regia Aeronautica italiana (SM.82 da Rodi) tra luglio e settembre 1940 diretti contro i serbatoi di greggio e il porto. Con la caduta della Francia, la diramazione dell'oleodotto verso Tripoli di Siria/Libano viene sigillata, convogliando tutto il flusso su Haifa.";
+    } else if (s >= 20) {
+      note = "Haifa (Risoluzione ONU 181 & Massacro della Raffineria, 30 Dicembre 1947) · Assegnata al futuro Stato ebraico dalla Risoluzione ONU 181 del 29 novembre 1947 e principale scalo d'imbarco per l'evacuazione delle truppe britanniche. Il 30 dicembre 1947 un attentato dinamitardo dell'Irgun ai cancelli della raffineria Consolidated Refineries Ltd (CRL) scatena il sanguinoso massacro della raffineria di Haifa e la rappresaglia del Palmach a Balad al-Shaykh.";
     } else if (s >= 19) {
       note = "Haifa · Principale porto in acque profonde e polo di raffinazione della Palestina mandataria (CRL / IPC). Nel luglio 1947 la vicenda della nave di profughi Exodus 1947 respinta al porto di Haifa catalizza l'attenzione mondiale; il rapporto UNSCOP del 31 agosto 1947 propone l'inclusione di Haifa nel futuro Stato ebraico.";
     } else {
@@ -6679,6 +8503,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Tel Aviv · Epicentro delle oceaniche proteste dell'Yishuv contro il Libro Bianco del 1939; sede del comitato esecutivo dell'Agenzia Ebraica e dell'Haganah. Conversione delle fabbriche cittadine alla produzione bellica ausiliaria (munizioni, tessuti, medicinali) per le truppe imperiali britanniche.";
     } else if (s <= 7) {
       note = "Tel Aviv · Tragico bombardamento della Regia Aeronautica italiana il 9 settembre 1940: gli aerei italiani colpiscono quartieri residenziali a nord di Tel Aviv causando 137 morti e oltre 140 feriti civili. La città organizza la difesa antiaerea passiva e rifugi costieri.";
+    } else if (s >= 20) {
+      note = "Tel Aviv e Giaffa (Risoluzione ONU 181 & Scontri di Confine Urbano, Dicembre 1947) · Dopo il voto dell'ONU del 29 novembre 1947 (che assegna Tel Aviv allo Stato ebraico e Giaffa come enclave allo Stato arabo), esplodono quotidiani scontri a fuoco e cecchinaggio lungo la linea di contatto dei quartieri di Manshiya, Hatikva e Abu Kabir tra l'Haganah e i volontari arabi di Hassan Salama.";
     } else if (s >= 19) {
       note = "Tel Aviv e Giaffa · Epicentro politico ed economico dell'Yishuv accanto all'antico porto arabo di Giaffa; nel rapporto di maggioranza UNSCOP (31 agosto 1947) Tel Aviv è assegnata al proposto Stato ebraico e Giaffa designata quale enclave araba alla vigilia del ritiro annunciato britannico (settembre 1947).";
     } else {
@@ -6700,6 +8526,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Galilea · Pacificazione forzata con l'impiego massiccio di truppe britanniche e delle Jewish Settlement Police; consolidamento degli insediamenti fortificati 'Homa U\'Migdal' (Torre e Palizzata) lungo le direttrici strategiche.";
     } else if (s <= 7) {
       note = "Galilea · Con la caduta della Francia e l'allineamento di Siria e Libano al regime di Vichy, la frontiera della Galilea si trasforma improvvisamente nella prima linea difensiva dell'Impero Britannico: trinceramenti, posti di blocco a Naqoura e Metulla, mine anticarro e pattugliamento continuo.";
+    } else if (s >= 20) {
+      note = "Galilea (Risoluzione ONU 181 & Guerra Civile — Dicembre 1947) · Dopo l'approvazione della Risoluzione ONU 181 (29 novembre 1947), la Galilea orientale è assegnata al futuro Stato ebraico e quella occidentale (Acri e Nazareth) allo Stato arabo; nell'Alta Galilea e lungo la frontiera siro-libanese iniziano le prime scaramucce intercomunitarie mentre le forze britanniche si concentrano sugli assi di sgombero.";
     } else if (s >= 19) {
       note = "Galilea (Al-Jalil / HaGalil) · Nel piano di spartizione raccomandato dall'UNSCOP (31 agosto 1947), la Galilea orientale è inclusa nello Stato ebraico proposto mentre la Galilea occidentale (Acri e Nazareth) è assegnata allo Stato arabo nel clima di crescente tensione dell'autunno 1947.";
     } else {
@@ -6721,6 +8549,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Samaria e Giudea · Fine della rivolta e disarmo delle bande armate; istituzione di presidi permanenti dell'esercito britannico e stazioni di polizia Tegart a Nablus, Jenin e Hebron.";
     } else if (s <= 7) {
       note = "Samaria e Giudea · Calma vigilata sotto rigida amministrazione militare; produzione agricola intensiva di grano e olio per il sostentamento del Mandato e delle guarnigioni britanniche in Medio Oriente durante il blocco del Mediterraneo.";
+    } else if (s >= 20) {
+      note = "Samaria e Giudea (Risoluzione ONU 181 & Mobilitazione Araba — Dicembre 1947) · Assegnate allo Stato arabo dalla Risoluzione ONU 181 del 29 novembre 1947; a Nablus, Jenin e Hebron si mobilitano le milizie arabe palestinesi e i primi volontari diretti a bloccare le arterie di collegamento ebraiche tra la costa e Gerusalemme (Gush Etzion e Bab el-Oued).";
     } else if (s >= 19) {
       note = "Samaria e Giudea (Nablus, Jenin e Hebron) · Dorsale montuosa araba interamente assegnata al proposto Stato arabo palestinese dal rapporto di maggioranza UNSCOP (31 agosto 1947) mentre il governo britannico annuncia a settembre l'abbandono del Mandato.";
     } else {
@@ -6742,6 +8572,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Lydda · Con lo scoppio della Seconda Guerra Mondiale la base aerea di Lydda (RAF Station Lydda) viene militarizzata ed espansa come quartier generale aereo strategico per bombardieri e caccia di scorta a difesa del Canale di Suez e della costa palestinese.";
     } else if (s <= 7) {
       note = "Lydda · Installazione di batterie antiaeree e depositi munizioni; la RAF schiera squadriglie da caccia Hurricanes e Gladiators per intercettare i bombardieri italiani della Regia Aeronautica diretti verso Tel Aviv e Haifa.";
+    } else if (s >= 20) {
+      note = "Lydda e Sharon (Risoluzione ONU 181 & Guerra dei Convogli — Dicembre 1947) · Dopo la Risoluzione ONU 181 (29 novembre 1947), la piana di Sharon passa sotto vigilanza dell'Haganah mentre attorno ai centri arabi di Lydda e Ramle e alla base RAF Lydda divampano gli attacchi ai convogli ebraici sulla rotabile per Gerusalemme.";
     } else if (s >= 19) {
       note = "Lydda e Ramle (Piana di Sharon) · Snodo ferroviario e scalo aereo internazionale di Lydda; il rapporto UNSCOP (31 agosto 1947) assegna il litorale ebraico di Sharon allo Stato ebraico e le città arabe interne di Lydda e Ramle allo Stato arabo alla vigilia della smobilitazione mandataria.";
     } else {
@@ -6763,6 +8595,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Gaza · Militarizzazione del corridoio ferroviario per il trasporto di materiale bellico e truppe dell'esercito imperiale britannico tra l'Egitto e la Palestina; costruzione di campi d'addestramento e depositi logistici.";
     } else if (s <= 7) {
       note = "Gaza · Linea di collegamento vitale per il transito delle divisioni australiane, neozelandesi e indiane tra il teatro nordafricano (fronte di Marsa Matruh e Sidi Barrani) e i presidi del Levante.";
+    } else if (s >= 20) {
+      note = "Gaza (Risoluzione ONU 181 & Frontiera Egiziana — Dicembre 1947) · Fascia costiera inclusa nello Stato arabo dalla Risoluzione ONU 181 del 29 novembre 1947; lungo il corridoio verso il Sinai e i vicini insediamenti del Negev occidentale si intensificano gli scontri locali mentre i depositi britannici del campo di Rafah avviano il ripiegamento verso il Canale di Suez.";
     } else if (s >= 19) {
       note = "Gaza (Ghazzah) · Fascia costiera meridionale verso il confine egiziano, inclusa nello Stato arabo palestinese dal piano UNSCOP del 31 agosto 1947 mentre l'amministrazione britannica prepara il disimpegno militare annunciato a settembre 1947.";
     } else {
@@ -6784,6 +8618,8 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
       note = "Beersheba · Il Libro Bianco del 1939 impone il blocco totale alle compravendite di terreni nel Negev (Zona A). L'esercito britannico istituisce stazioni di rifornimento per le pattuglie di ricognizione a lungo raggio nel deserto.";
     } else if (s <= 7) {
       note = "Beersheba · Corridoio strategico terrestre alternativo verso il Mar Rosso in caso di chiusura o danneggiamento del Canale di Suez; installazione di posti di vedetta a Umm Rashrash per controllare la navigazione nel Golfo di Aqaba contro possibili incursioni dei sommergibili italiani della base di Massaua (Mar Rosso).";
+    } else if (s >= 20) {
+      note = "Beersheba e Negev (Risoluzione ONU 181 & Difesa dell'Acquedotto — Dicembre 1947) · La Risoluzione ONU 181 (29 novembre 1947) assegna gli ampi spazi desertici del Negev fino ad Aqaba allo Stato ebraico lasciando Beersheba città allo Stato arabo; nel dicembre 1947 i combattenti arabi attaccano la conduttura idrica e le isolate postazioni del Negev sotto nominale tutela britannica.";
     } else if (s >= 19) {
       note = "Beersheba (Negev) · Nel piano di maggioranza UNSCOP del 31 agosto 1947 gli ampi spazi desertici del Negev fino ad Aqaba sono proposti per lo Stato ebraico, mentre la città beduina di Beersheba resta destinata allo Stato arabo sotto vigilanza mandataria britannica fino al ritiro annunciato a settembre.";
     } else {
@@ -6852,27 +8688,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm.includes('international zone of tangier') ||
     nrm.includes('zona internazionale di tangeri')
   ) {
-    if (s >= 18) {
-      return makeResult(
-        'TANGER',
-        'Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)',
-        "L'11 ottobre 1945 le truppe spagnole di Franco evacuano la città su intimazione delle potenze alleate: viene restaurato il regime di amministrazione internazionale (Comitato di Controllo internazionale)",
-        'Neutrale'
-      );
-    }
-    if (s >= 6) {
-      return makeResult(
-        'SPA',
-        'Tánger (Zona Ocupada por España)',
-        'Ocupación Militar Española (14 de junio de 1940)'
-      );
-    }
-    return makeResult(
-      'TANGER',
-      'Zone Internationale de Tanger',
-      'Administration Internationale (Statut de 1923)',
-      'Neutrale'
-    );
+    return resolveTangierZone(s);
   }
 
   const getTop = (owner: string) => getExtendedToponym(rawName, owner, nid, c, s);
@@ -6908,6 +8724,20 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     return resolveIranProvince(ft, s);
   }
 
+  // Impero d'Etiopia — 12 Divisioni ADM1 (et.json, Focus Geopolitico)
+  const ethCandId = String(ft.id || p.id || p.NUTS_ID || p.shapeISO || '').trim().toUpperCase();
+  if (p.REGION_KIND === 'ETHIOPIA_PROVINCE' || ETHIOPIA_ADM1_IDS.has(ethCandId)) {
+    const resEth = resolveEthiopiaProvince(ft, s);
+    if (resEth) return resEth;
+  }
+
+  // Siam / Regno di Thailandia — 78 Divisioni ADM1 (th.json, Evoluzione Geostorica Steps 0–22)
+  const thCandId = String(ft.id || p.id || p.NUTS_ID || p.shapeISO || '').trim().toUpperCase();
+  if (p.REGION_KIND === 'THAILAND_PROVINCE' || THAILAND_ADM1_IDS.has(thCandId)) {
+    const resTh = resolveThailandProvince(ft, s);
+    if (resTh) return resTh;
+  }
+
   // British Raj (65 Province e Territori dell\'Impero Anglo-Indiano, Pakistan, Bangladesh, Birmania e India 1936-1941)
   const fidClean = String(ft.id || p.id || p.NUTS_ID || '').trim();
 
@@ -6936,6 +8766,11 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     fidClean.startsWith('BD_') ||
     fidClean.startsWith('MM_') ||
     fidClean.startsWith('IN_') ||
+    fidClean === 'LK' ||
+    fidClean === 'CEY' ||
+    cntr === 'LK' ||
+    cntr === 'LKA' ||
+    cntr === 'CEY' ||
     p.ORIG_ID === 'PKGB';
 
   if (isBritishRajProv) {
@@ -7086,9 +8921,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
   // Protectorat français au Maroc (9 Régions et Territoires 1936-1940)
   const isMoroccoFranceProv =
-    !['ES_RIF', 'TANGER'].includes(String(ft.id || '')) &&
-    !['ES_RIF', 'TANGER'].includes(String(p.CNTR_ID || '')) &&
-    !['ES_RIF', 'TANGER'].includes(String(nid || '')) &&
+    !['ES_RIF', 'TANGER', 'ES_IFNI'].includes(String(ft.id || '')) &&
+    !['ES_RIF', 'TANGER', 'ES_IFNI'].includes(String(p.CNTR_ID || '')) &&
+    !['ES_RIF', 'TANGER', 'ES_IFNI'].includes(String(nid || '')) &&
     (
       p.REGION_KIND === 'MOROCCO_PROVINCE' ||
       (ft.id && (MOROCCO_PROVINCES_META as any)?.[ft.id]) ||
@@ -7196,6 +9031,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     const cleanId = String(ft.id || nid || '').replace(/^EG_/, 'EG').toUpperCase();
     const egMeta = (EGYPT_DISTRICTS_META as any)?.[cleanId];
     const egTop = getTop('EGY');
+    if (s >= 20) {
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Regno d'Egitto"} (Dicembre 1947)`,
+        `${egMeta?.name || rawName} (${egMeta?.capital || 'Egitto'}) · Dicembre 1947: il Cairo ospita il vertice della Lega Araba (8–17 dicembre) contro la partizione della Palestina (Ris. ONU 181), mentre dopo lo stallo al Consiglio di Sicurezza ONU persiste il presidio militare britannico nella sola Zona del Canale di Suez e il governo di Mahmoud an-Nukrashi Pasha fronteggia l'ondata di manifestazioni nazionaliste ed islamiste.`,
+        'Neutrale',
+        "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mahmoud an-Nukrashi Pasha, Dic. 1947)"
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'EGY',
@@ -7270,7 +9114,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     const cleanId = String(ft.id || nid || '').replace(/^YE_/, 'YE').toUpperCase();
     const yeMeta = (YEMEN_PROVINCES_META as any)?.[cleanId];
 
-    // Caso 1: Porto e Insediamento di Aden (YEAD) - Porto del Raj (1936) vs Colonia della Corona (1938-1941)
+    // Caso 1: Porto e Insediamento di Aden (YEAD) - Porto del Raj (1936) vs Colonia della Corona (1937-1947)
     if (cleanId === 'YEAD' || yeMeta?.entityKind === 'ADEN_PORT') {
       if (s === 0) {
         return makeResult(
@@ -7279,6 +9123,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           yeMeta?.note || "Amministrato come Chief Commissioner's Province dell'India Britannica sotto il Viceré di Nuova Delhi.",
           'Alleati',
           "Chief Commissioner's Province of British India (Port of Aden — British Raj)"
+        );
+      }
+      if (s >= 20) {
+        return makeResult(
+          'UK',
+          'Colonia di Aden (Stato di Emergenza — Disordini del Dicembre 1947)',
+          "Dicembre 1947: il 2–4 dicembre 1947, in seguito alla Risoluzione ONU 181 sulla spartizione della Palestina, ad Aden esplodono violenti disordini anti-ebraici nel quartiere di Crater; il Governatore Sir Reginald Champion dichiara lo stato di emergenza schierando le Aden Protectorate Levies e truppe imperiali britanniche a tutela dello scalo strategico sul Mar Rosso.",
+          'Alleati',
+          'British Crown Colony of Aden (Gov. Sir Reginald Champion — Stato di Emergenza Dic. 1947)'
+        );
+      }
+      if (s >= 19) {
+        return makeResult(
+          'UK',
+          'Colonia di Aden (Crown Colony of Aden — 1947)',
+          "Settembre 1947: Colonia della Corona britannica diretta dal Governatore Sir Reginald Champion (Colonial Office); vitale stazione navale, carbonifera e petrolifera (BP / Royal Navy) all'imbocco meridionale del Mar Rosso lungo le rotte imperiali verso il Golfo Persico e l'Asia.",
+          'Alleati',
+          'British Crown Colony of Aden (Gov. Sir Reginald Champion — Colonial Office)'
         );
       }
       return makeResult(
@@ -7290,8 +9152,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       );
     }
 
-    // Caso 2: Protettorato di Aden (7 Governatorati)
+    // Caso 2: Protettorato di Aden (7 Governatorati — WAP / EAP)
     if (yeMeta?.entityKind === 'ADEN_PROTECTORATE') {
+      if (s >= 19) {
+        return makeResult(
+          'UK',
+          `${yeMeta?.historicalName || p.HISTORICAL_NAME || rawName}${s >= 20 ? ' (Dic. 1947)' : ''}`,
+          s >= 20
+            ? `${yeMeta?.name || rawName} · Dicembre 1947: sultanati ed emirati del Protettorato Britannico di Aden (WAP/EAP — Lahej, Mukalla/Qu'aiti, Kathiri, Mahra e Socotra) sotto vigilanza delle Aden Protectorate Levies durante i moti di dicembre 1947 e le pressioni di confine dell'Imamato yemenita.`
+            : `${yeMeta?.name || rawName} · Protettorato Britannico di Aden (Western/Eastern Aden Protectorate) nel dopoguerra 1947: trattati esclusivi di protezione con i sultanati arabi meridionali e difesa strategica dello stretto di Bab el-Mandeb e dell'Hadhramaut.`,
+          'Alleati',
+          yeMeta?.adminTitle || 'British Aden Protectorate (WAP / EAP — Colonial Office)'
+        );
+      }
       return makeResult(
         'UK',
         yeMeta?.historicalName || p.HISTORICAL_NAME || rawName,
@@ -7302,6 +9175,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     // Caso 3: Regno Mutawakkilita dello Yemen (14 Governatorati)
+    if (s >= 20) {
+      return makeResult(
+        'YEM',
+        `${yeMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Dicembre 1947)`,
+        `${yeMeta?.name || rawName} · Dicembre 1947: membro sovrano delle Nazioni Unite dal 30 settembre 1947 e della Lega Araba, il Regno Mutawakkilita dello Yemen sotto l'anziano Imam Yahya Muhammad Hamid ed-Din condanna la spartizione della Palestina al vertice del Cairo mentre a Sana'a si acuisce la crisi dinastica preludio ai moti costituzionalisti di Al-Waziri.`,
+        'Neutrale',
+        "Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Imam Yahya — Sana'a, Dic. 1947)"
+      );
+    }
+    if (s >= 19) {
+      return makeResult(
+        'YEM',
+        `${yeMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Ammissione ONU, Set. 1947)`,
+        `${yeMeta?.name || rawName} · Settembre 1947: il Regno Mutawakkilita dello Yemen — guidato dall'Imam Yahya Muhammad Hamid ed-Din — viene ammesso alle Nazioni Unite il 30 settembre 1947 confermando lo status internazionale di Stato arabo sovrano.`,
+        'Neutrale',
+        "Al-Mamlakah al-Mutawakkiliyyah al-Yamaniyyah (Imam Yahya — Membro ONU)"
+      );
+    }
     return makeResult(
       'YEM',
       yeMeta?.historicalName || p.HISTORICAL_NAME || rawName,
@@ -7325,6 +9216,33 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'serenissima repubblica di san marino';
 
   if (isSanMarino) {
+    if (s >= 22) {
+      return makeResult(
+        'SMR',
+        'Serenissima Repubblica di San Marino',
+        'Dicembre 1948 – Giugno 1949: confermata alle elezioni del 27 febbraio 1949 la coalizione socialcomunista (Comitato della Libertà, Segretario agli Esteri Gino Giacomini) nel clima della Guerra Fredda italiana; avviata la vertenza per i danni del bombardamento del 1944 e la questione del Casinò con Roma.',
+        'Neutrale',
+        'Serenissima Repubblica di San Marino (Reggenza — Comitato della Libertà)'
+      );
+    }
+    if (s >= 19) {
+      return makeResult(
+        'SMR',
+        'Serenissima Repubblica di San Marino',
+        '1947 – Giugno 1948: ricostruzione civile sul Monte Titano sotto il governo socialcomunista del Comitato della Libertà (PSS–PCS), consolidamento delle convenzioni monetarie e doganali con la Repubblica Italiana e ripristino delle ferrovie e infrastrutture.',
+        'Neutrale',
+        'Serenissima Repubblica di San Marino (Comitato della Libertà)'
+      );
+    }
+    if (s === 18) {
+      return makeResult(
+        'SMR',
+        'Serenissima Repubblica di San Marino',
+        'Settembre 1945: cessato il transito delle truppe alleate dopo aver ospitato oltre 100.000 sfollati lungo la Linea Gotica (1944), San Marino avvia la ricostruzione e chiede al Regno Unito l\'indennizzo per il bombardamento del 26 giugno 1944.',
+        'Neutrale',
+        'Serenissima Repubblica di San Marino (Governo di Coalizione)'
+      );
+    }
     return makeResult(
       'SMR',
       'Serenissima Repubblica di San Marino',
@@ -7351,6 +9269,28 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'holy see';
 
   if (isVatican) {
+    if (s >= 21) {
+      return makeResult(
+        'VAT',
+        'Stato della Città del Vaticano',
+        s >= 23
+          ? 'Giugno 1949: sotto Papa Pio XII, la Santa Sede condanna i processi religiosi oltre la Cortina di Ferro (caso del card. József Mindszenty in Ungheria), prepara il Decreto del Sant\'Uffizio contro il Comunismo (1° luglio 1949) e organizza il Giubileo dell\'Anno Santo 1950.'
+          : 'Giugno – Dicembre 1948: all\'indomani delle elezioni italiane del 18 aprile 1948, Papa Pio XII guida la linea diplomatica anticomunista della Santa Sede in Europa e denuncia le persecuzioni contro la Chiesa cattolica nei paesi del blocco orientale.',
+        'Neutrale',
+        'Stato della Città del Vaticano (Papa Pio XII)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'VAT',
+        'Stato della Città del Vaticano',
+        s >= 19
+          ? '1947: intenso impegno assistenziale della Pontificia Commissione di Assistenza nella ricostruzione europea; i Patti Lateranensi (1929) vengono recepiti nell\'Articolo 7 della nuova Costituzione della Repubblica Italiana (marzo–dicembre 1947).'
+          : 'Settembre 1945: la Santa Sede di Papa Pio XII coordina gli aiuti umanitari postbellici europei (Pontificia Commissione di Assistenza) e la ricerca dei prigionieri e profughi attraverso l\'Ufficio Informazioni Vaticano.',
+        'Neutrale',
+        'Stato della Città del Vaticano (Papa Pio XII)'
+      );
+    }
     return makeResult(
       'VAT',
       'Stato della Città del Vaticano',
@@ -7378,11 +9318,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'gibraltar crown colony';
 
   if (isGibraltar) {
+    if (s >= 21) {
+      return makeResult(
+        'GIB',
+        'Gibraltar (Crown Colony)',
+        s >= 23
+          ? 'Giugno 1949: completato in larga parte il rimpatrio della popolazione civile sfollata e avviata su spinta dell\'AACR (Joshua Hassan) la riforma per il futuro Consiglio Legislativo; la piazzaforte aeronavale presidia lo Stretto come cardine della neonata Alleanza Atlantica (NATO, 4 aprile 1949).'
+          : 'Giugno – Dicembre 1948: prosegue il rientro graduale dei gibilterriani sfollati e si prepara l\'istituzione del primo Consiglio Legislativo (annunciata 1948); la base della Royal Navy rafforza la proiezione marittima del Patto di Bruxelles nel Mediterraneo occidentale.',
+        'Alleati',
+        s >= 23
+          ? 'British Empire — Crown Colony of Gibraltar (NATO / Attlee Era)'
+          : 'British Empire — Crown Colony of Gibraltar (Attlee Era)'
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'GIB',
         'Gibraltar (Crown Colony)',
-        'Gibraltar — Colonia della Corona britannica sullo Stretto (SET 1947: rimpatrio sfollati & Royal Navy postbellica)',
+        'Gibraltar — Colonia della Corona britannica sullo Stretto (1947: rimpatrio degli sfollati civili dall\'Irlanda del Nord/Gran Bretagna, sviluppo politico dell\'AACR & base Royal Navy postbellica).',
         'Alleati',
         'British Empire — Crown Colony of Gibraltar (Attlee Era)'
       );
@@ -7391,7 +9344,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult(
         'GIB',
         'Gibraltar (Crown Colony)',
-        'Gibraltar — Smobilitazione postbellica della fortezza dopo VE Day e rimpatrio civili',
+        'Gibraltar — Smobilitazione postbellica della fortezza dopo VE Day e prime ondate di rimpatrio dei civili.',
         'Alleati',
         'British Empire — Crown Colony of Gibraltar'
       );
@@ -7420,6 +9373,26 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     nrm === 'principality of andorra';
 
   if (isAndorra) {
+    if (s >= 21) {
+      return makeResult(
+        'AND',
+        'Principato d\'Andorra',
+        '1948 – Giugno 1949: coprincipato neutrale pirenaico retto congiuntamente dal Vescovo di Urgell (Ramon Iglesias i Navarri) e dal Presidente francese Vincent Auriol, con il Sìndic General Francesc Cairat. Superato l\'isolamento bellico, espansione idroelettrica (FHASA), Radio Andorra e decollo commerciale transfrontaliero tra Francia e Spagna.',
+        'Neutrale',
+        'Principat d\'Andorra (Vescovo R. Iglesias & Pres. V. Auriol)'
+      );
+    }
+    if (s >= 18) {
+      return makeResult(
+        'AND',
+        'Principato d\'Andorra',
+        s >= 19
+          ? '1947: ripresa economica e commerciale nei Pirenei sotto i Coprincipi Ramon Iglesias i Navarri e il nuovo Presidente della IV Repubblica francese Vincent Auriol, con sviluppo dei trasporti montani e dell\'attività idroelettrica.'
+          : 'Settembre 1945: normalizzazione postbellica delle frontiere con la Francia liberata dopo l\'evacuazione del distaccamento tedesco di frontiera; riprende il traffico civile pirenaico sotto il Vescovo Iglesias e il Sìndic Francesc Cairat.',
+        'Neutrale',
+        'Principat d\'Andorra (Coprincipato Sovrano Neutrale)'
+      );
+    }
     return makeResult(
       'AND',
       'Principato d\'Andorra',
@@ -7478,7 +9451,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     const ownerCode = s >= 16 ? 'MCO' : s >= 13 ? 'GER' : s >= 11 ? 'ITA' : 'MCO';
     const top = getExtendedToponym(rawName || 'Monaco', ownerCode, nid || 'MCO_HIST', [7.4233, 43.7367], s);
     const monacoName =
-      s >= 18
+      s >= 23
+        ? 'Principauté de Monaco (Règne du Prince Rainier III)'
+        : s >= 18
         ? 'Principauté de Monaco (Souveraineté Restaurée)'
         : s >= 16
         ? top.name?.includes('Libérée')
@@ -7487,7 +9462,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         : top.name || 'Principauté de Monaco';
     const monacoFac: FactionType = s >= 18 ? 'Neutrale' : s >= 16 ? 'Alleati' : s >= 11 ? 'Asse' : 'Neutrale';
     const monacoNote =
-      s >= 16
+      s >= 23
+        ? 'Giugno 1949: il 9 maggio 1949 si spegne l\'anziano Principe Luigi II e sale al trono il nipote Principe Ranieri III (Rainier III Grimaldi), dando impulso al rinnovamento economico, urbanistico e doganale del Principato in associazione con la Francia.'
+        : s >= 21
+        ? '1948 – Dicembre 1948: ultimi mesi di regno del Principe Luigi II sotto il governo di Pierre de Witasse; convenzioni fiscali e doganali postbelliche con la IV Repubblica francese.'
+        : s >= 19
+        ? '1947: ricostruzione postbellica e rilancio turistico-finanziario di Monte-Carlo nel quadro dell\'unione doganale e monetaria con la Francia.'
+        : s >= 18
+        ? 'Settembre 1945: consolidata la sovranità costituzionale dopo la liberazione del 3 settembre 1944; il Principe Luigi II normalizza l\'amministrazione monegasca (Ministro di Stato Pierre de Witasse).'
+        : s >= 16
         ? 'Il 3 settembre 1944 le truppe alleate liberano il Principato di Monaco dall\'occupazione tedesca; il Principe Luigi II riassume la sovranità costituzionale.'
         : s >= 13
         ? 'Operazione Achse (settembre 1943): all\'indomani dell\'armistizio italiano, le truppe tedesche della Wehrmacht occupano il Principato di Monaco, subentrando alle autorità d\'occupazione del Regio Esercito.'
@@ -7499,7 +9482,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       monacoName,
       top.note || monacoNote,
       monacoFac,
-      top.adminTitle || 'Principauté de Monaco'
+      top.adminTitle || (s >= 23 ? 'Principauté de Monaco — Prince Rainier III' : 'Principauté de Monaco')
     );
   }
 
@@ -7578,25 +9561,25 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     );
 
   if (isChannel) {
-    const chKey = (nrm.includes('jersey') || nid === 'JE' || cntr === 'JE') ? 'JE' : 'GG';
-    if (s >= 9) {
-      const ukCh = resolveUKProvince(chKey, s, rawName);
-      if (ukCh) return ukCh;
-    }
+    const chKey = (nrm.includes('jersey') || nid.startsWith('JE') || cntr.startsWith('JE')) ? 'JE' : 'GG';
+    const ukCh = resolveUKProvince(chKey, s, rawName);
     if (s >= 6 && s < 18) {
       const gerTop = getTop('GER');
       return makeResult(
         'GER',
-        gerTop.name || 'Kanalinseln (Deutsche Besetzung)',
-        gerTop.note || 'Occupazione militare tedesca delle Isole del Canale (giugno/luglio 1940), unici territori britannici occupati dal Terzo Reich.',
+        ukCh ? ukCh.name : (gerTop.name || 'Kanalinseln (Deutsche Besetzung)'),
+        ukCh ? ukCh.note : (gerTop.note || 'Occupazione militare tedesca delle Isole del Canale (giugno/luglio 1940), unici territori britannici occupati dal Terzo Reich.'),
         'Asse',
-        gerTop.adminTitle || 'Befehlshaber der Kanalinseln (Militärverwaltung)'
+        ukCh?.adminEntity || gerTop.adminTitle || 'Befehlshaber der Kanalinseln (Militärverwaltung)'
       );
+    }
+    if (ukCh) {
+      return makeResult('UK', ukCh.name, ukCh.note, s >= 4 ? 'Alleati' : 'Neutrale', ukCh.adminEntity);
     }
     const ukTop = getTop('UK');
     return makeResult(
       'UK',
-      ukTop.name || (nrm.includes('jersey') ? 'Bailiwick of Jersey (Saint Helier)' : 'Bailiwick of Guernsey (Saint Peter Port)'),
+      ukTop.name || (chKey === 'JE' ? 'Bailiwick of Jersey (Saint Helier)' : 'Bailiwick of Guernsey (Saint Peter Port)'),
       ukTop.note || 'Dipendenza della Corona Britannica nelle Isole del Canale.',
       s >= 4 ? 'Alleati' : 'Neutrale',
       ukTop.adminTitle || 'British Crown Dependency (Channel Islands)'
@@ -7917,13 +9900,23 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           'SOV',
           isPetsamo
-            ? 'Pechenga / Petsamo (Murmanskaya oblast — URSS)'
+            ? s >= 20
+              ? 'Pečenga / Petsamo (Oblast\' di Murmansk — Nichel & Artico, Dic. 1947)'
+              : s >= 19
+              ? 'Pečenga / Petsamo (Oblast\' di Murmansk — Trattato di Parigi 1947)'
+              : 'Pechenga / Petsamo (Murmanskaya oblast — URSS)'
+            : s >= 20
+            ? `${sovName} (URSS — Dic. 1947)`
             : `${sovName}`,
-          s >= 19
-            ? 'Trattato di Pace di Parigi (1947) e Armistizio di Mosca (19 settembre 1944): cessione definitiva all\'Unione Sovietica.'
+          s >= 20
+            ? isPetsamo
+              ? 'Dicembre 1947: il Kombinat Pechenganikel (Nikel\'-Zapolyarny) nell\'ex Petsamo opera a pieno ritmo sotto l\'Oblast\' di Murmansk (RSFSR) insieme alle difese artiche sul Mare di Barents.'
+              : 'Dicembre 1947: ratificata dal Trattato di Parigi del 1947, l\'ex fascia finlandese (Istmo Careliano nell\'Oblast\' di Leningrado; Ladoga e Salla nella RSS Carelo-Finlandese) accoglie nuovi coloni sovietici e adotta la riforma del rublo.'
+            : s >= 19
+            ? 'Settembre 1947: Trattato di Pace di Parigi (10 febbraio 1947) conferma de jure le frontiere dell\'Armistizio di Mosca; ricostruzione industriale e forestale di Vyborg, Sortavala e Pečenga.'
             : 'Armistizio di Mosca (19 settembre 1944): cessione definitiva alla Sovranità Sovietica (Carelia / Salla / Petsamo).',
           'Comintern',
-          isPetsamo ? 'SSSR — Murmanskaya oblast' : 'SSSR — Karelo-Finskaya SSR / Leningradskaya oblast'
+          isPetsamo ? 'SSSR — Murmanskaya oblast (Pečenga)' : 'SSSR — Karelo-Finskaya SSR / Leningradskaya oblast'
         );
       }
 
@@ -7974,12 +9967,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (s >= 16) {
         return makeResult(
           'SOV',
-          'Pechenga / Petsamo (URSS — Armistizio di Mosca)',
-          s >= 19
-            ? 'Trattato di Pace di Parigi (1947): cessione definitiva di Petsamo (Pechenga) e delle miniere di nichel all\'URSS.'
+          s >= 20
+            ? 'Pečenga / Petsamo (Oblast\' di Murmansk RSFSR — Dic. 1947)'
+            : s >= 19
+            ? 'Pečenga / Petsamo (URSS — Trattato di Parigi 1947)'
+            : 'Pechenga / Petsamo (URSS — Armistizio di Mosca)',
+          s >= 20
+            ? 'Dicembre 1947: il distretto di Pečenga (Oblast\' di Murmansk, RSFSR) alimenta la produzione di nichel artico e consolida lo sbocco sovietico sul Mare di Barents libero dai ghiacci.'
+            : s >= 19
+            ? 'Settembre 1947: il Trattato di Pace di Parigi (1947) sancisce definitivamente la cessione di Petsamo (Pečenga) e del suo giacimento di nichel all\'Unione Sovietica.'
             : 'Armistizio di Mosca (19 settembre 1944): la Finlandia cede il corridoio artico di Petsamo all\'URSS.',
           'Comintern',
-          'SSSR — Murmanskaya oblast (Pechenga)'
+          'SSSR — Murmanskaya oblast (Pečenga)'
         );
       }
       if (s < 6) {
@@ -8167,10 +10166,20 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (s >= 15) {
         return makeResult(
           'SOV',
-          `${histName} — Ukrainskaya SSR (Chernovitskaya oblast)`,
-          'Offensiva dei Carpazi e Bukovina (1944): liberazione sovietica di Cernăuți e della Bucovina settentrionale; reintegrazione nella RSS Ucraina.',
+          s >= 20
+            ? `${histName} — RSS Ucraina (Černovickaya Oblast', Dic. 1947)`
+            : s >= 19
+            ? `${histName} — Ukrainskaya SSR (Trattato Parigi 1947)`
+            : `${histName} — Ukrainskaya SSR (Chernovitskaya oblast)`,
+          s >= 20
+            ? 'Dicembre 1947: ratificata dal Trattato di Parigi (10 feb. 1947), la Bucovina Settentrionale consolida l\'Oblast\' di Černivci (RSS Ucraina) nella ricostruzione postbellica al confine con la nuova Repubblica Popolare Romena.'
+            : s >= 19
+            ? 'Settembre 1947: il Trattato di Pace di Parigi del febbraio 1947 riconosce de jure la frontiera sovietica del giugno 1940 in Bucovina Settentrionale e Chotyn; riforme agrarie e difficile dopoguerra dopo la carestia del 1946-47.'
+            : s >= 18
+            ? 'Settembre 1945: consolidamento sovietico della Bucovina Settentrionale nell\'Oblast\' di Černivci (RSS Ucraina) e trasferimento delle minoranze polacca ed ebraica verso occidente.'
+            : 'Offensiva dei Carpazi e Bukovina (1944): liberazione sovietica di Cernăuți e della Bucovina settentrionale; reintegrazione nella RSS Ucraina.',
           'Comintern',
-          'SSSR — Ukrainskaya SSR (Chernovtsy)'
+          s >= 19 ? 'Černovickij Oblispolkom — RSS Ucraina (URSS)' : 'SSSR — Ukrainskaya SSR (Chernovtsy)'
         );
       }
       if (s >= 9) {
@@ -8225,10 +10234,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           if (nid.startsWith('PL_KRESY_LTU_')) {
             return makeResult(
               'SOV',
-              `${histName} — Lietuvos TSR`,
-              `Luglio 1944 (Operazione Bagration): territorio liberato dall'Armata Rossa e reintegrato nella RSS Lituana.${modern}`,
+              s >= 20
+                ? `${histName} — RSS Lituana (Dic. 1947)`
+                : s >= 19
+                ? `${histName} — Lietuvos TSR (URSS, 1947)`
+                : `${histName} — Lietuvos TSR`,
+              s >= 20
+                ? `Dicembre 1947: territorio dell'area di Vilnius stabilizzato entro la RSS Lituana dopo il trasferimento dei polacchi verso occidente e il consolidamento della frontiera sovietico-polacca.${modern}`
+                : s >= 19
+                ? `Settembre 1947: ricostruzione della RSS Lituana nell'area di Vilnius dopo l'accordo confinaria del 16 agosto 1945 e controguerriglia contro le formazioni forestali.${modern}`
+                : `Luglio 1944 (Operazione Bagration): territorio liberato dall'Armata Rossa e reintegrato nella RSS Lituana.${modern}`,
               'Comintern',
-              'SSSR — Lietuvos TSR (Vilnius)'
+              s >= 19 ? 'Sovet Ministrov Litovskoj SSR — Vilnius (URSS)' : 'SSSR — Lietuvos TSR (Vilnius)'
             );
           }
           if (
@@ -8243,16 +10260,34 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           ) {
             return makeResult(
               'SOV',
-              `${histName} — RSS Ucraina (${ssr})`,
-              `Luglio 1944: offensiva Leopoli-Sandomierz (1° Fronte Ucraino); liberazione di Leopoli (27 luglio 1944) e integrazione nella Repubblica Socialista Sovietica Ucraina.${modern}`,
+              s >= 20
+                ? `${histName} — RSS Ucraina (${ssr}, Dic. 1947)`
+                : s >= 19
+                ? `${histName} — RSS Ucraina (${ssr}, 1947)`
+                : `${histName} — RSS Ucraina (${ssr})`,
+              s >= 20
+                ? `Dicembre 1947 (Ucraina Occidentale — ${ssr}): dopo la massiccia deportazione dell'Operazione "Ovest" (Zapad, ottobre 1947, oltre 76.000 familiari di partigiani UPA trasferiti in Siberia) e la riforma del rublo, il controllo sovietico si irrigidisce.${modern}`
+                : s >= 19
+                ? `Settembre 1947 (Ucraina Occidentale — ${ssr}): ratificata dal trattato di confine del 16 agosto 1945; intensa sovietizzazione di Leopoli e dei bacini petroliferi di Drohobyč-Boryslav mentre divampa la guerriglia UPA nei Carpazi.${modern}`
+                : s >= 18
+                ? `Settembre 1945: il Trattato polacco-sovietico del 16 agosto 1945 fissa la frontiera sulla Linea Curzon; espulsioni polacche e lotta dell'NKVD contro l'UPA nell'Ucraina Occidentale.${modern}`
+                : `Luglio 1944: offensiva Leopoli-Sandomierz (1° Fronte Ucraino); liberazione di Leopoli (27 luglio 1944) e integrazione nella Repubblica Socialista Sovietica Ucraina.${modern}`,
               'Comintern',
               `SSSR — ${ssr}`
             );
           }
           return makeResult(
             'SOV',
-            `${histName} — ${ssr}`,
-            `Estate 1944: Operazione Bagration dell'Armata Rossa; territorio integrato nella ${ssr}.${modern}`,
+            s >= 20
+              ? `${histName} — ${ssr} (Dic. 1947)`
+              : s >= 19
+              ? `${histName} — ${ssr} (1947)`
+              : `${histName} — ${ssr}`,
+            s >= 20
+              ? `Dicembre 1947 (Bielorussia Occidentale — ${ssr}): consolidamento della nuova frontiera sovietico-polacca (Brest/Grodno/Molodečno), inizio della collettivizzazione rurale e riforma monetaria del 14-16 dicembre.${modern}`
+              : s >= 19
+              ? `Settembre 1947 (Bielorussia Occidentale — ${ssr}): dopo la definizione confinaria sulla Linea Curzon (agosto 1945, cessione di Białystok alla Polonia), avvio dei piani industriali e della sovietizzazione delle campagne.${modern}`
+              : `Estate 1944 - 1945: reintegrazione nella ${ssr} lungo la Linea Curzon dopo il Trattato sovietico-polacco dell'agosto 1945.${modern}`,
             'Comintern',
             `SSSR — ${ssr}`
           );
@@ -8454,13 +10489,43 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Rzeczpospolita Polska — Ministerstwo Ziem Odzyskanych'
           );
         }
-        if (s === 17 && (nid === 'PL514' || nrm.includes('wroclaw') || nrm.includes('breslau'))) {
+        if (s === 17) {
+          if (nid === 'PL514' || (nid !== 'PL518' && (nrm === 'miasto wroclaw' || nrm === 'wroclaw' || nrm === 'breslau'))) {
+            return makeResult(
+              'GER',
+              'Breslau (Festung Breslau — Assedio dell\'Armata Rossa)',
+              'Febbraio-Maggio 1945: dichiarata fortezza inespugnabile (Festung Breslau) dal comandante Hermann Niehoff, la capitale della Bassa Slesia resiste all\'assedio sovietico fino al 6 maggio 1945.',
+              'Asse',
+              'Deutsches Reich — Festung Breslau (Gen. Hermann Niehoff)'
+            );
+          }
+          if (nid === 'PL515' || nid === 'PL517' || nrm.includes('jeleniogor') || nrm.includes('walbrzy') || nrm.includes('hirschberg') || nrm.includes('waldenburg')) {
+            const topSudPl = resolvePolandToponym(nid, rawName, nrm, 'GER', s);
+            return makeResult(
+              'GER',
+              topSudPl?.name || `${rawName || 'Niederschlesien-Sudeten'} (Heeresgruppe Mitte)`,
+              'Fine aprile 1945: fascia pedemontana dei Sudeti slesiani (Jelenia Góra / Wałbrzych) ancora presidiata dal Gruppo d\'Armate Centro (Heeresgruppe Mitte) fino alla resa di maggio.',
+              'Asse',
+              'Wehrmacht — Heeresgruppe Mitte (Sudetenfront)'
+            );
+          }
+          const isPomWest = nid === 'PL424' || nid.startsWith('PL42') || nid === 'PL636' || nrm.includes('szczecin') || nrm.includes('stettin') || nrm.includes('koszalin') || nrm.includes('slupsk') || nrm.includes('kolobrzeg');
+          const isEastPrussiaSouth = nid.startsWith('PL62') || nrm.includes('olsztyn') || nrm.includes('elblag') || nrm.includes('elk') || nrm.includes('allenstein');
+          const isSilesiaCore = nid.startsWith('PL5') || nid === 'PL228' || nid === 'PL229' || nrm.includes('opole') || nrm.includes('legnic') || nrm.includes('gliwic') || nrm.includes('bytom');
+          const sectorDesc = isEastPrussiaSouth
+            ? 'Gennaio-Marzo 1945: la Masuria e la Prussia Orientale meridionale (Olsztyn/Allenstein, Elbląg, Ełk) vengono conquistate dal 2° e 3° Fronte Bielorusso dell\'Armata Rossa.'
+            : isPomWest
+            ? 'Marzo-26 Aprile 1945: con l\'Offensiva della Pomerania Orientale (presa di Kolberg, Koszalin, Słupsk) e il forzamento del Basso Oder (presa di Stettino il 26 aprile), l\'Armata Rossa controlla l\'intera Pomerania.'
+            : isSilesiaCore
+            ? 'Gennaio-Marzo 1945: l\'Offensiva dell\'Alta e Bassa Slesia del 1° Fronte Ucraino (Maresciallo Konev) libera l\'Alta Slesia industriale, Opole, Legnica e accerchia Breslau.'
+            : 'Gennaio-Febbraio 1945: nell\'Offensiva Vistola-Oder il 1° Fronte Bielorusso libera la Nuova Marca (Gorzów/Landsberg, Zielona Góra, Piła) raggiungendo l\'Oder.';
+          const topSovPl = resolvePolandToponym(nid, rawName, nrm, 'SOV', s);
           return makeResult(
-            'GER',
-            'Breslau (Festung Breslau — Assedio dell\'Armata Rossa)',
-            'Febbraio-Maggio 1945: dichiarata fortezza inespugnabile (Festung Breslau) dal comandante Hermann Niehoff, la capitale della Bassa Slesia resiste all\'assedio sovietico fino al 6 maggio 1945.',
-            'Asse',
-            'Deutsches Reich — Festung Breslau (Gen. Hermann Niehoff)'
+            'SOV',
+            topSovPl?.name || `${rawName || 'Territori ad Est dell\'Oder'} (Armata Rossa — Aprile 1945)`,
+            sectorDesc,
+            'Comintern',
+            'Armata Rossa — Comandatura Militare Sovietica (Fronti Bielorussi e 1° Ucraino)'
           );
         }
         const top = resolvePolandToponym(nid, rawName, nrm, 'GER', s);
@@ -8726,6 +10791,52 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'CZE':
     case 'CZ': {
+      // Unificazione di percorso per i poligoni CZE_* del database unificato anche senza __resolve
+      if (nid.startsWith('CZE_SLO_') || p.REGION_KIND === 'SLOVAKIA') {
+        if (s >= 21) {
+          return makeResult('CZE', `${rawName || 'Slovensko'} (Repubblica Cecoslovacca Socialista)`, 'Dopo il colpo di Stato di Praga (febbraio 1948) e la Costituzione del 9 maggio 1948, la Slovacchia è parte della Repubblica Cecoslovacca socialista.', 'Comintern', 'Československá republika — Slovensko');
+        }
+        if (s >= 17) {
+          return makeResult('CZE', `${rawName || 'Slovensko'} (Slovensko Oslobodené — Košický vládny program, Apríl 1945)`, 'Aprile 1945: Slovacchia liberata dal 2° e 4° Fronte Ucraino e dal 1° Corpo Cecoslovacco; il 4 aprile a Košice si insedia il governo cecoslovacco.', 'Alleati', 'Československá republika — Slovensko');
+        }
+        if (s < 3) {
+          return makeResult('CZE', rawName || 'Slovensko', 'Československá republika — Krajina Slovenská', undefined, 'Československá republika');
+        }
+        return makeResult('SLO', rawName || 'Slovenská republika', 'Slovenská republika (Vláda Dr. Jozefa Tisa)', 'Fantoccio', 'Slovenská republika');
+      }
+      if (nid.startsWith('CZE_RUTHENIA_NORTH') || nid === 'CZE_RUTHENIA_SOUTH' || nid.startsWith('CZE_RUTHENIA')) {
+        if (s >= 16) {
+          return makeResult('SOV', `${rawName || 'Zakarpatska Ukrajina'} (URSS — Transcarpazia)`, 'Offensiva dei Carpazi Orientali (ott-nov 1944) e trattato di cessione del 1945: la Rutenia Subcarpatica entra nell\'URSS (Zakarpatskaya Oblast\', RSS Ucraina).', 'Comintern', 'Zakarpatskaya Oblast\' — URSS');
+        }
+        if (s < 2 || (nid.startsWith('CZE_RUTHENIA_NORTH') && s === 2)) {
+          return makeResult('CZE', rawName || 'Podkarpatská Rus', 'Podkarpatská Rus / Karpatska Ukrajina (ČSR)', undefined, 'Československá republika');
+        }
+        return makeResult('HUN', rawName || 'Kárpátalja', 'Kárpátalja (Magyar Királyság)', 'Neutrale', 'Magyar Királyság');
+      }
+      if (nid.startsWith('CZE_FEL_') || p.REGION_KIND === 'FELVIDEK') {
+        if (s >= 17) {
+          return makeResult('CZE', `${rawName || 'Južné Slovensko'} (Reintegrato nella ČSR)`, 'Aprile 1945: annullamento del Primo Arbitrato di Vienna e liberazione della Slovacchia meridionale.', s >= 21 ? 'Comintern' : 'Alleati', 'Československá republika');
+        }
+        if (s < 2) {
+          return makeResult('CZE', rawName || 'Južné Slovensko', 'Krajina Slovenská (Československá republika)', undefined, 'Československá republika');
+        }
+        return makeResult('HUN', rawName || 'Felvidék', 'Felvidék (Magyar Királyság — Primo Arbitrato di Vienna)', 'Neutrale', 'Magyar Királyság');
+      }
+      if (nid === 'CZE_ZAOLZIE' || p.REGION_KIND === 'ZAOLZIE') {
+        if (s >= 18) return makeResult('CZE', 'Český Těšín (Těšínsko)', 'Territorio del Zaolzie/Těšínsko reintegrato nella Cecoslovacchia.', s >= 21 ? 'Comintern' : 'Alleati', 'Československá republika');
+        if (s < 2) return makeResult('CZE', 'Český Těšín (Těšínsko)', 'Československá republika', undefined, 'Československá republika');
+        if (s < 5) return makeResult('POL', 'Zaolzie (Śląsk Cieszyński)', 'Rzeczpospolita Polska', 'Alleati', 'Rzeczpospolita Polska');
+        return makeResult('GER', 'Teschen', 'Landkreis Teschen (Gau Oberschlesien)', 'Asse', 'Deutsches Reich');
+      }
+      if (s >= 21) {
+        return makeResult(
+          'CZE',
+          `${rawName || 'Československo'} (Československá republika — Colpo di Stato di Praga & Regime Comunista del 1948)`,
+          'Febbraio – Giugno 1948: dopo il colpo di Stato comunista di Praga (25 febbraio 1948, "Febbraio Vittorioso"), la morte del ministro degli Esteri Jan Masaryk (10 marzo), l\'adozione della Costituzione del 9 maggio e le dimissioni del presidente Edvard Beneš (7 giugno), il leader del KSČ Klement Gottwald assume la presidenza della Repubblica (14 giugno 1948), allineando la Cecoslovacchia al blocco sovietico.',
+          'Comintern',
+          'Československá republika (Prezident Klement Gottwald · KSČ · Costituzione del 9 Maggio 1948)'
+        );
+      }
       if (s >= 18) {
         return makeResult(
           'CZE',
@@ -8735,16 +10846,36 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'Československá republika (Prezident Dr. Edvard Beneš)'
         );
       }
-      if (s === 17 && (nid === 'CZ080' || nid.startsWith('CZ07') || nrm.includes('ostrav'))) {
+      if (
+        s === 17 &&
+        (nid === 'CZ080' ||
+          nid.startsWith('CZ07') ||
+          nid === 'CZE_OSTRAVA' ||
+          nid === 'CZE_SUD_TROPPAU' ||
+          nid === 'CZE_BRNO' ||
+          nid === 'CZE_ZLIN' ||
+          nid === 'CZE_SUD_SUEDMAEHREN' ||
+          nrm.includes('ostrav') ||
+          nrm.includes('troppau') ||
+          nrm.includes('opava') ||
+          nrm.includes('brno') ||
+          nrm.includes('brunn') ||
+          nrm.includes('zlin') ||
+          nrm.includes('suedmaehren') ||
+          nrm.includes('sudmahren') ||
+          nrm.includes('znojmo'))
+      ) {
         return makeResult(
           'SOV',
-          `${rawName || 'Moravská Ostrava'} (Liberata — Offensiva di Ostrava-Opava, Armata Rossa)`,
-          '30 aprile 1945: il 4° Fronte Ucraino e il 1° Corpo d\'Armata Cecoslovacco liberano il bacino industriale di Moravská Ostrava.',
+          `${rawName || 'Moravia Orientale e Meridionale'} (Liberata — Offensiva di Brno & Ostrava-Opava, Aprile 1945)`,
+          '17-30 aprile 1945: il 2° e il 4° Fronte Ucraino dell\'Armata Rossa, affiancati dal 1° Corpo d\'Armata Cecoslovacco, sfondano in Moravia meridionale e Slesia ceca liberando Břeclav/Mikulov, Opava (22 aprile), Brno (26 aprile) e il bacino di Moravská Ostrava (30 aprile).',
           'Comintern',
-          'Armata Rossa — 4° Fronte Ucraino'
+          'Armata Rossa — 2° & 4° Fronte Ucraino (Offensiva di Moravia)'
         );
       }
       const sud =
+        nid.startsWith('CZE_SUD_') ||
+        p.REGION_KIND === 'SUDETENLAND' ||
         nid.startsWith('CZ041') ||
         nid.startsWith('CZ042') ||
         nid.startsWith('CZ051') ||
@@ -8767,16 +10898,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult('CZE', cTop.name || rawName, 'Krajina Slovenská (Československá republika)');
       }
 
-      // Step >= 17 (Apr 1945 - Set 1947): Programma di Košice e reintegrazione nella Repubblica Cecoslovacca (inclusi SK023 / SK042)
+      // Step >= 17 (Apr 1945 - Giu 1948): Programma di Košice, reintegrazione e Colpo di Praga (Feb 1948)
       if (s >= 17) {
         return makeResult(
           'CZE',
-          `${rawName || 'Slovensko'} (${s >= 18 ? 'Československá republika' : 'Programma di Košice — Cecoslovacchia Liberata'})`,
-          s >= 18
+          `${rawName || 'Slovensko'} (${s >= 21 ? 'Československá republika — Regime Comunista del 1948' : s >= 18 ? 'Československá republika' : 'Programma di Košice — Cecoslovacchia Liberata'})`,
+          s >= 21
+            ? 'Dopo il colpo di Stato di Praga (25 febbraio 1948), la Costituzione del 9 maggio e la presidenza di Klement Gottwald (14 giugno 1948), la Slovacchia fa parte della Repubblica Cecoslovacca socialista allineata al blocco sovietico.'
+            : s >= 18
             ? 'Slovacchia pienamente reintegrata nella Terza Repubblica Cecoslovacca nei confini del 1937 (annullamento del Primo Arbitrato di Vienna).'
             : 'Aprile 1945: proclamazione del Programma di Košice (5 aprile 1945) e liberazione della Slovacchia nel quadro della ricostituita Repubblica Cecoslovacca.',
-          'Alleati',
-          'Československá republika — Slovenská národná rada'
+          s >= 21 ? 'Comintern' : 'Alleati',
+          s >= 21 ? 'Československá republika — Zbor povereníkov (KSČ)' : 'Československá republika — Slovenská národná rada'
         );
       }
 
@@ -8878,6 +11011,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       const bTop = resolveBalkansToponym(nid, rawName, nrm, 'ROM', s);
       const roOwner = bTop?.owner || 'ROM';
       const top = bTop || getTop(roOwner);
+      if (s >= 21) {
+        return makeResult(
+          'ROM',
+          `${(bTop?.name || 'Republica Populară Română').replace('Regatul României', 'Republica Populară Română').replace(/\s*\([^)]*30 Dicembre 1947[^)]*\)/, '')} (Repubblica Popolare Romena — Costituzione del 13 Aprile 1948 & Nazionalizzazioni)`,
+          '13 Aprile – 11 Giugno 1948: la Grande Assemblea Nazionale adotta il 13 aprile 1948 la prima Costituzione socialista della Repubblica Popolare Romena (RPR) e il nuovo emblema di Stato sulla bandiera tricolore; l\'11 giugno 1948 il regime di Gheorghe Gheorghiu-Dej e Petru Groza decreta la nazionalizzazione integrale delle banche, delle miniere, dei pozzi petroliferi di Ploiești e delle imprese industriali.',
+          'Comintern',
+          'Republica Populară Română (Costituzione del 13 Aprile 1948 · Gheorghe Gheorghiu-Dej & Petru Groza)'
+        );
+      }
+      if (s >= 20) {
+        return makeResult(
+          'ROM',
+          bTop?.name ? bTop.name.replace('Regatul României', 'Republica Populară Română') : 'Republica Populară Română (RPR — Proclamazione del 30 Dicembre 1947)',
+          '30 Dicembre 1947: a Bucarest (Palazzo Elisabeta), il Primo Ministro Petru Groza e il leader comunista Gheorghe Gheorghiu-Dej, sostenuti dall\'accerchiamento militare delle divisioni Tudor Vladimirescu, costringono Re Michele I ad abdicare; nella stessa sera il Parlamento proclama la Repubblica Popolare Romena (Legge n. 363/1947) sotto il Presidium provvisorio guidato da Constantin Ion Parhon.',
+          'Comintern',
+          'Republica Populară Română (Presidium C.I. Parhon · P.M. Petru Groza · Gheorghe Gheorghiu-Dej)'
+        );
+      }
       if (s >= 16) {
         return makeResult(
           'ROM',
@@ -8951,6 +11102,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'BUL':
     case 'BGR':
     case 'BG': {
+      if (s >= 20) {
+        const bTop = resolveBalkansToponym(nid, rawName, nrm, 'BUL', s);
+        const top = bTop || getTop('BUL');
+        return makeResult(
+          'BUL',
+          bTop?.name ? bTop.name.replace('Tsarstvo Balgariya', 'Narodna Republika Bălgariya') : top.name,
+          '4 Dicembre 1947: la Grande Assemblea Nazionale bulgara adotta ufficialmente la "Costituzione Dimitrov" (modellata sulla Costituzione sovietica del 1936), consolidando la Repubblica Popolare di Bulgaria sotto il Primo Ministro Georgi Dimitrov e trasformando lo Stato in una democrazia popolare a partito egemone.',
+          'Comintern',
+          'Narodna Republika Bălgariya — Costituzione Dimitrov (Primo Ministro Georgi Dimitrov)'
+        );
+      }
       if (s >= 16) {
         const bTop = resolveBalkansToponym(nid, rawName, nrm, 'BUL', s);
         const top = bTop || getTop('BUL');
@@ -9086,7 +11248,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'ESP':
     case '724':
     case 'XES':
-    case 'ES_RIF': {
+    case 'ES_RIF':
+    case 'ES_IFNI': {
       // Risoluzione esaustiva delle 63 province e territori storici della Spagna (1936-1941)
       const esProv = resolveSpainProvince(nid || ft.id || rawName, s, rawName);
       if (esProv) {
@@ -9112,40 +11275,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('kert') ||
         nrm.includes('lucus')
       ) {
-        if (s === 0) {
-          return makeResult(
-            'SPR',
-            'Protectorado Español de Marruecos (Zona del Rif y Yebala / Tetuán)',
-            'Segunda República Española — Alta Comisaría'
-          );
-        }
-        if (s < 3) {
-          return makeResult(
-            'SPA',
-            'Protectorado Español de Marruecos (Zona del Rif / Tetuán)',
-            'Bando Nacional — Cuna del Alzamiento del 17-18 de julio de 1936 y Ejército de África'
-          );
-        }
-        return makeResult(
-          'SPA',
-          'Protectorado Español de Marruecos (Tetuán)',
-          s >= 19
-            ? 'Estado Español — Alta Comisaría en Marruecos (Tte. Gen. José Enrique Varela) e Jalifato de Tetuán nel secondo dopoguerra.'
-            : 'Estado Español — Alta Comisaría de España en Marruecos / Delegación Jalifiana',
-          s >= 18 ? 'Neutrale' : undefined
-        );
+        return resolveSpanishAfricanTerritory('ES_RIF', s);
       }
 
       // Plazas de Soberanía: Ceuta (ES63) e Melilla (ES64)
       if (nid === 'ES63' || nid === 'ES630' || nrm.includes('ceuta')) {
-        const owner = s === 0 ? 'SPR' : 'SPA';
-        const top = getTop(owner);
-        return makeResult(owner, top.name, top.note, s >= 18 && owner === 'SPA' ? 'Neutrale' : undefined, top.adminTitle);
+        return resolveSpanishAfricanTerritory('ES630', s);
       }
       if (nid === 'ES64' || nid === 'ES640' || nrm.includes('melilla')) {
-        const owner = s === 0 ? 'SPR' : 'SPA';
-        const top = getTop(owner);
-        return makeResult(owner, top.name, top.note, s >= 18 && owner === 'SPA' ? 'Neutrale' : undefined, top.adminTitle);
+        return resolveSpanishAfricanTerritory('ES640', s);
       }
 
       if (s === 0) {
@@ -9289,8 +11427,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           'DFJ',
           'Fiume / Rijeka (Repubblica Popolare di Croazia — FNRJ)',
-          'Trattato di Pace di Parigi (15 settembre 1947): l\'Italia cede definitivamente Fiume e la Provincia del Carnaro alla Repubblica Federativa Popolare di Jugoslavia (FNRJ).',
-          'Comintern',
+          s >= 21
+            ? 'Giugno 1948 (Rottura Tito-Stalin, 28 giugno 1948): Fiume e il Carnaro fanno parte della Repubblica Federativa Popolare di Jugoslavia (FNRJ), espulsa dal Cominform e divenuta Stato socialista indipendente non allineato a Mosca.'
+            : 'Trattato di Pace di Parigi (15 settembre 1947): l\'Italia cede definitivamente Fiume e la Provincia del Carnaro alla Repubblica Federativa Popolare di Jugoslavia (FNRJ).',
+          s >= 21 ? 'Neutrale' : 'Comintern',
           'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska (NRH)'
         );
       }
@@ -9299,8 +11439,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           'DFJ',
           'Zara / Zadar (Repubblica Popolare di Croazia — FNRJ)',
-          'Trattato di Pace di Parigi (15 settembre 1947): cessione definitiva dell\'ex enclave italiana di Zara e delle isole adriatiche alla Repubblica Popolare di Croazia (FNRJ).',
-          'Comintern',
+          s >= 21
+            ? 'Giugno 1948 (Rottura Tito-Stalin, 28 giugno 1948): Zara e la Dalmazia settentrionale fanno parte della Repubblica Federativa Popolare di Jugoslavia (FNRJ), Stato socialista indipendente fuori dal Cominform.'
+            : 'Trattato di Pace di Parigi (15 settembre 1947): cessione definitiva dell\'ex enclave italiana di Zara e delle isole adriatiche alla Repubblica Popolare di Croazia (FNRJ).',
+          s >= 21 ? 'Neutrale' : 'Comintern',
           'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska (NRH)'
         );
       }
@@ -9313,7 +11455,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             bTop?.owner || (s >= 19 ? 'DFJ' : 'AMG'),
             bTop?.name || (s >= 19 ? 'Pola / Pula (Repubblica Popolare di Croazia — Trattato di Parigi 1947)' : 'Pola (Enclave della Zona A — Governo Militare Alleato AMG)'),
             bTop?.note || 'Trattato di Pace di Parigi (15 settembre 1947): evacuazione alleata di Pola ed esodo sul piroscafo Toscana.',
-            s >= 19 ? 'Comintern' : 'Alleati',
+            s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati',
             bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Hrvatska' : 'Allied Military Government (AMG Venezia Giulia)')
           );
         }
@@ -9340,7 +11482,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
         if (bTop?.owner) {
           const hrFac: FactionType =
-            bTop.owner === 'CRO' ? 'Fantoccio' : bTop.owner === 'GER' ? 'Asse' : s >= 19 && bTop.owner === 'DFJ' ? 'Comintern' : 'Alleati';
+            bTop.owner === 'CRO' ? 'Fantoccio' : bTop.owner === 'GER' ? 'Asse' : bTop.owner === 'DFJ' ? (s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati') : 'Alleati';
           return makeResult(bTop.owner, bTop.name, bTop.note, hrFac, bTop.adminTitle);
         }
       }
@@ -9475,7 +11617,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'DFJ',
             'Goriška / Alta Valle dell\'Isonzo (Repubblica Popolare di Slovenia — FNRJ)',
             'Trattato di Pace di Parigi (15 settembre 1947): cessione alla Jugoslavia dell\'alta valle dell\'Isonzo (Tolmino, Caporetto, Idria) e dei quartieri orientali di Gorizia, ove sorge la città nuova di Nova Gorica.',
-            'Comintern',
+            s >= 21 ? 'Neutrale' : 'Comintern',
             'Repubblica Federativa Popolare di Jugoslavia — Ljudska Republika Slovenija (LRS)'
           );
         }
@@ -9516,7 +11658,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'DFJ',
             bTop?.name || (s >= 19 ? 'Obalno-kraška / Zona B Carso (Repubblica Popolare di Slovenia — FNRJ)' : 'Capodistria e Carso (Zona B — Amministrazione VUJA)'),
             bTop?.note || 'Accordo di Belgrado (1945) e Trattato di Parigi (1947): Carso e litorale istriano nord sotto amministrazione jugoslava.',
-            s >= 19 ? 'Comintern' : 'Alleati',
+            s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati',
             bTop?.adminTitle || 'Repubblica Federativa Popolare di Jugoslavia — Ljudska Republika Slovenija (LRS)'
           );
         }
@@ -9546,7 +11688,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             bTop.owner,
             bTop.name,
             bTop.note,
-            bTop.owner === 'DFJ' ? (s >= 19 ? 'Comintern' : 'Alleati') : 'Asse',
+            bTop.owner === 'DFJ' ? (s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati') : 'Asse',
             bTop.adminTitle
           );
         }
@@ -9649,7 +11791,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'DFJ',
           bTop?.name || `${rawName || 'Bosna i Hercegovina'} (${s >= 19 ? 'Repubblica Popolare di Bosnia ed Erzegovina — FNRJ' : 'Liberata dalla NOVJ — DFJ'})`,
           bTop?.note || 'Aprile 1945 - Settembre 1947: Bosnia ed Erzegovina liberata dall\'Esercito Jugoslavo (NOVJ) e integrata nella Federazione Jugoslava (NRBiH).',
-          s >= 19 ? 'Comintern' : 'Alleati',
+          s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati',
           bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Bosna i Hercegovina (NRBiH)' : 'Demokratska Federativna Jugoslavija — ZAVNOBiH')
         );
       }
@@ -9708,13 +11850,19 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const bTop = resolveBalkansToponym(nid, rawName, nrm, 'DFJ', s);
         const owner = bTop?.owner || 'DFJ';
         const rsFac: FactionType =
-          owner === 'CRO' ? 'Fantoccio' : owner === 'GER' ? 'Asse' : s >= 19 && owner === 'DFJ' ? 'Comintern' : 'Alleati';
+          owner === 'CRO' ? 'Fantoccio' : owner === 'GER' ? 'Asse' : owner === 'DFJ' ? (s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati') : 'Alleati';
         return makeResult(
           owner,
-          bTop?.name || `${rawName || 'Srbija'} (Demokratska Federativna Jugoslavija)`,
-          bTop?.note || 'Liberazione della Serbia e di Belgrado ad opera della NOVJ e dell\'Armata Rossa.',
+          s >= 21 && (nid === 'RS110' || nrm.includes('beograd') || nrm.includes('belgrad'))
+            ? 'Belgrado / Beograd (Capitale FNRJ — Rottura Tito-Stalin del 28 Giugno 1948)'
+            : bTop?.name || `${rawName || 'Srbija'} (Demokratska Federativna Jugoslavija)`,
+          s >= 21
+            ? '28 Giugno 1948 (Rottura Tito-Stalin): con la risoluzione di Bucarest il Cominform espelle il Partito Comunista di Jugoslavia accusando Josip Broz Tito di deviazionismo nazionalista; la Repubblica Federativa Popolare di Jugoslavia (FNRJ) rompe con Mosca posizionandosi quale Stato socialista sovrano e non allineato.'
+            : bTop?.note || 'Liberazione della Serbia e di Belgrado ad opera della NOVJ e dell\'Armata Rossa.',
           rsFac,
-          bTop?.adminTitle || 'Demokratska Federativna Jugoslavija (Josip Broz Tito — NOVJ)'
+          s >= 21
+            ? 'Federativna Narodna Republika Jugoslavija (Maresciallo Josip Broz Tito — Socialismo Indipendente)'
+            : bTop?.adminTitle || 'Demokratska Federativna Jugoslavija (Josip Broz Tito — NOVJ)'
         );
       }
       if (s >= 8) {
@@ -9814,7 +11962,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'DFJ',
           bTop?.name || (s >= 19 ? 'Montenegro (Repubblica Popolare del Montenegro — FNRJ)' : 'Montenegro (Liberato dai Partigiani della NOVJ — Dicembre 1944)'),
           bTop?.note || 'Dicembre 1944: i reparti della NOVJ liberano Podgorica e il Montenegro.',
-          s >= 19 ? 'Comintern' : 'Alleati',
+          s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati',
           bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Crna Gora (NRCG)' : 'Demokratska Federativna Jugoslavija — Crna Gora')
         );
       }
@@ -9855,7 +12003,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'DFJ',
           bTop?.name || (s >= 19 ? `${rawName || 'Makedonija'} (Repubblica Popolare di Macedonia — FNRJ)` : `${rawName || 'Makedonija'} (Liberata dai Partigiani della NOVJ — Novembre 1944)`),
           bTop?.note || 'Novembre 1944: liberazione di Skopje e della Macedonia del Vardar nella Jugoslavia Federale.',
-          s >= 19 ? 'Comintern' : 'Alleati',
+          s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati',
           bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Narodna Republika Makedonija (NRM)' : 'Demokratska Federativna Jugoslavija — Makedonija (ASNOM)')
         );
       }
@@ -9929,13 +12077,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         if (cntr === 'YU' || cntr === 'YUG') {
           return makeResult(
             'DFJ',
-            s >= 19
+            s >= 21
+              ? 'Repubblica Federativa Popolare di Jugoslavia (FNRJ — Rottura Tito-Stalin, 28 Giugno 1948)'
+              : s >= 19
               ? 'Repubblica Federativa Popolare di Jugoslavia (FNRJ — Maresciallo Tito)'
               : 'Jugoslavia Federale Democratica (Demokratska Federativna Jugoslavija — Maresciallo Tito)',
-            s >= 19
+            s >= 21
+              ? '28 Giugno 1948 (Rottura Tito-Stalin): espulsa dal Cominform con la risoluzione di Bucarest, la Repubblica Federativa Popolare di Jugoslavia (FNRJ) guidata da Josip Broz Tito si sgancia dal blocco sovietico divenendo uno Stato socialista sovrano e non allineato.'
+              : s >= 19
               ? 'Settembre 1947: Repubblica Federativa Popolare di Jugoslavia (FNRJ) guidata dal Maresciallo Josip Broz Tito.'
               : 'Dicembre 1944 - 1945: liberazione della Jugoslavia ad opera dell\'Armata di Liberazione Nazionale (NOVJ) di Tito.',
-            s >= 19 ? 'Comintern' : 'Alleati',
+            s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati',
             s >= 19 ? 'Federativna Narodna Republika Jugoslavija (FNRJ)' : 'Demokratska Federativna Jugoslavija (DFJ)'
           );
         }
@@ -9944,7 +12096,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'DFJ',
           bTop?.name || (s >= 19 ? 'Kosovo e Metochia (Regione Autonoma AKMO — NRS / FNRJ)' : 'Kosovo e Metohija (Liberato dai Partigiani della NOVJ — Novembre 1944)'),
           bTop?.note || 'Novembre 1944: liberazione del bacino del Kosovo.',
-          s >= 19 ? 'Comintern' : 'Alleati',
+          s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati',
           bTop?.adminTitle || (s >= 19 ? 'Repubblica Federativa Popolare di Jugoslavia — Autonomna Kosovsko-Metohijska Oblast (AKMO)' : 'Demokratska Federativna Jugoslavija — Kosovo i Metohija')
         );
       }
@@ -10341,6 +12493,12 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'FRA':
     case 'FR': {
+      // Fasce costiere di resistenza Wehrmacht (Poches de l'Atlantique & Dunkerque — risoluzione dedicata 0–22)
+      if (p.REGION_KIND === 'FR_COASTAL_POCKET' || FRENCH_COASTAL_POCKET_IDS.has(nid)) {
+        const resPocket = resolveFrenchCoastalPocket(nid || String(ft.id || ''), s);
+        if (resPocket) return resPocket;
+      }
+
       if (s < 6) {
         // Dipartimenti d'Oltremare (DOM-TOM)
         if (nid.startsWith('FRY')) {
@@ -10503,15 +12661,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           nrm.includes('ajaccio') ||
           nrm.includes('bastia');
         const isAtlanticPocket =
-          nid === 'FRH04' ||
-          nid === 'FRG01' ||
-          nid === 'FRI32' ||
-          nrm.includes('morbihan') ||
-          nrm.includes('lorient') ||
-          nrm.includes('loire-atlantique') ||
-          nrm.includes('nazaire') ||
-          nrm.includes('charente-maritime') ||
-          nrm.includes('rochelle');
+          nid === 'FR_HIST_POCHE_LORIENT' ||
+          nid === 'FR_HIST_POCHE_ST_NAZAIRE' ||
+          nid === 'FR_HIST_POCHE_LA_ROCHELLE' ||
+          nid === 'FR_HIST_POCHE_DUNKERQUE';
 
         if (s >= 18) {
           return makeResult(
@@ -11045,13 +13198,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'BEL':
     case 'BE':
-      if (s >= 17) {
+      if (s >= 26) {
         return makeResult(
           'BEL',
-          `${rawName || 'Belgique'} (${s >= 18 ? 'Royaume de Belgique — Gouvernement d\'Union Nationale' : 'Royaume de Belgique Liberato'})`,
-          s >= 18
-            ? 'Maggio 1945 - Settembre 1947: Regno del Belgio interamente liberato; Eupen-Malmedy reintegrata.'
-            : 'Aprile 1945: l\'intero territorio del Regno del Belgio è liberato.',
+          `${rawName || 'Belgique'} (Regno del Belgio — Delega al Principe Reale Baldovino, 11 Ago 1950 · NATO & Benelux)`,
+          '31 Dicembre 1950: al culmine della crisi della Questione Reale dopo il rientro di Leopoldo III (22 luglio) e lo sciopero generale, l\'11 agosto 1950 il sovrano delega i poteri costituzionali al figlio Baldovino come Principe Reale (l\'abdicazione formale avverrà nel luglio 1951); governo Joseph Pholien nel Benelux e nella NATO.',
+          'Alleati',
+          'Royaume de Belgique — Principe Reale Baldovino (Delega 11 Ago 1950 · PM Joseph Pholien)'
+        );
+      }
+      if (s >= 18) {
+        const belPost = getTop('BEL');
+        return makeResult(
+          'BEL',
+          belPost.name || rawName || 'Belgique',
+          belPost.note || 'Royaume de Belgique — Territorio interamente liberato e integrato nel Benelux.',
+          'Alleati',
+          belPost.adminTitle || 'Royaume de Belgique / Koninkrijk België'
+        );
+      }
+      if (s === 17) {
+        return makeResult(
+          'BEL',
+          `${rawName || 'Belgique'} (Royaume de Belgique Liberato)`,
+          'Aprile 1945: l\'intero territorio del Regno del Belgio è liberato.',
           'Alleati',
           'Royaume de Belgique / Koninkrijk België'
         );
@@ -11060,25 +13230,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const isBulgeBe =
           nid === 'BE342' ||
           nid === 'BE336' ||
-          nid === 'BE351' ||
           nrm.includes('bastogne') ||
-          nrm.includes('verviers') ||
-          nrm.includes('dinant');
+          nrm.includes('eupen') ||
+          nrm.includes('sankt vith');
         if (isBulgeBe) {
           return makeResult(
             'GER',
             `${rawName || 'Ardennen'} (Controffensiva delle Ardenne — Wacht am Rhein)`,
-            'Dicembre 1944: saliente offensivo della Wehrmacht nelle Ardenne belghe (Bastogne, Dinant, Verviers).',
+            'Dicembre 1944 (31 dic): saliente offensivo della Wehrmacht ancora formato nelle Ardenne belghe orientali (Sankt Vith, Houffalize e corridoio di Bastogne; l\'avanguardia verso Celles/Dinant è già stata accerchiata e distrutta il 27 dicembre).',
             'Asse',
             'Deutsche Wehrmacht — Heeresgruppe B'
           );
         }
+        let belStep16Note = 'Dicembre 1944: territorio belga liberato sotto il Governo d\'Union Nationale.';
+        if (nid === 'BE211' || nrm.includes('antwerp')) {
+          belStep16Note = 'Porto di Anversa liberato nel settembre 1944 e sbloccato dopo la battaglia della Schelda per i rifornimenti alleati.';
+        } else if (nid === 'BE351' || nrm.includes('dinant')) {
+          belStep16Note = 'Dicembre 1944 (31 dic): l\'estrema puntata della 2. Panzer-Division fino a Celles/Foy-Notre-Dame (24 dic) alle porte di Dinant è stata accerchiata e annientata tra il 25 e il 27 dicembre dalla 2ª Divisione Corazzata USA e dalla 29ª Brigata britannica; arrondissement saldamente sotto controllo alleato.';
+        } else if (nid === 'BE343' || nrm.includes('marche')) {
+          belStep16Note = 'Dicembre 1944 (31 dic): linea di contenimento settentrionale alleata (84ª Div. USA e 53ª Div. britannica) ancorata su Marche-en-Famenne e Hotton lungo il margine occidentale del saliente tedesco (La Roche-en-Ardenne sul versante orientale dell\'Ourthe resta contesa fino a gennaio 1945).';
+        }
         return makeResult(
           'BEL',
           `${rawName || 'Belgique'} (Territorio Liberato)`,
-          nid === 'BE211' || nrm.includes('antwerp')
-            ? 'Porto di Anversa liberato nel settembre 1944 e sbloccato dopo la battaglia della Schelda per i rifornimenti alleati.'
-            : 'Dicembre 1944: territorio belga liberato sotto il Governo d\'Union Nationale.',
+          belStep16Note,
           'Alleati',
           'Royaume de Belgique / Koninkrijk België'
         );
@@ -11335,6 +13510,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IRL':
     case 'EIR':
     case 'IE':
+      if (s >= 23) {
+        return makeResult(
+          'IRE',
+          'Repubblica d\'Irlanda (Republic of Ireland Act 1948 — 18 Aprile 1949)',
+          'Il 18 aprile 1949 entra in vigore il Republic of Ireland Act 1948 (approvato dal governo Costello): l\'Irlanda (Éire) assume ufficialmente la forma repubblicana sotto il Presidente Seán T. O\'Kelly ed esce formalmente dal Commonwealth britannico.',
+          'Neutrale',
+          'Republic of Ireland / Poblacht na hÉireann (Pres. Seán T. O\'Kelly · Taoiseach John A. Costello)'
+        );
+      }
       return makeResult('IRE', rawName, 'Irlanda (Éire) — Neutrale');
 
     case 'SWI':
@@ -11455,11 +13639,39 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'COL':
     case '170':
     case 'XCO':
+      if (s >= 21) {
+        const isViolenciaDept =
+          nrm.includes('tolima') ||
+          nrm.includes('meta') ||
+          nrm.includes('casanare') ||
+          nrm.includes('boyac') ||
+          nrm.includes('santander') ||
+          nrm.includes('cundinamarca') ||
+          nrm.includes('bogot');
+        return makeResult(
+          'COL',
+          isViolenciaDept
+            ? `${rawName || 'Colombia'} (Repubblica di Colombia — El Bogotazo del 9 Aprile 1948 & Scoppio de La Violencia)`
+            : `${getTop('COL').name || 'Repubblica di Colombia'} (El Bogotazo & Carta dell'OSA, Aprile 1948)`,
+          'Il 9 aprile 1948 l\'assassinio a Bogotà del leader popolare liberale Jorge Eliécer Gaitán (mentre è in corso la IX Conferenza Panamericana che il 30 aprile fonda l\'Organizzazione degli Stati Americani — OSA) scatena la devastante insurrezione urbana de El Bogotazo e fa precipitare la Colombia nel conflitto civile rurale de La Violencia (particolarmente acuto nei dipartimenti di Tolima, Meta, Casanare, Boyacá e Santander) sotto il governo conservatore di Mariano Ospina Pérez.',
+          'Alleati',
+          'República de Colombia (Presidente Mariano Ospina Pérez — Stato d\'Assedio / La Violencia)'
+        );
+      }
       return makeResult('COL', getTop('COL').name, 'Repubblica di Colombia');
     case 'VE':
     case 'VEN':
     case '862':
     case 'XVE':
+      if (s >= 22) {
+        return makeResult(
+          'VEN',
+          'Stati Uniti del Venezuela (Giunta Militare di Governo — Ten. Col. Carlos Delgado Chalbaud, 24 Novembre 1948)',
+          'Il 24 novembre 1948 le Forze Armate venezuelane rovesciano con un colpo di Stato incruento il primo presidente eletto democraticamente a suffragio universale Rómulo Gallegos (Azione Democratica), istituendo una Giunta Militare guidata da Carlos Delgado Chalbaud, Marcos Pérez Jiménez e Luis Felipe Llovera Páez.',
+          'Alleati',
+          'Junta Militar de Gobierno de los Estados Unidos de Venezuela (Ten. Col. Carlos Delgado Chalbaud)'
+        );
+      }
       return makeResult('VEN', getTop('VEN').name, 'Stati Uniti del Venezuela');
     case 'EC':
     case 'ECU':
@@ -11521,6 +13733,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'SLV':
     case '222':
     case 'XSV':
+      if (s >= 22) {
+        return makeResult(
+          'SLV',
+          'Repubblica di El Salvador (Consiglio di Governo Rivoluzionario — "Golpe de los Mayores", 14 Dicembre 1948)',
+          'Il 14 dicembre 1948 un colpo di Stato guidato da giovani ufficiali dell\'esercito ("Golpe de los Mayores") destituisce il generale Salvador Castaneda Castro che tentava di prolungare il proprio mandato, instaurando il Consiglio di Governo Rivoluzionario sotto il magg. Óscar Osorio e il ten. col. Manuel de Jesús Córdoba.',
+          'Alleati',
+          'Consejo de Gobierno Revolucionario de El Salvador (Magg. Óscar Osorio · 14 Dic 1948)'
+        );
+      }
       return makeResult('SLV', getTop('SLV').name || 'Repubblica di El Salvador', getTop('SLV').note || 'Governo del Gen. Maximiliano Hernández Martínez', s >= 9 ? 'Alleati' : 'Neutrale', getTop('SLV').adminTitle);
 
     case 'HN':
@@ -11539,6 +13760,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'CRI':
     case '188':
     case 'XCR':
+      if (s >= 21) {
+        return makeResult(
+          'CRI',
+          'Repubblica di Costa Rica (Giunta Fondatrice della Seconda Repubblica — José Figueres Ferrer, 8 Maggio 1948)',
+          'Tra il 12 marzo e il 24 aprile 1948 la Guerra Civile di Costa Rica (scatenata dall\'annullamento delle presidenziali vinte da Otilio Ulate) vede la vittoria dell\'Esercito di Liberazione Nazionale guidato da José "Don Pepe" Figueres Ferrer contro il governo di Teodoro Picado; l\'8 maggio 1948 si insedia a San José la Giunta Fondatrice della Seconda Repubblica presieduta da Figueres Ferrer, che avvia riforme sociali storiche e l\'abolizione delle forze armate.',
+          'Neutrale',
+          'Junta Fundadora de la Segunda República de Costa Rica (Presidente José Figueres Ferrer)'
+        );
+      }
       return makeResult('CRI', getTop('CRI').name || 'Repubblica di Costa Rica', getTop('CRI').note || 'Repubblica Costituzionale di Costa Rica', s >= 9 ? 'Alleati' : 'Neutrale', getTop('CRI').adminTitle);
 
     case 'PA':
@@ -11728,6 +13958,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '524':
     case 'XNP':
     case 'NEP':
+      if (s >= 26) {
+        return makeResult(
+          'NEP',
+          'Regno del Nepal (Crisi di Re Tribhuvan Nov 1950 & Offensiva del Congresso nel Terai)',
+          '31 Dicembre 1950 (Regno del Nepal): nel novembre 1950 Re Tribhuvan si rifugia in India mentre la Mukti Sena del Congresso Nepalese conquista piazzeforti nel Terai (Birgunj, Biratnagar, Jhapa) contro il regime Rana del Primo Ministro Mohan Shumsher.',
+          'Neutrale',
+          'Regno del Nepal (Regime Rana · Re Tribhuvan in Esilio · Insurrezione Terai Nov 1950)'
+        );
+      }
       return makeResult('NEP', getTop('NEP').name || 'Regno del Nepal', 'Regno del Nepal (Dinastia Shah / Primi Ministri Rana)');
     case 'BT':
     case 'BTN':
@@ -11738,32 +13977,47 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'TH':
     case 'THA':
     case '764':
-    case 'SIA':
+    case 'SIA': {
+      const thProv = p.REGION_KIND === 'THAILAND_PROVINCE' ? (p.NUTS_NAME || p.NAME_LATN || p.name || '') : '';
+      const thPrefix = thProv ? `${thProv} — ` : '';
       if (s >= 18) {
         return makeResult(
           'SIA',
-          s >= 19
-            ? 'Regno di Thailandia (Ratcha-anachak Thai — Post-Trattato di Washington & ONU)'
-            : 'Regno di Thailandia (Governo di Pace Seri Thai — Settembre 1945)',
+          `${thPrefix}${
+            s >= 19
+              ? 'Regno di Thailandia (Ratcha-anachak Thai — Post-Trattato di Washington & ONU)'
+              : 'Regno di Thailandia (Governo di Pace Seri Thai — Settembre 1945)'
+          }`,
           s >= 19
             ? 'Al 30 settembre 1947 la Thailandia (membro ONU dal dicembre 1946) ha restituito i territori annessi in guerra a Francia (Battambang, Siem Reap, Champassak, Sayaboury — Trattato di Washington) e Regno Unito (stati malesi e Shan).'
             : 'Settembre 1945: dopo la resa giapponese il Reggente Pridi Banomyong e il P.M. Seni Pramoj guidano il governo Seri Thai, dichiarando nulla la dichiarazione di guerra del 1942 e avviando la restituzione dei territori occupati.',
           'Neutrale',
           s >= 19
-            ? 'Ratcha-anachak Thai — Re Bhumibol Adulyadej (Rama IX) / P.M. Thawan Thamrongnawasawat'
+            ? 'Ratcha-anachak Thai — Re Bhumibol Adulyadej (Rama IX)'
             : 'Ratcha-anachak Thai — Governo Seri Thai (Reggente Pridi Banomyong / P.M. Seni Pramoj)'
         );
       }
       if (s >= 9) {
         return makeResult(
           'SIA',
-          getTop('SIA').name || 'Ratcha-anachak Thai (Regno di Thailandia — Alleanza con il Giappone)',
+          thProv ? `${thProv} — Ratcha-anachak Thai (Alleanza con il Giappone)` : (getTop('SIA').name || 'Ratcha-anachak Thai (Regno di Thailandia — Alleanza con il Giappone)'),
           'Dopo gli sbarchi giapponesi dell\'8 dicembre 1941 a Singora, Pattani e Prachuap Khiri Khan, il governo del Maresciallo Plaek Phibunsongkhram ordina l\'armistizio, concede il libero transito alle armate giapponesi verso Malesia e Birmania e il 21 dicembre 1941 firma a Bangkok il Trattato formale di Alleanza militare con Tokyo.',
           'Asse',
           'Ratcha-anachak Thai — Maresciallo Plaek Phibunsongkhram (Alleato dell\'Asse)'
         );
       }
-      return makeResult('SIA', getTop('SIA').name, 'Regno del Siam (Thailandia)');
+      return makeResult(
+        'SIA',
+        thProv
+          ? `${thProv} — ${s <= 4 ? 'Regno del Siam (Sayam)' : 'Regno di Thailandia'}`
+          : (s <= 4 ? 'Regno del Siam (Sayam)' : 'Regno di Thailandia (Ratcha-anachak Thai)'),
+        s <= 4
+          ? 'Regno del Siam (Sayam — Reggenza per Re Ananda Mahidol).'
+          : 'Regno di Thailandia (Ratcha-anachak Thai dal 24 giugno 1939 — Rathaniyom n. 1).',
+        'Neutrale',
+        s <= 4 ? 'Prathet Sayam (Regno del Siam)' : 'Ratcha-anachak Thai (Regno di Thailandia)'
+      );
+    }
     case 'TUV':
     case 'XTU': {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || getTop('TUV').name || 'Repubblica Popolare di Tannu Tuva';
@@ -11903,9 +14157,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('AST', getTop('AST').name, 'Commonwealth d\'Australia');
     case 'NZL':
     case 'NZ':
-      return makeResult('NZL', getTop('NZL').name, 'Dominion della Nuova Zelanda');
+      return makeResult(
+        'NZL',
+        s >= 20
+          ? `${getTop('NZL').name || 'Nuova Zelanda'} (Sovranità Legislativa Piena — Statute of Westminster Adoption Act, 25 Nov 1947)`
+          : getTop('NZL').name,
+        s >= 20
+          ? 'Il 25 novembre 1947 il Parlamento di Wellington approva lo Statute of Westminster Adoption Act 1947 (sotto il Primo Ministro laburista Peter Fraser), conferendo alla Nuova Zelanda la piena sovranità legislativa e l\'indipendenza costituzionale dal Parlamento britannico nell\'ambito del Commonwealth.'
+          : 'Dominion della Nuova Zelanda',
+        'Alleati',
+        s >= 20
+          ? 'New Zealand — Sovereign Realm of the Commonwealth (PM Peter Fraser · Statute of Westminster Adoption Act 1947)'
+          : 'Dominion of New Zealand'
+      );
     case 'SAF':
     case 'ZA':
+      if (s >= 21) {
+        return makeResult(
+          'SAF',
+          'Unione Sudafricana (Vittoria del Partito Nazionale di D.F. Malan & Avvio dell\'Apartheid — Maggio–Giugno 1948)',
+          'Nelle elezioni generali del 26 maggio 1948 il Partito Nazionale (Herenigde Nasionale Party) guidato dal pastore nazionalista afrikaner Daniel François Malan sconfigge il maresciallo Jan Smuts; il 4 giugno 1948 Malan assume la carica di Primo Ministro a Pretoria inaugurando ufficialmente la dottrina di segregazione razziale istituzionalizzata dell\'Apartheid.',
+          'Alleati',
+          'Union of South Africa / Unie van Suid-Afrika (Prime Minister D.F. Malan · National Party)'
+        );
+      }
       return makeResult('SAF', getTop('SAF').name, 'Unione Sudafricana');
     case 'RAJ':
     case 'IN':
@@ -11989,6 +14264,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IRQ':
     case '368':
     case 'XIQ':
+      if (s >= 21) {
+        return makeResult(
+          'IRQ',
+          "Al-Mamlakah al-‘Irāqiyyah (Regno dell'Iraq — Intervento in Palestina & Rivolta di al-Wathbah, Giugno 1948)",
+          "Gennaio–Giugno 1948: dopo l'insurrezione popolare di Baghdad (al-Wathbah, gennaio 1948) che costringe alle dimissioni Salih Jabr e fa naufragare il Trattato anglo-iracheno di Portsmouth, il 15 maggio 1948 il Regno dell'Iraq invia un corpo di spedizione di 15.000 uomini in Palestina, che al 30 giugno 1948 (Prima Tregua ONU) presidia il triangolo strategico della Samaria (Nablus, Jenin e Tulkarm).",
+          'Neutrale',
+          "Al-Mamlakah al-'Irāqiyyah — Re Faysal II · Reggente 'Abd al-Ilah · P.M. Muzahim al-Pachachi (Giugno 1948)"
+        );
+      }
+      if (s >= 20) {
+        return makeResult(
+          'IRQ',
+          "Al-Mamlakah al-‘Irāqiyyah (Regno dell'Iraq — Dicembre 1947)",
+          "Dicembre 1947: il governo iracheno del Primo Ministro Salih Jabr e del Reggente 'Abd al-Ilah guida al vertice della Lega Araba del Cairo la linea contro la spartizione della Palestina (Ris. ONU 181), avviando parallelamente negoziati segreti con Londra per la revisione del trattato anglo-iracheno.",
+          'Neutrale',
+          "Al-Mamlakah al-'Irāqiyyah — Re Faysal II · Reggente 'Abd al-Ilah · P.M. Salih Jabr (Dic. 1947)"
+        );
+      }
       if (s >= 19) {
         return makeResult(
           'IRQ',
@@ -11996,6 +14289,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'Regno Hashemita dell\'Iraq pienamente sovrano dopo la fine dell\'occupazione militare bellica PAIFORCE (1946). Governato dal Reggente \'Abd al-Ilah per conto di Re Faysal II e dal Primo Ministro Salih Jabr, membro fondatore della Lega Araba e dell\'ONU.',
           'Neutrale',
           'Al-Mamlakah al-\'Irāqiyyah — Re Faysal II · Reggente \'Abd al-Ilah · P.M. Salih Jabr'
+        );
+      }
+      if (s >= 18) {
+        return makeResult(
+          'UK',
+          "Regno dell'Iraq — Smobilitazione Postbellica PAIFORCE (Settembre 1945)",
+          "Settembre 1945: a guerra conclusa il governo del Reggente 'Abd al-Ilah e del P.M. Hamdi al-Pachachi — membro fondatore dell'ONU e della Lega Araba — avvia la smobilitazione progressiva della Persia and Iraq Force (PAIFORCE) dalle basi di Baghdad, Bassora e Habbaniya.",
+          'Alleati',
+          "Al-Mamlakah al-'Irāqiyyah — Reggente 'Abd al-Ilah & British PAIFORCE (Settembre 1945)"
         );
       }
       if (s >= 9) {
@@ -12021,6 +14323,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'EG':
     case 'EGY':
     case '818':
+      if (s >= 21) {
+        return makeResult(
+          'EGY',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Intervento in Palestina & Prima Tregua ONU, Giugno 1948)",
+          "15 Maggio – 30 Giugno 1948: il Regno d'Egitto di Re Faruq I e del Primo Ministro Mahmoud an-Nukrashi Pasha guida l'intervento della Lega Araba nella guerra di Palestina; al 30 giugno 1948 (Prima Tregua ONU) il corpo di spedizione egiziano controlla la fascia costiera di Gaza e Majdal fino a Isdud nonché Beersheba e l'asse del Negev.",
+          'Neutrale',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mahmoud an-Nukrashi Pasha, Giugno 1948)"
+        );
+      }
+      if (s >= 20) {
+        return makeResult(
+          'EGY',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Vertice del Cairo, Dicembre 1947)",
+          "Dicembre 1947: il Cairo ospita il vertice straordinario della Lega Araba (8–17 dicembre 1947) contro la Risoluzione ONU 181; dopo lo stallo al Consiglio di Sicurezza ONU, la guarnigione britannica resta confinata alla Zona del Canale di Suez mentre il governo Nukrashi affronta forti tensioni nazionaliste.",
+          'Neutrale',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mahmoud an-Nukrashi Pasha, Dic. 1947)"
+        );
+      }
       if (s >= 19) {
         return makeResult(
           'EGY',
@@ -12034,6 +14354,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'JO':
     case 'JOR':
     case '400':
+      if (s >= 21) {
+        return makeResult(
+          'JOR',
+          'Regno Hashemita di Transgiordania (Controllo della Cisgiordania, Latrun e Gerusalemme Est — Giugno 1948)',
+          "15 Maggio – 30 Giugno 1948: nominato Comandante supremo delle forze arabe, Re Abd Allah I invia la Legione Araba (guidata da Glubb Pasha) oltre il Giordano; al 30 giugno 1948 (Prima Tregua ONU) la Transgiordania controlla la Giudea e la Samaria (Cisgiordania), il saliente fortificato di Latrun e la Città Vecchia di Gerusalemme Est (espugnata il 28 maggio 1948).",
+          'Neutrale',
+          'Regno Hashemita di Transgiordania (Re Abd Allah I bin al-Husayn & Glubb Pasha — Giugno 1948)'
+        );
+      }
+      if (s >= 20) {
+        return makeResult(
+          'JOR',
+          'Regno Hashemita di Transgiordania (Amman — Dicembre 1947)',
+          "Dicembre 1947: il Regno Hashemita di Re Abd Allah I — dotato della Legione Araba guidata da Glubb Pasha — bilancia l'adesione formale al vertice della Lega Araba del Cairo con la tutela degli interessi hashemiti nella Cisgiordania araba dopo la Risoluzione ONU 181.",
+          'Neutrale',
+          'Regno Hashemita di Transgiordania (Re Abd Allah I bin al-Husayn & Glubb Pasha — Dic. 1947)'
+        );
+      }
       if (s >= 19) {
         return makeResult(
           'JOR',
@@ -12047,23 +14385,53 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'KW':
     case 'KWT':
     case '414':
-      return makeResult('UK', 'Sheikhdom of Kuwait (Protettorato Britannico — Al-Kuwait)', "Sceiccato del Kuwait sotto l'Emiro Ahmad Al-Jaber Al-Sabah; dal giugno 1946 avviate le esportazioni commerciali di greggio da Burgan (KOC).", s >= 4 ? 'Alleati' : 'Neutrale', 'British Persian Gulf Residency — Political Agency Kuwait');
+      return makeResult(
+        'UK',
+        'Sheikhdom of Kuwait (Protettorato Britannico — Al-Kuwait)',
+        `Sceiccato del Kuwait sotto l'Emiro Ahmad Al-Jaber Al-Sabah; dal giugno 1946 avviate le esportazioni commerciali di greggio da Burgan (KOC).${s >= 19 ? " Dopo l'indipendenza indiana (agosto 1947), l'Agenzia Politica risponde al Foreign Office di Londra via Manama." : ''}`,
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        'British Persian Gulf Residency — Political Agency Kuwait'
+      );
     case 'QA':
     case 'QAT':
     case '634':
-      return makeResult('UK', 'Sheikhdom of Qatar (Protettorato Britannico — Doha)', "Protettorato britannico del Qatar (Trattato Anglo-Qatariota del 1916) sotto l'Emiro Abdullah bin Jassim Al Thani.", s >= 4 ? 'Alleati' : 'Neutrale', 'British Persian Gulf Residency — Qatar');
+      return makeResult(
+        'UK',
+        'Sheikhdom of Qatar (Protettorato Britannico — Doha)',
+        `Protettorato britannico del Qatar (Trattato Anglo-Qatariota del 1916) sotto l'Emiro Abdullah bin Jassim Al Thani.${s >= 19 ? ' Sotto giurisdizione del Foreign Office tramite la Residency di Manama dal 1947.' : ''}`,
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        'British Persian Gulf Residency — Qatar'
+      );
     case 'AE':
     case 'ARE':
     case '784':
-      return makeResult('UK', 'Trucial States / Trucial Oman (Stati della Tregua — Sharjah & Dubai)', "I sette emirati della Costa della Tregua sotto protettorato britannico e base strategica RAF Sharjah.", s >= 4 ? 'Alleati' : 'Neutrale', 'British Political Residency — Trucial States');
+      return makeResult(
+        'UK',
+        'Trucial States / Trucial Oman (Stati della Tregua — Sharjah & Dubai)',
+        `I sette emirati della Costa della Tregua sotto protettorato britannico e base strategica RAF Sharjah.${s >= 19 ? ' Coordinamento del Foreign Office tramite la Residency di Manama dal 1947.' : ''}`,
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        'British Political Residency — Trucial States'
+      );
     case 'OM':
     case 'OMN':
     case '512':
-      return makeResult('UK', 'Sultanate of Muscat and Oman (Protettorato & Sfera Britannica — Mascate)', "Sultanato di Mascate e Oman sotto il Sultano Said bin Taimur (Trattato di Seeb), legato alla Corona britannica.", s >= 4 ? 'Alleati' : 'Neutrale', 'Sultanate of Muscat and Oman (British Agency — Muscat)');
+      return makeResult(
+        'UK',
+        'Sultanate of Muscat and Oman (Protettorato & Sfera Britannica — Mascate)',
+        `Sultanato di Mascate e Oman sotto il Sultano Said bin Taimur (Trattato di Seeb del 1920), legato alla Corona britannica.${s >= 19 ? " Dall'agosto 1947 il Consolato/Agenzia Politica di Mascate dipende dal Foreign Office britannico." : ''}`,
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        'Sultanate of Muscat and Oman (British Agency — Muscat)'
+      );
     case 'BH':
     case 'BHR':
     case '048':
-      return makeResult('UK', 'Sheikhdom of Bahrain (British Persian Gulf Residency — Manama)', "Protettorato britannico del Bahrein (Salman bin Hamad Al Khalifa); dal 1946 Manama ospita la British Political Residency nel Golfo Persico.", s >= 4 ? 'Alleati' : 'Neutrale', 'British Political Residency in the Persian Gulf (Manama)');
+      return makeResult(
+        'UK',
+        'Sheikhdom of Bahrain (British Persian Gulf Residency — Manama)',
+        `Protettorato britannico del Bahrein (Salman bin Hamad Al Khalifa); dal 1946 Manama ospita la British Political Residency nel Golfo Persico.${s >= 19 ? " Dall'agosto 1947 sede diretta del Foreign Office per tutto il Golfo." : ''}`,
+        s >= 4 ? 'Alleati' : 'Neutrale',
+        'British Political Residency in the Persian Gulf (Manama)'
+      );
 
     case 'LR':
     case 'LBR':
@@ -13115,7 +15483,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
 
-      if (ITA_COL[cntr] || cntr === 'LY' || cntr === 'LBY' || nid.startsWith('LY')) {
+      if (ITA_COL[cntr] || cntr === 'LY' || cntr === 'LBY' || nid.startsWith('LY') || nrm.includes('italian somaliland')) {
         if (s >= 8 && (cntr === 'ER' || cntr === 'ERI' || nrm.includes('eritrea') || nid.startsWith('ER'))) {
           if (s >= 19) {
             return makeResult(
@@ -13135,6 +15503,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           );
         }
         if (s >= 8 && (cntr === 'SO' || cntr === 'SOM' || nrm.includes('somal') || nid.startsWith('SO'))) {
+          if (s >= 25) {
+            return makeResult(
+              'AFIS',
+              'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU dal 1° Aprile 1950, Mogadiscio)',
+              'Il 1° aprile 1950 cessa l\'amministrazione militare britannica (BMA) nell\'ex Somalia Italiana e inizia ufficialmente il mandato decennale (1950–1960) dell\'Amministrazione Fiduciaria Italiana della Somalia (AFIS) per conto delle Nazioni Unite (Risoluzione ONU 289 del 21 novembre 1949), con esposizione congiunta della bandiera ONU e del Tricolore della Repubblica Italiana sotto l\'Amministratore Giovanni Fornari a Mogadiscio (il Somaliland Britannico e l\'Ogaden restano rispettivamente a Regno Unito ed Etiopia).',
+              'Alleati',
+              'Amministrazione Fiduciaria Italiana della Somalia — AFIS (ONU / Repubblica Italiana — Amb. Giovanni Fornari, Mogadiscio)'
+            );
+          }
           if (s >= 19) {
             return makeResult(
               'UK',
@@ -13588,6 +15965,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         );
       }
       if (UK_COL[cntr]) {
+        if (s >= 21 && (cntr === 'MM' || cntr === 'MMR' || nrm.includes('burma') || nrm.includes('birmania'))) {
+          return makeResult(
+            'BUR',
+            'Unione della Birmania (Repubblica Sovrana Indipendente — 4 Gennaio 1948 & Insurrezione Comunista)',
+            'Il 4 gennaio 1948 la Birmania proclama la piena indipendenza dal Regno Unito come Repubblica sovrana al di fuori del Commonwealth sotto il Presidente Sao Shwe Thaik e il Primo Ministro U Nu; dalla primavera 1948 il governo affronta l\'insurrezione armata del Partito Comunista della Birmania (CPB) nelle province centrali e meridionali.',
+            'Neutrale',
+            'Union of Burma · Pyidaungzu Myanma Naingngandaw (Pres. Sao Shwe Thaik · PM U Nu)'
+          );
+        }
+        if (s >= 21 && (cntr === 'LK' || cntr === 'LKA' || nrm.includes('ceylon') || nrm.includes('sri lanka'))) {
+          return makeResult(
+            'CEY',
+            'Dominion di Ceylon (Reame Indipendente del Commonwealth — 4 Febbraio 1948)',
+            'Il 4 febbraio 1948 entra in vigore il Ceylon Independence Act: l\'isola di Ceylon diviene il Dominion di Ceylon, reame indipendente all\'interno del Commonwealth delle Nazioni sotto il Primo Ministro Don Stephen Senanayake e il Governatore Generale Sir Henry Monck-Mason Moore.',
+            'Alleati',
+            'Dominion of Ceylon (PM D.S. Senanayake · Gov.-Gen. Sir Henry Monck-Mason Moore)'
+          );
+        }
         if (s >= 10 && s <= 16 && (cntr === 'MM' || cntr === 'MMR' || nrm.includes('burma') || nrm.includes('birmania'))) {
           if (s === 14) {
             return makeResult(

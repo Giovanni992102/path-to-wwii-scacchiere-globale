@@ -19,9 +19,14 @@
  * 13. Kresy Wschodnie — Województwo Lwowskie Orientale (Lwów, Drohobycz, Borysław, Sambor, Rawa Ruska)
  */
 
-import { makeResult, resolveKoperZoneB, resolveBuieZoneB } from './georesolver';
+import { makeResult, resolveKoperZoneB, resolveBuieZoneB, resolveFeature } from './georesolver';
 import { resolveGermanyProvince } from './germanyProvinces';
 import { ResolvedTerritory } from '../types';
+
+/** Delega a georesolver.ts evitando la ricorsione su ft.__resolve. */
+function resolveWithoutHook(ft: any, s: number): ResolvedTerritory {
+  return resolveFeature({ ...ft, __resolve: undefined }, s);
+}
 import {
   BOSNIA_FEDERATION_FEATURE,
   BOSNIA_SRPSKA_FEATURE,
@@ -783,15 +788,6 @@ export const KONIGSBERG_OSTPREUSSEN_FEATURE: any = {
   __kind: 'KONIGSBERG',
 };
 KONIGSBERG_OSTPREUSSEN_FEATURE.__resolve = (s: number): ResolvedTerritory => {
-  if (s >= 17) {
-    return makeResult(
-      'SOV',
-      "Königsberg (Espugnata dall'Armata Rossa — 9 Aprile 1945)",
-      "Il 9 aprile 1945 le truppe del 3° Fronte Bielorusso (Maresciallo Vasilevskij) espugnano la fortezza storica di Königsberg dopo un violento assalto, costringendo il generale Otto Lasch alla resa.",
-      'Comintern',
-      'SSSR — 3° Fronte Bielorusso (Maresciallo Aleksandr Vasilevskij)'
-    );
-  }
   return resolveGermanyProvince(KONIGSBERG_OSTPREUSSEN_FEATURE, s);
 };
 
@@ -1160,15 +1156,7 @@ export const SAN_MARINO_FEATURE: any = {
   },
   __layer: 'prov',
   __kind: 'SAN_MARINO',
-  __resolve: (_s: number): ResolvedTerritory => {
-    return makeResult(
-      'SMR',
-      'Repubblica di San Marino',
-      'Serenissima Repubblica di San Marino (Stato Neutrale)',
-      'Neutrale',
-      'Serenissima Repubblica di San Marino'
-    );
-  },
+  __resolve: (s: number): ResolvedTerritory => resolveWithoutHook(SAN_MARINO_FEATURE, s),
 };
 
 // ----------------------------------------------------------------------------
@@ -1205,19 +1193,7 @@ export const VATICAN_CITY_FEATURE: any = {
   },
   __layer: 'prov',
   __kind: 'VATICAN_CITY',
-  __resolve: (s: number): ResolvedTerritory => {
-    return makeResult(
-      'VAT',
-      'Stato della Città del Vaticano',
-      s < 4
-        ? 'Stato della Città del Vaticano (Papa Pio XI - Neutralità)'
-        : 'Stato della Città del Vaticano (Papa Pio XII - Neutralità)',
-      'Neutrale',
-      s < 4
-        ? 'Stato della Città del Vaticano (Papa Pio XI)'
-        : 'Stato della Città del Vaticano (Papa Pio XII)'
-    );
-  },
+  __resolve: (s: number): ResolvedTerritory => resolveWithoutHook(VATICAN_CITY_FEATURE, s),
 };
 
 // ----------------------------------------------------------------------------
@@ -1256,15 +1232,7 @@ export const GIBRALTAR_COLONY_FEATURE: any = {
   },
   __layer: 'prov',
   __kind: 'GIBRALTAR_COLONY',
-  __resolve: (_s: number): ResolvedTerritory => {
-    return makeResult(
-      'GIB',
-      'Gibraltar (Crown Colony)',
-      'Gibraltar — Fortezza Navale Britannica (Force H)',
-      'Alleati',
-      'British Empire — Crown Colony of Gibraltar'
-    );
-  },
+  __resolve: (s: number): ResolvedTerritory => resolveWithoutHook(GIBRALTAR_COLONY_FEATURE, s),
 };
 
 // ----------------------------------------------------------------------------
@@ -1306,15 +1274,7 @@ export const ANDORRA_FEATURE: any = {
   },
   __layer: 'prov',
   __kind: 'ANDORRA',
-  __resolve: (_s: number): ResolvedTerritory => {
-    return makeResult(
-      'AND',
-      'Principato d\'Andorra',
-      'Principato d\'Andorra (Coprincipato Sovrano Neutrale)',
-      'Neutrale',
-      "Principat d'Andorra (Coprincipato Sovrano Neutrale)"
-    );
-  },
+  __resolve: (s: number): ResolvedTerritory => resolveWithoutHook(ANDORRA_FEATURE, s),
 };
 
 // ----------------------------------------------------------------------------
@@ -1354,17 +1314,7 @@ export const LIECHTENSTEIN_FEATURE: any = {
   },
   __layer: 'prov',
   __kind: 'LIECHTENSTEIN',
-  __resolve: (s: number): ResolvedTerritory => {
-    return makeResult(
-      'LIE',
-      'Fürstentum Liechtenstein (Vaduz)',
-      s < 2
-        ? 'Fürstentum Liechtenstein — Principe Franz I (Neutrale / Zollunion Schweiz)'
-        : 'Fürstentum Liechtenstein — Principe Franz Josef II (Neutrale / Zollunion Schweiz)',
-      'Neutrale',
-      'Fürstentum Liechtenstein (Souveränes Fürstentum)'
-    );
-  },
+  __resolve: (s: number): ResolvedTerritory => resolveWithoutHook(LIECHTENSTEIN_FEATURE, s),
 };
 
 
@@ -1452,6 +1402,9 @@ export const MONACO_FEATURE: any = {
   __layer: 'prov',
   __kind: 'MONACO',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 18) {
+      return resolveWithoutHook(MONACO_FEATURE, s);
+    }
     if (s >= 15) {
       return makeResult(
         'MCO',

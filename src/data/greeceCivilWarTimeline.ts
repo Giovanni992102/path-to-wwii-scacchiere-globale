@@ -187,33 +187,102 @@ export function resolveGreeceCivilWarStep(
     };
   }
 
-  // 5. STEP 19 (SET 1947): TERZA FASE — GUERRA CIVILE GRECA (DSE vs Regno di Grecia + Dottrina Truman)
+  // 5. STEP >= 24 (DIC 1949): FINE DELLA GUERRA CIVILE GRECA (Operazione Torcia su Vitsi & Grammos, Cessate il Fuoco 16 Ottobre 1949)
+  if (step >= 24) {
+    const isFormerBastion = Boolean(DSE_1947_STRONGHOLDS[d.nuts]);
+    return {
+      name: isFormerBastion
+        ? `${d.capitalOrChefLieu} (${d.historicalRegion} — Riconquistata in Operazione Torcia · 100% Regno di Grecia)`
+        : d.nuts.startsWith('EL30')
+        ? `${d.capitalOrChefLieu} (Atene — Fine Guerra Civile Greca, Dicembre 1949)`
+        : `${d.capitalOrChefLieu} (${d.historicalRegion} — 100% Regno di Grecia, Dicembre 1949)`,
+      adminTitle: 'Vasileion tis Ellados — Re Paolo I · P.M. Alexandros Diomidis · Maresciallo Alexandros Papagos (100% Sovranità)',
+      note: isFormerBastion
+        ? '16 Ottobre 1949 — Fine della Guerra Civile Greca (100% Regno di Grecia): dopo la sconfitta definitiva del DSE sui massicci di Vitsi (10–16 agosto) e Grammos (24–30 agosto 1949) nell\'Operazione Torcia (Pyrsos) guidata dal Gen. Alexandros Papagos, il Partito Comunista di Grecia (KKE) e il Governo Provvisorio Democratico annunciano il cessate il fuoco il 16 ottobre e ritirano i combattenti superstiti oltre confine in Albania. L\'entità insorgente cessa di esistere e l\'intera regione torna sotto il Regno di Grecia.'
+        : '31 Dicembre 1949 (100% Regno di Grecia): con la vittoria dell\'Esercito Nazionale nell\'Operazione Torcia su Vitsi e Grammos (agosto 1949) e l\'annuncio del cessate il fuoco da parte del KKE/PDG il 16 ottobre 1949, cessa definitivamente la Guerra Civile Greca e l\'intero territorio ellenico è reunificato sotto il governo di Atene (Re Paolo I, P.M. Alexandros Diomidis).',
+      owner: 'GRE',
+      fac: 'Alleati',
+    };
+  }
+
+  // 6. STEP 19-23 (SET 1947 - GIU 1949): TERZA FASE — GUERRA CIVILE GRECA (DSE / PDG vs Regno di Grecia + Papagos, Liberazione Peloponneso & Karpenisi)
+  const isDec1947 = step >= 20;
+  const isJune1948 = step >= 21;
+  const isDec1948 = step >= 22;
+  const isJune1949 = step >= 23;
+  if (isJune1949 && d.nuts === 'EL643') {
+    return {
+      name: 'Karpenisi / Evrytania (Riconquistata dall\'Esercito Nazionale Ellenico — Febbraio 1949)',
+      adminTitle: 'Vasileion tis Ellados — I Corpo d\'Armata Ellenico (Gen. Alexandros Papagos · Giu 1949)',
+      note: 'Al 30 giugno 1949 l\'Evrytania e la cittadina montana di Karpenisi sono saldamente riconquistate dall\'Esercito Nazionale: dopo il raid invernale del DSE che occupò Karpenisi dal 20 gennaio all\'8 febbraio 1949, la controffensiva orchestrata dal Comandante in Capo Gen. Alexandros Papagos espelle definitivamente le forze comuniste dalla Grecia centrale.',
+      owner: 'GRE',
+      fac: 'Alleati',
+    };
+  }
   const dseBastion = DSE_1947_STRONGHOLDS[d.nuts];
   if (dseBastion) {
     return {
-      name: dseBastion.name,
-      adminTitle: dseBastion.adminTitle,
-      note: dseBastion.note,
+      name: isJune1949
+        ? `${dseBastion.name} — Ultime Ridotte di Grammos & Vitsi (Giugno 1949 · Pre-Operazione Torch)`
+        : isDec1948
+        ? `${dseBastion.name} — Riorganizzazione su Vitsi-Prespa & Rientro sul Grammos (Dicembre 1948)`
+        : isJune1948
+        ? `${dseBastion.name} — Offensiva Governativa "Operazione Koronis" sul Grammos (Giugno 1948)`
+        : isDec1947
+        ? `${dseBastion.name} — Governo Democratico Provvisorio (24 Dic 1947)`
+        : dseBastion.name,
+      adminTitle: isJune1949
+        ? 'Prosorini Dimokratiki Kyvernisi (PDG — Dimitrios Partsalidis · Comando DSE Nikos Zachariadis)'
+        : isDec1947
+        ? 'Prosorini Dimokratiki Kyvernisi (Governo Democratico Provvisorio — Primo Ministro e Gen. Markos Vafiadis)'
+        : dseBastion.adminTitle,
+      note: isJune1949
+        ? `${dseBastion.note} Al 30 giugno 1949, sostituito Markos Vafiadis (febbraio 1949) da Nikos Zachariadis e Dimitrios Partsalidis e persi sia il Peloponneso (Op. Peristera) sia Karpenisi (febbraio), il DSE resiste ormai arroccato unicamente nei settori fortificati di confine tra Grammos, Vitsi e Pindo settentrionale in attesa dell'offensiva decisiva ellenica (Operazione Torch, agosto 1949).`
+        : isDec1948
+        ? `${dseBastion.note} Dopo la conclusione dell'Operazione Koronis (agosto 1948), in cui il DSE sgancia il proprio nucleo principale attraverso il territorio albanese riposizionandosi sui bastioni inespugnati dei Monti Vitsi e del bacino di Prespa, nell'autunno–dicembre 1948 le brigate del DSE reinfiltrano il Monte Grammos e il Pindo settentrionale, mentre ad Atene e nel Peloponneso proseguono aspri combattimenti.`
+        : isJune1948
+        ? `${dseBastion.note} A partire dal 14 giugno 1948 l'Esercito Nazionale Ellenico (70.000 uomini appoggiati dall'aviazione e dai consiglieri USA del gen. Van Fleet) scatena la grande offensiva estiva "Operazione Koronis" contro la roccaforte principale del Governo Democratico Provvisorio (DSE) sul massiccio del Monte Grammos: al 30 giugno 1948 infuriano aspri combattimenti in quota, mentre il DSE di Markos Vafiadis mantiene ancora le posizioni trincerate sul Grammos, sul Vitsi, sul Prespa e sui monti di confine settentrionali.`
+        : isDec1947
+        ? `${dseBastion.note} Il 24 dicembre 1947 il generale Markos Vafiadis proclama sulle montagne dell'Epiro e della Macedonia il Governo Democratico Provvisorio di Grecia (Prosorini Dimokratiki Kyvernisi), lanciando il giorno di Natale l'offensiva contro la città di Konitsa per farne la capitale ufficiale dello Stato insorto.`
+        : dseBastion.note,
       owner: 'DSE',
       fac: 'Comintern',
     };
   }
 
-  // Territori controllati dal Regno di Grecia nel Settembre 1947 (dettagli regionali specifici Guerra Civile + Dottrina Truman)
+  // Territori controllati dal Regno di Grecia nel Settembre 1947 - Giugno 1949 (dettagli regionali specifici Guerra Civile + Dottrina Truman)
   if (d.nuts.startsWith('EL30')) {
     return {
-      name: `${d.capitalOrChefLieu} (Atene & Pireo — Regno di Grecia / Dottrina Truman 1947)`,
-      adminTitle: 'Vasileion tis Ellados — Re Paolo I · Governo di Coalizione Themistoklis Sofoulis & AMAG USA',
-      note: 'Settembre 1947: ad Atene (dopo la morte di Re Giorgio II il 1° aprile, gli succede Re Paolo I) il 7 settembre nasce il governo di coalizione Sofoulis–Tsaldaris, mentre al Pireo sbarcano armi e aiuti economici americani dell\'AMAG in attuazione della Dottrina Truman (12 marzo 1947); l\'isola di Makronisos diviene campo di internamento politico.',
+      name: `${d.capitalOrChefLieu} (Atene & Pireo — Regno di Grecia / Comando Gen. Papagos ${isJune1949 ? '1949' : isJune1948 ? '1948' : '1947'})`,
+      adminTitle: isJune1949
+        ? 'Vasileion tis Ellados — Re Paolo I · Governo Sofoulis (†24 Giu) / Diomidis · Comandante in Capo Gen. Alexandros Papagos'
+        : 'Vasileion tis Ellados — Re Paolo I · Governo di Coalizione Themistoklis Sofoulis & JUSMAPG USA',
+      note: isJune1949
+        ? 'Giugno 1949: sotto la guida unificata del Comandante in Capo Gen. Alexandros Papagos (nominato nel gennaio 1949) e con gli aiuti USA JUSMAPG, l\'Esercito Nazionale ha ripulito il Peloponneso (marzo), riconquistato Karpenisi e la Grecia centrale; alla morte del premier Sofoulis (24 giugno) si prepara l\'offensiva finale d\'agosto su Vitsi e Grammos.'
+        : isDec1948
+        ? 'Dicembre 1948: dopo i contraccolpi dello stallo autunnale sui Monti Vitsi, il governo di Atene e i consiglieri USA del JUSMAPG (gen. Van Fleet) avviano il rastrellamento del Peloponneso (Operazione Peristera, 19 dicembre) e riorganizzano l\'Esercito Nazionale verso la svolta del 1949.'
+        : isJune1948
+        ? 'Giugno 1948: dopo l\'eliminazione delle sacche del DSE nella Grecia centrale (Operazione Haravgi in Roumeli, aprile–maggio 1948), il governo di Atene e il comando congiunto greco-statunitense (JUSMAPG, gen. James Van Fleet) coordinano dal 14 giugno l\'Operazione Koronis contro il bastione comunista del Monte Grammos.'
+        : isDec1947
+        ? 'Dicembre 1947: a seguito della proclamazione del Governo Democratico Provvisorio di Markos Vafiadis (24 dicembre), il governo di coalizione di Themistoklis Sofoulis ad Atene promulga la Legge di Emergenza n. 509 (27 dicembre 1947) che mette ufficialmente fuori legge il Partito Comunista di Grecia (KKE), l\'EAM e la stampa comunista, mentre affluiscono le forniture militari statunitensi dell\'AMAG.'
+        : 'Settembre 1947: ad Atene (dopo la morte di Re Giorgio II il 1° aprile, gli succede Re Paolo I) il 7 settembre nasce il governo di coalizione Sofoulis–Tsaldaris, mentre al Pireo sbarcano armi e aiuti economici americani dell\'AMAG in attuazione della Dottrina Truman (12 marzo 1947); l\'isola di Makronisos diviene campo di internamento politico.',
       owner: 'GRE',
       fac: 'Alleati',
     };
   }
   if (d.nuts === 'EL543') {
     return {
-      name: 'Ioannina & Corridoio di Konitsa (Fronte Epiro — Regno di Grecia vs Grammos DSE)',
-      adminTitle: 'Esercito Nazionale Ellenico (Ethnikos Stratos) — Difesa dell\'Epiro',
-      note: 'Settembre 1947: il capoluogo Ioannina e la guarnigione avanzata di Konitsa formano lo sbarramento principale dell\'Esercito Nazionale contro i vicini bastioni del DSE sul Monte Grammos e lungo il confine albanese.',
+      name: isJune1948
+        ? 'Ioannina & Konitsa (Fronte Epiro — Operazione Koronis contro il Monte Grammos, Giugno 1948)'
+        : isDec1947
+        ? 'Ioannina & Assedio di Konitsa (Battaglia di Konitsa — 25–31 Dicembre 1947)'
+        : 'Ioannina & Corridoio di Konitsa (Fronte Epiro — Regno di Grecia vs Grammos DSE)',
+      adminTitle: 'Esercito Nazionale Ellenico (Ethnikos Stratos) — VIII Divisione Epiro & Offensiva Koronis',
+      note: isJune1948
+        ? 'Giugno 1948 (Operazione Koronis): dal settore epirota di Ioannina e Konitsa le divisioni dell\'Esercito Nazionale Ellenico muovono dal 14 giugno 1948 all\'attacco concentrico contro le linee fortificate del DSE sul massiccio del Monte Grammos.'
+        : isDec1947
+        ? '25–31 Dicembre 1947 (Battaglia di Konitsa): all\'indomani della proclamazione del Governo Democratico Provvisorio (24 dicembre), le brigate del DSE di Markos Vafiadis investono con l\'artiglieria da montagna la cittadina epirota di Konitsa (a ridosso del Grammos e del confine albanese) per conquistarla come capitale governativa; la guarnigione dell\'Esercito Nazionale Ellenico resiste accanitamente fino all\'arrivo dei rinforzi da Ioannina che spezzano l\'assedio a fine dicembre.'
+        : 'Settembre 1947: il capoluogo Ioannina e la guarnigione avanzata di Konitsa formano lo sbarramento principale dell\'Esercito Nazionale contro i vicini bastioni del DSE sul Monte Grammos e lungo il confine albanese.',
       owner: 'GRE',
       fac: 'Alleati',
     };
@@ -236,20 +305,32 @@ export function resolveGreeceCivilWarStep(
       fac: 'Alleati',
     };
   }
-  if (d.nuts.startsWith('EL61') || d.nuts === 'EL644' || d.nuts === 'EL645') {
+  if (d.nuts.startsWith('EL61') || d.nuts === 'EL644' || d.nuts === 'EL645' || d.nuts === 'EL641' || d.nuts === 'EL642') {
     return {
-      name: `${d.capitalOrChefLieu} (${d.historicalRegion} — Operazione Terminus & Guerriglia DSE 1947)`,
-      adminTitle: 'Vasileion tis Ellados — Esercito Nazionale (Post-Operazione Terminus)',
-      note: 'Settembre 1947: città e assi viari restano sotto presidio dell\'Esercito Nazionale ellenico finanziato dalla Dottrina Truman, ma il massiccio rastrellamento primaverile "Operazione Terminus" non riesce a snidare le colonne mobili del DSE dalle montagne della Tessaglia e di Roumeli.',
+      name: isJune1949
+        ? `${d.capitalOrChefLieu} (${d.historicalRegion} — Grecia Centrale & Tessaglia Liberate, Giugno 1949)`
+        : `${d.capitalOrChefLieu} (${d.historicalRegion} — Operazione Terminus & Guerriglia DSE 1947)`,
+      adminTitle: isJune1949
+        ? 'Vasileion tis Ellados — Esercito Nazionale (Gen. Alexandros Papagos · 100% Regno di Grecia)'
+        : 'Vasileion tis Ellados — Esercito Nazionale (Post-Operazione Terminus)',
+      note: isJune1949
+        ? 'Giugno 1949 (100% Regno di Grecia): completata la riconquista di Karpenisi (febbraio 1949) e le operazioni di rastrellamento primaverili in Tessaglia e Sterea Ellada sotto il Gen. Papagos, l\'intera regione è saldamente pacificata.'
+        : 'Settembre 1947: città e assi viari restano sotto presidio dell\'Esercito Nazionale ellenico finanziato dalla Dottrina Truman, ma il massiccio rastrellamento primaverile "Operazione Terminus" non riesce a snidare le colonne mobili del DSE dalle montagne della Tessaglia e di Roumeli.',
       owner: 'GRE',
       fac: 'Alleati',
     };
   }
   if (d.nuts.startsWith('EL65') || d.nuts === 'EL632' || d.nuts === 'EL633') {
     return {
-      name: `${d.capitalOrChefLieu} (${d.historicalRegion} — Insurrezione 3ª Divisione DSE nel Peloponneso)`,
-      adminTitle: 'Vasileion tis Ellados — Peloponneso (Esercito Nazionale & Controguerriglia MAY)',
-      note: 'Settembre 1947: mentre Atene e Patrasso controllano le pianure e i porti, la 3ª Divisione del DSE mantiene attivi combattimenti di guerriglia sui massicci interni del Taigeto, Parnone e Menalo in pieno Peloponneso isolato dal nord.',
+      name: isJune1949
+        ? `${d.capitalOrChefLieu} (${d.historicalRegion} — Peloponneso Pacificato da Operazione Peristera, 1949)`
+        : `${d.capitalOrChefLieu} (${d.historicalRegion} — Insurrezione 3ª Divisione DSE nel Peloponneso)`,
+      adminTitle: isJune1949
+        ? 'Vasileion tis Ellados — Peloponneso 100% Liberato (Post-Operazione Peristera, Mar 1949)'
+        : 'Vasileion tis Ellados — Peloponneso (Esercito Nazionale & Controguerriglia MAY)',
+      note: isJune1949
+        ? 'Giugno 1949 (100% Regno di Grecia): tra dicembre 1948 e marzo 1949 la decisiva "Operazione Peristera" (Colomba) condotta dal I Corpo d\'Armata sotto il Gen. Thrasyvoulos Tsakalotos annienta interamente la 3ª Divisione isolata del DSE sul Taigeto, Parnone e Menalo, ripulendo e pacificando l\'intero Peloponneso.'
+        : 'Settembre 1947: mentre Atene e Patrasso controllano le pianure e i porti, la 3ª Divisione del DSE mantiene attivi combattimenti di guerriglia sui massicci interni del Taigeto, Parnone e Menalo in pieno Peloponneso isolato dal nord.',
       owner: 'GRE',
       fac: 'Alleati',
     };

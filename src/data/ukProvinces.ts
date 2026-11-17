@@ -63,18 +63,18 @@ export const UK_PROVINCES_META: Record<string, UKProvinceInfo> = {
     nuts: "GG",
     name: "Guernsey",
     modernName: "Bailiwick of Guernsey (Crown Dependency, Channel Islands)",
-    historicalName: "Guernsey (Bailiwick of Guernsey / Isole del Canale, Alderney & Festung Guernsey)",
+    historicalName: "Guernsey (Bailiwick of Guernsey · Saint Peter Port, Alderney & Sark)",
     historicCounty: "Channel Islands",
     country: "Crown Dependency",
     capital: "Saint Peter Port",
     region: "Crown Dependencies",
-    keys: ["guernsey", "bailiwick_of_guernsey", "saint_peter_port", "st_peter_port", "alderney", "sark", "channel_islands", "festung_guernsey", "gg", "ggy"],
-    s0_1: "Baliato autonomo della Corona britannica comprendente le isole di Guernsey, Alderney, Sark e Herm; Saint Peter Port capitale marittima storica ricca di commerci.",
-    s2_4: "Misure di difesa civile e coscrizione nella Royal Guernsey Militia; le isole mantengono forti legami storici e culturali con la Normandia e la Gran Bretagna.",
-    s5: "Giugno 1940: evacuazione della quasi totalità della popolazione dell'isola di Alderney e di oltre 17.000 scolari e civili di Guernsey verso la Gran Bretagna prima dell'arrivo tedesco.",
-    s6: "28 giugno 1940: la Luftwaffe bombarda Saint Peter Port credendo che i camion di pomodori siano carichi militari; il 30 giugno 1940 truppe tedesche occupano Guernsey: unico territorio britannico occupato.",
-    s7: "Occupazione tedesca: razionamento ferreo e coprifuoco; la Dame di Sark (Sibyl Hathaway) preserva una dignitosa autonomia contrattando con gli ufficiali della guarnigione della Wehrmacht.",
-    s8: "L'Organisation Todt fortifica Guernsey e costruisce ad Alderney quattro campi di concentramento gestiti dalle SS (Lager Norderney e Lager Sylt) dove centinaia di prigionieri sovietici muoiono per i lavori forzati.",
+    keys: ["guernsey", "bailiwick_of_guernsey", "saint_peter_port", "st_peter_port", "alderney", "sark", "herm", "channel_islands", "festung_guernsey", "gg", "ggy"],
+    s0_1: "Baliato autonomo della Corona britannica nelle Isole del Canale (Guernsey, Alderney, Sark e Herm), retto dal Balivo Sir Victor Carey e dagli States of Deliberation; Saint Peter Port vivace porto commerciale e orticolo. Nel 1936 Re Edoardo VIII autorizza l'uso della Croce di San Giorgio.",
+    s2_4: "Aggiornamento dei piani di difesa civile (ARP) e della Royal Guernsey Militia nel clima di crisi internazionale 1938–39, preservando le antiche prerogative costituzionali del Baliato verso la Corona di Re Giorgio VI.",
+    s5: "Settembre 1939: allo scoppio della Seconda Guerra Mondiale la milizia locale viene sospesa per favorire l'arruolamento volontario nelle forze armate britanniche; razionamento marittimo iniziale e controlli militari sullo scalo di Saint Peter Port e sull'aeroporto di La Villiaze.",
+    s6: "19–25 giugno 1940: il governo Churchill smilitarizza le Isole del Canale ed evacua verso l'Inghilterra oltre 17.000 scolari e civili guernseyesi e la quasi totalità della popolazione di Alderney. Il 28 giugno la Luftwaffe bombarda Saint Peter Port (33 vittime); il 30 giugno la Wehrmacht occupa Guernsey (e il 4 luglio Sark), primo suolo britannico invaso.",
+    s7: "Ottobre 1940: insediamento della Feldkommandantur 515 (Oberst Friedrich Graf von Schmettow) sotto il Militärbefehlshaber in Frankreich; coprifuoco, censura e marco d'occupazione. A Sark la Dame Sibyl Hathaway difende l'autonomia feudale dell'isola negoziando con il comando tedesco.",
+    s8: "Primavera 1941: afflusso dei reparti della 319. Infanterie-Division nell'arcipelago e primi ordini operativi per trasformare le Isole del Canale in caposaldo avanzato verso l'Atlantico, preludio ai grandi cantieri di fortificazione costiera e all'apertura dei lager ad Alderney.",
     getNote: (s: number) => {
       if (s >= 8) return UK_PROVINCES_META["GG"].s8;
       if (s >= 7) return UK_PROVINCES_META["GG"].s7;
@@ -84,12 +84,13 @@ export const UK_PROVINCES_META: Record<string, UKProvinceInfo> = {
       return UK_PROVINCES_META["GG"].s0_1;
     },
     getHistoricalName: (s: number) => {
-      if (s >= 6) return "Guernsey (Deutsche Dienststelle / Festung Guernsey)";
+      if (s >= 8) return "Guernsey (Deutsche Besetzung — 319. Inf.-Div.)";
+      if (s >= 6) return "Guernsey (Deutsche Besetzung — Militärverwaltung)";
       return UK_PROVINCES_META["GG"].historicalName;
     },
     getAdminTitle: (s: number) => {
-      if (s >= 6) return "Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Channel Islands)";
-      return "Channel Islands (British Crown Dependency)";
+      if (s >= 6) return "Militärverwaltung in Frankreich (Feldkommandantur 515 — Kanalinseln)";
+      return "British Crown Dependency — Bailiwick of Guernsey (States of Deliberation)";
     },
     getSovereign: (s: number) => {
       if (s >= 6) return "GER";
@@ -141,18 +142,18 @@ export const UK_PROVINCES_META: Record<string, UKProvinceInfo> = {
     nuts: "JE",
     name: "Jersey",
     modernName: "Bailiwick of Jersey (Crown Dependency, Channel Islands)",
-    historicalName: "Jersey (Bailiwick of Jersey / Isole del Canale, Festung Jersey & Atlantikwall)",
+    historicalName: "Jersey (Bailiwick of Jersey · Saint Helier)",
     historicCounty: "Channel Islands",
     country: "Crown Dependency",
     capital: "Saint Helier",
     region: "Crown Dependencies",
     keys: ["jersey", "bailiwick_of_jersey", "saint_helier", "st_helier", "channel_islands", "festung_jersey", "je", "jey"],
-    s0_1: "Baliato autonomo della Corona britannica nelle Isole del Canale al largo delle coste della Normandia, retto dal Luogotenente Governatore e dagli Stati di Jersey; agricoltura e turismo fiorenti.",
-    s2_4: "Preparativi di difesa civile ARP e mobilitazione della Royal Militia of the Island of Jersey; la popolazione mantiene fedeltà assoluta a Re Giorgio VI.",
-    s5: "Dichiarazione di guerra: molti giovani isolani si arruolano nelle forze armate metropolitane; piani d'evacuazione marittima verso l'Inghilterra.",
-    s6: "19-20 giugno 1940: il governo britannico demilitarizza le Isole del Canale dichiarandole indifendibili; il 1° luglio 1940 la Luftwaffe e la Wehrmacht atterrano a Jersey: inizio dell'occupazione tedesca.",
-    s7: "Istituzione del comando d'occupazione militare tedesco (Militärverwaltung); imposizione del coprifuoco, censura e cambio della valuta; la popolazione vive sotto occupazione del Terzo Reich.",
-    s8: "Hitler ordina la trasformazione di Jersey in una fortezza inespugnabile (Festung Jersey): l'Organisation Todt impiega migliaia di prigionieri ai lavori forzati per costruire imponenti bunker e casematte costiere.",
+    s0_1: "Baliato autonomo della Corona britannica nelle Isole del Canale al largo della Normandia, retto dal Luogotenente Governatore, dal Balivo Sir Alexander Coutanche (dal 1935) e dagli States of Jersey; economia agricola (patate Jersey Royal, bovini omonimi), bassa fiscalità e turismo fiorente.",
+    s2_4: "Preparativi di difesa civile (ARP) e mobilitazione della Royal Militia of the Island of Jersey durante le crisi internazionali del 1938–39; il nuovo aeroporto di Saint Peter (1937) rafforza i collegamenti con la Gran Bretagna.",
+    s5: "Settembre 1939: con l'entrata in guerra del Regno Unito centinaia di volontari jersesi si arruolano nelle forze armate britanniche, mentre il Balivo Coutanche coordina i poteri d'emergenza e la sicurezza marittima dello scalo di Saint Helier.",
+    s6: "19–20 giugno 1940: il governo britannico dichiara le Isole del Canale città aperte indifendibili e ne dispone l'evacuazione parziale (~6.600 abitanti verso l'Inghilterra); dopo il bombardamento di Saint Helier del 28 giugno, il 1° luglio 1940 la Luftwaffe e la Wehrmacht sbarcano a Jersey segnando l'inizio dell'occupazione tedesca.",
+    s7: "Ottobre 1940: la Feldkommandantur 515 instaura a Saint Helier il controllo militare tedesco; il Balivo Coutanche presiede il Superior Council civile per gestire razionamento, coprifuoco, censura e cambio forzoso con i Reichskreditkassenscheine evitando l'amministrazione diretta delle SS.",
+    s8: "Primavera 1941: dispiegamento della 319. Infanterie-Division e avvio delle prime opere difensive costiere nei settori di Saint Ouen e Saint Brelade, con crescenti requisizioni agricole e restrizioni energetiche sotto occupazione del Terzo Reich.",
     getNote: (s: number) => {
       if (s >= 8) return UK_PROVINCES_META["JE"].s8;
       if (s >= 7) return UK_PROVINCES_META["JE"].s7;
@@ -162,12 +163,13 @@ export const UK_PROVINCES_META: Record<string, UKProvinceInfo> = {
       return UK_PROVINCES_META["JE"].s0_1;
     },
     getHistoricalName: (s: number) => {
-      if (s >= 6) return "Jersey (Deutsche Wehrmacht Kommandantur / Festung Jersey)";
+      if (s >= 8) return "Jersey (Deutsche Besetzung — 319. Inf.-Div.)";
+      if (s >= 6) return "Jersey (Deutsche Besetzung — Militärverwaltung)";
       return UK_PROVINCES_META["JE"].historicalName;
     },
     getAdminTitle: (s: number) => {
-      if (s >= 6) return "Militärverwaltung in Frankreich (Deutsche Wehrmacht / Festung Channel Islands)";
-      return "Channel Islands (British Crown Dependency)";
+      if (s >= 6) return "Militärverwaltung in Frankreich (Feldkommandantur 515 — Kanalinseln)";
+      return "British Crown Dependency — Bailiwick of Jersey (States of Jersey · Bailiff A. Coutanche)";
     },
     getSovereign: (s: number) => {
       if (s >= 6) return "GER";

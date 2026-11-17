@@ -1,4 +1,5 @@
 import { OwnerConfig, FactionType, PoliticalTier } from '../types';
+import { applyChronologicalStateOverrides } from './stateEvolution';
 
 /**
  * ARCHITETTURA DATI DEI POSSESSORI CARTOGRAFICI E GERARCHIA POLITICA (1936-1940)
@@ -193,7 +194,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     capital: 'Yan\'an',
     tier: 'autonomous',
     overlordCode: null,
-    aliases: ['CCP', 'PCC', 'YANAN', 'SHAAN-GAN-NING'],
+    aliases: ['CCP', 'PCC', 'PRC', 'RPC', 'YANAN', 'SHAAN-GAN-NING', 'PEOPLES_REPUBLIC_OF_CHINA'],
     isSubject: false,
   },
   XIN: {
@@ -361,7 +362,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
   },
   JOR: {
     id: 'JOR',
-    c: '#447755',
+    c: '#8f7a4b',
     f: 'Neutrale',
     l: () => 'Regno Hascemita di Transgiordania',
     shortName: 'Transgiordania',
@@ -387,7 +388,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
   },
   LEB: {
     id: 'LEB',
-    c: '#5a8264',
+    c: '#689973',
     f: 'Neutrale',
     l: (s) => (s !== undefined && s >= 18 ? 'Repubblica Libanese (Indipendenza Sovrana)' : 'Repubblica Libanese'),
     shortName: 'Libano',
@@ -904,7 +905,7 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     capital: 'Jakarta (Batavia)',
     tier: 'sovereign',
     overlordCode: null,
-    aliases: ['INDONESIA', 'IDN', 'INA', 'REPUBLIK_INDONESIA'],
+    aliases: ['INDONESIA', 'IDN', 'INA', 'RIS', 'REPUBLIK_INDONESIA', 'REPUBLIK_INDONESIA_SERIKAT'],
     isSubject: false,
   },
   AMG: {
@@ -944,6 +945,22 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     aliases: ['TLT', 'FTT', 'STO', 'FREE_TERRITORY_OF_TRIESTE', 'TERRITORIO_LIBERO_DI_TRIESTE', 'SVOBODNO_TRZASKO_OZEMLJE'],
     isSubject: false,
   },
+  VUJA: {
+    id: 'VUJA',
+    c: '#3c7a6e',
+    f: 'Comintern',
+    l: (s) =>
+      typeof s === 'number' && s >= 21
+        ? 'Territorio Libero di Trieste — Zona B (VUJA · Amministrazione Militare Jugoslava)'
+        : 'Territorio Libero di Trieste — Zona B (VUJA — Vojna Uprava Jugoslovenske Armije)',
+    shortName: 'Trieste (Zona B VUJA)',
+    leader: 'Gen. Mirko Lenac (Comandante VUJA — Amministrazione Militare Jugoslava)',
+    capital: 'Koper (Capodistria)',
+    tier: 'international',
+    overlordCode: 'DFJ',
+    aliases: ['VUJA', 'VUJA_FTT', 'TLT_B', 'FTT_B', 'STT_B', 'ZONA_B_TLT'],
+    isSubject: true,
+  },
   ACC: {
     id: 'ACC',
     c: '#4a545c',
@@ -961,13 +978,13 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'ROM',
     c: '#b8a45e',
     f: 'Neutrale',
-    l: (s) => (s >= 9 ? 'Regno di Romania (Cobelligerante dell\'Asse & Governatorato della Transnistria — Antonescu)' : s >= 7 ? 'Regno di Romania (Stato Nazionale Legionario — Antonescu)' : 'Regno di Romania'),
+    l: (s) => (typeof s === 'number' && s >= 20 ? 'Repubblica Popolare Romena (RPR — Abdicazione di Re Michele I, 30 Dicembre 1947)' : typeof s === 'number' && s >= 19 ? 'Regno di Romania (Trattato di Pace di Parigi — Governo Groza & Re Michele I)' : typeof s === 'number' && s >= 16 ? 'Regno di Romania (Cobelligerante Alleato — Golpe Reale di Michele I)' : s >= 9 ? 'Regno di Romania (Cobelligerante dell\'Asse & Governatorato della Transnistria — Antonescu)' : s >= 7 ? 'Regno di Romania (Stato Nazionale Legionario — Antonescu)' : 'Regno di Romania'),
     shortName: 'Romania',
-    leader: 'Re Carlo II / Michele I & Ion Antonescu',
+    leader: 'Re Carlo II / Michele I & Ion Antonescu (1940-44) / Petru Groza & Gheorghe Gheorghiu-Dej (RPR 1947)',
     capital: 'București',
     tier: 'sovereign',
     overlordCode: null,
-    aliases: ['RO', 'ROU', 'ROM', 'ROMANIA', 'REGNO DI ROMANIA'],
+    aliases: ['RO', 'ROU', 'ROM', 'ROMANIA', 'REGNO DI ROMANIA', 'REPUBBLICA POPOLARE ROMENA', 'RPR'],
     isSubject: false,
   },
   HUN: {
@@ -987,13 +1004,13 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'BUL',
     c: '#596656',
     f: 'Asse',
-    l: () => 'Regno di Bulgaria',
+    l: (s) => (typeof s === 'number' && s >= 20 ? 'Repubblica Popolare di Bulgaria (Costituzione Dimitrov del 4 Dicembre 1947 — Georgi Dimitrov)' : typeof s === 'number' && s >= 19 ? 'Repubblica Popolare di Bulgaria (Governo del Fronte Patriottico — Georgi Dimitrov)' : 'Regno di Bulgaria'),
     shortName: 'Bulgaria',
-    leader: 'Zar Boris III',
+    leader: 'Zar Boris III (1936-43) / Reggenza per Simeone II (1943-46) / Georgi Dimitrov & Vasil Kolarov (1946-47)',
     capital: 'Sofia',
     tier: 'sovereign',
     overlordCode: null,
-    aliases: ['BG', 'BGR', 'BUL', 'BULGARIA', 'REGNO DI BULGARIA'],
+    aliases: ['BG', 'BGR', 'BUL', 'BULGARIA', 'REGNO DI BULGARIA', 'REPUBBLICA POPOLARE DI BULGARIA', 'NRB'],
     isSubject: false,
   },
   FIN: {
@@ -1086,16 +1103,44 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     c: '#b53a38',
     f: 'Comintern',
     l: (s) =>
-      typeof s === 'number' && s >= 19
+      typeof s === 'number' && s >= 20
+        ? 'Governo Democratico Provvisorio di Grecia (Prosorini Dimokratiki Kyvernisi — DSE / Markos Vafiadis)'
+        : typeof s === 'number' && s >= 19
         ? 'Esercito Democratico di Grecia (DSE — "Grecia Libera" / Grammos–Vitsi)'
         : 'EAM-ELAS (Fronte di Liberazione Nazionale — Entroterra & Dekemvriana)',
     shortName: 'DSE / ELAS',
-    leader: 'Markos Vafiadis / Nikos Zachariadis (DSE) — Aris Velouchiotis / Stefanos Sarafis (ELAS)',
-    capital: 'Quartier Generale Montano (Grammos / Viniani)',
+    leader: 'Markos Vafiadis / Nikos Zachariadis (DSE & Governo Provvisorio) — Aris Velouchiotis / Stefanos Sarafis (ELAS)',
+    capital: 'Quartier Generale Montano (Grammos / Vitsi / Viniani)',
     tier: 'autonomous',
     overlordCode: null,
-    aliases: ['ELAS', 'EAM', 'EAM_ELAS', 'DSE', 'DIMOKRATIKOS_STRATOS', 'PEEA', 'PDG'],
+    aliases: ['ELAS', 'EAM', 'EAM_ELAS', 'DSE', 'DIMOKRATIKOS_STRATOS', 'PEEA', 'PDG', 'PROSORINI_DIMOKRATIKI_KYVERNISI'],
     isSubject: false,
+  },
+  AZK: {
+    id: 'AZK',
+    c: '#1f7a4c',
+    f: 'Alleati',
+    l: () => 'Governo Provvisorio di Azad Jammu e Kashmir (Sardar Ibrahim Khan — Tutela Pakistana)',
+    shortName: 'Azad Kashmir',
+    leader: 'Sardar Muhammad Ibrahim Khan',
+    capital: 'Muzaffarabad',
+    tier: 'protectorate',
+    overlordCode: 'PAK',
+    aliases: ['AZK', 'AJK', 'AZAD_KASHMIR', 'AZAD KASHMIR'],
+    isSubject: true,
+  },
+  NST: {
+    id: 'NST',
+    c: '#2e8b57',
+    f: 'Alleati',
+    l: () => 'Stato di Sumatra Orientale (Negara Sumatera Timur — Tengku Mansur)',
+    shortName: 'Sumatra Orientale (NST)',
+    leader: 'Wali Negara Tengku Mansur',
+    capital: 'Medan',
+    tier: 'protectorate',
+    overlordCode: 'HOL',
+    aliases: ['NST', 'NEGARA_SUMATERA_TIMUR', 'EAST_SUMATRA', 'SUMATRA_ORIENTALE'],
+    isSubject: true,
   },
 
   // ==========================================
@@ -1343,9 +1388,14 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'SMR',
     c: '#5c94b8',
     f: 'Neutrale',
-    l: () => 'Serenissima Repubblica di San Marino',
+    l: (s) =>
+      s && s >= 22
+        ? 'Serenissima Repubblica di San Marino (Comitato della Libertà — Elezioni 1949)'
+        : s && s >= 18
+        ? 'Serenissima Repubblica di San Marino (Governo Comitato della Libertà)'
+        : 'Serenissima Repubblica di San Marino',
     shortName: 'San Marino',
-    leader: 'Capitani Reggenti (Consiglio Grande e Generale)',
+    leader: 'Capitani Reggenti · Gino Giacomini / Comitato della Libertà (1945–1949)',
     capital: 'Città di San Marino',
     tier: 'sovereign',
     overlordCode: null,
@@ -1356,7 +1406,12 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'VAT',
     c: '#dfc846',
     f: 'Neutrale',
-    l: (s) => (s && s >= 3 ? 'Stato della Città del Vaticano (Pio XII)' : 'Stato della Città del Vaticano (Pio XI)'),
+    l: (s) =>
+      s && s >= 21
+        ? 'Stato della Città del Vaticano (Papa Pio XII · Anno Santo & Guerra Fredda)'
+        : s && s >= 3
+        ? 'Stato della Città del Vaticano (Pio XII)'
+        : 'Stato della Città del Vaticano (Pio XI)',
     shortName: 'Vaticano',
     leader: 'Papa Pio XI (1922-1939) / Papa Pio XII (1939-1958)',
     capital: 'Città del Vaticano',
@@ -1369,9 +1424,12 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'AND',
     c: '#caa048',
     f: 'Neutrale',
-    l: () => 'Principato d\'Andorra (Coprincipato Sovrano dei Pirenei)',
+    l: (s) =>
+      s && s >= 19
+        ? 'Principato d\'Andorra (Coprincipi Vescovo Iglesias & Pres. Vincent Auriol)'
+        : 'Principato d\'Andorra (Coprincipato Sovrano dei Pirenei)',
     shortName: 'Andorra',
-    leader: 'Justí Guitart i Vilardebó (Vescovo di Urgell) & Albert Lebrun (Pres. Francia) / Francesc Cairat (Sìndic General)',
+    leader: 'Vescovo R. Iglesias i Navarri & Pres. V. Auriol (dal 1947) · Sìndic F. Cairat',
     capital: 'Andorra la Vella',
     tier: 'condominium',
     overlordCode: null,
@@ -1382,9 +1440,14 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'LIE',
     c: '#1a3c75',
     f: 'Neutrale',
-    l: (s) => (s && s >= 2 ? 'Fürstentum Liechtenstein (Principe Franz Josef II)' : 'Fürstentum Liechtenstein (Principe Franz I)'),
+    l: (s) =>
+      s && s >= 19
+        ? 'Fürstentum Liechtenstein (Principe Franz Josef II · Governo Alexander Frick)'
+        : s && s >= 2
+        ? 'Fürstentum Liechtenstein (Principe Franz Josef II)'
+        : 'Fürstentum Liechtenstein (Principe Franz I)',
     shortName: 'Liechtenstein',
-    leader: 'Principe Franz I (fino al 1938) / Principe Franz Josef II (dal 1938) & Josef Hoop (Regierungschef)',
+    leader: 'Principe Franz Josef II (dal 1938) · J. Hoop (fino al 1945) / A. Frick (dal 1945)',
     capital: 'Vaduz',
     tier: 'sovereign',
     overlordCode: null,
@@ -1395,9 +1458,16 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'MCO',
     c: '#ce1126',
     f: 'Neutrale',
-    l: (s) => (s && s >= 11 ? 'Principauté de Monaco (Occupazione Militare Italiana)' : 'Principauté de Monaco (Luigi II Grimaldi)'),
+    l: (s) =>
+      s && s >= 23
+        ? 'Principauté de Monaco (Principe Ranieri III Grimaldi)'
+        : s && s >= 16
+        ? 'Principauté de Monaco (Luigi II Grimaldi — Sovranità Restaurata)'
+        : s && s >= 11
+        ? 'Principauté de Monaco (Occupazione Militare)'
+        : 'Principauté de Monaco (Luigi II Grimaldi)',
     shortName: 'Monaco',
-    leader: 'Principe Luigi II di Monaco / Ministro di Stato Émile Roblot',
+    leader: 'Principe Luigi II (fino al 9 mag 1949) · Principe Ranieri III (dal 9 mag 1949)',
     capital: 'Monaco',
     tier: 'protectorate',
     overlordCode: null,
@@ -1425,7 +1495,14 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'IRN',
     c: '#7a8f61',
     f: 'Neutrale',
-    l: (s) => (s >= 19 ? 'Stato Imperiale dell\'Iran (Sovranità Restaurata — Mohammad Reza Pahlavi)' : s >= 9 ? 'Stato Imperiale dell\'Iran (Corridoio Persiano Anglo-Sovietico — Mohammad Reza Pahlavi)' : 'Impero dell\'Iran (Persia)'),
+    l: (s) =>
+      s >= 20
+        ? "Stato Imperiale dell'Iran (Rifiuto Concessioni Sovietiche & Sovranità)"
+        : s >= 19
+        ? "Stato Imperiale dell'Iran (Sovranità Restaurata — Mohammad Reza Pahlavi)"
+        : s >= 9
+        ? "Stato Imperiale dell'Iran (Corridoio Persiano Anglo-Sovietico — Mohammad Reza Pahlavi)"
+        : "Impero dell'Iran (Persia)",
     shortName: 'Iran',
     leader: 'Reza Shah Pahlavi',
     capital: 'Tehran',
@@ -1449,9 +1526,9 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
   },
   YEM: {
     id: 'YEM',
-    c: '#4a7a59',
+    c: '#6c8c3e',
     f: 'Neutrale',
-    l: () => 'Regno Mutawakkilita dello Yemen',
+    l: (s) => (s !== undefined && s >= 19 ? 'Regno Mutawakkilita dello Yemen (Membro ONU)' : 'Regno Mutawakkilita dello Yemen'),
     shortName: 'Yemen',
     leader: 'Imam Yahya Muhammad Hamid ed-Din',
     capital: 'Sana\'a',
@@ -1834,6 +1911,260 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
   },
 
   // ==========================================
+  // NUOVI STATI E FEDERAZIONI DEL 1948 (STEP 21 — 30 GIUGNO 1948)
+  // ==========================================
+  BUR: {
+    id: 'BUR',
+    c: '#b55346',
+    f: 'Neutrale',
+    l: () => 'Unione della Birmania (Repubblica Sovrana Indipendente — 4 Gennaio 1948)',
+    shortName: 'Birmania',
+    leader: 'Presidente Sao Shwe Thaik · Primo Ministro U Nu (AFPFL)',
+    capital: 'Rangoon (Yangon)',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['MM', 'MMR', 'BURMA', 'BIRMANIA', 'UNION OF BURMA', 'UNIONE DELLA BIRMANIA', 'MYANMAR'],
+    isSubject: false,
+  },
+  CEY: {
+    id: 'CEY',
+    c: '#8f473b',
+    f: 'Alleati',
+    l: () => 'Dominion di Ceylon (Reame Indipendente del Commonwealth — 4 Febbraio 1948)',
+    shortName: 'Ceylon',
+    leader: 'Re Giorgio VI · Gov.-Gen. Sir Henry Monck-Mason Moore · Primo Ministro D.S. Senanayake',
+    capital: 'Colombo',
+    tier: 'dominion',
+    overlordCode: 'UK',
+    aliases: ['LK', 'LKA', 'CEYLON', 'DOMINION OF CEYLON', 'DOMINION DI CEYLON', 'SRI LANKA'],
+    isSubject: true,
+  },
+  ISR: {
+    id: 'ISR',
+    c: '#2b6cb0',
+    f: 'Neutrale',
+    l: () => 'Stato di Israele (Medinat Yisrael — Proclamazione del 14 Maggio 1948 & Prima Tregua ONU)',
+    shortName: 'Israele',
+    leader: 'Presidente del Consiglio Provvisorio Chaim Weizmann · Primo Ministro e Min. Difesa David Ben-Gurion',
+    capital: 'Tel Aviv (Sede del Governo Provvisorio) / Gerusalemme Ovest',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['IL', 'ISR', 'ISRAEL', 'ISRAELE', 'STATE OF ISRAEL', 'STATO DI ISRAELE', 'MEDINAT YISRAEL'],
+    isSubject: false,
+  },
+  PAS: {
+    id: 'PAS',
+    c: '#3c7a57',
+    f: 'Alleati',
+    l: () => 'Stato di Pasundan (Negara Pasundan — Stato Federale BFO sotto Tutela Olandese, 24 Aprile 1948)',
+    shortName: 'Pasundan',
+    leader: 'Wali Negara Raden Adipati Aria Muharam Wiranatakusumah V · P.M. Adil Poeradiredja',
+    capital: 'Bandung (Giava Occidentale)',
+    tier: 'protectorate',
+    overlordCode: 'HOL',
+    aliases: ['PAS', 'PASUNDAN', 'NEGARA PASUNDAN', 'NEGARA_PASUNDAN', 'STATE OF PASUNDAN', 'STATO DI PASUNDAN'],
+    isSubject: true,
+  },
+  MAD: {
+    id: 'MAD',
+    c: '#4c8c64',
+    f: 'Alleati',
+    l: () => 'Stato di Madura (Negara Madura — Stato Federale BFO sotto Tutela Olandese, 20 Febbraio 1948)',
+    shortName: 'Madura',
+    leader: 'Wali Negara Raden Ario Tumenggung Tjakraningrat XII',
+    capital: 'Pamekasan (Madura)',
+    tier: 'protectorate',
+    overlordCode: 'HOL',
+    aliases: ['MAD', 'MADURA', 'NEGARA MADURA', 'NEGARA_MADURA', 'STATE OF MADURA', 'STATO DI MADURA'],
+    isSubject: true,
+  },
+  MAL: {
+    id: 'MAL',
+    c: '#b85d55',
+    f: 'Alleati',
+    l: (s) =>
+      s !== undefined && s >= 25
+        ? 'Federazione della Malesia (Persekutuan Tanah Melayu — Bandiera a 11 Strisce del 26 Maggio 1950 & Piano Briggs)'
+        : 'Federazione della Malesia (Persekutuan Tanah Melayu — 1° Febbraio 1948 & Emergenza Malese)',
+    shortName: 'Federazione della Malesia',
+    leader: 'Alto Commissario Britannico Sir Edward Gent · Sultani Malesi & UMNO (Dato\' Onn Jaafar)',
+    capital: 'Kuala Lumpur',
+    tier: 'protectorate',
+    overlordCode: 'UK',
+    aliases: ['MAL', 'FOM', 'FEDERATION OF MALAYA', 'FEDERAZIONE DELLA MALESIA', 'PERSEKUTUAN TANAH MELAYU'],
+    isSubject: true,
+  },
+  AFIS: {
+    id: 'AFIS',
+    c: '#4a90bc',
+    f: 'Alleati',
+    l: () => 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU 1950–1960)',
+    shortName: 'Somalia (AFIS / Italia-ONU)',
+    leader: 'Amministratore Giovanni Fornari (dal 1° apr 1950) · Tutela ONU & Repubblica Italiana',
+    capital: 'Mogadiscio',
+    tier: 'colony',
+    overlordCode: 'ITA',
+    aliases: ['AFIS', 'SOM_AFIS', 'TRUST_TERRITORY_OF_SOMALILAND', 'AMMINISTRAZIONE_FIDUCIARIA_ITALIANA_DELLA_SOMALIA'],
+    isSubject: true,
+  },
+  RMS: {
+    id: 'RMS',
+    c: '#d35400',
+    f: 'Neutrale',
+    l: () => 'Repubblica delle Molucche Meridionali (Republik Maluku Selatan / RMS — Insurrezione Secessionista ad Ambon, 25 Aprile 1950)',
+    shortName: 'Molucche Meridionali (RMS)',
+    leader: 'Presidente J.H. Manuhutu · Primo Ministro Chris Soumokil (25 apr 1950)',
+    capital: 'Ambon',
+    tier: 'autonomous',
+    overlordCode: null,
+    aliases: ['RMS', 'REPUBLIK_MALUKU_SELATAN', 'SOUTH_MOLUCCAS', 'MOLUCCHE_MERIDIONALI'],
+    isSubject: false,
+  },
+  NIT: {
+    id: 'NIT',
+    c: '#26a69a',
+    f: 'Neutrale',
+    l: () => "Stato dell'Indonesia Orientale (Negara Indonesia Timur — Componente Federata degli Stati Uniti d'Indonesia)",
+    shortName: 'Indonesia Orientale (NIT)',
+    leader: 'Presidente Tjokorda Gde Raka Soekawati · Capitale Makassar',
+    capital: 'Makassar',
+    tier: 'autonomous',
+    overlordCode: 'IDN',
+    aliases: ['NIT', 'NEGARA_INDONESIA_TIMUR', 'STATE_OF_EAST_INDONESIA'],
+    isSubject: true,
+  },
+  ROK: {
+    id: 'ROK',
+    c: '#3c6ca8',
+    f: 'Alleati',
+    l: () => 'Repubblica di Corea (Corea del Sud — Proclamazione del 15 Agosto 1948)',
+    shortName: 'Corea del Sud (ROK)',
+    leader: 'Presidente Syngman Rhee · Primo Ministro Lee Beom-seok',
+    capital: 'Seoul (Seul)',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['ROK', 'KR', 'KOR', 'SOUTH KOREA', 'COREA DEL SUD', 'REPUBLIC OF KOREA', 'REPUBBLICA DI COREA', 'DAEHAN MINGUK'],
+    isSubject: false,
+  },
+  PRK: {
+    id: 'PRK',
+    c: '#b83c3c',
+    f: 'Comintern',
+    l: () => 'Repubblica Popolare Democratica di Corea (Corea del Nord — Proclamazione del 9 Settembre 1948)',
+    shortName: 'Corea del Nord (RPDC)',
+    leader: 'Premier Kim Il-sung · Presidente del Presidium Kim Tu-bong',
+    capital: 'Pyongyang',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['PRK', 'KP', 'DPRK', 'RPDC', 'NORTH KOREA', 'COREA DEL NORD', 'REPUBBLICA POPOLARE DEMOCRATICA DI COREA'],
+    isSubject: false,
+  },
+  APG: {
+    id: 'APG',
+    c: '#2e6b4f',
+    f: 'Neutrale',
+    l: () => 'Governo di Tutto-Palestina (Striscia di Gaza — Protettorato Militare Egiziano, 22 Settembre 1948)',
+    shortName: 'Tutto-Palestina (Gaza)',
+    leader: 'Presidente Amin al-Husseini · Primo Ministro Ahmed Hilmi Pasha (Protezione Militare Egiziana)',
+    capital: 'Gaza',
+    tier: 'protectorate',
+    overlordCode: 'EGY',
+    aliases: ['APG', 'ALL-PALESTINE', 'ALL_PALESTINE', 'TUTTO-PALESTINA', 'GOVERNO DI TUTTO-PALESTINA', 'GAZA PROTECTORATE'],
+    isSubject: true,
+  },
+  NSS: {
+    id: 'NSS',
+    c: '#c99642',
+    f: 'Alleati',
+    l: () => 'Stato di Sumatra Meridionale (Negara Sumatera Selatan — 30 Agosto 1948)',
+    shortName: 'Sumatra Meridionale (NSS)',
+    leader: 'Wali Negara Abdul Malik · Governo Federale Provvisorio delle Indie Olandesi',
+    capital: 'Palembang',
+    tier: 'protectorate',
+    overlordCode: 'HOL',
+    aliases: ['NSS', 'NEGARA SUMATERA SELATAN', 'NEGARA_SUMATERA_SELATAN', 'SOUTH SUMATRA', 'STATO DI SUMATRA MERIDIONALE'],
+    isSubject: true,
+  },
+  NJT: {
+    id: 'NJT',
+    c: '#d1b24f',
+    f: 'Alleati',
+    l: () => 'Stato di Giava Orientale (Negara Jawa Timur — 26 Novembre 1948)',
+    shortName: 'Giava Orientale (NJT)',
+    leader: 'Wali Negara Raden Tumenggung Kusumonegoro · Governo Federale Provvisorio delle Indie Olandesi',
+    capital: 'Surabaya (Soerabaja)',
+    tier: 'protectorate',
+    overlordCode: 'HOL',
+    aliases: ['NJT', 'NEGARA JAWA TIMUR', 'NEGARA_JAWA_TIMUR', 'EAST JAVA', 'STATO DI GIAVA ORIENTALE'],
+    isSubject: true,
+  },
+  BRD: {
+    id: 'BRD',
+    c: '#268073',
+    f: 'Alleati',
+    l: () => 'Repubblica Federale Tedesca (RFT / BRD — Legge Fondamentale del 23 Maggio 1949)',
+    shortName: 'Germania Ovest (RFT)',
+    leader: 'Konrad Adenauer (Pres. Cons. Parlamentare · Pre-Elezioni 14 Ago) · Governatori Militari Alleati (McCloy / Robertson / Kœnig)',
+    capital: 'Bonn (Capitale Provvisoria)',
+    tier: 'autonomous',
+    overlordCode: null,
+    aliases: ['BRD', 'RFT', 'FRG', 'WEST_GERMANY', 'GERMANIA_OVEST', 'BUNDESREPUBLIK_DEUTSCHLAND', 'TRIZONA'],
+    isSubject: false,
+  },
+  SVN: {
+    id: 'SVN',
+    c: '#d9a441',
+    f: 'Alleati',
+    l: () => 'Stato del Vietnam (Quốc gia Việt Nam — Stato Associato nell\'Unione Francese, 14 Giugno 1949)',
+    shortName: 'Stato del Vietnam',
+    leader: 'Capo di Stato (Quốc trưởng) Bảo Đại · Alto Commissario Francese Léon Pignon',
+    capital: 'Saigon (Sài Gòn)',
+    tier: 'protectorate',
+    overlordCode: 'FRA',
+    aliases: ['SVN', 'QGVN', 'STATE_OF_VIETNAM', 'STATO_DEL_VIETNAM', 'QUOC_GIA_VIET_NAM', 'BAO_DAI_VIETNAM'],
+    isSubject: true,
+  },
+  DDR: {
+    id: 'DDR',
+    c: '#8f2e2e',
+    f: 'Comintern',
+    l: () => 'Repubblica Democratica Tedesca (RDT / DDR — Costituzione del 7 Ottobre 1949)',
+    shortName: 'Germania Est (RDT)',
+    leader: 'Presidente Wilhelm Pieck · Primo Ministro Otto Grotewohl · Walter Ulbricht (SED) · SKK Gen. V. Čujkov',
+    capital: 'Berlino Est (Ost-Berlin)',
+    tier: 'autonomous',
+    overlordCode: null,
+    aliases: ['DDR', 'RDT', 'GDR', 'EAST_GERMANY', 'GERMANIA_EST', 'DEUTSCHE_DEMOKRATISCHE_REPUBLIK'],
+    isSubject: false,
+  },
+  LAO: {
+    id: 'LAO',
+    c: '#a84a6b',
+    f: 'Alleati',
+    l: () => 'Regno del Laos (Stato Associato nell\'Unione Francese — Convenzione del 19 Luglio 1949)',
+    shortName: 'Regno del Laos',
+    leader: 'Re Sisavang Vong · Primo Ministro Principe Boun Oum · Commissario Francese Jean de Raymond',
+    capital: 'Vientiane / Luang Prabang (Capitale Reale)',
+    tier: 'protectorate',
+    overlordCode: 'FRA',
+    aliases: ['LAO', 'LAOS', 'KINGDOM_OF_LAOS', 'REGNO_DEL_LAOS'],
+    isSubject: true,
+  },
+  CAM: {
+    id: 'CAM',
+    c: '#4e6fa8',
+    f: 'Alleati',
+    l: () => 'Regno di Cambogia (Stato Associato nell\'Unione Francese — Trattato dell\'8 Novembre 1949)',
+    shortName: 'Regno di Cambogia',
+    leader: 'Re Norodom Sihanouk · Presidente del Consiglio Yem Sambaur · Commissario Francese Léon Pignon / Jean de Raymond',
+    capital: 'Phnom Penh',
+    tier: 'protectorate',
+    overlordCode: 'FRA',
+    aliases: ['CAM', 'KHM', 'KH', 'CAMBODIA', 'CAMBOGIA', 'KINGDOM_OF_CAMBODIA'],
+    isSubject: true,
+  },
+
+  // ==========================================
   // FALLBACK NEUTRALE GENERALE
   // ==========================================
   NEU: {
@@ -1901,8 +2232,16 @@ export const OWNER_ALIASES: Record<string, string> = {
   TLT: 'AMG',
   FTT: 'AMG',
   STO: 'AMG',
+  VUJA: 'VUJA',
+  VUJA_FTT: 'VUJA',
+  TLT_B: 'VUJA',
+  FTT_B: 'VUJA',
+  STT_B: 'VUJA',
+  ZONA_B_TLT: 'VUJA',
   FNRJ: 'DFJ',
   SFRJ: 'DFJ',
+  ITA_REP: 'ITA',
+  CHI_WANG: 'WJ_CHI',
   ACC: 'ACC',
   ES: 'SPR',
   ESP: 'SPR',
@@ -1943,6 +2282,46 @@ export const OWNER_ALIASES: Record<string, string> = {
   PAK: 'PAK',
   HYD: 'HYD',
   KAS: 'KAS',
+  BUR: 'BUR',
+  BURMA: 'BUR',
+  BIRMANIA: 'BUR',
+  CEY: 'CEY',
+  CEYLON: 'CEY',
+  ISR: 'ISR',
+  IL: 'ISR',
+  ISRAEL: 'ISR',
+  ISRAELE: 'ISR',
+  PAS: 'PAS',
+  PASUNDAN: 'PAS',
+  NEGARA_PASUNDAN: 'PAS',
+  MAD: 'MAD',
+  MADURA: 'MAD',
+  NEGARA_MADURA: 'MAD',
+  MAL: 'MAL',
+  MALAYA: 'MAL',
+  FEDERATION_OF_MALAYA: 'MAL',
+  AFIS: 'AFIS',
+  SOM_AFIS: 'AFIS',
+  RMS: 'RMS',
+  REPUBLIK_MALUKU_SELATAN: 'RMS',
+  SOUTH_MOLUCCAS: 'RMS',
+  NIT: 'NIT',
+  NEGARA_INDONESIA_TIMUR: 'NIT',
+  ROK: 'ROK',
+  SOUTH_KOREA: 'ROK',
+  COREA_DEL_SUD: 'ROK',
+  PRK: 'PRK',
+  DPRK: 'PRK',
+  RPDC: 'PRK',
+  NORTH_KOREA: 'PRK',
+  COREA_DEL_NORD: 'PRK',
+  APG: 'APG',
+  ALL_PALESTINE: 'APG',
+  TUTTO_PALESTINA: 'APG',
+  NSS: 'NSS',
+  NEGARA_SUMATERA_SELATAN: 'NSS',
+  NJT: 'NJT',
+  NEGARA_JAWA_TIMUR: 'NJT',
   SAAR: 'SAAR',
   JOR: 'JOR',
   SY: 'SYR',
@@ -2083,6 +2462,20 @@ export const OWNER_ALIASES: Record<string, string> = {
   EGITTO: 'EGY',
   EGYPT: 'EGY',
   AFGHANISTAN: 'AFG',
+  PRC: 'CCP_CHI',
+  RPC: 'CCP_CHI',
+  PEOPLES_REPUBLIC_OF_CHINA: 'CCP_CHI',
+  RIS: 'IDN',
+  REPUBLIK_INDONESIA_SERIKAT: 'IDN',
+  DDR: 'DDR',
+  RDT: 'DDR',
+  GDR: 'DDR',
+  EAST_GERMANY: 'DDR',
+  LAO: 'LAO',
+  LAOS: 'LAO',
+  CAM: 'CAM',
+  KHM: 'CAM',
+  CAMBODIA: 'CAM',
 };
 
 /**
@@ -2145,6 +2538,11 @@ export function canonicalizeOwnerCode(o: string, _step?: number): string {
  * Restituisce i metadati storici dell'owner garantendo zero eccezioni e fallback pulito.
  */
 export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
+  const raw = resolveOwnerMetaBase(o, _step);
+  return _step !== undefined ? applyChronologicalStateOverrides(raw, _step) : raw;
+}
+
+function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
   if (!o) return OWN_FALLBACK;
   const cleanKey = o.trim().toUpperCase();
   if (_step !== undefined && _step < 19 && (cleanKey === 'IND' || cleanKey === 'PK')) {
@@ -2159,6 +2557,58 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
   const direct = OWNERS[cleanKey] || OWNERS[o];
   const meta = direct || CANONICAL_OWNERS[canonicalizeOwnerCode(cleanKey, _step)] || OWN_FALLBACK;
   if (_step !== undefined && _step >= 19 && (meta.id === 'CCP_CHI' || meta.id === 'CCP')) {
+    if (_step >= 26) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        l: () => 'Repubblica Popolare Cinese (RPC — Intervento PVA in Corea Ott 1950 & Conquista di Chamdo in Tibet Ott 1950)',
+        shortName: 'Repubblica Popolare Cinese (RPC)',
+        leader: 'Presidente Mao Zedong · Premier Zhou Enlai · Comandante PVA Peng Dehuai · Comandante EPL Zhu De',
+        capital: 'Beijing (Pechino)',
+        tier: 'autonomous',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 25) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        l: () => 'Repubblica Popolare Cinese (RPC — Trattato di Alleanza Sino-Sovietico del 14 Febbraio 1950 & Conquista di Hainan e Zhoushan)',
+        shortName: 'Repubblica Popolare Cinese (RPC)',
+        leader: 'Presidente Mao Zedong · Premier Zhou Enlai · Comandante in Capo EPL Zhu De',
+        capital: 'Beijing (Pechino)',
+        tier: 'autonomous',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 24) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        l: () => 'Repubblica Popolare Cinese (RPC — Proclamazione del 1° Ottobre 1949 a Pechino)',
+        shortName: 'Repubblica Popolare Cinese (RPC)',
+        leader: 'Presidente Mao Zedong (Governo Centrale Popolare) · Premier & Esteri Zhou Enlai · Comandante EPL Zhu De',
+        capital: 'Beijing (Pechino — Ripristinata e Rinominata da Beiping il 1° Ott 1949)',
+        tier: 'autonomous',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 23) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        l: () => 'Partito Comunista Cinese — Esercito Popolare di Liberazione (PCC / EPL — Beiping, Nanchino & Shanghai)',
+        shortName: 'Cina Popolare (PCC / EPL)',
+        leader: 'Mao Zedong (Presidente del PCC) · Zhu De (Comandante in Capo dell\'EPL) · Liu Shaoqi · Zhou Enlai',
+        capital: 'Beiping (Pechino — Comitato Centrale & QG EPL)',
+        tier: 'autonomous',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Comintern',
@@ -2172,6 +2622,42 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 19 && meta.id === 'CHI') {
+    if (_step >= 25) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        l: () => 'Repubblica di Cina (ROC — Chiang Kai-shek Riassume la Presidenza a Taipei il 1° Marzo 1950)',
+        shortName: 'Repubblica di Cina (Taiwan / ROC)',
+        leader: 'Presidente Chiang Kai-shek (dal 1° mar 1950) · Premier Chen Cheng · Gen. Sun Li-jen',
+        capital: 'Taipei (Taiwan)',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 24) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        l: () => 'Repubblica di Cina (Governo Nazionalista KMT — Ritiro a Taipei, 7 Dicembre 1949)',
+        shortName: 'Repubblica di Cina (Taiwan / ROC)',
+        leader: 'Presidente f.f. Li Zongren · Direttore Gen. KMT Chiang Kai-shek · Premier Yan Xishan · Gov. Chen Cheng (Taiwan)',
+        capital: 'Taipei (Taiwan — Capitale Provvisoria dal 7 Dicembre 1949)',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 23) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        l: () => 'Repubblica di Cina (Governo Nazionalista KMT — Capitale Provvisoria a Guangzhou)',
+        shortName: 'Repubblica di Cina (KMT)',
+        leader: 'Presidente f.f. Li Zongren · Premier Yan Xishan (dal 12 giu) · Chiang Kai-shek (Direttore Generale KMT)',
+        capital: 'Guangzhou (Canton — Capitale Provvisoria)',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Alleati',
@@ -2184,6 +2670,24 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 19 && meta.id === 'ITA') {
+    if (_step >= 21) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        l: () =>
+          _step >= 23
+            ? 'Repubblica Italiana (Presidenza Einaudi · Governo De Gasperi V & Fondatore NATO)'
+            : 'Repubblica Italiana (Costituzione del 1948 — Presidenza Einaudi)',
+        shortName: 'Repubblica Italiana',
+        leader:
+          _step >= 23
+            ? 'Presidente Luigi Einaudi · Alcide De Gasperi (Presidente del Consiglio)'
+            : 'Presidente Luigi Einaudi (dal 12 mag 1948) · Alcide De Gasperi (Presidente del Consiglio)',
+        capital: 'Roma',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Alleati',
@@ -2244,6 +2748,18 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 19 && (meta.id === 'DFJ' || meta.id === 'YUG')) {
+    if (_step >= 21) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Repubblica Federativa Popolare di Jugoslavia (FNRJ — Rottura Tito-Stalin & Espulsione dal Cominform, 28 Giugno 1948)',
+        shortName: 'Jugoslavia (FNRJ)',
+        leader: 'Maresciallo Josip Broz Tito (Primo Ministro e Segretario Gen. KPJ) · Ivan Ribar (Presidium)',
+        capital: 'Beograd (Belgrado)',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Comintern',
@@ -2279,12 +2795,31 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Alleati',
-      l: () => 'Territorio Libero di Trieste — Zona A (Governo Militare Alleato AMG-FTT)',
+      l: () =>
+        _step >= 21
+          ? 'Territorio Libero di Trieste — Zona A (AMG-FTT · Dichiarazione Tripartita 1948)'
+          : 'Territorio Libero di Trieste — Zona A (Governo Militare Alleato AMG-FTT)',
       shortName: 'Trieste (Zona A TLT)',
       leader: 'Magg. Gen. Sir Terence Airey (Comandante Generale AMG-FTT / TRUST & BETFOR)',
       capital: 'Trieste',
       isSubject: false,
       overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 19 && meta.id === 'VUJA') {
+    return {
+      ...meta,
+      f: _step >= 21 ? 'Neutrale' : 'Comintern',
+      l: () =>
+        _step >= 21
+          ? 'Territorio Libero di Trieste — Zona B (VUJA · Amministrazione Militare Jugoslava)'
+          : 'Territorio Libero di Trieste — Zona B (VUJA — Vojna Uprava Jugoslovenske Armije)',
+      shortName: 'Trieste (Zona B VUJA)',
+      leader: 'Gen. Mirko Lenac (Comandante VUJA — Amministrazione Militare Jugoslava)',
+      capital: 'Koper (Capodistria)',
+      tier: 'international',
+      isSubject: true,
+      overlordCode: 'DFJ',
     };
   }
   if (_step !== undefined && _step >= 14 && (meta.id === 'FFL_AEF' || meta.id === 'FFL')) {
@@ -2320,7 +2855,41 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       overlordCode: null,
     };
   }
+  if (_step !== undefined && _step >= 24 && meta.id === 'BRD') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica Federale Tedesca (RFT / BRD — Primo Governo Adenauer & Accordi del Petersberg, Nov 1949)',
+      shortName: 'Germania Ovest (RFT)',
+      leader: 'Presidente Theodor Heuss (dal 12 sett) · Cancelliere Konrad Adenauer (dal 15 sett) · Alta Commissione Alleata AHK (McCloy, Robertson, François-Poncet)',
+      capital: 'Bonn (Capitale Provvisoria Federale dal 3 Novembre 1949)',
+      tier: 'autonomous',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
   if (_step !== undefined && _step >= 18 && meta.id === 'GER') {
+    if (_step >= 23) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        shortName: 'Germania Est (SBZ)',
+        l: () => 'Zona d\'Occupazione Sovietica (SBZ — Deutscher Volksrat · Amministrazione SMAD)',
+        leader: 'Gen. Vasilij Čujkov (SMAD) · Wilhelm Pieck & Walter Ulbricht (SED / Volksrat)',
+        capital: 'Berlin (Ost-Berlin)',
+        overlordCode: null,
+      };
+    }
+    if (_step >= 21) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        shortName: 'Germania Occupata',
+        l: () => 'Germania Occupata (Trizona Occidentale & SMAD — Crisi del Kontrollrat)',
+        leader: 'Governatori Alleati (Clay, Robertson, Kœnig) · SMAD (Sokolovskij) · Parlamentarischer Rat (Bonn)',
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Alleati',
@@ -2331,12 +2900,25 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 18 && meta.id === 'JAP') {
+    const japPm =
+      _step >= 22
+        ? 'Shigeru Yoshida'
+        : _step >= 21
+        ? 'Hitoshi Ashida'
+        : _step >= 19
+        ? 'Tetsu Katayama'
+        : 'Naruhiko Higashikuni / Kijūrō Shidehara';
     return {
       ...meta,
       f: 'Alleati',
       shortName: 'Giappone (SCAP)',
-      l: () => 'Giappone (Occupazione Alleata SCAP — Generale Douglas MacArthur)',
-      leader: 'General of the Army Douglas MacArthur (SCAP) / Imperatore Hirohito',
+      l: () =>
+        _step >= 22
+          ? 'Giappone (Costituzione del 1947 — Occupazione SCAP & Linea Dodge)'
+          : _step >= 19
+          ? 'Giappone (Costituzione Democratica del 3 Maggio 1947 — Occupazione SCAP)'
+          : 'Giappone (Occupazione Alleata SCAP — Generale Douglas MacArthur)',
+      leader: `General of the Army Douglas MacArthur (SCAP) / Imperatore Hirohito · P.M. ${japPm}`,
       overlordCode: null,
     };
   }
@@ -2345,16 +2927,27 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       ...meta,
       f: 'Alleati',
       shortName: 'Austria (ACA)',
-      l: () => 'Repubblica d\'Austria (Commissione Alleata per l\'Austria & Governo Karl Renner)',
-      leader: 'Allied Commission for Austria / Cancelliere Karl Renner',
+      l: () =>
+        _step >= 19
+          ? 'Repubblica d\'Austria (Seconda Repubblica — Commissione Alleata & Governo Figl)'
+          : 'Repubblica d\'Austria (Commissione Alleata per l\'Austria & Governo Karl Renner)',
+      leader:
+        _step >= 19
+          ? 'Allied Commission for Austria · Presidente Karl Renner · Cancelliere Leopold Figl'
+          : 'Allied Commission for Austria / Cancelliere Karl Renner',
       overlordCode: null,
     };
   }
-  if (_step !== undefined && _step >= 19 && meta.id === 'UK') {
+  if (_step !== undefined && _step >= 18 && meta.id === 'UK') {
     return {
       ...meta,
       f: 'Alleati',
-      l: () => 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Attlee & Decolonizzazione)',
+      l: () =>
+        _step >= 23
+          ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Attlee & Fondatore NATO)'
+          : _step >= 19
+          ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Attlee & Decolonizzazione)'
+          : 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Laburista Attlee)',
       shortName: 'Regno Unito',
       leader: 'Re Giorgio VI · Primo Ministro Clement Attlee (Labour) · Segretario agli Esteri Ernest Bevin',
       capital: 'Londra',
@@ -2363,12 +2956,17 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 19 && (meta.id === 'FRA' || meta.id === 'F_COL' || meta.id === 'F_AOF' || meta.id === 'FFL_AEF' || meta.id === 'F_AEF')) {
+    const fraPm = _step >= 24 ? 'Georges Bidault' : _step >= 22 ? 'Henri Queuille' : _step >= 20 ? 'Robert Schuman' : 'Paul Ramadier';
+    const fraTag = _step >= 23 && meta.id === 'FRA' ? 'Fondatore NATO · ' : '';
     return {
       ...meta,
       f: 'Alleati',
-      l: () => 'Quarta Repubblica Francese (Unione Francese — Presidente Vincent Auriol)',
+      l: () =>
+        _step === 19
+          ? 'Quatrième République Française (Unione Francese — Presidente Vincent Auriol · P.M. Paul Ramadier)'
+          : `Quatrième République Française (Unione Francese — ${fraTag}Presidente Vincent Auriol · P.M. ${fraPm})`,
       shortName: 'Francia (IVe République)',
-      leader: 'Presidente Vincent Auriol · Presidente del Consiglio Paul Ramadier',
+      leader: `Presidente Vincent Auriol · Presidente del Consiglio ${fraPm}`,
       capital: 'Parigi',
       isSubject: false,
       overlordCode: null,
@@ -2410,7 +3008,7 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       overlordCode: null,
     };
   }
-  if (_step !== undefined && _step >= 18 && (meta.id === 'JOR' || meta.id === 'JO')) {
+  if (_step !== undefined && _step >= 18 && _step < 22 && (meta.id === 'JOR' || meta.id === 'JO')) {
     return {
       ...meta,
       f: 'Neutrale',
@@ -2453,9 +3051,15 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Neutrale',
-      l: () => 'Zona Internazionale di Tangeri (Amministrazione Internazionale Restaurata)',
+      l: () =>
+        _step >= 19
+          ? 'Zona Internazionale di Tangeri (Statut de 1945 — Porto Franco)'
+          : 'Zona Internazionale di Tangeri (Amministrazione Internazionale Restaurata)',
       shortName: 'Tangeri',
-      leader: 'Comité de Contrôle International (Vice-Amiral Lehuraux / Edmond de Panafieu)',
+      leader:
+        _step >= 21
+          ? 'Comité de Contrôle / Adm. H. F. L. K. van Vredenburch'
+          : 'Comité de Contrôle / Adm. Luís Magalhães Correia',
       capital: 'Tanger',
       tier: 'international',
       isSubject: false,
@@ -2466,12 +3070,53 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Alleati',
-      l: () => _step >= 19 ? 'Stati Uniti d\'America (Dottrina Truman & Piano Marshall)' : 'Stati Uniti d\'America (Vittoria Globale & Nazioni Unite)',
+      l: () =>
+        _step >= 22
+          ? 'Stati Uniti d\'America (Rielezione Truman · Ponte Aereo & ERP, Dic 1948)'
+          : _step >= 19
+          ? 'Stati Uniti d\'America (Dottrina Truman & Piano Marshall)'
+          : 'Stati Uniti d\'America (Vittoria Globale & Nazioni Unite)',
       shortName: 'Stati Uniti d\'America',
-      leader: 'Presidente Harry S. Truman (33º Presidente degli Stati Uniti)',
+      leader:
+        _step >= 22
+          ? 'Presidente Harry S. Truman (Rieletto il 2 Nov 1948 — Fair Deal & Contenimento)'
+          : 'Presidente Harry S. Truman (33º Presidente degli Stati Uniti)',
       capital: 'Washington, D.C.',
       isSubject: false,
       overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 23 && meta.id === 'CAN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Dominion del Canada (10 Province con Terranova dal 31 Marzo 1949 · Membro Fondatore NATO)',
+      shortName: 'Canada',
+      leader: 'Primo Ministro Louis St. Laurent · Re Giorgio VI',
+      capital: 'Ottawa',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 18 && meta.id === 'CAN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () =>
+        _step >= 22
+          ? 'Dominion del Canada (Governo St. Laurent & Negoziati Patto Atlantico)'
+          : _step >= 19
+          ? 'Dominion del Canada (Canadian Citizenship Act 1947 & Ricostruzione)'
+          : 'Dominion del Canada (Vittoria Alleata & Membro Fondatore ONU)',
+      shortName: 'Canada',
+      leader:
+        _step >= 22
+          ? 'Primo Ministro Louis St. Laurent (dal 15 Novembre 1948) · Re Giorgio VI'
+          : 'Primo Ministro William Lyon Mackenzie King · Re Giorgio VI',
+      capital: 'Ottawa',
+      tier: 'dominion',
+      overlordCode: 'UK',
+      isSubject: true,
     };
   }
   if (_step !== undefined && meta.id === 'DEN') {
@@ -2589,8 +3234,43 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       ...meta,
       f: 'Alleati',
       shortName: 'Belgio',
-      l: () => 'Regno del Belgio',
-      leader: _step >= 17 ? 'Reggente Principe Carlo / Achille Van Acker' : 'Re Leopoldo III / Hubert Pierlot',
+      l: () =>
+        _step >= 26
+          ? 'Regno del Belgio (Crisi della Questione Reale — Poteri Delegati al Principe Reale Baldovino, 11 Ago 1950 · NATO & Benelux)'
+          : _step >= 23
+          ? 'Regno del Belgio (Unione Doganale Benelux & Fondatore NATO 1949)'
+          : _step >= 21
+          ? 'Regno del Belgio (Unione Doganale Benelux & Patto di Bruxelles 1948)'
+          : _step >= 19
+          ? 'Regno del Belgio (Governo Spaak III · Piano Marshall & Benelux)'
+          : 'Regno del Belgio',
+      leader:
+        _step >= 26
+          ? 'Principe Reale Baldovino (delega dell\'11 Ago 1950; Re Leopoldo III ancora titolare) · P.M. Joseph Pholien'
+          : _step >= 19
+          ? 'Reggente Principe Carlo · P.M. Paul-Henri Spaak'
+          : _step >= 17
+          ? 'Reggente Principe Carlo / Achille Van Acker'
+          : 'Re Leopoldo III / Hubert Pierlot',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 17 && meta.id === 'LUX') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      shortName: 'Lussemburgo',
+      l: () =>
+        _step >= 23
+          ? 'Granducato di Lussemburgo (Benelux & Fondatore NATO 1949)'
+          : _step >= 21
+          ? 'Granducato di Lussemburgo (Benelux & Patto di Bruxelles 1948)'
+          : 'Granducato di Lussemburgo',
+      leader:
+        _step >= 21
+          ? 'Granduchessa Carlotta · P.M. Pierre Dupong · Min. Esteri Joseph Bech'
+          : 'Granduchessa Carlotta / Pierre Dupong',
       isSubject: false,
       overlordCode: null,
     };
@@ -2609,20 +3289,35 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       overlordCode: null,
     };
   }
-  if (_step !== undefined && _step >= 19 && (meta.id === 'VIE' || meta.id === 'DRV')) {
+  if (_step !== undefined && _step >= 19 && _step < 25 && (meta.id === 'VIE' || meta.id === 'DRV')) {
     return {
       ...meta,
       f: 'Comintern',
-      l: () => 'Repubblica Democratica del Vietnam (Việt Minh — Governo della Resistenza nel Việt Bắc)',
+      l: () =>
+        _step >= 22
+          ? 'Repubblica Democratica del Vietnam (Việt Minh — Việt Bắc, Interzone I–V & Fronte Invernale Dic 1948)'
+          : _step >= 21
+          ? 'Repubblica Democratica del Vietnam (Việt Minh — Santuario Việt Bắc & Interzone I–V)'
+          : 'Repubblica Democratica del Vietnam (Việt Minh — Governo della Resistenza nel Việt Bắc)',
       shortName: 'Vietnam (DRV / Việt Minh)',
-      leader: 'Presidente Hồ Chí Minh · Generale Võ Nguyên Giáp (Comandante Supremo) · Trường Chinh',
-      capital: 'Việt Bắc (Bắc Kạn / Thái Nguyên — Base Centrale della Resistenza)',
+      leader:
+        _step >= 22
+          ? 'Presidente Hồ Chí Minh · Gen. Võ Nguyên Giáp (Comandante Supremo) · Phạm Văn Đồng · Trường Chinh'
+          : _step >= 21
+          ? 'Presidente Hồ Chí Minh · Gen. Võ Nguyên Giáp (Comandante Supremo) · Phạm Văn Đồng · Trường Chinh'
+          : 'Presidente Hồ Chí Minh · Generale Võ Nguyên Giáp (Comandante Supremo) · Trường Chinh',
+      capital:
+        _step >= 22
+          ? 'Việt Bắc (Thái Nguyên / Tuyên Quang) · Interzone IV–V & Đồng Tháp Mười (Nam Bộ)'
+          : _step >= 21
+          ? 'Việt Bắc (Tân Trào / Thái Nguyên) · Interzone IV–V & Đồng Tháp Mười'
+          : 'Việt Bắc (Bắc Kạn / Thái Nguyên — Base Centrale della Resistenza)',
       tier: 'sovereign',
       isSubject: false,
       overlordCode: null,
     };
   }
-  if (_step !== undefined && _step >= 19 && (meta.id === 'IDN' || meta.id === 'INA')) {
+  if (_step !== undefined && _step >= 19 && _step < 22 && (meta.id === 'IDN' || meta.id === 'INA')) {
     return {
       ...meta,
       f: 'Neutrale',
@@ -2644,6 +3339,20 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       leader: 'Sukarno / Mohammad Hatta',
       capital: 'Jakarta (Batavia)',
       tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 22 && meta.id === 'HOL') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      shortName: 'Paesi Bassi',
+      l: () =>
+        _step >= 23
+          ? 'Regno dei Paesi Bassi (Regina Giuliana · Governo Drees · Fondatore NATO 1949)'
+          : 'Regno dei Paesi Bassi (Regina Giuliana · Governo Willem Drees)',
+      leader: 'Regina Giuliana · P.M. Willem Drees · Alto Rappr. Louis Beel',
       isSubject: false,
       overlordCode: null,
     };
@@ -2759,6 +3468,18 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
         : 'Bolesław Bierut (KRN) · Edward Osóbka-Morawski (TRJN)',
     };
   }
+  if (_step !== undefined && _step >= 21 && (meta.id === 'CZE' || meta.id === 'SLO')) {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Cecoslovacca (ČSR — Colpo di Stato di Praga & Costituzione del 9 Maggio 1948)',
+      shortName: 'Cecoslovacchia (ČSR)',
+      leader: 'Presidente Klement Gottwald (dal 14 giu 1948) · Primo Ministro Antonín Zápotocký',
+      capital: 'Praha (Praga)',
+      overlordCode: null,
+      isSubject: false,
+    };
+  }
   if (_step !== undefined && _step >= 18 && meta.id === 'SLO') {
     return {
       ...meta,
@@ -2773,10 +3494,189 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Comintern',
-      l: () => _step >= 19
+      l: () => _step >= 21
+        ? 'Repubblica Popolare Romena (RPR — Costituzione del 13 Aprile 1948 & Nazionalizzazione dell\'11 Giugno)'
+        : _step >= 20
+        ? 'Repubblica Popolare Romena (RPR — Abdicazione di Re Michele I, 30 Dicembre 1947)'
+        : _step >= 19
         ? 'Regno di Romania (Trattato di Pace di Parigi 1947 · Governo Petru Groza)'
         : 'Regno di Romania (Re Michele I · Governo Petru Groza)',
-      leader: 'Re Michele I · P.M. Petru Groza',
+      leader: _step >= 20
+        ? 'Constantin Ion Parhon (Presidium RPR) · P.M. Petru Groza · Gheorghe Gheorghiu-Dej'
+        : 'Re Michele I · P.M. Petru Groza',
+    };
+  }
+  if (_step !== undefined && _step >= 21 && meta.id === 'SAF') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Unione Sudafricana (Vittoria del Partito Nazionale di D.F. Malan & Inizio dell\'Apartheid, Maggio–Giugno 1948)',
+      shortName: 'Sudafrica',
+      leader: 'Re Giorgio VI · Gov.-Gen. Gideon Brand van Zyl · Primo Ministro Daniel François Malan (National Party, dal 4 giu 1948)',
+      capital: 'Pretoria / Città del Capo',
+    };
+  }
+  if (_step !== undefined && _step >= 21 && meta.id === 'CRI') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di Costa Rica (Giunta Fondatrice della Seconda Repubblica — José Figueres Ferrer, 8 Maggio 1948)',
+      shortName: 'Costa Rica',
+      leader: 'Presidente della Giunta Fondatrice José Figueres Ferrer (vittoria Guerra Civile mar–apr 1948)',
+      capital: 'San José',
+    };
+  }
+  if (_step !== undefined && _step >= 21 && meta.id === 'COL') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di Colombia (Presidenza Ospina Pérez — El Bogotazo del 9 Aprile 1948 & La Violencia)',
+      shortName: 'Colombia',
+      leader: 'Presidente Mariano Ospina Pérez (Stato d\'assedio dopo l\'assassinio di Jorge Eliécer Gaitán)',
+      capital: 'Bogotá',
+    };
+  }
+  if (_step !== undefined && _step >= 22 && meta.id === 'IDN') {
+    if (_step >= 26) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Repubblica d\'Indonesia (Stato Unitario Proclamato il 17 Agosto 1950 — Scioglimento della Federazione RIS)',
+        shortName: 'Repubblica d\'Indonesia',
+        leader: 'Presidente Sukarno · Primo Ministro Mohammad Natsir (dal Set 1950) · Stato Unitario (Republik Indonesia)',
+        capital: 'Jakarta (Capitale dello Stato Unitario)',
+        tier: 'sovereign',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 25) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Stati Uniti d\'Indonesia (Republik Indonesia Serikat / RIS — Centralizzazione Marzo–Maggio 1950: RI, Sumatra Orientale & Indonesia Orientale)',
+        shortName: 'Stati Uniti d\'Indonesia (RIS)',
+        leader: 'Presidente Sukarno · Primo Ministro Mohammad Hatta · Federazione RIS (3 Stati Componenti al 30 Giugno 1950)',
+        capital: 'Jakarta (Capitale Federale RIS)',
+        tier: 'sovereign',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 24) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Stati Uniti d\'Indonesia (Republik Indonesia Serikat / RIS — Trasferimento di Sovranità, 27 Dicembre 1949)',
+        shortName: 'Stati Uniti d\'Indonesia (RIS)',
+        leader: 'Presidente Sukarno · Primo Ministro Mohammad Hatta · Sultano Hamengkubuwono IX (Difesa) · Stato Federale (Nuova Guinea Olandese esclusa)',
+        capital: 'Jakarta (ex Batavia — Capitale Federale RIS)',
+        tier: 'sovereign',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 23) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Repubblica d\'Indonesia (Ritorno a Yogyakarta, 30 Giugno 1949 — Accordo Roem–Van Roijen)',
+        shortName: 'Indonesia (RI)',
+        leader: 'Sultano Hamengkubuwono IX (Consegna di Yogyakarta) · Pres. Sukarno & Vicepres. Hatta (rientro da Bangka, 6 lug) · Gen. Soedirman (TNI)',
+        capital: 'Yogyakarta (evacuata dagli olandesi 24–30 giu 1949)',
+      };
+    }
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Repubblica d\'Indonesia (Governo d\'Emergenza PDRI — Bukittinggi, 22 Dicembre 1948)',
+      shortName: 'Indonesia (PDRI)',
+      leader: 'Capo del Governo d\'Emergenza PDRI Sjafruddin Prawiranegara (Bukittinggi) · Pres. Sukarno & Vicepres. Hatta (catturati dagli olandesi, 19 dic) · Gen. Soedirman (Guerriglia TNI)',
+      capital: 'Bukittinggi (Sumatra — Capitale d\'Emergenza PDRI)',
+    };
+  }
+  if (_step !== undefined && _step >= 22 && meta.id === 'JOR') {
+    if (_step >= 25) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Regno Hascemita di Giordania (Annessione Formale della Cisgiordania e di Gerusalemme Est — Ratifica Parlamentare del 24 Aprile 1950)',
+        shortName: 'Giordania',
+        leader: 'Re Abdallah I ibn al-Husayn · P.M. Said al-Mufti · Legione Araba (Glubb Pasha)',
+        capital: 'Amman',
+      };
+    }
+    if (_step >= 24) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Regno Hascemita di Giordania (Amministrazione della Cisgiordania & Gerusalemme Est — Linea Verde)',
+        shortName: 'Giordania',
+        leader: 'Re Abdallah I ibn al-Husayn · P.M. Tawfik Abu al-Huda · Legione Araba (Glubb Pasha)',
+        capital: 'Amman',
+      };
+    }
+    if (_step >= 23) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Regno Hascemita di Giordania (Denominazione Ufficiale dall\'Aprile 1949 — Linea Verde & Cisgiordania)',
+        shortName: 'Giordania',
+        leader: 'Re Abdallah I ibn al-Husayn · P.M. Tawfik Abu al-Huda · Legione Araba (Glubb Pasha)',
+        capital: 'Amman',
+      };
+    }
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Regno Hashemita di Transgiordania (Conferenza di Gerico del 1° Dicembre 1948 — Unione di Cisgiordania e Gerusalemme Est)',
+      shortName: 'Transgiordania',
+      leader: 'Re Abdallah I ibn al-Husayn (Proclamato Sovrano della Palestina Araba a Gerico) · P.M. Tawfik Abu al-Huda · Legione Araba (Glubb Pasha)',
+      capital: 'Amman',
+    };
+  }
+  if (_step !== undefined && _step >= 22 && meta.id === 'PRU') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica del Perù (Giunta Militare di Governo — Gen. Manuel A. Odría, 29 Ottobre 1948)',
+      shortName: 'Perù (Giunta Militare)',
+      leader: 'Gen. Manuel A. Odría (Presidente della Giunta Militare — Rivoluzione Restauratrice di Arequipa, 27–29 ott 1948)',
+      capital: 'Lima',
+    };
+  }
+  if (_step !== undefined && _step >= 22 && meta.id === 'VEN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Stati Uniti del Venezuela (Giunta Militare di Governo — Col. Carlos Delgado Chalbaud, 24 Novembre 1948)',
+      shortName: 'Venezuela (Giunta Militare)',
+      leader: 'Ten. Col. Carlos Delgado Chalbaud (Pres. Giunta Militare) · Magg. Marcos Pérez Jiménez · Magg. Luis Felipe Llovera Páez',
+      capital: 'Caracas',
+    };
+  }
+  if (_step !== undefined && _step >= 22 && meta.id === 'SLV') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di El Salvador (Consiglio di Governo Rivoluzionario — "Golpe de los Mayores", 14 Dicembre 1948)',
+      shortName: 'El Salvador (Consiglio Rivoluzionario)',
+      leader: 'Consejo de Gobierno Revolucionario (Magg. Óscar Osorio · Ten. Col. Manuel de Jesús Córdoba · Magg. Óscar Bolaños)',
+      capital: 'San Salvador',
+    };
+  }
+  if (_step !== undefined && _step >= 18 && meta.id === 'BUL') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => _step >= 20
+        ? 'Repubblica Popolare di Bulgaria (Costituzione Dimitrov del 4 Dicembre 1947 — Georgi Dimitrov)'
+        : _step >= 19
+        ? 'Repubblica Popolare di Bulgaria (Governo del Fronte Patriottico — Georgi Dimitrov)'
+        : 'Regno di Bulgaria (Governo del Fronte Patriottico — Post-Armistizio)',
+      leader: _step >= 19
+        ? 'Georgi Dimitrov (Primo Ministro) · Vasil Kolarov / Minčo Nejčev (Presidium)'
+        : 'Reggenza per Simeone II · Kimon Georgiev (Fronte Patriottico)',
     };
   }
   if (_step !== undefined && _step >= 18 && meta.id === 'HUN') {
@@ -2797,6 +3697,262 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
       leader: 'Amministrazione Civile / Alleata Postbellica',
     };
   }
+  if (_step !== undefined && _step >= 23 && meta.id === 'IRE') {
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Repubblica d\'Irlanda (Republic of Ireland Act 1948 — Uscita dal Commonwealth, 18 Aprile 1949)',
+      shortName: 'Repubblica d\'Irlanda',
+      leader: 'Presidente Seán T. O\'Kelly · Taoiseach John A. Costello',
+      capital: 'Dublino',
+    };
+  }
+  if (_step !== undefined && _step >= 23 && meta.id === 'GRE') {
+    if (_step >= 24) {
+      return {
+        ...meta,
+        l: () => 'Regno di Grecia (Fine della Guerra Civile — Vittoria su Vitsi-Grammos & Cessate il Fuoco del 16 Ottobre 1949)',
+        leader: 'Re Paolo I · Primo Ministro Alexandros Diomidis · Maresciallo Alexandros Papagos (Comandante in Capo)',
+        capital: 'Atene',
+      };
+    }
+    return {
+      ...meta,
+      l: () => 'Regno di Grecia (Offensiva di Primavera · Liberazione del Peloponneso & Riconquista di Karpenisi)',
+      leader: 'Re Paolo I · P.M. Themistoklis Sofoulis (†24 giu) / Alexandros Diomidis · Gen. Alexandros Papagos (Comandante in Capo)',
+      capital: 'Atene',
+    };
+  }
+  if (_step !== undefined && _step >= 23 && meta.id === 'DSE') {
+    return {
+      ...meta,
+      l: () => 'Governo Democratico Provvisorio / DSE (Ridotte di Grammos & Vitsi — Pindo Settentrionale)',
+      leader: 'Nikos Zachariadis · Dimitrios Partsalidis (Presidente PDG dal febbraio 1949)',
+      capital: 'Massicci del Grammos & Vitsi (Epiro / Macedonia Occ.)',
+    };
+  }
+  if (_step !== undefined && _step >= 24 && meta.id === 'ISR') {
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Stato di Israele (Armistizio Israele-Siria del 20 Luglio 1949 & Gerusalemme Ovest Capitale, Dic 1949)',
+      shortName: 'Israele',
+      leader: 'Presidente Chaim Weizmann · Primo Ministro David Ben-Gurion · Min. Esteri Moshe Sharett',
+      capital: 'Gerusalemme Ovest (Proclamata Capitale nel Dicembre 1949)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'ROK') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di Corea & Comando Nazioni Unite (UNC — Controffensiva post-Incheon, Ritirata dal Nord & Linea sul Fiume Imjin / Seul)',
+      shortName: 'Corea del Sud (ROK / Comando ONU)',
+      leader: 'Presidente Syngman Rhee · Gen. Douglas MacArthur (Comandante ONU/UNC) · Gen. Matthew Ridgway (8ª Armata USA) · Gen. Chung Il-kwon',
+      capital: 'Seoul (Sotto Controllo ROK-UNC al 31 Dic 1950 · Fronte sul Fiume Imjin)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 25 && meta.id === 'ROK') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di Corea (Guerra di Corea — Caduta di Seul il 28 Giugno 1950 & Governo Provvisorio a Daejeon)',
+      shortName: 'Corea del Sud (ROK)',
+      leader: 'Presidente Syngman Rhee · Gen. Chung Il-kwon · Supporto ONU/USA (Gen. Douglas MacArthur)',
+      capital: 'Daejeon (Capitale Provvisoria dal 27 Giugno 1950)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'PRK') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Popolare Democratica di Corea / Volontari del Popolo Cinese (RPDC-PVA — Riconquista del Nord & Offensiva di Capodanno sul 38° Parallelo)',
+      shortName: 'Corea del Nord (RPDC / PVA)',
+      leader: 'Premier Kim Il-sung · Comandante PVA/Cino-Coreano Peng Dehuai · Maresciallo Choe Yong-gun',
+      capital: 'Pyongyang (Riconquistata il 5 Dicembre 1950)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 25 && meta.id === 'PRK') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Popolare Democratica di Corea (Offensiva del 25 Giugno 1950 — Presa di Seul e Avanzata a Sud del Fiume Han)',
+      shortName: 'Corea del Nord (RPDC)',
+      leader: 'Premier e Comandante Supremo Kim Il-sung · Maresciallo Choe Yong-gun (KPA)',
+      capital: 'Pyongyang',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 26 && (meta.id === 'VIE' || meta.id === 'DRV')) {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Democratica del Vietnam (Việt Minh — Vittoria sulla RC4 Ott 1950 & Apertura Totale del Confine con la RPC)',
+      shortName: 'Vietnam (DRV / Việt Minh)',
+      leader: 'Presidente Hồ Chí Minh · Gen. Võ Nguyên Giáp · PM Phạm Văn Đồng · Consiglieri & Logistica RPC',
+      capital: 'Việt Bắc (Cao Bằng – Lạng Sơn – Thái Nguyên) · Liên khu IV–V & Nam Bộ',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 25 && (meta.id === 'VIE' || meta.id === 'DRV')) {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Democratica del Vietnam (Việt Minh — Riconoscimento RPC/URSS Gen 1950 & Riarmo nel Việt Bắc)',
+      shortName: 'Vietnam (DRV / Việt Minh)',
+      leader: 'Presidente Hồ Chí Minh · Gen. Võ Nguyên Giáp · PM Phạm Văn Đồng · Consiglieri CMAG (Wei Guoqing)',
+      capital: 'Việt Bắc (Tân Trào / Thái Nguyên) · Liên khu IV–V & Nam Bộ',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'SVN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Stato del Vietnam (Quốc gia Việt Nam — Evacuazione della RC4 Ott 1950 & Comando Gen. Jean de Lattre de Tassigny Dic 1950)',
+      shortName: 'Stato del Vietnam',
+      leader: 'Capo di Stato Bảo Đại · PM Trần Văn Hữu · Alto Comm. e Comandante Gen. Jean de Lattre de Tassigny (dal 17 Dic 1950)',
+      capital: 'Saigon (Sài Gòn)',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 25 && meta.id === 'SVN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Stato del Vietnam (Quốc gia Việt Nam — Riconoscimento USA/UK Feb 1950, Dominio della Corona & Governo Trần Văn Hữu)',
+      shortName: 'Stato del Vietnam',
+      leader: 'Capo di Stato Bảo Đại · Primo Ministro Trần Văn Hữu (dal Mag 1950) · Alto Comm. Léon Pignon',
+      capital: 'Saigon (Sài Gòn)',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'LAO') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Regno del Laos (Stato Associato · Convenzioni di Pau Nov–Dic 1950 & Governo Phoui Sananikone)',
+      shortName: 'Regno del Laos',
+      leader: 'Re Sisavang Vong · Primo Ministro Phoui Sananikone · Comm. Jean de Raymond',
+      capital: 'Vientiane / Luang Prabang (Capitale Reale)',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 25 && meta.id === 'LAO') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Regno del Laos (Stato Associato · Riconoscimento USA/UK Feb 1950 & Governo Phoui Sananikone)',
+      shortName: 'Regno del Laos',
+      leader: 'Re Sisavang Vong · Primo Ministro Phoui Sananikone (dal 27 Feb 1950) · Comm. Jean de Raymond',
+      capital: 'Vientiane / Luang Prabang (Capitale Reale)',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'CAM') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Regno di Cambogia (Stato Associato · Convenzioni di Pau Nov–Dic 1950 & Governo Sisowath Monipong)',
+      shortName: 'Regno di Cambogia',
+      leader: 'Re Norodom Sihanouk · Primo Ministro Principe Sisowath Monipong',
+      capital: 'Phnom Penh',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 25 && meta.id === 'CAM') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Regno di Cambogia (Stato Associato · Riconoscimento USA/UK Feb 1950 & Governo Sisowath Monipong)',
+      shortName: 'Regno di Cambogia',
+      leader: 'Re Norodom Sihanouk · Primo Ministro Principe Sisowath Monipong (dal 1° Giu 1950)',
+      capital: 'Phnom Penh',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'TIB') {
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Tibet (Lhasa & Xizang Occidentale — Pieni Poteri al 14° Dalai Lama dal 17 Nov 1950 dopo la Caduta di Chamdo)',
+      shortName: 'Tibet',
+      leader: '14° Dalai Lama Tenzin Gyatso (Pieni Poteri dal 17 Novembre 1950) · Kashag',
+      capital: 'Lhasa',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'NEP') {
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Regno del Nepal (Crisi del Nov 1950 — Fuga di Re Tribhuvan in India & Offensiva del Congresso Nepalese nel Terai)',
+      shortName: 'Nepal',
+      leader: 'Regime Rana (PM Mohan Shumsher Rana) · Re Tribhuvan (in esilio in India dal Nov 1950)',
+      capital: 'Kathmandu',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 26 && meta.id === 'RMS') {
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Repubblica delle Molucche Meridionali (RMS — Caduta di Ambon Nov 1950; Guerriglia Residua nell\'Interno di Seram)',
+      shortName: 'Molucche Meridionali (RMS)',
+      leader: 'Chris Soumokil (Sacche di guerriglia nell\'interno di Seram dopo la caduta di Ambon)',
+      capital: 'Interno di Seram (Ambon riconquistata dalla TNI nel Nov 1950)',
+      tier: 'autonomous',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 25 && meta.id === 'MAL') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      c: '#c95b5b',
+      l: () => 'Federazione della Malesia (Persekutuan Tanah Melayu — Bandiera a 11 Strisce del 26 Maggio 1950 & Piano Briggs)',
+      shortName: 'Federazione della Malesia',
+      leader: 'Alto Commissario Sir Henry Gurney · Dir. Operazioni Gen. Sir Harold Briggs · 9 Sultani Malesi',
+      capital: 'Kuala Lumpur',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'UK',
+    };
+  }
   return meta;
 }
 
@@ -2808,38 +3964,38 @@ export function getOwnerMeta(o: string, _step?: number): OwnerConfig {
  * Restituisce lo stato sovrano metropolitano (Madrepatria / Sovrano) di un'entità sottomessa al passaggio t.
  */
 export function getOverlord(o: string, step: number = 0): OwnerConfig | null {
-  const meta = getOwnerMeta(o);
-  const canon = meta.id || canonicalizeOwnerCode(o);
+  const meta = getOwnerMeta(o, step);
+  const canon = meta.id || canonicalizeOwnerCode(o, step);
 
   // Casi dinamici dipendenti dal tempo
   if (canon === 'ETH') {
     // Prima dell'occupazione (maggio 1936 / step 1) e dopo la liberazione di Addis Abeba (6 aprile 1941 / step 8), l'Etiopia è impero sovrano indipendente
-    return step >= 1 && step < 8 ? getOwnerMeta('ITA') : null;
+    return step >= 1 && step < 8 ? getOwnerMeta('ITA', step) : null;
   }
   if (canon === 'EGY') {
     // Dopo lo sgombero militare britannico dal Cairo e dal Delta nella Zona del Canale (marzo 1947 / step >= 19), l'Egitto è riconosciuto come Stato sovrano distinto
-    return step >= 19 ? null : getOwnerMeta('UK');
+    return step >= 19 ? null : getOwnerMeta('UK', step);
   }
   if (canon === 'IRQ') {
     // Colpo di Stato nazionalista filo-Asse di Rashid Ali al-Kaylani (aprile 1941 / step 8) o fine dell'occupazione PAIFORCE nel dopoguerra (step >= 19)
-    return step === 8 || step >= 19 ? null : getOwnerMeta('UK');
+    return step === 8 || step >= 19 ? null : getOwnerMeta('UK', step);
   }
   if (canon === 'ALB') {
-    // Prima dell'invasione e unione personale (aprile 1939 / step 4), l'Albania era indipendente;
-    // dopo l'armistizio italiano (settembre 1943 / step 13), l'Albania passa sotto occupazione della Wehrmacht tedesca
-    return step >= 13 ? getOwnerMeta('GER') : step >= 4 ? getOwnerMeta('ITA') : null;
+    // Prima dell'invasione (apr 1939 / step 4) e dopo la liberazione dal Reich (nov 1944 / step >= 16), l'Albania è Stato sovrano indipendente
+    if (step >= 16 || step < 4) return null;
+    return step >= 13 ? getOwnerMeta('GER', step) : getOwnerMeta('ITA', step);
   }
   if (canon === 'HAT') {
     // Annesso alla Turchia nel luglio 1939 (step 4)
-    return step >= 4 ? getOwnerMeta('TUR') : null;
+    return step >= 4 ? getOwnerMeta('TUR', step) : null;
   }
   if (canon === 'PHL' || canon === 'PHI') {
     // Indipendenza delle Filippine proclamata il 4 luglio 1946 (step >= 19)
-    return step >= 19 ? null : getOwnerMeta('USA');
+    return step >= 19 ? null : getOwnerMeta('USA', step);
   }
 
   if (meta.overlordCode) {
-    return getOwnerMeta(meta.overlordCode);
+    return getOwnerMeta(meta.overlordCode, step);
   }
 
   return null;
@@ -2867,8 +4023,8 @@ export function getSubjects(masterCode: string, step: number = 0): OwnerConfig[]
  * Verifica se un'entità è subordinata (direttamente o transitivamente) a un'altra.
  */
 export function isSubjectOf(subjectCode: string, masterCode: string, step: number = 0): boolean {
-  const cleanSubj = canonicalizeOwnerCode(subjectCode);
-  const cleanMaster = canonicalizeOwnerCode(masterCode);
+  const cleanSubj = canonicalizeOwnerCode(subjectCode, step);
+  const cleanMaster = canonicalizeOwnerCode(masterCode, step);
   if (cleanSubj === cleanMaster) return false;
 
   let current: OwnerConfig | null = getOverlord(cleanSubj, step);
@@ -2876,7 +4032,7 @@ export function isSubjectOf(subjectCode: string, masterCode: string, step: numbe
 
   while (current && current.id && !visited.has(current.id)) {
     visited.add(current.id);
-    if (current.id === cleanMaster || canonicalizeOwnerCode(current.id) === cleanMaster) {
+    if (current.id === cleanMaster || canonicalizeOwnerCode(current.id, step) === cleanMaster) {
       return true;
     }
     current = getOverlord(current.id, step);
@@ -2955,7 +4111,7 @@ export function getPoliticalTierLabel(tier?: PoliticalTier): string {
  * Genera il badge sintetico ed elegante per dossier e schede informative.
  */
 export function formatHierarchyBadge(code: string, step: number = 0): string | null {
-  const meta = getOwnerMeta(code);
+  const meta = getOwnerMeta(code, step);
   const overlord = getOverlord(code, step);
 
   if (!overlord) {
@@ -2983,6 +4139,8 @@ export function formatHierarchyBadge(code: string, step: number = 0): string | n
       return `Territorio Autonomo · Sovrano: ${overlordName}`;
     case 'free_forces':
       return `Francia Libera · Comandante: Gen. De Gaulle`;
+    case 'international':
+      return `Territorio Internazionale (Amministrazione Militare) · Potenza: ${overlordName}`;
     default:
       return `Dipendenza Storica · Sovrano: ${overlordName}`;
   }

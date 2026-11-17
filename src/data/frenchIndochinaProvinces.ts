@@ -1411,11 +1411,11 @@ export const FRENCH_INDOCHINA_PROVINCES_META: Record<string, FrenchIndochinaProv
     subRegion: "Laos",
     regionKind: "INDOCHINA_PROVINCE",
     faction: "Alleati",
-    s0_1: "Protettorato del Laos nell'Union Indochinoise (Capoluogo Pakse). Amministrato dalla Résidence Supérieure de France au Laos con sede a Vientiane. Antico Regno di Champasak sulle Cascate di Khone; territorio della riva destra del Mekong ceduto alla Thailandia nel Trattato di Tokyo (1941). Economia incentrata sul commercio fluviale sul Mekong, risaie, legname pregiato (teak) e piantagioni dei Bolovens.",
-    s2_4: "Protettorato del Laos (Capoluogo Pakse). Mentre il Giappone avanza in Cina e occupa Hainan, le valli del Laos e la via fluviale del Mekong assumono rilevanza logistica strategica. Antico Regno di Champasak sulle Cascate di Khone; territorio della riva destra del Mekong ceduto alla Thailandia nel Trattato di Tokyo (1941). L'amministrazione francese consolida le piste carovaniere montane e la Route Coloniale 13.",
+    s0_1: "Protettorato del Laos nell'Union Indochinoise (Capoluogo Pakse). Amministrato dalla Résidence Supérieure de France au Laos con sede a Vientiane. Principato storico di Champassak–Bassac lungo il Basso Mekong e le Cascate di Khone; economia incentrata su commercio fluviale, risaie, legname pregiato (teak) e piantagioni di caffè dell'Altopiano di Bolaven.",
+    s2_4: "Protettorato del Laos (Capoluogo Pakse). Mentre il Giappone avanza in Cina, la valle del Basso Mekong, l'Altopiano di Bolaven e la Route Coloniale 13 assumono rilevanza logistica strategica sotto la Résidence Supérieure francese.",
     s5_6: "Protettorato del Laos (settembre 1939 - giugno 1940). Mobilitazione coloniale allo scoppio della guerra in Europa con contingenti laotiani nei Tirailleurs Indochinois. Dopo la caduta della Francia del giugno 1940, il Laos e il Regno di Luang Prabang restano fedeli al Governo di Vichy e al Governatore Decoux.",
-    s7: "Protettorato del Laos (Amministrazione di Vichy). Post-Accordo di Hanoi del settembre 1940, la Thailandia di Phibunsongkhram scatena la Guerra Franco-Thailandese bombardando le postazioni francesi sul Mekong e avanzando a ovest del fiume. Antico Regno di Champasak sulle Cascate di Khone; territorio della riva destra del Mekong ceduto alla Thailandia nel Trattato di Tokyo (1941).",
-    s8: "Territorio laotiano a ovest del Mekong ceduto forzatamente alla Thailandia col Trattato di Pace di Tokyo del 9 maggio 1941 imposto dall'arbitrato giapponese (provincia di Lan Chang / Nakhon Champassak). Presidio strategico di confine sul corso fluviale del Mekong.",
+    s7: "Protettorato del Laos (Amministrazione di Vichy). Post-Accordo di Hanoi del settembre 1940, la Thailandia di Phibunsongkhram scatena la Guerra Franco-Thailandese attaccando le postazioni francesi sul Mekong e rivendicando la riva destra di Bassac/Champassak.",
+    s8: "Territorio di Champassak/Bassac lungo il Mekong: con il Trattato di Pace di Tokyo (9 maggio 1941) imposto dall'arbitrato giapponese, la riva destra (ovest del Mekong) viene ceduta alla Thailandia come Changwat Nakhon Champassak, mentre Pakse sulla riva sinistra resta all'Indocina francese.",
     getNote: (s: number) => {
       if (s >= 8) return FRENCH_INDOCHINA_PROVINCES_META["LACH"].s8;
       if (s >= 7) return FRENCH_INDOCHINA_PROVINCES_META["LACH"].s7;
@@ -1800,11 +1800,11 @@ export const FRENCH_INDOCHINA_PROVINCES_META: Record<string, FrenchIndochinaProv
     subRegion: "Laos",
     regionKind: "INDOCHINA_PROVINCE",
     faction: "Alleati",
-    s0_1: "Protettorato del Laos nell'Union Indochinoise (Capoluogo Sainyabuli). Amministrato dalla Résidence Supérieure de France au Laos con sede a Vientiane. Provincia a ovest del Mekong; occupata e annessa dalla Thailandia nel Trattato di Tokyo (maggio 1941) col nome di Lan Chang. Economia incentrata sul commercio fluviale sul Mekong, risaie, legname pregiato (teak) e piantagioni dei Bolovens.",
-    s2_4: "Protettorato del Laos (Capoluogo Sainyabuli). Mentre il Giappone avanza in Cina e occupa Hainan, le valli del Laos e la via fluviale del Mekong assumono rilevanza logistica strategica. Provincia a ovest del Mekong; occupata e annessa dalla Thailandia nel Trattato di Tokyo (maggio 1941) col nome di Lan Chang. L'amministrazione francese consolida le piste carovaniere montane e la Route Coloniale 13.",
+    s0_1: "Protettorato del Laos nell'Union Indochinoise (Capoluogo Sayaboury / Sainyabuli). Territorio laotiano sulla riva destra (occidentale) del Mekong al confine con il Siam settentrionale, amministrato dalla Résidence Supérieure de France au Laos. Economia basata su silvicoltura del teak, elefanti da lavoro, risicoltura montana e traffici fluviali verso Luang Prabang.",
+    s2_4: "Protettorato del Laos (Capoluogo Sayaboury). Mentre il Giappone avanza in Cina, l'ansa occidentale del Mekong tra il Siam settentrionale e Luang Prabang assume rilievo strategico di frontiera; la Résidence Supérieure francese consolida piste carovaniere e posti doganali sul fiume.",
     s5_6: "Protettorato del Laos (settembre 1939 - giugno 1940). Mobilitazione coloniale allo scoppio della guerra in Europa con contingenti laotiani nei Tirailleurs Indochinois. Dopo la caduta della Francia del giugno 1940, il Laos e il Regno di Luang Prabang restano fedeli al Governo di Vichy e al Governatore Decoux.",
-    s7: "Protettorato del Laos (Amministrazione di Vichy). Post-Accordo di Hanoi del settembre 1940, la Thailandia di Phibunsongkhram scatena la Guerra Franco-Thailandese bombardando le postazioni francesi sul Mekong e avanzando a ovest del fiume. Provincia a ovest del Mekong; occupata e annessa dalla Thailandia nel Trattato di Tokyo (maggio 1941) col nome di Lan Chang.",
-    s8: "Territorio laotiano a ovest del Mekong ceduto forzatamente alla Thailandia col Trattato di Pace di Tokyo del 9 maggio 1941 imposto dall'arbitrato giapponese (provincia di Lan Chang / Nakhon Champassak). Presidio strategico di confine sul corso fluviale del Mekong.",
+    s7: "Protettorato del Laos (Amministrazione di Vichy). Post-Accordo di Hanoi del settembre 1940, la Thailandia di Phibunsongkhram scatena la Guerra Franco-Thailandese avanzando nella regione di Sayaboury sulla riva occidentale del Mekong dirimpetto a Luang Prabang.",
+    s8: "Provincia laotiana di Sayaboury sulla riva destra del Mekong ceduta alla Thailandia con il Trattato di Pace di Tokyo del 9 maggio 1941 imposto dall'arbitrato giapponese e costituita nella provincia thailandese di Changwat Lan Chang.",
     getNote: (s: number) => {
       if (s >= 8) return FRENCH_INDOCHINA_PROVINCES_META["LAXA"].s8;
       if (s >= 7) return FRENCH_INDOCHINA_PROVINCES_META["LAXA"].s7;
@@ -4646,6 +4646,9 @@ for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
     return origFac(s);
   };
   meta.getHistoricalName = (s: number) => {
+    if (s >= 18 && !isThai) {
+      return origHist(8);
+    }
     if (s >= 17) {
       if (isThai) {
         if (k === 'KH2' || k === 'KH1' || k === 'KH24' || k === 'KH9') {
@@ -4746,7 +4749,7 @@ for (const [k, meta] of Object.entries(FRENCH_INDOCHINA_PROVINCES_META)) {
 }
 
 export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerritory {
-  if (s >= 9) {
+  if (s >= 9 && s < 19) {
     const p = ft.properties || {};
     const rawId = String(ft.id || p.id || '').trim();
     const cleanId = rawId.replace(/[^A-Za-z0-9]/g, '');
@@ -4754,20 +4757,14 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     if (targetId) {
       const m = FRENCH_INDOCHINA_PROVINCES_META[targetId];
       if (m) {
-        if (s >= 19) {
-          return makeResult(
-            'FRA',
-            m.getHistoricalName!(s),
-            "Trattato di Washington del 17 novembre 1946: la Thailandia ha retrocesso formalmente e integralmente alla Francia i territori cambogiani e laotiani annessi nel 1941 (Battambang, Siem Reap, Sayaboury e Champassak), ripristinando le frontiere del protettorato francese dell'Indocina sotto l'amministrazione dell'Alto Commissario Émile Bollaert.",
-            'Alleati',
-            'Union Française — Fédération Indochinoise (Haut-Commissaire Émile Bollaert)'
-          );
-        }
         if (s >= 18) {
+          const champExtra = targetId === 'LACH'
+            ? " (mentre sulla riva sinistra del Mekong il capoluogo Pakse ospita il presidio franco-britannico Force 136 con il Principe Boun Oum a sud del 16° parallelo)"
+            : '';
           return makeResult(
             'SIA',
             m.getHistoricalName!(s),
-            "Territorio annesso dalla Thailandia col Trattato di Tokyo del maggio 1941. Al 30 settembre 1945, sebbene il nuovo governo di Bangkok (guidato dal reggente Pridi Banomyong e dal primo ministro Seni Pramoj del movimento clandestino Seri Thai) abbia denunciato l'alleanza bellica con Tokyo dichiarandola nulla e priva di valore, la sovranità e l'amministrazione civile thailandese su Battambang, Siem Reap, Sayaboury e Champassak rimangono provvisoriamente in vigore fino alla firma del Trattato di Washington del 17 novembre 1946, quando la Francia ne otterrà la retrocessione totale sotto minaccia del veto all'ammissione alle Nazioni Unite.",
+            `Territorio annesso dalla Thailandia col Trattato di Tokyo del maggio 1941. Al 30 settembre 1945, sebbene il nuovo governo di Bangkok (guidato dal reggente Pridi Banomyong e dal primo ministro Seni Pramoj del movimento clandestino Seri Thai) abbia denunciato l'alleanza bellica con Tokyo dichiarandola nulla e priva di valore, l'amministrazione civile thailandese sui settori annessi${champExtra} rimane provvisoriamente in vigore fino al Trattato di Washington del 17 novembre 1946.`,
             'Neutrale',
             'Regno di Thailandia — Territori Indocinesi Annessi (Amministrazione Civile Thailandese in attesa del Trattato di Washington 1946)'
           );
@@ -4804,19 +4801,75 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     }
   }
 
-  // 1947 Categorization Sets
+  // 1947-1948 Categorization Sets
   const FRENCH_TONKIN_DELTA = new Set(['VNHN', 'VNHP', 'VN13', 'VN18', 'VN20', 'VN56', 'VN61', 'VN63', 'VN66', 'VN67', 'VN70']);
-  // Nota storica (30 settembre 1947): Quảng Ngãi (VN29), Bình Định (VN31) e Phú Yên (VN32) costituiscono la Zona Libera dell'Interzona V (Vùng Tự Do Nam-Ngãi-Bình-Phú) saldamente in mano alla RDV/Việt Minh, mai espugnata dalle forze francesi.
-  const FRENCH_ANNAM_COAST_PMSI = new Set(['VN25', 'VN26', 'VNDN', 'VN27', 'VN28', 'VN30', 'VN33', 'VN34', 'VN35', 'VN36', 'VN40', 'VN72']);
-  const FRENCH_COCHINCHINE = new Set(['VN37', 'VN39', 'VN41', 'VN43', 'VN44', 'VN45', 'VN46', 'VN47', 'VN49', 'VN50', 'VN51', 'VN52', 'VN55', 'VN57', 'VN58', 'VN59', 'VN73', 'VNSG', 'VNCT']);
+  // Nota storica (1947-1948): Quảng Nam rurale (VN27 — esclusa l'enclave di Đà Nẵng VNDN), Quảng Ngãi (VN29), Bình Định (VN31) e Phú Yên (VN32) costituiscono la Zona Libera dell'Interzona V (Vùng Tự Do Nam-Ngãi-Bình-Phú) saldamente in mano alla RDV/Việt Minh.
+  const FRENCH_ANNAM_COAST_PMSI = new Set(['VN25', 'VN26', 'VNDN', 'VN28', 'VN30', 'VN33', 'VN34', 'VN35', 'VN36', 'VN40', 'VN72']);
+  // Roccaforti permanenti del Việt Minh in Cocincina (Nam Bộ): Đồng Tháp Mười / Plain of Reeds (VN45 — Zona 8 & UBHC Nam Bộ) e Rừng U Minh / Cà Mau (VN59 — Zona 9).
+  const NAM_BO_VIET_MINH_BASTIONS = new Set(['VN45', 'VN59']);
+  const FRENCH_COCHINCHINE = new Set(['VN37', 'VN39', 'VN41', 'VN43', 'VN44', 'VN46', 'VN47', 'VN49', 'VN50', 'VN51', 'VN52', 'VN55', 'VN57', 'VN58', 'VN73', 'VNSG', 'VNCT']);
 
-  // STEP 19+ (Settembre 1947): Guerra d'Indocina, Repubblica Autonoma di Cocincina, Delta Tonchinese e Santuario del Việt Bắc
+  // STEP 19+ (Settembre 1947 - Giugno 1948): Guerra d'Indocina, Cocincina/Governo Centrale Provvisorio, Delta Tonchinese e Zone Liberate RDV
   if (s >= 19) {
     const isVietnam = meta?.cntrCode === 'VN' || rawId.startsWith('VN') || cleanId.startsWith('VN');
     const isCambodia = meta?.cntrCode === 'KH' || rawId.startsWith('KH') || cleanId.startsWith('KH');
     const isLaos = meta?.cntrCode === 'LA' || rawId.startsWith('LA') || cleanId.startsWith('LA');
 
     if (isCambodia) {
+      if (s >= 26) {
+        return makeResult(
+          'CAM',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Stato Associato & Accordi di Pau, Dicembre 1950)`,
+          "Al 31 dicembre 1950 il Regno di Cambogia (Re Norodom Sihanouk, PM Principe Sisowath Monipong) firma con la Francia gli Accordi di Pau (novembre-dicembre 1950), assumendo la gestione autonoma di dogane, tesoro e poste nell'ambito dell'Unione Francese, mentre reparti franco-khmer contrastano le forze Issarak nelle campagne.",
+          'Alleati',
+          'Regno di Cambogia (Union Française — Re Norodom Sihanouk · Accordi di Pau, Dic 1950)'
+        );
+      }
+      if (s >= 25) {
+        return makeResult(
+          'CAM',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Stato Associato & Conferenza di Pau, Giugno 1950)`,
+          "Al 30 giugno 1950 il Regno di Cambogia è Stato Associato nell'Unione Francese riconosciuto da USA e Regno Unito (7 febbraio 1950). Dopo la crisi di governo di maggio, il 1° giugno Re Norodom Sihanouk affida la guida dell'esecutivo al Principe Sisowath Monipong mentre i delegati cambogiani partecipano alla Conferenza di Pau (29 giugno) per il trasferimento delle competenze economiche e le bande del Fronte Unito Issarak di Sơn Ngọc Minh (aprile 1950) intensificano le azioni rurali.",
+          'Alleati',
+          'Regno di Cambogia (Union Française — Re Norodom Sihanouk · PM Principe Sisowath Monipong · Giu 1950)'
+        );
+      }
+      if (s >= 24) {
+        return makeResult(
+          'CAM',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Stato Associato nell'Unione Francese, 8 Novembre 1949)`,
+          "Al 31 dicembre 1949, con il Trattato franco-cambogiano dell'8 novembre 1949 firmato tra la Quarta Repubblica Francese e Re Norodom Sihanouk (governo Yem Sambaur), il Regno di Cambogia ottiene formalmente lo status di Stato Associato sovrano interno all'Unione Francese (difesa ed esteri coordinati con la Francia).",
+          'Alleati',
+          'Regno di Cambogia (Union Française — Re Norodom Sihanouk · PM Yem Sambaur · 8 Nov 1949)'
+        );
+      }
+      if (s >= 22) {
+        return makeResult(
+          'FRA',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Unione Francese & Re Norodom Sihanouk, Dicembre 1948)`,
+          "Al 31 dicembre 1948 il Regno di Cambogia (governo Penn Nouth dall'agosto 1948 sotto Re Norodom Sihanouk) è uno Stato associato all'Unione Francese (nuovo Alto Commissario Léon Pignon dal 21 ottobre 1948). Il 27 novembre 1948 Sihanouk riafferma le rivendicazioni di piena sovranità interna (prima del Trattato franco-cambogiano del novembre 1949), mentre bande Khmer Issarak restano attive nei settori di frontiera di Battambang e Siem Reap.",
+          'Alleati',
+          'Union Française — Royaume du Cambodge (Roi Norodom Sihanouk / PM Penn Nouth / Haut-Commissaire Léon Pignon)'
+        );
+      }
+      if (s >= 21) {
+        return makeResult(
+          'FRA',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Unione Francese & Re Norodom Sihanouk, Giugno 1948)`,
+          "Al 30 giugno 1948 il Regno di Cambogia è uno Stato associato all'Unione Francese sotto Re Norodom Sihanouk e il governo democratico del primo ministro Chhean Vam (eletto nel dicembre 1947 sotto la Costituzione del maggio 1947). Le province occidentali di Battambang e Siem Reap restano pienamente integrate dopo la restituzione thailandese del Trattato di Washington (1946), mentre bande nazionaliste Khmer Issarak operano nelle aree di frontiera.",
+          'Alleati',
+          'Union Française — Royaume du Cambodge (Roi Norodom Sihanouk / PM Chhean Vam / Haut-Commissariat de France)'
+        );
+      }
+      if (s >= 20) {
+        return makeResult(
+          'FRA',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Unione Francese & Prime Elezioni Legislative, Dicembre 1947)`,
+          "Al 31 dicembre 1947 il Regno di Cambogia svolge le prime elezioni dell'Assemblea Nazionale (21 dicembre 1947, vittoria del Partito Democratico del principe Sisowath Youtevong/Ieu Koeus) sotto la Costituzione del 6 maggio 1947 e il regno di Norodom Sihanouk nell'Unione Francese, con Battambang e Siem Reap reintegrate dal Trattato di Washington.",
+          'Alleati',
+          'Union Française — Protectorat du Cambodge (Roi Norodom Sihanouk / Haut-Commissariat de France)'
+        );
+      }
       return makeResult(
         'FRA',
         `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Unione Francese & Re Norodom Sihanouk)`,
@@ -4827,20 +4880,653 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     }
 
     if (isLaos) {
+      const laoProvLabel = rawId === 'LACH' || cleanId === 'LACH'
+        ? 'Champassak / Bassac (Pakse)'
+        : rawId === 'LAXA' || cleanId === 'LAXA'
+          ? 'Sayaboury / Xaignabouli (Riva Occidentale del Mekong)'
+          : (meta ? meta.historicalName : 'Laos');
+      const washingtonContext = rawId === 'LACH' || cleanId === 'LACH'
+        ? ' La riva destra di Champassak (ex Changwat Nakhon Champassak) è stata retrocessa dalla Thailandia con il Trattato di Washington del 17 novembre 1946 e unificata con Pakse nel Regno del Laos dopo la rinuncia dinastica del Principe Boun Oum (Modus Vivendi del 27 agosto 1946).'
+        : rawId === 'LAXA' || cleanId === 'LAXA'
+          ? ' La provincia di Sayaboury (ex Changwat Lan Chang) è stata retrocessa dalla Thailandia con il Trattato di Washington del 17 novembre 1946 e pienamente reintegrata nel Regno del Laos a ovest del Mekong.'
+          : '';
+      if (s >= 26) {
+        return makeResult(
+          'LAO',
+          `${laoProvLabel} (Regno del Laos — Stato Associato & Accordi di Pau, Dicembre 1950)`,
+          `Al 31 dicembre 1950 il Regno del Laos (Re Sisavang Vong, PM Phoui Sananikone) conclude gli Accordi di Pau (novembre-dicembre 1950) trasferendo al governo laotiano le competenze economiche e fiscali.${washingtonContext} A seguito della caduta francese sulla RC4 vietnamita, i presidi di Sam Neua rafforzano la vigilanza contro le infiltrazioni del Neo Lao Issara / Pathet Lao di Souphanouvong.`,
+          'Alleati',
+          'Regno del Laos (Union Française — Re Sisavang Vong · Accordi di Pau, Dic 1950)'
+        );
+      }
+      if (s >= 25) {
+        return makeResult(
+          'LAO',
+          `${laoProvLabel} (Regno del Laos — Stato Associato & Governo Sananikone, Giugno 1950)`,
+          `Al 30 giugno 1950 il Regno del Laos — riconosciuto diplomaticamente da Stati Uniti e Regno Unito il 7 febbraio 1950 — è guidato dal Primo Ministro Phoui Sananikone (in carica dal 27 febbraio 1950 sotto Re Sisavang Vong) ed è presente dal 29 giugno alla Conferenza di Pau per la devoluzione dei servizi economici.${washingtonContext} Lungo il confine nord-orientale di Sam Neua i presidi franco-laotiani contengono i nuclei Việt Minh e i sostenitori del principe Souphanouvong.`,
+          'Alleati',
+          'Regno del Laos (Union Française — Re Sisavang Vong · PM Phoui Sananikone · Giu 1950)'
+        );
+      }
+      if (s >= 24) {
+        return makeResult(
+          'LAO',
+          `${laoProvLabel} (Regno del Laos — Stato Associato nell'Unione Francese, 19 Luglio 1949)`,
+          `Al 31 dicembre 1949, in attuazione della Convenzione Generale Franco-Laotiana del 19 luglio 1949, il Regno del Laos (Re Sisavang Vong, governo del Primo Ministro Principe Boun Oum di Champassak) è Stato Associato nell'Unione Francese con sovranità interna (difesa ed esteri coordinati con la Francia).${washingtonContext} Lungo il confine nord-orientale di Sam Neua restano attivi nuclei Pathet Lao e Việt Minh.`,
+          'Alleati',
+          'Regno del Laos (Union Française — Re Sisavang Vong · PM Principe Boun Oum · 19 Lug 1949)'
+        );
+      }
+      if (s >= 23) {
+        return makeResult(
+          'FRA',
+          `${laoProvLabel} (Regno del Laos — Unione Francese & Vigilanza Pathet Lao, Giugno 1949)`,
+          `Al 30 giugno 1949 il Regno del Laos sotto Re Sisavang Vong e il governo del Primo Ministro Principe Boun Oum procede verso la firma della Convenzione Generale Franco-Laotiana (19 luglio 1949) come Stato Associato nell'Unione Francese (Alto Commissario Léon Pignon).${washingtonContext} Presidi franco-laotiani contengono le prime basi del Pathet Lao / Việt Minh nell'estremo nord-est di Sam Neua.`,
+          'Alleati',
+          'Union Française — Royaume du Laos (Roi Sisavang Vong · PM Principe Boun Oum · Haut-Commissaire Léon Pignon)'
+        );
+      }
+      if (s >= 22) {
+        return makeResult(
+          'FRA',
+          `${laoProvLabel} (Regno del Laos — Unione Francese & Re Sisavang Vong, Dicembre 1948)`,
+          `Al 31 dicembre 1948 il Regno del Laos (monarchia costituzionale sotto Re Sisavang Vong e il governo del Primo Ministro Principe Boun Oum, in carica dal marzo 1948) avvia negoziati con il nuovo Alto Commissario Léon Pignon per ampliare l'autonomia nell'Unione Francese (prima della Convenzione del luglio 1949). Le province di Champassak e Sayaboury restano reintegrate dal Trattato di Washington (novembre 1946).${washingtonContext}`,
+          'Alleati',
+          'Union Française — Royaume du Laos (Roi Sisavang Vong · PM Principe Boun Oum · Léon Pignon)'
+        );
+      }
+      if (s >= 21) {
+        return makeResult(
+          'FRA',
+          `${laoProvLabel} (Regno del Laos — Unione Francese & Re Sisavang Vong, Giugno 1948)`,
+          `Al 30 giugno 1948 il Regno del Laos (monarchia costituzionale unificata sotto Re Sisavang Vong e il governo del Principe Boun Oum di Champassak, nominato il 25 marzo 1948) resta associato all'Unione Francese (Alto Commissario Émile Bollaert) con le province occidentali di Champassak e Sayaboury reintegrate dal Trattato di Washington (1946).${washingtonContext}`,
+          'Alleati',
+          'Union Française — Royaume du Laos (Roi Sisavang Vong / PM Principe Boun Oum)'
+        );
+      }
+      if (s >= 20) {
+        return makeResult(
+          'FRA',
+          `${laoProvLabel} (Regno del Laos — Unione Francese & Re Sisavang Vong, Dicembre 1947)`,
+          `Al 31 dicembre 1947 il Laos è un regno costituzionale associato all'Unione Francese sotto Re Sisavang Vong (Costituzione dell'11 maggio 1947 ed elezioni d'agosto) con il Principe Souvannarath alla guida del governo e le province di Champassak e Sayaboury pienamente reintegrate dal Trattato di Washington del novembre 1946.${washingtonContext}`,
+          'Alleati',
+          'Union Française — Royaume du Laos (Roi Sisavang Vong / Alto Commissario Émile Bollaert)'
+        );
+      }
       return makeResult(
         'FRA',
-        `${meta ? meta.historicalName : 'Laos'} (Regno del Laos — Unione Francese & Re Sisavang Vong)`,
-        "Al 30 settembre 1947 il Laos costituisce un regno unificato e monarchia costituzionale sotto Re Sisavang Vong (Costituzione del 11 maggio 1947) nell'ambito dell'Unione Francese, a seguito della retrocessione thailandese di Champassak e Sayaboury con il Trattato di Washington del novembre 1946. Mentre il governo indipendentista del Lao Issara è in esilio a Bangkok, la Francia presidia le città lungo il Mekong.",
+        `${laoProvLabel} (Regno del Laos — Unione Francese & Re Sisavang Vong)`,
+        `Al 30 settembre 1947 il Laos costituisce un regno unificato e monarchia costituzionale sotto Re Sisavang Vong (Costituzione del 11 maggio 1947) nell'ambito dell'Unione Francese (Alto Commissario Émile Bollaert), a seguito della retrocessione thailandese di Champassak e Sayaboury con il Trattato di Washington del 17 novembre 1946.${washingtonContext}`,
         'Alleati',
         'Union Française — Royaume du Laos (Roi Sisavang Vong / Résidence Supérieure de France)'
       );
     }
 
     if (isVietnam) {
-      const isCochinchine = FRENCH_COCHINCHINE.has(rawId) || FRENCH_COCHINCHINE.has(cleanId) || meta?.subRegion === 'Cochinchine';
+      const isNamBoVietMinh = NAM_BO_VIET_MINH_BASTIONS.has(rawId) || NAM_BO_VIET_MINH_BASTIONS.has(cleanId);
+      const isCochinchine = !isNamBoVietMinh && (FRENCH_COCHINCHINE.has(rawId) || FRENCH_COCHINCHINE.has(cleanId) || meta?.subRegion === 'Cochinchine');
       const isTonkinDelta = FRENCH_TONKIN_DELTA.has(rawId) || FRENCH_TONKIN_DELTA.has(cleanId);
       const isAnnamCoastPmsi = FRENCH_ANNAM_COAST_PMSI.has(rawId) || FRENCH_ANNAM_COAST_PMSI.has(cleanId);
+      const isRC4Corridor = rawId === 'VN04' || rawId === 'VN09' || rawId === 'VN02' || cleanId === 'VN04' || cleanId === 'VN09' || cleanId === 'VN02';
+      const isPaysTai = rawId === 'VN01' || rawId === 'VN05' || rawId === 'VN71' || cleanId === 'VN01' || cleanId === 'VN05' || cleanId === 'VN71';
+      const isPaysMuong = rawId === 'VN14' || cleanId === 'VN14';
+      const isPmsiHighlands =
+        rawId === 'VN28' ||
+        rawId === 'VN30' ||
+        rawId === 'VN33' ||
+        rawId === 'VN35' ||
+        rawId === 'VN72' ||
+        cleanId === 'VN28' ||
+        cleanId === 'VN30' ||
+        cleanId === 'VN33' ||
+        cleanId === 'VN35' ||
+        cleanId === 'VN72';
+      if (s >= 26) {
+        if (isPaysTai) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Fédération Taï — Enclave Dominio della Corona Isolata dopo la RC4, Dic 1950)`,
+            "Al 31 dicembre 1950 la Fédération Taï di Đèo Văn Long (Lai Châu, Sơn La e Điện Biên Phủ, Dominio della Corona dello Stato del Vietnam) resiste nell'alto Fiume Nero sotto protezione CEFEO ma rimane strategicamente esposta dopo l'evacuazione francese di Lào Cai e Hòa Bình (novembre 1950).",
+            'Alleati',
+            'Stato del Vietnam — Fédération Taï / CEFEO (Pres. Đèo Văn Long, Dic 1950)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : rawId} (Hòa Bình / Paese Mường — Liberato dal Việt Minh Nov 1950)`,
+            "31 Dicembre 1950 (Repubblica Democratica del Vietnam): dopo la disfatta francese sulla RC4, il CEFEO evacua Hòa Bình nel novembre 1950. Il Việt Minh ristabilisce la continuità territoriale tra il Việt Bắc e il Liên khu IV, isolando la Fédération Taï dal Delta del Fiume Rosso.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Zona di Hòa Bình (Việt Minh, Dic 1950)'
+          );
+        }
+        if (isRC4Corridor) {
+          const rc4Name = rawId === 'VN04' ? 'Cao Bằng' : rawId === 'VN09' ? 'Lạng Sơn' : 'Lào Cai';
+          return makeResult(
+            'VIE',
+            `${rc4Name} (100% RDV / Việt Minh — Disfatta Francese sulla Route Coloniale 4 Ott–Nov 1950)`,
+            `31 Dicembre 1950 (100% Repubblica Democratica del Vietnam): nella Campagna di Frontiera (Chiến dịch Biên giới, 16 set – 17 ott 1950) il Việt Minh di Võ Nguyên Giáp espugna Đông Khê, annienta le colonne Le Page e Charton a Cốc Xá e costringe i francesi a evacuare Cao Bằng, Thất Khê, Lạng Sơn (17 ott) e Lào Cai (3 nov), aprendo interamente il confine sino-vietnamita ai rifornimenti della RPC.`,
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Zona di Frontiera Liberata RC4 (Việt Minh, Ott–Dic 1950)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina — Stato del Vietnam & Accordi di Pau, Dicembre 1950)`,
+            "Al 31 dicembre 1950 Saigon è la capitale dello Stato del Vietnam (Capo di Stato Bảo Đại, PM Trần Văn Hữu) che completa gli Accordi di Pau (27 nov – dic 1950) e avvia la costituzione dell'Esercito Nazionale Vietnamita con il sostegno militare USA (MAAG) e l'arrivo del Gen. Jean de Lattre de Tassigny (17 dicembre 1950).",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Bảo Đại · Gen. de Lattre · MAAG, Dic 1950)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const isAnthracite = rawId === 'VN18' || rawId === 'VN67';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Tonkin Delta');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso — Difesa Linea de Lattre & CEFEO, Dicembre 1950)`,
+            isAnthracite
+              ? "Al 31 dicembre 1950 i vescovadi di Phát Diệm (Ninh Bình) e Bùi Chu (Nam Định) presidiano con le milizie locali e il CEFEO il settore meridionale del Delta entro il nuovo perimetro difensivo ordinato da de Lattre."
+              : "Al 31 dicembre 1950, dopo il disastro sulla RC4 e la caduta di Lạng Sơn, il nuovo Alto Commissario e Comandante Gen. Jean de Lattre de Tassigny (giunto il 17 dicembre 1950) ferma lo sgombero di Hà Nội, rialza il morale CEFEO e avvia i lavori della Linea Fortificata de Lattre attorno al Delta Hà Nội–Hải Phòng.",
+            'Alleati',
+            'Stato del Vietnam & CEFEO Tonkin (Gen. Jean de Lattre de Tassigny · Linea de Lattre, Dic 1950)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            isPmsiHighlands
+              ? `${meta ? meta.historicalName : 'PMSI'} (Hoàng triều Cương thổ / Altopiani PMSI — Stato del Vietnam, Dicembre 1950)`
+              : `${meta ? meta.historicalName : 'Annam'} (Huế, Tourane & Costa dell'Annam — Stato del Vietnam, Dicembre 1950)`,
+            isPmsiHighlands
+              ? "Al 31 dicembre 1950 gli Altopiani Centrali delle minoranze Montagnard (Đà Lạt, Pleiku, Kon Tum, Ban Mê Thuột) restano parte del Dominio della Corona di Bảo Đại nello Stato del Vietnam."
+              : "Al 31 dicembre 1950 Huế, Tourane (Đà Nẵng), Nha Trang e la costa dell'Annam meridionale restano sotto l'amministrazione dello Stato del Vietnam e il presidio del CEFEO.",
+            'Alleati',
+            isPmsiHighlands
+              ? 'Stato del Vietnam — Dominio della Corona (Altopiani PMSI, Dic 1950)'
+              : 'Stato del Vietnam (Quốc gia Việt Nam — PM Trần Văn Hữu) & CEFEO (Annam)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Việt Minh del Nam Bộ — Dicembre 1950)`,
+            rawId === 'VN45'
+              ? "Al 31 dicembre 1950 la piana del Đồng Tháp Mười (Zona Militare 8) rimane la roccaforte principale della Repubblica Democratica del Vietnam nel delta del Mekong."
+              : "Al 31 dicembre 1950 la penisola di Cà Mau e la foresta di Rừng U Minh (Zona Militare 9) restano saldo bastione della Repubblica Democratica del Vietnam nel Nam Bộ.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — UBHC Kháng chiến Nam Bộ (Việt Minh, Dic 1950)'
+          );
+        }
+        const isInterzone4 = rawId === 'VN21' || rawId === 'VN22' || rawId === 'VN23' || rawId === 'VN24';
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Liên khu V' : isInterzone4 ? 'Zona Libera Liên khu IV' : 'Việt Bắc — Confine Cinese Aperto & Riarmo Regolare'}, Dicembre 1950)`,
+          isInterzone5
+            ? "Al 31 dicembre 1950 la Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della RDV) consolida il fronte centro-meridionale."
+            : isInterzone4
+              ? "Al 31 dicembre 1950 la Zona Libera di Thanh–Nghệ–Tĩnh–Bình (Liên khu IV) riceve rifornimenti via Hòa Bình appena liberata (novembre 1950) preparandosi all'offensiva del Delta."
+              : "Al 31 dicembre 1950, dopo la liberazione dell'intera fascia di confine sulla RC4 (Cao Bằng–Lạng Sơn–Lào Cai), il Việt Bắc dispone di collegamenti logistici terrestri ininterrotti con la Repubblica Popolare Cinese per le divisioni regolari di Giáp (308ª, 304ª, 312ª) alla vigilia della Campagna Trần Hưng Đạo.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V — Vùng Tự Do' : isInterzone4 ? 'Liên khu IV — Thanh–Nghệ–Tĩnh–Bình' : 'Hồ Chí Minh / Võ Nguyên Giáp — Việt Bắc · Confine RPC Aperto'})`
+        );
+      }
+      if (s >= 25) {
+        if (isPaysTai) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Hoàng triều Cương thổ / Fédération Taï — Stato del Vietnam, Giugno 1950)`,
+            "Al 30 giugno 1950 la Fédération Taï di Đèo Văn Long (Lai Châu, Sơn La e Điện Biên Phủ) — inquadrata dal decreto di Bảo Đại del 15 aprile 1950 nello statuto autonomo del Dominio della Corona (Hoàng triều Cương thổ) — presidia con il CEFEO l'alto Fiume Nero davanti al confine dello Yunnan.",
+            'Alleati',
+            'Stato del Vietnam — Dominio della Corona (Hoàng triều Cương thổ · Pres. Đèo Văn Long / CEFEO)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Hoàng triều Cương thổ / Pays Mường — Stato del Vietnam, Giugno 1950)`,
+            "Al 30 giugno 1950 il Paese Mường di Hòa Bình (annesso da Bảo Đại al Dominio della Corona con decreto del 15 aprile 1950) funge da cerniera strategica tra il Delta del Fiume Rosso e l'alta valle del Fiume Nero.",
+            'Alleati',
+            'Stato del Vietnam — Dominio della Corona (Hoàng triều Cương thổ · Hòa Bình / CEFEO)'
+          );
+        }
+        if (isRC4Corridor) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Corridoio RC4 — Scontro di Đông Khê & Presidio CEFEO, Giugno 1950)`,
+            "Al 30 giugno 1950 i capisaldi franco-vietnamiti della Route Coloniale 4 (Lạng Sơn, Thất Khê, Đông Khê, Cao Bằng e Lào Cai) restano ancora in mano al CEFEO e allo Stato del Vietnam: il 25–27 maggio 1950 il 174° Reggimento Việt Minh aveva espugnato brevemente Đông Khê, subito ripresa dai paracadutisti francesi del 3e BCCP il 27 maggio, preludio alla grande Campagna di Frontiera d'autunno.",
+            'Alleati',
+            'Stato del Vietnam / CEFEO RC4 (Gén. Marcel Carpentier · Capisaldi RC4, Giu 1950)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina — Stato del Vietnam & Aiuti USA MAAG, Giugno 1950)`,
+            "Al 30 giugno 1950 Saigon è la capitale dello Stato del Vietnam riconosciuto da USA e Regno Unito (7 febbraio 1950) e guidato dal Primo Ministro Trần Văn Hữu (nominato il 27 aprile / 6 maggio 1950). Dopo le proteste studentesche antiamericane di marzo, Washington avvia a maggio i primi aiuti militari diretti (MAAG Indochina) e il 29 giugno si apre in Francia la Conferenza di Pau.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Bảo Đại · PM Trần Văn Hữu · Capitale Saigon, Giu 1950)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const isAnthracite = rawId === 'VN18' || rawId === 'VN67';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Tonkin Delta');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso — Stato del Vietnam & Presidio CEFEO, Giugno 1950)`,
+            isAnthracite
+              ? "Al 30 giugno 1950 i vescovadi cattolici di Phát Diệm (Ninh Bình) e Bùi Chu (Nam Định), integrati dalle operazioni CEFEO dell'autunno 1949 e dalle milizie diocesane di mons. Lê Hữu Từ, consolidano il perimetro meridionale del Delta nello Stato del Vietnam."
+              : "Al 30 giugno 1950 le forze del Gén. Marcel Alessandri e lo Stato del Vietnam presidiavano saldamente Hà Nội, Hải Phòng e l'intero Delta del Fiume Rosso (consolidato anche a Thái Bình nel febbraio 1950), ricevendo i primi rifornimenti statunitensi di fronte al riarmo Việt Minh nel Việt Bắc.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam) & CEFEO Tonkin (Gén. Alessandri / Carpentier, Giu 1950)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            isPmsiHighlands
+              ? `${meta ? meta.historicalName : 'PMSI'} (Hoàng triều Cương thổ / Altopiani PMSI — Stato del Vietnam, Giugno 1950)`
+              : `${meta ? meta.historicalName : 'Annam'} (Huế, Tourane & Costa dell'Annam — Stato del Vietnam, Giugno 1950)`,
+            isPmsiHighlands
+              ? "Al 30 giugno 1950 gli Altopiani Centrali delle minoranze Montagnard (PMSI: Đà Lạt, Pleiku, Kon Tum, Ban Mê Thuột) costituiscono con il decreto di Bảo Đại del 15 aprile 1950 il Dominio della Corona (Hoàng triều Cương thổ), amministrato direttamente dal Capo dello Stato nel quadro dell'Unione Francese."
+              : "Al 30 giugno 1950 Huế, Tourane (Đà Nẵng), Nha Trang e la fascia costiera dell'Annam meridionale restano sotto l'amministrazione dello Stato del Vietnam (PM Trần Văn Hữu) e il presidio militare del CEFEO.",
+            'Alleati',
+            isPmsiHighlands
+              ? 'Stato del Vietnam — Dominio della Corona (Hoàng triều Cương thổ · Altopiani PMSI, Giu 1950)'
+              : 'Stato del Vietnam (Quốc gia Việt Nam — PM Trần Văn Hữu) & Union Française (Annam)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Việt Minh del Nam Bộ — Giugno 1950)`,
+            rawId === 'VN45'
+              ? "Al 30 giugno 1950 la piana alluvionale del Đồng Tháp Mười (Zona Militare 8) rimane la roccaforte principale della Repubblica Democratica del Vietnam (UBHC Kháng chiến Nam Bộ) nel delta del Mekong."
+              : "Al 30 giugno 1950 la penisola di Cà Mau e la foresta di Rừng U Minh (Zona Militare 9) restano saldo bastione della Repubblica Democratica del Vietnam (Việt Minh) nel Nam Bộ.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — UBHC Kháng chiến Nam Bộ (Việt Minh, Giu 1950)'
+          );
+        }
+        const isInterzone4 = rawId === 'VN21' || rawId === 'VN22' || rawId === 'VN23' || rawId === 'VN24';
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Liên khu V' : isInterzone4 ? 'Zona Libera Liên khu IV' : 'Việt Bắc — Riconoscimento RPC/URSS & Scontro di Đông Khê'}, Giugno 1950)`,
+          isInterzone5
+            ? "Al 30 giugno 1950 la Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della RDV) sostiene lo sforzo militare ed economico del Việt Minh nel Vietnam centro-meridionale."
+            : isInterzone4
+              ? "Al 30 giugno 1950 la Zona Libera di Thanh–Nghệ–Tĩnh–Bình (Liên khu IV della RDV) assicura mobilitazione civile e retrovia logistica al governo di Hồ Chí Minh tra il Tonchino e il fronte di Bình–Trị–Thiên."
+              : "Al 30 giugno 1950 la Repubblica Democratica del Vietnam — riconosciuta diplomaticamente da Cina (18 gennaio) e URSS (30 gennaio 1950) — completa nel Việt Bắc la formazione di divisioni regolari equipaggiate con il sostegno dei consiglieri cinesi (CMAG di Wei Guoqing), sferrando a maggio un primo attacco su Đông Khê prima dell'offensiva generale d'autunno.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V — Vùng Tự Do' : isInterzone4 ? 'Liên khu IV — Thanh–Nghệ–Tĩnh–Bình' : 'Hồ Chí Minh / Võ Nguyên Giáp — Việt Bắc · Riconoscimento RPC/URSS'})`
+        );
+      }
+      if (s >= 24) {
+        if (isPaysTai) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Fédération Taï — Stato del Vietnam & Arrivo EPL a Ovest, Dicembre 1949)`,
+            "Al 31 dicembre 1949 la Fédération Taï di Đèo Văn Long (Lai Châu, Sơn La e conca di Điện Biên Phủ) presidia l'alto Fiume Nero nello Stato del Vietnam associato all'Unione Francese, mentre a dicembre la caduta dello Yunnan meridionale porta le forze cinesi comuniste a ridosso del confine settentrionale.",
+            'Alleati',
+            'Stato del Vietnam / Union Française — Fédération Taï (Pres. Đèo Văn Long / CEFEO)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Pays Mường — Stato del Vietnam & CEFEO, Dicembre 1949)`,
+            "Al 31 dicembre 1949 il Territorio Autonomo Mường di Hòa Bình rimane cardine difensivo tra il Delta del Fiume Rosso e la Fédération Taï sotto il governo dello Stato del Vietnam di Bảo Đại.",
+            'Alleati',
+            'Stato del Vietnam / Union Française — Territoire Autonome Mường (Hòa Bình / CEFEO)'
+          );
+        }
+        if (isRC4Corridor) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Corridoio RC4 Lạng Sơn – Cao Bằng – Lào Cai — Pressione EPL/Việt Minh, Dicembre 1949)`,
+            "Al 31 dicembre 1949 l'arrivo dell'Esercito Popolare di Liberazione della Repubblica Popolare Cinese (RPC) al valico di Zhennanguan (11 dicembre) e lungo i confini del Tonchino (Lạng Sơn, Cao Bằng, Lào Cai) rompe l'isolamento della Repubblica Democratica del Vietnam (Việt Minh). Dal 13 dicembre le autorità del CEFEO (Gén. Marcel Carpentier) disarmano e internano oltre 30.000 militari nazionalisti cinesi del KMT (Gen. Huang Jie) ripiegati nel settore di Lạng Sơn, mentre i capisaldi della Route Coloniale 4 restano esposti a crescente assedio.",
+            'Alleati',
+            'Stato del Vietnam / CEFEO RC4 (Gén. Marcel Carpentier · Confine Tonchino-RPC, Dic 1949)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina — Stato del Vietnam di Bảo Đại, Dicembre 1949)`,
+            "Al 31 dicembre 1949 Saigon è la capitale dello Stato del Vietnam (Quốc gia Việt Nam — Accordi dell'Eliseo e convenzioni applicative firmate il 30 dicembre 1949 con Léon Pignon) guidato dal Capo di Stato Bảo Đại all'interno dell'Unione Francese, sostenuto militarmente dal CEFEO (Gén. Marcel Carpentier) e dalle milizie Cao Đài/Hòa Hảo.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Capo di Stato Bảo Đại · Capitale Saigon)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          // Phát Diệm (Ninh Bình VN18) e Bùi Chu (Nam Định VN67) sono i due vescovadi cattolici investiti dall'Operazione Anthracite (16 ott – nov 1949)
+          const isAnthracite = rawId === 'VN18' || rawId === 'VN67';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Tonkin Delta');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso — Stato del Vietnam & ${isAnthracite ? 'Operazione Anthracite' : 'Presidio CEFEO'}, Dicembre 1949)`,
+            isAnthracite
+              ? "Nell'ottobre–novembre 1949 l'Operazione Anthracite delle truppe franco-vietnamite (paracadutisti e Dinassaut 3) entra nei vescovadi cattolici meridionali del Delta — Phát Diệm (Ninh Bình) e Bùi Chu (Nam Định) — integrando le milizie locali del vescovo Lê Hữu Từ nel perimetro difensivo del CEFEO e dello Stato del Vietnam."
+              : "Al 31 dicembre 1949 Hà Nội, Hải Phòng e i centri fortificati del Delta del Fiume Rosso restano saldi nello Stato del Vietnam (Quốc gia Việt Nam) sotto presidio del CEFEO (Gén. Marcel Carpentier / Gen. Alessandri) nonostante l'arrivo dell'EPL cinese ai confini settentrionali del Việt Bắc.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam) & CEFEO Tonkin (Gén. Marcel Carpentier)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Annam'} (Huế, Tourane & Altopiani PMSI — Stato del Vietnam, Dicembre 1949)`,
+            "Al 31 dicembre 1949 Huế, Tourane (Đà Nẵng), Nha Trang e gli Altopiani Centrali del PMSI (Đà Lạt, Pleiku, Ban Mê Thuột) restano amministrati dallo Stato del Vietnam associato all'Unione Francese con presidio militare CEFEO.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Bảo Đại) & Union Française (Annam / PMSI)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Việt Minh del Nam Bộ — Dicembre 1949)`,
+            rawId === 'VN45'
+              ? "Al 31 dicembre 1949 la piana paludosa del Đồng Tháp Mười (Zona Militare 8) rimane saldo bastione della Repubblica Democratica del Vietnam (Việt Minh) nel delta del Mekong."
+              : "Al 31 dicembre 1949 la penisola di Cà Mau e U Minh (Zona Militare 9) restano sotto fermo controllo della Repubblica Democratica del Vietnam (Việt Minh).",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — UBHC Kháng chiến Nam Bộ (Việt Minh)'
+          );
+        }
+        const isInterzone4 = rawId === 'VN21' || rawId === 'VN22' || rawId === 'VN23' || rawId === 'VN24';
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Liên khu V' : isInterzone4 ? 'Zona Libera Liên khu IV' : 'Việt Bắc & Confine Cinese — Collegamento con la RPC'}, Dicembre 1949)`,
+          isInterzone5
+            ? "Al 31 dicembre 1949 la Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della RDV) consolida l'amministrazione rivoluzionaria del Việt Minh tra l'Annam centrale e il PMSI."
+            : isInterzone4
+              ? "Al 31 dicembre 1949 la Zona Libera di Thanh–Nghệ–Tĩnh–Bình (Liên khu IV della RDV) costituisce la principale retrovia demografica, agricola e logistica del Việt Minh nel Vietnam centro-settentrionale, sostenendo il fronte guerrigliero di Bình–Trị–Thiên verso Huế."
+              : "Dicembre 1949: la vittoria dell'Esercito Popolare di Liberazione della Repubblica Popolare Cinese nel Guangxi (caduta di Zhennanguan l'11 dicembre) rompe l'accerchiamento del Việt Bắc e apre il corridoio di rifornimento strategico dalla Cina comunista alla Repubblica Democratica del Vietnam di Hồ Chí Minh e Võ Nguyên Giáp.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V — Vùng Tự Do' : isInterzone4 ? 'Liên khu IV — Thanh–Nghệ–Tĩnh–Bình' : 'Hồ Chí Minh / Võ Nguyên Giáp — Việt Bắc & Confine RPC'})`
+        );
+      }
+      if (s >= 23) {
+        if (isPaysTai) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Fédération Taï / Pays Taï — Associata allo Stato del Vietnam, Giugno 1949)`,
+            "Al 30 giugno 1949, dopo gli Accordi dell'Eliseo (8 marzo) e la proclamazione dello Stato del Vietnam guidato da Bảo Đại (14 giugno 1949), la Fédération Taï (Lai Châu, Sơn La e conca di Điện Biên Phủ sotto Đèo Văn Long) resta presidiata dal CEFEO nell'ambito associato dell'Unione Francese lungo l'alto Fiume Nero.",
+            'Alleati',
+            'Stato del Vietnam / Union Française — Fédération Taï (Pres. Đèo Văn Long / CEFEO)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Pays Mường — Stato del Vietnam & Unione Francese, Giugno 1949)`,
+            "Al 30 giugno 1949 il Territorio Autonomo Mường di Hòa Bình funge da cardine difensivo del neonato Stato del Vietnam (Quốc gia Việt Nam) e del CEFEO tra il Delta del Fiume Rosso e la Fédération Taï contro la pressione del Việt Minh dal Việt Bắc e da Thanh Hóa.",
+            'Alleati',
+            'Stato del Vietnam / Union Française — Territoire Autonome Mường (Hòa Bình / CEFEO)'
+          );
+        }
+        if (isRC4Corridor) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Corridoio Fortificato RC4 & Alto Fiume Rosso — Stato del Vietnam / CEFEO, Giugno 1949)`,
+            "Al 30 giugno 1949 le piazzeforti fortificate della Route Coloniale 4 (Cao Bằng – Đông Khê – Thất Khê – Lạng Sơn) e di Lào Cai rappresentano gli avamposti di frontiera del CEFEO e dello Stato del Vietnam di Bảo Đại (proclamato il 14 giugno), sempre più esposti dopo l'avanzata comunista cinese a sud dello Yangtze.",
+            'Alleati',
+            'Stato del Vietnam / Union Française — CEFEO Zone Nord & RC4 (Gén. Roger Blaizot)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina Unificata — Capitale dello Stato del Vietnam, 14 Giugno 1949)`,
+            "In attuazione degli Accordi dell'Eliseo dell'8 marzo 1949 e della legge francese del 4 giugno 1949 che abroga lo statuto coloniale separato della Cocincina, il 14 giugno 1949 l'ex imperatore Bảo Đại proclama solennemente a Saigon lo Stato del Vietnam (Quốc gia Việt Nam), Stato Associato all'interno dell'Unione Francese con capitale Saigon, sostenuto dal CEFEO e dalle milizie Cao Đài/Hòa Hảo contro la guerriglia del Việt Minh.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Capo di Stato Bảo Đại · Capitale Saigon, 14 Giu 1949)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Tonkin Delta');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso — Stato del Vietnam & Presidio CEFEO, Giugno 1949)`,
+            "Al 30 giugno 1949 Hà Nội, Hải Phòng, il bacino minerario di Hòn Gai–Cẩm Phả e le città del Delta del Fiume Rosso fanno parte integrante del nuovo Stato del Vietnam (Quốc gia Việt Nam, 14 giugno 1949) sotto egida militare del CEFEO, pur fronteggiando l'intensa penetrazione rurale del Liên khu III del Việt Minh.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam) & CEFEO Tonkin (Haut-Commissaire Léon Pignon)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Annam'} (Huế, Tourane & Altopiani PMSI — Stato del Vietnam, Giugno 1949)`,
+            "Al 30 giugno 1949 Huế, la base aeronavale di Tourane (Đà Nẵng), Cam Ranh/Nha Trang e gli Altopiani Centrali PMSI (Đà Lạt, Pleiku, Ban Mê Thuột) passano sotto lo Stato del Vietnam associato all'Unione Francese (Accordi dell'Eliseo / 14 giugno 1949), presidiati dal CEFEO tra Liên khu IV e Liên khu V.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Bảo Đại) & Union Française (Annam / PMSI)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Guerrigliero del Nam Bộ — ${rawId === 'VN45' ? 'Đồng Tháp Mười' : 'Rừng U Minh / Cà Mau'}, Giugno 1949)`,
+            rawId === 'VN45'
+              ? "Al 30 giugno 1949 la piana paludosa del Đồng Tháp Mười resta la roccaforte inespugnata del Việt Minh nel Nam Bộ (Zona Militare 8), in aperta ostilità armata contro il neo-proclamato Stato del Vietnam di Bảo Đại e i battelli Dinassaut francesi."
+              : "Al 30 giugno 1949 la foresta alluvionale di Rừng U Minh e la penisola di Cà Mau consolidano la Zona Militare 9 della Repubblica Democratica del Vietnam contro lo Stato del Vietnam sostenuto dalla Francia.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — UBHC Kháng chiến Nam Bộ (Việt Minh)'
+          );
+        }
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Nam-Ngãi-Bình-Phú · Liên khu V' : 'Santuario del Việt Bắc & Interzona IV'} — Giugno 1949)`,
+          isInterzone5
+            ? "Al 30 giugno 1949 la Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della RDV) respinge le operazioni francesi mantenendo amministrazione rivoluzionaria autonoma e fabbriche d'armi tra Tourane e gli altopiani del PMSI."
+            : "Al 30 giugno 1949 il governo di Hồ Chí Minh e l'Armata Popolare di Võ Nguyên Giáp controllano stabilmente il santuario montano del Việt Bắc (Liên khu I) e l'Interzona IV (Thanh Hóa–Nghệ An–Hà Tĩnh), rigettando come governo fantoccio lo Stato del Vietnam di Bảo Đại (14 giugno) mentre le vittorie comuniste cinesi oltre lo Yangtze aprono la prospettiva di un confine alleato a nord.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V — Vùng Tự Do Nam-Ngãi-Bình-Phú' : 'Hồ Chí Minh / Gen. Võ Nguyên Giáp — Căn cứ địa Việt Bắc & Liên khu IV'})`
+        );
+      }
+      if (s >= 22) {
+        if (isPaysTai) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : rawId} (Fédération Taï / Pays Taï — Đèo Văn Long, Unione Francese)`,
+            "Istituita nel marzo–luglio 1948 con capitale Lai Châu sotto la presidenza di Đèo Văn Long e consolidata nell'autunno 1948 dal nuovo Alto Commissario Léon Pignon come baluardo etnico nell'Unione Francese: la Fédération Taï (Sip Song Chau Tai — Lai Châu, Sơn La e la conca di Điện Biên Phủ / Muang Thaeng) presidia il bacino del Fiume Nero saldando il Tonchino nord-occidentale all'Alto Laos contro il Việt Bắc.",
+            'Alleati',
+            'Union Française — Fédération Taï (Pays Taï — Pres. Đèo Văn Long / CEFEO)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : rawId} (Pays Mường — Territorio Autonomo Mường, Unione Francese)`,
+            "Al 31 dicembre 1948 il Territorio Autonomo Mường attorno a Hòa Bình funge da cerniera strategica tra il Delta del Fiume Rosso e la Fédération Taï lungo il corso inferiore del Fiume Nero, presidiato da guarnigioni del CEFEO e milizie ausiliarie Mường contro le infiltrazioni del Quân Đội Nhân Dân dal Việt Bắc e dal Thanh Hóa.",
+            'Alleati',
+            'Union Française — Territoire Autonome Mường (Hòa Bình / CEFEO)'
+          );
+        }
+        if (isRC4Corridor) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : rawId} (Corridoio Fortificato RC4 & Alto Fiume Rosso — Assedio Invernale, Dicembre 1948)`,
+            "Al 31 dicembre 1948, dopo la drammatica difesa legionaria di Phủ Thông Hóa (25–26 luglio 1948 lungo la RC3bis), i capisaldi isolati del CEFEO (Gen. Roger Blaizot) lungo la Route Coloniale 4 (Cao Bằng – Đông Khê – Thất Khê – Lạng Sơn) e Lào Cai fronteggiano l'accerchiamento continuo del Liên khu I, reso ancor più critico dalle vittorie comuniste cinesi in Manciuria oltre il confine settentrionale.",
+            'Alleati',
+            'Union Française — CEFEO Zone Opérationnelle Nord & RC4 (Gén. Roger Blaizot)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Cocincina — Governo Centrale Provvisorio del Vietnam & Nam Bộ Conteso, Dicembre 1948)`,
+            "Al 31 dicembre 1948 il Governo Centrale Provvisorio del Vietnam (Gen. Nguyễn Văn Xuân) e l'esecutivo locale di Trần Văn Hữu amministrano Saigon e il delta centrale con il CEFEO (sotto il nuovo Alto Commissario Léon Pignon dal 21 ottobre 1948) e le milizie Cao Đài/Hòa Hảo, mentre Parigi rinvia ancora al 1949 il voto parlamentare sull'unificazione della Cocincina e l'accordo dell'Eliseo con Bảo Đại; nelle campagne prosegue la guerra di logoramento del Việt Minh.",
+            'Alleati',
+            'Union Française — Haut-Commissaire Léon Pignon & Gouvernement Central Provisoire (Gén. Nguyễn Văn Xuân)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Tonkin Delta');
+          return makeResult(
+            'FRA',
+            `${cityName} (Delta del Fiume Rosso — Presidio CEFEO & Operazioni Autunnali 1948, Dicembre 1948)`,
+            "Al 31 dicembre 1948 il Delta del Fiume Rosso (Hà Nội, Hải Phòng, il bacino carbonifero di Hòn Gai–Cẩm Phả e le piazzeforti di Nam Định e Ninh Bình) rimane sotto fermo controllo CEFEO (Gen. Blaizot) dopo i rastrellamenti autunnali nei settori del Delta e lungo il Fiume Chiaro; le reti clandestine del Liên khu III e delle milizie cattoliche autonome nel delta meridionale mantengono però una forte pressione rurale.",
+            'Alleati',
+            'Union Française — CEFEO Tonkin (Gén. Blaizot / Haut-Commissaire Léon Pignon)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : 'Annam'} (Annam Litoraneo & Altopiani PMSI — Unione Francese, Dicembre 1948)`,
+            "Al 31 dicembre 1948 la fascia costiera di Huế–Quảng Trị, la base aeronavale di Đà Nẵng (Tourane), la baia di Cam Ranh/Nha Trang e gli Altopiani Centrali PMSI (Đà Lạt, Pleiku, Kontum, Ban Mê Thuột) sono presidiati dal CEFEO e dal Governo Centrale Provvisorio sotto l'Alto Commissario Léon Pignon (in attesa dei negoziati di Parigi del 1949 con Bảo Đại), isolati tra Liên khu IV e Liên khu V.",
+            'Alleati',
+            'Union Française — Annam & PMSI (Haut-Commissaire Léon Pignon / Governo Centrale Provvisorio)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Guerrigliero del Nam Bộ — ${rawId === 'VN45' ? 'Đồng Tháp Mười' : 'Rừng U Minh / Cà Mau'}, Dicembre 1948)`,
+            rawId === 'VN45'
+              ? "Al 31 dicembre 1948 la piana paludosa del Đồng Tháp Mười (Plaine des Joncs) rimane il quartier generale inespugnato del Comitato di Resistenza del Nam Bộ (Lê Duẩn / Zona Militare 8) e dei laboratori d'armi del Việt Minh, impegnando le flottiglie fluviali francesi Dinassaut lungo i rami del Mekong."
+              : "Al 31 dicembre 1948 la foresta alluvionale di Rừng U Minh e la penisola di Cà Mau consolidano il ridotto meridionale della Zona Militare 9 del Việt Minh (Việt Nam Dân chủ Cộng hòa), retrovia agricola e logistica del Nam Bộ contro le sortite anfibie del CEFEO.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — UBHC Kháng chiến Nam Bộ (Việt Minh)'
+          );
+        }
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Nam-Ngãi-Bình-Phú · Liên khu V' : 'Santuario del Việt Bắc & Liên khu I–IV'} — Dicembre 1948)`,
+          isInterzone5
+            ? "Al 31 dicembre 1948 la Zona Libera di Nam–Ngãi–Bình–Phú (Quảng Nam rurale, Quảng Ngãi, Bình Định e Phú Yên) costituisce la roccaforte costiera autonoma del Liên khu V (Nguyễn Chánh e Phạm Văn Đồng) della RDV, dotata di propria amministrazione civile e officine belliche tra l'enclave francese di Đà Nẵng e gli altopiani PMSI."
+            : "Al 31 dicembre 1948, dopo aver sfiorato la cattura della guarnigione legionaria a Phủ Thông Hóa (25–26 luglio 1948) e respinto le offensive d'autunno francesi sul Fiume Rosso, la Repubblica Democratica del Vietnam (Hồ Chí Minh e Gen. Võ Nguyên Giáp) potenzia le unità regolari nei santuari del Việt Bắc (Liên khu I) e di Thanh–Nghệ–Tĩnh–Bình (Liên khu IV) mentre la vittoria comunista in Manciuria preannuncia un confine cinese amichevole a nord.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V — Vùng Tự Do Nam-Ngãi-Bình-Phú' : 'Hồ Chí Minh / Gen. Võ Nguyên Giáp — Căn cứ địa Việt Bắc & Liên khu IV'})`
+        );
+      }
+      if (s >= 21) {
+        if (isRC4Corridor) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : rawId} (Corridoio Fortificato RC4 & Alto Fiume Rosso — Assedio Guerrigliero, Giugno 1948)`,
+            "Al 30 giugno 1948 le guarnigioni della Legione Straniera e dei paracadutisti del CEFEO (sotto il nuovo comandante supremo Gen. Roger Blaizot) presidiano i capisaldi isolati lungo la Route Coloniale 4 (Cao Bằng – Đông Khê – Thất Khê – Lạng Sơn) e Lào Cai per interdire il confine cinese; tuttavia, le brigate regolari del Quân Đội Nhân Dân (Liên khu I / Việt Bắc) controllano le giungle circostanti imponendo continui agguati ai convogli logistici francesi.",
+            'Alleati',
+            'Union Française — CEFEO Zone Opérationnelle Nord & RC4 (Général Roger Blaizot)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Cocincina — Governo Centrale Provvisorio & Accordi della Baia di Hạ Long, 5 Giugno 1948)`,
+            "Con la formazione del Governo Centrale Provvisorio del Vietnam guidato dal Gen. Nguyễn Văn Xuân (27 maggio 1948) e gli Accordi della Baia di Hạ Long del 5 giugno 1948 (Émile Bollaert e Bảo Đại), la Francia riconosce l'indipendenza associata del Vietnam nell'Unione Francese sotto la bandiera gialla a tre strisce rosse. Saigon e le città del Mekong restano presidiate dal CEFEO (Gen. Blaizot) e dalle milizie Cao Đài/Hòa Hảo, mentre la guerriglia del Việt Minh mantiene il controllo notturno nelle risaie ('pelle di leopardo') in attesa del voto parlamentare francese sull'unione della Cocincina.",
+            'Alleati',
+            'Union Française — Gouvernement Central Provisoire du Viêt-Nam & République de Cochinchine (Gén. Nguyễn Văn Xuân / CEFEO)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Tonkin Delta');
+          return makeResult(
+            'FRA',
+            `${cityName} (Delta del Fiume Rosso — Presidio CEFEO & Unione Vietnamita di Hạ Long, Giugno 1948)`,
+            "Al 30 giugno 1948 il Delta del Fiume Rosso (Hà Nội, Hải Phòng e le città lungo le direttrici ferroviarie e fluviali) costituisce il perno settentrionale del CEFEO (Gen. Roger Blaizot) e del neoistituito Governo Centrale Provvisorio del Vietnam (Accordi della Baia di Hạ Long, 5 giugno 1948, che riunificano formalmente Tonchino e Annam nell'Unione Francese). Mentre i francesi presidiano capisaldi in calcestruzzo e vie d'acqua, le reti clandestine del Liên khu III del Việt Minh infiltrano costantemente i villaggi rurali.",
+            'Alleati',
+            'Union Française — CEFEO Tonkin (Gén. Roger Blaizot) & Governo Centrale Provvisorio (Nguyễn Văn Xuân)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : 'Annam'} (Annam Litoraneo & Altopiani PMSI — Accordi di Hạ Long, Giugno 1948)`,
+            "Al 30 giugno 1948 la fascia costiera di Huế, l'enclave portuale fortificata di Tourane (Đà Nẵng), Nha Trang (Baia di Cam Ranh) e gli Altopiani Centrali (PMSI — Pays Montagnards du Sud Indochinois a Đà Lạt, Pleiku e Buôn Ma Thuột) restano sotto presidio del CEFEO e amministrazione associata al Governo Centrale Provvisorio del Vietnam (Accordi della Baia di Hạ Long, 5 giugno 1948), isolati dai bastioni rivoluzionari di Liên khu IV e Liên khu V.",
+            'Alleati',
+            'Union Française — Annam & PMSI (Haut-Commissaire Émile Bollaert / Governo Centrale Provvisorio)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Guerrigliero del Nam Bộ — ${rawId === 'VN45' ? 'Đồng Tháp Mười' : 'Rừng U Minh / Cà Mau'}, RDV / Việt Minh)`,
+            rawId === 'VN45'
+              ? "Al 30 giugno 1948 la piana paludosa del Đồng Tháp Mười (Plaine des Joncs) ospita il quartier generale invulnerabile del Comitato Esecutivo Amministrativo e di Resistenza del Sud (UBHC Nam Bộ) e della Zona Militare 8 del Việt Minh: protetta da canali e paludi di giunchi, dirige la guerra di logoramento nel delta del Mekong contro il CEFEO."
+              : "Al 30 giugno 1948 la foresta alluvionale di Rừng U Minh e la penisola di Cà Mau costituiscono la roccaforte meridionale inespugnata della Zona Militare 9 del Việt Minh (Việt Nam Dân chủ Cộng hòa), base logistica, agricola e di addestramento nel profondo Delta del Mekong.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — UBHC Kháng chiến Nam Bộ (Việt Minh)'
+          );
+        }
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Nam-Ngãi-Bình-Phú · Liên khu V' : 'Santuario del Việt Bắc & Liên khu I–IV'} — Stallo Strategico Giugno 1948)`,
+          isInterzone5
+            ? "Al 30 giugno 1948 la Zona Libera di Nam–Ngãi–Bình–Phú (Quảng Nam rurale, Quảng Ngãi, Bình Định e Phú Yên) forma la roccaforte costiera autonoma dell'Interzona V (Liên khu V) della Repubblica Democratica del Vietnam guidata da Nguyễn Chánh e Phạm Văn Đồng: dotata di propria amministrazione civile, riforma agraria ed economie di guerra, resiste isolata tra i presidi francesi di Đà Nẵng, gli altopiani PMSI e la Cocincina."
+            : "Al 30 giugno 1948, riorganizzate le forze rivoluzionarie nelle Grandi Interzone (Liên khu I–IV) all'indomani del fallimento delle offensive francesi Léa e Ceinture, la Repubblica Democratica del Vietnam (Presidente Hồ Chí Minh e Gen. Võ Nguyên Giáp) consolida il santuario montano del Việt Bắc (Liên khu I) e la retrovia strategica dell'Interzona IV (Thanh Hóa–Nghệ An–Hà Tĩnh–Quảng Bình), conducendo la guerra prolungata (trường kỳ kháng chiến) contro i capisaldi assediati lungo la RC4.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V — Vùng Tự Do Nam-Ngãi-Bình-Phú' : 'Hồ Chí Minh / Gen. Võ Nguyên Giáp — Căn cứ địa Việt Bắc & Liên khu IV'})`
+        );
+      }
+      if (s >= 20) {
+        if (isRC4Corridor) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : rawId} (Operazione Léa & Presidio della Route Coloniale 4 — CEFEO, Ott–Dic 1947)`,
+            "Rioccupata dalle truppe aviotrasportate e corazzate francesi del generale Raoul Salan e del colonnello André Beaufre durante l'Operazione Léa (7 ottobre – 8 novembre 1947) e l'Operazione Ceinture (20 novembre – 22 dicembre 1947): i paracadutisti e la Legione Straniera stabiliscono una catena di capisaldi fortificati lungo la strategica Route Coloniale 4 (Lạng Sơn – Đông Khê – Cao Bằng) e l'alto Fiume Rosso (Lào Cai) per sbarrare il confine cinese, mentre le campagne e le giungle circostanti restano presidiate dalle brigate di Võ Nguyên Giáp.",
+            'Alleati',
+            'Union Française — Zone Opérationnelle du Haut-Tonkin & RC4 (Général Raoul Salan — Opération Léa)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'FRA',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Governo Provvisorio del Vietnam del Sud — Gen. Nguyễn Văn Xuân & Accordi di Ha Long)`,
+            "L'8 ottobre 1947 la Repubblica Autonoma di Cocincina guidata dal generale Nguyễn Văn Xuân assume ufficialmente la denominazione di Governo Provvisorio del Vietnam del Sud (Gouvernement Provisoire du Sud Viêt-Nam), preparando la futura riunificazione nazionale in chiave anticomunista; il 6–7 dicembre 1947 nella Baia di Ha Long l'Alto Commissario Émile Bollaert e l'ex imperatore Bảo Đại firmano la prima dichiarazione congiunta verso la creazione dello Stato del Vietnam associato all'Unione Francese.",
+            'Alleati',
+            'Union Française — Gouvernement Provisoire du Sud Viêt-Nam (Général Nguyễn Văn Xuân / Accordi Baia di Ha Long con Bảo Đại)'
+          );
+        }
+        if (!isTonkinDelta && !isAnnamCoastPmsi && !isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Việt Bắc'} (Santuario del Việt Bắc & Interzona IV-V — Vittoria Difensiva RDV dopo Léa e Ceinture)`,
+            "Cuore montano del santuario rivoluzionario del Việt Bắc (Thái Nguyên, Tuyên Quang, Bắc Kạn rurale, Hà Giang, Yên Bái) e delle Interzone IV (Thanh Hóa, Nghệ An, Hà Tĩnh, Quảng Bình) e V (Zona Libera Nam-Ngãi-Bình-Phú: Quảng Nam rurale, Quảng Ngãi, Bình Định, Phú Yên). Nonostante la vasta offensiva francese dell'Operazione Léa (7 ottobre – 8 novembre 1947, con il lancio dei paracadutisti su Bắc Kạn e i combattimenti fluviali sul Fiume Chiaro a Đoan Hùng) e dell'Operazione Ceinture (20 novembre – 22 dicembre 1947), Hồ Chí Minh e Võ Nguyên Giáp sfuggono all'accerchiamento e a fine dicembre 1947 il Việt Minh rioccupa l'intero entroterra montano mentre le colonne francesi ripiegano verso la RC4 e il delta.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (Chủ tịch Hồ Chí Minh / Tổng tư lệnh Võ Nguyên Giáp — Căn cứ địa Việt Bắc)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Guerrigliero del Nam Bộ — ${rawId === 'VN45' ? 'Đồng Tháp Mười' : 'Rừng U Minh / Cà Mau'}, Dicembre 1947)`,
+            rawId === 'VN45'
+              ? "Dicembre 1947: le paludi di Đồng Tháp Mười (Plaine des Joncs) resistono alle puntate francesi del CEFEO, fungendo da santuario meridionale e sede del Comitato di Resistenza del Nam Bộ (Zona 8)."
+              : "Dicembre 1947: la foresta alluvionale di Rừng U Minh / Cà Mau resta bastione inespugnato del Việt Minh nella Cocincina meridionale (Zona 9).",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Kháng chiến Nam Bộ (Việt Minh)'
+          );
+        }
+      }
 
+      if (isNamBoVietMinh) {
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Guerrigliero del Nam Bộ — ${rawId === 'VN45' ? 'Đồng Tháp Mười' : 'Rừng U Minh / Cà Mau'}, RDV / Việt Minh)`,
+          rawId === 'VN45'
+            ? "Al 30 settembre 1947 la palude di Đồng Tháp Mười (Plaine des Joncs) ospita la sede del Comitato di Resistenza del Sud (Nam Bộ) e delle forze guerrigliere della Zona 8 del Việt Minh, inespugnabile alle colonne corazzate del CEFEO."
+            : "Al 30 settembre 1947 l'estremità meridionale di Rừng U Minh / Cà Mau costituisce una salda zona liberata del Việt Minh (Zona 9) nel basso Delta del Mekong.",
+          'Comintern',
+          'Việt Nam Dân chủ Cộng hòa — Kháng chiến Nam Bộ (Việt Minh)'
+        );
+      }
       // 1. Cocincina (Repubblica Autonoma di Cocincina — Presidio Francese CEFEO)
       if (isCochinchine) {
         return makeResult(

@@ -308,7 +308,7 @@ export const ITALY_TIMELINE_NORTH: Record<string, ItalyTimelineProfile> = {
     sep43: "Tra l'11 e il 26 settembre 1943 la Brigata Proletaria partigiana di Gorizia combatté eroicamente a Gorizia contro le SS prima dell'istituzione dell'OZAK sotto il Gauleiter Rainer.",
     w44: "Duro controllo della Wehrmacht, SS e Domobranci lungo la valle dell'Isonzo e del Vipacco; violenta guerra partigiana sul Sabotino, sul Carso goriziano e in Selva di Tarnova.",
     apr45: "Alla fine di aprile 1945 l'OZAK crolla sotto l'offensiva finale jugoslava del IX Korpus e dell'8ª Armata britannica; la città viene poi occupata per 40 giorni dalle truppe jugoslave.",
-    post45_47: "Dal giugno 1945 (Accordo di Duino / Linea Morgan) Gorizia passa nella Zona A sotto AMG anglo-americano; il 15 settembre 1947 (Trattato di Parigi) torna alla Repubblica Italiana, ma il nuovo confine attraversa piazza Transalpina cedendo le alture e i sobborghi orientali alla Jugoslavia (nascita di Nova Gorica).",
+    post45_47: "Dagli Accordi di Belgrado (9 giugno) e Duino (20 giugno 1945 — Linea Morgan) Gorizia è Zona A sotto AMG anglo-americano; il 15 settembre 1947 (Trattato di Parigi) torna alla Repubblica Italiana, ma il nuovo confine attraversa piazza Transalpina cedendo le alture e i sobborghi orientali alla Jugoslavia (nascita di Nova Gorica).",
   },
   ITH44: {
     w41_42: "Emporio portuale giuliano e colosso cantieristico dei Cantieri Riuniti dell'Adriatico (CRDA di Trieste e Monfalcone); forte apparato navale e industriale dell'Asse verso l'Adriatico orientale.",
@@ -316,7 +316,7 @@ export const ITALY_TIMELINE_NORTH: Record<string, ItalyTimelineProfile> = {
     sep43: "Sotto l'Operationszone Adriatisches Küstenland (OZAK) diretta da Friedrich Rainer e dall'HSSPF Odilo Globočnik, Trieste diventa il centro della repressione nazista in Italia, con l'unico lager dotato di forno crematorio sulla penisola alla Risiera di San Sabba.",
     w44: "Incessanti rastrellamenti delle SS, bombardamento alleato sul Porto Vecchio e sull'acquedotto (10 giugno 1944) e intensa lotta clandestina del CLN giuliano e dell'OF slovena.",
     apr45: "30 aprile 1945: il CLN di Trieste guidato da don Marzari ed Ercole Miani insorge contro i presidi tedeschi mentre il IX Korpus jugoslavo (1° maggio) e la 2ª Divisione neozelandese di Freyberg (2 maggio) entrano in città ('i 40 giorni di Tito').",
-    post45_47: "Accordo di Duino (9 giugno 1945): Trieste è Zona A della Linea Morgan retta dall'AMG-VG; il 15 settembre 1947 entra in vigore il Trattato di Parigi che istituisce il Territorio Libero di Trieste (TLT/FTT): la Zona A rimane sotto AMG-FTT (Maj. Gen. Terence Airey, truppe TRUST USA e BETFOR UK).",
+    post45_47: "Accordi di Belgrado (9 giugno) e Duino (20 giugno 1945): Trieste è Zona A della Linea Morgan retta dall'AMG-VG; il 15 settembre 1947 entra in vigore il Trattato di Parigi che istituisce il Territorio Libero di Trieste (TLT/FTT) in Regime Provvisorio (Allegato VII): la Zona A rimane sotto AMG-FTT (Maj. Gen. Terence Airey, truppe TRUST USA e BETFOR UK).",
   },
   ITH51: {
     w41_42: "Piazzaforte strategica sui ponti del Po e dell'Arsenale Militare Esercito: sede di polverifici di guerra e transito ferroviario lungo la Via Emilia verso Milano.",

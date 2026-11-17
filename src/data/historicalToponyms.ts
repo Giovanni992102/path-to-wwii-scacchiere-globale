@@ -31,6 +31,7 @@ import {
   SPAIN_PROVINCES_META,
   populateSpainToponyms,
   resolveSpainProvince,
+  resolveSpanishAfricanTerritory,
   type SpainProvinceInfo,
 } from './spainProvinces';
 import {
@@ -5681,7 +5682,9 @@ export function resolveAfricanToponym(
     id.startsWith('EST_') ||
     id.startsWith('LVA_') ||
     id.startsWith('LTU_') ||
-    id.startsWith('POL_')
+    id.startsWith('POL_') ||
+    id.startsWith('FR_HIST_') ||
+    /^FR[A-Z0-9]{2,3}$/i.test(id)
   ) {
     return null;
   }
@@ -6253,6 +6256,13 @@ export function resolveAfricanToponym(
 
   // 2. AFRICA ORIENTALE ITALIANA (Eritrea, Etiopia, Somalia, AOI)
   if (normKey.includes('eritrea') && (owner === 'ITA' || owner === 'UK' || !normKey.includes('british'))) {
+    if (step >= 26) {
+      return {
+        name: 'Eritrea (Amministrazione Militare Britannica BMA — Risoluzione ONU 390 A(V) 2 Dic 1950)',
+        adminTitle: 'British Military Administration of Eritrea (In Attesa Federazione Etiopica 1952)',
+        note: "31 Dicembre 1950 (BMA Britannica): il 2 dicembre 1950 l'Assemblea Generale ONU approva la Risoluzione 390 A(V) per la futura federazione con l'Etiopia entro settembre 1952; al 31 dicembre 1950 l'Eritrea rimane sotto amministrazione britannica.",
+      };
+    }
     if (step >= 19) {
       return {
         name: 'Eritrea (Amministrazione Militare Britannica — BMA, Asmara)',
@@ -6376,6 +6386,13 @@ export function resolveAfricanToponym(
     id !== 'UK_SOMALILAND' &&
     id !== 'BR_SOMALILAND'
   ) {
+    if (step >= 25) {
+      return {
+        name: 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU dal 1° Aprile 1950, Mogadiscio)',
+        adminTitle: 'Amministrazione Fiduciaria Italiana della Somalia — AFIS (ONU / Repubblica Italiana — Amb. Giovanni Fornari, Mogadiscio)',
+        note: "Il 1° aprile 1950 cessa l'amministrazione militare britannica (BMA) nell'ex Somalia Italiana e inizia ufficialmente il mandato decennale (1950–1960) dell'Amministrazione Fiduciaria Italiana della Somalia (AFIS) per conto delle Nazioni Unite (Risoluzione ONU 289 del 21 novembre 1949), con esposizione congiunta della bandiera ONU e del Tricolore della Repubblica Italiana sotto l'Amministratore Giovanni Fornari a Mogadiscio (il Somaliland Britannico e l'Ogaden restano rispettivamente a Regno Unito ed Etiopia).",
+      };
+    }
     if (step >= 19) {
       return {
         name: 'Somalia (Amministrazione Militare Britannica — BMA, Mogadiscio)',
@@ -6516,8 +6533,7 @@ export function resolveAfricanToponym(
      normKey.includes('rabat') ||
      normKey.includes('casablanca') ||
      normKey.includes('marrakech') ||
-     normKey.includes('fez') ||
-     normKey.includes('fes') ||
+     /(?:^|_)(?:fes|fez)(?:$|_)/.test(normKey) ||
      normKey.includes('meknes') ||
      normKey.includes('oujda') ||
      normKey.includes('agadir') ||
@@ -6563,7 +6579,7 @@ export function resolveAfricanToponym(
         note: "Capitale amministrativa del protettorato francese e sede della Résidence Générale nonché della corte imperiale del Sultano alawide Sidi Mohammed ben Youssef (futuro Re Mohammed V).",
       };
     }
-    if (normKey.includes('fes') || normKey.includes('fez')) {
+    if (/(?:^|_)(?:fes|fez)(?:$|_)/.test(normKey)) {
       return {
         name: 'Fès (Capitale Spirituelle et Historique du Maroc)',
         adminTitle: 'Région Civile et Militaire de Fès (Empire Chérifien / Protectorat Français)',
@@ -6851,7 +6867,6 @@ export function resolveAfricanToponym(
 
   // 6. POSSEDIMENTI SPAGNOLI IN AFRICA
   // 6.1 PROTETTORATO SPAGNOLO DEL MAROCCO (Zona del Rif, Yebala, Lucus, Xauen y Kert — Tetuán)
-  // Striscia settentrionale costiera e montuosa, nettamente distinta dal Protettorato Francese del Marocco a sud
   if (
     normKey.includes('spanish_morocco') ||
     normKey.includes('marruecos_espanol') ||
@@ -6868,41 +6883,60 @@ export function resolveAfricanToponym(
     normKey.includes('lucus') ||
     normKey.includes('kert')
   ) {
-    return {
-      name: "Protectorado Español de Marruecos (Zona del Rif — Tetuán)",
-      adminTitle: step === 0
-        ? "Segunda República Española — Alta Comisaría de España en Marruecos (Tetuán)"
-        : "Bando Nacional / Estado Español — Alta Comisaría de España en Marruecos (Tetuán)",
-      note: "Striscia costiera e montuosa settentrionale del Marocco (capitale Tetuán, suddivisa nei territori di Lucus, Yebala, Xauen, Rif e Kert), assegnata alla Spagna con il Trattato di Madrid del 1912 e distinta dal vasto protettorato francese. Nel luglio 1936 fu la culla dell'Alzamiento militare contro la Repubblica guidato dal generale Francisco Franco, quartier generale dell'Ejército de África e dei Regulares Indígenas che passarono lo Stretto verso la penisola iberica.",
-    };
+    const r = resolveSpanishAfricanTerritory('ES_RIF', step);
+    return { name: r.name, adminTitle: r.adminEntity || r.name, note: r.note || '' };
   }
 
   if (normKey.includes('ceuta')) {
-    return {
-      name: "Ceuta (Plaza de Soberanía Española)",
-      adminTitle: step === 0
-        ? "Segunda República Española — Plaza de Soberanía"
-        : "Estado Español — Plaza de Soberanía (Base del Ejército de África)",
-      note: "Città autonoma fortificata sullo Stretto di Gibilterra, perno navale e militare d'eccellenza sin dalla sovranità iberica del 1580.",
-    };
+    const r = resolveSpanishAfricanTerritory('ES630', step);
+    return { name: r.name, adminTitle: r.adminEntity || r.name, note: r.note || '' };
   }
 
   if (normKey.includes('melilla')) {
-    return {
-      name: "Melilla (Plaza de Soberanía Española)",
-      adminTitle: step === 0
-        ? "Segunda República Española — Plaza de Soberanía"
-        : "Estado Español — Cuna del Alzamiento del 17 de Julio de 1936",
-      note: "Città fortificata sulla costa orientale del Rif dove il colonnello Seguí proclamò il primo atto della sollevazione militare nazionalista il 17 luglio 1936.",
-    };
+    const r = resolveSpanishAfricanTerritory('ES640', step);
+    return { name: r.name, adminTitle: r.adminEntity || r.name, note: r.note || '' };
   }
 
   if (normKey.includes('tangier') || normKey.includes('tanger') || id === 'TANGER') {
+    if (step >= 23) {
+      return {
+        name: "Zone Internationale de Tanger (Statut de 1945 — Porto Franco Internazionale)",
+        adminTitle: "Zone Internationale de Tanger (Comité de Contrôle — H. F. L. K. van Vredenburch)",
+        note: "Porto franco bancario, commerciale e diplomatico sullo Stretto di Gibilterra sotto il Comitato di Controllo Internazionale e sede del crescente nazionalismo dell'Istiqlal.",
+      };
+    }
+    if (step >= 19) {
+      return {
+        name: step >= 21
+          ? "Zone Internationale de Tanger (Riammissione Italiana & Polo Franco)"
+          : "Zone Internationale de Tanger (Discorso di Tangeri — Mohammed V)",
+        adminTitle: "Zone Internationale de Tanger (Comité de Contrôle)",
+        note: step >= 21
+          ? "Nell'estate 1948 l'olandese H. F. L. K. van Vredenburch assume l'amministrazione della Zona Internazionale con il rientro italiano nel Comitato di Controllo."
+          : "Il 10 aprile 1947 il Sultano Mohammed V pronuncia a Tangeri lo storico discorso rivendicando l'unità e l'indipendenza dell'intero Marocco.",
+      };
+    }
     if (step >= 18) {
       return {
         name: "Zone Internationale de Tanger (Amministrazione Internazionale Restaurata)",
         adminTitle: "Comité de Contrôle International de Tanger (Accordo di Parigi, 31 Agosto 1945)",
-        note: "L'11 ottobre 1945 le truppe spagnole evacuano Tangeri su intimazione delle potenze alleate, ripristinando lo Statuto Internazionale sotto il Comité de Contrôle International e l'Amministratore Internazionale.",
+        note: "L'11 ottobre 1945 le truppe spagnole evacuano Tangeri su intimazione delle potenze alleate, ripristinando lo Statuto Internazionale sotto Luís Magalhães Correia.",
+      };
+    }
+    if (step >= 14) {
+      return {
+        name: "Tánger (Zona Ocupada por España — Chiusura Consolato Tedesco)",
+        adminTitle: "Ocupación Militar Española de Tánger (Accordo Anglo-Americano sul Wolframio, Maggio 1944)",
+        note: "Nel maggio 1944, su pressione di Londra e Washington, Madrid chiude il Consolato generale tedesco nella Mendoubia ed espelle gli agenti dell'Abwehr da Tangeri.",
+      };
+    }
+    if (step >= 8) {
+      return {
+        name: "Tánger (Annessa all'Alta Comisaría — Centro Spionaggio)",
+        adminTitle: "Administración Española de Tánger (Alta Comisaría de España en Marruecos)",
+        note: step >= 11
+          ? "Dopo gli sbarchi anglo-americani Torch in Nord Africa (novembre 1942), Tangeri resta presidiata dalle truppe spagnole sotto forte pressione diplomatica alleata."
+          : "Incorporata all'Alta Comisaría spagnola dopo lo scioglimento degli organi internazionali (novembre 1940), Tangeri diviene sede del Consolato tedesco (marzo 1941) e crocevia di spionaggio sullo Stretto.",
       };
     }
     return {
@@ -6910,43 +6944,33 @@ export function resolveAfricanToponym(
         ? "Tánger (Zona Ocupada Militarmente por España)"
         : "Zone Internationale de Tanger / Zona Internacional de Tánger",
       adminTitle: step >= 6
-        ? "Ocupación Militar Española (Coronel Antonio Yuste — 14 de junio de 1940)"
+        ? "Ocupación Militar Española (Col. Antonio Yuste Segura — 14 de junio de 1940)"
         : "Administration Internationale de Tanger (Statut International de 1923)",
       note: step >= 6
-        ? "Il 14 giugno 1940, in coincidenza con l'ingresso tedesco a Parigi, le truppe spagnole di Franco provenienti dal Rif invasero la zona internazionale smantellandone gli organi neutrali e annettendola di fatto al protettorato fino al 1945."
+        ? "Il 14 giugno 1940, in coincidenza con l'ingresso tedesco a Parigi, le truppe coloniali spagnole provenienti da Tetuán e Ceuta occupano la zona internazionale."
         : "Città e territorio a statuto speciale internazionale neutralizzato dal 1923, governato congiuntamente da Francia, Spagna, Regno Unito, Italia, Belgio, Paesi Bassi e Portogallo.",
     };
   }
 
   if (normKey.includes('ifni')) {
-    return {
-      name: "Territorio de Ifni (Sidi Ifni)",
-      adminTitle: step === 0
-        ? "Segunda República Española — Territorio de Ifni"
-        : "Estado Español — Gobierno Político-Militar de Ifni",
-      note: "Enclave costiera spagnola nel sud-ovest marocchino occupata militarmente nel 1934 dal colonnello Osvaldo Capaz, base d'appoggio per la sorveglianza delle rotte verso le Canarie.",
-    };
+    const r = resolveSpanishAfricanTerritory('ES_IFNI', step);
+    return { name: r.name, adminTitle: r.adminEntity || r.name, note: r.note || '' };
+  }
+
+  if (normKey.includes('rio_de_oro')) {
+    const r = resolveSpanishAfricanTerritory('ES_RIO_DE_ORO', step);
+    return { name: r.name, adminTitle: r.adminEntity || r.name, note: r.note || '' };
   }
 
   if (
-    normKey.includes('rio_de_oro') ||
     normKey.includes('spanish_sahara') ||
-    normKey.includes('sahara_espanol')
+    normKey.includes('sahara_espanol') ||
+    normKey.includes('cabo_juby') ||
+    normKey.includes('tarfaya') ||
+    normKey.includes('saguia')
   ) {
-    if (step >= 19) {
-      return {
-        name: "África Occidental Española — Sáhara Español (Villa Cisneros / Cabo Juby)",
-        adminTitle: "Estado Español — Gobierno del África Occidental Española (Sidi Ifni)",
-        note: "Con decreto del 20 luglio 1946 Sidi Ifni e il Sahara Spagnolo (Saguia el-Hamra e Río de Oro) sono unificati nel Gobierno del África Occidental Española (AOE) guidato dal Gen. José Bermejo López.",
-      };
-    }
-    return {
-      name: "Sáhara Español (Río de Oro y Saguia el-Hamra — Villa Cisneros)",
-      adminTitle: step === 0
-        ? "Segunda República Española — África Occidental Española"
-        : "Estado Español — África Occidental Española (Villa Cisneros / Cabo Juby)",
-      note: "Possedimento coloniale sahariano spagnolo articolato in Saguia el-Hamra al nord e Río de Oro al sud (capitale Villa Cisneros, odierna Dakhla, e forte di Cabo Juby). Scalo aeropostale atlantico (Aéropostale di Saint-Exupéry).",
-    };
+    const r = resolveSpanishAfricanTerritory('ES_SAHARA_NORTE', step);
+    return { name: r.name, adminTitle: r.adminEntity || r.name, note: r.note || '' };
   }
 
   if (
@@ -10266,8 +10290,24 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['tokyo', 'tokio', 'edo', 'tokyo_fu', 'kanto', 'jp_tokyo', '392'],
     adminTitle: 'Dai Nippon Teikoku — Tōkyō-fu (Kōkyo / Daihonei)',
     note: "Capitale dell'Impero Giapponese, residenza dell'Imperatore Shōwa (Hirohito) e sede del Gran Quartier Generale Imperiale (Daihonei).",
+    dynamicName: (s: number) =>
+      s >= 19
+        ? 'Tōkyō-to (Nihon-koku — Capitale Costituzionale / SCAP)'
+        : s >= 18
+        ? 'Tōkyō-to (Occupazione Alleata — Comando Supremo SCAP)'
+        : 'Tōkyō (Dai Nippon Teikoku Shuto)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 19
+        ? 'Nihon-koku / Supreme Commander for the Allied Powers (SCAP — Tōkyō)'
+        : s >= 18
+        ? 'Supreme Commander for the Allied Powers (SCAP — Douglas MacArthur / Tōkyō)'
+        : 'Dai Nippon Teikoku — Tōkyō-fu (Kōkyo / Daihonei)',
     dynamicNote: (s: number) =>
-      s >= 8
+      s >= 19
+        ? 'Al 30 settembre 1947 è in vigore la Costituzione pacifista del Giappone (Nihon-koku Kenpō) sotto autorità suprema di occupazione alleata SCAP a Tōkyō.'
+        : s >= 18
+        ? 'Settembre 1945: dopo la resa sulla USS Missouri, Tōkyō ospita il Quartier Generale Supremo delle Potenze Alleate (SCAP — Gen. Douglas MacArthur).'
+        : s >= 8
         ? "Capitale dell'Impero Giapponese e sede del Gran Quartier Generale Imperiale (Daihonei). Il 13 aprile 1941 il Ministro degli Esteri Yōsuke Matsuoka firma a Mosca il Patto quinquennale di neutralità sovietico-giapponese, mettendo in sicurezza il fronte settentrionale mancese e consentendo a Tokyo di concentrare la pianificazione strategica sull'espansione verso il Sud-Est asiatico e il Pacifico (Nanshin-ron)."
         : "Capitale dell'Impero Giapponese, residenza dell'Imperatore Shōwa (Hirohito) e sede del Gran Quartier Generale Imperiale (Daihonei).",
   },
@@ -10326,6 +10366,24 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['chosen', 'korea', 'corea', 'keijo', 'seoul', 'heijo', 'pyongyang', 'fusan', 'busan', 'chinkai', 'genzan', 'kr', 'kor', 'prk', 'kp', '410', '408'],
     adminTitle: 'Dai Nippon Teikoku — Chōsen Sōtokufu (Keijō)',
     note: "Colonia peninsulare annessa nel 1910, amministrata con ferreo controllo dal Chōsen Sōtokufu a Keijō (Seoul) sotto il Governatore Jirō Minami; base navale di Chinkai.",
+    dynamicName: (s: number) =>
+      s >= 22
+        ? 'Corea (ROK / RPDC — 38° Parallelo)'
+        : s >= 18
+        ? 'Corea Liberata (Occupazione USA / URSS al 38° Parallelo)'
+        : 'Chōsen (Corea — Governatorato Generale di Keijō)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 22
+        ? 'Repubblica di Corea (Seul) / Repubblica Popolare Democratica di Corea (Pyongyang)'
+        : s >= 18
+        ? 'USAMGIK (Sud) / Amministrazione Civile Sovietica (Nord)'
+        : 'Dai Nippon Teikoku — Chōsen Sōtokufu (Keijō)',
+    dynamicNote: (s: number) =>
+      s >= 22
+        ? 'Dal 1948 la penisola coreana è divisa tra due Stati sovrani lungo il 38° parallelo (Repubblica di Corea a sud, RPDC a nord).'
+        : s >= 18
+        ? 'Dopo la resa del Giappone nel settembre 1945 cessa il Governatorato Generale di Chōsen; la penisola è amministrata lungo il 38° parallelo da Stati Uniti (USAMGIK) e Unione Sovietica.'
+        : "Colonia peninsulare annessa nel 1910, amministrata con ferreo controllo dal Chōsen Sōtokufu a Keijō (Seoul) sotto il Governatore Jirō Minami; base navale di Chinkai.",
   },
   {
     id: 'JP_TAIWAN',
@@ -10333,6 +10391,24 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['taiwan', 'formosa', 'taihoku', 'taipei', 'takao', 'kaohsiung', 'taichu', 'tainan', 'kiirun', 'keelung', 'tw', 'twn', '158'],
     adminTitle: 'Dai Nippon Teikoku — Taiwan Sōtokufu (Taihoku)',
     note: "Colonia modello dell'Impero Giapponese acquisita nel 1895 con il Trattato di Shimonoseki; base logistica, aerea e navale primaria per la dottrina d'espansione meridionale (Nanshin-ron).",
+    dynamicName: (s: number) =>
+      s >= 24
+        ? 'Taiwan / Taipei (Capitale Provvisoria della Repubblica di Cina)'
+        : s >= 18
+        ? 'Taiwan Sheng / Formosa (Repubblica di Cina)'
+        : 'Taiwan (Formosa — Governatorato Generale di Taihoku)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 24
+        ? 'Zhōnghuá Mínguó — Capitale Provvisoria Taipei (Taiwan Sheng)'
+        : s >= 18
+        ? 'Zhōnghuá Mínguó — Táiwān Shěng (Retrocessione 1945)'
+        : 'Dai Nippon Teikoku — Taiwan Sōtokufu (Taihoku)',
+    dynamicNote: (s: number) =>
+      s >= 24
+        ? 'Dal 7 dicembre 1949 Taipei ospita il governo centrale della Repubblica di Cina ritiratosi dal continente.'
+        : s >= 18
+        ? 'Con la resa del Giappone nel 1945 Taiwan torna sotto la sovranità amministrativa della Repubblica di Cina.'
+        : "Colonia modello dell'Impero Giapponese acquisita nel 1895 con il Trattato di Shimonoseki; base logistica, aerea e navale primaria per la dottrina d'espansione meridionale (Nanshin-ron).",
   },
   {
     id: 'JP_KARAFUTO',
@@ -10340,6 +10416,18 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['karafuto', 'sakhalin', 'toyohara', 'otomari', 'maoka', 'yuzhno_sakhalinsk'],
     adminTitle: 'Dai Nippon Teikoku — Karafuto-chō (Toyohara)',
     note: "Sachalin a sud del 50° parallelo nord, ceduta dalla Russia nel 1905 col Trattato di Portsmouth; ricca di giacimenti di carbone, legname e stabilimenti di lavorazione cellulosa.",
+    dynamicName: (s: number) =>
+      s >= 18
+        ? 'Yuzhno-Sakhalinsk (Sachalin Meridionale — URSS)'
+        : 'Karafuto (Sachalin Meridionale — Toyohara)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 18
+        ? 'Sachalinskij Oblispolkom — RSFSR (URSS)'
+        : 'Dai Nippon Teikoku — Karafuto-chō (Toyohara)',
+    dynamicNote: (s: number) =>
+      s >= 18
+        ? "Conquistata dall'Armata Rossa nell'agosto 1945 e incorporata nell'Oblast' di Sachalin della RSFSR sovietica."
+        : "Sachalin a sud del 50° parallelo nord, ceduta dalla Russia nel 1905 col Trattato di Portsmouth; ricca di giacimenti di carbone, legname e stabilimenti di lavorazione cellulosa.",
   },
   {
     id: 'JP_KANTO_SHU',
@@ -10390,6 +10478,18 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['chishima', 'kuril', 'curili', 'paramushir', 'etorofu', 'shumshu', 'kunashiri'],
     adminTitle: 'Dai Nippon Teikoku — Chishima Rettō (Hokkaidō-chō)',
     note: "Catena di isole vulcaniche strategiche a guardia dell'accesso settentrionale al Mare di Ochotsk e alla penisola della Kamchatka.",
+    dynamicName: (s: number) =>
+      s >= 18
+        ? "Kuril'skie Ostrova (Isole Curili — Annesse all'URSS)"
+        : 'Chishima Rettō (Isole Curili — Paramushir & Etorofu)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 18
+        ? 'Sachalinskij Oblispolkom & Flotta del Pacifico — RSFSR (URSS)'
+        : 'Dai Nippon Teikoku — Chishima Rettō (Hokkaidō-chō)',
+    dynamicNote: (s: number) =>
+      s >= 18
+        ? "Arcipelago occupato dall'Armata Rossa tra agosto e inizio settembre 1945 in attuazione degli Accordi di Yalta e incorporato nell'URSS."
+        : "Catena di isole vulcaniche strategiche a guardia dell'accesso settentrionale al Mare di Ochotsk e alla penisola della Kamchatka.",
   },
   {
     id: 'JP_NANYO',
@@ -10397,13 +10497,41 @@ export const JAPAN_PROVINCES_CATALOG: JapanProvDef[] = [
     keys: ['nanyo', 'south_seas', 'south_pacific', 'saipan', 'palau', 'parao', 'koror', 'truk', 'chuuk', 'ponape', 'pohnpei', 'jaluit', 'kwajalein', 'yap', 'marshall', 'caroline', 'mariana', 'mh', 'fm', 'pw', 'mp'],
     adminTitle: "Dai Nippon Teikoku — Nan'yō-chō (Mandato Società delle Nazioni)",
     note: "Mandato di Classe C della Società delle Nazioni assegnato al Giappone (ex possedimenti insulari tedeschi); sede a Koror (Palau), basi nelle Marianne e gigantesco ancoraggio navale della Flotta Combinata a Truk (Chuuk Lagoon).",
+    dynamicName: (s: number) =>
+      s >= 19
+        ? 'Trust Territory of the Pacific Islands (Ex Mandato del Pacifico — USA/ONU)'
+        : s >= 18
+        ? 'Isole del Pacifico / Micronesia (Amministrazione Navale USA)'
+        : "Nan'yō Guntō (Mandato del Pacifico Meridionale — Koror, Saipan & Truk)",
+    dynamicAdminTitle: (s: number) =>
+      s >= 18
+        ? 'United States Navy — Trust Territory of the Pacific Islands'
+        : "Dai Nippon Teikoku — Nan'yō-chō (Mandato Società delle Nazioni)",
+    dynamicNote: (s: number) =>
+      s >= 19
+        ? 'Amministrazione Fiduciaria delle Nazioni Unite affidata agli Stati Uniti (Risoluzione ONU 21 del 18 luglio 1947) su Marianne, Caroline e Marshall.'
+        : s >= 18
+        ? 'Capitolazione delle residue guarnigioni nipponiche in Micronesia (Truk, Palau, Yap, Ponape) e amministrazione navale diretta statunitense.'
+        : "Mandato di Classe C della Società delle Nazioni assegnato al Giappone (ex possedimenti insulari tedeschi); sede a Koror (Palau), basi nelle Marianne e gigantesco ancoraggio navale della Flotta Combinata a Truk (Chuuk Lagoon).",
   },
   {
     id: 'JP_RYUKYU',
     name: 'Ryūkyū Rettō (Okinawa — Naha)',
-    keys: ['ryukyu', 'okinawa', 'naha', 'amami', 'sakishima', 'miyako', 'yaeyama'],
+    keys: ['ryukyu', 'okinawa', 'naha', 'amami', 'sakishima', 'miyako', 'yaeyama', 'jp47'],
     adminTitle: 'Dai Nippon Teikoku — Okinawa-ken (Naichi)',
     note: "Prefettura insulare meridionale integrata nell'Impero col capoluogo Naha.",
+    dynamicName: (s: number) =>
+      s >= 18
+        ? 'Okinawa / Isole Ryūkyū (Amministrazione Militare USA — USCAR)'
+        : 'Ryūkyū Rettō (Okinawa — Naha)',
+    dynamicAdminTitle: (s: number) =>
+      s >= 18
+        ? 'United States Military Government of the Ryukyu Islands (USCAR)'
+        : 'Dai Nippon Teikoku — Okinawa-ken (Naichi)',
+    dynamicNote: (s: number) =>
+      s >= 18
+        ? "Conquistata dalle forze statunitensi nella battaglia di Okinawa (aprile-giugno 1945) e separata dall'amministrazione metropolitana di Tokyo sotto controllo militare USA."
+        : "Prefettura insulare meridionale integrata nell'Impero col capoluogo Naha.",
   },
   {
     id: 'JP_OGASAWARA',
@@ -10467,8 +10595,18 @@ export function resolveJapanToponym(
 
   if (foundProv) {
     const p = foundProv;
-    const name = p.dynamicName ? p.dynamicName(step) : p.name;
-    const adminTitle = p.dynamicAdminTitle ? p.dynamicAdminTitle(step) : (p.adminTitle || `Dai Nippon Teikoku — ${name}`);
+    const rawDynName = p.dynamicName ? p.dynamicName(step) : p.name;
+    const rawDynAdmin = p.dynamicAdminTitle ? p.dynamicAdminTitle(step) : (p.adminTitle || `Dai Nippon Teikoku — ${rawDynName}`);
+    const name =
+      step >= 18 && !p.dynamicName
+        ? rawDynName.replace(/^Dai Nippon Teikoku\s*[—-]\s*/i, '')
+        : rawDynName;
+    const adminTitle =
+      step >= 18 && !p.dynamicAdminTitle
+        ? (step >= 19
+            ? 'Nihon-koku / Supreme Commander for the Allied Powers (SCAP)'
+            : 'Supreme Commander for the Allied Powers (SCAP — Douglas MacArthur)')
+        : rawDynAdmin;
     const note = p.dynamicNote ? p.dynamicNote(step) : p.note;
     return { name, adminTitle, note };
   }
@@ -11109,6 +11247,130 @@ export const CHINA_PROVINCES_CATALOG: ChinaProvDef[] = [
   },
 ];
 
+const POSTWAR_CHINA_PROVINCE_LABELS: Record<string, { label: string; rocAdmin?: string; prcAdmin?: string; note?: string }> = {
+  CHN_BEIJING: {
+    label: 'Beiping',
+    rocAdmin: 'Zhōnghuá Mínguó — Municipalità di Beiping',
+    prcAdmin: 'Repubblica Popolare Cinese — Capitale Beijing',
+  },
+  CHN_TIANJIN: { label: 'Tianjin Shi (Municipalità di Tianjin)' },
+  CHN_HEBEI: { label: 'Hebei Sheng (Baoding & Shijiazhuang)' },
+  CHN_SHANXI: { label: 'Shanxi Sheng (Taiyuan)' },
+  CHN_SHANDONG: { label: 'Shandong Sheng (Jinan & Qingdao)' },
+  CHN_SHANGHAI: { label: 'Shanghai Shi (Municipalità di Shanghai)' },
+  CHN_JIANGSU: { label: 'Jiangsu Sheng (Nanjing)' },
+  CHN_ANHUI: { label: 'Anhui Sheng (Hefei)' },
+  CHN_HENAN: { label: 'Henan Sheng (Kaifeng & Zhengzhou)' },
+  CHN_HUBEI: { label: 'Hubei Sheng (Wuhan)' },
+  CHN_GUANGDONG: { label: 'Guangdong Sheng (Guangzhou / Canton)' },
+  CHN_HAINAN: {
+    label: 'Hainan Dao (Isola di Hainan)',
+    rocAdmin: 'Zhōnghuá Mínguó — Comando Difensivo di Hainan (Qiongya)',
+    note: "Isola meridionale liberata dall'occupazione giapponese nel settembre 1945 e amministrata dalla Repubblica di Cina fino all'offensiva anfibia dell'EPL nella primavera 1950.",
+  },
+  CHN_JIANGXI: { label: 'Jiangxi Sheng (Nanchang)' },
+  CHN_HUNAN: { label: 'Hunan Sheng (Changsha)' },
+  CHN_ZHEJIANG: { label: 'Zhejiang Sheng (Hangzhou & Ningbo)' },
+  CHN_GUANGXI: { label: 'Guangxi Sheng (Guilin & Nanning)' },
+  CHN_FUJIAN: { label: 'Fujian Sheng (Fuzhou & Xiamen)' },
+  CHN_INNER_MONGOLIA: { label: 'Nei Mongol / Mongolia Interna (Hohhot & Chahar)' },
+  CHN_LIAONING: { label: 'Liaoning Sheng (Shenyang / Mukden)' },
+  CHN_JILIN: { label: 'Jilin Sheng (Changchun)' },
+  CHN_HEILONGJIANG: { label: 'Heilongjiang Sheng (Harbin)' },
+  CHN_MANCHUKUO_XINGAN_NORTH: { label: 'Hulunbuir / Heilongjiang Occidentale (Hailar)' },
+  CHN_MANCHUKUO_XINGAN_SOUTH: { label: 'Rehe / Liaoxi (Chengde & Chifeng)' },
+  CHN_SHAANXI: { label: "Shaanxi Sheng (Xi'an & Yan'an)" },
+  CHN_CHONGQING: { label: 'Chongqing Shi (Municipalità di Chongqing)' },
+  CHN_TAIWAN: {
+    label: 'Taiwan Sheng (Formosa — Taipei)',
+    rocAdmin: 'Zhōnghuá Mínguó — Táiwān Shěng',
+    note: 'Restituita dal Giappone alla Repubblica di Cina il 25 ottobre 1945 (Giorno della Retrocessione).',
+  },
+  CHN_HONGKONG: {
+    label: 'Crown Colony of Hong Kong (Amministrazione Britannica Restaurata)',
+    rocAdmin: 'British Empire — Crown Colony of Hong Kong (Victoria)',
+    note: "Colonia della Corona Britannica liberata nell'agosto-settembre 1945 dopo la resa delle forze nipponiche.",
+  },
+};
+
+function resolvePostWarChinaProvince(
+  provId: string,
+  owner: string,
+  step: number
+): { name: string; adminTitle: string; note?: string } | null {
+  if (provId === 'CHN_XINJIANG' || provId === 'CHN_XINJIANG_ETR' || provId === 'CHN_TIBET' || provId === 'CHN_MACAU') {
+    return null;
+  }
+  const entry = POSTWAR_CHINA_PROVINCE_LABELS[provId];
+  if (!entry) return null;
+
+  if (provId === 'CHN_BEIJING' && step >= 24 && owner === 'CCP_CHI') {
+    return {
+      name: 'Beijing / Pechino (Capitale della Repubblica Popolare Cinese)',
+      adminTitle: 'Repubblica Popolare Cinese — Governo Centrale Popolare (Beijing)',
+      note: '1° ottobre 1949: proclamazione della Repubblica Popolare Cinese a Piazza Tiananmen; la città torna capitale e riprende il nome di Beijing.',
+    };
+  }
+  if (provId === 'CHN_LIAONING' && step >= 26 && owner === 'CCP_CHI') {
+    return {
+      name: 'Liaoning (98% RPC · Port Arthur e Dalian Presenza URSS)',
+      adminTitle: 'Repubblica Popolare Cinese — Liaoning (Escl. Port Arthur/Dalian URSS)',
+      note: 'Dicembre 1950: base logistica sullo Yalu per i PVA diretti in Corea; Port Arthur e Dalian restano sotto presidio sovietico fino al 1952.',
+    };
+  }
+  if ((provId === 'CHN_SICHUAN' || provId === 'CHN_XIKANG') && step >= 26 && owner === 'CCP_CHI') {
+    return {
+      name: `${entry.label} (100% RPC — Battaglia di Chamdo Ott 1950)`,
+      adminTitle: 'Repubblica Popolare Cinese — Sichuan / Xikang & Chamdo Orientale',
+      note: '6–19 ottobre 1950: l\'EPL conquista Chamdo e il Kham orientale fino al Salween, arrestandosi prima di Lhasa.',
+    };
+  }
+  if (provId === 'CHN_HAINAN' && step >= 25 && owner === 'CCP_CHI') {
+    return {
+      name: 'Hainan (100% RPC — Campagna di Sbarco su Hainan, Maggio 1950)',
+      adminTitle: 'Repubblica Popolare Cinese — Regione Amministrativa di Hainan',
+      note: '5 marzo – 1° maggio 1950: conquista dell\'Isola di Hainan da parte del XV Corpo dell\'EPL.',
+    };
+  }
+  if (provId === 'CHN_TAIWAN' && step >= 24) {
+    return {
+      name: step >= 25
+        ? 'Taiwan / Taipei (Repubblica di Cina — Presidenza Chiang Kai-shek & 7ª Flotta USA)'
+        : 'Taiwan / Taipei (Capitale Provvisoria della Repubblica di Cina)',
+      adminTitle: step >= 25
+        ? 'Zhōnghuá Mínguó — Governo Nazionalista a Taipei (Pres. Chiang Kai-shek, 1° Mar 1950)'
+        : 'Zhōnghuá Mínguó — Governo Nazionalista (Capitale Provvisoria Taipei)',
+      note: step >= 25
+        ? '1° marzo 1950: Chiang Kai-shek riassume la presidenza a Taipei; dal 27 giugno 1950 la 7ª Flotta USA pattuglia lo Stretto di Taiwan.'
+        : '7 dicembre 1949: il governo della Repubblica di Cina trasferisce la sede provvisoria a Taipei.',
+    };
+  }
+  if (owner === 'UK' && entry.rocAdmin) {
+    return { name: entry.label, adminTitle: entry.rocAdmin, note: entry.note };
+  }
+  if (owner === 'SOV') {
+    return {
+      name: `${entry.label} (Occupazione Militare Sovietica)`,
+      adminTitle: 'Armata Rossa / Comando Militare Sovietico in Manciuria (URSS)',
+      note: 'Territorio della Cina nord-orientale occupato dalle truppe sovietiche in attuazione dell\'offensiva dell\'agosto 1945 e degli accordi di Yalta.',
+    };
+  }
+  if (owner === 'CCP_CHI') {
+    const suffix = step >= 24 ? 'Repubblica Popolare Cinese' : 'Zona Liberata PCC';
+    return {
+      name: `${entry.label} (${suffix})`,
+      adminTitle: entry.prcAdmin || (step >= 24 ? `Repubblica Popolare Cinese — ${entry.label}` : `Esercito Popolare di Liberazione (PCC) — ${entry.label}`),
+      note: entry.note,
+    };
+  }
+  const rocLabel = step >= 24 ? 'Repubblica di Cina (ROC)' : 'Repubblica di Cina';
+  return {
+    name: `${entry.label} (${rocLabel})`,
+    adminTitle: entry.rocAdmin || (step >= 24 ? `Zhōnghuá Mínguó — Governo Nazionalista (${entry.label})` : `Zhōnghuá Mínguó — ${entry.label}`),
+    note: entry.note,
+  };
+}
+
 export function resolveChinaToponym(
   id: string,
   rawName: string,
@@ -11133,6 +11395,10 @@ export function resolveChinaToponym(
   }
 
   if (foundProv) {
+    if (step >= 18) {
+      const postWar = resolvePostWarChinaProvince(foundProv.id, owner, step);
+      if (postWar) return postWar;
+    }
     const p = foundProv;
     const name = p.dynamicName ? p.dynamicName(step) : p.name;
     const adminTitle = p.dynamicAdminTitle ? p.dynamicAdminTitle(step) : (p.adminTitle || `Zhōnghuá Mínguó — ${name}`);
@@ -11140,11 +11406,29 @@ export function resolveChinaToponym(
     return { name, adminTitle, note };
   }
 
+  if (owner === 'CCP_CHI') {
+    return {
+      name: `${rawName || 'Cina'} (${step >= 24 ? 'Repubblica Popolare Cinese' : 'Zona Liberata PCC'})`,
+      adminTitle: step >= 24 ? 'Repubblica Popolare Cinese (RPC)' : 'Partito Comunista Cinese (PCC / EPL)',
+      note: 'Territorio sotto controllo delle forze popolari di liberazione cinesi.',
+    };
+  }
+
   if (owner === 'CHI') {
+    const rocSeat =
+      step >= 24
+        ? 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Taipei)'
+        : step >= 23
+        ? 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Guangzhou)'
+        : step >= 18
+        ? 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Nanjing)'
+        : step >= 2
+        ? 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Péidū Chongqing)'
+        : 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Nanjing)';
     return {
       name: rawName || 'Zhōnghuá Mínguó',
-      adminTitle: step >= 2 ? 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Péidū Chongqing)' : 'Zhōnghuá Mínguó Guómín Zhèngfǔ (Nanjing)',
-      note: 'Territorio della Repubblica di Cina sotto la guida del Kuomintang (Generalissimo Chiang Kai-shek).',
+      adminTitle: rocSeat,
+      note: 'Territorio della Repubblica di Cina sotto la guida del governo nazionalista (Kuomintang).',
     };
   }
 
@@ -11505,14 +11789,50 @@ export function resolveBritishColonialToponym(
   if (
     nid === 'MV' ||
     nid === 'MDV' ||
+    nid === 'MV_MALDIVE' ||
     nid === '462' ||
     n.includes('maldive') ||
     n.includes('maldives')
   ) {
+    if (step >= 21) {
+      return {
+        name: 'Sultanate of the Maldive Islands (Direct British Protected State — 24 Aprile 1948)',
+        adminTitle: 'British Protected State (Accordo Anglo-Maldiviano 24 Apr 1948 · via Alto Commissario UK a Ceylon)',
+        note: 'Dopo l\'indipendenza del Dominion di Ceylon (4 febbraio 1948), cessa la dipendenza dal Governatore coloniale di Ceylon: il 24 aprile 1948 il Consiglio di Reggenza (Mohamed Amin Didi e Ibrahim Ali Didi, per il Sultano eletto assente Abdul Majeed Didi) e l\'Alto Commissario britannico Sir Walter Hankinson firmano a Malé il nuovo trattato che abolisce il tributo annuale del 1887, riconosce piena autonomia interna e mantiene il protettorato diretto della Corona britannica su difesa ed esteri.',
+      };
+    }
+    if (step >= 19) {
+      return {
+        name: 'Sultanate of the Maldive Islands (British Protected State — Reggenza & Mohamed Amin Didi)',
+        adminTitle: 'British Protected State (Ceylon Dependency — Sultano eletto Abdul Majeed Didi)',
+        note: 'Dopoguerra (1946–1947): chiusa la base segreta britannica Port T ad Addu Atoll (con l\'autoaffondamento della petroliera British Loyalty nel gennaio 1946), il sultanato resta ancora collegato al Governatore britannico di Ceylon alla vigilia dell\'indipendenza singalese. Mentre il Sultano eletto Abdul Majeed Didi risiede all\'estero, l\'amministrazione a Malé è guidata dal leader riformatore Mohamed Amin Didi.',
+      };
+    }
+    if (step === 18) {
+      return {
+        name: 'Sultanate of the Maldive Islands (Fine Ostilità — Smobilitazione Base Port T / Addu Atoll)',
+        adminTitle: 'British Protected State (Ceylon Dependency — Consiglio di Reggenza)',
+        note: 'Settembre 1945: con la resa del Giappone si chiude il ruolo operativo dell\'ancoraggio segreto della Eastern Fleet ad Addu Atoll (Port T / Gan) e inizia la smobilitazione della base. Sotto il protettorato legato al Governatore di Ceylon, il Consiglio di Reggenza e Mohamed Amin Didi guidano il governo a Malé in nome del Sultano eletto Abdul Majeed Didi.',
+      };
+    }
+    if (step >= 12) {
+      return {
+        name: 'Sultanate of the Maldive Islands (Base Segreta Port T / Addu Atoll — Reggenza)',
+        adminTitle: 'British Protected State (Ceylon Dependency · Royal Navy Base Port T)',
+        note: 'Dopo l\'abdicazione del Sultano Hassan Nooraddeen II (8 aprile 1943) tra le gravi difficoltà belliche, il Paese è retto da un Consiglio di Reggenza (poi con Abdul Majeed Didi eletto Sultano nel 1944 mentre risiede all\'estero e l\'ascesa politica di Mohamed Amin Didi a Malé). L\'atollo meridionale di Addu (Gan) ospita la base aeronavale segreta britannica "Port T" della Eastern Fleet e della RAF (siluramento della petroliera British Loyalty da parte dell\'U-183 nel marzo 1944).',
+      };
+    }
+    if (step >= 9) {
+      return {
+        name: 'Sultanate of the Maldive Islands (Base Navale Segreta Port T / Addu Atoll)',
+        adminTitle: 'British Protected State (Ceylon Dependency · Sultano Hassan Nooraddeen II)',
+        note: 'Sultanato protetto dalla Gran Bretagna sotto giurisdizione del Governatore di Ceylon (Sultano Hassan Nooraddeen II). Dall\'agosto-settembre 1941 la Royal Navy e i Royal Marines costruiscono in segreto nell\'atollo meridionale di Addu (Gan) la base avanzata "Port T" ("Scapa Flow con le palme"), cruciale ancoraggio di ripiego della Eastern Fleet dopo l\'incursione giapponese nell\'Oceano Indiano dell\'aprile 1942.',
+      };
+    }
     return {
       name: 'Sultanate of the Maldive Islands (British Protected State)',
-      adminTitle: 'British Protected State (Ceylon Dependency)',
-      note: 'Sultanato islamico protetto dalla Gran Bretagna sotto giurisdizione del Governatore di Ceylon (Sultano Hassan Nooraddeen II), avamposto per le rotte navali dell\'Oceano Indiano centrale.',
+      adminTitle: 'British Protected State (Ceylon Dependency — Sultano Hassan Nooraddeen II)',
+      note: 'Sultanato islamico protetto dalla Gran Bretagna (Trattato del 1887) sotto giurisdizione del Governatore di Ceylon e retto dal Sultano Hassan Nooraddeen II (1935–1943), snodo strategico per le rotte navali dell\'Oceano Indiano centrale.',
     };
   }
 
@@ -12658,14 +12978,21 @@ export function resolveUKToponym(
       };
     }
     if (step >= 18) {
+      const post48Admin = step >= 22
+        ? 'British Crown Dependency (Channel Islands — Riforme Costituzionali 1948 & States Riformati 1949)'
+        : step >= 21
+          ? 'British Crown Dependency (Channel Islands — Reform Laws 1948)'
+          : step >= 19
+            ? 'British Crown Dependency (Channel Islands — Ricostruzione Postbellica 1946–47)'
+            : 'British Crown Dependency (Channel Islands — Task Force 135 Liberation)';
       return {
         name: isJersey
-          ? 'Bailiwick of Jersey (Saint Helier — Liberata 9 Maggio 1945)'
-          : 'Bailiwick of Guernsey (Saint Peter Port — Liberata 9 Maggio 1945)',
-        adminTitle: step >= 19
-          ? 'British Crown Dependency (Channel Islands — Ricostruzione & Riforme Costituzionali 1947)'
-          : 'British Crown Dependency (Channel Islands — Task Force 135 Liberation)',
-        note: 'Dopo la capitolazione della guarnigione tedesca il 9 maggio 1945 (Liberation Day), le Isole del Canale tornano sotto la Corona britannica, avviando sminamento dell\'Atlantikwall, rimpatrio degli sfollati e riforme costituzionali.',
+          ? (step >= 21 ? 'Bailiwick of Jersey (Saint Helier — Reformed States 1948–49)' : 'Bailiwick of Jersey (Saint Helier — Liberata 9 Maggio 1945)')
+          : (step >= 21 ? 'Bailiwick of Guernsey (Saint Peter Port — Alderney Law 1948–49)' : 'Bailiwick of Guernsey (Saint Peter Port — Liberata 9–16 Maggio 1945)'),
+        adminTitle: post48Admin,
+        note: step >= 22
+          ? 'Dopo le riforme costituzionali del 1948 (Reform Guernsey Law / Assembly of the States Jersey Law) e l\'integrazione amministrativa di Alderney dal 1° gennaio 1949, i Baliati consolidano il proprio autogoverno democratico sotto la Corona britannica.'
+          : 'Dopo la capitolazione della guarnigione tedesca (9 maggio 1945 a Guernsey e Jersey, 16 maggio ad Alderney), le Isole del Canale tornano sotto la Corona britannica avviando sminamento dell\'Atlantikwall, rimpatrio degli sfollati e riforme costituzionali.',
       };
     }
     return {
@@ -12678,11 +13005,24 @@ export function resolveUKToponym(
   }
 
   if (id === 'GIB' || normKey === 'gibraltar' || normKey === 'gibilterra') {
+    if (step >= 21) {
+      return {
+        name: 'Gibraltar (Crown Colony & Royal Navy Strait Fortress)',
+        adminTitle:
+          step >= 23
+            ? 'British Empire — Crown Colony of Gibraltar (NATO / Attlee Era)'
+            : 'British Empire — Crown Colony of Gibraltar (Attlee Era)',
+        note:
+          step >= 23
+            ? 'Giugno 1949: completato il rimpatrio della gran parte degli sfollati civili e avviata su impulso dell\'AACR (Joshua Hassan) la riforma del Consiglio Legislativo; la base aeronavale dello Stretto integra i piani strategici della neonata NATO (4 aprile 1949).'
+            : '1948: prosegue il rimpatrio dei gibilterriani sfollati e prende forma la riforma costituzionale per il Consiglio Legislativo, mentre la fortezza supporta la strategia mediterranea dell\'Unione Occidentale.',
+      };
+    }
     if (step >= 19) {
       return {
         name: 'Gibraltar (Crown Colony & Royal Navy Strait Fortress)',
         adminTitle: 'British Empire — Crown Colony of Gibraltar (Attlee Era)',
-        note: 'Colonia della Corona britannica sullo Stretto di Gibilterra (SET 1947). Completato il rimpatrio della popolazione civile sfollata durante la guerra e avviato lo schema costituzionale verso il Consiglio Legislativo.',
+        note: 'Colonia della Corona britannica sullo Stretto di Gibilterra (1947). Proseguito il rimpatrio della popolazione civile sfollata durante la guerra e avviato lo schema costituzionale verso il Consiglio Legislativo.',
       };
     }
     if (step >= 18) {
@@ -12699,17 +13039,46 @@ export function resolveUKToponym(
     };
   }
 
-  if (id.startsWith('MT') || normKey.includes('malta') || normKey.includes('valletta')) {
+  if (id.startsWith('MT') || normKey.includes('malta') || normKey.includes('valletta') || normKey.includes('gozo') || normKey.includes('ghawdex')) {
+    const isGozo = id === 'MT002' || normKey.includes('gozo') || normKey.includes('ghawdex');
+    if (step >= 23) {
+      return {
+        name: isGozo
+          ? 'Gozo & Comino / Għawdex u Kemmuna (Autogoverno 1947–49)'
+          : 'Malta — Valletta Grand Harbour (Autogoverno & Retrovia NATO 1949)',
+        adminTitle: 'State of Malta / Crown Colony (P.M. Paul Boffa · Mediterranean Fleet & NATO)',
+        note: isGozo
+          ? 'Giugno 1949: isola sorella di Malta sotto la Costituzione MacMichael e il governo laburista di Paul Boffa (scosso nel 1949 dal contrasto con Dom Mintoff sui sussidi britannici); ricostruzione rurale postbellica e collegamento strategico sul Canale di Gozo.'
+          : 'Giugno 1949: sotto la Costituzione MacMichael (1947) e il governo di Paul Boffa (insidiato nel 1949 dalla scissione di Dom Mintoff sulla gestione dei fondi di ricostruzione), il Grand Harbour funge da cardine mediterraneo della Royal Navy nel quadro della neonata NATO (4 aprile 1949).',
+      };
+    }
+    if (step >= 21) {
+      return {
+        name: isGozo
+          ? 'Gozo & Comino / Għawdex u Kemmuna (Costituzione MacMichael)'
+          : 'Malta (Crown Colony — Autogoverno Paul Boffa & Ricostruzione)',
+        adminTitle: 'State of Malta / Crown Colony (Self-Government 1947–48 · Prime Minister Paul Boffa)',
+        note: isGozo
+          ? '1948: parte integrante dell\'arcipelago autonomo sotto il gabinetto Paul Boffa; ripresa agricola ed emigrazione assistita postbellica.'
+          : '1948: consolidamento dell\'autogoverno maltese (P.M. Paul Boffa) e vasta ricostruzione di Valletta e delle Tre Città finanziata dal War Damage Fund britannico (~30 milioni di sterline), con piena operatività della Mediterranean Fleet.',
+      };
+    }
     if (step >= 19) {
       return {
-        name: 'Malta (Crown Colony — Costituzione MacMichael di Autogoverno, Set 1947)',
+        name: isGozo
+          ? 'Gozo & Comino / Għawdex u Kemmuna (Costituzione MacMichael, Set 1947)'
+          : 'Malta (Crown Colony — Costituzione MacMichael di Autogoverno, Set 1947)',
         adminTitle: 'State of Malta / Crown Colony (Self-Government Constitution 1947 · Prime Minister Paul Boffa)',
-        note: 'Il 5 settembre 1947 entra in vigore la Costituzione MacMichael che restituisce l\'autogoverno responsabile a Malta (vinta dalle elezioni dal Partito Laburista di Paul Boffa), mentre il Grand Harbour rimane cardine mediterraneo della Royal Navy.',
+        note: isGozo
+          ? 'Il 5 settembre 1947 entra in vigore la Costituzione MacMichael che restituisce l\'autogoverno responsabile all\'arcipelago maltese (governo laburista di Paul Boffa), coinvolgendo anche Gozo e Comino nei programmi di ricostruzione postbellica.'
+          : 'Il 5 settembre 1947 entra in vigore la Costituzione MacMichael che restituisce l\'autogoverno responsabile a Malta (vinta dalle elezioni dal Partito Laburista di Paul Boffa), mentre il Grand Harbour rimane cardine mediterraneo della Royal Navy.',
       };
     }
     if (step >= 18) {
       return {
-        name: 'Malta (George Cross Island — Ricostruzione Postbellica & HM Dockyard)',
+        name: isGozo
+          ? 'Gozo & Comino / Għawdex u Kemmuna (George Cross Archipelago)'
+          : 'Malta (George Cross Island — Ricostruzione Postbellica & HM Dockyard)',
         adminTitle: 'Crown Colony of Malta (Mediterranean Fleet Base)',
         note: 'Insignita collettivamente della George Cross (1942) per la resistenza all\'assedio, Malta avvia nel dopoguerra la ricostruzione di Valletta e dei cantieri navali e l\'iter dell\'Assemblea Nazionale per l\'autogoverno del 1947.',
       };
@@ -14816,8 +15185,177 @@ export const BENELUX_DISTRICTS_CATALOG: BeneluxDistrictDef[] = [
   },
 ];
 
+const BENELUX_DISTRICT_POSTWAR_FOCUS: Record<string, string> = {
+  BE100: 'Sede delle istituzioni nazionali, della firma del Patto di Bruxelles (17 marzo 1948) e degli organi esecutivi dell\'Unione Doganale Benelux.',
+  BE211: 'Principale scalo marittimo del Benelux: sbloccata la Schelda nel 1944-45, il porto di Anversa diventa polmone logistico del Piano Marshall verso la Ruhr e la Renania.',
+  BE212: 'Snodo ferroviario tra Bruxelles e Anversa al centro della ricostruzione industriale fiamminga e dei processi postbellici legati alla caserma Dossin.',
+  BE223: 'Area di Tongeren ed Eben-Emael reintegrata nel Limburgo fiammingo, in crescita lungo l\'asse del Canale Alberto tra Liegi e Anversa.',
+  BE234: 'Metropoli tessile e portuale di Gand sul canale di Terneuzen, rilanciata dall\'apertura doganale Benelux verso i porti olandesi.',
+  BE242: 'Centro universitario e brabantino di Lovanio, ricostruito dai bombardamenti alleati del 1944 e integrato nell\'economia del Brabante centrale.',
+  BE251: 'Polo costiero di Bruges e Zeebrugge, impegnato nello sminamento portuale del 1945 e nel ripristino dei collegamenti marittimi sul Mare del Nord.',
+  BE255: 'Città portuaria di Ostenda ricostruita dopo il Vallo Atlantico e snodo dei traghetti postbellici verso il Regno Unito.',
+  BE310: 'Brabante Vallone (Wavre-Nivelles) in fase di ricostruzione civile e sviluppo terziario alle porte di Bruxelles.',
+  BE323: 'Cuore minerario del Borinage (Mons), teatro della "Bataille du charbon" (1945-1948) per rifornire d\'energia l\'industria belga e del Benelux.',
+  BE32B: 'Distretto siderurgico e carbonifero del Pays Noir (Charleroi), pilastro energetico della ricostruzione belga e del commercio franco-benelux.',
+  BE332: 'Polo metallurgico e d\'armi della Mosa (Liegi), riattivato a pieno ritmo con il carbone della Campine e i crediti del Piano Marshall.',
+  BE336: 'Cantoni dell\'Est (Eupen, Malmedy e Sankt Vith): pienamente reintegrati nel Belgio dopo l\'annessione nazista; nel 1949 ricevono piccole rettifiche frontaliere provvisorie a Bildchen e Losheimergraben sulla RFT.',
+  BE342: 'Bastogne e alta Ardenna belga, simbolo della resistenza dell\'inverno 1944-45 e oggetto dei piani statali di ricostruzione edilizia e viaria 1945-1949.',
+  BE343: 'Settore settentrionale dell\'Ardenna (Marche-en-Famenne), bonificato dalle mine postbelliche e reintegrato nella rete agricola e forestale vallone.',
+  BE344: 'Centro ardennese di Neufchâteau ricostruito dopo le distruzioni dell\'Offensiva delle Ardenne.',
+  BE351: 'Valle della Mosa attorno a Dinant, riparata dai danni bellici dell\'inverno 1944 e fulcro dei collegamenti fluviali verso la Francia.',
+  BE352: 'Capoluogo vallone di Namur sulla confluenza Sambre-Mosa, snodo ferroviario meridionale del Patto di Bruxelles.',
+  NL329: 'Capitale costituzionale dei Paesi Bassi: sede dell\'epurazione e della rinascita civile nel 1945 e della solenne incoronazione della Regina Giuliana alla Nieuwe Kerk il 6 settembre 1948.',
+  NL332: 'Sede del governo a L\'Aia (Schermerhorn-Drees, Beel, poi Drees-Van Schaik dal 1948) e teatro del Congresso d\'Europa del maggio 1948 presieduto da Churchill.',
+  NL33C: 'Porto di Rotterdam: dopo il blocco del 1944-45 e le devastazioni tedesche delle banchine, la ricostruzione accelerata (Piano Marshall e Benelux) ne fa il primo scalo europeo per l\'entroterra renano.',
+  NL341: 'Fiandre Zelandesi lungo la foce della Schelda, beneficiarie dirette del ripristino della navigazione e dell\'integrazione doganale con Anversa e Gand.',
+  NL342: 'Isola di Walcheren e Vlissingen: dopo gli allagamenti alleati del 1944, le dighe vengono chiuse tra il 1945 e il 1946 permettendo il prosciugamento e la rinascita agricola.',
+  NL310: 'Nodo ferroviario centrale di Utrecht, fulcro della ricostruzione delle comunicazioni nazionali dopo l\'Hongerwinter del 1944-1945.',
+  NL221: 'Veluwe (Apeldoorn): nella vicina Wageningen il 5 maggio 1945 venne firmata la capitolazione tedesca; residenza reale di Het Loo e ricostruzione del Gelderland.',
+  NL226: 'Corridoio Arnhem-Nijmegen ("Linea di Market Garden"): vasta opera di ricostruzione urbana e infrastrutturale; nell\'aprile 1949 l\'enclave frontaliera tedesca di Elten passa sotto amministrazione provvisoria olandese.',
+  NL414: 'Polo elettrotecnico di Eindhoven (Philips), motore dell\'industrializzazione olandese del dopoguerra e delle esportazioni europee ERP.',
+  NL421: 'Limburgo settentrionale (Venlo) sulla Mosa, cerniera dei commerci lungo il confine con la Germania occidentale.',
+  NL422: 'Limburgo centrale (Roermond): liberato nella primavera 1945 e coinvolto nelle rettifiche frontaliere olandesi lungo la Mosa.',
+  NL423: 'Limburgo meridionale e bacino carbonifero di Maastricht/Heerlen (Staatsmijnen): fondamentale per il fabbisogno energetico nazionale; nell\'aprile 1949 riceve in amministrazione provvisoria l\'area di Selfkant/Tudderen.',
+  NL230: 'Noordoostpolder e Zuiderzeewerken: colonizzazione agricola dei nuovi polder emersi durante la guerra e avvio dei progetti idraulici per il futuro Flevoland.',
+  NL112: 'Scalo marittimo dell\'Ems (Delfzijl), snodo dei collegamenti settentrionali verso il Mare del Nord.',
+  NL113: 'Groninga: polo agricolo e amministrativo settentrionale impegnato nella ripresa economica e nell\'integrazione energetica nazionale.',
+  NL124: 'Capoluogo frisone di Leeuwarden, centro agroalimentare di riferimento dopo la liberazione canadese dell\'aprile 1945.',
+  NL213: 'Distretto tessile di Twente (Enschede), riconvertito dalla produzione bellica ai mercati europei del Piano Marshall.',
+  LU000: 'Capitale e unico ente territoriale unitario del Granducato: ricostruzione dei centri dell\'Oesling (Diekirch, Wiltz, Clervaux), rilancio siderurgico ARBED nel Minett e affidamento provvisorio del Kammerwald nell\'aprile 1949.',
+};
+
+function getBeneluxDistrictPostwarDetail(d: BeneluxDistrictDef): string {
+  const specific = BENELUX_DISTRICT_POSTWAR_FOCUS[d.nuts];
+  if (specific) return specific;
+  if (d.nuts.startsWith('BE21') || d.nuts.startsWith('BE22')) {
+    return `Area fiamminga orientale di ${d.capitalOrChefLieu} (Fiandre/Limburgo), caratterizzata dall'espansione carbonifera della Campine e dal traffico lungo il Canale Alberto.`;
+  }
+  if (d.nuts.startsWith('BE23') || d.nuts.startsWith('BE25')) {
+    return `Distretto fiammingo di ${d.capitalOrChefLieu}, impegnato nello sminamento costiero e agricolo del dopoguerra e nel rilancio manifatturiero dentro il mercato Benelux.`;
+  }
+  if (d.nuts.startsWith('BE24')) {
+    return `Arrondissement brabantino di ${d.capitalOrChefLieu}, integrato nella ripresa amministrativa e industriale attorno a Bruxelles.`;
+  }
+  if (d.nuts.startsWith('BE32') || d.nuts.startsWith('BE33')) {
+    return `Settore industriale e agricolo vallone di ${d.capitalOrChefLieu}, attivo nella ripresa siderurgica ed energetica della "Bataille du charbon" e nell'orbita economica dell'Unione Occidentale.`;
+  }
+  if (d.nuts.startsWith('BE34') || d.nuts.startsWith('BE35')) {
+    return `Territorio vallone meridionale di ${d.capitalOrChefLieu}, ricostruito dai danni dell'inverno delle Ardenne 1944-45 lungo l'asse strategico verso la Francia.`;
+  }
+  if (d.nuts.startsWith('NL11') || d.nuts.startsWith('NL12') || d.nuts.startsWith('NL13')) {
+    return `Provincia settentrionale di ${d.capitalOrChefLieu}, rapidamente stabilizzata dopo la liberazione canadese dell'aprile 1945 e fulcro della ripresa agroalimentare olandese.`;
+  }
+  if (d.nuts.startsWith('NL21') || d.nuts.startsWith('NL22')) {
+    return `Settore orientale dei Paesi Bassi (${d.capitalOrChefLieu}), ricostruito lungo i fiumi IJssel/Reno dai combattimenti della primavera 1945 e integrato nei piani infrastrutturali ERP.`;
+  }
+  if (d.nuts.startsWith('NL32') || d.nuts.startsWith('NL33')) {
+    return `Area dell'Olanda storica (${d.capitalOrChefLieu}): ripresa civile ed economica dopo l'Hongerwinter del 1944-45 e piena integrazione nella Randstad postbellica.`;
+  }
+  return `Settore meridionale di ${d.capitalOrChefLieu} (Brabante/Limburgo/Zelanda): tra le prime aree liberate nell'autunno 1944, pilastro della ripresa industriale e agricola dei Paesi Bassi.`;
+}
+
+function getBeneluxPostwarContext(country: 'BE' | 'NL' | 'LU', step: number): { nameSuffix?: string; adminTitle: string; eraNote: string } {
+  if (country === 'BE') {
+    if (step >= 26) {
+      return {
+        adminTitle: 'Royaume de Belgique — Principe Reale Baldovino (Delega 11 Ago 1950 · NATO & Benelux)',
+        eraNote: 'Dicembre 1950: al termine della grave crisi della Questione Reale seguita al rientro di Re Leopoldo III (22 luglio) e allo sciopero generale, l\'11 agosto 1950 il sovrano delega i poteri costituzionali al figlio Baldovino come Principe Reale (l\'abdicazione formale avverrà nel luglio 1951); governo Joseph Pholien nel Benelux e nella NATO.',
+      };
+    }
+    if (step >= 23) {
+      return {
+        adminTitle: 'Royaume de Belgique — Membre Fondateur OTAN / NATO & Conseil de l\'Europe (1949)',
+        eraNote: 'Giugno 1949: sotto la Reggenza del Principe Carlo e il governo Paul-Henri Spaak, il Belgio ha co-fondato la NATO (4 aprile) e il Consiglio d\'Europa (5 maggio), consolidato l\'Unione Doganale Benelux e celebrato le elezioni del 26 giugno con il suffragio femminile universale mentre resta aperta la Question Royale.',
+      };
+    }
+    if (step === 22) {
+      return {
+        adminTitle: 'Royaume de Belgique — Gouvernement Spaak · Union Occidentale & Benelux (Dic 1948)',
+        eraNote: 'Dicembre 1948: consolidata l\'Unione Doganale Benelux e attivato il comando militare del Patto di Bruxelles (Unione Occidentale), il governo Spaak gestisce la ricostruzione coi fondi Marshall mentre permane l\'impasse sulla Question Royale (esilio svizzero di Re Leopoldo III).',
+      };
+    }
+    if (step === 21) {
+      return {
+        adminTitle: 'Royaume de Belgique — Gouvernement Spaak · Benelux & Pacte de Bruxelles (1948)',
+        eraNote: 'Giugno 1948: dal 1° gennaio è entrata in vigore l\'Unione Doganale Benelux; il 17 marzo il Belgio ha ospitato e sottoscritto il Trattato di Bruxelles (Unione Occidentale) e aderito all\'OECE (Piano Marshall) di fronte alle crisi di Praga e Berlino.',
+      };
+    }
+    if (step >= 19) {
+      return {
+        adminTitle: 'Royaume de Belgique — Gouvernement Spaak III (PSC-PSB · Régence Prince Charles)',
+        eraNote: 'Settembre–Dicembre 1947: il governo di coalizione Spaak pilota la rapida ripresa valutaria e industriale ("miracolo belga"), l\'ingresso nel Piano Marshall (ERP) e la ratifica finale dell\'Unione Doganale Benelux in vigore dal 1° gennaio 1948.',
+      };
+    }
+    return {
+      adminTitle: 'Royaume de Belgique — Gouvernement d\'Union Nationale (Régence Prince Charles / Van Acker)',
+      eraNote: 'Maggio–Settembre 1945: il territorio del Regno del Belgio è interamente liberato con la piena reintegrazione di Eupen-Malmedy; il governo Van Acker avvia l\'epurazione, la "Bataille du charbon" e la ricostruzione sotto la Reggenza del Principe Carlo.',
+    };
+  }
+
+  if (country === 'NL') {
+    if (step >= 23) {
+      return {
+        adminTitle: 'Koninkrijk der Nederlanden — Koningin Juliana · Membre Fondateur OTAN / NATO (1949)',
+        eraNote: 'Giugno 1949: sotto il regno della Regina Giuliana e il governo Willem Drees, i Paesi Bassi co-fondano la NATO (4 aprile) e il Consiglio d\'Europa (5 maggio), firmano gli Accordi Roem–Van Roijen sul ritiro da Yogyakarta in Indonesia e attuano le limitate rettifiche confinarie provvisorie sulla Germania (Elten e Selfkant, 23 aprile).',
+      };
+    }
+    if (step === 22) {
+      return {
+        adminTitle: 'Koninkrijk der Nederlanden — Koningin Juliana · Kabinet-Drees-Van Schaik (Dic 1948)',
+        eraNote: 'Dicembre 1948: dopo l\'abdicazione della Regina Guglielmina e l\'incoronazione della Regina Giuliana (4–6 settembre 1948), la grande coalizione guidata da Willem Drees coordina i fondi Marshall, l\'Unione Doganale Benelux e la seconda offensiva coloniale in Indonesia (Operatie Kraai, 19 dic 1948).',
+      };
+    }
+    if (step === 21) {
+      return {
+        adminTitle: 'Koninkrijk der Nederlanden — Kabinet-Beel I · Benelux & Pacte de Bruxelles (1948)',
+        eraNote: 'Giugno 1948: con l\'entrata in vigore dell\'Unione Doganale Benelux (1° gen 1948), la firma del Trattato di Bruxelles (17 mar) e l\'adesione all\'OECE, i Paesi Bassi abbandonano la storica neutralità alla vigilia delle elezioni generali del luglio 1948 e dell\'abdicazione di Guglielmina.',
+      };
+    }
+    if (step >= 19) {
+      return {
+        adminTitle: 'Koninkrijk der Nederlanden — Kabinet-Beel I (Koningin Wilhelmina — Den Haag)',
+        eraNote: 'Settembre–Dicembre 1947: il governo Beel concentra le risorse sul risanamento nazionale (Piano Marshall / ERP), sulla chiusura delle dighe di Walcheren e sulla ratifica dell\'Unione Doganale Benelux (operativa dal 1° gen 1948), mentre infuria il conflitto coloniale indonesiano (Operatie Product).',
+      };
+    }
+    return {
+      adminTitle: 'Koninkrijk der Nederlanden — Kabinet-Schermerhorn-Drees (Koningin Wilhelmina — Den Haag)',
+      eraNote: 'Maggio–Settembre 1945: con la capitolazione tedesca di Wageningen (5 maggio 1945), i Paesi Bassi sono interamente liberati; la Regina Guglielmina e il gabinetto Schermerhorn–Drees guidano la ripresa alimentare, il prosciugamento dei polder allagati e la restaurazione costituzionale dopo l\'Hongerwinter.',
+    };
+  }
+
+  // country === 'LU'
+  if (step >= 23) {
+    return {
+      adminTitle: 'Grand-Duché de Luxembourg — Membre Fondateur OTAN / NATO & Conseil de l\'Europe (1949)',
+      eraNote: 'Giugno 1949: abolita la neutralità perpetua, il Granducato (Granduchessa Carlotta, P.M. Pierre Dupong, Esteri Joseph Bech) firma il Trattato del Nord Atlantico (NATO, 4 aprile 1949), co-fonda il Consiglio d\'Europa (5 maggio) e amministra provvisoriamente il Kammerwald presso Vianden.',
+    };
+  }
+  if (step === 22) {
+    return {
+      adminTitle: 'Grand-Duché de Luxembourg — Benelux & Négociations Atlantiques (Dic 1948)',
+      eraNote: 'Dicembre 1948: pienamente inserito nell\'Unione Doganale Benelux e nel sistema militare dell\'Unione Occidentale (Patto di Bruxelles), il Lussemburgo partecipa tramite Joseph Bech ai negoziati preparatori del Patto Atlantico.',
+    };
+  }
+  if (step === 21) {
+    return {
+      adminTitle: 'Grand-Duché de Luxembourg — Révision Constitutionnelle 1948 & Pacte de Bruxelles',
+      eraNote: 'Giugno 1948: con la revisione costituzionale del maggio 1948 il Lussemburgo abroga la storica neutralità perpetua, integra il mercato nell\'Unione Doganale Benelux (1° gen 1948), aderisce al Trattato di Bruxelles (17 mar) e all\'OECE.',
+    };
+  }
+  if (step >= 19) {
+    return {
+      adminTitle: 'Grand-Duché de Luxembourg — Reconstruction & Plan Marshall (Grande-Duchesse Charlotte)',
+      eraNote: 'Settembre–Dicembre 1947: sotto la Granduchessa Carlotta e il governo Pierre Dupong, il Granducato aderisce al Piano Marshall (ERP), completa la ratifica dell\'Unione Doganale Benelux (operativa dal 1° gen 1948) e rilancia l\'acciaio ARBED.',
+    };
+  }
+  return {
+    adminTitle: 'Grand-Duché de Luxembourg — Restauration Souveraine (Grande-Duchesse Charlotte / Dupong)',
+    eraNote: 'Maggio–Settembre 1945: il Granducato di Lussemburgo è pienamente restaurato nella sua sovranità costituzionale dopo la liberazione definitiva dalle sacche tedesche delle Ardenne nel gennaio 1945.',
+  };
+}
+
 /**
- * Risoluzione toponomastica, istituzionale e temporale dettagliata per Benelux (1936-1940)
+ * Risoluzione toponomastica, istituzionale e temporale dettagliata per Benelux (1936-1949)
  */
 export function resolveBeneluxToponym(
   id: string,
@@ -14847,29 +15385,15 @@ export function resolveBeneluxToponym(
 
   if (found) {
     const d = found;
-    // Step >= 18: Paesi Bassi e Belgio interamente liberati
+    // Step >= 18: Belgio, Paesi Bassi e Lussemburgo dal Dopoguerra alla fondazione Benelux / NATO (1945–1949)
     if (step >= 18) {
-      if (d.country === 'BE') {
-        return {
-          name: d.name,
-          adminTitle: 'Royaume de Belgique — Gouvernement d\'Union Nationale',
-          note: 'Maggio-Settembre 1945: il territorio del Regno del Belgio è interamente liberato; Eupen-Malmedy è reintegrata nella sovranità belga.',
-        };
-      }
-      if (d.country === 'NL') {
-        return {
-          name: d.name,
-          adminTitle: 'Koninkrijk der Nederlanden (Koningin Wilhelmina — Den Haag)',
-          note: 'Maggio-Settembre 1945: con la capitolazione di Wageningen delle forze tedesche del generale Blaskowitz, i Paesi Bassi sono interamente liberati e restaurati sotto la sovranità della Corona costituzionale.',
-        };
-      }
-      if (d.country === 'LU') {
-        return {
-          name: 'Grand-Duché de Luxembourg',
-          adminTitle: 'Grand-Duché de Luxembourg (Grande-Duchesse Charlotte)',
-          note: 'Maggio-Settembre 1945: il Granducato di Lussemburgo è pienamente restaurato nella sua sovranità costituzionale.',
-        };
-      }
+      const ctx = getBeneluxPostwarContext(d.country, step);
+      const localDetail = getBeneluxDistrictPostwarDetail(d);
+      return {
+        name: d.country === 'LU' ? 'Grand-Duché de Luxembourg' : d.name,
+        adminTitle: ctx.adminTitle,
+        note: `${ctx.eraNote} — Contesto distrettuale: ${localDetail}`,
+      };
     }
 
     // Se l'entità è formalmente assegnata agli Alleati o al legittimo sovrano nazionale (BEL, HOL, LUX)
@@ -15989,8 +16513,32 @@ export function resolveSwissAustrianToponym(
       };
     }
 
-    // Liechtenstein: neutralità e unione doganale con la Svizzera
+    // Liechtenstein: neutralità e unione doganale con la Svizzera (e storia postbellica 1945–1949)
     if (d.country === 'LI') {
+      if (step >= 21) {
+        return {
+          name: 'Fürstentum Liechtenstein (Vaduz · Zollunion Schweiz)',
+          adminTitle: 'Fürstentum Liechtenstein — Fürst Franz Josef II. · Regierungschef Alexander Frick',
+          note:
+            step >= 23
+              ? 'Giugno 1949: sotto il Principe Francesco Giuseppe II e il governo Alexander Frick, il Liechtenstein consolida l\'industria meccanica di precisione (Hilti, Balzers), partecipa indirettamente all\'OECE tramite l\'unione doganale svizzera e avvia le pratiche diplomatiche di adesione allo Statuto della Corte Internazionale di Giustizia.'
+              : '1948: piena transizione economica postbellica sotto il governo Alexander Frick e il Principe Francesco Giuseppe II, dall\'economia rurale all\'industria esportatrice e ai servizi finanziari in unione doganale e monetaria con la Svizzera.',
+        };
+      }
+      if (step >= 19) {
+        return {
+          name: 'Fürstentum Liechtenstein (Vaduz · Zollunion Schweiz)',
+          adminTitle: 'Fürstentum Liechtenstein — Fürst Franz Josef II. · Regierungschef Alexander Frick',
+          note: '1947: il governo postbellico di Alexander Frick e il Principe Francesco Giuseppe II avviano l\'industrializzazione alpina e i programmi di ricostruzione fiscale, rafforzando il legame doganale e monetario con la Confederazione Svizzera.',
+        };
+      }
+      if (step === 18) {
+        return {
+          name: 'Fürstentum Liechtenstein (Vaduz — Asilo del Maggio 1945)',
+          adminTitle: 'Fürstentum Liechtenstein — Fürst Franz Josef II. (Zollunion Schweiz)',
+          note: 'Maggio–Settembre 1945: caso unico in Europa, il Principe Francesco Giuseppe II e il capo del governo Josef Hoop concedono asilo umanitario a circa 500 militari russi della 1ª Armata Russa Nazionale del gen. Holmston-Smyslovskij entrati a Schellenberg il 2 maggio 1945, rifiutando l\'estradizione forzata richiesta da Mosca.',
+        };
+      }
       return {
         name: step >= 1 && d.postName ? d.postName : d.name,
         adminTitle: step >= 1 && d.postAdminTitle ? d.postAdminTitle : d.preAdminTitle,
@@ -16793,7 +17341,7 @@ export function resolveSovietToponym(
     normKey.includes('slisselburg') ||
     normKey.includes('shlisselburg') ||
     normKey.includes('kirovsk') ||
-    normKey.includes('mga')
+    /(?:^|_)mga(?:_|$)/.test(normKey)
   ) {
     return {
       name: "Kirovsk e Šlissel'burg (Mga / Sbocco della Neva sul Lago Ladoga)",
@@ -16950,6 +17498,34 @@ export function getExtendedToponym(
     (centroid && centroid[0] >= 7.38 && centroid[0] <= 7.46 && centroid[1] >= 43.71 && centroid[1] <= 43.76)
   ) {
     const s = yearStep !== undefined ? yearStep : 0;
+    if (s >= 23) {
+      return {
+        name: 'Principauté de Monaco (Règne du Prince Rainier III)',
+        adminTitle: 'Principauté de Monaco — Prince Rainier III Grimaldi',
+        note: 'Giugno 1949: dopo la scomparsa del Principe Luigi II il 9 maggio 1949, sale al trono il nipote Principe Ranieri III (Rainier III), aprendo la stagione del rilancio economico, turistico e delle convenzioni doganali e fiscali con la Francia.',
+      };
+    }
+    if (s >= 21) {
+      return {
+        name: 'Principauté de Monaco (Prince Louis II — Fin de Règne)',
+        adminTitle: 'Principauté de Monaco — Prince Louis II & Ministre d\'État Pierre de Witasse',
+        note: '1948: ultimi mesi di regno dell\'anziano Principe Luigi II (affiancato nella reggenza dal principe ereditario Ranieri) mentre Monaco consolida le convenzioni economiche e doganali postbelliche con la IV Repubblica francese.',
+      };
+    }
+    if (s >= 19) {
+      return {
+        name: 'Principauté de Monaco (Souveraineté Restaurée)',
+        adminTitle: 'Principauté de Monaco — Prince Louis II (Union Douanière avec la France)',
+        note: '1947: piena ripresa postbellica e turistico-finanziaria di Monte-Carlo sotto la sovranità del Principe Luigi II nel quadro dell\'unione doganale e monetaria franco-monegasca.',
+      };
+    }
+    if (s >= 18) {
+      return {
+        name: 'Principauté de Monaco (Restauration Souveraine 1945)',
+        adminTitle: 'Principauté de Monaco — Prince Louis II & Ministre d\'État Pierre de Witasse',
+        note: 'Settembre 1945: normalizzata la sovranità costituzionale dopo la liberazione alleata del settembre 1944; il Principe Luigi II avvia la ricostruzione civile ed economica con il nuovo Ministro di Stato Pierre de Witasse.',
+      };
+    }
     if (s >= 16) {
       return {
         name: 'Principauté de Monaco (Libérée — Restauration Souveraine)',
@@ -17389,19 +17965,26 @@ export function getExtendedToponym(
   }
 
   // 0.11 Overrides prioritari per Giappone e Colonie (JAP / codici JP / Chōsen / Taiwan / Karafuto / Kantō-shū / Nan'yō Guntō)
+  const isPostWarChineseOrTaiwan =
+    yearStep !== undefined &&
+    yearStep >= 18 &&
+    owner !== 'JAP' &&
+    (id.startsWith('TW') || id.startsWith('CHN_'));
   if (
-    owner === 'JAP' ||
-    id.startsWith('JP') ||
-    id.startsWith('KR') ||
-    id.startsWith('TW') ||
-    normKey.includes('japan') ||
-    normKey.includes('nippon') ||
-    normKey.includes('chosen') ||
-    normKey.includes('taiwan') ||
-    normKey.includes('formosa') ||
-    normKey.includes('karafuto') ||
-    normKey.includes('nanyo') ||
-    normKey.includes('kwantung')
+    !isPostWarChineseOrTaiwan &&
+    (owner === 'JAP' ||
+      id.startsWith('JP') ||
+      id.startsWith('KR') ||
+      id.startsWith('KP') ||
+      id.startsWith('TW') ||
+      normKey.includes('japan') ||
+      normKey.includes('nippon') ||
+      normKey.includes('chosen') ||
+      normKey.includes('taiwan') ||
+      normKey.includes('formosa') ||
+      normKey.includes('karafuto') ||
+      normKey.includes('nanyo') ||
+      normKey.includes('kwantung'))
   ) {
     const jpTop = resolveJapanToponym(id, rawName, normKey, owner, yearStep);
     if (jpTop) return jpTop;

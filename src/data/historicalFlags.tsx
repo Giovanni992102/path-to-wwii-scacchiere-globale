@@ -131,6 +131,8 @@ import { IDN_FLAG_DATA_URL } from './flags/idnFlag';
 
 import { ACC_FLAG_DATA_URL } from './flags/accFlag';
 
+import { POSTWAR_OFFICIAL_FLAGS } from './flags/postwarFlags';
+
 import { canonicalizeOwnerCode } from './owners';
 
 import {
@@ -184,6 +186,22 @@ export {
 function svgWrap(content: string, vb = '0 0 600 400'): string {
 
   return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vb}" width="100%" height="100%" preserveAspectRatio="none" class="flag-svg">${content}</svg>`;
+
+}
+
+function officialSvgFlag(key: string, extraTitle = ''): string {
+
+  const asset = POSTWAR_OFFICIAL_FLAGS[key];
+
+  if (!asset) return '';
+
+  return svgWrap(
+
+    `${extraTitle ? `<title>${extraTitle}</title>` : ''}<image href="${asset.dataUrl}" xlink:href="${asset.dataUrl}" width="${asset.width}" height="${asset.height}" preserveAspectRatio="none" />`,
+
+    `0 0 ${asset.width} ${asset.height}`
+
+  );
 
 }
 
@@ -283,9 +301,9 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
       ? svgWrap(
 
-          '<rect width="1" height="2" fill="#008C45"/><rect width="1" height="2" x="1" fill="#F4F5F0"/><rect width="1" height="2" x="2" fill="#CD212A"/>',
+          '<path fill="#ce1126" d="M0 0h900v600H0"/><path fill="#fff" d="M0 0h600v600H0"/><path fill="#007a5e" d="M0 0h300v600H0"/>',
 
-          '0 0 3 2'
+          '0 0 900 600'
 
         )
 
@@ -363,15 +381,17 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // REPUBBLICA D'INDONESIA (Sukarno / Hatta — Proclamazione 17 Agosto 1945, bandiera fornita dall'utente)
 
-  IDN: () =>
-
-    svgWrap(
-
+  IDN: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 24) {
+      // 27 Dicembre 1949: Stati Uniti d'Indonesia (Republik Indonesia Serikat - RIS) — file ufficiale Wikimedia Commons Flag_of_Indonesia.svg
+      return officialSvgFlag('RIS_1949');
+    }
+    return svgWrap(
       `<image href="${IDN_FLAG_DATA_URL}" xlink:href="${IDN_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
-
       '0 0 1024 682'
-
-    ),
+    );
+  },
 
 
 
@@ -539,11 +559,27 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // FRANCIA LIBERA (AFRICA / DE GAULLE) — Tricolore con Croce di Lorena
+  // FRANCIA LIBERA (AFRICA / DE GAULLE, 1940-1944) — Tricolore con Croce di Lorena (dal 26 ago 1944 GPRF Tricolore repubblicano)
 
-  FFL_AEF: () =>
+  FFL_AEF: (step?: number) => {
 
-    svgWrap(`
+    const s = typeof step === 'number' ? step : 7;
+
+    if (s >= 16) {
+
+      return svgWrap(`
+
+        <rect width="200" height="400" fill="#002395"/>
+
+        <rect x="200" width="200" height="400" fill="#ffffff"/>
+
+        <rect x="400" width="200" height="400" fill="#ed2939"/>
+
+      `);
+
+    }
+
+    return svgWrap(`
 
       <rect width="200" height="400" fill="#002395"/>
 
@@ -559,7 +595,9 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
       <rect x="250" y="195" width="100" height="16" fill="#ce2b37"/>
 
-    `),
+    `);
+
+  },
 
 
 
@@ -577,17 +615,27 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // SECONDA REPUBBLICA DI POLONIA (1919-1939) — Bandiera ufficiale di Stato con Aquila Bianca
+  // POLONIA — Seconda Repubblica (1919-1939 Aquila Incoronata) vs Dopoguerra (1945-1980 Aquila Senza Corona ufficiale Wikimedia Commons)
 
-  POL: () =>
+  POL: (step?: number) => {
 
-    svgWrap(
+    const s = typeof step === 'number' ? step : 0;
+
+    if (s >= 18) {
+
+      return officialSvgFlag('POL_1945');
+
+    }
+
+    return svgWrap(
 
       `<image href="${POL_FLAG_DATA_URL}" xlink:href="${POL_FLAG_DATA_URL}" width="1024" height="640" preserveAspectRatio="none" />`,
 
       '0 0 1024 640'
 
-    ),
+    );
+
+  },
 
 
 
@@ -607,15 +655,17 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // REPUBBLICA SOVIETICA CINESE / PARTITO COMUNISTA CINESE (中華蘇維埃共和國 / MAO ZEDONG — YAN'AN)
 
-  CCP_CHI: () =>
-
-    svgWrap(
-
+  CCP_CHI: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 24) {
+      // 1° Ottobre 1949: Repubblica Popolare Cinese (Bandiera Rossa a Cinque Stelle) — file ufficiale Wikimedia Commons Flag_of_the_People's_Republic_of_China.svg
+      return officialSvgFlag('PRC_1949');
+    }
+    return svgWrap(
       `<image href="${CCP_FLAG_DATA_URL}" xlink:href="${CCP_FLAG_DATA_URL}" width="1024" height="737" preserveAspectRatio="none" />`,
-
       '0 0 1024 737'
-
-    ),
+    );
+  },
 
 
 
@@ -711,17 +761,27 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // STATO SPAGNOLO / SPAGNA FRANCHISTA (1938-1945) — Bandiera ufficiale con Aquila di San Giovanni
+  // STATO SPAGNOLO / SPAGNA FRANCHISTA (1938-1945 vs Decreto 11 Ottobre 1945 ufficiale Wikimedia Commons)
 
-  SPA: () =>
+  SPA: (step?: number) => {
 
-    svgWrap(
+    const s = typeof step === 'number' ? step : 0;
+
+    if (s >= 19) {
+
+      return officialSvgFlag('SPA_1945');
+
+    }
+
+    return svgWrap(
 
       `<image href="${SPA_FLAG_DATA_URL}" xlink:href="${SPA_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
 
       '0 0 1024 682'
 
-    ),
+    );
+
+  },
 
 
 
@@ -817,125 +877,250 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // REGNO D'UNGHERIA (REGGENZA HORTHY) — Bandiera ufficiale con Corona di Santo Stefano e Stemma
-
-  HUN: () =>
-
-    svgWrap(
-
-      `<image href="${HUN_FLAG_DATA_URL}" xlink:href="${HUN_FLAG_DATA_URL}" width="1024" height="512" preserveAspectRatio="none" />`,
-
-      '0 0 1024 512'
-
-    ),
-
-
-
-  // REGNO DI ROMANIA — Bandiera ufficiale tricolore
-
-  ROM: () =>
-
-    svgWrap(
-
-      `<image href="${ROM_FLAG_DATA_URL}" xlink:href="${ROM_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
-
-      '0 0 1024 682'
-
-    ),
-
-
-
-  // ZARATO DI BULGARIA — Bandiera ufficiale tricolore
-
-  BUL: () =>
-
-    svgWrap(
-
-      `<image href="${BUL_FLAG_DATA_URL}" xlink:href="${BUL_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
-
-      '0 0 1024 614'
-
-    ),
-
-
-
-  // FINLANDIA — Croce con stemma del leone
-
-  FIN: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#ffffff"/>
-
-      <rect x="175" width="90" height="400" fill="#003580"/>
-
-      <rect y="155" width="600" height="90" fill="#003580"/>
-
-      <!-- Stemma del Leone Careliano al centro -->
-
-      <rect x="190" y="170" width="60" height="60" rx="3" fill="#c8102e" stroke="#ffd700" stroke-width="2"/>
-
-      <circle cx="220" cy="200" r="16" fill="#ffd700"/>
-
-    `),
-
-
-
-  // REGNO DI GRECIA — Croce bianca su campo blu con corona reale ellenica dorata
-
-  GRE: () =>
-
-    svgWrap(
-
-      `<image href="${GRE_FLAG_DATA_URL}" xlink:href="${GRE_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
-
-      '0 0 1024 682'
-
-    ),
-
-  // ESERCITO DEMOCRATICO DI GRECIA (DSE 1946–49) & EAM-ELAS (1942–45) — Croce ellenica con stemma Δ/stella rossa (1946+) o iniziali ΕΛΑΣ (1944)
-
-  DSE: (step?: number) => {
-
-    const s = typeof step === 'number' ? step : 19;
-
-    if (s < 18) {
-
-      return svgWrap(`
-
-        <rect width="600" height="400" fill="#0d5eaf"/>
-
-        <rect x="240" width="120" height="400" fill="#ffffff"/>
-
-        <rect y="140" width="600" height="120" fill="#ffffff"/>
-
-        <text x="300" y="218" text-anchor="middle" font-family="serif" font-weight="900" font-size="64" letter-spacing="6" fill="#c8102e">ΕΛΑΣ</text>
-
-      `);
-
+  // UNGHERIA — Regno d'Ungheria con Corona di S. Stefano (fino al 31 gen 1946) vs Seconda Repubblica Ungherese con Stemma di Kossuth (dal 1° feb 1946)
+  HUN: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 24) {
+      // 20 Agosto 1949: Repubblica Popolare Ungherese — File ufficiale Wikimedia Commons Flag_of_Hungary_(1949-1956).svg (Stemma di Rákosi)
+      return officialSvgFlag('HUN_1949');
     }
-
-    return svgWrap(`
-
-      <rect width="600" height="400" fill="#0d5eaf"/>
-
-      <rect x="240" width="120" height="400" fill="#ffffff"/>
-
-      <rect y="140" width="600" height="120" fill="#ffffff"/>
-
-      <circle cx="300" cy="200" r="76" fill="#0d5eaf" stroke="#ffffff" stroke-width="6"/>
-
-      <polygon points="300,136 244,244 356,244" fill="#c8102e"/>
-
-      <text x="300" y="232" text-anchor="middle" font-family="serif" font-weight="900" font-size="68" fill="#ffffff">Δ</text>
-
-    `);
-
+    if (s >= 19) {
+      // 1 Febbraio 1946 – 19 Agosto 1949: Seconda Repubblica Ungherese — File ufficiale Wikimedia Commons con Stemma di Kossuth
+      return officialSvgFlag('HUN_1946');
+    }
+    return svgWrap(
+      `<image href="${HUN_FLAG_DATA_URL}" xlink:href="${HUN_FLAG_DATA_URL}" width="1024" height="512" preserveAspectRatio="none" />`,
+      '0 0 1024 512'
+    );
   },
 
-  ELAS: () => HISTORICAL_FLAGS['DSE'](16),
+  // REGNO DI ROMANIA (fino al 29 dic 1947) & REPUBBLICA POPOLARE ROMENA (RPR dal 30 dic 1947 — Step >= 20; Costituzione 13 apr 1948 — Step >= 21)
+  ROM: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 21) {
+      // Costituzione RPR del 13 Aprile 1948: Tricolore romeno con emblema RPR (Wikimedia Commons Flag_of_Romania_(1948–1952).svg)
+      return officialSvgFlag('ROM_1948');
+    }
+    if (s >= 20) {
+      // 30 Dicembre 1947 – 8 Gennaio 1948: Tricolore romeno ufficiale senza stemma reale (Wikimedia Commons Flag_of_Romania.svg)
+      return officialSvgFlag('ROM_1947');
+    }
+    return svgWrap(
+      `<image href="${ROM_FLAG_DATA_URL}" xlink:href="${ROM_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
+      '0 0 1024 682'
+    );
+  },
 
+  // ZARATO DI BULGARIA & REPUBBLICA POPOLARE DI BULGARIA (Costituzione Dimitrov 4 dic 1947)
+  BUL: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 20) {
+      // Costituzione Dimitrov del 4 Dicembre 1947 (Art. 96): File ufficiale Wikimedia Commons NRB
+      return officialSvgFlag('BUL_1947');
+    }
+    return svgWrap(
+      `<image href="${BUL_FLAG_DATA_URL}" xlink:href="${BUL_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
+      '0 0 1024 614'
+    );
+  },
+
+  // FINLANDIA — Bandiera di Stato ufficiale con stemma del leone (Wikimedia Commons)
+  FIN: () => officialSvgFlag('FIN_STATE'),
+
+  // REGNO DI GRECIA — Croce bianca su campo blu con corona reale ellenica dorata
+  GRE: () =>
+    svgWrap(
+      `<image href="${GRE_FLAG_DATA_URL}" xlink:href="${GRE_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
+      '0 0 1024 682'
+    ),
+  // ESERCITO DEMOCRATICO DI GRECIA (DSE 1946–49) & EAM-ELAS (1942–45)
+  DSE: (step?: number) => {
+    const s = typeof step === 'number' ? step : 19;
+    if (s < 18) {
+      return svgWrap(`
+        <rect width="600" height="400" fill="#0d5eaf"/>
+        <rect x="240" width="120" height="400" fill="#ffffff"/>
+        <rect y="140" width="600" height="120" fill="#ffffff"/>
+        <text x="300" y="218" text-anchor="middle" font-family="serif" font-weight="900" font-size="64" letter-spacing="6" fill="#c8102e">ΕΛΑΣ</text>
+      `);
+    }
+    return officialSvgFlag('DSE_1946', 'DSE Δ');
+  },
+  ELAS: () => HISTORICAL_FLAGS['DSE'](16),
   EAM_ELAS: () => HISTORICAL_FLAGS['DSE'](16),
+  PDG: () => HISTORICAL_FLAGS['DSE'](20),
+
+  // AZAD JAMMU & KASHMIR (24 ottobre 1947 – 1975: file ufficiale Wikimedia Commons Flag_of_Azad_Kashmir.svg)
+  AZK: () => officialSvgFlag('AZK_1947'),
+  AZAD_KASHMIR: () => HISTORICAL_FLAGS['AZK'](),
+
+  // NEGARA SUMATERA TIMUR (Stato di Sumatra Orientale — 25 dicembre 1947: file ufficiale Wikimedia Commons)
+  NST: () => officialSvgFlag('NST_1947'),
+
+  EAST_SUMATRA: () => HISTORICAL_FLAGS['NST'](),
+
+  // UNIONE DELLA BIRMANIA (4 gennaio 1948 – 1974: file ufficiale Wikimedia Commons Flag_of_Burma_(1948–1974).svg)
+  BUR: () => officialSvgFlag('BUR_1948'),
+  BURMA: () => HISTORICAL_FLAGS['BUR'](),
+  BIRMANIA: () => HISTORICAL_FLAGS['BUR'](),
+  UNIONE_DELLA_BIRMANIA: () => HISTORICAL_FLAGS['BUR'](),
+  UNION_OF_BURMA: () => HISTORICAL_FLAGS['BUR'](),
+  MYANMAR: () => HISTORICAL_FLAGS['BUR'](),
+
+  // DOMINION DI CEYLON (4 febbraio 1948 – 1951: file ufficiale Wikimedia Commons Flag_of_Ceylon_(1948–1951).svg senza strisce verde/arancio)
+  CEY: () => officialSvgFlag('CEY_1948'),
+  CEYLON: () => HISTORICAL_FLAGS['CEY'](),
+  DOMINION_OF_CEYLON: () => HISTORICAL_FLAGS['CEY'](),
+  DOMINION_DI_CEYLON: () => HISTORICAL_FLAGS['CEY'](),
+  SRI_LANKA: () => HISTORICAL_FLAGS['CEY'](),
+  LK: (s) => (s !== undefined && s >= 21 ? HISTORICAL_FLAGS['CEY'](s) : HISTORICAL_FLAGS['UK'](s)),
+  LKA: (s) => (s !== undefined && s >= 21 ? HISTORICAL_FLAGS['CEY'](s) : HISTORICAL_FLAGS['UK'](s)),
+
+  // STATO DI ISRAELE (14 maggio 1948: file ufficiale Wikimedia Commons Flag_of_Israel.svg)
+  ISR: () => officialSvgFlag('ISR_1948'),
+  ISRAEL: () => HISTORICAL_FLAGS['ISR'](),
+  ISRAELE: () => HISTORICAL_FLAGS['ISR'](),
+  STATO_DI_ISRAELE: () => HISTORICAL_FLAGS['ISR'](),
+  STATE_OF_ISRAEL: () => HISTORICAL_FLAGS['ISR'](),
+  IL: () => HISTORICAL_FLAGS['ISR'](),
+
+  // STATO DI PASUNDAN / NEGARA PASUNDAN (24 aprile 1948: file ufficiale Wikimedia Commons Flag_of_Pasundan.svg)
+  PAS: () => officialSvgFlag('PAS_1948'),
+  PASUNDAN: () => HISTORICAL_FLAGS['PAS'](),
+  NEGARA_PASUNDAN: () => HISTORICAL_FLAGS['PAS'](),
+  STATE_OF_PASUNDAN: () => HISTORICAL_FLAGS['PAS'](),
+  STATO_DI_PASUNDAN: () => HISTORICAL_FLAGS['PAS'](),
+
+  // STATO DI MADURA / NEGARA MADURA (20 febbraio 1948: file ufficiale Wikimedia Commons Flag_of_Various_Autonomous_Indonesian_States.svg)
+  MAD: () => officialSvgFlag('MAD_1948'),
+  MADURA: () => HISTORICAL_FLAGS['MAD'](),
+  NEGARA_MADURA: () => HISTORICAL_FLAGS['MAD'](),
+  STATE_OF_MADURA: () => HISTORICAL_FLAGS['MAD'](),
+  STATO_DI_MADURA: () => HISTORICAL_FLAGS['MAD'](),
+
+  // FEDERAZIONE DELLA MALESIA (1° feb 1948 – mag 1950: 4 bande con tigre; dal 26 mag 1950: 11 strisce e stella a 11 punte)
+  MAL: (step?: number) => {
+    const s = typeof step === 'number' ? step : 21;
+    return officialSvgFlag(s >= 25 ? 'MAL_FED_1950' : 'MAL_FED_1948');
+  },
+  FOM: (s?: number) => HISTORICAL_FLAGS['MAL'](s),
+  FEDERATION_OF_MALAYA: (s?: number) => HISTORICAL_FLAGS['MAL'](s),
+  FEDERAZIONE_DELLA_MALESIA: (s?: number) => HISTORICAL_FLAGS['MAL'](s),
+  PERSEKUTUAN_TANAH_MELAYU: (s?: number) => HISTORICAL_FLAGS['MAL'](s),
+
+  // REPUBBLICA DI COREA — COREA DEL SUD (15 agosto 1948: ROK_1948; 15 ottobre 1949: ROK_1949; 7 luglio 1950 / Step 26+: Taegeukgi affiancato alla bandiera ONU del Comando UNC)
+  ROK: (step?: number) => {
+    const s = typeof step === 'number' ? step : 22;
+    if (s >= 26) {
+      const rok = POSTWAR_OFFICIAL_FLAGS['ROK_1949'];
+      const un = POSTWAR_OFFICIAL_FLAGS['UN_1947'];
+      return svgWrap(
+        `<image href="${rok.dataUrl}" xlink:href="${rok.dataUrl}" x="0" y="0" width="300" height="400" preserveAspectRatio="none" />` +
+          `<image href="${un.dataUrl}" xlink:href="${un.dataUrl}" x="300" y="0" width="300" height="400" preserveAspectRatio="none" />`,
+        '0 0 600 400'
+      );
+    }
+    return officialSvgFlag(s >= 24 ? 'ROK_1949' : 'ROK_1948');
+  },
+  UNC: () => HISTORICAL_FLAGS['ROK'](26),
+  ROK_UNC: () => HISTORICAL_FLAGS['ROK'](26),
+  SOUTH_KOREA: () => HISTORICAL_FLAGS['ROK'](),
+  COREA_DEL_SUD: () => HISTORICAL_FLAGS['ROK'](),
+  KR: (s) => (s !== undefined && s >= 22 ? HISTORICAL_FLAGS['ROK'](s) : s !== undefined && s >= 18 ? HISTORICAL_FLAGS['USA'](s) : HISTORICAL_FLAGS['JAP'](s)),
+  KOR: (s) => (s !== undefined && s >= 22 ? HISTORICAL_FLAGS['ROK'](s) : s !== undefined && s >= 18 ? HISTORICAL_FLAGS['USA'](s) : HISTORICAL_FLAGS['JAP'](s)),
+
+  // REPUBBLICA POPOLARE DEMOCRATICA DI COREA — COREA DEL NORD (8/9 settembre 1948: file ufficiale Wikimedia Commons Flag_of_North_Korea_(1948–1992).svg)
+  PRK: () => officialSvgFlag('PRK_1948'),
+  DPRK: () => HISTORICAL_FLAGS['PRK'](),
+  RPDC: () => HISTORICAL_FLAGS['PRK'](),
+  NORTH_KOREA: () => HISTORICAL_FLAGS['PRK'](),
+  COREA_DEL_NORD: () => HISTORICAL_FLAGS['PRK'](),
+  KP: (s) => (s !== undefined && s >= 22 ? HISTORICAL_FLAGS['PRK'](s) : s !== undefined && s >= 18 ? HISTORICAL_FLAGS['SOV'](s) : HISTORICAL_FLAGS['JAP'](s)),
+
+  // GOVERNO DI TUTTO-PALESTINA — STRISCIA DI GAZA (22 settembre 1948: file ufficiale Wikimedia Commons Flag_of_the_Arab_Revolt.svg)
+  APG: () => officialSvgFlag('APG_1948'),
+  ALL_PALESTINE: () => HISTORICAL_FLAGS['APG'](),
+  TUTTO_PALESTINA: () => HISTORICAL_FLAGS['APG'](),
+  GOVERNO_DI_TUTTO_PALESTINA: () => HISTORICAL_FLAGS['APG'](),
+
+  // STATO DI SUMATRA MERIDIONALE — NEGARA SUMATERA SELATAN (30 agosto 1948: file ufficiale Wikimedia Commons Flag_of_South_Sumatra.svg)
+  NSS: () => officialSvgFlag('NSS_1948'),
+  NEGARA_SUMATERA_SELATAN: () => HISTORICAL_FLAGS['NSS'](),
+  SUMATRA_MERIDIONALE: () => HISTORICAL_FLAGS['NSS'](),
+
+  // STATO DI GIAVA ORIENTALE — NEGARA JAWA TIMUR (26 novembre 1948: file ufficiale Wikimedia Commons Flag_of_Various_Autonomous_Indonesian_States.svg)
+  NJT: () => officialSvgFlag('NJT_1948'),
+  NEGARA_JAWA_TIMUR: () => HISTORICAL_FLAGS['NJT'](),
+  GIAVA_ORIENTALE: () => HISTORICAL_FLAGS['NJT'](),
+
+  // REPUBBLICA FEDERALE TEDESCA — GERMANIA OVEST (23 maggio 1949: Legge Fondamentale di Bonn — file ufficiale Wikimedia Commons Flag_of_Germany.svg)
+  BRD: () => officialSvgFlag('BRD_1949'),
+  RFT: () => HISTORICAL_FLAGS['BRD'](),
+  FRG: () => HISTORICAL_FLAGS['BRD'](),
+  WEST_GERMANY: () => HISTORICAL_FLAGS['BRD'](),
+  GERMANIA_OVEST: () => HISTORICAL_FLAGS['BRD'](),
+  BUNDESREPUBLIK_DEUTSCHLAND: () => HISTORICAL_FLAGS['BRD'](),
+
+  // STATO DEL VIETNAM — QUỐC GIA VIỆT NAM (14 giugno 1949: Accordi dell'Eliseo / Bảo Đại — file ufficiale Wikimedia Commons Flag_of_South_Vietnam.svg)
+  SVN: () => officialSvgFlag('SVN_1949'),
+  QGVN: () => HISTORICAL_FLAGS['SVN'](),
+  STATE_OF_VIETNAM: () => HISTORICAL_FLAGS['SVN'](),
+  STATO_DEL_VIETNAM: () => HISTORICAL_FLAGS['SVN'](),
+  QUOC_GIA_VIET_NAM: () => HISTORICAL_FLAGS['SVN'](),
+  BAO_DAI_VIETNAM: () => HISTORICAL_FLAGS['SVN'](),
+
+  // REPUBBLICA DEMOCRATICA TEDESCA — GERMANIA EST (7 ottobre 1949: Costituzione RDT — file ufficiale Wikimedia Commons Flag_of_Germany.svg, tricolore nero-rosso-oro senza emblema 1949–1959)
+  DDR: () => officialSvgFlag('DDR_1949'),
+  RDT: () => HISTORICAL_FLAGS['DDR'](),
+  GDR: () => HISTORICAL_FLAGS['DDR'](),
+  EAST_GERMANY: () => HISTORICAL_FLAGS['DDR'](),
+  GERMANIA_EST: () => HISTORICAL_FLAGS['DDR'](),
+  DEUTSCHE_DEMOKRATISCHE_REPUBLIK: () => HISTORICAL_FLAGS['DDR'](),
+
+  // REGNO DEL LAOS — STATO ASSOCIATO NELL'UNIONE FRANCESE (19 luglio 1949: file ufficiale Wikimedia Commons Flag_of_Laos_(1952–1975).svg)
+  LAO: () => officialSvgFlag('LAO_1949'),
+  LAOS: () => HISTORICAL_FLAGS['LAO'](),
+  KINGDOM_OF_LAOS: () => HISTORICAL_FLAGS['LAO'](),
+  REGNO_DEL_LAOS: () => HISTORICAL_FLAGS['LAO'](),
+
+  // REGNO DI CAMBOGIA — STATO ASSOCIATO NELL'UNIONE FRANCESE (8 novembre 1949: file ufficiale Wikimedia Commons Flag_of_Cambodia.svg)
+  CAM: () => officialSvgFlag('CAM_1949'),
+  KHM: () => HISTORICAL_FLAGS['CAM'](),
+  CAMBODIA: () => HISTORICAL_FLAGS['CAM'](),
+  CAMBOGIA: () => HISTORICAL_FLAGS['CAM'](),
+  KINGDOM_OF_CAMBODIA: () => HISTORICAL_FLAGS['CAM'](),
+
+  // STATI UNITI D'INDONESIA (27 dicembre 1949: Republik Indonesia Serikat - RIS)
+  RIS: () => officialSvgFlag('RIS_1949'),
+  REPUBLIK_INDONESIA_SERIKAT: () => officialSvgFlag('RIS_1949'),
+
+  // AMMINISTRAZIONE FIDUCIARIA ITALIANA DELLA SOMALIA (AFIS, 1° aprile 1950): Bandiera ONU & Tricolore Italiano congiunti (file ufficiali verbatim)
+  AFIS: () => {
+    const un = POSTWAR_OFFICIAL_FLAGS['UN_1947'];
+    const it = POSTWAR_OFFICIAL_FLAGS['IT_1947'];
+    return svgWrap(
+      `<image href="${un.dataUrl}" xlink:href="${un.dataUrl}" x="0" y="0" width="300" height="400" preserveAspectRatio="none" />` +
+        `<svg x="300" y="0" width="300" height="400" viewBox="0 0 900 600" preserveAspectRatio="none">` +
+        `<image href="${it.dataUrl}" xlink:href="${it.dataUrl}" width="900" height="600" preserveAspectRatio="none" />` +
+        `</svg>`,
+      '0 0 600 400'
+    );
+  },
+  SOM_AFIS: () => HISTORICAL_FLAGS['AFIS'](),
+
+  // REPUBBLICA DELLE MOLUCCHE MERIDIONALI (RMS — Benang Raja, 25 aprile 1950: file ufficiale Wikimedia Commons)
+  RMS: () => officialSvgFlag('RMS_1950'),
+  REPUBLIK_MALUKU_SELATAN: () => HISTORICAL_FLAGS['RMS'](),
+  SOUTH_MOLUCCAS: () => HISTORICAL_FLAGS['RMS'](),
+
+  // STATO DELL'INDONESIA ORIENTALE (Negara Indonesia Timur — NIT: file ufficiale Wikimedia Commons)
+  NIT: () => officialSvgFlag('NIT_1946'),
+  NEGARA_INDONESIA_TIMUR: () => HISTORICAL_FLAGS['NIT'](),
+
+  // TERRITORIO LIBERO DI TRIESTE (TLT / FTT — Alabarda bianca di San Sergio in campo rosso)
+  TLT: () => HISTORICAL_FLAGS['AMG'](19),
+
+  FTT: () => HISTORICAL_FLAGS['AMG'](19),
 
 
 
@@ -1059,17 +1244,27 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // STATO FEDERALE D'AUSTRIA (STÄNDESTAAT, 1934-1938) — Bandiera ufficiale con Aquila Bicipite Nimbata
+  // STATO FEDERALE D'AUSTRIA (STÄNDESTAAT, 1934-1938) & SECONDA REPUBBLICA D'AUSTRIA (dal 1° Maggio 1945 — ufficiale Wikimedia Commons)
 
-  AUS: () =>
+  AUS: (step?: number) => {
 
-    svgWrap(
+    const s = typeof step === 'number' ? step : 0;
+
+    if (s >= 18) {
+
+      return officialSvgFlag('AUS_1945');
+
+    }
+
+    return svgWrap(
 
       `<image href="${AUS_FLAG_DATA_URL}" xlink:href="${AUS_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
 
       '0 0 1024 682'
 
-    ),
+    );
+
+  },
 
 
 
@@ -1423,137 +1618,21 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // DOMINION DEL PAKISTAN (1947) — Bandiera Nazionale (Crescente e Stella d'Argento su Campo Verde e Banda d'Asta Bianca)
+  // DOMINION DEL PAKISTAN (1947 — file ufficiale Wikimedia Commons)
 
-  PAK: () =>
+  PAK: () => officialSvgFlag('PAK_1947'),
 
-    svgWrap(`
+  // DOMINION DELL'INDIA (1947 — Tiranga ufficiale Wikimedia Commons)
 
-      <rect width="900" height="600" fill="#01411c"/>
+  INDIA: () => officialSvgFlag('IND_1947'),
 
-      <rect width="225" height="600" fill="#ffffff"/>
+  // STATO PRINCIPESCO DI HYDERABAD (Asafia — file ufficiale Wikimedia Commons)
 
-      <path d="M 590,165 A 165,165 0 1,0 670,390 A 140,140 0 1,1 590,165 Z" fill="#ffffff"/>
+  HYD: () => officialSvgFlag('HYD_1947'),
 
-      <polygon points="635,215 646,248 681,248 653,268 664,301 635,281 606,301 617,268 589,248 624,248" fill="#ffffff"/>
+  // STATO PRINCIPESCO DI JAMMU E KASHMIR (1936–1953 — file ufficiale Wikimedia Commons)
 
-    `, '0 0 900 600'),
-
-
-
-  // DOMINION DELL'INDIA (1947) — Tiranga (Tricolore Zafferano, Bianco e Verde con Ashoka Chakra a 24 Raggi)
-
-  INDIA: () =>
-
-    svgWrap(`
-
-      <rect width="900" height="200" fill="#FF9933"/>
-
-      <rect y="200" width="900" height="200" fill="#FFFFFF"/>
-
-      <rect y="400" width="900" height="200" fill="#138808"/>
-
-      <circle cx="450" cy="300" r="85" fill="none" stroke="#000080" stroke-width="5"/>
-
-      <circle cx="450" cy="300" r="15" fill="#000080"/>
-
-      <g>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(0 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(15 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(30 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(45 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(60 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(75 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(90 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(105 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(120 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(135 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(150 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(165 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(180 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(195 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(210 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(225 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(240 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(255 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(270 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(285 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(300 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(315 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(330 450 300)"/>
-
-        <line x1="450" y1="300" x2="450" y2="218" stroke="#000080" stroke-width="3" transform="rotate(345 450 300)"/>
-
-      </g>
-
-    `, '0 0 900 600'),
-
-
-
-  // STATO PRINCIPESCO DI HYDERABAD (1724-1948) — Insegna Asaf Jahi Giallo-Verde
-
-  HYD: () =>
-
-    svgWrap(`
-
-      <rect width="900" height="600" fill="#F8BA00"/>
-
-      <rect y="240" width="900" height="120" fill="#006400"/>
-
-      <circle cx="450" cy="300" r="105" fill="#FFFFFF" stroke="#006400" stroke-width="6"/>
-
-      <circle cx="450" cy="300" r="88" fill="#F8BA00"/>
-
-      <path d="M 410,250 Q 450,225 490,250 Q 470,290 450,335 Q 430,290 410,250 Z" fill="#006400"/>
-
-      <circle cx="450" cy="275" r="18" fill="#FFFFFF"/>
-
-    `, '0 0 900 600'),
-
-
-
-  // STATO PRINCIPESCO DI JAMMU E KASHMIR (1846-1952) — Insegna Dogra
-
-  KAS: () =>
-
-    svgWrap(`
-
-      <rect width="900" height="600" fill="#B31B1B"/>
-
-      <circle cx="450" cy="300" r="120" fill="#F8BA00" stroke="#FFFFFF" stroke-width="4"/>
-
-      <circle cx="450" cy="300" r="95" fill="#B31B1B"/>
-
-      <polygon points="450,195 465,245 515,230 485,270 525,300 485,330 515,370 465,355 450,405 435,355 385,370 415,330 375,300 415,270 385,230 435,245" fill="#F8BA00"/>
-
-      <circle cx="450" cy="300" r="45" fill="#FFFFFF"/>
-
-      <circle cx="450" cy="300" r="35" fill="#B31B1B"/>
-
-    `, '0 0 900 600'),
+  KAS: () => officialSvgFlag('KAS_1947'),
 
 
 
@@ -1571,46 +1650,15 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // REGNO HASCEMITA DI TRANSGIORDANIA — Bandiera della Rivolta Araba con Stella a 7 Punte
+  // REGNO HASCEMITA DI TRANSGIORDANIA — file ufficiale Wikimedia Commons
 
-  JOR: () =>
+  JOR: () => officialSvgFlag('JOR_1928'),
 
-    svgWrap(`
+  // REPUBBLICA SIRIANA (1932-1958) — file ufficiale Wikimedia Commons
+  SYR: () => officialSvgFlag('SYR_1932'),
 
-      <rect width="900" height="200" fill="#000000"/>
-
-      <rect y="200" width="900" height="200" fill="#FFFFFF"/>
-
-      <rect y="400" width="900" height="200" fill="#007A3D"/>
-
-      <polygon points="0,0 400,300 0,600" fill="#E4312B"/>
-
-      <polygon points="140,265 147,288 171,288 152,302 159,325 140,311 121,325 128,302 109,288 133,288" fill="#FFFFFF"/>
-
-    `, '0 0 900 600'),
-
-  // REPUBBLICA SIRIANA (1932-1958) — Tricolore Verde-Bianco-Nero con Tre Stelle Rosse a Cinque Punte
-  SYR: () =>
-    svgWrap(`
-      <rect width="900" height="200" fill="#007A3D"/>
-      <rect y="200" width="900" height="200" fill="#FFFFFF"/>
-      <rect y="400" width="900" height="200" fill="#000000"/>
-      <defs>
-        <polygon id="syr-star" points="0,-35 10.3,-10.8 33.3,-10.8 14.7,2.7 21.7,25.2 0,11.7 -21.7,25.2 -14.7,2.7 -33.3,-10.8 -10.3,-10.8" fill="#D32011"/>
-      </defs>
-      <use href="#syr-star" x="250" y="300"/>
-      <use href="#syr-star" x="450" y="300"/>
-      <use href="#syr-star" x="650" y="300"/>
-    `, '0 0 900 600'),
-
-  // REPUBBLICA LIBANESE (1943) — Rosso-Bianco-Rosso (1:2:1) con Cedro Verde del Libano
-  LEB: () =>
-    svgWrap(`
-      <rect width="900" height="150" fill="#ED1C24"/>
-      <rect y="150" width="900" height="300" fill="#FFFFFF"/>
-      <rect y="450" width="900" height="150" fill="#ED1C24"/>
-      <path d="M450,150 L475,200 L460,200 L495,260 L475,260 L520,330 L490,330 L550,410 L465,410 L465,450 L435,450 L435,410 L350,410 L410,330 L380,330 L425,260 L405,260 L440,200 L425,200 Z" fill="#007A3D"/>
-    `, '0 0 900 600'),
+  // REPUBBLICA LIBANESE (1943) — file ufficiale Wikimedia Commons
+  LEB: () => officialSvgFlag('LEB_1943'),
 
 
 
@@ -1650,27 +1698,9 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // REGNO D'EGITTO (1922-1952) — Campo verde reale con mezzaluna bianca e 3 stelle a cinque punte
+  // REGNO D'EGITTO (1922-1958) — file ufficiale Wikimedia Commons
 
-  EGY: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#117a3a"/>
-
-      <!-- Mezzaluna bianca crescente -->
-
-      <path d="M 280 200 A 75 75 0 1 0 380 135 A 65 65 0 1 1 280 200 Z" fill="#ffffff"/>
-
-      <!-- Tre stelle bianche -->
-
-      <polygon points="330,185 334,197 346,197 336,204 340,216 330,208 320,216 324,204 314,197 326,197" fill="#ffffff"/>
-
-      <polygon points="330,135 334,147 346,147 336,154 340,166 330,158 320,166 324,154 314,147 326,147" fill="#ffffff"/>
-
-      <polygon points="365,160 369,172 381,172 371,179 375,191 365,183 355,191 359,179 349,172 361,172" fill="#ffffff"/>
-
-    `),
+  EGY: () => officialSvgFlag('EGY_1922'),
 
 
 
@@ -1730,25 +1760,9 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // REGNO HASHEMITA DELL'IRAQ (1921-1959) — Tricolore arabo nero-bianco-verde con trapezio rosso all'asta e due stelle bianche a sette punte
+  // REGNO HASHEMITA DELL'IRAQ (1924-1959) — file ufficiale Wikimedia Commons
 
-  IRQ: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="133.3" fill="#000000"/>
-
-      <rect y="133.3" width="600" height="133.4" fill="#ffffff"/>
-
-      <rect y="266.7" width="600" height="133.3" fill="#007a3d"/>
-
-      <polygon points="0,0 190,133.3 190,266.7 0,400" fill="#ce1126"/>
-
-      <polygon transform="translate(72,145)" points="0,-20 3.9,-8.11 15.64,-12.47 8.77,-2 19.5,4.45 7.04,5.61 8.68,18.02 0,9 -8.68,18.02 -7.04,5.61 -19.5,4.45 -8.77,-2 -15.64,-12.47 -3.9,-8.11" fill="#ffffff"/>
-
-      <polygon transform="translate(72,255)" points="0,-20 3.9,-8.11 15.64,-12.47 8.77,-2 19.5,4.45 7.04,5.61 8.68,18.02 0,9 -8.68,18.02 -7.04,5.61 -19.5,4.45 -8.77,-2 -15.64,-12.47 -3.9,-8.11" fill="#ffffff"/>
-
-    `),
+  IRQ: () => officialSvgFlag('IRQ_1924'),
 
 
 
@@ -1780,17 +1794,27 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // REPUBBLICA POPOLARE MONGOLA (1930-1940) — Bandiera ufficiale fornita dall'utente (1024x614)
+  // REPUBBLICA POPOLARE MONGOLA — Insegna 1930-1940 vs Soyombo Tricolore Rosso-Blu-Rosso con Stella (10 Luglio 1945 - 1992 ufficiale Wikimedia Commons)
 
-  MON: () =>
+  MON: (step?: number) => {
 
-    svgWrap(
+    const s = typeof step === 'number' ? step : 0;
+
+    if (s >= 18) {
+
+      return officialSvgFlag('MON_1945');
+
+    }
+
+    return svgWrap(
 
       `<image href="${MON_FLAG_DATA_URL}" xlink:href="${MON_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
 
       '0 0 1024 614'
 
-    ),
+    );
+
+  },
 
 
 
@@ -1856,23 +1880,9 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // ARGENTINA
+  // ARGENTINA — file ufficiale Wikimedia Commons
 
-  ARG: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="133.3" fill="#74acdf"/>
-
-      <rect y="133.3" width="600" height="133.4" fill="#ffffff"/>
-
-      <rect y="266.7" width="600" height="133.3" fill="#74acdf"/>
-
-      <!-- Sol de Mayo -->
-
-      <circle cx="300" cy="200" r="26" fill="#f6b40e" stroke="#853407" stroke-width="2"/>
-
-    `),
+  ARG: () => officialSvgFlag('ARG_STD'),
 
 
 
@@ -1938,35 +1948,9 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // VENEZUELA
+  // VENEZUELA (Legge sulla Bandiera del 15 Luglio 1930: 7 stelle bianche ad arco — file ufficiale Wikimedia Commons)
 
-  VEN: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="133.3" fill="#fcd116"/>
-
-      <rect y="133.3" width="600" height="133.4" fill="#003893"/>
-
-      <rect y="266.7" width="600" height="133.3" fill="#ce1126"/>
-
-      <!-- Sette Stelle -->
-
-      <g fill="#ffffff">
-
-        <circle cx="260" cy="190" r="5"/>
-
-        <circle cx="280" cy="180" r="5"/>
-
-        <circle cx="300" cy="175" r="5"/>
-
-        <circle cx="320" cy="180" r="5"/>
-
-        <circle cx="340" cy="190" r="5"/>
-
-      </g>
-
-    `),
+  VEN: () => officialSvgFlag('VEN_1930'),
 
 
 
@@ -2216,6 +2200,22 @@ HISTORICAL_FLAGS['TERRITORIO LIBERO DI TRIESTE'] = HISTORICAL_FLAGS['AMG'];
 
 HISTORICAL_FLAGS['TERRITORIO_LIBERO_DI_TRIESTE'] = HISTORICAL_FLAGS['AMG'];
 
+HISTORICAL_FLAGS['VUJA'] = () =>
+  svgWrap(
+    `<title>Territorio Libero di Trieste — Zona B (VUJA): bandiera FNRJ adottata de facto dall'amministrazione militare jugoslava in assenza di vessillo zonale esclusivo</title><image href="${FNRJ_FLAG_DATA_URL}" xlink:href="${FNRJ_FLAG_DATA_URL}" width="1024" height="512" preserveAspectRatio="none" />`,
+    '0 0 1024 512'
+  );
+
+HISTORICAL_FLAGS['VUJA_FTT'] = HISTORICAL_FLAGS['VUJA'];
+
+HISTORICAL_FLAGS['TLT_B'] = HISTORICAL_FLAGS['VUJA'];
+
+HISTORICAL_FLAGS['FTT_B'] = HISTORICAL_FLAGS['VUJA'];
+
+HISTORICAL_FLAGS['STT_B'] = HISTORICAL_FLAGS['VUJA'];
+
+HISTORICAL_FLAGS['ZONA_B_TLT'] = HISTORICAL_FLAGS['VUJA'];
+
 HISTORICAL_FLAGS['FNRJ'] = HISTORICAL_FLAGS['DFJ'];
 
 HISTORICAL_FLAGS['SFRJ'] = HISTORICAL_FLAGS['DFJ'];
@@ -2270,7 +2270,9 @@ HISTORICAL_FLAGS['BOL'] = () =>
 
   );
 
-HISTORICAL_FLAGS['PAR'] = HISTORICAL_FLAGS['HOL'];
+// PARAGUAY (1842-1954): Tricolore rosso-bianco-blu con stemma nazionale — file ufficiale Wikimedia Commons
+
+HISTORICAL_FLAGS['PAR'] = () => officialSvgFlag('PAR_1842');
 
 HISTORICAL_FLAGS['URU'] = () =>
 
@@ -2372,9 +2374,9 @@ HISTORICAL_FLAGS['ICE'] = () =>
 
     `<rect width="25" height="18" fill="#02529c"/>` +
 
-    `<path d="M0,7h25v4H0z M7,0h4v18H7z" fill="#ffffff"/>` +
+      `<path d="M0,7h25v4H0z M7,0h4v18H7z" fill="#ffffff"/>` +
 
-    `<path d="M0,8h25v2H0z M8,0h2v18H8z" fill="#dc1e35"/>`,
+      `<path d="M0,8h25v2H0z M8,0h2v18H8z" fill="#dc1e35"/>`,
 
     '0 0 25 18'
 
@@ -2404,15 +2406,31 @@ HISTORICAL_FLAGS['BHUTAN'] = HISTORICAL_FLAGS['BHU'];
 
 HISTORICAL_FLAGS['TIBET'] = HISTORICAL_FLAGS['TIB'];
 
-HISTORICAL_FLAGS['ALB'] = () =>
+HISTORICAL_FLAGS['ALB'] = (step?: number) => {
 
-  svgWrap(
+  const s = typeof step === 'number' ? step : 0;
+
+  if (s >= 19) {
+
+    return officialSvgFlag('ALB_1946');
+
+  }
+
+  if (s >= 16) {
+
+    return officialSvgFlag('ALB_1944');
+
+  }
+
+  return svgWrap(
 
     `<image href="${ALB_FLAG_DATA_URL}" xlink:href="${ALB_FLAG_DATA_URL}" width="1024" height="683" preserveAspectRatio="none" />`,
 
     '0 0 1024 683'
 
   );
+
+};
 
 HISTORICAL_FLAGS['ALBANIA'] = HISTORICAL_FLAGS['ALB'];
 
@@ -2497,6 +2515,8 @@ HISTORICAL_FLAGS['MENGKUKUO'] = HISTORICAL_FLAGS['MEJ'];
 HISTORICAL_FLAGS['CCP'] = HISTORICAL_FLAGS['CCP_CHI'];
 
 HISTORICAL_FLAGS['PRC'] = HISTORICAL_FLAGS['CCP_CHI'];
+
+HISTORICAL_FLAGS['RPC'] = HISTORICAL_FLAGS['CCP_CHI'];
 
 HISTORICAL_FLAGS['YANAN'] = HISTORICAL_FLAGS['CCP_CHI'];
 

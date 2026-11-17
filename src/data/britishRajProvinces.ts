@@ -2236,22 +2236,210 @@ for (const meta of new Set(Object.values(BRITISH_RAJ_PROVINCES_META))) {
  * Risolve lo stato geopolitico di una provincia del British Raj per uno step temporale specifico (0-8).
  */
 
-function resolveBritishRajPartition(fid: string, meta: any, p: any): ResolvedTerritory {
+function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 19): ResolvedTerritory {
   const rawName = String(p.NAME || p.name || p.NUTS_NAME || (meta ? meta.name : '') || fid);
+  const isDec1947 = s >= 20;
+  const isJune1948 = s >= 21;
+  const isDec1948 = s >= 22;
+  const isJune1949 = s >= 23;
+  const isDec1949 = s >= 24;
+  const isJune1950 = s >= 25;
 
-  // 1. Burma / Birmania (MM_) — British Crown Colony in transition (U Nu)
-  if (fid.startsWith('MM_') || (meta && meta.cntrCode === 'MM')) {
+  // 0. Ceylon (LK_) — Dominion of Ceylon from 4 February 1948 (s >= 21)
+  if (fid.startsWith('LK_') || fid === 'LK' || fid === 'LKA' || (meta && meta.cntrCode === 'LK')) {
+    if (isJune1948) {
+      return makeResult(
+        'CEY',
+        'Dominion di Ceylon (Reame Indipendente del Commonwealth — 4 Febbraio 1948)',
+        "Il 4 febbraio 1948 entra in vigore il Ceylon Independence Act 1947: l'isola di Ceylon cessa di essere una Colonia della Corona britannica e diviene il Dominion di Ceylon, reame indipendente all'interno del Commonwealth delle Nazioni sotto il Primo Ministro Don Stephen Senanayake e il Governatore Generale Sir Henry Monck-Mason Moore, adottando la storica bandiera del Leone d'oro di Kandy.",
+        'Alleati',
+        'Dominion of Ceylon (PM D.S. Senanayake · Gov.-Gen. Sir Henry Monck-Mason Moore)'
+      );
+    }
     return makeResult(
       'UK',
-      'Birmania Britannica in Transizione (Governo Provvisorio di U Nu — Pre-Indipendenza)',
-      "Al 30 settembre 1947, a seguito del tragico assassinio del leader indipendentista Aung San e di sei membri del consiglio esecutivo (19 luglio 1947), U Nu guida il governo provvisorio birmano. Sono in corso a Londra i negoziati con il governo laburista di Clement Attlee per il Trattato Nu-Attlee (firmato il 17 ottobre 1947), che sancir\u00e0 la piena indipendenza della Birmania e l'uscita dal Commonwealth il 4 gennaio 1948.",
+      'Colonia della Corona di Ceylon (Transizione verso lo Status di Dominion — Costituzione Soulbury)',
+      "Colonia britannica dotata di autogoverno interno secondo la Costituzione Soulbury; nel novembre-dicembre 1947 il Parlamento britannico approva il Ceylon Independence Act che sancisce l'indipendenza del Dominion di Ceylon per il 4 febbraio 1948 sotto D.S. Senanayake.",
       'Alleati',
-      'British Crown Colony of Burma · Interim Government (Prime Minister U Nu)'
+      'Crown Colony of Ceylon (Gov. Sir Henry Monck-Mason Moore · PM D.S. Senanayake)'
+    );
+  }
+
+  // 1. Burma / Birmania (MM_) — Independent Union of Burma from 4 January 1948 (s >= 21)
+  if (fid.startsWith('MM_') || (meta && meta.cntrCode === 'MM')) {
+    if (isJune1948) {
+      const isInsurgentProv = fid === 'MM_BAG' || fid === 'MM_IRR' || fid === 'MM_MAG' || fid === 'MM_RAK';
+      const provLabel = (meta && (meta.nutsName || meta.name)) || rawName || 'Birmania';
+      return makeResult(
+        'BUR',
+        isInsurgentProv
+          ? `Unione della Birmania — ${provLabel} (Indipendenza 4 Gen 1948 & Insurrezione Comunista CPB)`
+          : `Unione della Birmania — ${provLabel} (Repubblica Sovrana Indipendente — 4 Gennaio 1948)`,
+        isInsurgentProv
+          ? `Alle ore 04:20 del 4 gennaio 1948 viene proclamata a Rangoon la Repubblica sovrana dell'Unione della Birmania fuori dal Commonwealth britannico (Presidente Sao Shwe Thaik, Primo Ministro U Nu). Nel marzo 1948 il Partito Comunista della Birmania (CPB, 'Bandiera Bianca' di Thakin Than Tun, affiancato dalla 'Bandiera Rossa' di Thakin Soe e dall'organizzazione paramilitare PVO) scatena una vasta insurrezione armata rurale nelle campagne della Birmania centrale e meridionale (${provLabel}, monti Pegu Yoma, delta dell'Irrawaddy e Arakan), mentre il governo dell'AFPFL mantiene il controllo di Rangoon, Mandalay e delle principali città.`
+          : "Alle ore 04:20 del 4 gennaio 1948, in attuazione del Trattato Nu-Attlee e del Burma Independence Act, cessa il dominio coloniale britannico e nasce l'Unione della Birmania (Pyidaungzu Myanma Naingngandaw), repubblica sovrana pienamente indipendente al di fuori del Commonwealth delle Nazioni, guidata dal Presidente Sao Shwe Thaik e dal Primo Ministro U Nu.",
+        'Neutrale',
+        isInsurgentProv
+          ? 'Union of Burma (PM U Nu) · Fronte Interno Contro-Insurrezionale (Guerriglia Comunista CPB)'
+          : 'Union of Burma · Pyidaungzu Myanma Naingngandaw (Pres. Sao Shwe Thaik · PM U Nu)'
+      );
+    }
+    return makeResult(
+      'UK',
+      isDec1947
+        ? 'Birmania Britannica in Transizione (Trattato Nu-Attlee & Burma Independence Act — Vigilia dell\'Indipendenza)'
+        : 'Birmania Britannica in Transizione (Governo Provvisorio di U Nu — Pre-Indipendenza)',
+      isDec1947
+        ? "Al 31 dicembre 1947 la Birmania rimane de jure sotto sovranit\u00e0 britannica per gli ultimi quattro giorni: dopo la firma del Trattato Nu-Attlee (17 ottobre 1947) e l'approvazione del Burma Independence Act (10 dicembre 1947), il Primo Ministro U Nu e il Governatore Sir Hubert Rance preparano la proclamazione dell'indipendenza dell'Unione di Birmania fuori dal Commonwealth, fissata per le ore 04:20 del 4 gennaio 1948."
+        : "Al 30 settembre 1947, a seguito del tragico assassinio del leader indipendentista Aung San e di sei membri del consiglio esecutivo (19 luglio 1947), U Nu guida il governo provvisorio birmano. Sono in corso a Londra i negoziati con il governo laburista di Clement Attlee per il Trattato Nu-Attlee (firmato il 17 ottobre 1947), che sancir\u00e0 la piena indipendenza della Birmania e l'uscita dal Commonwealth il 4 gennaio 1948.",
+      'Alleati',
+      isDec1947
+        ? 'British Crown Colony of Burma · Nu-Attlee Treaty Transition (PM U Nu · Independence on 4 Jan 1948)'
+        : 'British Crown Colony of Burma · Interim Government (Prime Minister U Nu)'
     );
   }
 
   // 2. Disputed Princely State: Jammu & Kashmir (IN_JK, IN_LAD, PK_AJK, PK_GB)
   if (fid === 'IN_JK' || fid === 'IN_LAD' || fid === 'PK_AJK' || fid === 'PK_GB') {
+    if (isJune1949) {
+      if (fid === 'IN_JK' || fid === 'IN_LAD') {
+        const isLadakh = fid === 'IN_LAD';
+        if (isJune1950) {
+          return makeResult(
+            'IND',
+            isLadakh
+              ? 'Repubblica dell\'India — Stato di Categoria B: Jammu e Kashmir · Settore del Ladakh (Linea ONU)'
+              : 'Repubblica dell\'India — Stato di Categoria B: Jammu e Kashmir (Costituzione 26 Gennaio 1950)',
+            isLadakh
+              ? "30 Giugno 1950: con la proclamazione della Repubblica dell'India (26 gennaio 1950), Jammu e Kashmir entra tra gli Stati di Categoria B (con statuto costituzionale speciale); il settore del Ladakh (Leh, Dras, Kargil) resta sotto controllo indiano lungo la Ceasefire Line ONU."
+              : "30 Giugno 1950: con la Costituzione della Repubblica dell'India (26 gennaio 1950), Jammu e Kashmir è Stato di Categoria B (PM Sheikh Abdullah, regime costituzionale speciale Art. 370) lungo la Ceasefire Line ONU.",
+            'Alleati',
+            isLadakh
+              ? 'Republic of India · Part B State: Jammu & Kashmir — Ladakh Sector (UN Ceasefire Line)'
+              : 'Republic of India · Part B State: Jammu & Kashmir (PM Sheikh Abdullah)'
+          );
+        }
+        return makeResult(
+          'IND',
+          isLadakh
+            ? 'Dominion dell\'India — Ladakh (Tregua ONU del 1° Gennaio 1949 · Leh, Dras & Kargil)'
+            : 'Dominion dell\'India — Valle del Kashmir e Jammu (Linea del Cessate il Fuoco ONU, 1° Gennaio 1949)',
+          isLadakh
+            ? "Dal 1° gennaio 1949 entra in vigore il cessate il fuoco ONU in Kashmir: il settore di Leh, Dras e Kargil resta presidiato dall'Esercito Indiano lungo la nuova Ceasefire Line vigilata dagli osservatori UNCIP / UNMOGIP."
+            : "Dal 1° gennaio 1949 entra in vigore il cessate il fuoco mediato dall'ONU (UNCIP) tra India e Pakistan: Srinagar, la Valle del Kashmir, Jammu e Poonch restano sotto sovranità dell'India (governo di Sheikh Abdullah) lungo la Ceasefire Line.",
+          'Alleati',
+          isLadakh
+            ? 'Dominion of India · Ladakh Sector (UN Ceasefire Line, 1 Jan 1949)'
+            : 'Dominion of India · Jammu & Kashmir (PM Sheikh Abdullah · UN Ceasefire Line, 1 Jan 1949)'
+        );
+      }
+      const isGilgit = fid === 'PK_GB';
+      return makeResult(
+        'PAK',
+        isGilgit
+          ? 'Dominion del Pakistan — Gilgit-Baltistan (Tregua ONU del 1° Gennaio 1949 · Skardu)'
+          : 'Dominion del Pakistan — Azad Jammu e Kashmir (Linea del Cessate il Fuoco ONU, 1° Gennaio 1949)',
+        isGilgit
+          ? "Dal 1° gennaio 1949 la Linea del Cessate il Fuoco ONU cristallizza il controllo pakistano su Gilgit e sul Baltistan (inclusa Skardu) a nord della fascia himalayana tenuta dall'India."
+          : "Dal 1° gennaio 1949 il cessate il fuoco ONU stabilizza la fascia occidentale dell'Azad Kashmir (Muzaffarabad, Mirpur, Bagh e Rawalakot) sotto amministrazione azad-kashmira e protezione pakistana.",
+        'Alleati',
+        isGilgit
+          ? 'Dominion of Pakistan · Gilgit Agency & Baltistan (UN Ceasefire Line, 1 Jan 1949)'
+          : 'Dominion of Pakistan · Azad Jammu & Kashmir (Sardar Ibrahim Khan · UN Ceasefire Line, 1 Jan 1949)'
+      );
+    }
+    if (isDec1948) {
+      if (fid === 'IN_JK' || fid === 'IN_LAD') {
+        const isLadakh = fid === 'IN_LAD';
+        return makeResult(
+          'IND',
+          isLadakh
+            ? 'Dominion dell\'India — Ladakh (Riconquista di Zoji La, Dras & Kargil in Op. Bison; Vigilia Cessate il Fuoco ONU)'
+            : 'Dominion dell\'India — Valle del Kashmir e Jammu (Sblocco di Poonch in Op. Easy; Linea del Cessate il Fuoco Finale)',
+          isLadakh
+            ? "Nel novembre 1948 (Operazione Bison) i carri leggeri Stuart e la fanteria dell'Esercito Indiano sfondano il passo himalayano dello Zoji La nella tormenta e riconquistano Dras e Kargil, riaprendo i collegamenti terrestri con Leh; dopo la caduta della guarnigione indiana di Skardu nell'agosto 1948, il settore Ladakh–Leh si stabilizza sotto controllo indiano alla vigilia del cessate il fuoco ONU (1° gennaio 1949)."
+            : "Con le offensive autunnali di novembre 1948 (Operazione Easy) le forze indiane liberano definitivamente dall'assedio la piazzaforte di Poonch collegandola al Jammu, consolidando l'intera Valle del Kashmir (Srinagar, Baramulla, Uri, Tithwal) e il Jammu lungo la linea del fronte destinata a divenire la Linea del Cessate il Fuoco ONU (1° gennaio 1949).",
+          'Alleati',
+          isLadakh
+            ? 'Dominion of India · Ladakh Sector (Post-Operation Bison: Leh, Dras & Kargil · Ceasefire Line)'
+            : 'Dominion of India · Jammu & Kashmir Sector (PM Sheikh Abdullah · Post-Operation Easy: Valley, Jammu & Poonch)'
+        );
+      }
+      const isGilgit = fid === 'PK_GB';
+      return makeResult(
+        'PAK',
+        isGilgit
+          ? 'Dominion del Pakistan — Gilgit-Baltistan (Presa di Skardu, Ago 1948 & Linea del Cessate il Fuoco)'
+          : 'Dominion del Pakistan — Azad Jammu e Kashmir (Linea del Cessate il Fuoco ONU, Dicembre 1948)',
+        isGilgit
+          ? "Dopo la resa della guarnigione indiana del forte di Skardu il 14 agosto 1948 e la controffensiva indiana di novembre su Dras e Kargil (Operazione Bison), il Pakistan mantiene stabilmente Gilgit e il Baltistan (inclusa Skardu) lungo la linea del cessate il fuoco ONU del 1° gennaio 1949."
+          : "Al 31 dicembre 1948, dopo la riconquista indiana di Poonch (Operazione Easy, novembre 1948), l'Esercito Pakistano e le forze dell'Azad Kashmir mantengono l'intera fascia occidentale (Muzaffarabad, Mirpur, Bagh, Kotli e Rawalakot) lungo la linea che il 1° gennaio 1949 diverrà la Linea del Cessate il Fuoco ONU.",
+        'Alleati',
+        isGilgit
+          ? 'Dominion of Pakistan · Gilgit Agency & Baltistan (Skardu · Ceasefire Line)'
+          : 'Dominion of Pakistan · Azad Jammu & Kashmir (Muzaffarabad & Mirpur · Ceasefire Line)'
+      );
+    }
+    if (isJune1948) {
+      if (fid === 'IN_JK' || fid === 'IN_LAD') {
+        const isLadakh = fid === 'IN_LAD';
+        return makeResult(
+          'IND',
+          isLadakh
+            ? 'Dominion dell\'India — Ladakh (Leh Difesa per Via Aerea; Dras e Kargil Cadute in Mano Pakistana, Maggio 1948)'
+            : 'Dominion dell\'India — Valle del Kashmir e Jammu (Riconquista Indiana di Rajauri e Tithwal, Primavera 1948)',
+          isLadakh
+            ? "Nel maggio 1948 le forze regolari dell'Esercito Pakistano entrano ufficialmente nel conflitto del Kashmir: nel settore settentrionale i Gilgit Scouts e gli irregolari pakistani conquistano Dras e Kargil (maggio 1948), interrompendo i collegamenti terrestri tra Srinagar e Leh e stringendo d'assedio la guarnigione indiano-dogra di Skardu (che al 30 giugno 1948 resiste ancora sotto il ten. col. Sher Jung Thapa), mentre il generale Thimayya e i Dakota dell'aeronautica indiana blindano la difesa di Leh e della valle dell'Indo."
+            : "Nell'offensiva di primavera (aprile–maggio 1948) l'Esercito Indiano riconquista Rajauri nel Jammu (12 aprile) e avanza fino a Tithwal (23 maggio) minacciando Muzaffarabad, provocando l'intervento ufficiale delle brigate regolari dell'Esercito Pakistano. Al 30 giugno 1948 l'India consolida il controllo sulla Valle del Kashmir (Srinagar, Baramulla, Anantnag), sulla pianura del Jammu e sulla piazzaforte assediata di Poonch.",
+          'Alleati',
+          'Dominion of India · Jammu & Kashmir Emergency Administration (PM Sheikh Abdullah · Maj. Gen. K.S. Thimayya)'
+        );
+      }
+      const isGilgit = fid === 'PK_GB';
+      return makeResult(
+        'PAK',
+        isGilgit
+          ? 'Dominion del Pakistan — Gilgit-Baltistan (Presa di Dras e Kargil e Assedio di Skardu, Maggio–Giugno 1948)'
+          : 'Dominion del Pakistan — Azad Jammu e Kashmir (Intervento Regolare dell\'Esercito Pakistano, Maggio 1948)',
+        isGilgit
+          ? "Nel maggio–giugno 1948 i Gilgit Scouts e le colonne pakistane consolidano il controllo dell'intero Gilgit-Baltistan, stringono d'assedio la guarnigione indiana del forte di Skardu (che cadrà solo nell'agosto 1948) e catturano Dras e Kargil tagliando la via terrestre per Leh."
+          : "Nel maggio 1948 l'Esercito regolare del Pakistan entra ufficialmente in linea a fianco delle milizie dell'Azad Kashmir per arrestare l'offensiva indiana dopo la caduta di Tithwal, stabilizzando il fronte occidentale lungo la fascia Muzaffarabad–Uri–Poonch–Mirpur.",
+        'Alleati',
+        isGilgit
+          ? 'Dominion of Pakistan · Gilgit Agency & Baltistan Front (Assedio di Skardu · Presa di Kargil)'
+          : 'Dominion of Pakistan · Azad Jammu & Kashmir & Pakistan Army Regular Front'
+      );
+    }
+    if (isDec1947) {
+      if (fid === 'IN_JK' || fid === 'IN_LAD') {
+        const isLadakh = fid === 'IN_LAD';
+        return makeResult(
+          'IND',
+          isLadakh
+            ? 'Dominion dell\'India — Ladakh (Leh & Kargil — Prima Guerra del Kashmir)'
+            : 'Dominion dell\'India — Valle del Kashmir e Jammu (Srinagar, Jammu & Poonch — Prima Guerra del Kashmir)',
+          isLadakh
+            ? "A seguito dell'invasione tribale pashtun (22 ottobre 1947) e della firma dell'Instrument of Accession all'India da parte del Maharaja Hari Singh (26 ottobre 1947), il vasto altopiano himalayano del Ladakh (Leh e Kargil) passa all'Unione dell'India, mentre lungo l'alto Indo si accendono gli scontri invernali con gli insorti di Gilgit."
+            : "In seguito all'invasione delle milizie tribali pashtun (22 ottobre 1947), il Maharaja Hari Singh firma l'Instrument of Accession all'India (26 ottobre 1947): il 27 ottobre i Dakota indiani sbarcano la 161ª Brigata a Srinagar salvando la capitale (Battaglia di Shalateng, 7 novembre) e nominando Sheikh Abdullah a capo dell'Amministrazione di Emergenza. Al 31 dicembre 1947 l'India controlla la Valle del Kashmir (Srinagar, Baramulla, Anantnag), Jammu e la città assediata di Poonch.",
+          'Alleati',
+          'Dominion of India · Emergency Administration of Jammu & Kashmir (Sheikh Abdullah / Indian Army JAK Force)'
+        );
+      }
+      const isGilgit = fid === 'PK_GB';
+      return makeResult(
+        'PAK',
+        isGilgit
+          ? 'Dominion del Pakistan — Agenzia di Gilgit e Baltistan (Rivolta dei Gilgit Scouts, Nov 1947)'
+          : 'Dominion del Pakistan — Azad Jammu e Kashmir (Governo Provvisorio di Muzaffarabad, 24 Ott 1947)',
+        isGilgit
+          ? "Tra il 1° e il 4 novembre 1947 i Gilgit Scouts comandati dal maggiore britannico William Brown insorgono contro il governatore Dogra brigadiere Ghansara Singh a Gilgit, proclamando l'adesione al Pakistan; il 16 novembre l'agente politico pakistano Sardar Mohammad Alam assume l'amministrazione diretta di Gilgit e Hunza per conto di Karachi."
+          : "Il 24 ottobre 1947, due giorni dopo l'ingresso delle milizie tribali pashtun (Lashkar) nella valle del Jhelum, viene proclamato a Palandri/Muzaffarabad il Governo Provvisorio di Azad Jammu e Kashmir sotto la presidenza di Sardar Muhammad Ibrahim Khan, sostenuto militarmente e politicamente dal Dominion del Pakistan. Al 31 dicembre 1947 controlla la fascia occidentale (Muzaffarabad, Mirpur, Bagh, Rawalakot).",
+        'Alleati',
+        isGilgit
+          ? 'Dominion of Pakistan · Gilgit Agency (Political Agent Sardar Mohammad Alam / Gilgit Scouts)'
+          : 'Dominion of Pakistan · Provisional Government of Azad Jammu & Kashmir (Pres. Sardar Ibrahim Khan · Cap. Muzaffarabad)'
+      );
+    }
     return makeResult(
       'KAS',
       'Regno Principesco di Jammu e Kashmir (Indipendenza Provvisoria — Maharaja Hari Singh)',
@@ -2263,12 +2451,42 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any): ResolvedTer
 
   // 3. Disputed Princely State: Hyderabad (IN_HYD)
   if (fid === 'IN_HYD') {
+    if (isJune1950) {
+      return makeResult(
+        'IND',
+        "Repubblica dell'India — Stato di Categoria B: Hyderabad (Costituzione del 26 Gennaio 1950)",
+        "30 Giugno 1950: con l'entrata in vigore della Costituzione repubblicana il 26 gennaio 1950 (Presidente Rajendra Prasad, PM Jawaharlal Nehru), Hyderabad diviene uno Stato di Categoria B della Repubblica dell'India (l'ex Nizam Asaf Jah VII con il titolo cerimoniale di Rajpramukh e il governo civile di M.K. Vellodi).",
+        'Alleati',
+        'Republic of India · Part B State: Hyderabad (26 Jan 1950)'
+      );
+    }
+    if (isDec1948) {
+      return makeResult(
+        'IND',
+        'Dominion dell\'India — Stato di Hyderabad (Annessione post-Operazione Polo, 17 Settembre 1948)',
+        "Tra il 13 e il 17 settembre 1948 l'Esercito Indiano guidato dal Magg. Gen. Jayanto Nath Chaudhuri lancia l'Operazione Polo («Azione di Polizia»), sbaragliando le forze armate dello Stato e le milizie irregolari Razakar di Qasim Razvi in cinque giorni. Il 17 settembre il Nizam Mir Osman Ali Khan annuncia la resa e accetta l'integrazione di Hyderabad (Telangana, Marathwada e Hyderabad-Karnataka) nell'Unione dell'India sotto il governatorato militare del Gen. Chaudhuri.",
+        'Alleati',
+        'Dominion of India · State of Hyderabad (Governatore Militare Magg. Gen. J.N. Chaudhuri — Post-Operazione Polo, Set 1948)'
+      );
+    }
     return makeResult(
       'HYD',
-      'Stato Sovrano di Hyderabad (Indipendenza Non Allineata — Nizam Asaf Jah VII)',
-      "Al 30 settembre 1947 il settimo Nizam, Mir Osman Ali Khan Asaf Jah VII, sovrano dello stato principesco pi\u00f9 vasto e ricco dell'India con oltre 16 milioni di abitanti, moneta, ferrovie e poste proprie, ha proclamato la piena sovranit\u00e0 e indipendenza, rifiutando l'adesione all'Unione Indiana e avvalendosi del sostegno delle milizie irregolari filoislamiche Razakar guidate da Kasim Razvi. Il contenzioso culminer\u00e0 nel settembre 1948 con l'invasione militare indiana (Operazione Polo) e l'annessione forzata.",
+      isJune1948
+        ? 'Stato Sovrano di Hyderabad (Autonomia de facto Non Allineata — Blocco Indiano & Crisi dei Razakar, Giugno 1948)'
+        : isDec1947
+        ? 'Stato Sovrano di Hyderabad (Autonomia de facto — Standstill Agreement del 29 Novembre 1947)'
+        : 'Stato Sovrano di Hyderabad (Indipendenza Non Allineata — Nizam Asaf Jah VII)',
+      isJune1948
+        ? "Al 30 giugno 1948 lo Stato di Hyderabad sotto il Nizam Mir Osman Ali Khan Asaf Jah VII e il primo ministro Mir Laik Ali rimane ancora de facto indipendente e non annesso all'Unione Indiana: in seguito alle violenze delle milizie paramilitari Razakar di Qasim Razvi e all'insurrezione comunista del Telangana, Nuova Delhi stringe il blocco economico attorno al principato (che sarà annesso dall'esercito indiano solo nel settembre 1948 con l'Operazione Polo)."
+        : isDec1947
+        ? "Il 29 novembre 1947 il Nizam Mir Osman Ali Khan Asaf Jah VII e il Governatore Generale dell'India Lord Mountbatten firmano uno Standstill Agreement della durata di un anno, che congela lo status quo costituzionale: al 31 dicembre 1947 l'Hyderabad rimane uno stato autonomo de facto non integrato nell'Unione Indiana, con proprio esercito, moneta (Hyderabadi rupee) e milizie paramilitari Razakar di Kasim Razvi, fino all'Operazione Polo del settembre 1948."
+        : "Al 30 settembre 1947 il settimo Nizam, Mir Osman Ali Khan Asaf Jah VII, sovrano dello stato principesco pi\u00f9 vasto e ricco dell'India con oltre 16 milioni di abitanti, moneta, ferrovie e poste proprie, ha proclamato la piena sovranit\u00e0 e indipendenza, rifiutando l'adesione all'Unione Indiana e avvalendosi del sostegno delle milizie irregolari filoislamiche Razakar guidate da Kasim Razvi. Il contenzioso culminer\u00e0 nel settembre 1948 con l'invasione militare indiana (Operazione Polo) e l'annessione forzata.",
       'Neutrale',
-      'Stato Sovrano di Hyderabad (Nizam-ul-Mulk Mir Osman Ali Khan · Dichiarazione di Indipendenza)'
+      isJune1948
+        ? 'Stato Sovrano di Hyderabad (Nizam Asaf Jah VII · PM Mir Laik Ali — Autonomo al 30 Giugno 1948)'
+        : isDec1947
+        ? 'Stato Principesco di Hyderabad (Nizam Asaf Jah VII · Standstill Agreement con l\'India del 29 Nov 1947)'
+        : 'Stato Sovrano di Hyderabad (Nizam-ul-Mulk Mir Osman Ali Khan · Dichiarazione di Indipendenza)'
     );
   }
 
@@ -2285,6 +2503,15 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any): ResolvedTer
 
   // 5. European Enclaves: French India (Pondicherry, Karikal, Yanaon, Mahé, Chandernagore)
   if (fid === 'IN_PON') {
+    if (isJune1950) {
+      return makeResult(
+        'FRA',
+        "Stabilimenti Francesi dell'India — Pondichéry, Karikal, Mahé e Yanam (Chandernagore Ceduta il 2 Maggio 1950)",
+        "Il 2 maggio 1950, in attuazione del referendum del giugno 1949, la Francia trasferisce l'amministrazione de facto dell'enclave bengalese di Chandernagore alla Repubblica dell'India (integrata nel West Bengal); restano francesi i quattro comptoir di Pondichéry, Karikal, Mahé e Yanam (Commissario André Ménard).",
+        'Alleati',
+        "Établissements français dans l'Inde (Pondichéry, Karikal, Mahé, Yanam — Escl. Chandernagore)"
+      );
+    }
     return makeResult(
       'FRA',
       'Stabilimenti Francesi dell\'India — Comptoir de Pondich\u00e9ry',
@@ -2372,15 +2599,154 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any): ResolvedTer
     );
   }
 
+  // 7. Repubblica dell'India (dal 26 Gennaio 1950 — Stati di Categoria A, B, C e D + Chandernagore 2 Maggio 1950)
+  if (isJune1950) {
+    const partLabelMap: Record<string, { cat: 'A' | 'B' | 'C' | 'D'; title: string; note: string }> = {
+      IN_ASS: { cat: 'A', title: 'Assam', note: "Stato di Categoria A della Repubblica dell'India (ex provincia britannica nord-orientale, confinante con NEFA/Assam Tribal Areas, Manipur e Tripura)." },
+      IN_ARU: { cat: 'A', title: 'Assam / NEFA (North-East Frontier)', note: "Fascia himalayana nord-orientale (North-East Frontier Tracts) amministrata costituzionalmente nell'ambito dello Stato di Categoria A dell'Assam della Repubblica dell'India." },
+      IN_MEG: { cat: 'A', title: 'Assam (Colline Khasi, Jaintia e Garo)', note: "Distretti montani autonomi integrati nello Stato di Categoria A dell'Assam (Sesto Allegato della Costituzione della Repubblica dell'India del 26 gennaio 1950)." },
+      IN_MIZ: { cat: 'A', title: 'Assam (Lushai Hills)', note: "Distretto autonomo delle Lushai Hills nello Stato di Categoria A dell'Assam della Repubblica dell'India." },
+      IN_NAG: { cat: 'A', title: 'Assam (Naga Hills)', note: "Distretto autonomo delle Naga Hills nello Stato di Categoria A dell'Assam della Repubblica dell'India." },
+      IN_BIH: { cat: 'A', title: 'Bihar', note: "Stato di Categoria A della Repubblica dell'India (ex provincia britannica del Bihar con fusione degli stati di Seraikela e Kharsawan)." },
+      IN_JHA: { cat: 'A', title: 'Bihar (Chota Nagpur / Acciaierie Tata)', note: "Altopiano industriale di Chota Nagpur (Jamshedpur/Ranchi) nello Stato di Categoria A del Bihar della Repubblica dell'India." },
+      IN_BOM: { cat: 'A', title: 'Bombay', note: "Stato di Categoria A della Repubblica dell'India (ex Presidenza di Bombay ampliata con Baroda e gli stati del Deccan)." },
+      IN_GUJ: { cat: 'B', title: 'Saurashtra (Cat. B), Kutch (Cat. C) & Gujarat Settentrionale (Bombay Cat. A)', note: "Nella Costituzione repubblicana del 26 gennaio 1950 la penisola comprende lo Stato di Categoria B di Saurashtra, lo Stato di Categoria C di Kutch e i distretti del Gujarat nello Stato di Categoria A di Bombay." },
+      IN_MP: { cat: 'A', title: 'Madhya Pradesh (ex Central Provinces & Berar) · Madhya Bharat (Cat. B) · Bhopal & Vindhya Pradesh (Cat. C)', note: "La fascia centrale della Repubblica dell'India comprende lo Stato di Categoria A del Madhya Pradesh (ex Central Provinces and Berar), lo Stato di Categoria B di Madhya Bharat e gli Stati di Categoria C di Bhopal e Vindhya Pradesh." },
+      IN_CHH: { cat: 'A', title: 'Madhya Pradesh Orientale (Chhattisgarh e Bastar)', note: "Ex principati orientali integrati nello Stato di Categoria A del Madhya Pradesh della Repubblica dell'India (26 gennaio 1950)." },
+      IN_MAD: { cat: 'A', title: 'Madras', note: "Stato di Categoria A della Repubblica dell'India (ex Presidenza di Madras sulla costa sud-orientale, escluso l'enclave francese di Pondichéry/Karikal)." },
+      IN_AND: { cat: 'A', title: 'Madras Settentrionale (Circar / Andhra)', note: "Distretti costieri settentrionali integrati nello Stato di Categoria A di Madras nella Repubblica dell'India (esclusa l'enclave francese di Yanam)." },
+      IN_ORI: { cat: 'A', title: 'Orissa', note: "Stato di Categoria A della Repubblica dell'India ampliato con l'unione degli stati principeschi orientali (Mayurbhanj e Feudatory States)." },
+      IN_PUN: { cat: 'A', title: 'Punjab (ex East Punjab) & PEPSU (Cat. B)', note: "Stato di Categoria A del Punjab (ex East Punjab) accanto all'unione principesca PEPSU (Patiala and East Punjab States Union, Stato di Categoria B) nella Repubblica dell'India." },
+      IN_HAR: { cat: 'A', title: 'Punjab Meridionale (Ambala / Haryana) & PEPSU (Cat. B)', note: "Divisioni meridionali dello Stato di Categoria A del Punjab e distretti confinanti di PEPSU (Categoria B) nella Repubblica dell'India." },
+      IN_CHA: { cat: 'B', title: 'PEPSU (Patiala and East Punjab States Union) & Ambala (Punjab Cat. A)', note: "Sede dell'unione principesca del PEPSU (Stato di Categoria B, Patiala) e del settore di Ambala dello Stato di Categoria A del Punjab nella Repubblica dell'India." },
+      IN_UP: { cat: 'A', title: 'Uttar Pradesh (ex United Provinces)', note: "Con la Costituzione del 26 gennaio 1950 le ex United Provinces assumono ufficialmente il nome di Uttar Pradesh come Stato di Categoria A della Repubblica dell'India (incluse Tehri Garhwal, Rampur e Benares)." },
+      IN_UTT: { cat: 'A', title: 'Uttar Pradesh Settentrionale (Garhwal & Kumaon)', note: "Settore himalayano di Kumaon e dell'ex principato di Tehri Garhwal integrato nello Stato di Categoria A dell'Uttar Pradesh." },
+      IN_BEN: { cat: 'A', title: 'West Bengal (Cooch Behar 1° Gen & Chandernagore 2 Mag 1950)', note: "Stato di Categoria A della Repubblica dell'India: il 1° gennaio 1950 vi viene fuso l'ex principato di Cooch Behar e il 2 maggio 1950 la Francia trasferisce de facto all'India l'enclave bengalese di Chandernagore (restano francesi Pondichéry, Karikal, Mahé e Yanam)." },
+      IN_MYS: { cat: 'B', title: 'Mysore & Coorg (Cat. C)', note: "Stato di Categoria B di Mysore (con il Maharaja Jayachamarajendra Wadiyar quale Rajpramukh) accanto al vicino Stato di Categoria C di Coorg nella Repubblica dell'India." },
+      IN_RAJ: { cat: 'B', title: 'Rajasthan (Cat. B) & Ajmer (Cat. C)', note: "Stato di Categoria B del Rajasthan (capitale Jaipur) con l'enclave centrale di Ajmer (Stato di Categoria C) nella Repubblica dell'India." },
+      IN_KER: { cat: 'B', title: 'Travancore–Cochin (Cat. B) · Malabar (Madras Cat. A)', note: "Stato di Categoria B di Travancore–Cochin nella Repubblica dell'India (costituito dal 1° luglio 1949; lungo la costa del Malabar resta francese la sola enclave di Mahé)." },
+      IN_LAK: { cat: 'A', title: 'Isole Laccadive e Minicoy (Madras Cat. A)', note: "Arcipelago amministrato nell'ambito dello Stato di Categoria A di Madras della Repubblica dell'India." },
+      IN_DEL: { cat: 'C', title: 'Delhi (Capitale della Repubblica dell\'India — 26 Gennaio 1950)', note: "Il 26 gennaio 1950 entra in vigore la Costituzione che proclama la sovrana Repubblica dell'India (fine della sovranità formale di Re Giorgio VI, pur restando nel Commonwealth): Rajendra Prasad giura come primo Presidente della Repubblica a Nuova Delhi accanto al Premier Jawaharlal Nehru (Stato di Categoria C)." },
+      IN_HP: { cat: 'C', title: 'Himachal Pradesh (Cat. C) & Bilaspur (Cat. C)', note: "Stato di Categoria C dell'Himachal Pradesh (con accanto lo Stato di Categoria C di Bilaspur) nella Repubblica dell'India." },
+      IN_MAN: { cat: 'C', title: 'Manipur', note: "Stato di Categoria C della Repubblica dell'India (entrato il 15 ottobre 1949 e retto da un Commissario Capo)." },
+      IN_TRI: { cat: 'C', title: 'Tripura', note: "Stato di Categoria C della Repubblica dell'India (entrato il 15 ottobre 1949 e retto da un Commissario Capo)." },
+      IN_ANI: { cat: 'D', title: 'Isole Andamane e Nicobare (Territorio di Categoria D)', note: "Unico Territorio di Categoria D (Part D Territory) previsto dalla Costituzione del 26 gennaio 1950, retto direttamente dal Presidente della Repubblica dell'India tramite un Commissario Capo a Port Blair." },
+      IN_SIK: { cat: 'C', title: 'Regno del Sikkim (Protettorato Speciale della Repubblica dell\'India)', note: "Monarchia himalayana dei Chogyal in regime di protettorato speciale con la Repubblica dell'India (Trattato Indo-Sikkimese)." },
+    };
+
+    const entry = partLabelMap[fid] || {
+      cat: 'A',
+      title: (meta && meta.nutsName) || (meta && meta.name) || rawName || fid,
+      note: "Stato integrante della sovrana Repubblica dell'India istituita dalla Costituzione del 26 gennaio 1950 (Presidente Rajendra Prasad, PM Jawaharlal Nehru).",
+    };
+    return makeResult(
+      'IND',
+      `Repubblica dell'India — Stato di Categoria ${entry.cat}: ${entry.title}`,
+      entry.note,
+      'Alleati',
+      `Republic of India · Bhārat Gaṇarājya (Cat. ${entry.cat} · Pres. Rajendra Prasad · PM J. Nehru)`
+    );
+  }
+
   // 7. Dominion of India (IND)
-  // Specific crisis: Junagadh in Gujarat (IN_GUJ)
+  // Specific crisis & Princely Unions (1947–1949): Greater Rajasthan (IN_RAJ), Baroda-Bombay (IN_BOM), Travancore-Cochin (IN_KER), Junagadh/Saurashtra (IN_GUJ), Himachal Pradesh (IN_HP), Madhya Bharat & Vindhya Pradesh (IN_MP)
+  if (isJune1949 && fid === 'IN_RAJ') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Stato Unito del Grande Rajasthan (30 Marzo 1949)',
+      "Il 30 marzo 1949 Sardar Vallabhbhai Patel inaugura a Jaipur il Grande Rajasthan (Greater Rajasthan), unificando i grandi stati principeschi di Jaipur, Jodhpur, Bikaner e Jaisalmer con il precedente Rajasthan e il Matsya Union.",
+      'Alleati',
+      'Dominion of India · United State of Greater Rajasthan (30 Mar 1949 · Jaipur)'
+    );
+  }
+  if (isJune1949 && fid === 'IN_BOM') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Stato di Bombay (Fusione di Baroda, 1° Maggio 1949)',
+      "Il 1° maggio 1949 lo storico principato di Baroda (Gaekwad) e gli stati del Deccan completano la fusione amministrativa nella Provincia di Bombay all'interno dell'Unione Indiana.",
+      'Alleati',
+      'Dominion of India · Bombay Province (Integrazione di Baroda, 1 May 1949)'
+    );
+  }
+  if (isJune1949 && fid === 'IN_KER') {
+    return makeResult(
+      'IND',
+      isDec1949
+        ? 'Dominion dell\'India — Stati Uniti di Travancore e Cochin (In Vigore dal 1° Luglio 1949)'
+        : 'Dominion dell\'India — Stati Uniti di Travancore e Cochin (Patto di Fusione, Vigilia 1° Luglio 1949)',
+      isDec1949
+        ? "Dal 1° luglio 1949 entra ufficialmente in vigore l'unione degli Stati Principeschi di Travancore e Cochin nello Stato di Travancore–Cochin (Rajpramukh Bala Rama Varma II) all'interno del Dominion dell'India (ancora retto dal Governatore Generale C. Rajagopalachari fino alla proclamazione della Repubblica il 26 gennaio 1950)."
+        : "Nel maggio 1949 i Maharaja di Travancore e Cochin sottoscrivono il Covenant d'integrazione che sancisce la nascita dello Stato Unito di Travancore–Cochin con effetto formale dal 1° luglio 1949 nel quadro del consolidamento federale di Vallabhbhai Patel.",
+      'Alleati',
+      isDec1949
+        ? 'Dominion of India · United State of Travancore–Cochin (1 Lug 1949)'
+        : 'Dominion of India · Covenant di Travancore–Cochin (Maggio 1949 · Effettivo 1 Lug 1949)'
+    );
+  }
+  if (isDec1949 && fid === 'IN_TRI') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Tripura (Integrazione nell\'Unione Indiana, 15 Ottobre 1949)',
+      "Il 15 ottobre 1949 entra in vigore il Tripura Merger Agreement (firmato dalla Reggente Maharani Kanchan Prabha Devi il 9 settembre 1949): lo Stato principesco del Tripura viene formalmente integrato nel Dominion dell'India come provincia amministrata da un Commissario Capo (Part C State nella Costituzione approvata il 26 novembre 1949, effettiva dal 26 gennaio 1950).",
+      'Alleati',
+      'Dominion of India · Chief Commissioner\'s Province of Tripura (15 Ott 1949)'
+    );
+  }
+  if (isDec1949 && fid === 'IN_MAN') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Manipur (Integrazione nell\'Unione Indiana, 15 Ottobre 1949)',
+      "Il 15 ottobre 1949, in attuazione del Manipur Merger Agreement sottoscritto il 21 settembre 1949 dal Maharaja Bodhchandra Singh a Shillong, lo Stato del Manipur passa sotto piena amministrazione del Dominion dell'India come provincia a Commissario Capo (mantenendo lo status di Dominion fino al 26 gennaio 1950).",
+      'Alleati',
+      'Dominion of India · Chief Commissioner\'s Province of Manipur (15 Ott 1949)'
+    );
+  }
+  if (isDec1949 && fid === 'IN_UP') {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Province Unite (Integrazione di Tehri Garhwal, Ago 1949 · Rampur & Benares)',
+      "Nell'agosto 1949 lo stato himalayano di Tehri Garhwal (seguito in ottobre da Benares e dal completamento di Rampur) viene fuso nelle Province Unite (United Provinces, futura Uttar Pradesh) all'interno del Dominion dell'India, mentre il 26 novembre 1949 l'Assemblea Costituente di Nuova Delhi adotta la nuova Costituzione repubblicana (che entrerà in vigore solo il 26 gennaio 1950).",
+      'Alleati',
+      'Dominion of India · United Provinces (Integrazione Tehri Garhwal, Ago 1949)'
+    );
+  }
   if (fid === 'IN_GUJ') {
     return makeResult(
       'IND',
-      'Dominion dell\'India — Gujarat e Agenzia degli Stati di Kathiawar (Crisi di Junagadh)',
-      "La vasta regione del Gujarat fa parte dell'Unione Indiana. Al 30 settembre 1947 si consuma la crisi dello stato principesco costiero di Junagadh: il Nawab Mahabat Khan III ha firmato l'adesione al Pakistan a met\u00e0 agosto (accettata da Karachi il 13 settembre); l'India reagisce con il blocco economico e militare circostante, mentre a fine settembre il movimento di liberazione popolare istituisce a Bombay il governo provvisorio dell'Aarzi Hukumat prima dell'annessione indiana a novembre.",
+      isJune1948
+        ? 'Dominion dell\'India — Gujarat e Saurashtra (Stato Unito di Kathiawar, 15 Feb 1948 & Plebiscito di Junagadh)'
+        : isDec1947
+        ? 'Dominion dell\'India — Gujarat e Kathiawar (Annessione di Junagadh, 9 Novembre 1947)'
+        : 'Dominion dell\'India — Gujarat e Agenzia degli Stati di Kathiawar (Crisi di Junagadh)',
+      isJune1948
+        ? "Il 15 febbraio 1948 Sardar Vallabhbhai Patel inaugura lo Stato Unito di Kathiawar (rinominato Saurashtra), fondendo oltre 200 principati della penisola sotto il Rajpramukh Jam Sahib Digvijaysinhji; il 20 febbraio 1948 il plebiscito popolare nell'ex principato di Junagadh sancisce con il 99,95% dei voti l'unione definitiva all'India."
+        : isDec1947
+        ? "Il 9 novembre 1947, a seguito del collasso dell'amministrazione del Nawab Mahabat Khan III (fuggito a Karachi) e su invito del Dewan Sir Shah Nawaz Bhutto, l'esercito indiano e Sardar Vallabhbhai Patel assumono il pieno controllo dello stato principesco di Junagadh (nonché dei feudi di Mangrol e Babariawad), integrandolo nell'Unione dell'India in vista del plebiscito di ratifica del febbraio 1948."
+        : "La vasta regione del Gujarat fa parte dell'Unione Indiana. Al 30 settembre 1947 si consuma la crisi dello stato principesco costiero di Junagadh: il Nawab Mahabat Khan III ha firmato l'adesione al Pakistan a met\u00e0 agosto (accettata da Karachi il 13 settembre); l'India reagisce con il blocco economico e militare circostante, mentre a fine settembre il movimento di liberazione popolare istituisce a Bombay il governo provvisorio dell'Aarzi Hukumat prima dell'annessione indiana a novembre.",
       'Alleati',
-      'Dominion of India · Kathiawar States Agency & Aarzi Hukumat Blockade'
+      isJune1948
+        ? 'Dominion of India · United State of Kathiawar / Saurashtra (15 Feb 1948) & Junagadh Plebiscite'
+        : isDec1947
+        ? 'Dominion of India · Kathiawar States & Junagadh Integration (9 Nov 1947)'
+        : 'Dominion of India · Kathiawar States Agency & Aarzi Hukumat Blockade'
+    );
+  }
+  if (fid === 'IN_HP' && isJune1948) {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Provincia di Himachal Pradesh (Costituita il 15 Aprile 1948)',
+      "Il 15 aprile 1948, mediante l'integrazione di 28 stati principeschi delle colline del Punjab (Simla Hill States tra cui Chamba, Mandi, Sirmur e Suket), viene istituita la Chief Commissioner's Province di Himachal Pradesh all'interno del Dominion dell'India.",
+      'Alleati',
+      'Dominion of India · Chief Commissioner\'s Province of Himachal Pradesh (15 Apr 1948)'
+    );
+  }
+  if (fid === 'IN_MP' && isJune1948) {
+    return makeResult(
+      'IND',
+      'Dominion dell\'India — Province Centrali, Vindhya Pradesh (Aprile 1948) e Madhya Bharat (28 Maggio 1948)',
+      "Nella primavera del 1948 l'opera di integrazione di Sardar Vallabhbhai Patel e V.P. Menon ridisegna l'India centrale: in aprile 35 principati del Bundelkhand e Baghelkhand formano l'unione del Vindhya Pradesh (cap. Rewa), e il 28 maggio 1948 Jawaharlal Nehru inaugura l'unione di Madhya Bharat (Gwalior, Indore e 23 stati di Malwa) accanto alle Province Centrali e Berar.",
+      'Alleati',
+      'Dominion of India · Central Provinces, Madhya Bharat (28 May 1948) & Vindhya Pradesh (Apr 1948)'
     );
   }
   if (fid === 'IN_PUN') {
@@ -2413,10 +2779,16 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any): ResolvedTer
   if (fid === 'IN_DEL') {
     return makeResult(
       'IND',
-      'Dominion dell\'India — Capitale Federale di Nuova Delhi',
-      "Capitale del neonato Dominion dell'India; il 15 agosto 1947, al tocco della mezzanotte, Jawaharlal Nehru pronuncia lo storico discorso \"Tryst with Destiny\" (\"Un appuntamento con il destino\") salutando la libert\u00e0 dell'India. Lord Mountbatten assume la carica di Governatore Generale e Nehru quella di Primo Ministro.",
+      isDec1949
+        ? 'Dominion dell\'India — Nuova Delhi (Costituzione Approvata il 26 Nov 1949 · Vigilia della Repubblica 1950)'
+        : 'Dominion dell\'India — Capitale Federale di Nuova Delhi',
+      isDec1949
+        ? "Al 31 dicembre 1949 Nuova Delhi è ancora la capitale del Dominion dell'India (Governatore Generale C. Rajagopalachari, Primo Ministro Jawaharlal Nehru): il 26 novembre 1949 l'Assemblea Costituente adotta ufficialmente la Costituzione dell'India, ma il passaggio formale a Repubblica sovrana avverrà solo il 26 gennaio 1950."
+        : "Capitale del neonato Dominion dell'India; il 15 agosto 1947, al tocco della mezzanotte, Jawaharlal Nehru pronuncia lo storico discorso \"Tryst with Destiny\" (\"Un appuntamento con il destino\") salutando la libert\u00e0 dell'India. Lord Mountbatten assume la carica di Governatore Generale e Nehru quella di Primo Ministro.",
       'Alleati',
-      'Dominion of India · Federal Capital & Union Government (PM Jawaharlal Nehru)'
+      isDec1949
+        ? 'Dominion of India · Gov.-Gen. C. Rajagopalachari · PM J. Nehru (Pre-Repubblica 26 Gen 1950)'
+        : 'Dominion of India · Federal Capital & Union Government (PM Jawaharlal Nehru)'
     );
   }
 
@@ -2462,9 +2834,9 @@ export function resolveBritishRajProvince(ft: any, s: number): ResolvedTerritory
     }
   }
 
-  // STEP 19+ (Settembre 1947): La Partizione dell'Impero Anglo-Indiano, Nascita di India e Pakistan, e Stati Principeschi Contesi
+  // STEP 19+ (Settembre 1947 - Dicembre 1947): La Partizione dell'Impero Anglo-Indiano, Nascita di India e Pakistan, e Stati Principeschi Contesi
   if (s >= 19) {
-    return resolveBritishRajPartition(fid, meta, p);
+    return resolveBritishRajPartition(fid, meta, p, s);
   }
 
   if (meta) {
@@ -2481,6 +2853,15 @@ export function resolveBritishRajProvince(ft: any, s: number): ResolvedTerritory
   const cntr = String(p.CNTR_CODE || p.CNTR_ID || '').toUpperCase();
   const rawName = String(p.NAME || p.name || '');
   if (cntr === 'MM' || rawName.toLowerCase().includes('burma') || rawName.toLowerCase().includes('birmania')) {
+    if (s >= 21) {
+      return makeResult(
+        'BUR',
+        'Unione della Birmania (Repubblica Sovrana Indipendente — 4 Gennaio 1948)',
+        "Il 4 gennaio 1948 nasce l'Unione della Birmania (Pyidaungzu Myanma Naingngandaw), repubblica sovrana indipendente fuori dal Commonwealth sotto il Presidente Sao Shwe Thaik e il Primo Ministro U Nu.",
+        'Neutrale',
+        'Union of Burma (Pres. Sao Shwe Thaik · PM U Nu)'
+      );
+    }
     if (s >= 17) {
       return makeResult(
         'UK',

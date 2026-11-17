@@ -1,7 +1,7 @@
 import fs from 'fs';
 import esbuild from 'esbuild';
 import { loadUnifiedGeoDatabase } from '../src/data/unifiedGeoDatabase';
-import { processHistoricalCartographyPipeline } from '../src/data/historicalEngine';
+import { processHistoricalCartographyPipeline, resolveHistoricalTruth } from '../src/data/historicalEngine';
 import { resolveFeature, resolveHB, HB_NAME } from '../src/data/georesolver';
 import { getExtendedToponym } from '../src/data/historicalToponyms';
 import { getCountryFlagSvg, resolveHistoricalFlag, validateFlagAgainstAnachronism } from '../src/data/historicalFlags';
@@ -13,6 +13,7 @@ import { UK_PROVINCES_META, resolveUKProvince } from '../src/data/ukProvinces';
 import { IT_PROVINCES_META, resolveItalyProvince } from '../src/data/italyProvinces';
 import { SPAIN_PROVINCES_META, resolveSpainProvince } from '../src/data/spainProvinces';
 import { SOVIET_PROVINCES_META, resolveSovietProvince } from '../src/data/sovietProvinces';
+import { FRENCH_INDOCHINA_PROVINCES_META } from '../src/data/frenchIndochinaProvinces';
 import {
   HISTORICAL_FORTIFICATION_LINES,
   HISTORICAL_NAVAL_BASES,
@@ -23,7 +24,12 @@ import {
   HISTORICAL_SEA_LANES,
   getDynamicSeaLaneStatus,
 } from '../src/data/historicalSeaLanes';
-import { getStrategicIslandLabel } from '../src/components/TacticalMap';
+import {
+  getStrategicIslandLabel,
+  HISTORICAL_CITIES,
+  getCityOwner,
+  getCityIsCapital,
+} from '../src/components/TacticalMap';
 
 async function verifyAll() {
   const { provFeatures: provs, hbFeatures: hbs } = await loadUnifiedGeoDatabase();
@@ -39,20 +45,22 @@ async function verifyAll() {
 
   // Evaluate the tests in scope
   const evalFn = new Function(
-    'loadedProvs', 'loadedHbs', 'resolveFeature', 'resolveHB', 'HB_NAME',
+    'loadedProvs', 'loadedHbs', 'resolveFeature', 'resolveHistoricalTruth', 'resolveHB', 'HB_NAME',
     'getExtendedToponym', 'getCountryFlagSvg', 'resolveHistoricalFlag', 'validateFlagAgainstAnachronism', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
-    'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince', 'SPAIN_PROVINCES_META', 'resolveSpainProvince', 'SOVIET_PROVINCES_META', 'resolveSovietProvince',
+    'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince', 'SPAIN_PROVINCES_META', 'resolveSpainProvince', 'SOVIET_PROVINCES_META', 'resolveSovietProvince', 'FRENCH_INDOCHINA_PROVINCES_META',
     'HISTORICAL_FORTIFICATION_LINES', 'HISTORICAL_NAVAL_BASES', 'getDynamicNavalBaseStatus',
     'HISTORICAL_SEA_LANES', 'getDynamicSeaLaneStatus', 'getStrategicIslandLabel', 'HISTORICAL_BATTLES',
+    'HISTORICAL_CITIES', 'getCityOwner', 'getCityIsCapital',
     `${jsCode}; return tests;`
   );
 
   const tests = evalFn(
-    loadedProvs, loadedHbs, resolveFeature, resolveHB, HB_NAME,
+    loadedProvs, loadedHbs, resolveFeature, resolveHistoricalTruth, resolveHB, HB_NAME,
     getExtendedToponym, getCountryFlagSvg, resolveHistoricalFlag, validateFlagAgainstAnachronism, getOwnerMeta, getOverlord, isSubjectOf,
-    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince, SOVIET_PROVINCES_META, resolveSovietProvince,
+    BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince, SOVIET_PROVINCES_META, resolveSovietProvince, FRENCH_INDOCHINA_PROVINCES_META,
     HISTORICAL_FORTIFICATION_LINES, HISTORICAL_NAVAL_BASES, getDynamicNavalBaseStatus,
-    HISTORICAL_SEA_LANES, getDynamicSeaLaneStatus, getStrategicIslandLabel, HISTORICAL_BATTLES
+    HISTORICAL_SEA_LANES, getDynamicSeaLaneStatus, getStrategicIslandLabel, HISTORICAL_BATTLES,
+    HISTORICAL_CITIES, getCityOwner, getCityIsCapital
   );
 
   console.log(`Esecuzione di ${tests.length} test da App.tsx...`);

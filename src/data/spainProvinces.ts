@@ -52,6 +52,403 @@ function makeResult(
   };
 }
 
+export type SpanishAfricanZone =
+  | 'ES_RIF'
+  | 'ES630'
+  | 'ES640'
+  | 'ES_IFNI'
+  | 'ES_SAHARA_NORTE'
+  | 'ES_RIO_DE_ORO';
+
+/**
+ * Risolutore cronologico unificato (Steps 0..25: Gen 1936 -> Giu 1950)
+ * per le province del Protettorato Spagnolo del Marocco (Zona Norte e Zona Sur/Cabo Juby),
+ * le Plazas de Soberanía (Ceuta e Melilla), il Territorio de Ifni e il Sahara Spagnolo.
+ */
+export function resolveSpanishAfricanTerritory(
+  zone: SpanishAfricanZone,
+  step: number = 0
+): ResolvedTerritory {
+  const s = Math.max(0, Math.round(step));
+  const owner: 'SPR' | 'SPA' = s === 0 ? 'SPR' : 'SPA';
+  const faction: FactionType = s === 0 ? 'Comintern' : s >= 18 ? 'Neutrale' : 'Asse';
+
+  if (zone === 'ES_RIF') {
+    const histName =
+      s === 0
+        ? 'Protectorado Español de Marruecos (Zona Norte: Yebala, Lucus, Rif, Gomara y Kert — Tetuán)'
+        : s >= 6 && s <= 17
+        ? 'Protectorado Español de Marruecos (Tetuán — Non Belligeranza e Annessione di Tangeri)'
+        : s >= 18
+        ? 'Protectorado Español de Marruecos (Alta Comisaría de Tetuán & Jalifato)'
+        : 'Protectorado Español de Marruecos (Zona del Rif / Tetuán)';
+
+    let adminTitle = '';
+    if (s === 0) adminTitle = 'Segunda República Española — Alta Comisaría (Juan Moles / A. Álvarez-Buylla, Tetuán)';
+    else if (s === 1) adminTitle = 'Bando Nacional — Alta Comisaría de España en Marruecos (Col. Juan Luis Beigbeder)';
+    else if (s === 2) adminTitle = 'Bando Nacional — Alta Comisaría (Gen. Beigbeder) & Ejército de África';
+    else if (s <= 5) adminTitle = 'Estado Español — Alta Comisaría (Gen. Carlos Asensio Cabanillas, Tetuán)';
+    else if (s <= 7) adminTitle = 'Estado Español — Alta Comisaría (Gen. Asensio) & Jalifa Muley Hassan';
+    else if (s <= 15) adminTitle = 'Estado Español — Alta Comisaría & Ejército de Marruecos (Tte. Gen. Luis Orgaz Yoldi)';
+    else if (s <= 18) adminTitle = 'Estado Español — Alta Comisaría en Marruecos (Tte. Gen. José Enrique Varela)';
+    else adminTitle = 'Estado Español — Alta Comisaría (Tte. Gen. José Enrique Varela) & Jalifa Muley Hassan ben el-Mehdi';
+
+    let note = '';
+    if (s === 0) {
+      note =
+        "Gennaio 1936: Protettorato settentrionale del Marocco (Trattato di Madrid 1912) articolato nei cinque territori di Yebala (Tetuán), Lucus (Larache/Alcazarquivir), Gomara (Xauen), Rif (Villa Sanjurjo/Alhucemas) e Kert (Nador), sotto il governo nominale del Jalifa Muley Hassan ben el-Mehdi e l'Alta Comisaría repubblicana di Tetuán; vi stazionano la Legione e i Regulares dell'Ejército de África (futura culla dell'Alzamiento militare del luglio 1936).";
+    } else if (s === 1) {
+      note =
+        "17-18 luglio 1936 – marzo 1938: Culla dell'Alzamiento militare guidato dal generale Francisco Franco (sbarcato a Tetuán il 19 luglio dalle Canarie). Con il ponte aereo italo-tedesco sullo Stretto (Ju 52 e SM.81) e il Convoy de la Victoria, oltre 40.000 legionari, Regulares e Mehal-la Jalifianas passano in Andalusia sotto la guida dell'Alto Commissario Col. Juan Luis Beigbeder.";
+    } else if (s === 2) {
+      note =
+        "Ottobre 1938: massima mobilitazione militare nelle cinque circoscrizioni (Yebala, Lucus, Xauen, Rif, Kert); oltre 65.000 combattenti marocchini inquadrati nei Tabores de Regulares vengono impiegati nella Battaglia dell'Ebro e nella rottura del fronte catalano.";
+    } else if (s === 3 || s === 4) {
+      note =
+        "Primavera 1939: vittoria nazionalista nella Guerra Civile; sfilate celebrative a Tetuán, Larache e Xauen. Franco premia la fedeltà dei notabili rifeñi con l'autonomia culturale del Partido Reformista Nacional di Abdelkhalek Torres, mentre nell'agosto 1939 il Gen. Carlos Asensio Cabanillas assume l'Alta Comisaría.";
+    } else if (s === 5) {
+      note =
+        "Settembre 1939 – Maggio 1940: allo scoppio del conflitto europeo la Spagna dichiara la stretta neutralità; oltre 150.000 soldati dell'Ejército de Marruecos presidiano i valichi sull'Ouergha lungo il confine col Marocco francese.";
+    } else if (s === 6) {
+      note =
+        "14 giugno 1940: alla caduta della Francia e col passaggio alla 'non belligeranza', le colonne coloniali spagnole (Regulares e Mehal-la) provenienti da Tetuán occupano militarmente la Zona Internazionale di Tangeri, ponendola sotto l'autorità diretta dell'Alto Commissario Gen. Asensio.";
+    } else if (s === 7) {
+      note =
+        "Ottobre 1940: al vertice di Hendaye (23 ottobre), Franco chiede a Hitler l'annessione dell'intero Marocco francese e dell'Oranese algerino in cambio dell'ingresso in guerra. Nel novembre 1940 Madrid abolisce il Comité de Contrôle di Tangeri incorporandola di fatto nel Protettorato del Rif.";
+    } else if (s >= 8 && s <= 10) {
+      note =
+        "1941 – Agosto 1942: il Tte. Gen. Luis Orgaz Yoldi assume l'Alta Comisaría (maggio 1941) al comando di 135.000 uomini; le città di Tetuán, Larache, Nador e l'annessa Tangeri divengono un crocevia di spionaggio Abwehr, contrabbando atlantico e tensioni con il Marocco di Vichy.";
+    } else if (s === 11) {
+      note =
+        "Novembre 1942: gli sbarchi anglo-americani dell'Operazione Torch a Casablanca, Port-Lyautey e Orano pongono in allerta massima l'Ejército de Marruecos del Gen. Orgaz ai confini meridionali del Lucus e del Kert; Roosevelt e Churchill garantiscono l'integrità dei presidi spagnoli in cambio della non ingerenza (scongiurando il piano alleato Backbone).";
+    } else if (s === 12 || s === 13) {
+      note =
+        "Luglio – Settembre 1943: dopo la resa dell'Asse in Tunisia e l'armistizio italiano, Madrid avvia una cauta distensione con il CFLN di Algeri pur mantenendo forti presidi di sorveglianza nel Rif e a Xauen.";
+    } else if (s === 14 || s === 15) {
+      note =
+        "Giugno – Agosto 1944: in seguito al ritorno alla stretta neutralità e all'Accordo anglo-americano del maggio 1944 (Wolframio / Tangeri), le autorità di Tetuán chiudono gli uffici consolari tedeschi e ordinano l'espulsione degli agenti dell'Abwehr operanti tra il Rif e Tangeri.";
+    } else if (s === 16 || s === 17) {
+      note =
+        "Dicembre 1944 – Aprile 1945: alla vigilia della fine del conflitto in Europa, il Tte. Gen. José Enrique Varela assume il 4 marzo 1945 l'Alta Comisaría a Tetuán, fronteggiando la crescente pressione alleata per lo sgombero di Tangeri e il risveglio del nazionalismo marocchino.";
+    } else if (s === 18) {
+      note =
+        "Settembre – Ottobre 1945: in esecuzione dell'Accordo di Parigi (31 agosto), l'11 ottobre 1945 le guarnigioni spagnole evacuano la Zona Internazionale di Tangeri ripiegando sui confini storici di Yebala e del Rif sotto il controllo dell'Alto Commissario Varela.";
+    } else if (s === 19 || s === 20) {
+      note =
+        "Settembre – Dicembre 1947: il Protettorato Settentrionale (Yebala, Lucus, Xauen, Rif e Kert) sotto il Tte. Gen. Varela e il Jalifa Muley Hassan attraversa l'isolamento diplomatico ONU; il celebre Discorso di Tangeri di Mohammed V (10 aprile 1947) elettrizza i circoli nazionalisti di Tetuán.";
+    } else if (s === 21 || s === 22) {
+      note =
+        "Febbraio – Dicembre 1948: grave crisi politica nel Protettorato. L'8 febbraio 1948 il divieto imposto da Varela al rientro del leader Abdelkhalek Torres (reduce dall'incontro al Cairo con Abd el-Krim) scatena sanguinose manifestazioni indipendentiste a Tetuán, duramente represse con l'interdizione del Partido Reformista Nacional.";
+    } else if (s === 23 || s === 24) {
+      note =
+        "Giugno – Dicembre 1949: il Gen. Varela mantiene un rigido controllo militare e amministrativo sui cinque territori del Rif (Yebala, Lucus, Gomara, Rif, Kert), bilanciando infrastrutture civili e sorveglianza poliziesca sui militanti nazionalisti urbani di Tetuán, Alcazarquivir e Larache.";
+    } else {
+      note =
+        "Giugno 1950: alla vigilia del decennio finale del Protettorato, Tetuán resta il cuore dell'amministrazione coloniale e jalifiana di Varela nel Nord del Marocco, segnata dalla latente frattura tra il regime militare spagnolo e il movimento nazionale marocchino.";
+    }
+    return makeResult(owner, histName, note, faction, adminTitle);
+  }
+
+  if (zone === 'ES630') {
+    const histName =
+      s === 0
+        ? 'Ceuta (Plaza de Soberanía — Segunda República)'
+        : s >= 18
+        ? 'Ceuta (Plaza de Soberanía — Estado Español)'
+        : 'Plaza de Soberanía de Ceuta';
+    const adminTitle =
+      s === 0
+        ? 'Segunda República Española — Comandancia Militar y Plaza de Soberanía de Ceuta'
+        : s < 3
+        ? 'Bando Nacional — Base del Ejército de África (Plaza de Soberanía de Ceuta)'
+        : s <= 17
+        ? 'Estado Español — Comandancia General de Ceuta (Estrecho)'
+        : 'Estado Español — Plaza de Soberanía de Ceuta';
+
+    let note = '';
+    if (s === 0) {
+      note =
+        "Gennaio 1936: storica piazzaforte sovrana spagnola sulla riva africana dello Stretto di Gibilterra, guarnita dal II Tercio de la Legión Española e dai Tabores de Regulares de Ceuta n. 3.";
+    } else if (s === 1) {
+      note =
+        "17-18 luglio 1936 – marzo 1938: insorta per prima con Melilla nell'Alzamiento militare sotto il Ten. Col. Juan Yagüe; il 5 agosto 1936 il Convoy de la Victoria forza il blocco navale repubblicano dello Stretto traghettando le truppe d'Africa da Ceuta ad Algeciras.";
+    } else if (s === 2) {
+      note =
+        "Ottobre 1938: piazzaforte navale protetta dalle batterie costiere di Monte Hacho; nodo di smistamento marittimo di legionari e reparti marocchini per la campagna dell'Ebro.";
+    } else if (s === 3 || s === 4) {
+      note =
+        "Primavera 1939: parate della vittoria franchista sul Paseo del Revellín e consolidamento della guarnigione sovrana spagnola di fronte alla rocca britannica di Gibilterra.";
+    } else if (s === 5) {
+      note =
+        "Settembre 1939 – Maggio 1940: nella neutralità dichiarata da Madrid, le vedette e le batterie di Ceuta sorvegliano il traffico dei convogli alleati diretti a Gibilterra.";
+    } else if (s === 6) {
+      note =
+        "Giugno 1940: con la non belligeranza di Madrid, da Ceuta e dal vicino presidio di Tetuán muovono le unità spagnole che il 14 giugno 1940 occupano la Zona Internazionale di Tangeri.";
+    } else if (s === 7) {
+      note =
+        "Ottobre 1940: le fortificazioni di Monte Hacho vengono ispezionate per i piani combinati di chiusura dello Stretto contro Gibilterra (Operación Felix).";
+    } else if (s >= 8 && s <= 10) {
+      note =
+        "1941 – Agosto 1942: mobilitazione permanente e stazioni d'osservazione lungo lo Stretto di Gibilterra; il porto militare funge da base d'appoggio logistico per la sorveglianza marittima e da snodo dell'intelligence tra le due sponde.";
+    } else if (s === 11) {
+      note =
+        "Novembre 1942: lo sbarco alleato Torch attraversa lo Stretto davanti alle batterie di Monte Hacho; Ceuta entra in stato di massima allerta pur astenendosi da qualsiasi azione ostile contro i convogli anglo-americani.";
+    } else if (s >= 12 && s <= 15) {
+      note =
+        "Luglio 1943 – Agosto 1944: con il pieno dominio aeronavale alleato nel Mediterraneo occidentale, Ceuta allenta l'assetto bellico e dal maggio 1944 contribuisce al controllo costiero contro la rete Abwehr sullo Stretto.";
+    } else if (s >= 16 && s <= 17) {
+      note =
+        "Dicembre 1944 – Aprile 1945: riduzione graduale delle batterie costiere in stato di guerra; il porto di Ceuta rimane lo scalo sovrano di collegamento militare ed economico con Tetuán e Algeciras.";
+    } else if (s === 18) {
+      note =
+        "Settembre 1945: con la fine della WWII e l'imminente evacuazione spagnola di Tangeri, Ceuta riprende il ruolo ordinario di Plaza de Soberanía sovrana spagnola e piazzaforte principale dello Stretto.";
+    } else if (s >= 19 && s <= 22) {
+      note =
+        "1947–1948: durante l'isolamento diplomatico del regime di Franco e le tensioni politiche di Tetuán (febbraio 1948), Ceuta rimane saldamente integrata nello Stato spagnolo come porto franco militare sullo Stretto.";
+    } else {
+      note =
+        "1949 – Giugno 1950: consolidamento della Comandancia General de Ceuta e rilancio del porto commerciale e militare sullo Stretto di Gibilterra in netta distinzione giuridica dal circostante Protettorato marocchino.";
+    }
+    return makeResult(owner, histName, note, faction, adminTitle);
+  }
+
+  if (zone === 'ES640') {
+    const histName =
+      s === 0
+        ? 'Melilla (Plaza de Soberanía — Segunda República)'
+        : s >= 18
+        ? 'Melilla (Plaza de Soberanía — Estado Español)'
+        : 'Plaza de Soberanía de Melilla';
+    const adminTitle =
+      s === 0
+        ? 'Segunda República Española — Comandancia Militar y Plaza de Soberanía de Melilla'
+        : s < 3
+        ? 'Bando Nacional — Cuna del Alzamiento (Plaza de Soberanía de Melilla)'
+        : s <= 17
+        ? 'Estado Español — Comandancia General de Melilla (Rif Oriental)'
+        : 'Estado Español — Plaza de Soberanía de Melilla';
+
+    let note = '';
+    if (s === 0) {
+      note =
+        "Gennaio 1936: storica piazzaforte sovrana spagnola nel Rif orientale (dal 1497), sede del I Tercio de la Legión e terminale ferroviario delle ricche miniere di ferro di Uixán (Compañía Española de Minas del Rif).";
+    } else if (s === 1) {
+      note =
+        "17 luglio 1936 – marzo 1938: a Melilla, alle ore 17:00 del 17 luglio 1936, i colonnelli Juan Seguí e Luis Solans avviano per primi l'Alzamiento militare prima del segnale previsto, dando inizio alla Guerra Civile Spagnola.";
+    } else if (s === 2) {
+      note =
+        "Ottobre 1938: porto d'imbarco strategico per i contingenti Regulares del Kert/Rif e per l'esportazione del ferro del Gurugú destinato all'industria bellica nazionalista e all'Asse.";
+    } else if (s === 3 || s === 4) {
+      note =
+        "Primavera 1939: vittoria nazionalista; Melilla viene insignita come città simbolo della sollevazione del 17 luglio 1936, con espansione delle installazioni portuali militari sul Mar d'Alborán.";
+    } else if (s === 5) {
+      note =
+        "Settembre 1939 – Maggio 1940: nella neutralità, il porto di Melilla mantiene i carichi di minerale di ferro del Rif orientale e vigila la frontiera orientale con l'Algeria francese (Nemours/Orano).";
+    } else if (s === 6 || s === 7) {
+      note =
+        "Giugno – Ottobre 1940: fase di non belligeranza; il porto e la base idrovolanti del Mar Chica di Melilla sostengono il dispositivo militare spagnolo nel Rif orientale di fronte al Marocco e all'Algeria di Vichy.";
+    } else if (s >= 8 && s <= 10) {
+      note =
+        "1941 – Agosto 1942: piazzaforte armata di frontiera tra il Rif orientale e l'Oranese di Vichy; esportazioni strategiche di ferro delle Minas del Rif e severo razionamento bellico.";
+    } else if (s === 11) {
+      note =
+        "Novembre 1942: con lo sbarco anglo-americano a Orano (Operazione Torch, distante appena 200 km ad est), Melilla e il basso Moulouya vengono posti in allerta difensiva contro eventuali sconfinamenti alleati.";
+    } else if (s >= 12 && s <= 15) {
+      note =
+        "Luglio 1943 – Agosto 1944: con l'Oranese saldamente alleato e gli accordi economici del 1944 con Londra e Washington, Melilla riduce l'allerta lungo la linea del Moulouya e normalizza i traffici portuali di ferro del Rif.";
+    } else if (s >= 16 && s <= 17) {
+      note =
+        "Dicembre 1944 – Aprile 1945: fase conclusiva del conflitto europeo; progressivo ritorno delle unità della Legione ai compiti ordinari di presidio sul litorale orientale del Rif.";
+    } else if (s === 18) {
+      note =
+        "Settembre 1945: smobilitazione postbellica della guarnigione di Melilla; il porto resta la principale testa di ponte economica e mineraria spagnola sul Mar d'Alborán.";
+    } else if (s >= 19 && s <= 22) {
+      note =
+        "1947–1948: Plaza de Soberanía sovrana spagnola al riparo dall'isolamento internazionale di Madrid; in seguito ai moti di Tetuán del febbraio 1948, la piazzaforte rafforza il dispositivo di sicurezza nell'entroterra del Rif orientale.";
+    } else {
+      note =
+        "1949 – Giugno 1950: consolidamento urbano, portuale e minerario di Melilla (Minas del Rif) sotto la Comandancia General, amministrativamente parte della Spagna metropolitana e distinta dal vicino Protettorato.";
+    }
+    return makeResult(owner, histName, note, faction, adminTitle);
+  }
+
+  if (zone === 'ES_IFNI') {
+    const histName =
+      s >= 19
+        ? 'África Occidental Española — Territorio de Ifni (Sidi Ifni)'
+        : 'Territorio de Ifni (Sidi Ifni)';
+    let adminTitle = '';
+    if (s === 0) adminTitle = 'Segunda República Española — Gobierno Político-Militar de Ifni (Sidi Ifni)';
+    else if (s < 3) adminTitle = 'Bando Nacional — Gobierno Político-Militar de Ifni (Tiradores de Ifni)';
+    else if (s <= 5) adminTitle = 'Estado Español — Gobierno Político-Militar de Ifni (Col. Antonio Oro Pulido)';
+    else if (s <= 18) adminTitle = 'Estado Español — Gobierno Político-Militar de Ifni (Col. José Bermejo López)';
+    else if (s <= 23) adminTitle = 'Estado Español — Gobierno del África Occidental Española (Sidi Ifni — Gen. José Bermejo López)';
+    else adminTitle = 'Estado Español — Gobierno del África Occidental Española (Sidi Ifni — Col. Francisco Rosaleny Burguet)';
+
+    let note = '';
+    if (s === 0) {
+      note =
+        "Gennaio 1936: enclave sovrana spagnola sulla costa atlantica sud-marocchina (Convenzione franco-spagnola del 1912), occupata pacificamente nell'aprile 1934 dal Col. Osvaldo Capaz; presidio militare di frontiera e porto costiero a Sidi Ifni.";
+    } else if (s === 1) {
+      note =
+        "Marzo 1938: dopo l'adesione dell'enclave al golpe del luglio 1936 guidata dal Cap. Rafael Molero Pimentel (II Tabor dei Tiradores de Ifni), vari tabor indigeni combattono in prima linea sul fronte peninsulare (Jarama, Aragona, Teruel) per il Bando Nacional.";
+    } else if (s === 2) {
+      note =
+        "Ottobre 1938: Sidi Ifni continua a inviare rimpiazzi dei Tiradores de Ifni per le offensive franchiste sull'Ebro, fungendo da base di sorveglianza aerea e navale verso le Canarie.";
+    } else if (s === 3 || s === 4) {
+      note =
+        "Primavera 1939: vittoria nazionalista nella Guerra Civile e consolidamento amministrativo di Ifni sotto un Governatore Político-Militar subordinato all'Alta Comisaría di Tetuán.";
+    } else if (s === 5) {
+      note =
+        "Settembre 1939 – Maggio 1940: nella neutralità dichiarata da Madrid allo scoppio della WWII, Ifni mantiene rigorosa vigilanza lungo i confini terrestri sull'Oued Bou Sedra e Oued Noun con il Marocco francese.";
+    } else if (s === 6) {
+      note =
+        "Giugno 1940: nel maggio 1940 il Col. José Bermejo López assume il comando politico-militare di Ifni e del Sahara; alla caduta della Francia e col passaggio alla 'non belligeranza', la pista aerea e le difese di Sidi Ifni vengono messe in allerta.";
+    } else if (s === 7) {
+      note =
+        "Ottobre 1940: nel clima dell'incontro di Hendaye e della pressione spagnola in Nord Africa, la guarnigione di Sidi Ifni sorveglia il traffico navale atlantico e i rapporti con le tribù Aït Baâmrane.";
+    } else if (s >= 8 && s <= 10) {
+      note =
+        "1941–1942: presidio militare spagnolo isolato tra l'Atlantico e il Marocco di Vichy, rafforzato come punto d'appoggio aereo verso Villa Cisneros e le Isole Canarie.";
+    } else if (s === 11) {
+      note =
+        "Novembre 1942: lo sbarco anglo-americano in Nord Africa (Operazione Torch) a Casablanca e Safi pone in massima allerta difensiva i presidi spagnoli di Sidi Ifni lungo l'Oued Bou Sedra e l'Oued Noun.";
+    } else if (s >= 12 && s <= 14) {
+      note =
+        "1943–Giugno 1944: col consolidamento alleato nel Maghreb e il ritorno di Madrid alla neutralità formale (ottobre 1943), Sidi Ifni resta una piazzaforte coloniale spagnola di confine col Marocco controllato dal CFLN.";
+    } else if (s >= 15 && s <= 17) {
+      note =
+        "Agosto 1944–Aprile 1945: nella fase finale del conflitto europeo la guarnigione di Ifni sotto il Col. José Bermejo López consolida le infrastrutture civili e militari di Sidi Ifni e il collegamento aereo con le Canarie.";
+    } else if (s === 18) {
+      note =
+        "Settembre 1945: alla conclusione della Seconda Guerra Mondiale l'enclave di Sidi Ifni resta sotto il governo politico-militare del Col. José Bermejo López (che vi fonda il settimanale A.O.E.), mantenendo il presidio spagnolo tra Oued Bou Sedra e Oued Noun.";
+    } else if (s >= 19 && s <= 23) {
+      note =
+        "1947–Giugno 1949: con decreto del 20 luglio 1946 Sidi Ifni diviene la capitale del nuovo Gobierno del África Occidental Española (AOE), unificando amministrativamente Ifni, Saguia el-Hamra, Río de Oro e la Zona Sur di Cabo Juby sotto il Gen. José Bermejo López.";
+    } else if (s === 24) {
+      note =
+        "Dicembre 1949: l'África Occidental Española (istituita con decreto del 20 luglio 1946 unificando Ifni e Sahara Spagnolo) è retta dal 17 agosto 1949 dal nuovo Governatore Col. Francisco Rosaleny Burguet con capitale Sidi Ifni e caposaldi a Villa Cisneros e Cabo Juby.";
+    } else {
+      note =
+        "Giugno 1950: sotto il Governatore Col. Francisco Rosaleny Burguet, Sidi Ifni guida l'África Occidental Española potenziando il molo costiero e i servizi civili tra le tribù Aït Baâmrane alla vigilia degli investimenti spagnoli degli anni '50.";
+    }
+    return makeResult(owner, histName, note, faction, adminTitle);
+  }
+
+  if (zone === 'ES_SAHARA_NORTE') {
+    const histName =
+      s >= 19
+        ? 'África Occidental Española — Sahara Español (Cabo Juby / Saguia el-Hamra — El Aaiún)'
+        : 'Sahara Español y Protectorado Sur (Cabo Juby / Villa Bens & Saguia el-Hamra)';
+    let adminTitle = '';
+    if (s === 0) adminTitle = 'Segunda República Española — Delegación del Protectorado Sur en Cabo Juby (Villa Bens)';
+    else if (s < 3) adminTitle = 'Bando Nacional — Gobierno Político-Militar de Cabo Juby y Saguia el-Hamra';
+    else if (s <= 5) adminTitle = 'Estado Español — Alta Comisaría (Delegación Zona Sur, Cabo Juby)';
+    else if (s <= 18) adminTitle = 'Estado Español — Gobierno Político-Militar de Ifni y Sáhara (Col. José Bermejo López)';
+    else if (s <= 23) adminTitle = 'Estado Español — Gobierno del África Occidental Española (Gen. José Bermejo López — Villa Bens / El Aaiún)';
+    else adminTitle = 'Estado Español — Gobierno del África Occidental Española (Col. Francisco Rosaleny Burguet — El Aaiún / Cabo Juby)';
+
+    let note = '';
+    if (s === 0) {
+      note =
+        "Gennaio 1936: comprende la Zona Sur del Protettorato spagnolo in Marocco tra l'Oued Draa e il 27°40' N (Cabo Juby / Villa Bens, odierna Tarfaya) e la fascia settentrionale del Sahara spagnolo (Saguia el-Hamra, oasi di Smara), scalo cruciale della linea aerea Aéropostale.";
+    } else if (s === 1) {
+      note =
+        "Luglio 1936 – Marzo 1938: rapida adesione all'Alzamiento nazionalista di Franco; nel 1938 il capitano Antonio de Oro individua l'oasi strategica di El Aaiún nella Saguia el-Hamra ponendo le basi del futuro capoluogo sahariano.";
+    } else if (s === 2) {
+      note =
+        "Ottobre 1938: consolidamento dei primi avamposti spagnoli a El Aaiún e pista militare di Cabo Juby lungo il corridoio aereo verso le Isole Canarie.";
+    } else if (s === 3 || s === 4) {
+      note =
+        "Primavera 1939: vittoria franchista; la Zona Sur di Cabo Juby resta giuridicamente legata all'Alta Comisaría di Tetuán pur essendo contigua al distretto amministrativo di Saguia el-Hamra.";
+    } else if (s === 5) {
+      note =
+        "Settembre 1939 – Maggio 1940: sorveglianza neutrale della costa sahariana di Tarfaya/Cabo Juby e controllo delle piste carovaniere verso il Marocco francese (Goulimine e Tindouf).";
+    } else if (s === 6 || s === 7) {
+      note =
+        "Giugno – Ottobre 1940: sotto l'autorità congiunta del Col. José Bermejo López (dal maggio 1940), le basi aeree di Cabo Juby e El Aaiún vengono rafforzate lungo la frontiera col Marocco di Vichy.";
+    } else if (s >= 8 && s <= 10) {
+      note =
+        "1941 – Agosto 1942: presidi desertici della Policía Territorial e gruppi nomadi meharisti sorvegliano Saguia el-Hamra (El Aaiún e Smara) e il forte di Villa Bens (Cabo Juby) durante la guerra atlantica.";
+    } else if (s === 11) {
+      note =
+        "Novembre 1942: con l'Operazione Torch nel Marocco francese, Cabo Juby e la pista di El Aaiún vengono posti in allerta di confine lungo l'Oued Draa.";
+    } else if (s >= 12 && s <= 17) {
+      note =
+        "1943 – Aprile 1945: progressivo allentamento della tensione atlantica e crescita dei presidi amministrativi di El Aaiún e Villa Bens in collegamento aereo con Las Palmas.";
+    } else if (s === 18) {
+      note =
+        "Settembre 1945: la Zona Sur del Protettorato (Cabo Juby / Villa Bens) e Saguia el-Hamra mantengono l'assetto di presidio coloniale e scalo sahariano sotto il Col. José Bermejo López.";
+    } else if (s >= 19 && s <= 23) {
+      note =
+        "1947–Giugno 1949: col decreto del 20 luglio 1946 sia la Saguia el-Hamra sia la Zona Sur di Cabo Juby (Villa Bens) entrano nel Gobierno del África Occidental Española (AOE) con sede a Sidi Ifni; cresce El Aaiún come polo amministrativo sahariano (e nel 1947 l'esploratore Manuel Alía Medina individua i ricchi fosfati di Bu Craa).";
+    } else if (s === 24) {
+      note =
+        "Dicembre 1949: sotto il Governatore AOE Col. Francisco Rosaleny Burguet (dall'agosto 1949), El Aaiún in Saguia el-Hamra e Villa Bens (Cabo Juby) vengono potenziati come nodi amministrativi e aeronautici del Sahara settentrionale.";
+    } else {
+      note =
+        "Giugno 1950: El Aaiún (Saguia el-Hamra) e il settore di Cabo Juby/Tarfaya formano il perno sahariano settentrionale dell'África Occidental Española sotto l'amministrazione del Col. Rosaleny Burguet.";
+    }
+    return makeResult(owner, histName, note, faction, adminTitle);
+  }
+
+  // zone === 'ES_RIO_DE_ORO'
+  const histName =
+    s >= 19
+      ? 'África Occidental Española — Colonia de Río de Oro (Villa Cisneros / La Güera)'
+      : 'Colonia de Río de Oro (Villa Cisneros / La Güera)';
+  let adminTitle = '';
+  if (s === 0) adminTitle = 'Segunda República Española — Subgobierno de Río de Oro (Villa Cisneros)';
+  else if (s < 3) adminTitle = 'Bando Nacional — Colonia de Río de Oro (Villa Cisneros)';
+  else if (s <= 5) adminTitle = 'Estado Español — Gobierno Político-Militar del Sáhara Español (Villa Cisneros)';
+  else if (s <= 18) adminTitle = 'Estado Español — Gobierno Político-Militar de Ifni y Sáhara (Col. José Bermejo López)';
+  else if (s <= 23) adminTitle = 'Estado Español — Gobierno del África Occidental Española (Río de Oro — Gen. José Bermejo López)';
+  else adminTitle = 'Estado Español — Gobierno del África Occidental Española (Río de Oro — Col. Francisco Rosaleny Burguet)';
+
+  let note = '';
+  if (s === 0) {
+    note =
+      "Gennaio 1936: colonia meridionale del Sahara spagnolo (sotto il 26° N) con capitale Villa Cisneros (odierna Dakhla) e avamposto di La Güera a Capo Blanco; sede di un campo di confino politico repubblicano e storico scalo dell'Aéropostale francese verso Dakar.";
+  } else if (s === 1) {
+    note =
+      "Luglio 1936 – Marzo 1938: la guarnigione di Villa Cisneros aderisce all'Alzamiento di Franco, ma nel marzo 1937 un'audace rivolta dei confinati politici repubblicani consente a decine di prigionieri di fuggire via mare a bordo del motoveliero Viera y Clavijo verso Dakar.";
+  } else if (s === 2) {
+    note =
+      "Ottobre 1938: Villa Cisneros e La Güera operano come basi aeronavali di collegamento atlantico lungo le rotte marittime tra le Isole Canarie e la Guinea Spagnola.";
+  } else if (s === 3 || s === 4) {
+    note =
+      "Primavera 1939: consolidamento del presidio di Villa Cisneros sotto il governo militare sahariano dell'Estado Español.";
+  } else if (s === 5) {
+    note =
+      "Settembre 1939 – Maggio 1940: sorveglianza costiera neutrale davanti alla baia di Río de Oro e controllo dell'enclave di La Güera al confine con Port-Étienne in Mauritania.";
+  } else if (s === 6 || s === 7) {
+    note =
+      "Giugno – Ottobre 1940: sotto il Col. José Bermejo López, l'aerodromo di Villa Cisneros intensifica i collegamenti atlantici in regime di non belligeranza lungo le rotte dell'AOF di Vichy.";
+  } else if (s >= 8 && s <= 10) {
+    note =
+      "1941 – Agosto 1942: presidio spagnolo meridionale sul Tropico del Cancro; la baia di Villa Cisneros è pattugliata contro rifornimenti di sottomarini e sorvegliata rispetto alla base francese di Dakar.";
+  } else if (s === 11) {
+    note =
+      "Novembre 1942: con il passaggio dell'AOF e della vicina Mauritania al campo alleato dopo Torch, Río de Oro rafforza la vigilanza costiera e la pista di La Güera / Villa Cisneros.";
+  } else if (s >= 12 && s <= 17) {
+    note =
+      "1943 – Aprile 1945: scalo peschereccio e aeroportuale atlantico al riparo dai teatri di guerra, aperto ai voli postali e logistici con le Canarie.";
+  } else if (s === 18) {
+    note =
+      "Settembre 1945: alla fine della guerra Villa Cisneros e La Güera consolidano il proprio ruolo di base peschereccia atlantica e scalo coloniale spagnolo.";
+  } else if (s >= 19 && s <= 23) {
+    note =
+      "1947–Giugno 1949: integrata dal decreto del 20 luglio 1946 nel Gobierno del África Occidental Española (AOE, capitale Sidi Ifni), la colonia di Río de Oro consolida il porto di Villa Cisneros e le fabbriche ittiche di La Güera.";
+  } else if (s === 24) {
+    note =
+      "Dicembre 1949: sotto il Governatore AOE Col. Francisco Rosaleny Burguet (dall'agosto 1949), Villa Cisneros e la penisola di Río de Oro avviano piani di espansione portuale e peschereccia.";
+  } else {
+    note =
+      "Giugno 1950: Villa Cisneros e La Güera rimangono gli avamposti meridionali dell'África Occidental Española lungo il banco sahariano-atlantico.";
+  }
+  return makeResult(owner, histName, note, faction, adminTitle);
+}
+
 export interface SpainProvinceInfo {
   nuts: string;
   name: string;
@@ -2393,35 +2790,11 @@ export const SPAIN_PROVINCES_META: Record<string, SpainProvinceInfo> = {
     s6: "Giugno 1940: con la caduta della Francia e la non belligeranza, Ceuta diventa il centro d'avanzata delle truppe spagnole che occupano militarmente la Zona Internazionale di Tangeri (14 giugno 1940).",
     s7: "Ottobre 1940: le fortificazioni di Monte Hacho sono integrate nei piani per l'attacco combinato a Gibilterra (Operazione Felix); incontri segreti con ufficiali tedeschi della Wehrmacht.",
     s8: "Primavera 1941: Ceuta è in stato di mobilitazione permanente; severo razionamento alimentare e continuo controllo dei fari e dei radar dello Stretto.",
-    getOwner: (step: number): 'SPR' | 'SPA' => {
-      if (step === 0) return 'SPR';
-      if (step === 1) return "SPA";
-      if (step === 2) return "SPA";
-      return 'SPA';
-    },
-    getHistoricalName: (_step: number) => "Plaza de Soberanía de Ceuta",
-    getAdminTitle: (step: number): string => {
-      const o = (step === 0) ? 'SPR' : (step === 1 ? "SPA" : (step === 2 ? "SPA" : 'SPA'));
-      if (o === 'SPR') return "Segunda República Española — Plaza de Soberanía de Ceuta";
-      if (step < 3) return "Bando Nacional — Plaza de Soberanía de Ceuta";
-      return "Estado Español — Plaza de Soberanía de Ceuta";
-    },
-    getFaction: (step: number): FactionType => {
-      if (step === 0) return "Comintern";
-      if (step === 1) return "Asse";
-      if (step === 2) return "Asse";
-      return "Asse";
-    },
-    getNote: (step: number) => {
-      if (step === 0) return "Storica piazzaforte militare spagnola sulla sponda africana dello Stretto di Gibilterra (di fronte a Gibilterra e Tarifa), sede di guarnigioni della Legione Spagnola (Tercio de Extranjeros) e dei Regulares.";
-      if (step === 1) return "17-18 luglio 1936: **Ceuta è la prima città a sollevarsi nell'Alzamiento militare** insieme a Melilla; il tenente colonnello Yagüe guida la Legione; il 5 agosto 1936 il 'Convoy de la Victoria' forza il blocco navale repubblicano dello Stretto trasportando le truppe africane a terraferma ad Algeciras; Ceuta è la testa di ponte essenziale dell'invasione franchista della penisola.";
-      if (step === 2) return "1938: porto militare protetto da sbarramenti costieri e cannoni da costa a Monte Hacho; centro di smistamento continuo di truppe mercenarie marocchine per il fronte spagnolo.";
-      if (step === 3 || step === 4) return "1939: trionfo franchista; Ceuta è celebrata come culla dell'esercito vittorioso; monumenti ai caduti della Legione e parate solenni con il jalifa del Marocco.";
-      if (step === 5) return "1939-1940: nella neutralità, Ceuta sorveglia a vista le mosse navali della base britannica di Gibilterra a poche miglia di distanza attraverso lo Stretto.";
-      if (step === 6) return "Giugno 1940: con la caduta della Francia e la non belligeranza, Ceuta diventa il centro d'avanzata delle truppe spagnole che occupano militarmente la Zona Internazionale di Tangeri (14 giugno 1940).";
-      if (step === 7) return "Ottobre 1940: le fortificazioni di Monte Hacho sono integrate nei piani per l'attacco combinato a Gibilterra (Operazione Felix); incontri segreti con ufficiali tedeschi della Wehrmacht.";
-      return "Primavera 1941: Ceuta è in stato di mobilitazione permanente; severo razionamento alimentare e continuo controllo dei fari e dei radar dello Stretto.";
-    }
+    getOwner: (step: number): 'SPR' | 'SPA' => resolveSpanishAfricanTerritory('ES630', step).o as 'SPR' | 'SPA',
+    getHistoricalName: (step: number) => resolveSpanishAfricanTerritory('ES630', step).name,
+    getAdminTitle: (step: number): string => resolveSpanishAfricanTerritory('ES630', step).adminEntity || '',
+    getFaction: (step: number): FactionType => resolveSpanishAfricanTerritory('ES630', step).fac || 'Neutrale',
+    getNote: (step: number) => resolveSpanishAfricanTerritory('ES630', step).note || ''
   },
   "ES640": {
     nuts: "ES640",
@@ -2439,35 +2812,11 @@ export const SPAIN_PROVINCES_META: Record<string, SpainProvinceInfo> = {
     s6: "Estate 1940: Melilla funge da base di supporto logistico e aereo per le truppe coloniali spagnole impegnate nell'occupazione di Tangeri in clima di non belligeranza.",
     s7: "Fine 1940: il porto e le batterie costiere sono in allerta contro possibili reazioni navali della flotta francese di Vichy o britannica.",
     s8: "1941: Melilla continua a fornire ferro e truppe regolari marocchine per la guarnigione della Spagna franchista; severo razionamento autarchico.",
-    getOwner: (step: number): 'SPR' | 'SPA' => {
-      if (step === 0) return 'SPR';
-      if (step === 1) return "SPA";
-      if (step === 2) return "SPA";
-      return 'SPA';
-    },
-    getHistoricalName: (_step: number) => "Plaza de Soberanía de Melilla",
-    getAdminTitle: (step: number): string => {
-      const o = (step === 0) ? 'SPR' : (step === 1 ? "SPA" : (step === 2 ? "SPA" : 'SPA'));
-      if (o === 'SPR') return "Segunda República Española — Plaza de Soberanía de Melilla";
-      if (step < 3) return "Bando Nacional — Plaza de Soberanía de Melilla";
-      return "Estado Español — Plaza de Soberanía de Melilla";
-    },
-    getFaction: (step: number): FactionType => {
-      if (step === 0) return "Comintern";
-      if (step === 1) return "Asse";
-      if (step === 2) return "Asse";
-      return "Asse";
-    },
-    getNote: (step: number) => {
-      if (step === 0) return "Antica piazzaforte spagnola sulla costa del Rif orientale, centro di comando militare per il Marocco Spagnolo; sede di reggimenti di Regulares e legionari; tensioni fortissime tra ufficiali e simpatizzanti del Fronte Popolare.";
-      if (step === 1) return "17 luglio 1936: **Melilla è il luogo esatto in cui ha inizio la Guerra Civile Spagnola nel pomeriggio del 17 luglio 1936** (il sollevamento anticipato dei colonnelli Seguí e Solans); la città viene conquistata con le armi in poche ore, le autorità repubblicane fucilate e scatta il segnale convenzionale per tutte le guarnigioni dell'esercito in Marocco e in Spagna.";
-      if (step === 2) return "1938: Melilla è un formidabile centro logistico per il reclutamento di soldati marocchini ('i mori di Franco') e per il traffico di minerali di ferro del massiccio del Gurugú.";
-      if (step === 3 || step === 4) return "1939: celebrazioni della vittoria e insediamento dei comandi coloniali del dopoguerra; repressione totale di ogni elemento repubblicano.";
-      if (step === 5) return "1939-1940: nella neutralità, il porto di Melilla esporta minerale di ferro verso la Spagna e verso l'Asse; sorveglianza delle acque del Mare d'Alborán.";
-      if (step === 6) return "Estate 1940: Melilla funge da base di supporto logistico e aereo per le truppe coloniali spagnole impegnate nell'occupazione di Tangeri in clima di non belligeranza.";
-      if (step === 7) return "Fine 1940: il porto e le batterie costiere sono in allerta contro possibili reazioni navali della flotta francese di Vichy o britannica.";
-      return "1941: Melilla continua a fornire ferro e truppe regolari marocchine per la guarnigione della Spagna franchista; severo razionamento autarchico.";
-    }
+    getOwner: (step: number): 'SPR' | 'SPA' => resolveSpanishAfricanTerritory('ES640', step).o as 'SPR' | 'SPA',
+    getHistoricalName: (step: number) => resolveSpanishAfricanTerritory('ES640', step).name,
+    getAdminTitle: (step: number): string => resolveSpanishAfricanTerritory('ES640', step).adminEntity || '',
+    getFaction: (step: number): FactionType => resolveSpanishAfricanTerritory('ES640', step).fac || 'Neutrale',
+    getNote: (step: number) => resolveSpanishAfricanTerritory('ES640', step).note || ''
   },
   "ES703": {
     nuts: "ES703",
@@ -2853,35 +3202,11 @@ export const SPAIN_PROVINCES_META: Record<string, SpainProvinceInfo> = {
     s6: "Estate 1940: le fortificazioni e la pista di volo di Sidi Ifni sono poste in allerta difensiva in clima di non belligeranza.",
     s7: "Fine 1940: la guarnigione militare vigila sul traffico navale atlantico e sui movimenti delle tribù berbere circostanti.",
     s8: "1941: Ifni continua a fungere da presidio militare sovrano della Spagna franchista sulla costa atlantica africana.",
-    getOwner: (step: number): 'SPR' | 'SPA' => {
-      if (step === 0) return 'SPR';
-      if (step === 1) return "SPA";
-      if (step === 2) return "SPA";
-      return 'SPA';
-    },
-    getHistoricalName: (_step: number) => "Territorio de Ifni",
-    getAdminTitle: (step: number): string => {
-      const o = (step === 0) ? 'SPR' : (step === 1 ? "SPA" : (step === 2 ? "SPA" : 'SPA'));
-      if (o === 'SPR') return "Segunda República Española — Territorio de Ifni";
-      if (step < 3) return "Bando Nacional — Territorio de Ifni";
-      return "Estado Español — Territorio de Ifni";
-    },
-    getFaction: (step: number): FactionType => {
-      if (step === 0) return "Comintern";
-      if (step === 1) return "Asse";
-      if (step === 2) return "Asse";
-      return "Asse";
-    },
-    getNote: (step: number) => {
-      if (step === 0) return "Enclave spagnola sulla costa atlantica sud-marocchina occupata militarmente nel 1934 dal colonnello Capaz; base militare di frontiera e porto di pesca costiero (Santa Cruz de la Mar Pequeña).";
-      if (step === 1) return "Luglio 1936: la guarnigione di Sidi Ifni e i tiradores indigeni aderiscono immediatamente all'Alzamiento nazionalista di Franco, fornendo battaglioni di truppe coloniali (Tiradores de Ifni) per il fronte spagnolo.";
-      if (step === 2) return "1938: Sidi Ifni mobilita centinaia di fanti indigeni per l'esercito nazionalista; base di avvistamento aereo e navale.";
-      if (step === 3 || step === 4) return "1939: celebrazioni della vittoria e consolidamento dell'enclave come territorio militare governato da un governatore generale.";
-      if (step === 5) return "1939-1940: nella neutralità, Ifni mantiene i confini chiusi con il Marocco Francese meridionale.";
-      if (step === 6) return "Estate 1940: le fortificazioni e la pista di volo di Sidi Ifni sono poste in allerta difensiva in clima di non belligeranza.";
-      if (step === 7) return "Fine 1940: la guarnigione militare vigila sul traffico navale atlantico e sui movimenti delle tribù berbere circostanti.";
-      return "1941: Ifni continua a fungere da presidio militare sovrano della Spagna franchista sulla costa atlantica africana.";
-    }
+    getOwner: (step: number): 'SPR' | 'SPA' => resolveSpanishAfricanTerritory('ES_IFNI', step).o as 'SPR' | 'SPA',
+    getHistoricalName: (step: number) => resolveSpanishAfricanTerritory('ES_IFNI', step).name,
+    getAdminTitle: (step: number): string => resolveSpanishAfricanTerritory('ES_IFNI', step).adminEntity || '',
+    getFaction: (step: number): FactionType => resolveSpanishAfricanTerritory('ES_IFNI', step).fac || 'Neutrale',
+    getNote: (step: number) => resolveSpanishAfricanTerritory('ES_IFNI', step).note || ''
   },
   "ES_RIF": {
     nuts: "ES_RIF",
@@ -2892,42 +3217,18 @@ export const SPAIN_PROVINCES_META: Record<string, SpainProvinceInfo> = {
     capital: "Tetuán",
     keys: ["es_rif", "protectorado_espaol_de_marruecos_zona_del_rif", "protectorado_espaol_de_marruecos_zona_del_rif__tetun", "spanish_morocco", "tetun"],
     s0: "Territorio del Nord del Marocco sotto protettorato spagnolo (capitale Tetuán, con Larache, Xauen, Nador e le montagne del Rif); sede dell'Alta Comisaría di Spagna e del Jalifa (Muley Hassan); guarnigione d'élite dell'Ejército de África.",
-    s1: "17-18 luglio 1936 - marzo 1938: **Culla e cuore dell'Alzamiento militare del 1936**. Il 19 luglio Franco assume il comando a Tetuán; grazie all'aiuto di aerei da trasporto tedeschi Junkers Ju 52 e italiani Savoia-Marchetti inviati da Hitler e Mussolini su richiesta di Franco, si compie il primo ponte aereo militare della storia attraverso lo Stretto; oltre 40.000 legionari e mercenari marocchini sbarcano in Andalusia costituendo il nerbo dell'esercito nazionalista.",
-    s2: "1938: Tetuán è governata dal generale Juan Luis Beigbeder; il Marocco Spagnolo mobilita oltre 60.000 fanti marocchini che combattono con spietata efficacia su tutti i fronti iberici (fino alla Battaglia dell'Ebro).",
-    s3_4: "1939: con la vittoria finale di Franco, Tetuán e il Rif celebrano la trionfale partecipazione dei Regulares alla 'Cruzada'; Franco promette riforme e protezione all'Islam marocchino.",
-    s5: "1939-1940: nella neutralità, il generale Carlos Asensio Cabanillas guida l'Alta Comisaría; la Spagna mantiene 150.000 soldati in Marocco per controllare il confine con il Marocco Francese.",
-    s6: "14 giugno 1940: approfittando della caduta della Francia, **le truppe spagnole del Marocco invadono e occupano la Zona Internazionale di Tangeri**, abolendo l'amministrazione internazionale e annettendola de facto al Protettorato spagnolo in un atto di aperta sfida diplomatica.",
-    s7: "Ottobre 1940: all'incontro di Hendaye con Hitler, Franco chiede l'annessione dell'intero Marocco Francese e dell'Oranese algerino alla Spagna, ma Hitler rifiuta per non alienarsi il regime di Vichy di Pétain.",
-    s8: "Primavera 1941: il Marocco Spagnolo e Tangeri sono un formidabile nido di spie, contrabbando e intrighi internazionali tra britannici, tedeschi e nazionalisti arabi.",
-    getOwner: (step: number): 'SPR' | 'SPA' => {
-      if (step === 0) return 'SPR';
-      if (step === 1) return "SPA";
-      if (step === 2) return "SPA";
-      return 'SPA';
-    },
-    getHistoricalName: (_step: number) => "Protectorado Español de Marruecos (Zona del Rif / Tetuán)",
-    getAdminTitle: (step: number): string => {
-      const o = (step === 0) ? 'SPR' : (step === 1 ? "SPA" : (step === 2 ? "SPA" : 'SPA'));
-      if (o === 'SPR') return "Segunda República Española — Protectorado Español de Marruecos (Zona del Rif / Tetuán)";
-      if (step < 3) return "Bando Nacional — Protectorado Español de Marruecos (Zona del Rif / Tetuán)";
-      return "Estado Español — Protectorado Español de Marruecos (Zona del Rif / Tetuán)";
-    },
-    getFaction: (step: number): FactionType => {
-      if (step === 0) return "Comintern";
-      if (step === 1) return "Asse";
-      if (step === 2) return "Asse";
-      return "Asse";
-    },
-    getNote: (step: number) => {
-      if (step === 0) return "Territorio del Nord del Marocco sotto protettorato spagnolo (capitale Tetuán, con Larache, Xauen, Nador e le montagne del Rif); sede dell'Alta Comisaría di Spagna e del Jalifa (Muley Hassan); guarnigione d'élite dell'Ejército de África.";
-      if (step === 1) return "17-18 luglio 1936 - marzo 1938: **Culla e cuore dell'Alzamiento militare del 1936**. Il 19 luglio Franco assume il comando a Tetuán; grazie all'aiuto di aerei da trasporto tedeschi Junkers Ju 52 e italiani Savoia-Marchetti inviati da Hitler e Mussolini su richiesta di Franco, si compie il primo ponte aereo militare della storia attraverso lo Stretto; oltre 40.000 legionari e mercenari marocchini sbarcano in Andalusia costituendo il nerbo dell'esercito nazionalista.";
-      if (step === 2) return "1938: Tetuán è governata dal generale Juan Luis Beigbeder; il Marocco Spagnolo mobilita oltre 60.000 fanti marocchini che combattono con spietata efficacia su tutti i fronti iberici (fino alla Battaglia dell'Ebro).";
-      if (step === 3 || step === 4) return "1939: con la vittoria finale di Franco, Tetuán e il Rif celebrano la trionfale partecipazione dei Regulares alla 'Cruzada'; Franco promette riforme e protezione all'Islam marocchino.";
-      if (step === 5) return "1939-1940: nella neutralità, il generale Carlos Asensio Cabanillas guida l'Alta Comisaría; la Spagna mantiene 150.000 soldati in Marocco per controllare il confine con il Marocco Francese.";
-      if (step === 6) return "14 giugno 1940: approfittando della caduta della Francia, **le truppe spagnole del Marocco invadono e occupano la Zona Internazionale di Tangeri**, abolendo l'amministrazione internazionale e annettendola de facto al Protettorato spagnolo in un atto di aperta sfida diplomatica.";
-      if (step === 7) return "Ottobre 1940: all'incontro di Hendaye con Hitler, Franco chiede l'annessione dell'intero Marocco Francese e dell'Oranese algerino alla Spagna, ma Hitler rifiuta per non alienarsi il regime di Vichy di Pétain.";
-      return "Primavera 1941: il Marocco Spagnolo e Tangeri sono un formidabile nido di spie, contrabbando e intrighi internazionali tra britannici, tedeschi e nazionalisti arabi.";
-    }
+    s1: "17-18 luglio 1936 - marzo 1938: Culla e cuore dell'Alzamiento militare del 1936.",
+    s2: "1938: Tetuán è governata dal generale Juan Luis Beigbeder; il Marocco Spagnolo mobilita oltre 65.000 fanti marocchini su tutti i fronti iberici.",
+    s3_4: "1939: vittoria di Franco; il Gen. Asensio assume l'Alta Comisaría a Tetuán.",
+    s5: "1939-1940: stretta neutralità; 150.000 soldati spagnoli lungo la frontiera col Marocco francese.",
+    s6: "14 giugno 1940: occupazione militare spagnola di Tangeri da Tetuán.",
+    s7: "Ottobre 1940: vertice di Hendaye; incorporazione di fatto di Tangeri nell'Alta Comisaría.",
+    s8: "Primavera 1941: comando del Tte. Gen. Luis Orgaz Yoldi a Tetuán; intrighi diplomatici e spionaggio sull'Asse dello Stretto.",
+    getOwner: (step: number): 'SPR' | 'SPA' => resolveSpanishAfricanTerritory('ES_RIF', step).o as 'SPR' | 'SPA',
+    getHistoricalName: (step: number) => resolveSpanishAfricanTerritory('ES_RIF', step).name,
+    getAdminTitle: (step: number): string => resolveSpanishAfricanTerritory('ES_RIF', step).adminEntity || '',
+    getFaction: (step: number): FactionType => resolveSpanishAfricanTerritory('ES_RIF', step).fac || 'Neutrale',
+    getNote: (step: number) => resolveSpanishAfricanTerritory('ES_RIF', step).note || ''
   },
   "ES_SAHARA": {
     nuts: "ES_SAHARA",
@@ -2937,43 +3238,19 @@ export const SPAIN_PROVINCES_META: Record<string, SpainProvinceInfo> = {
     region: "Sahara",
     capital: "Villa Cisneros",
     keys: ["colonia_y_protectorado_del_sahara_espaol", "es_sahara", "spanish_sahara", "villa_cisneros"],
-    s0: "Territorio coloniale desertico lungo la costa atlantica sahariana (costituito da Río de Oro e Saguia el-Hamra, con le basi di Villa Cisneros e Cabo Juby / Tarfaya); scalo fondamentale per i voli postali della linea Aéropostale francese verso il Sudamerica.",
-    s1: "Luglio 1936: le guarnigioni sahariane e la polizia coloniale aderiscono immediatamente all'Alzamiento nazionalista di Franco senza spargimento di sangue.",
-    s2: "1938: Villa Cisneros e Cabo Juby fungono da basi aeree e di rifornimento per le squadriglie di collegamento tra le Canarie e l'Africa equatoriale.",
-    s3_4: "1939: termine della guerra civile; consolidamento del governo militare del Sahara Español sotto il Governatore Generale residente a Cabo Juby.",
-    s5: "1939-1940: nella neutralità spagnola, la costa sahariana è sorvegliata contro atterraggi di emergenza o attività navali non autorizzate.",
-    s6: "Estate 1940: dopo la caduta della Francia, le autorità spagnole del Sahara mantengono un cordone di sicurezza lungo il confine con l'Africa Occidentale Francese (Mauritania).",
-    s7: "Fine 1940: le piste aeree di Villa Cisneros e Cabo Juby sono utilizzate per voli di ricognizione meteorologica e postale verso l'Atlantico meridionale.",
-    s8: "1941: il Sahara Spagnolo rimane saldamente sotto controllo franchista come avamposto strategico atlantico dell'impero coloniale spagnolo.",
-    getOwner: (step: number): 'SPR' | 'SPA' => {
-      if (step === 0) return 'SPR';
-      if (step === 1) return "SPA";
-      if (step === 2) return "SPA";
-      return 'SPA';
-    },
-    getHistoricalName: (_step: number) => "Colonia y Protectorado del Sahara Español",
-    getAdminTitle: (step: number): string => {
-      const o = (step === 0) ? 'SPR' : (step === 1 ? "SPA" : (step === 2 ? "SPA" : 'SPA'));
-      if (o === 'SPR') return "Segunda República Española — Colonia y Protectorado del Sahara Español";
-      if (step < 3) return "Bando Nacional — Colonia y Protectorado del Sahara Español";
-      return "Estado Español — Colonia y Protectorado del Sahara Español";
-    },
-    getFaction: (step: number): FactionType => {
-      if (step === 0) return "Comintern";
-      if (step === 1) return "Asse";
-      if (step === 2) return "Asse";
-      return "Asse";
-    },
-    getNote: (step: number) => {
-      if (step === 0) return "Territorio coloniale desertico lungo la costa atlantica sahariana (costituito da Río de Oro e Saguia el-Hamra, con le basi di Villa Cisneros e Cabo Juby / Tarfaya); scalo fondamentale per i voli postali della linea Aéropostale francese verso il Sudamerica.";
-      if (step === 1) return "Luglio 1936: le guarnigioni sahariane e la polizia coloniale aderiscono immediatamente all'Alzamiento nazionalista di Franco senza spargimento di sangue.";
-      if (step === 2) return "1938: Villa Cisneros e Cabo Juby fungono da basi aeree e di rifornimento per le squadriglie di collegamento tra le Canarie e l'Africa equatoriale.";
-      if (step === 3 || step === 4) return "1939: termine della guerra civile; consolidamento del governo militare del Sahara Español sotto il Governatore Generale residente a Cabo Juby.";
-      if (step === 5) return "1939-1940: nella neutralità spagnola, la costa sahariana è sorvegliata contro atterraggi di emergenza o attività navali non autorizzate.";
-      if (step === 6) return "Estate 1940: dopo la caduta della Francia, le autorità spagnole del Sahara mantengono un cordone di sicurezza lungo il confine con l'Africa Occidentale Francese (Mauritania).";
-      if (step === 7) return "Fine 1940: le piste aeree di Villa Cisneros e Cabo Juby sono utilizzate per voli di ricognizione meteorologica e postale verso l'Atlantico meridionale.";
-      return "1941: il Sahara Spagnolo rimane saldamente sotto controllo franchista come avamposto strategico atlantico dell'impero coloniale spagnolo.";
-    }
+    s0: "Territorio coloniale desertico lungo la costa atlantica sahariana (costituito da Río de Oro, Saguia el-Hamra e Zona Sur di Cabo Juby / Tarfaya); scalo Aéropostale.",
+    s1: "Luglio 1936: adesione all'Alzamiento; nel 1938 fondazione di El Aaiún in Saguia el-Hamra.",
+    s2: "1938: Villa Cisneros e Cabo Juby fungono da basi aeree verso le Canarie.",
+    s3_4: "1939: consolidamento del governo militare sahariano a Cabo Juby e Villa Cisneros.",
+    s5: "1939-1940: sorveglianza costiera neutrale verso l'AOF.",
+    s6: "Estate 1940: cordone di sicurezza lungo il confine con il Marocco e la Mauritania di Vichy.",
+    s7: "Fine 1940: piste aeree di Villa Cisneros e Cabo Juby sotto il Col. José Bermejo López.",
+    s8: "1941: il Sahara Spagnolo rimane avamposto strategico atlantico sotto controllo franchista.",
+    getOwner: (step: number): 'SPR' | 'SPA' => resolveSpanishAfricanTerritory('ES_SAHARA_NORTE', step).o as 'SPR' | 'SPA',
+    getHistoricalName: (step: number) => resolveSpanishAfricanTerritory('ES_SAHARA_NORTE', step).name,
+    getAdminTitle: (step: number): string => resolveSpanishAfricanTerritory('ES_SAHARA_NORTE', step).adminEntity || '',
+    getFaction: (step: number): FactionType => resolveSpanishAfricanTerritory('ES_SAHARA_NORTE', step).fac || 'Neutrale',
+    getNote: (step: number) => resolveSpanishAfricanTerritory('ES_SAHARA_NORTE', step).note || ''
   },
 };
 
@@ -3066,27 +3343,26 @@ export function resolveSpainProvince(
 
   if (!meta) return null;
 
+  if (meta.nuts === 'ES_RIF' || meta.nuts === 'ES630' || meta.nuts === 'ES640' || meta.nuts === 'ES_IFNI') {
+    return resolveSpanishAfricanTerritory(meta.nuts, step);
+  }
+  if (meta.nuts === 'ES_SAHARA') {
+    const zone = normId.includes('rio_de_oro') || normRaw.includes('rio_de_oro') ? 'ES_RIO_DE_ORO' : 'ES_SAHARA_NORTE';
+    return resolveSpanishAfricanTerritory(zone, step);
+  }
+
   const owner = meta.getOwner(s);
   if (step >= 18) {
     let histName = meta.getHistoricalName(s);
     let adminTitle = 'Estado Español (Francisco Franco — Neutralità e Isolamento Postbellico)';
-    let note = 'Nel secondo dopoguerra (Risoluzione ONU 39 del dicembre 1946), la Spagna franchista mantiene una stretta neutralità formale restando esclusa dalle Nazioni Unite; le piazze e isole atlantiche restano presidi sovrani dell\'Estado Español.';
-    if (step >= 19) {
-      if (meta.nuts === 'ES_RIF') {
-        histName = 'Protectorado Español de Marruecos (Zona del Rif / Tetuán)';
-        adminTitle = 'Estado Español — Alta Comisaría en Marruecos (Tte. Gen. José Enrique Varela, Tetuán)';
-        note = 'Protettorato spagnolo sul Marocco settentrionale (Rif e Yebala) retto dall\'Alto Commissario Tte. Gen. José Enrique Varela e dal Jalifa Muley Hassan ben el-Mehdi; evacuata Tangeri nel 1945 e isolata diplomaticamente Madrid nel 1947.';
-      } else if (meta.nuts === 'ES_SAHARA' || meta.nuts === 'ES_IFNI') {
-        histName = meta.nuts === 'ES_SAHARA'
-          ? 'África Occidental Española — Sáhara Español (Villa Cisneros / Cabo Juby)'
-          : 'África Occidental Española — Territorio de Ifni (Sidi Ifni)';
-        adminTitle = 'Gobierno del África Occidental Española (Sidi Ifni — Gen. José Bermejo López)';
-        note = 'Con decreto del 20 luglio 1946 Ifni e il Sahara Spagnolo (Saguia el-Hamra e Río de Oro) vengono unificati amministrativamente nel Gobierno del África Occidental Española (AOE) con sede a Sidi Ifni e caposaldi a Villa Cisneros e Cabo Juby.';
-      } else if (meta.nuts === 'ES_GUINEA') {
-        histName = 'Territorios Españoles del Golfo de Guinea (Fernando Poo / Río Muni)';
-        adminTitle = 'Estado Español — Gobernador del Golfo de Guinea (Juan María Bonelli Rubio)';
-        note = 'Colonia spagnola del Golfo di Guinea (Santa Isabel e Bata), retta dal Governatore Juan María Bonelli Rubio nel secondo dopoguerra tra economia di piantagione e isolamento internazionale di Madrid.';
-      }
+    let note =
+      step === 18
+        ? 'Settembre 1945: alla fine della Seconda Guerra Mondiale la Spagna franchista consolida i propri presidi sovrani e avvia la smobilitazione difensiva in vista del rientro diplomatico postbellico (Accordo su Tangeri dell\'agosto–ottobre 1945).'
+        : 'Nel secondo dopoguerra (Risoluzione ONU 39 del dicembre 1946), la Spagna franchista mantiene una stretta neutralità formale restando esclusa dalle Nazioni Unite; le piazze e isole atlantiche restano presidi sovrani dell\'Estado Español.';
+    if (step >= 19 && meta.nuts === 'ES_GUINEA') {
+      histName = 'Territorios Españoles del Golfo de Guinea (Fernando Poo / Río Muni)';
+      adminTitle = 'Estado Español — Gobernador del Golfo de Guinea (Juan María Bonelli Rubio)';
+      note = 'Colonia spagnola del Golfo di Guinea (Santa Isabel e Bata), retta dal Governatore Juan María Bonelli Rubio nel secondo dopoguerra tra economia di piantagione e isolamento internazionale di Madrid.';
     }
     return makeResult(owner, histName, note, 'Neutrale', adminTitle);
   }

@@ -41,7 +41,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [-3.00, 53.40],  // Liverpool
     ],
     description: 'La fondamentale linea di rifornimento vitale per la sopravvivenza della Gran Bretagna (armi, petrolio, cibo) e successiva arteria postbellica.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
   },
   {
     id: 'mediterranean_suez_lifeline',
@@ -63,7 +63,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [45.00, 12.80],  // Aden (Oceano Indiano)
     ],
     description: 'Il corridoio imperiale britannico più rapido per collegare la madrepatria con l\'India Britannica, il Medio Oriente e l\'Estremo Oriente.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
   },
   {
     id: 'cape_route',
@@ -85,7 +85,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [72.85, 18.95],  // Bombay (India)
     ],
     description: 'Rotta strategica oceanica dell\'Atlantico meridionale e dell\'Oceano Indiano lungo il Capo di Buona Speranza.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
   },
   {
     id: 'pacific_singapore_tokyo',
@@ -128,7 +128,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       ],
     ],
     description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor, Guam e alle Filippine attraverso l\'Oceano Pacifico.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
   },
 
   // Nuove rotte strategiche per il conflitto bellico (1940-1945)
@@ -199,7 +199,27 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
 
   switch (lane.id) {
     case 'north_atlantic_convoy':
-      if (step >= 18) {
+      if (step >= 26) {
+        statusNote = 'Corridoio Atlantico NATO — Comando Supremo Alleato in Europa (Eisenhower SACEUR, Dic 1950)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1950 l\'asse Atlantico alimenta il rafforzamento militare NATO (nomina del Gen. Eisenhower a primo SACEUR il 19 dicembre 1950) e i convogli logistici atlantici verso il teatro coreano.';
+      } else if (step >= 25) {
+        statusNote = 'Corridoio Atlantico NATO, Piano Schuman & Mobilitazione ONU Corea (Giugno 1950)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 30 giugno 1950 le rotte del Nord Atlantico sostengono la ricostruzione ERP/NATO e i piani CECA della Dichiarazione Schuman (9 maggio) mentre lo scoppio della Guerra di Corea (25 giugno) avvia lo sforzo logistico euro-atlantico ONU.';
+      } else if (step >= 24) {
+        statusNote = 'Corridoio Atlantico NATO & Riarmo MDAP (Dicembre 1949)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1949 le linee transatlantiche da New York, Halifax e St. John\'s alimentano il Piano Marshall e i primi trasferimenti militari del programma statunitense MDAP (Mutual Defense Assistance Act, 6 ottobre 1949) verso gli alleati NATO dell\'Europa occidentale e la nuova Repubblica Federale Tedesca.';
+      } else if (step >= 23) {
+        statusNote = 'Corridoio Atlantico NATO (Patto Atlantico — 4 Aprile 1949) & Rotta St. John\'s–Canadese';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Dopo la firma del Trattato del Nord Atlantico (NATO, 4 aprile 1949) e l\'ingresso di Terranova e Labrador nella Confederazione canadese (31 marzo 1949), le linee marittime e aeronavali del Nord Atlantico da New York, Halifax e St. John\'s costituiscono l\'arteria strategica dell\'Alleanza Atlantica e del Piano Marshall verso Regno Unito, Francia, Benelux e la nuova RFT.';
+      } else if (step >= 18) {
         statusNote = step >= 19 ? 'Rotte Civili & Aiuti Europei (Pre-Piano Marshall 1947)' : 'Smobilitazione Alleata & Convogli UNRRA (1945)';
         isContested = false;
         color = '#5f87c0';
@@ -239,7 +259,27 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'mediterranean_suez_lifeline':
-      if (step >= 18) {
+      if (step >= 26) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Ris. ONU Eritrea, AFIS Somalia, Repubblica d\'Indonesia & Convogli Suez (Dic 1950)';
+        isContested = false;
+        color = '#5aa0c2';
+        description = 'Al 31 dicembre 1950 la linea Gibilterra–Malta–Suez collega i traffici europei alla Somalia fiduciaria (AFIS), all\'Eritrea BMA (Risoluzione ONU 390 A(V) del 2 dicembre 1950), alla Repubblica d\'India, allo Stato unitario d\'Indonesia e al Tonchino di de Lattre.';
+      } else if (step >= 25) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Repubblica dell\'India, AFIS Somalia & Convogli Suez (Giu 1950)';
+        isContested = false;
+        color = '#5aa0c2';
+        description = 'Al 30 giugno 1950 l\'arteria Gibilterra–Malta–Suez collega i traffici verso la sovrana Repubblica dell\'India (26 gen 1950), il nuovo mandato AFIS italiano in Somalia (1° apr 1950), la Federazione della Malesia (nuova bandiera 26 mag) e i convogli francesi verso Saigon.';
+      } else if (step >= 24) {
+        statusNote = 'Corridoio Mediterraneo–Suez (Fine Guerre Civile Greca & Armistizi Arabo-Israeliani Completati, Dic 1949)';
+        isContested = false;
+        color = '#5aa0c2';
+        description = 'Al 31 dicembre 1949, chiusi tutti gli armistizi arabo-israeliani (con l\'accordo Siria-Israele del 20 luglio) e terminata la Guerra Civile Greca (16 ottobre 1949), l\'arteria Gibilterra–Malta–Suez sostiene i traffici petroliferi verso gli Stati Uniti d\'Indonesia (RIS), l\'India (Dominion) e i convogli francesi verso Saigon.';
+      } else if (step >= 23) {
+        statusNote = 'Corridoio Mediterraneo–Suez (Linea Verde Armistiziale 1949 & Canal Zone)';
+        isContested = false;
+        color = '#5aa0c2';
+        description = 'Al 30 giugno 1949, dopo gli Armistizi di Rodi tra Israele ed Egitto/Libano/Giordania e l\'apertura dello sbocco israeliano sul Mar Rosso a Eilat (Operazione Uvda), la rotta Suez–Mediterraneo garantisce i traffici petroliferi del Golfo, i rifornimenti francesi verso Saigon e i collegamenti dell\'Unione con l\'Asia meridionale.';
+      } else if (step >= 18) {
         statusNote = step >= 19 ? 'Corridoio Marittimo Postbellico Suez–Mediterraneo' : 'Rotta Postbellica Rimpatrio & Presidio Suez (1945)';
         isContested = false;
         color = '#5aa0c2';
@@ -316,7 +356,27 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'transpacific_us_hawaii':
-      if (step >= 18) {
+      if (step >= 26) {
+        statusNote = 'Rotta Transpacifica USA — Evacuazione di Hungnam (24 Dic), Rifornimenti Comando ONU Corea & 7ª Flotta (Dic 1950)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1950, completata l\'evacuazione aeronavale ONU da Hungnam (24 dicembre) sotto la spinta dei PVA cinesi, la dorsale pacifica USA–Giappone SCAP–Busan/Incheon sostiene il Comando delle Nazioni Unite (UNC) in Corea e il pattugliamento della 7ª Flotta nello Stretto di Taiwan.';
+      } else if (step >= 25) {
+        statusNote = 'Rotta Transpacifica USA — Ponte Logistico Corea (Busan) & 7ª Flotta nello Stretto di Taiwan (30 Giu 1950)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Dal 25–27 giugno 1950 (Risoluzioni ONU 82–83), il ponte aeronavale USA dal Pacifico e dalle basi SCAP in Giappone avvia il trasporto di rifornimenti e della Task Force Smith verso Busan in Corea del Sud, mentre la Settima Flotta USA pattuglia lo Stretto di Taiwan dopo la perdita nazionalista di Hainan (1° mag) e Zhoushan (19 mag).';
+      } else if (step >= 24) {
+        statusNote = 'Rotta Transpacifica USA — Stretto di Taiwan, Blocco di Shanghai & Stati Uniti d\'Indonesia (Dic 1949)';
+        isContested = false;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1949, dopo la proclamazione della RPC a Pechino (1° ott) e il ritiro del governo della Repubblica di Cina a Taipei (7 dic), la marina ROC mantiene il blocco navale sulle coste continentali (Guanbi) dalle basi di Zhoushan, Kinmen e Hainan, mentre gli USA consolidano la rete Pacifica verso Giappone (SCAP), Taiwan, Filippine e i neonati Stati Uniti d\'Indonesia (27 dic).';
+      } else if (step >= 23) {
+        statusNote = 'Rotta Transpacifica USA — Rete Difensiva Pacifica & Evacuazioni dal Mar Cinese (Giu 1949)';
+        isContested = false;
+        color = '#3d6c96';
+        description = 'Al 30 giugno 1949 la dorsale marittima statunitense collega la California alle basi avanzate di Pearl Harbor, Guam, Okinawa, Giappone (SCAP) e Filippine mentre la caduta di Shanghai e Qingdao sposta la proiezione navale della Settima Flotta USA attorno a Taiwan e al Giappone.';
+      } else if (step >= 18) {
         statusNote = step >= 19 ? 'Rotta Transpacifica USA — Trust Territory & Repubblica delle Filippine' : 'Ponte Navale Postbellico USA verso Filippine, Okinawa e Giappone (SCAP)';
         isContested = false;
         color = '#3d6c96';

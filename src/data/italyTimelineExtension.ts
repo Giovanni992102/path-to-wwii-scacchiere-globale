@@ -198,19 +198,31 @@ export function resolveItalyExtendedStep(
 
   if (s >= 19) {
     if (canonId === 'ITH44' || normName.includes('trieste')) {
+      const tltNote =
+        s >= 21
+          ? 'Primo semestre 1948: accordi finanziari italo-alleati del 9 marzo (piena integrazione della Lira italiana nella Zona A) e Dichiarazione Tripartita anglo-franco-americana del 20 marzo 1948 per la restituzione dell\'intero TLT all\'Italia, respinta da URSS e Jugoslavia. Trieste entra nel Piano Marshall (ERP), mentre le elezioni italiane di aprile e la rottura Tito–Stalin del 28 giugno 1948 spaccano i comunisti giuliani; le truppe TRUST (USA, Gen. William M. Hoge) e BETFOR (UK) presidiano il confine della Zona A.'
+          : s === 20
+          ? 'Dicembre 1947: il blocco al Consiglio di Sicurezza ONU sulla nomina del Governatore impedisce l\'attuazione dello Statuto Permanente (Allegato VI). Resta in vigore il Regime Provvisorio (Allegato VII) con la Zona A amministrata dall\'AMG-FTT (Magg. Gen. Sir Terence Airey, reparti TRUST e BETFOR) mentre affluiscono migliaia di esuli dall\'Istria e dalla Zona B.'
+          : profile?.post45_47 || 'Trattato di Pace di Parigi (15 settembre 1947): istituzione del TLT/FTT in Regime Provvisorio (Allegato VII); Zona A amministrata dall\'AMG-FTT.';
       return makeItResult(
         'AMG',
-        'Territorio Libero di Trieste — Zona A (AMG-FTT)',
-        profile?.post45_47 || 'Trattato di Pace di Parigi (15 settembre 1947): istituzione del TLT/FTT; Zona A amministrata dall\'AMG-FTT.',
+        s >= 21
+          ? 'Territorio Libero di Trieste — Zona A (AMG-FTT · Dichiarazione Tripartita 1948)'
+          : 'Territorio Libero di Trieste — Zona A (AMG-FTT)',
+        tltNote,
         'Alleati',
-        'Allied Military Government — Free Territory of Trieste (Maj. Gen. Terence Airey)'
+        s >= 21
+          ? 'Allied Military Government — Free Territory of Trieste (Maj. Gen. Terence Airey · TRUST & BETFOR)'
+          : 'Allied Military Government — Free Territory of Trieste (Maj. Gen. Terence Airey)'
       );
     }
     if (canonId === 'ITH43' || normName.includes('gorizia')) {
       return makeItResult(
         'ITA',
         'Gorizia (Repubblica Italiana — Confine Orientale 1947)',
-        profile?.post45_47 || 'Trattato di Pace di Parigi: Gorizia torna all\'Italia cedendo i sobborghi orientali verso Nova Gorica.',
+        s >= 21
+          ? 'Giugno 1948: la Provincia di Gorizia presidia il nuovo confine orientale italiano ("muretto di Gorizia" lungo piazza Transalpina) di fronte alla Jugoslavia espulsa dal Cominform (28 giugno 1948), fungendo da retrovia della Repubblica Italiana verso la Zona A del TLT.'
+          : profile?.post45_47 || 'Trattato di Pace di Parigi: Gorizia torna all\'Italia cedendo i sobborghi orientali verso Nova Gorica.',
         'Alleati',
         'Repubblica Italiana — Prefettura di Gorizia'
       );
@@ -230,7 +242,7 @@ export function resolveItalyExtendedStep(
       return makeItResult(
         'AMG',
         `${isTs ? 'Trieste' : 'Gorizia'} (Zona A Linea Morgan — Governo Militare Alleato AMG)`,
-        profile?.post45_47 || 'Accordo di Duino (9 giugno 1945): Zona A della Venezia Giulia sotto Governo Militare Alleato (AMG-VG).',
+        profile?.post45_47 || 'Accordi di Belgrado (9 giugno 1945) e di Duino (20 giugno 1945): Zona A della Venezia Giulia sotto Governo Militare Alleato (AMG-VG).',
         'Alleati',
         'Allied Military Government (AMG Venezia Giulia)'
       );

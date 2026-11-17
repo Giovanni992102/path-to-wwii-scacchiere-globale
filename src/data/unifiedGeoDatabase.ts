@@ -195,9 +195,19 @@ export async function loadUnifiedGeoDatabase(
 
   for (let i = 0; i < features.length; i++) {
     const f = features[i];
-    // Zero overlap: escludi l'eventuale entità duplicata paese HB_LIBYA coperta dalle 22 province libiche
-    if (f?.id === 'HB_LIBYA' || f?.id === 'HB_FRAG_Denmark' || f?.id === 'HB_FRAG_Norway') continue;
     const p = f.properties || (f.properties = {});
+    // Zero overlap: escludi entità duplicate/ridondanti (Libia unificata, frammenti e duplicati HB nel Golfo Persico coperti da Muscat & Oman / Qatar / Trucial States)
+    if (
+      f?.id === 'HB_LIBYA' ||
+      f?.id === 'HB_FRAG_Denmark' ||
+      f?.id === 'HB_FRAG_Norway' ||
+      (p.NAME === 'Oman (British Raj)' && p.SUBJECTO === 'United Kingdom') ||
+      (p.NAME === 'India' && p.SUBJECTO === 'India' && p.PARTOF === 'India') ||
+      (p.NAME === 'Qatar' && p.SUBJECTO === 'Qatar') ||
+      (p.NAME === 'Trucial Oman' && p.SUBJECTO === 'Trucial Oman')
+    ) {
+      continue;
+    }
 
     // Assegna il layer corretto
     const layer = p.__layer || (f.id?.startsWith('HB_') ? 'hb' : 'prov');
@@ -208,10 +218,13 @@ export async function loadUnifiedGeoDatabase(
       f.__itname = p.NUTS_NAME || p.NAME_LATN || p.NAME || '';
     }
 
-    // Collega l'eventuale resolver storico temporale
-    const resId = p.__resolverId || f.id || p.id || p.NAME;
-    if (resId && RESOLVER_REGISTRY[resId]) {
-      f.__resolve = RESOLVER_REGISTRY[resId];
+    // Collega l'eventuale resolver storico temporale (cerca su tutte le chiavi canoniche e legacy)
+    const candidateKeys = [p.__resolverId, f.id, p.id, p.NUTS_ID, p.NAME, p.CNTR_ID, p.CNTR_CODE];
+    for (const k of candidateKeys) {
+      if (k && RESOLVER_REGISTRY[k]) {
+        f.__resolve = RESOLVER_REGISTRY[k];
+        break;
+      }
     }
 
     if (layer === 'prov') {
