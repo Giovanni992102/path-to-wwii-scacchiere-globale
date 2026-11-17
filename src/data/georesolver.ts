@@ -1,4 +1,10 @@
 import { toCanonicalCountryCode } from './countryCodes';
+import {
+  resolveSlovakia,
+  resolveFelvidek,
+  resolveLittleWar,
+  resolveCarpathoUkraine,
+} from './slovakiaResolvers';
 import { getGreeceFirstPhaseContextNote } from './greeceCivilWarTimeline';
 import { resolveIranProvince } from './iranProvinces';
 import { resolveEthiopiaProvince, ETHIOPIA_ADM1_IDS } from './ethiopiaProvinces';
@@ -10792,35 +10798,20 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'CZE':
     case 'CZ': {
       // Unificazione di percorso per i poligoni CZE_* del database unificato anche senza __resolve
-      if (nid.startsWith('CZE_SLO_') || p.REGION_KIND === 'SLOVAKIA') {
-        if (s >= 21) {
-          return makeResult('CZE', `${rawName || 'Slovensko'} (Repubblica Cecoslovacca Socialista)`, 'Dopo il colpo di Stato di Praga (febbraio 1948) e la Costituzione del 9 maggio 1948, la Slovacchia è parte della Repubblica Cecoslovacca socialista.', 'Comintern', 'Československá republika — Slovensko');
-        }
-        if (s >= 17) {
-          return makeResult('CZE', `${rawName || 'Slovensko'} (Slovensko Oslobodené — Košický vládny program, Apríl 1945)`, 'Aprile 1945: Slovacchia liberata dal 2° e 4° Fronte Ucraino e dal 1° Corpo Cecoslovacco; il 4 aprile a Košice si insedia il governo cecoslovacco.', 'Alleati', 'Československá republika — Slovensko');
-        }
-        if (s < 3) {
-          return makeResult('CZE', rawName || 'Slovensko', 'Československá republika — Krajina Slovenská', undefined, 'Československá republika');
-        }
-        return makeResult('SLO', rawName || 'Slovenská republika', 'Slovenská republika (Vláda Dr. Jozefa Tisa)', 'Fantoccio', 'Slovenská republika');
+      if (nid === 'CZE_FEL_STAKCIN_SOBRANCE' || p.REGION_KIND === 'LITTLE_WAR') {
+        return resolveLittleWar(s, rawName || 'Sobrance & Stakčín (Malá vojna)', p.NUTS_NAME || rawName, p.NAME_GERM || '', p.HISTORICAL_NOTE || '');
       }
-      if (nid.startsWith('CZE_RUTHENIA_NORTH') || nid === 'CZE_RUTHENIA_SOUTH' || nid.startsWith('CZE_RUTHENIA')) {
-        if (s >= 16) {
-          return makeResult('SOV', `${rawName || 'Zakarpatska Ukrajina'} (URSS — Transcarpazia)`, 'Offensiva dei Carpazi Orientali (ott-nov 1944) e trattato di cessione del 1945: la Rutenia Subcarpatica entra nell\'URSS (Zakarpatskaya Oblast\', RSS Ucraina).', 'Comintern', 'Zakarpatskaya Oblast\' — URSS');
-        }
-        if (s < 2 || (nid.startsWith('CZE_RUTHENIA_NORTH') && s === 2)) {
-          return makeResult('CZE', rawName || 'Podkarpatská Rus', 'Podkarpatská Rus / Karpatska Ukrajina (ČSR)', undefined, 'Československá republika');
-        }
-        return makeResult('HUN', rawName || 'Kárpátalja', 'Kárpátalja (Magyar Királyság)', 'Neutrale', 'Magyar Királyság');
+      if (nid.startsWith('CZE_SLO_') || p.REGION_KIND === 'SLOVAKIA' || p.REGION_KIND === 'SLOVAKIA_CORE') {
+        return resolveSlovakia(s, rawName || 'Slovensko', p.NUTS_NAME || rawName, p.NAME_GERM || '', p.HISTORICAL_NOTE || '', nid);
+      }
+      if (nid.startsWith('CZE_RUTHENIA_NORTH')) {
+        return resolveCarpathoUkraine(s, rawName || 'Carpato-Ucraina (Chust)', p.NUTS_NAME || rawName, p.NAME_GERM || '', p.HISTORICAL_NOTE || '');
+      }
+      if (nid === 'CZE_RUTHENIA_SOUTH' || nid.startsWith('CZE_RUTHENIA')) {
+        return resolveFelvidek(s, rawName || 'Karpatalja Meridionale (Uzhorod e Mukacevo)', p.NUTS_NAME || rawName, p.NAME_GERM || '', p.HISTORICAL_NOTE || '', nid);
       }
       if (nid.startsWith('CZE_FEL_') || p.REGION_KIND === 'FELVIDEK') {
-        if (s >= 17) {
-          return makeResult('CZE', `${rawName || 'Južné Slovensko'} (Reintegrato nella ČSR)`, 'Aprile 1945: annullamento del Primo Arbitrato di Vienna e liberazione della Slovacchia meridionale.', s >= 21 ? 'Comintern' : 'Alleati', 'Československá republika');
-        }
-        if (s < 2) {
-          return makeResult('CZE', rawName || 'Južné Slovensko', 'Krajina Slovenská (Československá republika)', undefined, 'Československá republika');
-        }
-        return makeResult('HUN', rawName || 'Felvidék', 'Felvidék (Magyar Királyság — Primo Arbitrato di Vienna)', 'Neutrale', 'Magyar Királyság');
+        return resolveFelvidek(s, rawName || 'Južné Slovensko', p.NUTS_NAME || rawName, p.NAME_GERM || '', p.HISTORICAL_NOTE || '', nid);
       }
       if (nid === 'CZE_ZAOLZIE' || p.REGION_KIND === 'ZAOLZIE') {
         if (s >= 18) return makeResult('CZE', 'Český Těšín, Karviná & Bohumín (Těšínsko)', 'Territorio del Zaolzie/Těšínsko reintegrato nella Cecoslovacchia.', s >= 21 ? 'Comintern' : 'Alleati', s >= 23 ? 'Československá republika — Ostravský kraj' : 'Československá republika');

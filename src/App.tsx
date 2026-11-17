@@ -15974,6 +15974,157 @@ export default function App() {
           return true;
         },
       },
+      {
+        id: 148,
+        name: 'Check Storico Totale: Slovacchia, Felvidék, Piccola Guerra 1939 & Rutenia (Steps 0-26)',
+        run: () => {
+          const fail = (why: string) => {
+            console.error('[Test #148 FAIL]', why);
+            return false;
+          };
+          const skAllFeatures = (loadedProvs || []).filter(
+            (f: any) =>
+              f &&
+              typeof f.id === 'string' &&
+              (f.id.startsWith('CZE_SLO_') || f.id.startsWith('CZE_FEL_') || f.id.startsWith('CZE_RUTH'))
+          );
+          if (skAllFeatures.length !== 19) return fail(`count_${skAllFeatures.length}_exp_19`);
+
+          const byId = new Map<string, any>();
+          for (const f of skAllFeatures) byId.set(f.id, f);
+          const zaol = (loadedProvs || []).find((f: any) => f && f.id === 'CZE_ZAOLZIE');
+          if (!zaol) return fail('missing_zaolzie');
+
+          const brat = byId.get('CZE_SLO_BRATISLAVA');
+          const bb = byId.get('CZE_SLO_BANSKA_BYSTRICA');
+          const saris = byId.get('CZE_SLO_SARIS');
+          const csal = byId.get('CZE_FEL_CSALLOKOZ');
+          const nz = byId.get('CZE_FEL_NOVE_ZAMKY');
+          const luc = byId.get('CZE_FEL_LUCENEC');
+          const kos = byId.get('CZE_FEL_KOSICE');
+          const lw = byId.get('CZE_FEL_STAKCIN_SOBRANCE');
+          const rs = byId.get('CZE_RUTHENIA_SOUTH');
+          const rn = byId.get('CZE_RUTHENIA_NORTH');
+          if (!brat || !bb || !saris || !csal || !nz || !luc || !kos || !lw || !rs || !rn) {
+            return fail('missing_core_sk_feature');
+          }
+
+          // 1. Parity __resolve vs resolveFeature(stripped) for ALL 19 features + Zaolzie across all 27 steps
+          for (const f of [...skAllFeatures, zaol]) {
+            const stripped = { ...f, __resolve: undefined };
+            for (let s = 0; s <= 26; s++) {
+              const rA = resolveFeature(f, s);
+              const rB = resolveFeature(stripped, s);
+              if (rA.o !== rB.o || rA.fac !== rB.fac) {
+                return fail(`parity_${f.id}_s${s}_${rA.o}/${rA.fac}_vs_${rB.o}/${rB.fac}`);
+              }
+            }
+          }
+
+          // 2. Step-by-step historical ownership & admin verification
+          if (brat.__resolve(2).o !== 'CZE' || brat.__resolve(3).o !== 'SLO') return fail('brat_s2_s3');
+          if (bb.__resolve(15).o !== 'CZE' || bb.__resolve(15).fac !== 'Alleati') return fail('bb_snp_s15');
+          if (brat.__resolve(15).o !== 'GER' || brat.__resolve(15).fac !== 'Asse') return fail('brat_wehrmacht_s15');
+          if (saris.__resolve(16).o !== 'SOV' || saris.__resolve(16).fac !== 'Comintern') return fail('saris_s16');
+          if (brat.__resolve(17).o !== 'CZE' || !brat.__resolve(23).adminEntity?.includes('Bratislavský kraj')) {
+            return fail('brat_kraj_s23');
+          }
+
+          // First Vienna Award (Nov 1938 -> Step 2-16 HUN -> Step 17+ CZE)
+          for (const fel of [csal, nz, luc, kos]) {
+            if (fel.__resolve(1).o !== 'CZE' || fel.__resolve(2).o !== 'HUN' || fel.__resolve(6).o !== 'HUN' || fel.__resolve(16).o !== 'HUN' || fel.__resolve(17).o !== 'CZE') {
+              return fail(`fel_${fel.id}_timeline`);
+            }
+            if (fel.__resolve(7).fac !== 'Asse' || fel.__resolve(21).fac !== 'Comintern') {
+              return fail(`fel_${fel.id}_fac`);
+            }
+          }
+          if (!nz.__resolve(23).adminEntity?.includes('Nitriansky kraj')) return fail('nz_kraj_s23');
+
+          // Little War (Mala vojna, Apr 4, 1939): CZE 0-2 -> SLO 3 -> HUN 4-16 -> CZE 17-26
+          if (
+            lw.__resolve(1).o !== 'CZE' ||
+            lw.__resolve(2).o !== 'CZE' ||
+            lw.__resolve(3).o !== 'SLO' ||
+            lw.__resolve(4).o !== 'HUN' ||
+            lw.__resolve(16).o !== 'HUN' ||
+            lw.__resolve(17).o !== 'CZE' ||
+            !lw.__resolve(23).adminEntity?.includes('Prešovský kraj')
+          ) {
+            return fail('lw_timeline');
+          }
+
+          // Subcarpathian Ruthenia South (Step 2 HUN) vs North Chust (Step 2 CZE -> Step 3 HUN -> Step 16 SOV)
+          if (rs.__resolve(2).o !== 'HUN' || rs.__resolve(15).o !== 'HUN' || rs.__resolve(16).o !== 'SOV') return fail('rs_timeline');
+          if (rn.__resolve(2).o !== 'CZE' || rn.__resolve(3).o !== 'HUN' || rn.__resolve(15).o !== 'HUN' || rn.__resolve(16).o !== 'SOV') return fail('rn_timeline');
+
+          // Zaolzie (Munich Polish cession): CZE 0-1 -> POL 2-4 -> GER 5-17 -> CZE 18-26
+          if (zaol.__resolve(2).o !== 'POL' || zaol.__resolve(5).o !== 'GER' || zaol.__resolve(18).o !== 'CZE' || zaol.__resolve(21).fac !== 'Comintern') {
+            return fail('zaol_timeline');
+          }
+
+          // 3. Point-in-polygon historical cities
+          const ptInRing = (x: number, y: number, ring: number[][]) => {
+            let inside = false;
+            for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+              const xi = ring[i][0], yi = ring[i][1];
+              const xj = ring[j][0], yj = ring[j][1];
+              const intersect = (yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi + 1e-18) + xi;
+              if (intersect) inside = !inside;
+            }
+            return inside;
+          };
+          const ptInPoly = (x: number, y: number, rings: number[][][]) =>
+            rings.length > 0 && ptInRing(x, y, rings[0]) && !rings.slice(1).some((h) => ptInRing(x, y, h));
+          const ptInFeature = (x: number, y: number, f: any) => {
+            const g = f?.geometry;
+            if (!g) return false;
+            if (g.type === 'Polygon') return ptInPoly(x, y, g.coordinates);
+            if (g.type === 'MultiPolygon') return g.coordinates.some((p: number[][][]) => ptInPoly(x, y, p));
+            return false;
+          };
+
+          const skCityChecks: [string, number, number, string][] = [
+            ['Bratislava', 17.107, 48.148, 'CZE_SLO_BRATISLAVA'],
+            ['Trnava', 17.587, 48.377, 'CZE_SLO_TRNAVA'],
+            ['Nitra', 18.084, 48.308, 'CZE_SLO_NITRA_NORD'],
+            ['Zilina', 18.740, 49.223, 'CZE_SLO_ZILINA'],
+            ['BanskaBystrica', 19.146, 48.736, 'CZE_SLO_BANSKA_BYSTRICA'],
+            ['Poprad', 20.298, 49.059, 'CZE_SLO_SPIS'],
+            ['Presov', 21.234, 48.998, 'CZE_SLO_SARIS'],
+            ['Michalovce', 21.919, 48.754, 'CZE_SLO_ZEMPLIN'],
+            ['Trebisov', 21.720, 48.628, 'CZE_SLO_ZEMPLIN'],
+            ['Senec', 17.399, 48.219, 'CZE_FEL_CSALLOKOZ'],
+            ['DunajskaStreda', 17.619, 47.994, 'CZE_FEL_CSALLOKOZ'],
+            ['Galanta', 17.727, 48.190, 'CZE_FEL_NOVE_ZAMKY'],
+            ['Komarno', 18.126, 47.763, 'CZE_FEL_NOVE_ZAMKY'],
+            ['NoveZamky', 18.164, 47.985, 'CZE_FEL_NOVE_ZAMKY'],
+            ['Levice', 18.607, 48.216, 'CZE_FEL_NOVE_ZAMKY'],
+            ['Lucenec', 19.667, 48.332, 'CZE_FEL_LUCENEC'],
+            ['RimavskaSobota', 20.017, 48.382, 'CZE_FEL_LUCENEC'],
+            ['Roznava', 20.531, 48.660, 'CZE_FEL_KOSICE'],
+            ['Kosice', 21.261, 48.716, 'CZE_FEL_KOSICE'],
+            ['VelkeKapusany', 22.075, 48.554, 'CZE_FEL_KOSICE'],
+            ['KralovskyChlmec', 21.976, 48.423, 'CZE_FEL_KOSICE'],
+            ['Sobrance', 22.181, 48.745, 'CZE_FEL_STAKCIN_SOBRANCE'],
+            ['Stakcin', 22.228, 49.002, 'CZE_FEL_STAKCIN_SOBRANCE'],
+            ['Uzhorod', 22.288, 48.620, 'CZE_RUTHENIA_SOUTH'],
+            ['Mukacevo', 22.714, 48.441, 'CZE_RUTHENIA_SOUTH'],
+            ['Berehovo', 22.644, 48.206, 'CZE_RUTHENIA_SOUTH'],
+            ['Vynohradiv', 23.030, 48.140, 'CZE_RUTHENIA_NORTH'],
+            ['Chust', 23.298, 48.181, 'CZE_RUTHENIA_NORTH'],
+            ['Rachiv', 24.202, 48.054, 'CZE_RUTHENIA_NORTH'],
+          ];
+          for (const [nm, lon, lat, expId] of skCityChecks) {
+            const hits = skAllFeatures.filter((f) => ptInFeature(lon, lat, f)).map((f) => f.id);
+            if (hits.length !== 1 || hits[0] !== expId) {
+              return fail(`pip_${nm}_exp_${expId}_got_${hits.join(',')}`);
+            }
+          }
+
+          return true;
+        },
+      },
 
     ];
 
