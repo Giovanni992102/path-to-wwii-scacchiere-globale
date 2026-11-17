@@ -10823,15 +10823,29 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult('HUN', rawName || 'Felvidék', 'Felvidék (Magyar Királyság — Primo Arbitrato di Vienna)', 'Neutrale', 'Magyar Királyság');
       }
       if (nid === 'CZE_ZAOLZIE' || p.REGION_KIND === 'ZAOLZIE') {
-        if (s >= 18) return makeResult('CZE', 'Český Těšín (Těšínsko)', 'Territorio del Zaolzie/Těšínsko reintegrato nella Cecoslovacchia.', s >= 21 ? 'Comintern' : 'Alleati', 'Československá republika');
-        if (s < 2) return makeResult('CZE', 'Český Těšín (Těšínsko)', 'Československá republika', undefined, 'Československá republika');
-        if (s < 5) return makeResult('POL', 'Zaolzie (Śląsk Cieszyński)', 'Rzeczpospolita Polska', 'Alleati', 'Rzeczpospolita Polska');
-        return makeResult('GER', 'Teschen', 'Landkreis Teschen (Gau Oberschlesien)', 'Asse', 'Deutsches Reich');
+        if (s >= 18) return makeResult('CZE', 'Český Těšín, Karviná & Bohumín (Těšínsko)', 'Territorio del Zaolzie/Těšínsko reintegrato nella Cecoslovacchia.', s >= 21 ? 'Comintern' : 'Alleati', s >= 23 ? 'Československá republika — Ostravský kraj' : 'Československá republika');
+        if (s < 2) return makeResult('CZE', 'Český Těšín, Karviná & Bohumín (Těšínsko)', 'Československá republika', undefined, 'Československá republika');
+        if (s < 5) return makeResult('POL', 'Zaolzie (Śląsk Cieszyński)', 'Rzeczpospolita Polska', 'Alleati', 'Rzeczpospolita Polska — Autonomiczne Województwo Śląskie');
+        return makeResult('GER', 'Teschen (Oderberg und Karwin)', 'Landkreis Teschen (Gau Oberschlesien)', 'Asse', s >= 8 ? 'Deutsches Reich — Provinz Oberschlesien (Reg.-Bez. Kattowitz)' : 'Deutsches Reich — Provinz Schlesien (Reg.-Bez. Kattowitz)');
+      }
+      if (nid === 'CZE_HLUCINSKO' || p.REGION_KIND === 'HLUCINSKO') {
+        if (s >= 18) return makeResult('CZE', 'Hlučínsko / Hlučín', 'Territorio di Hlučín reintegrato nella Cecoslovacchia.', s >= 21 ? 'Comintern' : 'Alleati', s >= 23 ? 'Československá republika — Ostravský kraj' : 'Československá republika — Země Moravskoslezská');
+        if (s < 2) return makeResult('CZE', 'Hlučínsko (Hlučín / Kravaře)', 'Československá republika — Země Moravskoslezská (Hlučínsko)', undefined, 'Československá republika — Země Moravskoslezská (Hlučínsko)');
+        if (s === 17) return makeResult('SOV', 'Hlučín / Hultschin (Liberata — Armata Rossa, Aprile 1945)', '17–22 aprile 1945: liberata dal 4° Fronte Ucraino.', 'Comintern', 'Armata Rossa — 4° Fronte Ucraino');
+        return makeResult(
+          'GER',
+          'Hultschiner Ländchen (Landkreis Ratibor)',
+          'Direttamente annesso alla Provinz Schlesien / Oberschlesien (Reg.-Bez. Oppeln, Landkreis Ratibor)',
+          'Asse',
+          s >= 8
+            ? 'Deutsches Reich — Preußische Provinz Oberschlesien (Reg.-Bez. Oppeln · Landkreis Ratibor)'
+            : 'Deutsches Reich — Preußische Provinz Schlesien (Reg.-Bez. Oppeln · Landkreis Ratibor)'
+        );
       }
       if (s >= 21) {
         return makeResult(
           'CZE',
-          `${rawName || 'Československo'} (Československá republika — Colpo di Stato di Praga & Regime Comunista del 1948)`,
+          `${rawName || 'Československo'} (${s >= 23 ? 'Československá republika — Riforma Regionale dei Kraje 1949' : 'Československá republika — Colpo di Stato di Praga & Regime Comunista del 1948'})`,
           'Febbraio – Giugno 1948: dopo il colpo di Stato comunista di Praga (25 febbraio 1948, "Febbraio Vittorioso"), la morte del ministro degli Esteri Jan Masaryk (10 marzo), l\'adozione della Costituzione del 9 maggio e le dimissioni del presidente Edvard Beneš (7 giugno), il leader del KSČ Klement Gottwald assume la presidenza della Repubblica (14 giugno 1948), allineando la Cecoslovacchia al blocco sovietico.',
           'Comintern',
           'Československá republika (Prezident Klement Gottwald · KSČ · Costituzione del 9 Maggio 1948)'
@@ -10852,12 +10866,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           nid.startsWith('CZ07') ||
           nid === 'CZE_OSTRAVA' ||
           nid === 'CZE_SUD_TROPPAU' ||
+          nid === 'CZE_HLUCINSKO' ||
           nid === 'CZE_BRNO' ||
           nid === 'CZE_ZLIN' ||
           nid === 'CZE_SUD_SUEDMAEHREN' ||
           nrm.includes('ostrav') ||
           nrm.includes('troppau') ||
           nrm.includes('opava') ||
+          nrm.includes('hlucin') ||
+          nrm.includes('hultschin') ||
           nrm.includes('brno') ||
           nrm.includes('brunn') ||
           nrm.includes('zlin') ||
@@ -10882,9 +10899,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nid.startsWith('CZ052') ||
         nid.startsWith('CZ080');
       if (sud) {
-        return s < 2
-          ? makeResult('CZE', getTop('CZE').name, 'Sudety (Československá republika)', undefined, 'Československá republika')
-          : makeResult('GER', getTop('GER').name, getTop('GER').note || 'Reichsgau Sudetenland (Münchner Abkommen)', 'Asse', getTop('GER').adminTitle || 'Reichsgau Sudetenland (Großdeutsches Reich)');
+        if (s < 2) {
+          return makeResult('CZE', rawName || getTop('CZE').name, 'Sudety (Československá republika)', undefined, 'Československá republika — Pohraniční opevnění (ČSR)');
+        }
+        let sudAdmin = getTop('GER').adminTitle || 'Deutsches Reich — Reichsgau Sudetenland';
+        if (nid === 'CZE_SUD_BAYERISCHE_OSTMARK') {
+          sudAdmin = s >= 10 ? 'Deutsches Reich — Bayern (Gau Bayreuth · Reg.-Bez. Niederbayern und Oberpfalz)' : 'Deutsches Reich — Bayern (Gau Bayerische Ostmark · Reg.-Bez. Niederbayern und Oberpfalz)';
+        } else if (nid === 'CZE_SUD_KRUMMAU') {
+          sudAdmin = s >= 3 ? 'Deutsches Reich — Reichsgau Oberdonau (Linz)' : 'Deutsches Reich — Land Österreich / Gau Oberdonau (Linz)';
+        } else if (nid === 'CZE_SUD_SUEDMAEHREN') {
+          sudAdmin = s >= 3 ? 'Deutsches Reich — Reichsgau Niederdonau (Wien)' : 'Deutsches Reich — Land Österreich / Gau Niederdonau (Wien)';
+        } else if (nid === 'CZE_SUD_EGER' || nid === 'CZE_SUD_KARLSBAD' || nid === 'CZE_SUD_BOEHMERWALD') {
+          sudAdmin = 'Deutsches Reich — Reichsgau Sudetenland (Reg.-Bez. Eger)';
+        } else if (nid === 'CZE_SUD_ERZGEBIRGE' || nid === 'CZE_SUD_REICHENBERG' || nid === 'CZE_SUD_TRAUTENAU') {
+          sudAdmin = 'Deutsches Reich — Reichsgau Sudetenland (Reg.-Bez. Aussig · Gauhauptstadt Reichenberg)';
+        } else if (nid === 'CZE_SUD_SCHONHENGST' || nid === 'CZE_SUD_ALTVATER' || nid === 'CZE_SUD_TROPPAU') {
+          sudAdmin = 'Deutsches Reich — Reichsgau Sudetenland (Reg.-Bez. Troppau)';
+        }
+        return makeResult('GER', rawName || getTop('GER').name, 'Territorio di confine cecoslovacco annesso al Reich (Münchner Abkommen)', 'Asse', sudAdmin);
       }
       return s < 3
         ? makeResult('CZE', getTop('CZE').name, 'Československá republika (Země Česká a Moravskoslezská)', undefined, 'Československá republika')

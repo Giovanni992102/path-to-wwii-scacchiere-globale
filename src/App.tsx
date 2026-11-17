@@ -15846,6 +15846,134 @@ export default function App() {
           return true;
         },
       },
+      {
+        name: '147. Revisione Geostorica e Topologica Sudeti, Gaue Annessi, Hlučínsko & Zaolzie (Steps 0–26)',
+        run: () => {
+          const fail = (msg: string) => {
+            console.error('[Test #147 FALLITO]:', msg);
+            return false;
+          };
+
+          const byId = new Map<string, any>();
+          const czBohFeatures: any[] = [];
+          for (const f of loadedProvs) {
+            if (f?.id) byId.set(String(f.id), f);
+            if (
+              typeof f?.id === 'string' &&
+              f.id.startsWith('CZE_') &&
+              !f.id.startsWith('CZE_SLO_') &&
+              !f.id.startsWith('CZE_FEL_') &&
+              !f.id.startsWith('CZE_RUTH')
+            ) {
+              czBohFeatures.push(f);
+            }
+          }
+          if (czBohFeatures.length !== 26) return fail(`cz_count_${czBohFeatures.length}`);
+
+          const bayern = byId.get('CZE_SUD_BAYERISCHE_OSTMARK');
+          const krummau = byId.get('CZE_SUD_KRUMMAU');
+          const suedm = byId.get('CZE_SUD_SUEDMAEHREN');
+          const hluc = byId.get('CZE_HLUCINSKO');
+          const zaol = byId.get('CZE_ZAOLZIE');
+          const boehm = byId.get('CZE_SUD_BOEHMERWALD');
+          const reich = byId.get('CZE_SUD_REICHENBERG');
+          const altv = byId.get('CZE_SUD_ALTVATER');
+          const tropp = byId.get('CZE_SUD_TROPPAU');
+          const karl = byId.get('CZE_SUD_KARLSBAD');
+          if (!bayern || !krummau || !suedm || !hluc || !zaol || !boehm || !reich || !altv || !tropp || !karl) {
+            return fail('missing_core_cz_region');
+          }
+
+          // 1. Verifica attribuzione amministrativa autentica dei Gaue annessi (Step 2-17) & Parità con georesolver
+          if (!boehm.__resolve(3).adminEntity?.includes('Reg.-Bez. Eger')) return fail('boehm_eger');
+          if (!reich.__resolve(3).adminEntity?.includes('Reg.-Bez. Aussig')) return fail('reich_aussig');
+          if (!altv.__resolve(3).adminEntity?.includes('Reg.-Bez. Troppau')) return fail('altv_troppau');
+          if (bayern.__resolve(3).o !== 'GER' || !bayern.__resolve(3).adminEntity?.includes('Bayerische Ostmark') || !bayern.__resolve(11).adminEntity?.includes('Gau Bayreuth')) {
+            return fail('bayern_ostmark_bayreuth');
+          }
+          if (krummau.__resolve(3).o !== 'GER' || !krummau.__resolve(3).adminEntity?.includes('Reichsgau Oberdonau') || krummau.__resolve(3).adminEntity?.includes('Reichsgau Sudetenland')) {
+            return fail('krummau_oberdonau_no_sudetengau');
+          }
+          if (suedm.__resolve(3).o !== 'GER' || !suedm.__resolve(3).adminEntity?.includes('Reichsgau Niederdonau') || suedm.__resolve(3).adminEntity?.includes('Reichsgau Sudetenland')) {
+            return fail('suedm_niederdonau_no_sudetengau');
+          }
+          if (hluc.__resolve(0).o !== 'CZE' || hluc.__resolve(2).o !== 'GER' || !hluc.__resolve(2).adminEntity?.includes('Schlesien') || !hluc.__resolve(10).adminEntity?.includes('Oberschlesien') || hluc.__resolve(17).o !== 'SOV' || hluc.__resolve(18).o !== 'CZE') {
+            return fail('hlucinsko_timeline');
+          }
+          if (zaol.__resolve(2).o !== 'POL' || zaol.__resolve(5).o !== 'GER' || zaol.__resolve(17).o !== 'GER' || zaol.__resolve(18).o !== 'CZE') {
+            return fail('zaolzie_timeline');
+          }
+          for (const fCheck of [bayern, krummau, suedm, hluc, zaol, karl]) {
+            for (const st of [0, 2, 10, 17, 23, 26]) {
+              const rA = resolveFeature(fCheck, st);
+              const rB = resolveFeature({ ...fCheck, __resolve: undefined }, st);
+              if (rA.o !== rB.o || rA.fac !== rB.fac) return fail(`parity_${fCheck.id}_s${st}`);
+            }
+          }
+
+          // 2. Riforma Kraje (1949) & Miniere Uranio Jáchymov a Step 23–26
+          if (!karl.__resolve(23).adminEntity?.includes('Karlovarský kraj') || !karl.__resolve(26).note.includes('uranio')) {
+            return fail('karlsbad_kraj_uranium');
+          }
+          if (!hluc.__resolve(23).adminEntity?.includes('Ostravský kraj') || !tropp.__resolve(26).adminEntity?.includes('Ostravský kraj')) {
+            return fail('ostravsky_kraj');
+          }
+
+          // 3. Controllo Point-in-Polygon sui confini storici reali (Accordi di Monaco 1938)
+          const ptInRing = (x: number, y: number, ring: number[][]) => {
+            let inside = false;
+            for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+              const xi = ring[i][0], yi = ring[i][1];
+              const xj = ring[j][0], yj = ring[j][1];
+              if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
+                inside = !inside;
+              }
+            }
+            return inside;
+          };
+          const ptInPoly = (x: number, y: number, rings: number[][][]) => {
+            if (!rings.length || !ptInRing(x, y, rings[0])) return false;
+            for (let h = 1; h < rings.length; h++) {
+              if (ptInRing(x, y, rings[h])) return false;
+            }
+            return true;
+          };
+          const ptInFeature = (x: number, y: number, f: any) => {
+            const g = f?.geometry;
+            if (!g) return false;
+            if (g.type === 'Polygon') return ptInPoly(x, y, g.coordinates);
+            if (g.type === 'MultiPolygon') return g.coordinates.some((p: number[][][]) => ptInPoly(x, y, p));
+            return false;
+          };
+
+          const cityChecks: [string, number, number, string][] = [
+            ['Domazlice_Chodsko', 12.93, 49.44, 'CZE_PLZEN'],
+            ['Louny', 13.80, 50.36, 'CZE_KLADNO'],
+            ['Turnov', 15.16, 50.59, 'CZE_KOLIN'],
+            ['Nachod', 16.16, 50.42, 'CZE_HRADEC_KRALOVE'],
+            ['Ostrava', 18.29, 49.82, 'CZE_OSTRAVA'],
+            ['Bohumin', 18.36, 49.90, 'CZE_ZAOLZIE'],
+            ['Hlucin', 18.19, 49.90, 'CZE_HLUCINSKO'],
+            ['ZeleznaRuda', 13.23, 49.14, 'CZE_SUD_BAYERISCHE_OSTMARK'],
+            ['Vimperk', 13.78, 49.05, 'CZE_SUD_BAYERISCHE_OSTMARK'],
+            ['Prachatice', 14.00, 49.01, 'CZE_SUD_BAYERISCHE_OSTMARK'],
+            ['CeskyKrumlov', 14.32, 48.81, 'CZE_SUD_KRUMMAU'],
+            ['Slavonice', 15.35, 48.99, 'CZE_SUD_SUEDMAEHREN'],
+            ['Znojmo', 16.05, 48.86, 'CZE_SUD_SUEDMAEHREN'],
+            ['Sternberk', 17.30, 49.73, 'CZE_SUD_ALTVATER'],
+            ['Cheb', 12.37, 50.08, 'CZE_SUD_EGER'],
+            ['Liberec', 15.05, 50.77, 'CZE_SUD_REICHENBERG'],
+          ];
+          for (const [nm, lon, lat, expId] of cityChecks) {
+            const hits = czBohFeatures.filter((f) => ptInFeature(lon, lat, f)).map((f) => f.id);
+            if (hits.length !== 1 || hits[0] !== expId) {
+              return fail(`pip_${nm}_exp_${expId}_got_${hits.join(',')}`);
+            }
+          }
+
+          return true;
+        },
+      },
 
     ];
 

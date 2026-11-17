@@ -195,16 +195,16 @@ export const HISTORICAL_BATTLES: HistoricalBattle[] = [
   },
   {
     id: 'munich_sudetenland_1938',
-    name: 'Occupazione dei Sudeti (Conferenza di Monaco)',
-    historicalDate: '1-10 ottobre 1938',
+    name: 'Accordi di Monaco & Spartizione delle Regioni di Confine Cecoslovacche',
+    historicalDate: '1-10 ottobre / 20 novembre 1938',
     step: 2,
     theater: 'Europe',
-    coords: [14.05, 50.75], // Liberec / Reichenberg
-    belligerents: 'Terzo Reich vs Repubblica Cecoslovacca (Accordo Chamberlain-Daladier-Hitler-Mussolini)',
-    result: 'Cessione del territorio fortificato dei Sudeti alla Germania.',
-    significance: 'La Cecoslovacchia perde tutte le sue linee di difesa montane, le industrie Škoda e 3,5 milioni di abitanti.',
-    commanderA: 'Adolf Hitler / Wehrmacht',
-    commanderB: 'Edvard Beneš (Escluso dalla conferenza)',
+    coords: [15.05, 50.77], // Liberec / Reichenberg (Capitale Reichsgau Sudetenland)
+    belligerents: 'Terzo Reich (& Polonia / Ungheria) vs Repubblica Cecoslovacca',
+    result: 'Cessione alla Germania dei territori sudeti e misti ripartiti tra Reichsgau Sudetenland (Reg.-Bez. Eger, Aussig e Troppau), Gau Bayerische Ostmark (Železná Ruda–Prachatice), Oberdonau (Český Krumlov–Kaplice), Niederdonau (Znojmo–Mikulov–Břeclav–Nová Bystřice) e Provincia Prussiana di Slesia (Hlučínsko), più Zaolzie (incl. Bohumín) alla Polonia.',
+    significance: 'La Cecoslovacchia perde tutte le sue linee fortificate montane (Linea Beneš), il bacino industriale nord-boemo e 3,5 milioni di abitanti (restando cecoslovacche Domažlice/Chodsko, Louny, Turnov, Náchod e Ostrava).',
+    commanderA: 'Adolf Hitler · Konrad Henlein (Reichenberg) · Wehrmacht',
+    commanderB: 'Edvard Beneš · Gen. Jan Syrový (Esclusi dalla conferenza)',
   },
 
   // ---------------- STEP 3: MAR 1939 ----------------

@@ -379,6 +379,8 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     cleanId === 'HIST_XX_RIO_DE_ORO' ||
     cleanId === 'HIST_XX_NEPAL' ||
     cleanId === 'HIST_XX_ERITREA_ITALY' ||
+    nid.startsWith('CZE_') ||
+    cleanId.startsWith('CZE_') ||
     p.REGION_KIND === 'CHINA_PROVINCE' ||
     nid.startsWith('CHN_') ||
     cleanId.startsWith('CHN_') ||
