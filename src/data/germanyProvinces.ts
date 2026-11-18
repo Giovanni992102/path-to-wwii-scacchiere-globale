@@ -8086,6 +8086,26 @@ export const GERMANY_PROVINCES_META: Record<string, GermanyProvinceMeta> = {
 
 GERMANY_PROVINCES_META['DE_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
 GERMANY_PROVINCES_META['GER_KONIGSBERG'] = GERMANY_PROVINCES_META['DE_HIST_KONIGSBERG'];
+GERMANY_PROVINCES_META['DE_HIST_GUMBINNEN'] = {
+  id: 'DE_HIST_GUMBINNEN',
+  nutsName: 'Regierungsbezirk Gumbinnen (Insterburg, Gumbinnen, Tilsit)',
+  nameLatn: 'Gumbinnen & Insterburg (Ostpreußen)',
+  nameEngl: 'Gumbinnen and Insterburg',
+  modernName: "Gumbinnen / Insterburg / Tilsit (Oblast' di Kaliningrad)",
+  historicalName: 'Regierungsbezirk Gumbinnen (Provinz Ostpreußen)',
+  gau: 'Gau Ostpreußen',
+  land: 'Provinz Ostpreußen',
+  capital: 'Gumbinnen',
+  gauleiter: 'Erich Koch',
+  role: 'Settore orientale agricolo-militare della Prussia Orientale sul Nemunas e Pregel (Insterburg, Gumbinnen, Tilsit, Ebenrode). Frontiera verso la Lituania.',
+  notes: {
+    s0_1: "Tra il 1936 e il marzo 1938 il Regierungsbezirk Gumbinnen (Gumbinnen, Insterburg, Tilsit, Pillkallen) costituisce la frontiera orientale della Prussia Orientale verso la Lituania e la Polonia.",
+    s2_4: "Nel 1938-1939 il distretto di Gumbinnen ospita i concentramenti della Wehrmacht verso la frontiera di Memel e della Polonia nord-orientale.",
+    s5: "Dal 22 marzo 1939 l'annessione del Memelland viene incorporata amministrativamente proprio nel Regierungsbezirk Gumbinnen (Provinz Ostpreußen), seguito nell'ottobre 1939 dal Landkreis Sudauen (Suwałki).",
+    s6_7: "Tra il 1939 e il 1940 il Regierungsbezirk Gumbinnen funge da snodo ferroviario e logistico verso gli Stati Baltici alla vigilia delle tensioni tedesco-sovietiche.",
+    s8: "Nel giugno 1941 dalle piazzeforti di Tilsit, Insterburg e Gumbinnen scatta l'avanzata del Gruppo d'Armate Nord tedesco nell'Operazione Barbarossa attraverso il Nemunas.",
+  },
+};
 GERMANY_PROVINCES_META['DE300_WEST'] = {
   id: 'DE300_WEST',
   nutsName: 'West-Berlin',
@@ -8280,8 +8300,10 @@ function buildGermanyWarPhaseNote(meta: GermanyProvinceMeta, cleanId: string, st
     if (cleanId === 'DEE0B' || cleanId === 'DEA32' || cleanId === 'DEA27') {
       return `${header} — Maggio-Agosto 1944 (Oil Campaign): bombardamenti prioritari alleati contro gli impianti di idrogenazione e carburante sintetico (Leuna, Gelsenkirchen, Wesseling), paralizzando il rifornimento di aviazione e mezzi corazzati della Wehrmacht.`;
     }
-    if (cleanId === 'DE_HIST_KONIGSBERG') {
-      return `${header} — Estate 1944: dopo il crollo del Gruppo d'Armate Centro in Bielorussia (Operazione Bagration), l'Armata Rossa raggiunge i confini della Prussia Orientale; il 20 luglio 1944 alla Wolfsschanze presso Rastenburg Hitler scampa all'attentato di Stauffenberg.`;
+    if (cleanId === 'DE_HIST_KONIGSBERG' || cleanId === 'DE_HIST_GUMBINNEN') {
+      return cleanId === 'DE_HIST_GUMBINNEN'
+        ? `${header} — Estate 1944: dopo il crollo del Gruppo d'Armate Centro (Operazione Bagration), le avanguardie sovietiche si avvicinano alla frontiera di Schloßberg, Stallupönen e Goldap; il 20 luglio alla Wolfsschanze presso Rastenburg Hitler scampa all'attentato di Stauffenberg.`
+        : `${header} — Estate 1944: dopo il crollo del Gruppo d'Armate Centro in Bielorussia (Operazione Bagration), l'Armata Rossa raggiunge i confini della Prussia Orientale; il 20 luglio 1944 alla Wolfsschanze presso Rastenburg Hitler scampa all'attentato di Stauffenberg.`;
     }
     return `${header} — Estate 1944: dopo lo sbarco in Normandia e il collasso del fronte orientale, il Reich affronta la crisi dell'industria sintetica e ferroviaria sotto supremazia aerea alleata e si prepara alla mobilitazione d'emergenza.`;
   }
@@ -8293,8 +8315,10 @@ function buildGermanyWarPhaseNote(meta: GermanyProvinceMeta, cleanId: string, st
   if (cleanId.startsWith('DEC') || cleanId === 'DE121' || cleanId === 'DE124' || cleanId.startsWith('DE13')) {
     return `${header} — Dicembre 1944: difesa delle fortificazioni del Westwall lungo Saar e Alto Reno contro la 7ª Armata USA e la 1ª Armata Francese alla vigilia dell'Operazione Nordwind.`;
   }
-  if (cleanId === 'DE_HIST_KONIGSBERG') {
-    return `${header} — Dicembre 1944: la Prussia Orientale è trincerata tra Gumbinnen e la linea del Memel dopo gli scontri d'ottobre contro il 3° Fronte Bielorusso, alla vigilia della grande offensiva sovietica del gennaio 1945.`;
+  if (cleanId === 'DE_HIST_KONIGSBERG' || cleanId === 'DE_HIST_GUMBINNEN') {
+    return cleanId === 'DE_HIST_GUMBINNEN'
+      ? `${header} — Dicembre 1944: settore di prima linea tra Gumbinnen, Nemmersdorf, Goldap e la linea del Memel dopo l'offensiva d'ottobre del 3° Fronte Bielorusso, alla vigilia della grande spallata sovietica del gennaio 1945.`
+      : `${header} — Dicembre 1944: la Prussia Orientale è trincerata tra Gumbinnen e la linea del Memel dopo gli scontri d'ottobre contro il 3° Fronte Bielorusso, alla vigilia della grande offensiva sovietica del gennaio 1945.`;
   }
   return `${header} — Dicembre 1944: mobilitazione della milizia territoriale Volkssturm (settembre-ottobre 1944), rete ferroviaria e industrie belliche sconvolte dai bombardamenti continui su tutto il territorio del Reich.`;
 }
@@ -8309,6 +8333,15 @@ function resolveStep17Collapse(cleanId: string, meta: GermanyProvinceMeta): Reso
       "Il 9 aprile 1945 le truppe del 3° Fronte Bielorusso (Maresciallo Vasilevskij) espugnano la piazzaforte di Königsberg costringendo il generale Otto Lasch alla resa.",
       'Comintern',
       'SSSR — 3° Fronte Bielorusso (Maresciallo Aleksandr Vasilevskij)'
+    );
+  }
+  if (cleanId === 'DE_HIST_GUMBINNEN') {
+    return makeResult(
+      'SOV',
+      "Insterburg, Gumbinnen & Tilsit (Offensiva della Prussia Orientale — Gennaio 1945)",
+      "20-22 gennaio 1945: il 3° Fronte Bielorusso del generale Černjachovskij sfonda le difese orientali della Prussia Orientale conquistando Tilsit (Sovetsk), Gumbinnen (Gusev) e Insterburg (Chernyakhovsk) nella marcia su Königsberg.",
+      'Comintern',
+      'SSSR — 3° Fronte Bielorusso (Gen. Ivan Černjachovskij)'
     );
   }
   if (cleanId === 'DED51') {
@@ -8513,20 +8546,22 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     const isStep23 = step >= 23;
     const isStep24 = step >= 24;
 
-    // 1. Königsberg / Kaliningrad (annessa all'URSS — RSFSR)
-    if (cleanId === 'DE_HIST_KONIGSBERG' || nrm.includes('konigsberg') || nrm.includes('kaliningrad')) {
+    // 1. Königsberg & Gumbinnen / Kaliningrad (annessa all'URSS — RSFSR)
+    if (cleanId === 'DE_HIST_KONIGSBERG' || cleanId === 'DE_HIST_GUMBINNEN' || nrm.includes('konigsberg') || nrm.includes('kaliningrad') || nrm.includes('gumbinnen')) {
+      const cityTag = cleanId === 'DE_HIST_GUMBINNEN' ? 'Insterburg & Tilsit' : 'Königsberg';
+      const kalTag = cleanId === 'DE_HIST_GUMBINNEN' ? "Kaliningrad Est (Chernyakhovsk / Sovetsk)" : 'Kaliningrad';
       return makeResult(
         'SOV',
         isStep20
-          ? 'Kaliningrad (Oblast\' di Kaliningrad — RSFSR, Dic. 1947)'
+          ? `${kalTag} (Oblast' di Kaliningrad — RSFSR, Dic. 1947)`
           : isStep19
-          ? 'Kaliningrad (Kaliningradskaya Oblast\' — RSFSR / URSS, 1947)'
-          : 'Königsberg (Kaliningrad — Annessione Sovietica, Potsdam 1945)',
+          ? `${kalTag} (Kaliningradskaya Oblast' — RSFSR / URSS, 1947)`
+          : `${cityTag} (Kaliningrad — Annessione Sovietica, Potsdam 1945)`,
         isStep20
-          ? 'Dicembre 1947 (Kaliningradskaya Oblast\', RSFSR): fase conclusiva dell\'espulsione dei tedeschi residui verso la Zona Sovietica in Germania (1947-48), riforma monetaria del 14-16 dicembre e potenziamento navale di Baltijsk.'
+          ? 'Dicembre 1947 (Kaliningradskaya Oblast\', RSFSR): fase conclusiva dell\'espulsione dei tedeschi residui verso la Zona Sovietica in Germania (1947-48), riforma monetaria del 14-16 dicembre e potenziamento di Baltijsk, Sovetsk e Černjachovsk.'
           : isStep19
-          ? 'Settembre 1947 (Kaliningradskaya Oblast\', RSFSR / URSS): istituita nell\'aprile-luglio 1946 dopo la morte di Michail Kalinin; ricostruzione dei cantieri Yantar e insediamento di coloni da Russia e Bielorussia nel Quarto Piano Quinquennale.'
-          : 'Settembre 1945: il settore settentrionale della regione storica di Königsberg è assegnato all\'URSS dagli accordi di Potsdam sotto amministrazione speciale della RSFSR.',
+          ? 'Settembre 1947 (Kaliningradskaya Oblast\', RSFSR / URSS): istituita nell\'aprile-luglio 1946 dopo la morte di Michail Kalinin; ricostruzione e insediamento di coloni da Russia e Bielorussia nel Quarto Piano Quinquennale.'
+          : 'Settembre 1945: il settore settentrionale della Prussia Orientale (Königsberg, Gumbinnen, Insterburg, Tilsit) è assegnato all\'URSS dagli accordi di Potsdam sotto amministrazione speciale della RSFSR.',
         'Comintern',
         isStep19 ? 'Kaliningradskij Oblispolkom — RSFSR (URSS)' : 'URSS — Amministrazione Speciale di Königsberg (RSFSR)'
       );

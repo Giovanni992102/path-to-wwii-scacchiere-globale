@@ -9263,19 +9263,67 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
   },
   {
     nuts: 'PL411',
-    name: 'Schneidemühl (Grenzmark Posen-Westpreußen)',
-    keys: ['pilski', 'pila', 'schneidemuehl', 'schneidemuhl', 'grenzmark', 'chodziez', 'kolmar_in_posen', 'czarnkow'],
-    adminTitle: 'Deutsches Reich — Grenzmark Posen-Westpreußen / Pommern',
-    note: 'Capoluogo della provincia prussiana di frontiera Grenzmark Posen-Westpreußen istituita dopo Versailles (aggregata alla Pomerania nel 1938).',
+    name: 'Schneidemühl & Flatow (Grenzmark Posen-Westpreußen)',
+    keys: ['pilski', 'pila', 'schneidemuehl', 'schneidemuhl', 'flatow', 'zlotow', 'netzekreis', 'trzcianka'],
+    adminTitle: 'Deutsches Reich — Provinz Grenzmark Posen-Westpreußen / Pommern (Schneidemühl)',
+    note: 'Capoluogo della provincia prussiana di frontiera Grenzmark Posen-Westpreußen (Schneidemühl/Piła, Flatow/Złotów e Netzekreis/Trzcianka) a nord della Noteć (aggregata alla Pomerania nell\'ottobre 1938).',
+  },
+  {
+    nuts: 'DE_SCHLOCHAU_GRENZMARK',
+    name: 'Schlochau (Grenzmark Posen-Westpreußen)',
+    keys: ['de_schlochau_grenzmark', 'schlochau', 'czluchow'],
+    adminTitle: 'Deutsches Reich — Reg.-Bez. Grenzmark Posen-Westpreußen (Provinz Pommern)',
+    note: 'Circondario tedesco di Schlochau (Człuchów) nella provincia della Grenzmark Posen-Westpreußen (aggregata a Pommern nell\'ottobre 1938), affacciato al Corridoio Polacco di Chojnice.',
+  },
+  {
+    nuts: 'PL_CHODZIEZ_CZARNKOW',
+    name: 'Chodzież, Czarnków & Wągrowiec (Województwo Poznańskie)',
+    keys: ['pl_chodziez_czarnkow', 'chodziez', 'czarnkow', 'wagrowiec', 'kolmar_in_posen', 'czarnikau', 'wongrowitz'],
+    dynamicName: (s: number) =>
+      s < 5 ? 'Chodzież, Czarnków & Wągrowiec (Województwo Poznańskie)' : 'Kolmar i.P., Czarnikau und Eichenbrück (Reichsgau Wartheland)',
+    dynamicAdminTitle: (s: number) =>
+      s < 5 ? 'Rzeczpospolita Polska — Województwo Poznańskie' : 'Deutsches Reich — Reichsgau Wartheland (Reg.-Bez. Hohensalza / Posen)',
+    dynamicNote: (s: number) =>
+      s < 5
+        ? 'Fascia settentrionale della Grande Polonia a sud della Noteć (Chodzież, Czarnków, Wągrowiec), rimasta polacca dal 1919 al 1939 al confine con la Grenzmark tedesca di Schneidemühl.'
+        : 'Annessa direttamente al Terzo Reich nell\'ottobre 1939 come parte del Reichsgau Wartheland.',
   },
 
-  // ================= 5. PRUSSIA ORIENTALE TEDESCA PRE-1939 (Ostpreußen - 3) =================
+  // ================= 5. PRUSSIA ORIENTALE TEDESCA PRE-1939 (Ostpreußen) =================
+  {
+    nuts: 'DE_HIST_MARIENWERDER',
+    name: 'Marienwerder & Marienburg (Ostpreußen — Reg.-Bez. Westpreußen)',
+    keys: ['de_hist_marienwerder', 'kwidzyn', 'marienwerder', 'malbork', 'marienburg', 'sztum', 'stuhm'],
+    dynamicName: (s: number) =>
+      s < 5 ? 'Marienwerder & Marienburg (Ostpreußen)' : 'Marienwerder und Marienburg (Reichsgau Danzig-Westpreußen)',
+    dynamicAdminTitle: (s: number) =>
+      s < 5
+        ? 'Deutsches Reich — Provinz Ostpreußen (Regierungsbezirk Westpreußen · Marienwerder)'
+        : 'Deutsches Reich — Reichsgau Danzig-Westpreußen (Regierungsbezirk Marienwerder)',
+    dynamicNote: (s: number) =>
+      s < 5
+        ? 'Territorio tedesco sulla riva destra della Vistola e del Nogat (Marienburg/Malbork, Marienwerder/Kwidzyn, Stuhm/Sztum), confermato alla Germania dal plebiscito del luglio 1920 come Regierungsbezirk Westpreußen nella Prussia Orientale.'
+        : 'Nel riordino amministrativo dell\'ottobre 1939 il Regierungsbezirk Marienwerder passa dalla Prussia Orientale al nuovo Reichsgau Danzig-Westpreußen.',
+  },
   {
     nuts: 'PL621',
-    name: 'Elbing (Ostpreußen)',
-    keys: ['elblaski', 'elblag', 'elbing', 'malbork', 'marienburg', 'braniewo', 'braunsberg', 'kwidzyn', 'marienwerder', 'sztum'],
-    adminTitle: 'Deutsches Reich — Regierungsbezirk Westpreußen (Provinz Ostpreußen)',
-    note: 'Porto industriale della Prussia Orientale (cantieri navali Schichau-Werke) e maestosa fortezza teutonica di Marienburg sul Nogat.',
+    name: 'Elbing & Osterode (Ostpreußen)',
+    keys: ['elblaski', 'elblag', 'elbing', 'braniewo', 'braunsberg', 'ostroda', 'osterode', 'ilawa', 'deutsch_eylau'],
+    adminTitle: 'Deutsches Reich — Provinz Ostpreußen (Elbing / Königsberg Süd / Allenstein West)',
+    note: 'Porto industriale di Elbing (cantieri Schichau-Werke), Ermland costiera (Braunsberg) e Prussia Occidentale orientale (Osterode, Deutsch Eylau) rimaste alla Germania nel 1920.',
+  },
+  {
+    nuts: 'PL_SOLDAU_LUBAWA',
+    name: 'Działdowo (Soldau) & Lubawa (Pomorskie / Warszawskie)',
+    keys: ['pl_soldau_lubawa', 'dzialdowo', 'soldau', 'lubawa', 'lobau', 'nowe_miasto_lubawskie'],
+    dynamicName: (s: number) =>
+      s < 5 ? 'Działdowo (Soldau) & Lubawa (Polonia)' : 'Soldau und Löbau (Gau Ostpreußen)',
+    dynamicAdminTitle: (s: number) =>
+      s < 5 ? 'Rzeczpospolita Polska — Województwo Warszawskie / Pomorskie' : 'Deutsches Reich — Provinz Ostpreußen (Reg.-Bez. Zichenau & Allenstein · Soldau)',
+    dynamicNote: (s: number) =>
+      s < 5
+        ? 'Territorio di Soldau (Działdowo) e terra di Lubawa ceduti dalla Prussia Orientale alla Polonia nel gennaio 1920 per assicurare la linea ferroviaria strategica Varsavia–Danzica.'
+        : 'Annesso direttamente alla Prussia Orientale nell\'ottobre 1939 (Soldau nel Regierungsbezirk Zichenau / Allenstein sotto Erich Koch).',
   },
   {
     nuts: 'PL622',
@@ -9327,10 +9375,10 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
   },
   {
     nuts: 'PL637',
-    name: 'Chojnice (Województwo Pomorskie)',
-    keys: ['chojnicki', 'chojnice', 'konitz', 'tuchola', 'tuchel', 'czluchow', 'schlochau'],
+    name: 'Chojnice e Kościerzyna (Województwo Pomorskie)',
+    keys: ['chojnicki', 'chojnice', 'konitz', 'koscierzyna', 'berent', 'tuchola', 'tuchel'],
     dynamicName: (s: number) =>
-      s < 5 ? 'Chojnice (Województwo Pomorskie)' : 'Konitz (Reichsgau Danzig-Westpreußen)',
+      s < 5 ? 'Chojnice e Kościerzyna (Województwo Pomorskie)' : 'Konitz und Berent (Reichsgau Danzig-Westpreußen)',
     dynamicAdminTitle: (s: number) =>
       s < 5
         ? 'Rzeczpospolita Polska — Województwo Pomorskie'

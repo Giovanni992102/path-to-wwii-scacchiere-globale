@@ -7315,6 +7315,65 @@ export function resolveLithuanianProvince(
     );
   }
 
+  // 1b. Vievis & Širvintos (LT_TRAKAI_SIRVINTOS — sempre Lituania ad ovest della Linea Foch)
+  if (nid === 'LT_TRAKAI_SIRVINTOS') {
+    if (s < 6) {
+      return makeResult(
+        'LIT',
+        'Vievis & Širvintos (Lituania Prebellica)',
+        "Lietuvos Respublika — Fascia occidentale ad ovest della linea di demarcazione polacco-lituana (Linea Foch / Conferenza degli Ambasciatori del 1923), rimasta sempre entro la Repubblica di Lituania fino al 1940.",
+        'Neutrale',
+        'Lietuvos Respublika'
+      );
+    }
+    return makeResult(
+      'SOV',
+      'Širvintos & Vievis (Lietuvos TSR)',
+      'SSSR — Incorporazione nella Repubblica Socialista Sovietica Lituana (giugno-agosto 1940).',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
+  // 1c. Druskininkai / Marcinkonys (LT_DZUKIJA_PL_DRUSKININKAI) e Ignalina / Adutiškis (LT_SVENCIONYS_WILNO):
+  //     POL (0-4) -> SOV BSSR (Step 5: ott 1939-nov 1940) -> SOV LSSR (Step 6-8: cessione 6 nov 1940) -> GER (9-15) -> SOV (16+)
+  if (nid === 'LT_DZUKIJA_PL_DRUSKININKAI' || nid === 'LT_SVENCIONYS_WILNO') {
+    const isSvenc = nid === 'LT_SVENCIONYS_WILNO';
+    if (s < 5) {
+      return makeResult(
+        'POL',
+        isSvenc
+          ? 'Powiat Święciański Est — Ignalina & Adutiškis (Województwo Wileńskie)'
+          : 'Druskininkai & Marcinkonys (Województwo Białostockie / Kresy)',
+        isSvenc
+          ? "Rzeczpospolita Polska — Settore orientale del Powiat Święciański nel Województwo Wileńskie lungo il confine lituano del 1923–1939."
+          : "Rzeczpospolita Polska — Stazione termale di Druskininkai (Druskieniki) e Marcinkonys nel corridoio di Grodno–Wilno (1920–1939).",
+        'Alleati',
+        isSvenc ? 'Rzeczpospolita Polska — Województwo Wileńskie' : 'Rzeczpospolita Polska — Województwo Białostockie'
+      );
+    }
+    if (s === 5) {
+      return makeResult(
+        'SOV',
+        isSvenc
+          ? 'Svenciany Est / Ignalina (Oblast\' di Vilejka — RSS Bielorussa)'
+          : 'Druskininkai & Marcinkonys (Oblast\' di Belostok / Baranovichi — RSS Bielorussa)',
+        "Ottobre 1939 – Novembre 1940: dopo il Patto Molotov-Ribbentrop l'URSS trasferisce la sola città di Vilnius alla Lituania, ma incorpora Druskininkai, Marcinkonys, Švenčionys e Adutiškis nella RSS Bielorussa fino al 6 novembre 1940.",
+        'Comintern',
+        'SSSR — Belorusskaya SSR (Ottobre 1939 – Novembre 1940)'
+      );
+    }
+    return makeResult(
+      'SOV',
+      isSvenc
+        ? 'Švenčionys / Ignalina (Lietuvos TSR — Cessione dalla BSSR, Nov. 1940)'
+        : 'Druskininkai & Varėna (Lietuvos TSR — Cessione dalla BSSR, Nov. 1940)',
+      'Dal 6 novembre 1940 Mosca trasferisce alla neocostituita RSS Lituana (Lietuvos TSR) circa 2.637 km² già inclusi nella RSS Bielorussa (Švenčionys, Adutiškis, Dieveniškės, Marcinkonys e Druskininkai).',
+      'Comintern',
+      'SSSR — Lietuvos TSR (Litovskaya SSR)'
+    );
+  }
+
   // 2. Vilniaus apskritis / Wilno (LT011)
   if (
     nid === 'LT011' ||
@@ -7375,7 +7434,7 @@ export function resolveLithuanianProvince(
     if (s < 6) {
       return makeResult(
         'LIT',
-        'Alytaus apskritis (Alytus / Druskininkai)',
+        'Alytaus apskritis (Alytus e Lazdijai)',
         'Lietuvos Respublika — Distretto meridionale sul fiume Nemunas, centro di guarnigione; dall\'ottobre 1939 ospita una delle quattro basi militari sovietiche pattuite con Mosca.',
         'Neutrale',
         'Lietuvos Respublika — Alytaus apskritis'
@@ -10473,15 +10532,17 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
       // Territori tedeschi pre-1939 (Bassa Slesia, Alta Slesia tedesca, Pomerania occidentale, Grenzmark, Prussia Orientale)
       const isPreWarGerman = (
-        nid.startsWith('PL51') || // Breslau / Niederschlesien
-        nid.startsWith('PL52') || // Oppeln / Oberschlesien
-        nid === 'PL228' ||        // Beuthen O.S.
-        nid === 'PL229' ||        // Gleiwitz O.S.
-        nid.startsWith('PL42') || // Stettin / Pommern
-        nid === 'PL636' ||        // Stolp / Pommern
-        nid.startsWith('PL43') || // Landsberg / Grünberg / Brandenburg
-        nid === 'PL411' ||        // Schneidemühl / Grenzmark
-        nid.startsWith('PL62')    // Allenstein, Elbing, Lyck / Ostpreußen
+        nid.startsWith('PL51') ||          // Breslau / Niederschlesien
+        nid.startsWith('PL52') ||          // Oppeln / Oberschlesien
+        nid === 'PL228' ||                 // Beuthen O.S.
+        nid === 'PL229' ||                 // Gleiwitz O.S.
+        nid.startsWith('PL42') ||          // Stettin / Pommern
+        nid === 'PL636' ||                 // Stolp / Pommern
+        nid.startsWith('PL43') ||          // Landsberg / Grünberg / Brandenburg
+        nid === 'PL411' ||                 // Schneidemühl / Grenzmark
+        nid === 'DE_SCHLOCHAU_GRENZMARK' || // Schlochau / Grenzmark
+        nid === 'DE_HIST_MARIENWERDER' ||  // Marienwerder & Marienburg / Ostpreußen Westpreußen
+        nid.startsWith('PL62')             // Allenstein, Elbing, Lyck / Ostpreußen
       );
 
       if (isPreWarGerman) {
@@ -10515,8 +10576,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               'Wehrmacht — Heeresgruppe Mitte (Sudetenfront)'
             );
           }
-          const isPomWest = nid === 'PL424' || nid.startsWith('PL42') || nid === 'PL636' || nrm.includes('szczecin') || nrm.includes('stettin') || nrm.includes('koszalin') || nrm.includes('slupsk') || nrm.includes('kolobrzeg');
-          const isEastPrussiaSouth = nid.startsWith('PL62') || nrm.includes('olsztyn') || nrm.includes('elblag') || nrm.includes('elk') || nrm.includes('allenstein');
+          const isPomWest = nid === 'PL424' || nid.startsWith('PL42') || nid === 'PL636' || nid === 'DE_SCHLOCHAU_GRENZMARK' || nrm.includes('szczecin') || nrm.includes('stettin') || nrm.includes('koszalin') || nrm.includes('slupsk') || nrm.includes('kolobrzeg') || nrm.includes('schlochau');
+          const isEastPrussiaSouth = nid.startsWith('PL62') || nid === 'DE_HIST_MARIENWERDER' || nrm.includes('olsztyn') || nrm.includes('elblag') || nrm.includes('elk') || nrm.includes('allenstein') || nrm.includes('marienwerder') || nrm.includes('marienburg');
           const isSilesiaCore = nid.startsWith('PL5') || nid === 'PL228' || nid === 'PL229' || nrm.includes('opole') || nrm.includes('legnic') || nrm.includes('gliwic') || nrm.includes('bytom');
           const sectorDesc = isEastPrussiaSouth
             ? 'Gennaio-Marzo 1945: la Masuria e la Prussia Orientale meridionale (Olsztyn/Allenstein, Elbląg, Ełk) vengono conquistate dal 2° e 3° Fronte Bielorusso dell\'Armata Rossa.'

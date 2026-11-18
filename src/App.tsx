@@ -16125,6 +16125,137 @@ export default function App() {
           return true;
         },
       },
+      {
+        id: 149,
+        name: 'Check Storico Totale: Schneidemühl (Grenzmark), Ostpreußen (Marienwerder/Soldau/Gumbinnen) & Wilno (Steps 0-26)',
+        run: () => {
+          const fail = (why: string) => {
+            console.error('[Test #149 FAIL]', why);
+            return false;
+          };
+          const targetIds = [
+            'PL411',
+            'PL_CHODZIEZ_CZARNKOW',
+            'DE_SCHLOCHAU_GRENZMARK',
+            'PL637',
+            'PL636',
+            'PL_HIST_CORRIDOR',
+            'DE_HIST_MARIENWERDER',
+            'PL638',
+            'PL621',
+            'PL_SOLDAU_LUBAWA',
+            'DE_HIST_KONIGSBERG',
+            'DE_HIST_GUMBINNEN',
+            'LT_TRAKAI_SIRVINTOS',
+            'LT011',
+            'LT_DZUKIJA_PL_DRUSKININKAI',
+            'LT021',
+            'LT_SVENCIONYS_WILNO',
+            'LT029',
+          ];
+          const byId = new Map<string, any>();
+          for (const f of loadedProvs || []) {
+            if (f && targetIds.includes(f.id)) byId.set(f.id, f);
+          }
+          for (const id of targetIds) {
+            if (!byId.has(id)) return fail(`missing_${id}`);
+          }
+
+          const checkSeq = (id: string, checks: [number, string][]) => {
+            const f = byId.get(id);
+            for (const [s, expO] of checks) {
+              const r = resolveFeature(f, s);
+              if (r.o !== expO) return fail(`${id}_s${s}_exp_${expO}_got_${r.o}`);
+            }
+            return true;
+          };
+
+          // 1. Schneidemühl / Grenzmark vs Wielkopolska & Pomerelia
+          if (!checkSeq('PL411', [[0, 'GER'], [4, 'GER'], [16, 'GER'], [17, 'SOV'], [18, 'POL']])) return false;
+          if (!checkSeq('PL_CHODZIEZ_CZARNKOW', [[0, 'POL'], [4, 'POL'], [5, 'GER'], [16, 'GER'], [17, 'POL']])) return false;
+          if (!checkSeq('DE_SCHLOCHAU_GRENZMARK', [[0, 'GER'], [4, 'GER'], [16, 'GER'], [17, 'SOV'], [18, 'POL']])) return false;
+          if (!checkSeq('PL637', [[0, 'POL'], [4, 'POL'], [5, 'GER'], [16, 'GER'], [17, 'POL']])) return false;
+
+          // 2. Ostpreußen: Marienwerder, Elbing, Soldau/Działdowo, Königsberg, Gumbinnen
+          if (!checkSeq('DE_HIST_MARIENWERDER', [[0, 'GER'], [4, 'GER'], [5, 'GER'], [16, 'GER'], [17, 'SOV'], [18, 'POL']])) return false;
+          if (!checkSeq('PL638', [[0, 'POL'], [4, 'POL'], [5, 'GER'], [16, 'GER'], [17, 'POL']])) return false;
+          if (!checkSeq('PL621', [[0, 'GER'], [4, 'GER'], [16, 'GER'], [17, 'SOV'], [18, 'POL']])) return false;
+          if (!checkSeq('PL_SOLDAU_LUBAWA', [[0, 'POL'], [4, 'POL'], [5, 'GER'], [16, 'GER'], [17, 'POL']])) return false;
+          if (!checkSeq('DE_HIST_KONIGSBERG', [[0, 'GER'], [16, 'GER'], [17, 'SOV'], [18, 'SOV'], [26, 'SOV']])) return false;
+          if (!checkSeq('DE_HIST_GUMBINNEN', [[0, 'GER'], [16, 'GER'], [17, 'SOV'], [18, 'SOV'], [26, 'SOV']])) return false;
+
+          // 3. Wilno / Vilnius & Lithuania–Poland border
+          if (!checkSeq('LT_TRAKAI_SIRVINTOS', [[0, 'LIT'], [5, 'LIT'], [6, 'SOV'], [9, 'GER'], [16, 'SOV']])) return false;
+          if (!checkSeq('LT011', [[0, 'POL'], [4, 'POL'], [5, 'LIT'], [6, 'SOV'], [9, 'GER'], [16, 'SOV']])) return false;
+          if (!checkSeq('LT021', [[0, 'LIT'], [5, 'LIT'], [6, 'SOV'], [9, 'GER'], [16, 'SOV']])) return false;
+          if (!checkSeq('LT_DZUKIJA_PL_DRUSKININKAI', [[0, 'POL'], [4, 'POL'], [5, 'SOV'], [6, 'SOV'], [9, 'GER'], [16, 'SOV']])) return false;
+          if (!checkSeq('LT029', [[0, 'LIT'], [5, 'LIT'], [6, 'SOV'], [9, 'GER'], [16, 'SOV']])) return false;
+          if (!checkSeq('LT_SVENCIONYS_WILNO', [[0, 'POL'], [4, 'POL'], [5, 'SOV'], [6, 'SOV'], [9, 'GER'], [16, 'SOV']])) return false;
+          if (resolveFeature(byId.get('LT_DZUKIJA_PL_DRUSKININKAI'), 5).adminEntity?.includes('Belorusskaya') !== true) {
+            return fail('druskininkai_bssr_s5');
+          }
+
+          // 4. Point-in-polygon cities
+          const ptInRing = (x: number, y: number, ring: number[][]) => {
+            let inside = false;
+            for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+              const xi = ring[i][0], yi = ring[i][1];
+              const xj = ring[j][0], yj = ring[j][1];
+              const intersect = (yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi + 1e-18) + xi;
+              if (intersect) inside = !inside;
+            }
+            return inside;
+          };
+          const ptInPoly = (x: number, y: number, rings: number[][][]) =>
+            rings.length > 0 && ptInRing(x, y, rings[0]) && !rings.slice(1).some((h) => ptInRing(x, y, h));
+          const ptInFeature = (x: number, y: number, f: any) => {
+            const g = f?.geometry;
+            if (!g) return false;
+            if (g.type === 'Polygon') return ptInPoly(x, y, g.coordinates);
+            if (g.type === 'MultiPolygon') return g.coordinates.some((p: number[][][]) => ptInPoly(x, y, p));
+            return false;
+          };
+
+          const targetFeats = targetIds.map((id) => byId.get(id)!);
+          const pipChecks: [string, number, number, string][] = [
+            ['Schneidemuhl_Pila', 16.738, 53.151, 'PL411'],
+            ['Flatow_Zlotow', 17.041, 53.363, 'PL411'],
+            ['Chodziez', 16.912, 52.992, 'PL_CHODZIEZ_CZARNKOW'],
+            ['Czarnkow', 16.564, 52.905, 'PL_CHODZIEZ_CZARNKOW'],
+            ['Schlochau_Czluchow', 17.360, 53.664, 'DE_SCHLOCHAU_GRENZMARK'],
+            ['Chojnice_Konitz', 17.557, 53.695, 'PL637'],
+            ['Kartuzy', 18.200, 54.334, 'PL_HIST_CORRIDOR'],
+            ['Lebork', 17.747, 54.539, 'PL636'],
+            ['Tczew', 18.777, 54.092, 'PL638'],
+            ['Marienwerder_Kwidzyn', 18.931, 53.736, 'DE_HIST_MARIENWERDER'],
+            ['Marienburg_Malbork', 19.027, 54.036, 'DE_HIST_MARIENWERDER'],
+            ['Elbing', 19.404, 54.152, 'PL621'],
+            ['Osterode', 19.965, 53.697, 'PL621'],
+            ['Soldau_Dzialdowo', 20.178, 53.237, 'PL_SOLDAU_LUBAWA'],
+            ['Lubawa', 19.752, 53.505, 'PL_SOLDAU_LUBAWA'],
+            ['Konigsberg', 20.452, 54.710, 'DE_HIST_KONIGSBERG'],
+            ['Gumbinnen', 22.199, 54.592, 'DE_HIST_GUMBINNEN'],
+            ['Insterburg', 21.815, 54.633, 'DE_HIST_GUMBINNEN'],
+            ['Tilsit', 21.886, 55.083, 'DE_HIST_GUMBINNEN'],
+            ['Vievis', 24.817, 54.770, 'LT_TRAKAI_SIRVINTOS'],
+            ['Vilnius_Wilno', 25.279, 54.687, 'LT011'],
+            ['Trakai_Troki', 24.934, 54.637, 'LT011'],
+            ['Svencionys', 26.157, 55.133, 'LT011'],
+            ['Alytus', 24.041, 54.396, 'LT021'],
+            ['Druskininkai', 23.972, 54.015, 'LT_DZUKIJA_PL_DRUSKININKAI'],
+            ['Zarasai', 26.245, 55.731, 'LT029'],
+            ['Ignalina', 26.161, 55.340, 'LT_SVENCIONYS_WILNO'],
+          ];
+          for (const [nm, lon, lat, expId] of pipChecks) {
+            const hits = targetFeats.filter((f) => ptInFeature(lon, lat, f)).map((f) => f.id);
+            if (hits.length !== 1 || hits[0] !== expId) {
+              return fail(`pip_${nm}_exp_${expId}_got_${hits.join(',')}`);
+            }
+          }
+
+          return true;
+        },
+      },
 
     ];
 

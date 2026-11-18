@@ -92,8 +92,23 @@ precisionFeatures.forEach((f) => {
     if (f.id) RESOLVER_REGISTRY[f.id] = f.__resolve;
     if (f.properties?.id) RESOLVER_REGISTRY[f.properties.id] = f.__resolve;
     if (f.properties?.NAME) RESOLVER_REGISTRY[f.properties.NAME] = f.__resolve;
-    if (f.properties?.CNTR_ID && !['DE', 'GER', 'TR', 'TUR', 'PL', 'POL', 'IT', 'ITA', 'FR', 'FRA'].includes(f.properties.CNTR_ID)) RESOLVER_REGISTRY[f.properties.CNTR_ID] = f.__resolve;
-    if (f.properties?.CNTR_CODE && f.properties.CNTR_CODE.length > 2 && !['DE', 'GER', 'TR', 'TUR', 'PL', 'POL', 'IT', 'ITA', 'FR', 'FRA'].includes(f.properties.CNTR_CODE)) RESOLVER_REGISTRY[f.properties.CNTR_CODE] = f.__resolve;
+    if (
+      f.properties?.CNTR_ID &&
+      !['DE', 'GER', 'TR', 'TUR', 'PL', 'POL', 'IT', 'ITA', 'FR', 'FRA', 'LT', 'LIT', 'LTU', 'LV', 'LVA', 'EE', 'EST', 'CZ', 'CZE', 'SK', 'SLO', 'HU', 'HUN', 'RO', 'ROM', 'SU', 'SOV'].includes(
+        f.properties.CNTR_ID
+      )
+    ) {
+      RESOLVER_REGISTRY[f.properties.CNTR_ID] = f.__resolve;
+    }
+    if (
+      f.properties?.CNTR_CODE &&
+      f.properties.CNTR_CODE.length > 2 &&
+      !['DE', 'GER', 'TR', 'TUR', 'PL', 'POL', 'IT', 'ITA', 'FR', 'FRA', 'LT', 'LIT', 'LTU', 'LVA', 'EST', 'CZE', 'SLO', 'HUN', 'ROM', 'SOV'].includes(
+        f.properties.CNTR_CODE
+      )
+    ) {
+      RESOLVER_REGISTRY[f.properties.CNTR_CODE] = f.__resolve;
+    }
   }
 });
 
