@@ -2,9 +2,23 @@ import fs from 'fs';
 import esbuild from 'esbuild';
 import { loadUnifiedGeoDatabase } from '../src/data/unifiedGeoDatabase';
 import { processHistoricalCartographyPipeline, resolveHistoricalTruth } from '../src/data/historicalEngine';
+import { buildFeaturePopulationContext } from '../src/data/historicalPopulation';
+import {
+  INTERNATIONAL_ORGANIZATIONS,
+  getOrgStateAtStep,
+  getOwnerMembershipsAtStep,
+} from '../src/data/internationalOrganizations';
+import {
+  getFactionEraBadge,
+  getChronologicalFactionLabel,
+} from '../src/components/IntelligencePanel';
+import {
+  buildCountryProfile,
+  deriveStateFormSummary,
+} from '../src/data/countryInsights';
 import { resolveFeature, resolveHB, HB_NAME } from '../src/data/georesolver';
 import { getExtendedToponym } from '../src/data/historicalToponyms';
-import { getCountryFlagSvg, resolveHistoricalFlag, validateFlagAgainstAnachronism } from '../src/data/historicalFlags';
+import { getCountryFlagSvg, getSecondaryCoFlag, resolveHistoricalFlag, validateFlagAgainstAnachronism } from '../src/data/historicalFlags';
 import { getOwnerMeta, getOverlord, isSubjectOf } from '../src/data/owners';
 import { BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym } from '../src/data/balkanDistricts';
 import { STEPS } from '../src/data/historySteps';
@@ -46,21 +60,29 @@ async function verifyAll() {
   // Evaluate the tests in scope
   const evalFn = new Function(
     'loadedProvs', 'loadedHbs', 'resolveFeature', 'resolveHistoricalTruth', 'resolveHB', 'HB_NAME',
-    'getExtendedToponym', 'getCountryFlagSvg', 'resolveHistoricalFlag', 'validateFlagAgainstAnachronism', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
+    'getExtendedToponym', 'getCountryFlagSvg', 'getSecondaryCoFlag', 'resolveHistoricalFlag', 'validateFlagAgainstAnachronism', 'getOwnerMeta', 'getOverlord', 'isSubjectOf',
     'BALKAN_DISTRICTS_CATALOG', 'resolveBalkansToponym', 'STEPS', 'FRANCE_PROVINCES_META', 'resolveFranceProvince', 'UK_PROVINCES_META', 'resolveUKProvince', 'IT_PROVINCES_META', 'resolveItalyProvince', 'SPAIN_PROVINCES_META', 'resolveSpainProvince', 'SOVIET_PROVINCES_META', 'resolveSovietProvince', 'FRENCH_INDOCHINA_PROVINCES_META',
     'HISTORICAL_FORTIFICATION_LINES', 'HISTORICAL_NAVAL_BASES', 'getDynamicNavalBaseStatus',
     'HISTORICAL_SEA_LANES', 'getDynamicSeaLaneStatus', 'getStrategicIslandLabel', 'HISTORICAL_BATTLES',
     'HISTORICAL_CITIES', 'getCityOwner', 'getCityIsCapital',
+    'processHistoricalCartographyPipeline', 'buildFeaturePopulationContext',
+    'INTERNATIONAL_ORGANIZATIONS', 'getOrgStateAtStep', 'getOwnerMembershipsAtStep',
+    'getFactionEraBadge', 'getChronologicalFactionLabel',
+    'buildCountryProfile', 'deriveStateFormSummary',
     `${jsCode}; return tests;`
   );
 
   const tests = evalFn(
     loadedProvs, loadedHbs, resolveFeature, resolveHistoricalTruth, resolveHB, HB_NAME,
-    getExtendedToponym, getCountryFlagSvg, resolveHistoricalFlag, validateFlagAgainstAnachronism, getOwnerMeta, getOverlord, isSubjectOf,
+    getExtendedToponym, getCountryFlagSvg, getSecondaryCoFlag, resolveHistoricalFlag, validateFlagAgainstAnachronism, getOwnerMeta, getOverlord, isSubjectOf,
     BALKAN_DISTRICTS_CATALOG, resolveBalkansToponym, STEPS, FRANCE_PROVINCES_META, resolveFranceProvince, UK_PROVINCES_META, resolveUKProvince, IT_PROVINCES_META, resolveItalyProvince, SPAIN_PROVINCES_META, resolveSpainProvince, SOVIET_PROVINCES_META, resolveSovietProvince, FRENCH_INDOCHINA_PROVINCES_META,
     HISTORICAL_FORTIFICATION_LINES, HISTORICAL_NAVAL_BASES, getDynamicNavalBaseStatus,
     HISTORICAL_SEA_LANES, getDynamicSeaLaneStatus, getStrategicIslandLabel, HISTORICAL_BATTLES,
-    HISTORICAL_CITIES, getCityOwner, getCityIsCapital
+    HISTORICAL_CITIES, getCityOwner, getCityIsCapital,
+    processHistoricalCartographyPipeline, buildFeaturePopulationContext,
+    INTERNATIONAL_ORGANIZATIONS, getOrgStateAtStep, getOwnerMembershipsAtStep,
+    getFactionEraBadge, getChronologicalFactionLabel,
+    buildCountryProfile, deriveStateFormSummary
   );
 
   console.log(`Esecuzione di ${tests.length} test da App.tsx...`);

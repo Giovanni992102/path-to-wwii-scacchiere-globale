@@ -4786,6 +4786,9 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     const cleanId = rawId.replace(/[^A-Za-z0-9]/g, '');
     meta = FRENCH_INDOCHINA_PROVINCES_META[cleanId];
   }
+  if (!meta && (rawId === 'VN25_N' || rawId === 'VN25_S' || cleanId === 'VN25N' || cleanId === 'VN25S')) {
+    meta = FRENCH_INDOCHINA_PROVINCES_META['VN25'];
+  }
 
   // 3. Ricerca fuzzy per nome
   if (!meta) {
@@ -4804,7 +4807,7 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
   // 1947-1948 Categorization Sets
   const FRENCH_TONKIN_DELTA = new Set(['VNHN', 'VNHP', 'VN13', 'VN18', 'VN20', 'VN56', 'VN61', 'VN63', 'VN66', 'VN67', 'VN70']);
   // Nota storica (1947-1948): Quảng Nam rurale (VN27 — esclusa l'enclave di Đà Nẵng VNDN), Quảng Ngãi (VN29), Bình Định (VN31) e Phú Yên (VN32) costituiscono la Zona Libera dell'Interzona V (Vùng Tự Do Nam-Ngãi-Bình-Phú) saldamente in mano alla RDV/Việt Minh.
-  const FRENCH_ANNAM_COAST_PMSI = new Set(['VN25', 'VN26', 'VNDN', 'VN28', 'VN30', 'VN33', 'VN34', 'VN35', 'VN36', 'VN40', 'VN72']);
+  const FRENCH_ANNAM_COAST_PMSI = new Set(['VN25', 'VN25_N', 'VN25N', 'VN25_S', 'VN25S', 'VN26', 'VNDN', 'VN28', 'VN30', 'VN33', 'VN34', 'VN35', 'VN36', 'VN40', 'VN72']);
   // Roccaforti permanenti del Việt Minh in Cocincina (Nam Bộ): Đồng Tháp Mười / Plain of Reeds (VN45 — Zona 8 & UBHC Nam Bộ) e Rừng U Minh / Cà Mau (VN59 — Zona 9).
   const NAM_BO_VIET_MINH_BASTIONS = new Set(['VN45', 'VN59']);
   const FRENCH_COCHINCHINE = new Set(['VN37', 'VN39', 'VN41', 'VN43', 'VN44', 'VN46', 'VN47', 'VN49', 'VN50', 'VN51', 'VN52', 'VN55', 'VN57', 'VN58', 'VN73', 'VNSG', 'VNCT']);
@@ -4816,6 +4819,42 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
     const isLaos = meta?.cntrCode === 'LA' || rawId.startsWith('LA') || cleanId.startsWith('LA');
 
     if (isCambodia) {
+      if (s >= 32) {
+        return makeResult(
+          'CAM',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Governo Sangkum del Principe Sihanouk & Ammissione ONU 14 Dic 1955)`,
+          "31 Dicembre 1955 (100% Regno di Cambogia Sovrano e Indipendente): dopo l'abdicazione del 2 marzo 1955 in favore del padre Re Norodom Suramarit, il Principe Norodom Sihanouk vince le elezioni di settembre con il movimento Sangkum Reastr Niyum, aderisce ai principi di neutralità di Bandung ed entra all'ONU il 14 dicembre 1955.",
+          'Alleati',
+          'Regno di Cambogia (Re Norodom Suramarit · PM Principe Norodom Sihanouk · Membro ONU 14 Dic 1955)'
+        );
+      }
+      if (s >= 31) {
+        return makeResult(
+          'CAM',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Sovranità Unitaria Consolidata Post-Ginevra, 1954)`,
+          "31 Dicembre 1954 (100% Regno di Cambogia Unitario e Sovrano): con gli Accordi di Ginevra del 20–21 luglio 1954 tutte le forze straniere (Việt Minh e truppe dell'Unione Francese) completano il ritiro dal territorio cambogiano, consolidando l'integrità nazionale sotto Re Norodom Sihanouk.",
+          'Alleati',
+          'Regno di Cambogia (Sovranità Unitaria · Re Norodom Sihanouk · Accordi di Ginevra 20 Lug 1954)'
+        );
+      }
+      if (s >= 30) {
+        return makeResult(
+          'CAM',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Piena Indipendenza Effettiva dal 9 Novembre 1953 · Re Norodom Sihanouk)`,
+          "31 Dicembre 1953 (100% Regno di Cambogia Sovrano e Indipendente): a conclusione della 'crociata reale per l'indipendenza' condotta da Re Norodom Sihanouk, il 9 novembre 1953 la Francia completa il trasferimento di tutti i poteri militari e giudiziari, sancendo la piena indipendenza effettiva della Cambogia (la divisione del Vietnam al 17° parallelo avverrà solo a Ginevra nel luglio 1954).",
+          'Alleati',
+          'Regno di Cambogia (Stato Sovrano e Indipendente dal 9 Novembre 1953 · Re Norodom Sihanouk · PM Chan Nak)'
+        );
+      }
+      if (s >= 27) {
+        return makeResult(
+          'CAM',
+          `${meta ? meta.historicalName : 'Cambodge'} (Regno di Cambogia — Stato Associato Unione Francese, 1951)`,
+          "Nel 1951 il Regno di Cambogia (Re Norodom Sihanouk, governo Huy Kanthoul in attuazione degli Accordi di Pau) mantiene la sovranità interna nell'Unione Francese mentre le forze franco-khmer presidiano le province contro le infiltrazioni Issarak.",
+          'Alleati',
+          'Regno di Cambogia (Union Française — Re Norodom Sihanouk · PM Huy Kanthoul · 1951)'
+        );
+      }
       if (s >= 26) {
         return makeResult(
           'CAM',
@@ -4890,6 +4929,112 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
         : rawId === 'LAXA' || cleanId === 'LAXA'
           ? ' La provincia di Sayaboury (ex Changwat Lan Chang) è stata retrocessa dalla Thailandia con il Trattato di Washington del 17 novembre 1946 e pienamente reintegrata nel Regno del Laos a ovest del Mekong.'
           : '';
+      if (s >= 34) {
+        const upId = cleanId.toUpperCase();
+        const isIntegratedPathet = upId === 'LAHO' || upId === 'LAPH';
+        const provDetail = upId === 'LAPH'
+          ? ' (Phongsaly — Reintegrata dagli Accordi di Vientiane, Nov 1957)'
+          : upId === 'LAHO'
+          ? ' (Houaphanh / Sam Neua — Reintegrata dagli Accordi di Vientiane, Nov 1957)'
+          : '';
+        return makeResult(
+          'LAO',
+          `${laoProvLabel}${provDetail} — Regno del Laos (Governo di Unità Nazionale · Accordi di Vientiane, Nov 1957)`,
+          isIntegratedPathet
+            ? `31 Dicembre 1957 (Riunificazione del Laos — Accordi di Vientiane, 2–19 Novembre 1957): il Primo Ministro neutralista Principe Souvanna Phouma e il Principe Souphanouvong firmano gli Accordi di Vientiane; le province di Phongsaly e Houaphanh (Sam Neua), già zone di raggruppamento del Pathet Lao, vengono formalmente reintegrate sotto l'amministrazione del Regno del Laos mentre il Neo Lao Hak Xat entra nel Governo di Unità Nazionale.`
+            : `31 Dicembre 1957 (Regno del Laos — Governo di Unità Nazionale & Accordi di Vientiane del Nov 1957): sotto Re Sisavang Vong e il Primo Ministro Principe Souvanna Phouma, gli Accordi di Vientiane (2–19 novembre 1957) sanciscono la politica di neutralità del Laos e la reintegrazione delle province settentrionali di Phongsaly e Houaphanh nel regno unito.${washingtonContext}`,
+          'Neutrale',
+          'Regno del Laos — Governo di Unità Nazionale Neutralista (PM Principe Souvanna Phouma · Accordi di Vientiane, Nov 1957)'
+        );
+      }
+      if (s >= 32) {
+        const upId = cleanId.toUpperCase();
+        if (upId === 'LAHO' || upId === 'LAPH') {
+          const isPho = upId === 'LAPH';
+          return makeResult(
+            'VIE',
+            `${laoProvLabel} (${isPho ? 'Phongsaly' : 'Houaphanh / Sam Neua'} — Zona di Raggruppamento del Pathet Lao, Dic 1955)`,
+            `31 Dicembre 1955 (Zona di Raggruppamento Pathet Lao — Ginevra 1954): in attesa di accordo politico con Vientiane, le unità del Pathet Lao (Principe Souphanouvong) mantengono il controllo della provincia nord-${isPho ? 'occidentale di Phongsaly' : 'orientale di Houaphanh (Sam Neua)'}, boicottando le elezioni del dicembre 1955.`,
+            'Comintern',
+            `Zona di Raggruppamento del Pathet Lao (Principe Souphanouvong · ${isPho ? 'Phongsaly' : 'Houaphanh'} · Dic 1955)`
+          );
+        }
+        return makeResult(
+          'LAO',
+          `${laoProvLabel} (Regno del Laos — Sovrano · Ammissione all'ONU del 14 Dicembre 1955)`,
+          `31 Dicembre 1955 (Regno del Laos Sovrano e Indipendente · Membro ONU dal 14 Dicembre 1955): sotto Re Sisavang Vong e il governo Katay Don Sasorith, il Regno del Laos consolida la piena statualità internazionale entrando alle Nazioni Unite il 14 dicembre 1955 (Phongsaly e Houaphanh permangono zone di raggruppamento Pathet Lao).${washingtonContext}`,
+          'Alleati',
+          'Regno del Laos (Re Sisavang Vong · PM Katay Don Sasorith · Membro ONU 14 Dic 1955)'
+        );
+      }
+      if (s >= 31) {
+        const upId = cleanId.toUpperCase();
+        if (upId === 'LAHO' || upId === 'LAPH') {
+          const isPho = upId === 'LAPH';
+          return makeResult(
+            'VIE',
+            `${laoProvLabel} (${isPho ? 'Phongsaly' : 'Houaphanh / Sam Neua'} — Zona di Raggruppamento del Pathet Lao · Accordi di Ginevra 20 Luglio 1954)`,
+            `31 Dicembre 1954 (Zona di Raggruppamento Pathet Lao — Ginevra 1954): in base agli Accordi di Ginevra del 20–21 luglio 1954 che pongono fine alla guerra in Indocina, le forze comuniste laotiane del Pathet Lao (Principe Souphanouvong) si concentrano nella provincia nord-${isPho ? 'occidentale di Phongsaly' : 'orientale di Houaphanh (Sam Neua)'} in attesa di futura integrazione politica.`,
+            'Comintern',
+            `Zona di Raggruppamento del Pathet Lao (Accordi di Ginevra 20 Lug 1954 — Principe Souphanouvong · ${isPho ? 'Phongsaly' : 'Houaphanh'})`
+          );
+        }
+        return makeResult(
+          'LAO',
+          upId === 'LAKH'
+            ? `${laoProvLabel} (Khammouane / Thakhek — 100% Regno del Laos dopo il Ritiro Việt Minh Post-Ginevra, 1954)`
+            : `${laoProvLabel} (Regno del Laos — Piena Sovranità & Cessate il Fuoco Post-Ginevra, 1954)`,
+          `31 Dicembre 1954 (100% Regno del Laos Sovrano e Indipendente): a seguito degli Accordi di Ginevra del 20–21 luglio 1954 le colonne Việt Minh evacuano completamente il Laos (inclusa Khammouane/Thakhek);${washingtonContext || ' sotto Re Sisavang Vong il Regno del Laos esercita sovranità su tutto il Paese,'} mentre i combattenti Pathet Lao si raggruppano nelle sole due province di Phongsaly e Houaphanh.`,
+          'Alleati',
+          'Regno del Laos (Piena Indipendenza & Cessate il Fuoco Post-Ginevra · Re Sisavang Vong · PM Katay Don Sasorith)'
+        );
+      }
+      if (s >= 30) {
+        const upId = cleanId.toUpperCase();
+        if (upId === 'LAHO') {
+          return makeResult(
+            'VIE',
+            `${laoProvLabel} (Houaphanh / Sam Neua — 100% Controllo Pathet Lao & Việt Minh dall'Offensiva dell'Aprile 1953)`,
+            "31 Dicembre 1953 (100% Pathet Lao / Việt Minh): invasa nell'aprile 1953 dalle divisioni di Võ Nguyên Giáp insieme al movimento nazionalcomunista laotiano Pathet Lao del Principe Souphanouvong, la provincia nord-orientale di Houaphanh (Sam Neua) resta stabilmente sotto controllo Pathet Lao / RDV quale base politica e militare di confine verso il Tonchino.",
+            'Comintern',
+            'Pathet Lao (Principe Souphanouvong) & Việt Minh (RDV) — Base Liberata di Sam Neua / Houaphanh (Apr–Dic 1953)'
+          );
+        }
+        if (upId === 'LAPH') {
+          return makeResult(
+            'VIE',
+            `${laoProvLabel} (Phongsaly — Controllo Stabile Pathet Lao & Việt Minh nell'Estremo Nord del Laos, Dic 1953)`,
+            "31 Dicembre 1953 (Pathet Lao / Việt Minh): la provincia montuosa settentrionale di Phongsaly (lungo il confine con la RPC e Điện Biên Phủ/Lai Châu) è stabilmente controllata dalle forze congiunte Pathet Lao (Principe Souphanouvong) e Việt Minh sin dalle campagne del 1953.",
+            'Comintern',
+            'Pathet Lao (Principe Souphanouvong) & Việt Minh (RDV) — Provincia Settentrionale di Phongsaly (Dic 1953)'
+          );
+        }
+        if (upId === 'LAKH') {
+          return makeResult(
+            'VIE',
+            `${laoProvLabel} (Khammouane / Thakhek — Occupata il 25 Dicembre 1953 dalla Colonna Việt Minh & Pathet Lao sul Mekong)`,
+            "31 Dicembre 1953 (Offensiva Invernale Việt Minh / Pathet Lao in Laos Centrale): il 25 dicembre 1953 la colonna Việt Minh (325ª Divisione) e il Pathet Lao espugnano Thakhek raggiungendo le sponde del fiume Mekong e tagliando temporaneamente in due le comunicazioni del Regno del Laos (verranno respinti solo nei contrattacchi del gennaio–febbraio 1954).",
+            'Comintern',
+            'Pathet Lao (Principe Souphanouvong) & Việt Minh (RDV) — Settore Thakhek / Khammouane sul Mekong (25 Dic 1953)'
+          );
+        }
+        return makeResult(
+          'LAO',
+          `${laoProvLabel} (Regno del Laos — Piena Sovranità e Indipendenza dal 22 Ottobre 1953 · Re Sisavang Vong)`,
+          `31 Dicembre 1953 (Regno del Laos Sovrano e Indipendente · Trattato di Amicizia e Associazione Franco-Laotiano del 22 Ottobre 1953): sotto Re Sisavang Vong e il Primo Ministro Principe Souvanna Phouma, il Laos ha ottenuto la piena indipendenza nell'Unione Francese.${washingtonContext} Al 31 dicembre 1953 Vientiane, Luang Prabang e il resto del Paese resistono con presidi franco-laotiani mentre Pathet Lao e Việt Minh controllano Sam Neua, Phongsaly e la breccia di Thakhek.`,
+          'Alleati',
+          'Regno del Laos (Stato Pienamente Sovrano dal 22 Ott 1953 · Re Sisavang Vong · PM Principe Souvanna Phouma)'
+        );
+      }
+      if (s >= 27) {
+        return makeResult(
+          'LAO',
+          `${laoProvLabel} (Regno del Laos — Stato Associato Unione Francese, 1951)`,
+          `Nel 1951 il Regno del Laos (Re Sisavang Vong, PM Phoui Sananikone) opera nell'ambito dell'Unione Francese dopo gli Accordi di Pau.${washingtonContext} Presidi franco-laotiani contengono i nuclei Neo Lao Issara / Pathet Lao lungo la frontiera nord-orientale.`,
+          'Alleati',
+          'Regno del Laos (Union Française — Re Sisavang Vong · PM Phoui Sananikone · 1951)'
+        );
+      }
       if (s >= 26) {
         return makeResult(
           'LAO',
@@ -4981,6 +5126,541 @@ export function resolveFrenchIndochinaProvince(ft: any, s: number): ResolvedTerr
         cleanId === 'VN33' ||
         cleanId === 'VN35' ||
         cleanId === 'VN72';
+      if (s >= 32) {
+        const upRaw = rawId.toUpperCase();
+        const upClean = cleanId.toUpperCase();
+        const NORTH_ALL_IDS = new Set([
+          'VNHP', 'VN16', 'VN13', 'VN25_N', 'VN25N',
+          'VNHN', 'VN17', 'VN71', 'VN01', 'VN02', 'VN03', 'VN04', 'VN05', 'VN06', 'VN07', 'VN09',
+          'VN14', 'VN18', 'VN20', 'VN21', 'VN22', 'VN23', 'VN24', 'VN53', 'VN54', 'VN56',
+          'VN61', 'VN63', 'VN66', 'VN67', 'VN68', 'VN69', 'VN70',
+        ]);
+        if (upRaw === 'VNHP' || upClean === 'VNHP' || upRaw === 'VN16' || upClean === 'VN16' || upRaw === 'VN13' || upClean === 'VN13') {
+          const isHp = upRaw === 'VNHP' || upClean === 'VNHP' || upRaw === 'VN16' || upClean === 'VN16';
+          return makeResult(
+            'VIE',
+            isHp
+              ? 'Hải Phòng (100% Repubblica Democratica del Vietnam — Evacuazione Francese Completata il 16 Maggio 1955)'
+              : 'Quảng Ninh / Hồng Gai (100% Repubblica Democratica del Vietnam — Fine Enclave 300 Giorni, 16 Maggio 1955)',
+            "31 Dicembre 1955 (100% Vietnam del Nord — RDV): tra il 13 e il 16 maggio 1955, alla scadenza del termine dei 300 giorni fissato dagli Accordi di Ginevra, le ultime truppe dell'Unione Francese completano l'imbarco da Hải Phòng e dalla baia di Hạ Long (Quảng Ninh), eliminando l'ultima enclave meridionale/francese dal Tonchino e consegnando il 100% del territorio a nord del 17° parallelo alla Repubblica Democratica del Vietnam (nuova bandiera con stella dai raggi dritti dal 30 novembre 1955).",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (Vietnam del Nord — 100% Nord 17° Parallelo dopo Sgombero Hải Phòng 16 Mag 1955)'
+          );
+        }
+        if (NORTH_ALL_IDS.has(upRaw) || NORTH_ALL_IDS.has(upClean)) {
+          if (upRaw === 'VN25_N' || upClean === 'VN25N') {
+            return makeResult(
+              'VIE',
+              'Quảng Trị Settentrionale / Vĩnh Linh (100% Repubblica Democratica del Vietnam — Nord 17° Parallelo DMZ, Dic 1955)',
+              "31 Dicembre 1955 (100% Vietnam del Nord — RDV): distretto speciale di Vĩnh Linh a nord della DMZ del fiume Bến Hải (17° parallelo); il 30 novembre 1955 entra in vigore la bandiera RDV con stella gialla a cinque punte dai bordi perfettamente dritti.",
+              'Comintern',
+              'Việt Nam Dân chủ Cộng hòa (Vietnam del Nord — Settore Vĩnh Linh · Nuova Bandiera 30 Nov 1955)'
+            );
+          }
+          if (upRaw === 'VNHN' || upClean === 'VNHN' || upRaw === 'VN17' || upClean === 'VN17') {
+            return makeResult(
+              'VIE',
+              'Hà Nội (Capitale della Repubblica Democratica del Vietnam — 100% Nord 17° Parallelo & Nuova Bandiera 30 Nov 1955)',
+              "31 Dicembre 1955 (Capitale del Vietnam del Nord — RDV): completato il controllo del 100% del Nord dopo lo sgombero francese di Hải Phòng (16 maggio 1955) e nominato Phạm Văn Đồng Primo Ministro (20 settembre), il 30 novembre 1955 la RDV aggiorna ufficialmente il disegno geometrico della bandiera nazionale (stella dorata a raggi dritti e spigolosi su campo rosso, Flag_of_Vietnam.svg).",
+              'Comintern',
+              'Việt Nam Dân chủ Cộng hòa — Capitale Hà Nội (Pres. Hồ Chí Minh · PM Phạm Văn Đồng · Bandiera 30 Nov 1955)'
+            );
+          }
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : rawId} (100% Repubblica Democratica del Vietnam / Vietnam del Nord, Dic 1955)`,
+            "31 Dicembre 1955 (100% Vietnam del Nord — RDV): con l'evacuazione francese di Hải Phòng completata il 16 maggio 1955, il 100% delle province a nord del 17° parallelo è amministrato dalla Repubblica Democratica del Vietnam (Pres. Hồ Chí Minh, PM Phạm Văn Đồng; nuova bandiera con stella a raggi dritti dal 30 novembre 1955).",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (Vietnam del Nord — Pres. Hồ Chí Minh · PM Phạm Văn Đồng · Nuova Bandiera 30 Nov 1955)'
+          );
+        }
+        return makeResult(
+          'SVN',
+          `${meta ? meta.historicalName : rawId} (Repubblica del Vietnam / Vietnam del Sud — Proclamata il 26 Ottobre 1955 · Pres. Ngô Đình Diệm)`,
+          "31 Dicembre 1955 (100% Repubblica del Vietnam — Việt Nam Cộng hòa): dopo aver sgominato le milizie private Bình Xuyên nella Battaglia di Saigon (aprile–maggio 1955) e ridimensionato le sette Hòa Hảo e Cao Đài nel Delta del Mekong, Ngô Đình Diệm vince il referendum del 23 ottobre 1955 deponendo Bảo Đại e proclama il 26 ottobre la Repubblica del Vietnam sotto la bandiera giallo oro a tre strisce rosse (Cờ vàng ba sọc đỏ).",
+          'Alleati',
+          'Việt Nam Cộng hòa (Repubblica del Vietnam — Capitale Saigon · 1° Presidente Ngô Đình Diệm dal 26 Ott 1955)'
+        );
+      }
+      if (s >= 31) {
+        const upRaw = rawId.toUpperCase();
+        const upClean = cleanId.toUpperCase();
+        // 1. Eccezione critica 300 giorni di Ginevra: Haiphong (VNHP/VN16) & corridoio costiero verso Hong Gai (VN13) ancora SVN/Unione Francese al 31 Dic 1954 (passaggio RDV solo il 16 mag 1955)
+        if (upRaw === 'VNHP' || upClean === 'VNHP' || upRaw === 'VN16' || upClean === 'VN16' || upRaw === 'VN13' || upClean === 'VN13') {
+          const isHp = upRaw === 'VNHP' || upClean === 'VNHP' || upRaw === 'VN16' || upClean === 'VN16';
+          return makeResult(
+            'SVN',
+            isHp
+              ? 'Hải Phòng (Enclave Portuale di Raggruppamento Unione Francese & Stato del Vietnam — Clausola dei 300 Giorni di Ginevra · Cessione RDV il 16 Maggio 1955)'
+              : 'Quảng Ninh / Hồng Gai (Corridoio di Raggruppamento 300 Giorni Unione Francese & Stato del Vietnam · Cessione RDV nel Maggio 1955)',
+            "31 Dicembre 1954 (Enclave dei 300 Giorni — Accordi di Ginevra, 20–21 Luglio 1954): mentre l'Unione Francese ha già evacuato Hà Nội (9–10 ottobre 1954), la zona perimetrale portuaria di Hải Phòng e Hồng Gai rimane sotto amministrazione di raggruppamento franco-vietnamita (Stato del Vietnam) per completare il ritiro militare e l'Operazione Passage to Freedom (passerà alla RDV solo il 16 maggio 1955).",
+            'Alleati',
+            'Zona di Raggruppamento 300 Giorni (Unione Francese CEFEO & Stato del Vietnam — Hải Phòng / Hồng Gai fino a Mag 1955)'
+          );
+        }
+        // 2. Partizione al 17° Parallelo (Quảng Trị: VN25_N a nord alla RDV, VN25_S a sud allo Stato del Vietnam)
+        if (upRaw === 'VN25_N' || upClean === 'VN25N') {
+          return makeResult(
+            'VIE',
+            'Quảng Trị Settentrionale / Vĩnh Linh (Nord del 17° Parallelo — Fiume Bến Hải DMZ · Repubblica Democratica del Vietnam)',
+            "31 Dicembre 1954 (100% Vietnam del Nord — RDV): fascia a nord del fiume Bến Hải (17° parallelo) costituente il distretto speciale di Vĩnh Linh immediatamente a nord della Zona Demilitarizzata (DMZ) istituita dagli Accordi di Ginevra del 20–21 luglio 1954.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (Vietnam del Nord — Settore Vĩnh Linh a Nord del 17° Parallelo DMZ)'
+          );
+        }
+        if (upRaw === 'VN25_S' || upClean === 'VN25S' || upRaw === 'VN25' || upClean === 'VN25') {
+          return makeResult(
+            'SVN',
+            'Quảng Trị Meridionale / Đông Hà (Sud del 17° Parallelo — Fiume Bến Hải DMZ · Stato del Vietnam)',
+            "31 Dicembre 1954 (100% Stato del Vietnam — Vietnam del Sud): capoluogo di Quảng Trị e settore a sud del fiume Bến Hải (17° parallelo), presidiato dallo Stato del Vietnam (Capo di Stato Bảo Đại, PM Ngô Đình Diệm; ancora Stato del Vietnam fino ad ottobre 1955) a ridosso della DMZ.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Quảng Trị a Sud del 17° Parallelo DMZ · PM Ngô Đình Diệm)'
+          );
+        }
+        // 3. Tutte le altre province a nord del 17° parallelo -> Repubblica Democratica del Vietnam (Vietnam del Nord)
+        const NORTH_17TH_VIETNAM_IDS = new Set([
+          'VNHN', 'VN17', 'VN71', 'VN01', 'VN02', 'VN03', 'VN04', 'VN05', 'VN06', 'VN07', 'VN09',
+          'VN14', 'VN18', 'VN20', 'VN21', 'VN22', 'VN23', 'VN24', 'VN53', 'VN54', 'VN56',
+          'VN61', 'VN63', 'VN66', 'VN67', 'VN68', 'VN69', 'VN70',
+        ]);
+        if (NORTH_17TH_VIETNAM_IDS.has(upRaw) || NORTH_17TH_VIETNAM_IDS.has(upClean)) {
+          if (upRaw === 'VNHN' || upClean === 'VNHN' || upRaw === 'VN17' || upClean === 'VN17') {
+            return makeResult(
+              'VIE',
+              'Hà Nội (Capitale della Repubblica Democratica del Vietnam / Vietnam del Nord — Ingresso RDV 9–10 Ottobre 1954)',
+              "31 Dicembre 1954 (Capitale del Vietnam del Nord — RDV): dopo gli Accordi di Ginevra (20–21 luglio 1954), tra il 9 e il 10 ottobre 1954 le ultime truppe dell'Unione Francese evacuano Hà Nội e l'Esercito Popolare di Hồ Chí Minh e Võ Nguyên Giáp vi insedia la capitale della Repubblica Democratica del Vietnam.",
+              'Comintern',
+              'Việt Nam Dân chủ Cộng hòa — Capitale Hà Nội (Pres. Hồ Chí Minh · PM Phạm Văn Đồng · 10 Ott 1954)'
+            );
+          }
+          if (upRaw === 'VN71' || upClean === 'VN71') {
+            return makeResult(
+              'VIE',
+              `${meta ? meta.historicalName : 'Điện Biên'} (Điện Biên Phủ — 100% RDV · Vittoria del 7 Maggio 1954)`,
+              "31 Dicembre 1954 (100% Vietnam del Nord — RDV): dopo 56 giorni d'assedio le truppe di Võ Nguyên Giáp costringono alla resa il campo trincerato francese del Gen. Christian de Castries il 7 maggio 1954, sancendo la fine del dominio coloniale francese e la Conferenza di Ginevra.",
+              'Comintern',
+              'Việt Nam Dân chủ Cộng hòa — Điện Biên Phủ (Vittoria Storica del 7 Maggio 1954)'
+            );
+          }
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : rawId} (Repubblica Democratica del Vietnam / Vietnam del Nord — Nord 17° Parallelo, Dic 1954)`,
+            "31 Dicembre 1954 (100% Vietnam del Nord — RDV): territorio a nord del 17° parallelo unificato sotto la Repubblica Democratica del Vietnam (Hồ Chí Minh, capitale Hà Nội dal 10 ottobre 1954) a seguito degli Accordi di Ginevra e dell'evacuazione francese del Delta meridionale (Nam Định, Ninh Bình, Thái Bình) — restando la sola enclave di Hải Phòng in sgombero dei 300 giorni.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (Vietnam del Nord — Pres. Hồ Chí Minh · PM Phạm Văn Đồng · Capitale Hà Nội)'
+          );
+        }
+        // 4. Tutto il territorio a sud del 17° parallelo (comprese le ex sacche Việt Minh di Interzona V e Nam Bộ evacuate verso nord) -> Stato del Vietnam
+        return makeResult(
+          'SVN',
+          `${meta ? meta.historicalName : rawId} (Stato del Vietnam / Vietnam del Sud — Sud 17° Parallelo · Capo di Stato Bảo Đại & PM Ngô Đình Diệm, Dic 1954)`,
+          "31 Dicembre 1954 (100% Stato del Vietnam — Vietnam del Sud): in esecuzione degli Accordi di Ginevra (20–21 luglio 1954), tutte le unità Việt Minh di Quảng Ngãi, Bình Định, Đồng Tháp Mười e Cà Mau si sono raggruppate ed evacuate a nord del 17° parallelo, lasciando l'intero territorio meridionale sotto lo Stato del Vietnam (Capo di Stato Bảo Đại, Primo Ministro Ngô Đình Diệm dal 7 luglio 1954; ancora Stato del Vietnam prima del referendum dell'ottobre 1955).",
+          'Alleati',
+          'Stato del Vietnam (Quốc gia Việt Nam — Saigon · Capo di Stato Bảo Đại · PM Ngô Đình Diệm · Nessuna Repubblica del Vietnam prima di Ott 1955)'
+        );
+      }
+      if (s >= 30) {
+        if (rawId === 'VN05' || cleanId === 'VN05') {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Sơn La'} (Sơn La — 100% RDV / Việt Minh dopo l'Evacuazione Aerea Francese di Nà Sản dell'Agosto 1953)`,
+            "31 Dicembre 1953 (100% Repubblica Democratica del Vietnam / Việt Minh): nell'agosto 1953 il comando dell'Unione Francese (Gen. Henri Navarre) completa l'evacuazione aerea del campo trincerato di Nà Sản (Operazione Hirondelle / ritiro strategico) per recuperare forze mobili, lasciando il 100% della provincia di Sơn La sotto controllo Việt Minh.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Sơn La (100% Việt Minh dopo l\'Evacuazione di Nà Sản, Ago 1953)'
+          );
+        }
+        if (rawId === 'VN01' || cleanId === 'VN01') {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Lai Châu'} (Federazione Tai — 95% RDV / Việt Minh · 5% Unione Francese dopo l'Evacuazione del Capoluogo Lai Châu del Dicembre 1953)`,
+            "31 Dicembre 1953 (95% RDV / Việt Minh · 5% Unione Francese / Stato del Vietnam): nel dicembre 1953 le truppe francesi e i partigiani della Federazione Tai evacuano il capoluogo Lai Châu (Operazione Pollux verso Điện Biên Phủ), lasciando il 95% della provincia sotto controllo della Repubblica Democratica del Vietnam.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (95% Việt Minh dopo il Ritiro da Lai Châu, Dic 1953) / Unione Francese (5%)'
+          );
+        }
+        if (rawId === 'VN71' || cleanId === 'VN71') {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Điện Biên'} (Điện Biên Phủ — 90% RDV / Việt Minh sulle Alture · 10% Unione Francese Campo Trincerato Operazione Castor del 20 Nov 1953 · Non Caduta)`,
+            "31 Dicembre 1953 (90% RDV / Việt Minh · 10% Unione Francese / Stato del Vietnam — Campo Trincerato Attivo): il 20 novembre 1953 (Operazione Castor) i paracadutisti del CEFEO rioccupano il fondovalle di Điện Biên Phủ trasformandolo in una grande base aeroterrestre fortificata (Col. Christian de Castries) per interdire la strada verso il Laos. Al 31 dicembre 1953 le divisioni di Võ Nguyên Giáp controllano le alture circostanti (90%), ma la piazzaforte di Điện Biên Phủ è ancora saldamente presidiata dalla Francia (l'assedio inizierà solo il 13 marzo 1954 e cadrà il 7 maggio 1954; nessuna spartizione al 17° parallelo nel 1953).",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (90% Alture · Accerchiamento) / Unione Francese — Campo Trincerato di Điện Biên Phủ (10% · Operazione Castor 20 Nov 1953)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : rawId} (Hòa Bình / Paese Mường — 100% RDV / Việt Minh, Dic 1953)`,
+            "31 Dicembre 1953 (100% RDV / Việt Minh): corridoio interno consolidato della Repubblica Democratica del Vietnam tra Việt Bắc, Interzona IV e il fronte di Điện Biên Phủ e del Laos.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Hòa Bình (100% Việt Minh, Dic 1953)'
+          );
+        }
+        if (rawId === 'VN06' || rawId === 'VN68' || cleanId === 'VN06' || cleanId === 'VN68') {
+          const provName = (rawId === 'VN06' || cleanId === 'VN06') ? 'Yên Bái' : 'Phú Thọ';
+          return makeResult(
+            'VIE',
+            `${provName} (100% RDV / Việt Minh — Retrovia Logistica Verso Điện Biên Phủ, Dic 1953)`,
+            `31 Dicembre 1953 (100% RDV / Việt Minh): consolidato il controllo Việt Minh su ${provName} lungo le arterie di rifornimento d'artiglieria destinate all'assedio della conca di Điện Biên Phủ.`,
+            'Comintern',
+            `Việt Nam Dân chủ Cộng hòa — ${provName} (100% Việt Minh · Retrovia Logistica Nord-Ovest, Dic 1953)`
+          );
+        }
+        if (isRC4Corridor) {
+          const rc4Name = rawId === 'VN04' ? 'Cao Bằng' : rawId === 'VN09' ? 'Lạng Sơn' : 'Lào Cai';
+          return makeResult(
+            'VIE',
+            `${rc4Name} (100% RDV / Việt Minh — Fronte Settentrionale & Rifornimenti Cinesi per Điện Biên Phủ, Dic 1953)`,
+            "31 Dicembre 1953 (100% Repubblica Democratica del Vietnam): corridoio settentrionale del Việt Bắc lungo il confine cinese che convoglia artiglierie pesanti e rifornimenti dalla RPC (post-armistizio coreano) verso Điện Biên Phủ e il Laos.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Việt Bắc Settentrionale (100% Việt Minh, Dic 1953)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina — Stato del Vietnam · Unione Francese, Dic 1953)`,
+            "31 Dicembre 1953 (Stato del Vietnam · Nessuna Spartizione al 17° Parallelo): Saigon è capitale dello Stato del Vietnam (Capo di Stato Bảo Đại, governo Principe Bửu Lộc designato a dicembre dopo Nguyễn Văn Tâm) associato all'Unione Francese con crescente sostegno militare USA e comando CEFEO del Gen. Henri Navarre.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Saigon · Capo di Stato Bảo Đại · Gen. Henri Navarre CEFEO, Dic 1953)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Delta del Fiume Rosso');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso — Stato del Vietnam & Unione Francese · Ponte Aereo verso Điện Biên Phủ, Dic 1953)`,
+            "31 Dicembre 1953 (Stato del Vietnam / Unione Francese — Nessun Accordo di Ginevra prima del Luglio 1954): Hà Nội, l'aeroporto di Gia Lâm, il porto di Hải Phòng e i principali capisaldi del Delta restano sotto controllo dello Stato del Vietnam e del CEFEO, fungendo da base di lancio per il ponte aereo di rifornimento verso il campo trincerato di Điện Biên Phủ.",
+            'Alleati',
+            'Stato del Vietnam & Unione Francese (CEFEO — Gen. Henri Navarre / Gen. René Cogny · Delta del Fiume Rosso, Dic 1953)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            isPmsiHighlands
+              ? `${meta ? meta.historicalName : 'PMSI'} (Hoàng triều Cương thổ / Altopiani PMSI — Stato del Vietnam, Dic 1953)`
+              : `${meta ? meta.historicalName : 'Annam'} (Huế, Đà Nẵng & Costa dell'Annam — Stato del Vietnam, Dic 1953)`,
+            isPmsiHighlands
+              ? "31 Dicembre 1953 (Stato del Vietnam — Dominio della Corona): Altopiani Centrali sotto amministrazione dello Stato del Vietnam alla vigilia dell'Operazione Atlante (gennaio 1954)."
+              : "31 Dicembre 1953 (Stato del Vietnam · Nessuna Divisione al 17° Parallelo): Huế, Đà Nẵng (Tourane), Nha Trang e la costa dell'Annam centrale/meridionale restano sotto controllo dello Stato del Vietnam e del CEFEO.",
+            'Alleati',
+            isPmsiHighlands
+              ? 'Stato del Vietnam — Dominio della Corona (Altopiani PMSI, Dic 1953)'
+              : 'Stato del Vietnam (Quốc gia Việt Nam) & CEFEO (Annam, Dic 1953)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Việt Minh del Nam Bộ, Dic 1953)`,
+            "31 Dicembre 1953 (RDV / Việt Minh): Đồng Tháp Mười e Cà Mau–Rừng U Minh restano santuari della resistenza Việt Minh nel delta del Mekong.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Nam Bộ (Việt Minh, Dic 1953)'
+          );
+        }
+        const isInterzone4 = rawId === 'VN21' || rawId === 'VN22' || rawId === 'VN23' || rawId === 'VN24';
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Liên khu V' : isInterzone4 ? 'Annam Settentrionale (100% RDV / Base Invasione Laos Centrale)' : 'Việt Bắc / Tonchino Settentrionale (100% RDV / Việt Minh)'}, Dic 1953)`,
+          isInterzone5
+            ? "31 Dicembre 1953 (100% RDV): Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della Repubblica Democratica del Vietnam)."
+            : isInterzone4
+              ? "31 Dicembre 1953 (100% RDV / Việt Minh): Thanh Hóa, Nghệ An, Hà Tĩnh e Quảng Bình costituiscono il trampolino logistico delle colonne Việt Minh penetrate nel Laos centrale fino a Thakhek sul Mekong (25 dicembre 1953)."
+              : "31 Dicembre 1953 (100% RDV / Việt Minh): santuario del Việt Bắc al 100% sotto la Repubblica Democratica del Vietnam di Hồ Chí Minh e Võ Nguyên Giáp.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V' : isInterzone4 ? 'Liên khu IV — Base Offensiva Laos' : 'Hồ Chí Minh / Võ Nguyên Giáp — Việt Bắc 100% RDV, Dic 1953'})`
+        );
+      }
+      if (s >= 29) {
+        if (rawId === 'VN05' || cleanId === 'VN05') {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Sơn La'} (Sơn La — 95% RDV / Việt Minh · 5% Unione Francese Campo Trincerato Aerotrasportato di Nà Sản, Dic 1952)`,
+            "31 Dicembre 1952 (95% Repubblica Democratica del Vietnam / Việt Minh · 5% Unione Francese / Stato del Vietnam): durante la Campagna del Nord-Ovest (Chiến dịch Tây Bắc, ottobre–dicembre 1952), le divisioni del Việt Minh conquistano Nghĩa Lộ (18 ottobre) e il capoluogo provinciale Sơn La (22 novembre 1952). L'unica posizione tenuta dalle forze dell'Unione Francese nella provincia al 31 dicembre 1952 è il campo trincerato aerotrasportato di Nà Sản (dove la guarnigione del Col. Jean Gilles ha respinto gli assalti di Võ Nguyên Giáp tra il 30 novembre e il 2 dicembre 1952).",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (95% Việt Minh — Presa di Sơn La, 22 Nov 1952) / Unione Francese (5% — Campo Trincerato Aerotrasportato di Nà Sản)'
+          );
+        }
+        if (rawId === 'VN01' || rawId === 'VN71' || cleanId === 'VN01' || cleanId === 'VN71') {
+          const isDienBien = rawId === 'VN71' || cleanId === 'VN71';
+          return makeResult(
+            'VIE',
+            isDienBien
+              ? `${meta ? meta.historicalName : 'Điện Biên'} (Điện Biên Phủ — 75% RDV / Việt Minh Occupazione del 30 Novembre 1952 · 25% Unione Francese / Federazione Tai a Lai Châu Nord)`
+              : `${meta ? meta.historicalName : 'Lai Châu'} (Federazione Tai — 75% RDV / Việt Minh Conca di Điện Biên Phủ · 25% Unione Francese Isolata a Lai Châu e Phong Thổ, Dic 1952)`,
+            "31 Dicembre 1952 (75% Repubblica Democratica del Vietnam / Việt Minh · 25% Unione Francese / Stato del Vietnam): durante la Campagna del Nord-Ovest, il 30 novembre 1952 il Việt Minh occupa la conca strategica di Điện Biên Phủ (all'epoca presidiata da una piccola guarnigione franco-tai prima dell'abbandono), avanzando fino al confine con il Laos (che non è ancora invaso nel 1952). Le forze francesi e della Federazione Tai (Đèo Văn Long) restano isolate nella fascia settentrionale (25%) attorno al capoluogo Lai Châu e a Phong Thổ (la rioccupazione francese di Điện Biên Phủ con l'Operazione Castor avverrà solo il 20 novembre 1953).",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa (75% Việt Minh — Presa di Điện Biên Phủ, 30 Nov 1952) / Unione Francese & Federazione Tai (25% — Isolati a Lai Châu e Phong Thổ)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : rawId} (Hòa Bình / Paese Mường — 100% RDV / Việt Minh dopo l'Evacuazione Francese del 22–24 Febbraio 1952)`,
+            "31 Dicembre 1952 (100% Repubblica Democratica del Vietnam / Việt Minh): tra il 22 e il 24 febbraio 1952 (Operazione Amarante) le truppe dell'Unione Francese sotto il Gen. Raoul Salan completano l'evacuazione della città e del saliente di Hòa Bình e della RC6, ripiegando dietro la Linea De Lattre. L'intera provincia di Hòa Bình torna al 100% sotto il controllo del Việt Minh.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Hòa Bình (100% Việt Minh dopo l\'Evacuazione Francese del 22–24 Feb 1952)'
+          );
+        }
+        if (rawId === 'VN06' || rawId === 'VN68' || cleanId === 'VN06' || cleanId === 'VN68') {
+          const provName = (rawId === 'VN06' || cleanId === 'VN06') ? 'Yên Bái' : 'Phú Thọ';
+          return makeResult(
+            'VIE',
+            `${provName} (90% RDV / Việt Minh · 10% Unione Francese — Ritiro Completo dell'Operazione Lorraine dietro la Linea De Lattre, Nov–Dic 1952)`,
+            `31 Dicembre 1952 (90% Repubblica Democratica del Vietnam / Việt Minh · 10% Unione Francese): l'Operazione Lorraine francese (29 ottobre – 14 novembre 1952, lanciata per alleggerire la pressione sul Paese Tai) penetra temporaneamente lungo i fiumi Rosso e Claro fino a Phú Thọ e Đoan Hùng, ma dopo l'imboscata di Chân Mộng (17 novembre) si ritira completamente dietro la Linea De Lattre, lasciando ${provName} al 90% sotto saldo controllo Việt Minh.`,
+            'Comintern',
+            `Việt Nam Dân chủ Cộng hòa — ${provName} (90% Việt Minh · Post-Operazione Lorraine, Nov–Dic 1952)`
+          );
+        }
+        if (isRC4Corridor) {
+          const rc4Name = rawId === 'VN04' ? 'Cao Bằng' : rawId === 'VN09' ? 'Lạng Sơn' : 'Lào Cai';
+          return makeResult(
+            'VIE',
+            `${rc4Name} (100% RDV / Việt Minh — Retrovia Logistica del Việt Bắc Settentrionale sul Confine Cinese, Dic 1952)`,
+            "31 Dicembre 1952 (100% Repubblica Democratica del Vietnam / Việt Minh): saldamente controllata dalla RDV fin dall'ottobre 1950; attraverso Cao Bằng, Lạng Sơn e Lào Cai affluiscono i rifornimenti che alimentano la vittoriosa Campagna del Nord-Ovest (Chiến dịch Tây Bắc) di Võ Nguyên Giáp.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Việt Bắc Settentrionale (100% Việt Minh, Dic 1952)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina — Stato del Vietnam · Governo Nguyễn Văn Tâm, Dic 1952)`,
+            "31 Dicembre 1952: Saigon è capitale dello Stato del Vietnam (Capo di Stato Bảo Đại, Primo Ministro Nguyễn Văn Tâm dal giugno 1952) nell'Unione Francese, con l'espansione dei battaglioni dell'Esercito Nazionale Vietnamita e dei rifornimenti MAAG statunitensi.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Saigon · PM Nguyễn Văn Tâm, Dic 1952)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Delta del Fiume Rosso');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso — Stato del Vietnam & Unione Francese dietro la Linea De Lattre · Infiltrazione Guerrigliera Rurale, Dic 1952)`,
+            "31 Dicembre 1952 (Stato del Vietnam / Unione Francese): dopo l'evacuazione di Hòa Bình (22–24 febbraio 1952) e il ritiro dell'Operazione Lorraine (metà novembre 1952), le forze del CEFEO (Gen. Raoul Salan) e dello Stato del Vietnam presidiano il Delta del Fiume Rosso (Hà Nội, Hải Phòng, Bắc Ninh, Hải Dương, Hưng Yên, Thái Bình, Nam Định, Ninh Bình) dietro i bunker della Linea De Lattre, fronteggiando una crescente infiltrazione notturna di guerriglia Việt Minh nelle aree rurali e sostenendo per via aerea il campo trincerato di Nà Sản.",
+            'Alleati',
+            'Stato del Vietnam & Unione Francese (CEFEO — Gen. Raoul Salan · Linea De Lattre, Dic 1952)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            isPmsiHighlands
+              ? `${meta ? meta.historicalName : 'PMSI'} (Hoàng triều Cương thổ / Altopiani PMSI — Stato del Vietnam, Dic 1952)`
+              : `${meta ? meta.historicalName : 'Annam'} (Huế, Đà Nẵng & Costa dell'Annam — Stato del Vietnam, Dic 1952)`,
+            isPmsiHighlands
+              ? "31 Dicembre 1952: gli Altopiani Centrali (Đà Lạt, Pleiku, Kon Tum, Ban Mê Thuột) restano parte del Dominio della Corona di Bảo Đại nello Stato del Vietnam."
+              : "31 Dicembre 1952: Huế, Đà Nẵng (Tourane), Nha Trang e la costa dell'Annam centrale e meridionale restano sotto controllo dello Stato del Vietnam e del CEFEO.",
+            'Alleati',
+            isPmsiHighlands
+              ? 'Stato del Vietnam — Dominio della Corona (Altopiani PMSI, Dic 1952)'
+              : 'Stato del Vietnam (Quốc gia Việt Nam) & CEFEO (Annam, Dic 1952)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Việt Minh del Nam Bộ, Dic 1952)`,
+            "31 Dicembre 1952 (RDV / Việt Minh): il Đồng Tháp Mười e Cà Mau–Rừng U Minh restano santuari della resistenza Việt Minh nel delta del Mekong.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Nam Bộ (Việt Minh, Dic 1952)'
+          );
+        }
+        const isInterzone4 = rawId === 'VN21' || rawId === 'VN22' || rawId === 'VN23' || rawId === 'VN24';
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Liên khu V' : isInterzone4 ? 'Annam Settentrionale (100% RDV / Việt Minh)' : 'Việt Bắc / Tonchino Settentrionale (100% RDV / Việt Minh)'}, Dic 1952)`,
+          isInterzone5
+            ? "31 Dicembre 1952 (100% RDV): Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della Repubblica Democratica del Vietnam)."
+            : isInterzone4
+              ? "31 Dicembre 1952 (100% RDV / Việt Minh): Thanh Hóa, Nghệ An, Hà Tĩnh e Quảng Bình restano interamente sotto controllo della Repubblica Democratica del Vietnam, ricollegate direttamente al Việt Bắc attraverso Hòa Bình liberata nel febbraio 1952."
+              : "31 Dicembre 1952 (100% RDV / Việt Minh): il santuario del Việt Bắc (Hà Giang, Bắc Kạn, Tuyên Quang, Thái Nguyên oltre a Cao Bằng, Lạng Sơn e Lào Cai) è al 100% sotto la Repubblica Democratica del Vietnam e funge da base d'attacco per la Campagna del Nord-Ovest nel Paese Tai.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V' : isInterzone4 ? 'Liên khu IV — Thanh–Nghệ–Tĩnh' : 'Hồ Chí Minh / Võ Nguyên Giáp — Việt Bắc 100% RDV, Dic 1952'})`
+        );
+      }
+      if (s >= 28) {
+        if (isPaysTai) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Tonchino Nord-Occidentale / Fédération Taï — Stato del Vietnam & Unione Francese, Dic 1951)`,
+            "Al 31 dicembre 1951 la Fédération Taï (Lai Châu, Điện Biên Phủ, Sơn La — Dominio della Corona di Đèo Văn Long nello Stato del Vietnam) rimane sotto il controllo dello Stato del Vietnam e dell'Unione Francese.",
+            'Alleati',
+            'Stato del Vietnam & Unione Francese — Fédération Taï (Pres. Đèo Văn Long · Dic 1951)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Hòa Bình / Paese Mường — Riconquistata nell'Offensiva Francese del 14 Novembre 1951 · Presidiata da Unione Francese / SVN al 31 Dicembre 1951)`,
+            "31 Dicembre 1951 (Presidio Unione Francese / Stato del Vietnam sotto Contrattacco Việt Minh): il 14 novembre 1951 le forze dell'Unione Francese (Gen. Jean de Lattre de Tassigny / Gen. Raoul Salan) lanciano l'offensiva oltre la Linea de Lattre riconquistando la città di Hòa Bình, il corridoio del Fiume Nero (Đà) e il massiccio del Ba Vì per spezzare le linee logistiche del Việt Minh tra Việt Bắc e Annam. Al 31 dicembre 1951 infuriano i contrattacchi delle divisioni 304, 308 e 312 di Võ Nguyên Giáp lungo il Fiume Nero e la RC6, ma Hòa Bình resta saldamente presidiata dalle truppe franco-vietnamite (sarà evacuata solo il 22–24 febbraio 1952).",
+            'Alleati',
+            'Stato del Vietnam & Unione Francese (CEFEO — Saliente Fortificato di Hòa Bình & Corridoio del Fiume Nero, 14 Nov – 31 Dic 1951)'
+          );
+        }
+        if (isRC4Corridor) {
+          const rc4Name = rawId === 'VN04' ? 'Cao Bằng' : rawId === 'VN09' ? 'Lạng Sơn' : 'Lào Cai';
+          return makeResult(
+            'VIE',
+            `${rc4Name} (100% RDV / Việt Minh — Rocca Logistica del Việt Bắc Settentrionale sul Confine Cinese, Dic 1951)`,
+            "31 Dicembre 1951 (100% Repubblica Democratica del Vietnam / Việt Minh): saldamente controllata dalla RDV fin dall'ottobre 1950; attraverso Cao Bằng, Lạng Sơn e Lào Cai transitano i rifornimenti pesanti dalla RPC che alimentano la controffensiva di Võ Nguyên Giáp sul Fiume Nero e intorno a Hòa Bình.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Việt Bắc Settentrionale (100% Việt Minh, Dic 1951)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina — Stato del Vietnam, Dic 1951)`,
+            "31 Dicembre 1951: Saigon è capitale dello Stato del Vietnam (Capo di Stato Bảo Đại, PM Trần Văn Hữu) nell'Unione Francese, con il rafforzamento dell'Esercito Nazionale Vietnamita (QĐQGVN) e dell'assistenza MAAG statunitense.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Saigon · PM Trần Văn Hữu, Dic 1951)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Delta del Fiume Rosso');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso & Massiccio del Ba Vì — Linea de Lattre & Base dell'Offensiva su Hòa Bình, Dic 1951)`,
+            "31 Dicembre 1951 (Stato del Vietnam / Unione Francese): dal perimetro fortificato della Linea de Lattre (Hà Nội, Sơn Tây / Ba Vì, Hải Phòng, Bắc Ninh, Hải Dương, Hưng Yên, Thái Bình, Nam Định, Ninh Bình), il CEFEO e lo Stato del Vietnam sostengono lo sforzo logistico lungo la Route Coloniale 6 e il Fiume Nero a supporto del saliente di Hòa Bình riconquistato il 14 novembre 1951.",
+            'Alleati',
+            'Stato del Vietnam & Unione Francese (CEFEO — Gen. de Lattre / Gen. Raoul Salan · Linea de Lattre, Dic 1951)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            isPmsiHighlands
+              ? `${meta ? meta.historicalName : 'PMSI'} (Hoàng triều Cương thổ / Altopiani PMSI — Stato del Vietnam, Dic 1951)`
+              : `${meta ? meta.historicalName : 'Annam'} (Huế, Đà Nẵng & Costa dell'Annam — Stato del Vietnam, Dic 1951)`,
+            isPmsiHighlands
+              ? "31 Dicembre 1951: gli Altopiani Centrali (Đà Lạt, Pleiku, Kon Tum, Ban Mê Thuột) restano parte del Dominio della Corona di Bảo Đại nello Stato del Vietnam."
+              : "31 Dicembre 1951: Huế, Đà Nẵng (Tourane), Nha Trang e la costa dell'Annam centrale e meridionale restano sotto controllo dello Stato del Vietnam e del CEFEO.",
+            'Alleati',
+            isPmsiHighlands
+              ? 'Stato del Vietnam — Dominio della Corona (Altopiani PMSI, Dic 1951)'
+              : 'Stato del Vietnam (Quốc gia Việt Nam) & CEFEO (Annam, Dic 1951)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Việt Minh del Nam Bộ, Dic 1951)`,
+            "31 Dicembre 1951 (RDV / Việt Minh): il Đồng Tháp Mười e Cà Mau–Rừng U Minh restano santuari della resistenza Việt Minh nel delta del Mekong.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Nam Bộ (Việt Minh, Dic 1951)'
+          );
+        }
+        const isInterzone4 = rawId === 'VN21' || rawId === 'VN22' || rawId === 'VN23' || rawId === 'VN24';
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Liên khu V' : isInterzone4 ? 'Annam Settentrionale (100% RDV / Việt Minh)' : 'Việt Bắc / Tonchino Settentrionale (100% RDV / Việt Minh)'}, Dic 1951)`,
+          isInterzone5
+            ? "31 Dicembre 1951 (100% RDV): Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della Repubblica Democratica del Vietnam)."
+            : isInterzone4
+              ? "31 Dicembre 1951 (100% RDV / Việt Minh): Thanh Hóa, Nghệ An, Hà Tĩnh e Quảng Bình restano interamente sotto controllo della Repubblica Democratica del Vietnam e riforniscono le divisioni di Giáp impegnate nella battaglia di Hòa Bình."
+              : "31 Dicembre 1951 (100% RDV / Việt Minh): l'intero santuario del Việt Bắc (Hà Giang, Bắc Kạn, Tuyên Quang, Thái Nguyên, Yên Bái, Phú Thọ oltre a Cao Bằng, Lạng Sơn e Lào Cai) rimane al 100% sotto la Repubblica Democratica del Vietnam, da cui Võ Nguyên Giáp alimenta i contrattacchi lungo il Fiume Nero contro il saliente francese di Hòa Bình.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V' : isInterzone4 ? 'Liên khu IV — Thanh–Nghệ–Tĩnh' : 'Hồ Chí Minh / Võ Nguyên Giáp — Việt Bắc 100% RDV, Dic 1951'})`
+        );
+      }
+      if (s >= 27) {
+        if (isPaysTai) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : rawId} (Tonchino Nord-Occidentale / Fédération Taï — Stato del Vietnam & Unione Francese, Giu 1951)`,
+            "Al 30 giugno 1951 la Fédération Taï (Lai Châu, Điện Biên Phủ, Sơn La — Dominio della Corona di Đèo Văn Long nello Stato del Vietnam) rimane stabilmente sotto il controllo dello Stato del Vietnam e dell'Unione Francese, collegata per ponte aereo con il Delta fortificato.",
+            'Alleati',
+            'Stato del Vietnam & Unione Francese — Fédération Taï (Pres. Đèo Văn Long · Giu 1951)'
+          );
+        }
+        if (isPaysMuong) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : rawId} (Hòa Bình / Paese Mường — 100% RDV / Việt Minh, Giu 1951)`,
+            "30 Giugno 1951 (100% Repubblica Democratica del Vietnam / Việt Minh): il settore di Hòa Bình resta stabilmente in mano Việt Minh, garantendo il corridoio logistico tra il Việt Bắc e il Liên khu IV lungo l'esterno della Linea de Lattre.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Hòa Bình (100% Việt Minh, Giu 1951)'
+          );
+        }
+        if (isRC4Corridor) {
+          const rc4Name = rawId === 'VN04' ? 'Cao Bằng' : rawId === 'VN09' ? 'Lạng Sơn' : 'Lào Cai';
+          return makeResult(
+            'VIE',
+            `${rc4Name} (100% RDV / Việt Minh — Việt Bắc Settentrionale, Giu 1951)`,
+            "30 Giugno 1951 (100% Repubblica Democratica del Vietnam / Việt Minh): saldamente controllata dalla RDV fin dalla vittoria sulla RC4 nell'ottobre 1950; dopo il fallimento delle tre offensive convenzionali sul Delta del Fiume Rosso (Vĩnh Yên, Mạo Khê, Fiume Đáy), le divisioni regolari di Võ Nguyên Giáp ripiegano nelle basi del Việt Bắc.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Việt Bắc Settentrionale (100% Việt Minh, Giu 1951)'
+          );
+        }
+        if (isCochinchine) {
+          return makeResult(
+            'SVN',
+            `${meta ? meta.historicalName : 'Cochinchine'} (Saigon & Cocincina — Stato del Vietnam, Giu 1951)`,
+            "30 Giugno 1951: Saigon è capitale dello Stato del Vietnam (Bảo Đại, PM Trần Văn Hữu) nell'Unione Francese con rifornimenti statunitensi MAAG e consolidamento amministrativo dopo le vittorie difensive del Gen. de Lattre nel Tonchino.",
+            'Alleati',
+            'Stato del Vietnam (Quốc gia Việt Nam — Saigon · PM Trần Văn Hữu, Giu 1951)'
+          );
+        }
+        if (isTonkinDelta) {
+          const isHanoi = rawId === 'VNHN' || rawId === 'VN17';
+          const isHaiphong = rawId === 'VNHP' || rawId === 'VN16';
+          const cityName = isHanoi ? 'Hà Nội' : isHaiphong ? 'Hải Phòng' : (meta ? meta.historicalName : 'Delta del Fiume Rosso');
+          return makeResult(
+            'SVN',
+            `${cityName} (Delta del Fiume Rosso — Consolidamento Linea de Lattre dopo Vĩnh Yên, Mạo Khê & Fiume Đáy, Giu 1951)`,
+            "30 Giugno 1951 (Stato del Vietnam / Unione Francese): tra gennaio e giugno 1951 le forze dell'Unione Francese guidate dal Gen. Jean de Lattre de Tassigny respingono tutte e tre le grandi offensive convenzionali di Võ Nguyên Giáp contro il Delta del Fiume Rosso — Vĩnh Yên (gennaio), Mạo Khê (marzo) e Fiume Đáy / Ninh Bình (maggio–giugno) — consolidando stabilmente Hà Nội, Hải Phòng, Bắc Ninh, Hải Dương, Hưng Yên, Thái Bình, Nam Định, Ninh Bình e la pianura di Vĩnh Phúc lungo la Linea Fortificata de Lattre.",
+            'Alleati',
+            'Stato del Vietnam & Unione Francese (CEFEO — Gen. Jean de Lattre de Tassigny · Linea de Lattre, Giu 1951)'
+          );
+        }
+        if (isAnnamCoastPmsi) {
+          return makeResult(
+            'SVN',
+            isPmsiHighlands
+              ? `${meta ? meta.historicalName : 'PMSI'} (Hoàng triều Cương thổ / Altopiani PMSI — Stato del Vietnam, Giu 1951)`
+              : `${meta ? meta.historicalName : 'Annam'} (Huế, Đà Nẵng & Costa dell'Annam — Stato del Vietnam, Giu 1951)`,
+            isPmsiHighlands
+              ? "30 Giugno 1951: gli Altopiani Centrali (Đà Lạt, Pleiku, Kon Tum, Ban Mê Thuột) restano parte del Dominio della Corona di Bảo Đại nello Stato del Vietnam."
+              : "30 Giugno 1951: Huế, Đà Nẵng (Tourane), Nha Trang e la costa dell'Annam centrale e meridionale restano sotto controllo dello Stato del Vietnam e del CEFEO.",
+            'Alleati',
+            isPmsiHighlands
+              ? 'Stato del Vietnam — Dominio della Corona (Altopiani PMSI, Giu 1951)'
+              : 'Stato del Vietnam (Quốc gia Việt Nam) & CEFEO (Annam, Giu 1951)'
+          );
+        }
+        if (isNamBoVietMinh) {
+          return makeResult(
+            'VIE',
+            `${meta ? meta.historicalName : 'Nam Bộ'} (Santuario Việt Minh del Nam Bộ, Giu 1951)`,
+            "30 Giugno 1951 (RDV / Việt Minh): il Đồng Tháp Mười e Cà Mau–Rừng U Minh restano santuari della resistenza Việt Minh nel delta del Mekong.",
+            'Comintern',
+            'Việt Nam Dân chủ Cộng hòa — Nam Bộ (Việt Minh, Giu 1951)'
+          );
+        }
+        const isInterzone4 = rawId === 'VN21' || rawId === 'VN22' || rawId === 'VN23' || rawId === 'VN24';
+        const isInterzone5 = rawId === 'VN27' || rawId === 'VN29' || rawId === 'VN31' || rawId === 'VN32';
+        return makeResult(
+          'VIE',
+          `${meta ? meta.historicalName : 'Việt Bắc'} (${isInterzone5 ? 'Zona Libera Liên khu V' : isInterzone4 ? 'Annam Settentrionale (100% RDV / Việt Minh)' : 'Việt Bắc / Tonchino Settentrionale (100% RDV / Việt Minh)'}, Giu 1951)`,
+          isInterzone5
+            ? "30 Giugno 1951 (100% RDV): Zona Libera di Nam–Ngãi–Bình–Phú (Liên khu V della Repubblica Democratica del Vietnam)."
+            : isInterzone4
+              ? "30 Giugno 1951 (100% RDV / Việt Minh): Thanh Hóa, Nghệ An, Hà Tĩnh e Quảng Bình restano interamente sotto controllo della Repubblica Democratica del Vietnam dopo l'offensiva di maggio–giugno sul Fiume Đáy / Ninh Bình."
+              : "30 Giugno 1951 (100% RDV / Việt Minh): fallite le tre offensive convenzionali sul Delta del Fiume Rosso (Vĩnh Yên, Mạo Khê, Fiume Đáy) contro la Linea de Lattre, l'intero Việt Bắc (Hà Giang, Bắc Kạn, Tuyên Quang, Thái Nguyên, Yên Bái, Phú Thọ oltre a Cao Bằng, Lạng Sơn, Lào Cai e Hòa Bình) resta saldamente al 100% sotto la Repubblica Democratica del Vietnam.",
+          'Comintern',
+          `Việt Nam Dân chủ Cộng hòa (${isInterzone5 ? 'Liên khu V' : isInterzone4 ? 'Liên khu IV — Thanh–Nghệ–Tĩnh' : 'Hồ Chí Minh / Võ Nguyên Giáp — Việt Bắc 100% RDV'})`
+        );
+      }
       if (s >= 26) {
         if (isPaysTai) {
           return makeResult(

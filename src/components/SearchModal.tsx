@@ -17,6 +17,7 @@ interface SearchModalProps {
   onSelectBattle?: (battle: HistoricalBattle) => void;
   onSelectFortification?: (fort: FortificationLine) => void;
   onSelectNavalBase?: (base: NavalBase) => void;
+  onOpenCountry?: (ownerCode: string) => void;
 }
 
 export const ISLAND_SEARCH_ALIASES: Record<string, string[]> = {
@@ -48,6 +49,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onSelectBattle,
   onSelectFortification,
   onSelectNavalBase,
+  onOpenCountry,
 }) => {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -802,9 +804,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       className="flex items-center justify-between p-2 hover:bg-[#c9a557]/10 cursor-pointer transition-colors group"
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="w-5 h-3.5 flex-none rounded-[1px] overflow-hidden border border-[#554d33] shadow-[0_1px_3px_rgba(0,0,0,0.5)] bg-black/40">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            if (!onOpenCountry) return;
+                            e.stopPropagation();
+                            tacticalAudio.playClick();
+                            onOpenCountry(item.ownerKey);
+                          }}
+                          title={onOpenCountry ? `Apri Country Viz di ${item.ownerLabel} (${item.ownerKey})` : item.ownerLabel}
+                          className={`w-5 h-3.5 flex-none rounded-[1px] overflow-hidden border border-[#554d33] shadow-[0_1px_3px_rgba(0,0,0,0.5)] bg-black/40 ${
+                            onOpenCountry ? 'cursor-pointer hover:border-[#e8c979] hover:scale-125 transition-transform' : ''
+                          }`}
+                        >
                           <CountryFlag owner={item.ownerKey} step={currentStep} className="w-full h-full" />
-                        </div>
+                        </button>
                         <div>
                           <div className="font-oswald text-sm font-semibold text-[#f0e6c8] group-hover:text-[#e8c979] flex items-center gap-2">
                             {item.historicalName}

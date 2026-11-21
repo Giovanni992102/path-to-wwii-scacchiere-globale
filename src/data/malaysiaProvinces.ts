@@ -683,9 +683,18 @@ export function resolveMalaysiaProvince(ft: any, s: number): ResolvedTerritory {
     }
     const hist = meta ? meta.historicalName : (p.HISTORICAL_NAME || p.NAME || p.name || 'British Malaya');
     const isSingapore = fidClean === 'SG' || fidClean === 'SG01' || meta?.cntrCode === 'SG' || meta?.id === 'SG01';
-    const isBorneo = meta?.id === 'MY12' || meta?.id === 'MY13' || fidClean === 'MY12' || fidClean === 'MY13';
+    const isBorneo = meta?.id === 'MY12' || meta?.id === 'MY13' || meta?.id === 'MY15' || fidClean === 'MY12' || fidClean === 'MY13' || fidClean === 'MY15';
 
     if (isSingapore) {
+      if (s >= 34) {
+        return makeResult(
+          'UK',
+          'Colonia della Corona di Singapore (Autonoma — Esclusa dalla Federazione della Malesia, Ago 1957)',
+          "31 Dicembre 1957 (Colonia della Corona Britannica di Singapore): esclusa dall'indipendenza della Federazione della Malesia (31 agosto 1957), l'isola resta sotto sovranità britannica come Colonia della Corona autonoma (Primo Ministro Lim Yew Hock · Base Navale di Sembawang).",
+          'Alleati',
+          'Crown Colony of Singapore (Governor Sir William Goode / CM Lim Yew Hock · UK)'
+        );
+      }
       return makeResult(
         'UK',
         'Colonia della Corona di Singapore (Base Navale Imperiale di Sembawang)',
@@ -696,6 +705,24 @@ export function resolveMalaysiaProvince(ft: any, s: number): ResolvedTerritory {
     }
 
     if (isBorneo) {
+      if (s >= 34) {
+        const isLabuan = meta?.id === 'MY15' || fidClean === 'MY15';
+        const isSabah = meta?.id === 'MY12' || fidClean === 'MY12';
+        const labelText = isLabuan
+          ? "l'Isola di Labuan (parte della Colonia del Borneo Settentrionale)"
+          : isSabah
+          ? 'la Colonia del Borneo Settentrionale (Sabah)'
+          : 'la Colonia della Corona di Sarawak';
+        return makeResult(
+          'UK',
+          isLabuan
+            ? 'Isola di Labuan — Colonia del Borneo Settentrionale Britannico (Regno Unito)'
+            : `${meta?.name || 'Borneo Britannico'} (${isSabah ? 'Colonia del Borneo Settentrionale' : 'Colonia della Corona di Sarawak'} — Regno Unito)`,
+          `31 Dicembre 1957: ${labelText} resta saldamente sotto sovranità britannica ed è esclusa dall'indipendenza della Federazione della Malesia (31 agosto 1957).`,
+          'Alleati',
+          isLabuan || isSabah ? 'Crown Colony of North Borneo (Sabah & Labuan · UK)' : 'Crown Colony of Sarawak (Kuching · UK)'
+        );
+      }
       return makeResult(
         'UK',
         `${meta?.name || 'Borneo Britannico'} (Colonia della Corona Britannica del Borneo)`,
@@ -708,6 +735,19 @@ export function resolveMalaysiaProvince(ft: any, s: number): ResolvedTerritory {
     if (s >= 21) {
       const mId = meta?.id || fidClean;
       const isEmergencyHotspot = mId === 'MY08' || mId === 'MY06' || mId === 'MY10' || mId === 'MY01';
+      if (s >= 34) {
+        return makeResult(
+          'MAL',
+          isEmergencyHotspot
+            ? `${hist} (Federazione della Malesia Indipendente — Hari Merdeka 31 Ago 1957 & Emergenza Malese Residua)`
+            : `${hist} (Federazione della Malesia Indipendente — Hari Merdeka 31 Agosto 1957 · PM Tunku Abdul Rahman)`,
+          isEmergencyHotspot
+            ? "31 Agosto – 31 Dicembre 1957 (Indipendenza della Federazione della Malesia — Hari Merdeka): la Federazione della Malesia (Persekutuan Tanah Melayu, 9 Stati malesi più Penang e Malacca) ottiene la piena indipendenza dal Regno Unito nel Commonwealth (Yang di-Pertuan Agong Tuanku Abdul Rahman, PM Tunku Abdul Rahman; 82° membro ONU il 17 settembre 1957), mentre nelle giungle interne di Perak, Pahang e Johor proseguono le operazioni finali contro la guerriglia comunista dell'MNLA."
+            : "31 Agosto – 31 Dicembre 1957 (Hari Merdeka — Indipendenza della Federazione della Malesia): la Federazione della Malesia diventa uno Stato pienamente sovrano e indipendente all'interno del Commonwealth con capitale Kuala Lumpur e Primo Ministro Tunku Abdul Rahman (escluse Singapore, Sarawak, Sabah/Labuan e Brunei che restano sotto il Regno Unito).",
+          'Alleati',
+          'Persekutuan Tanah Melayu — Federazione della Malesia Sovrana (Yang di-Pertuan Agong Tuanku Abdul Rahman · PM Tunku Abdul Rahman · 31 Ago 1957)'
+        );
+      }
       if (s >= 25) {
         return makeResult(
           'MAL',

@@ -1210,6 +1210,92 @@ export function resolveIndonesiaProvince(ft: any, s: number): ResolvedTerritory 
     const isDec1949 = s >= 24;
     const isJune1950 = s >= 25;
     const isDec1950 = s >= 26;
+    const isJune1951 = s >= 27;
+
+    if (s >= 34) {
+      const isPapua = meta && meta.islandGroup === 'Papua';
+      if (isPapua || fid.startsWith('IDP')) {
+        return makeResult(
+          'HOL',
+          `${meta ? meta.historicalName : rawName} (Nederlands-Nieuw-Guinea — 100% Colonia dei Paesi Bassi, Dic 1957)`,
+          "31 Dicembre 1957 (100% Paesi Bassi): nonostante l'escalation diplomatica indonesiana all'ONU e le nazionalizzazioni di beni olandesi di dicembre a Giava, la Nuova Guinea Olandese resta saldamente sotto sovranità dei Paesi Bassi (cooperazione militare olando-australiana).",
+          'Alleati',
+          'Koninkrijk der Nederlanden — Nederlands-Nieuw-Guinea (100% Paesi Bassi)'
+        );
+      }
+      const isPermestaSulawesi = fid === 'IDSA' || fid === 'IDSN' || fid === 'IDGO' || fid === 'IDST' || fid === 'IDSG' || fid === 'IDSR';
+      const isSumatraCouncil = fid === 'IDSB' || fid === 'IDSU' || fid === 'IDRI' || fid === 'IDSS';
+      const isJakarta = fid === 'IDJK' || norm(rawName).includes('jakarta') || norm(rawName).includes('batavia');
+      if (isPermestaSulawesi) {
+        const isMinahasa = fid === 'IDSA';
+        return makeResult(
+          'IDN',
+          `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Carta di Permesta & Autonomia Regionale, 1957)`,
+          isMinahasa
+            ? "31 Dicembre 1957 (Manado / Minahasa — Sulawesi Settentrionale): dalla proclamazione della Carta di Permesta (2 marzo 1957, Lt. Col. Ventje Sumual), le forze regionaliste di Sulawesi Settentrionale sfidano il centralismo giavanese e la legge marziale di Sukarno (ribellione aperta PRRI/Permesta dal febbraio 1958)."
+            : "31 Dicembre 1957: dopo la proclamazione della Carta di Permesta (2 marzo 1957), l'Indonesia orientale e Sulawesi attraversano forti tensioni autonomistiche e dissidenze militari regionali contro il governo centrale di Jakarta sotto legge marziale.",
+          'Neutrale',
+          "Repubblica d'Indonesia — Dissidenza Regionale Permesta (Carta del 2 Marzo 1957 · Sulawesi)"
+        );
+      }
+      if (isSumatraCouncil) {
+        const isPadang = fid === 'IDSB';
+        return makeResult(
+          'IDN',
+          `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Consigli Militari Dissidenti di Sumatra, 1957)`,
+          isPadang
+            ? "31 Dicembre 1957 (Sumatra Occidentale — Padang / Bukittinggi): il Consiglio Militare del Banteng guidato dal Col. Ahmad Husein esercita ampia autonomia di fatto da Jakarta opponendosi alla Democrazia Guidata di Sukarno e all'ascesa del PKI (l'ultimatum e la scissione del PRRI scoppieranno nel febbraio 1958)."
+            : "31 Dicembre 1957 (Sumatra — Consigli Militari Regionali): i comandi militari locali (Dewan Gajah a Medan / Dewan Garuda al sud) contestano il governo centrale e trattengono i proventi delle esportazioni agricole e petrolifere sotto stato di assedio.",
+          'Neutrale',
+          "Repubblica d'Indonesia — Consigli Militari Dissidenti di Sumatra (Dewan Banteng / Gajah · 1957)"
+        );
+      }
+      return makeResult(
+        'IDN',
+        isJakarta
+          ? "Jakarta (Capitale della Repubblica d'Indonesia — Legge Marziale & Democrazia Guidata, Dic 1957)"
+          : `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Legge Marziale & Nazionalizzazione Imprese Olandesi, Dic 1957)`,
+        isJakarta
+          ? "31 Dicembre 1957: il Presidente Sukarno proclama la legge marziale (14 marzo 1957) e nomina il gabinetto extra-parlamentare di Djuanda Kartawidjaja avviando la Democrazia Guidata, seguita in dicembre dal sequestro di piantagioni, banche e naviglio KPM olandesi per la disputa sulla Nuova Guinea Occidentale."
+          : "31 Dicembre 1957 (Repubblica d'Indonesia — Legge Marziale 14 Mar 1957): provincia sotto controllo di Jakarta durante la crisi delle nazionalizzazioni anti-olandesi di dicembre e le dissidenze militari nelle isole esterne.",
+        'Neutrale',
+        "Repubblica d'Indonesia (Democrazia Guidata & Legge Marziale — Pres. Sukarno · PM Djuanda Kartawidjaja, Dic 1957)"
+      );
+    }
+
+    if (isJune1951) {
+      const isPapua = meta && meta.islandGroup === 'Papua';
+      if (isPapua || fid.startsWith('IDP')) {
+        return makeResult(
+          'HOL',
+          `${meta ? meta.historicalName : rawName} (Nederlands-Nieuw-Guinea — 100% Colonia dei Paesi Bassi, Giu 1951)`,
+          "30 Giugno 1951 (100% Paesi Bassi): la Nuova Guinea Olandese (Hollandia e Vogelkop) rimane saldamente sotto sovranità coloniale del Regno dei Paesi Bassi dopo l'impasse diplomatica con Giacarta.",
+          'Alleati',
+          'Koninkrijk der Nederlanden — Nederlands-Nieuw-Guinea (100% Paesi Bassi)'
+        );
+      }
+      if (fid === 'IDMA' || norm(rawName).includes('ambon') || (norm(rawName).includes('maluku') && !norm(rawName).includes('utara') && fid !== 'IDMU')) {
+        return makeResult(
+          'IDN',
+          "Maluku / Ambon & Buru (Repubblica d'Indonesia Consolidata · Guerriglia RMS Confinata su Seram, Giu 1951)",
+          "30 Giugno 1951 (Repubblica d'Indonesia — Molucche): la Repubblica d'Indonesia consolida stabilmente il controllo su Ambon, Buru e sulle isole principali delle Molucche; la guerriglia residua della Repubblica delle Molucche Meridionali (RMS) guidata da Chris Soumokil è ormai confinata nell'interno montuoso dell'isola di Seram.",
+          'Neutrale',
+          "Repubblica d'Indonesia — Provincia di Maluku (Ambon & Buru Consolidate · Guerriglia RMS nell'Interno di Seram)"
+        );
+      }
+      const isJakarta = fid === 'IDJK' || norm(rawName).includes('jakarta') || norm(rawName).includes('batavia');
+      return makeResult(
+        'IDN',
+        isJakarta
+          ? "Jakarta (Capitale della Repubblica d'Indonesia — Governo Sukiman, 30 Giu 1951)"
+          : `${meta ? meta.historicalName : rawName} (Repubblica d'Indonesia — Stato Unitario, Giu 1951)`,
+        isJakarta
+          ? "30 Giugno 1951: capitale della Repubblica d'Indonesia unitaria (Presidente Sukarno, Primo Ministro Sukiman Wirjosandjojo dal 27 aprile 1951)."
+          : "30 Giugno 1951 (100% Repubblica d'Indonesia): provincia integrata nello Stato unitario della Repubblica d'Indonesia (capitale Jakarta).",
+        'Neutrale',
+        "Repubblica d'Indonesia (Stato Unitario — Pres. Sukarno · PM Sukiman Wirjosandjojo, Giu 1951)"
+      );
+    }
 
     if (isDec1950) {
       // Eccezione territoriale critica: Nuova Guinea Olandese (Nederlands-Nieuw-Guinea: IDPA, IDPB) rimane 100% colonia dei Paesi Bassi

@@ -2,6 +2,7 @@ import { FactionType, ResolvedTerritory } from '../types';
 import { ITALY_TIMELINE_NORTH, ItalyTimelineProfile } from './italyTimelineNorth';
 import { ITALY_TIMELINE_CENTER_SOUTH } from './italyTimelineCenterSouth';
 import { ITALY_TIMELINE_ISLANDS_SPECIALS } from './italyTimelineIslandsSpecials';
+import { getItalyCanonicalPostwarTitle, resolveItalyPostwarStep } from './italyPostwarTimeline';
 
 const ALL_ITALY_PROFILES: Record<string, ItalyTimelineProfile> = {
   ...ITALY_TIMELINE_NORTH,
@@ -198,15 +199,37 @@ export function resolveItalyExtendedStep(
 
   if (s >= 19) {
     if (canonId === 'ITH44' || normName.includes('trieste')) {
+      if (s >= 31) {
+        return makeItResult(
+          'ITA',
+          'Trieste — Repubblica Italiana (Memorandum di Londra del 5/26 Ottobre 1954 · Fine Zona A del TLT)',
+          "31 Dicembre 1954 (100% Repubblica Italiana): con il Memorandum d'Intesa di Londra del 5 ottobre 1954, eseguito il 26 ottobre 1954, il Territorio Libero di Trieste (TLT) cessa definitivamente di esistere. Le truppe TRUST/BETFOR sgomberano e l'Italia reintegra sotto amministrazione civile l'intera Zona A (Trieste, Duino-Aurisina, Sgonico, Monrupino, San Dorligo della Valle e Muggia, salvo la lieve rettifica meridionale di Crevatini, Plavje, Osp e Spodnje Škofije ceduta alla Jugoslavia).",
+          'Alleati',
+          'Repubblica Italiana — Commissariato Generale del Governo per il Territorio di Trieste (dal 26 Ott 1954)'
+        );
+      }
+      if (s >= 30) {
+        return makeItResult(
+          'AMG',
+          'Territorio Libero di Trieste — Zona A (AMG-FTT · Crisi dell\'8 Ottobre & Moti del 4–6 Novembre 1953 · TLT Ancora Attivo)',
+          "31 Dicembre 1953 (TLT Formalmente Attivo — Nessuna Annessione Formale prima del Memorandum di Londra del 5 Ottobre 1954): l'8 ottobre 1953 Stati Uniti e Regno Unito annunciano con dichiarazione bipartita l'intenzione di ritirare le forze TRUST/BETFOR e trasferire all'Italia l'amministrazione civile della Zona A, scatenando dure contromisure militari jugoslave al confine e i tragici moti tricolori di Trieste (4–6 novembre 1953, 6 morti). Al 31 dicembre 1953 tuttavia il Governo Militare Alleato (AMG-FTT — Magg. Gen. Sir John Winterton) esercita ancora piena autorità sulla Zona A.",
+          'Alleati',
+          'Allied Military Government — Free Territory of Trieste (Maj. Gen. Sir John Winterton · TRUST & BETFOR · Crisi Ott–Nov 1953)'
+        );
+      }
       const tltNote =
-        s >= 21
+        s >= 26
+          ? '1950–1952: integrata nella lira e beneficiaria del Piano Marshall (ERP), la Zona A del TLT amministrata dall\'AMG-FTT conosce la ripresa dei cantieri di San Marco e delle Assicurazioni Generali mentre falliscono i tentativi diplomatici di risolvere il nodo confinario con Belgrado prima delle elezioni comunali del maggio 1952.'
+          : s >= 21
           ? 'Primo semestre 1948: accordi finanziari italo-alleati del 9 marzo (piena integrazione della Lira italiana nella Zona A) e Dichiarazione Tripartita anglo-franco-americana del 20 marzo 1948 per la restituzione dell\'intero TLT all\'Italia, respinta da URSS e Jugoslavia. Trieste entra nel Piano Marshall (ERP), mentre le elezioni italiane di aprile e la rottura Tito–Stalin del 28 giugno 1948 spaccano i comunisti giuliani; le truppe TRUST (USA, Gen. William M. Hoge) e BETFOR (UK) presidiano il confine della Zona A.'
           : s === 20
           ? 'Dicembre 1947: il blocco al Consiglio di Sicurezza ONU sulla nomina del Governatore impedisce l\'attuazione dello Statuto Permanente (Allegato VI). Resta in vigore il Regime Provvisorio (Allegato VII) con la Zona A amministrata dall\'AMG-FTT (Magg. Gen. Sir Terence Airey, reparti TRUST e BETFOR) mentre affluiscono migliaia di esuli dall\'Istria e dalla Zona B.'
           : profile?.post45_47 || 'Trattato di Pace di Parigi (15 settembre 1947): istituzione del TLT/FTT in Regime Provvisorio (Allegato VII); Zona A amministrata dall\'AMG-FTT.';
       return makeItResult(
         'AMG',
-        s >= 21
+        s >= 26
+          ? 'Territorio Libero di Trieste — Zona A (AMG-FTT · Piano Marshall & Stallo 1950–52)'
+          : s >= 21
           ? 'Territorio Libero di Trieste — Zona A (AMG-FTT · Dichiarazione Tripartita 1948)'
           : 'Territorio Libero di Trieste — Zona A (AMG-FTT)',
         tltNote,
@@ -219,21 +242,22 @@ export function resolveItalyExtendedStep(
     if (canonId === 'ITH43' || normName.includes('gorizia')) {
       return makeItResult(
         'ITA',
-        'Gorizia (Repubblica Italiana — Confine Orientale 1947)',
-        s >= 21
+        s >= 29
+          ? 'Gorizia (Repubblica Italiana — Zona Franca & Ricostruzione 1952–54)'
+          : s >= 21
+          ? 'Gorizia (Repubblica Italiana — Confine Orientale & Zona Franca)'
+          : 'Gorizia (Repubblica Italiana — Confine Orientale 1947)',
+        s >= 29
+          ? '1952–1954: beneficiaria dello status di zona franca (1948–49) e sede d\'accoglienza per migliaia di esuli giuliani, Gorizia vive la distensione sul confine orientale sancita dal Memorandum di Londra dell\'ottobre 1954 che restituisce Trieste all\'Italia.'
+          : s >= 21
           ? 'Giugno 1948: la Provincia di Gorizia presidia il nuovo confine orientale italiano ("muretto di Gorizia" lungo piazza Transalpina) di fronte alla Jugoslavia espulsa dal Cominform (28 giugno 1948), fungendo da retrovia della Repubblica Italiana verso la Zona A del TLT.'
           : profile?.post45_47 || 'Trattato di Pace di Parigi: Gorizia torna all\'Italia cedendo i sobborghi orientali verso Nova Gorica.',
         'Alleati',
         'Repubblica Italiana — Prefettura di Gorizia'
       );
     }
-    return makeItResult(
-      'ITA',
-      `${baseTitle} (Repubblica Italiana)`,
-      `${profile?.post45_47 || `Ricostruzione democratica in ${baseTitle}.`} Repubblica Italiana nell'assetto dell'Assemblea Costituente (De Nicola / De Gasperi) e dei Trattati di Pace di Parigi del settembre 1947.`,
-      'Alleati',
-      `Repubblica Italiana — Prefettura di ${baseTitle}`
-    );
+    const pw = resolveItalyPostwarStep(canonId, baseTitle, profile, s);
+    return makeItResult('ITA', pw.name, pw.note, 'Alleati', pw.adminEntity);
   }
 
   if (s === 18) {
@@ -247,12 +271,13 @@ export function resolveItalyExtendedStep(
         'Allied Military Government (AMG Venezia Giulia)'
       );
     }
+    const title18 = getItalyCanonicalPostwarTitle(canonId, baseTitle, s);
     return makeItResult(
       'ITA',
-      `${baseTitle} (Regno d'Italia Liberato — Governo Parri)`,
-      `${profile?.post45_47 || `Settembre 1945 in ${baseTitle}.`} Regno d'Italia unito e liberato sotto la Luogotenenza di Umberto II e il Governo di Unità Nazionale di Ferruccio Parri.`,
+      `${title18} (Regno d'Italia Liberato — Governo Parri)`,
+      `${profile?.post45_47 || `Settembre 1945 in ${title18}.`} Regno d'Italia unito e liberato sotto la Luogotenenza di Umberto II e il Governo di Unità Nazionale di Ferruccio Parri.`,
       'Alleati',
-      `Regno d'Italia — Prefettura di ${baseTitle}`
+      `Regno d'Italia — Prefettura di ${title18}`
     );
   }
 

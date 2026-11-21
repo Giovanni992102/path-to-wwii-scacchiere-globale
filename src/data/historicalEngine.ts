@@ -6,6 +6,7 @@ import { isFrenchPacificProvince } from './frenchPacificProvinces';
 import { getOwnerMeta } from './owners';
 import { getExtendedToponym } from './historicalToponyms';
 import { STEPS } from './historySteps';
+import { buildFeaturePopulationContext } from './historicalPopulation';
 
 /**
  * HISTORICAL CARTOGRAPHY BACKEND ENGINE
@@ -378,7 +379,95 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     cleanId === 'HIST_XX_SPANISH_SAHARA' ||
     cleanId === 'HIST_XX_RIO_DE_ORO' ||
     cleanId === 'HIST_XX_NEPAL' ||
+    p.REGION_KIND === 'ETHIOPIA_PROVINCE' ||
     cleanId === 'HIST_XX_ERITREA_ITALY' ||
+    cleanId === 'HIST_XX_LIBYA_ITALY' ||
+    (step >= 12 && (nid.startsWith('LY') || cleanId.startsWith('LY') || p.CNTR_CODE === 'LY' || p.CNTR_CODE === 'LBY')) ||
+    (step >= 26 && (nid.startsWith('BE') || cleanId.startsWith('BE') || p.CNTR_CODE === 'BE')) ||
+    (step >= 29 &&
+      (nid.startsWith('PL') ||
+        cleanId.startsWith('PL') ||
+        p.CNTR_CODE === 'PL' ||
+        nid.startsWith('RO') ||
+        cleanId.startsWith('RO') ||
+        p.CNTR_CODE === 'RO' ||
+        nid.startsWith('EL') ||
+        cleanId.startsWith('EL') ||
+        p.CNTR_CODE === 'EL' ||
+        nid.startsWith('TR') ||
+        cleanId.startsWith('TR') ||
+        p.CNTR_CODE === 'TR' ||
+        cleanId === 'HIST_XX_KENYA' ||
+        cleanId === 'HIST_XX_PUERTO_RICO' ||
+        cleanId === 'HIST_XX_CUBA' ||
+        cleanId === 'HIST_XX_BOLIVIA')) ||
+    (step >= 30 &&
+      (cleanId === 'HIST_XX_SOUTHERN_RHODESIA' ||
+        cleanId === 'HIST_XX_NORTHERN_RHODESIA' ||
+        cleanId === 'HIST_XX_MALAWI' ||
+        cleanId === 'HIST_XX_COLOMBIA' ||
+        cleanId === 'HIST_XX_EGYPT' ||
+        cleanId === 'ITH44' ||
+        cleanId === 'SI_HIST_KOPER' ||
+        cleanId === 'HR_HIST_BUIE' ||
+        cleanId === 'HB_ALGERIA')) ||
+    (step >= 31 &&
+      (cleanId === 'HIST_XX_GUATEMALA' ||
+        cleanId === 'HIST_XX_BRAZIL' ||
+        cleanId === 'IN_PON' ||
+        cleanId === 'IN_DNH' ||
+        cleanId === 'IN_DNH_DAM' ||
+        cleanId === 'IN_GOA' ||
+        cleanId === 'VN25_N' ||
+        cleanId === 'VN25_S' ||
+        cleanId.startsWith('DZ'))) ||
+    (step >= 32 &&
+      (cleanId === 'HIST_XX_ARGENTINA' ||
+        /^AT\d/.test(cleanId) ||
+        cleanId.startsWith('CY') ||
+        cleanId.startsWith('MA') ||
+        cleanId.startsWith('TN'))) ||
+    (step >= 33 &&
+      (cleanId.startsWith('EG') ||
+        cleanId.startsWith('PAL_') ||
+        cleanId.startsWith('PS') ||
+        cleanId.startsWith('IN_') ||
+        cleanId.startsWith('PK_') ||
+        cleanId.startsWith('BD_') ||
+        cleanId.startsWith('ES') ||
+        cleanId === 'TANGER' ||
+        cleanId === 'AOF_TG' ||
+        cleanId.startsWith('GH') ||
+        cleanId.startsWith('DEC') ||
+        cleanId.startsWith('DZ') ||
+        cleanId.startsWith('SD') ||
+        cleanId.startsWith('SS') ||
+        cleanId.startsWith('MA') ||
+        cleanId.startsWith('TN') ||
+        cleanId.startsWith('CHN_') ||
+        cleanId.startsWith('HU') ||
+        cleanId.startsWith('PL') ||
+        cleanId.startsWith('CU') ||
+        cleanId === 'VIC_NAF' ||
+        cleanId === 'HIST_XX_HUNGARY' ||
+        cleanId === 'HIST_XX_POLAND' ||
+        cleanId === 'HIST_XX_CUBA' ||
+        cleanId === 'HIST_XX_GOLD_COAST' ||
+        cleanId === 'HIST_XX_MOROCCO' ||
+        cleanId === 'HIST_XX_TUNISIA' ||
+        cleanId === 'HIST_XX_EGYPT' ||
+        cleanId === 'HIST_XX_ALGERIA' ||
+        cleanId === 'HIST_XX_SUDAN' ||
+        cleanId.startsWith('HB_') ||
+        cleanId.startsWith('SOV_NW_RUS_'))) ||
+    (step >= 34 &&
+      (cleanId === 'HIST_XX_CANADA' ||
+        cleanId.startsWith('CA') ||
+        cleanId === 'HIST_XX_BRUNEI' ||
+        cleanId.startsWith('BN'))) ||
+    nid.startsWith('SUD_') ||
+    cleanId.startsWith('SUD_') ||
+    p.REGION_KIND === 'SUDAN_PROVINCE' ||
     nid.startsWith('CZE_') ||
     cleanId.startsWith('CZE_') ||
     p.REGION_KIND === 'CHINA_PROVINCE' ||
@@ -403,6 +492,10 @@ export function resolveHistoricalTruth(feature: any, step: number): ResolvedTerr
     nid.startsWith('DE') ||
     p.CNTR_CODE === 'GER' ||
     p.CNTR_CODE === 'DE' ||
+    nid.startsWith('FIN_HIST_') ||
+    cleanId.startsWith('FIN_HIST_') ||
+    nid.startsWith('FI') ||
+    cleanId.startsWith('FI') ||
     nid === 'DE_HIST_KONIGSBERG' ||
     nid === 'GER_KONIGSBERG' ||
     Boolean(p.HISTORICAL_NOTE);
@@ -689,12 +782,15 @@ export function processHistoricalCartographyPipeline(
     }
   }
 
-  // Calcolo demografia e centri strategici per ciascuno step temporale
-  for (let s = 0; s < STEPS.length; s++) {
-    for (const o in newStats[s].ownArea) {
-      const pop = HISTORICAL_POP_MILLIONS[o] || 1.5;
-      newStats[s].ownPop[o] = pop;
-      const fac = getOwnerMeta(o).f;
+  // Calcolo demografia storica provincia per provincia (dinamica su conquiste, spartizioni e curve 1936-1950)
+  const popCtx = buildFeaturePopulationContext(all);
+  for (const f of all) {
+    for (let s = 0; s < STEPS.length; s++) {
+      const r = f.__res[s];
+      if (!r) continue;
+      const pop = popCtx.getPopAtStep(f, s);
+      newStats[s].ownPop[r.o] = (newStats[s].ownPop[r.o] || 0) + pop;
+      const fac = r.fac || getOwnerMeta(r.o, s).f;
       newStats[s].facPop[fac] = (newStats[s].facPop[fac] || 0) + pop;
     }
   }
@@ -704,7 +800,7 @@ export function processHistoricalCartographyPipeline(
       const owner = getCityOwner(city, s);
       if (owner) {
         newStats[s].ownCities![owner] = (newStats[s].ownCities![owner] || 0) + 1;
-        const fac = getOwnerMeta(owner).f;
+        const fac = getOwnerMeta(owner, s).f;
         newStats[s].facCities![fac] = (newStats[s].facCities![fac] || 0) + 1;
       }
     }

@@ -913,6 +913,409 @@ export function resolveKoreaProvince(ft: any, s: number): ResolvedTerritory {
     }
   }
 
+  // STEP 30 (31 Dicembre 1953): Armistizio di Panmunjom (27 Luglio 1953) & Zona Demilitarizzata (DMZ) di 4 km Permanente
+  if (s >= 30) {
+    const kid = (meta ? meta.id : fidClean).toUpperCase();
+    const provLabel = meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || fidClean || 'Corea');
+
+    if (kid === 'KP05_S') {
+      return makeResult(
+        'PRK',
+        'Penisola di Ongjin (45% RPDC del Settore Incheon — Integrata nella RPDC con l\'Armistizio di Panmunjom del 27 Luglio 1953)',
+        "31 Dicembre 1953 (Armistizio di Panmunjom del 27 Luglio 1953 · Ostilità Cessate): la penisola di Ongjin (a sud del 38° parallelo) rimane definitivamente integrata nella Repubblica Popolare Democratica di Corea (Hwanghaenam-do) lungo la Linea di Demarcazione Militare (MDL) e la DMZ permanente.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea — Settore Ongjin (Armistizio 27 Lug 1953 · Ostilità Cessate)'
+      );
+    }
+    if (kid === 'KP06_S') {
+      return makeResult(
+        'PRK',
+        'Kaesong / Panmunjom (10% RPDC del Gyeonggi-do — Sede della Commissione d\'Armistizio nella DMZ dal 27 Luglio 1953)',
+        "31 Dicembre 1953 (Armistizio di Panmunjom del 27 Luglio 1953 · Ostilità Cessate): Kaesong (a sud del 38° parallelo) viene integrata definitivamente nella Repubblica Popolare Democratica di Corea; a Panmunjom, all'interno della Zona Demilitarizzata (DMZ) larga 4 km, opera la Commissione Militare d'Armistizio.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea — Kaesong & DMZ di Panmunjom (Armistizio 27 Lug 1953)'
+      );
+    }
+    if (kid === 'KR28') {
+      return makeResult(
+        'ROK',
+        'Incheon, Ganghwa & Cinque Isole del Mar Giallo (55% ROK / 45% RPDC Ongjin — Confine Permanente NLL & Armistizio 27 Luglio 1953)',
+        "31 Dicembre 1953 (Armistizio di Panmunjom del 27 Luglio 1953 · Ostilità Cessate): il porto di Incheon, l'isola di Ganghwa e le Cinque Isole Nord-Occidentali del Mar Giallo (Baengnyeongdo, Daecheongdo, Socheongdo, Yeonpyeongdo e Udo) restano definitivamente sotto sovranità della Repubblica di Corea lungo la Northern Limit Line (NLL).",
+        'Alleati',
+        'Repubblica di Corea (Incheon, Ganghwa & Cinque Isole · Armistizio di Panmunjom 27 Lug 1953)'
+      );
+    }
+    if (kid === 'KR11') {
+      return makeResult(
+        'ROK',
+        'Seoul / Seul (100% Repubblica di Corea — Regime d\'Armistizio di Panmunjom & Trattato USA–ROK, 1953)',
+        "31 Dicembre 1953 (Armistizio di Panmunjom del 27 Luglio 1953 · Ostilità Cessate): Seul è al 100% sotto sovranità della Repubblica di Corea, protetta dalla DMZ a nord e dal Trattato di Mutua Difesa USA–ROK firmato il 1° ottobre 1953.",
+        'Alleati',
+        'Repubblica di Corea — Capitale Seoul (100% ROK · Armistizio di Panmunjom 27 Lug 1953)'
+      );
+    }
+    if (kid === 'KR41_N' || kid === 'KR41_S') {
+      return makeResult(
+        'ROK',
+        kid === 'KR41_N'
+          ? 'Yeoncheon & Pocheon Settentrionali (90% ROK / 10% RPDC Kaesong — Consolidate nella ROK lungo la DMZ Permanente del 27 Luglio 1953)'
+          : 'Gyeonggi-do (90% ROK / 10% RPDC Kaesong — Armistizio di Panmunjom del 27 Luglio 1953 & DMZ di 4 km)',
+        "31 Dicembre 1953 (90% ROK / 10% RPDC · Armistizio di Panmunjom del 27 Luglio 1953): cessate definitivamente le operazioni belliche, i settori di Yeoncheon e Pocheon a nord del 38° parallelo restano permanentemente alla Repubblica di Corea dietro la Zona Demilitarizzata (DMZ) di 4 km, mentre Kaesong (10%) resta integrata nella RPDC.",
+        'Alleati',
+        'Repubblica di Corea — Gyeonggi-do, Yeoncheon & Pocheon lungo la DMZ (Armistizio 27 Lug 1953)'
+      );
+    }
+    if (kid === 'KR42_S') {
+      return makeResult(
+        'ROK',
+        'Gangwon-do Meridionale (100% Repubblica di Corea — Regime d\'Armistizio di Panmunjom, Dic 1953)',
+        "31 Dicembre 1953 (100% Repubblica di Corea · Ostilità Cessate): l'intero Gangwon-do meridionale è stabilmente amministrato dalla ROK dopo l'Armistizio del 27 luglio 1953.",
+        'Alleati',
+        'Repubblica di Corea — Gangwon-do Meridionale (100% ROK · Armistizio 27 Lug 1953)'
+      );
+    }
+    if (kid === 'KR42_N') {
+      return makeResult(
+        'ROK',
+        'Gangwon Settentrionale oltre il 38° — Cheorwon, Hwacheon, Yanggu, Inje & Goseong/Sokcho (25% ROK / 75% RPDC — Confine Permanente DMZ del 27 Luglio 1953)',
+        "31 Dicembre 1953 (25% ROK / 75% RPDC · Armistizio di Panmunjom del 27 Luglio 1953): i territori a nord del 38° parallelo riconquistati nel 1951 (Cheorwon meridionale, Hwacheon, Yanggu, Inje e la fascia costiera di Sokcho/Goseong) sono consolidati in via permanente nella Repubblica di Corea lungo la DMZ di 4 km.",
+        'Alleati',
+        'Repubblica di Corea — Gangwon oltre il 38° lungo la DMZ Permanente (Armistizio 27 Lug 1953)'
+      );
+    }
+    if (kid === 'KP07') {
+      return makeResult(
+        'PRK',
+        'Kangwon Settentrionale — Wonsan, Pyonggang & Saliente di Kumsong/Kumhwa (75% RPDC / 25% ROK — Armistizio di Panmunjom, 27 Luglio 1953)',
+        "31 Dicembre 1953 (75% RPDC / 25% ROK · Armistizio di Panmunjom del 27 Luglio 1953): nell'ultima offensiva prima della tregua (13–20 luglio 1953), i Volontari del Popolo Cinese (PVA) rettificano a sud il saliente di Kumsong/Kumhwa; con l'Armistizio del 27 luglio la DMZ permanente stabilizza il possesso RPDC su Wonsan, Pyonggang e Kumsong.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea — Kangwon & Saliente di Kumsong lungo la DMZ (Armistizio 27 Lug 1953)'
+      );
+    }
+    const isOtherNorth38 =
+      meta?.cntrCode === 'KP' || kid.startsWith('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP';
+    if (isOtherNorth38) {
+      return makeResult(
+        'PRK',
+        `${provLabel} (100% RPDC — Regime d\'Armistizio di Panmunjom & DMZ, Dicembre 1953)`,
+        "31 Dicembre 1953 (100% RPDC · Ostilità Cessate lungo la DMZ dal 27 Luglio 1953): provincia settentrionale interamente sotto la Repubblica Popolare Democratica di Corea in regime di cessate il fuoco e ricostruzione postbellica.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea (Pyongyang · Kim Il-sung — Armistizio 27 Lug 1953)'
+      );
+    }
+    return makeResult(
+      'ROK',
+      `${provLabel} (100% Repubblica di Corea ROK — Regime d\'Armistizio di Panmunjom & DMZ, Dicembre 1953)`,
+      "31 Dicembre 1953 (100% Repubblica di Corea · Ostilità Cessate lungo la DMZ dal 27 Luglio 1953): provincia meridionale stabilmente amministrata dalla Repubblica di Corea dopo l'Armistizio di Panmunjom e il Trattato USA–ROK.",
+      'Alleati',
+      'Repubblica di Corea (Seoul · Syngman Rhee — Armistizio di Panmunjom 27 Lug 1953)'
+    );
+  }
+
+  // STEP 29 (31 Dicembre 1952): Guerra di Trincea lungo la Linea di Demarcazione Militare (MDL — Old Baldy, White Horse & Triangle Hill; Nessuna Variazione ADM1 & Armistizio Non Ancora Firmato)
+  if (s >= 29) {
+    const kid = (meta ? meta.id : fidClean).toUpperCase();
+    const provLabel = meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || fidClean || 'Corea');
+
+    if (kid === 'KP05_S') {
+      return makeResult(
+        'PRK',
+        'Penisola di Ongjin (45% RPDC-PVA / 55% ROK-UNC Settore Incheon — Stallo di Trincea lungo la MDL al 31 Dicembre 1952)',
+        "31 Dicembre 1952 (45% RPDC-PVA sul settore Incheon/Ongjin · Nessuna variazione ADM1 rispetto al 31 Dic 1951): a ovest dell'estuario del fiume Han la penisola di Ongjin resta sotto controllo cino-nordcoreano (RPDC-PVA), mentre la Guerra di Corea è ancora attiva (l'Armistizio di Panmunjom verrà firmato solo il 27 luglio 1953).",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Ongjin — 31 Dic 1952)'
+      );
+    }
+    if (kid === 'KP06_S') {
+      return makeResult(
+        'PRK',
+        'Kaesong / Panmunjom (10% RPDC-PVA del Gyeonggi-do — Stallo Negoziale sui Prigionieri di Guerra & Guerra di Trincea sulla MDL, Dic 1952)',
+        "31 Dicembre 1952 (10% RPDC-PVA nel Gyeonggi-do nord-occidentale · Nessuna variazione ADM1): Kaesong resta sotto controllo RPDC-PVA a ridosso della zona neutrale di Panmunjom, dove i colloqui sono bloccati sulla questione del rimpatrio dei prigionieri di guerra (l'Armistizio di Panmunjom non è ancora firmato al 31 dicembre 1952 e non esiste ancora una DMZ formalizzata).",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Kaesong–Panmunjom — 31 Dic 1952)'
+      );
+    }
+    if (kid === 'KR28') {
+      return makeResult(
+        'ROK',
+        'Incheon & Ganghwa (55% ROK-UNC / 45% RPDC-PVA Penisola di Ongjin — 31 Dicembre 1952)',
+        "31 Dicembre 1952 (55% ROK-UNC / 45% RPDC-PVA · Nessuna variazione ADM1 rispetto al 31 Dic 1951): il porto di Incheon e l'isola di Ganghwa restano saldamente sotto controllo ROK / Comando Nazioni Unite (UNC).",
+        'Alleati',
+        'Comando Nazioni Unite (UNC) & Repubblica di Corea — Settore Portuario Incheon & Ganghwa (55% · Dic 1952)'
+      );
+    }
+    if (kid === 'KR11') {
+      return makeResult(
+        'ROK',
+        'Seoul / Seul (100% ROK / Comando ONU — Retrovia della Linea Jamestown durante lo Stallo di Trincea del 1952)',
+        "31 Dicembre 1952 (100% Repubblica di Corea ROK / Comando ONU UNC · Nessuna variazione ADM1): protetta dalla Linea Jamestown lungo l'Imjin, Seul rimane al 100% sotto controllo ROK-UNC mentre la Guerra di Corea prosegue lungo la MDL (Armistizio non ancora firmato).",
+        'Alleati',
+        'Comando Nazioni Unite (UNC — Gen. Mark W. Clark) & Repubblica di Corea — Capitale Seoul (100% ROK-UNC, Dic 1952)'
+      );
+    }
+    if (kid === 'KR41_N' || kid === 'KR41_S') {
+      return makeResult(
+        'ROK',
+        kid === 'KR41_N'
+          ? 'Yeoncheon, Old Baldy & White Horse — Gyeonggi-do Settentrionale (90% ROK-UNC / 10% RPDC-PVA Kaesong — Guerra di Trincea sulla MDL, Dic 1952)'
+          : 'Gyeonggi-do (90% ROK-UNC / 10% RPDC-PVA Kaesong — Stallo di Trincea lungo la Linea Jamestown & MDL al 31 Dicembre 1952)',
+        "31 Dicembre 1952 (90% ROK-UNC / 10% RPDC-PVA · Nessun cambiamento territoriale ADM1 rispetto al 31 Dic 1951): per tutto il 1952 il fronte resta bloccato in una logorante guerra di trincea lungo la Linea di Demarcazione Militare (MDL), segnata dai violenti combattimenti di quota a Old Baldy (giugno–settembre 1952) e White Horse Hill (ottobre 1952) senza spostamenti cartografici di scala provinciale; Kaesong (10%) resta alla RPDC-PVA. La Guerra di Corea è ancora attiva (Armistizio firmato solo il 27 luglio 1953).",
+        'Alleati',
+        'Linea Jamestown & MDL (Gyeonggi-do 90% ROK-UNC · Battaglie di Old Baldy & White Horse, Autunno–Dic 1952)'
+      );
+    }
+    if (kid === 'KR42_S') {
+      return makeResult(
+        'ROK',
+        'Gangwon-do Meridionale (100% ROK / Comando ONU — 31 Dicembre 1952)',
+        "31 Dicembre 1952 (100% ROK-UNC · Nessuna variazione ADM1): l'intero Gangwon-do a sud del 38° parallelo è al 100% sotto controllo della Repubblica di Corea e del Comando ONU.",
+        'Alleati',
+        'Repubblica di Corea & Comando ONU — Gangwon-do Meridionale (100% ROK-UNC, Dic 1952)'
+      );
+    }
+    if (kid === 'KR42_N') {
+      return makeResult(
+        'ROK',
+        'Gangwon Settentrionale — Saliente di Triangle Hill, Punchbowl, Heartbreak Ridge & Goseong (25% ROK-UNC oltre il 38° · Stallo sulla MDL al 31 Dic 1952)',
+        "31 Dicembre 1952 (25% ROK-UNC / 75% RPDC-PVA nel Gangwon settentrionale · Nessun cambiamento territoriale ADM1 rispetto al 31 Dic 1951): dopo le aspre battaglie di trincea dell'autunno 1952 nel Triangolo di Ferro (Triangle Hill / Shangganling e Sniper Ridge, ottobre–novembre 1952) e lungo White Horse, il fronte resta congelato sulla Linea di Demarcazione Militare (MDL) senza variazioni di scala provinciale. La Guerra di Corea è ancora in corso (l'Armistizio di Panmunjom sarà firmato solo il 27 luglio 1953).",
+        'Alleati',
+        'Saliente ROK-UNC oltre il 38° Parallelo — Punchbowl, Heartbreak Ridge & Goseong (25% Gangwon Nord · MDL Dic 1952)'
+      );
+    }
+    if (kid === 'KP07') {
+      return makeResult(
+        'PRK',
+        'Kangwon Settentrionale (75% RPDC-PVA / 25% ROK-UNC Saliente Punchbowl–Goseong — Difesa di Triangle Hill & Wonsan, Dic 1952)',
+        "31 Dicembre 1952 (75% RPDC-PVA / 25% ROK-UNC · Nessun cambiamento territoriale ADM1 rispetto al 31 Dic 1951): nell'ottobre–novembre 1952 i Volontari del Popolo Cinese (PVA) e il Corpo ONU si contendono furiosamente le quote di Triangle Hill (Shangganling) e Sniper Ridge a nord di Kumhwa, mantenendo invariata la Linea di Demarcazione Militare (75% RPDC-PVA con Wonsan e Pyonggang; 25% saliente ROK-UNC).",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Wonsan–Pyonggang–Triangle Hill — 75% RPDC-PVA · Dic 1952)'
+      );
+    }
+    const isOtherNorth38 =
+      meta?.cntrCode === 'KP' || kid.startsWith('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP';
+    if (isOtherNorth38) {
+      return makeResult(
+        'PRK',
+        `${provLabel} (100% RPDC / Volontari del Popolo Cinese PVA — 31 Dicembre 1952)`,
+        "31 Dicembre 1952 (100% RPDC / Volontari del Popolo Cinese PVA · Guerra di Corea ancora attiva): provincia a nord del 38° parallelo interamente sotto controllo della Repubblica Popolare Democratica di Corea e del comando PVA.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Pyongyang · Gen. Peng Dehuai & Kim Il-sung, Dic 1952)'
+      );
+    }
+    return makeResult(
+      'ROK',
+      `${provLabel} (100% Repubblica di Corea ROK / Comando ONU UNC — 31 Dicembre 1952)`,
+      "31 Dicembre 1952 (100% ROK / Comando Nazioni Unite UNC): provincia a sud del 38° parallelo stabilmente sotto controllo della Repubblica di Corea e del Comando ONU.",
+      'Alleati',
+      'Repubblica di Corea & Comando Nazioni Unite (UNC · Gen. Mark W. Clark & Gen. James Van Fleet, Dic 1952)'
+    );
+  }
+
+  // STEP 28 (31 Dicembre 1951): Negoziati di Panmunjom & Linea di Demarcazione Militare Provvisoria (27 Novembre 1951 — Punchbowl, Heartbreak Ridge & Linea Jamestown)
+  if (s >= 28) {
+    const kid = (meta ? meta.id : fidClean).toUpperCase();
+    const provLabel = meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || fidClean || 'Corea');
+
+    if (kid === 'KP05_S') {
+      return makeResult(
+        'PRK',
+        'Penisola di Ongjin (45% RPDC-PVA / 55% ROK-UNC Settore Incheon — Linea di Demarcazione Militare del 27 Novembre 1951)',
+        "31 Dicembre 1951 (45% RPDC-PVA sul settore Incheon/Ongjin): a ovest dell'estuario del fiume Han la penisola di Ongjin resta interamente sotto controllo cino-nordcoreano (RPDC-PVA) lungo la Linea di Demarcazione Militare provvisoria del 27 novembre 1951, mentre Incheon e Ganghwa sono sotto ROK-UNC.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Ongjin — 31 Dic 1951)'
+      );
+    }
+    if (kid === 'KP06_S') {
+      return makeResult(
+        'PRK',
+        'Kaesong / Panmunjom (10% RPDC-PVA del Gyeonggi-do — Base Negoziale Comunista per i Colloqui d\'Armistizio di Panmunjom)',
+        "31 Dicembre 1951 (10% RPDC-PVA nel Gyeonggi-do nord-occidentale): Kaesong (dove i colloqui d'armistizio si sono aperti il 10 luglio 1951 prima di trasferirsi nel vicino villaggio di Panmunjom il 25 ottobre 1951) resta saldamente sotto controllo cino-nordcoreano (RPDC-PVA) come base logistica della delegazione comunista lungo la Linea di Demarcazione Militare provvisoria del 27 novembre 1951.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Base Negoziale di Kaesong–Panmunjom — 31 Dic 1951)'
+      );
+    }
+    if (kid === 'KR28') {
+      return makeResult(
+        'ROK',
+        'Incheon & Ganghwa (55% ROK-UNC / 45% RPDC-PVA Penisola di Ongjin — 31 Dicembre 1951)',
+        "31 Dicembre 1951 (55% ROK-UNC / 45% RPDC-PVA): la città portuale di Incheon e l'isola fortificata di Ganghwa sono saldamente sotto controllo ROK / Comando Nazioni Unite (UNC), mentre la penisola di Ongjin resta alla RPDC-PVA.",
+        'Alleati',
+        'Comando Nazioni Unite (UNC) & Repubblica di Corea — Settore Portuario Incheon & Ganghwa (55%)'
+      );
+    }
+    if (kid === 'KR11') {
+      return makeResult(
+        'ROK',
+        'Seoul / Seul (100% ROK / Comando ONU — Retrovia Consolidata della Linea Jamestown, 31 Dicembre 1951)',
+        "31 Dicembre 1951 (100% Repubblica di Corea ROK / Comando ONU UNC): protetta a nord dalla Linea Jamestown consolidata con l'Operazione Commando (ottobre 1951) e dal congelamento del fronte sulla Linea di Demarcazione Militare provvisoria di Panmunjom (27 novembre 1951), Seul rimane al 100% sotto controllo ROK-UNC.",
+        'Alleati',
+        'Comando Nazioni Unite (UNC) & Repubblica di Corea — Capitale Seoul (100% ROK-UNC)'
+      );
+    }
+    if (kid === 'KR41_N' || kid === 'KR41_S') {
+      return makeResult(
+        'ROK',
+        kid === 'KR41_N'
+          ? 'Yeoncheon & Linea Jamestown — Gyeonggi-do Settentrionale (90% ROK-UNC / 10% RPDC-PVA Kaesong — Operazione Commando Ott 1951)'
+          : 'Gyeonggi-do (90% ROK-UNC / 10% RPDC-PVA Kaesong — Consolidamento sulla Linea Jamestown & MDL del 27 Nov 1951)',
+        "31 Dicembre 1951 (90% ROK-UNC / 10% RPDC-PVA): con l'Operazione Commando (3–15 ottobre 1951) il I Corpo USA/ROK spinge la Linea Jamestown leggermente a nord del basso Imjin verso Yeoncheon e Cheorwon a protezione delle linee ferroviarie per Seul. Con l'accordo di Panmunjom del 27 novembre 1951 sulla Linea di Demarcazione Militare (MDL) provvisoria, il 90% del Gyeonggi-do resta ROK-UNC, mentre Kaesong (base per i negoziati di Panmunjom) resta in mano RPDC-PVA.",
+        'Alleati',
+        'Linea Jamestown & MDL di Panmunjom (Gyeonggi-do 90% ROK-UNC · Yeoncheon & Basso Imjin)'
+      );
+    }
+    if (kid === 'KR42_S') {
+      return makeResult(
+        'ROK',
+        'Gangwon-do Meridionale (100% ROK / Comando ONU — 31 Dicembre 1951)',
+        "31 Dicembre 1951 (100% ROK-UNC): l'intero settore del Gangwon-do a sud del 38° parallelo è al 100% sotto controllo della Repubblica di Corea e del Comando ONU.",
+        'Alleati',
+        'Repubblica di Corea & Comando ONU — Gangwon-do Meridionale (100% ROK-UNC)'
+      );
+    }
+    if (kid === 'KR42_N') {
+      return makeResult(
+        'ROK',
+        'Gangwon Settentrionale — Saliente di Punchbowl, Bloody/Heartbreak Ridge & Goseong (25% ROK-UNC oltre il 38° · MDL del 27 Nov 1951)',
+        "31 Dicembre 1951 (25% ROK-UNC / 75% RPDC-PVA nel Gangwon settentrionale a nord del 38° parallelo): dopo le sanguinose offensive autunnali ONU/ROK per la rettifica del fronte — Battaglia di Bloody Ridge (agosto–settembre), Battaglia di Heartbreak Ridge (13 settembre – 15 ottobre) e conquista del bacino del Punchbowl (Haean) a nord di Yanggu e Inje — le forze ROK-UNC consolidano il saliente oltre il 38° parallelo e la fascia costiera orientale fino a Goseong (Kosong), congelati lungo la Linea di Demarcazione Militare provvisoria concordata a Panmunjom il 27 novembre 1951.",
+        'Alleati',
+        'Saliente ROK-UNC oltre il 38° Parallelo — Punchbowl, Heartbreak Ridge & Goseong (25% Gangwon Nord · MDL 27 Nov 1951)'
+      );
+    }
+    if (kid === 'KP07') {
+      return makeResult(
+        'PRK',
+        'Kangwon Settentrionale (75% RPDC-PVA / 25% ROK-UNC Saliente Punchbowl–Goseong — Wonsan, Pyonggang & Kumhwa Nord)',
+        "31 Dicembre 1951 (75% RPDC-PVA / 25% ROK-UNC): lungo la Linea di Demarcazione Militare provvisoria del 27 novembre 1951, il saliente meridionale oltre il 38° parallelo (Cheorwon, Hwacheon, Punchbowl/Haean, Bloody & Heartbreak Ridge a nord di Yanggu/Inje e la costa fino a Goseong) è tenuto dalle forze ROK-UNC (25%), mentre il restante 75% settentrionale della provincia (Wonsan, Pyonggang, Kumhwa nord) resta sotto saldo controllo RPDC-PVA.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Wonsan–Pyonggang — 75% RPDC-PVA · MDL 27 Nov 1951)'
+      );
+    }
+    const isOtherNorth38 =
+      meta?.cntrCode === 'KP' || kid.startsWith('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP';
+    if (isOtherNorth38) {
+      return makeResult(
+        'PRK',
+        `${provLabel} (100% RPDC / Volontari del Popolo Cinese PVA — 31 Dicembre 1951)`,
+        "31 Dicembre 1951 (100% RPDC / Volontari del Popolo Cinese PVA): provincia a nord del 38° parallelo interamente sotto controllo della Repubblica Popolare Democratica di Corea e del comando cino-nordcoreano PVA durante i colloqui d'armistizio di Panmunjom.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Pyongyang · Gen. Peng Dehuai & Kim Il-sung)'
+      );
+    }
+    return makeResult(
+      'ROK',
+      `${provLabel} (100% Repubblica di Corea ROK / Comando ONU UNC — 31 Dicembre 1951)`,
+      "31 Dicembre 1951 (100% ROK / Comando Nazioni Unite UNC): provincia a sud del 38° parallelo stabilmente sotto controllo della Repubblica di Corea e del Comando ONU.",
+      'Alleati',
+      'Repubblica di Corea & Comando Nazioni Unite (UNC · Gen. Matthew Ridgway & Gen. James Van Fleet)'
+    );
+  }
+
+  // STEP 27 (30 Giugno 1951): Linea Fortificata Kansas / Wyoming oltre il 38° Parallelo (Offerta Armistizio Ridgway 30 Giu; Kaesong non ancora aperto)
+  if (s >= 27) {
+    const kid = (meta ? meta.id : fidClean).toUpperCase();
+    const provLabel = meta ? meta.name : (p.NAME_LATN || p.NAME || p.name || fidClean || 'Corea');
+
+    // Penisola di Ongjin (45% RPDC-PVA del settore Incheon/Ongjin) & Kaesong/Jangdan (10% nord-occidentale del Gyeonggi-do)
+    if (kid === 'KP05_S') {
+      return makeResult(
+        'PRK',
+        'Penisola di Ongjin (45% RPDC-PVA / 55% ROK-UNC Settore Incheon — 30 Giugno 1951)',
+        "30 Giugno 1951 (45% RPDC-PVA sul settore Incheon/Ongjin): a ovest dell'estuario del fiume Han la penisola di Ongjin resta sotto saldo controllo cino-nordcoreano (RPDC-PVA), mentre la città portuale di Incheon e l'isola di Ganghwa sono sotto ROK-UNC.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Ongjin — 30 Giu 1951)'
+      );
+    }
+    if (kid === 'KP06_S') {
+      return makeResult(
+        'PRK',
+        'Kaesong / Jangdan (10% RPDC-PVA del Gyeonggi-do a Sud del 38° — Offerta Radiofonica 30 Giu, Colloqui Non Ancora Aperti)',
+        "30 Giugno 1951 (10% RPDC-PVA nel Gyeonggi-do nord-occidentale): l'estremità nord-occidentale attorno a Kaesong e Jangdan (a sud del 38° parallelo, a nord dell'estuario dell'Han e dell'Imjin) resta sotto controllo RPDC-PVA. Proprio il 30 giugno il Gen. Matthew Ridgway trasmette via radio l'offerta per aprire negoziati d'armistizio (i colloqui di Kaesong inizieranno solo il 10 luglio 1951).",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Kaesong–Jangdan — 30 Giu 1951)'
+      );
+    }
+    // Incheon & Isola di Ganghwa (55% ROK-UNC / 45% RPDC-PVA Ongjin)
+    if (kid === 'KR28') {
+      return makeResult(
+        'ROK',
+        'Incheon (55% ROK-UNC / 45% RPDC-PVA Penisola di Ongjin — Porto e Ganghwa sotto Comando ONU)',
+        "30 Giugno 1951 (55% ROK-UNC / 45% RPDC-PVA): la città portuale di Incheon e l'isola di Ganghwa sono sotto pieno controllo ROK / Comando Nazioni Unite (UNC), mentre la penisola di Ongjin a ovest dell'estuario del fiume Han resta in mano RPDC-PVA.",
+        'Alleati',
+        'Comando Nazioni Unite (UNC) & Repubblica di Corea — Settore Portuario Incheon & Ganghwa (55%)'
+      );
+    }
+    // Seoul (100% ROK / UNC dal 15 marzo 1951)
+    if (kid === 'KR11') {
+      return makeResult(
+        'ROK',
+        'Seoul / Seul (100% ROK / Comando ONU — Definitivamente Liberata il 14–15 Marzo 1951)',
+        "30 Giugno 1951 (100% Repubblica di Corea ROK / Comando ONU UNC): dopo la riconquista nell'Offensiva di Capodanno cinese (4 gennaio 1951), le controffensive ONU del Gen. Matthew Ridgway (Thunderbolt, Killer, Ripper) liberano definitivamente Seul il 14–15 marzo 1951; il 30 giugno Ridgway trasmette l'offerta d'armistizio prima dell'apertura di Kaesong (10 luglio).",
+        'Alleati',
+        'Comando Nazioni Unite (UNC) & Repubblica di Corea — Capitale Seoul (100% ROK-UNC)'
+      );
+    }
+    // Gyeonggi-do (KR41_N Yeoncheon + KR41_S Suwon/Uijeongbu/Paju/Dongducheon/Pocheon/Gapyeong = 90% ROK-UNC / 10% Kaesong RPDC-PVA)
+    if (kid === 'KR41_N' || kid === 'KR41_S') {
+      return makeResult(
+        'ROK',
+        kid === 'KR41_N'
+          ? 'Yeoncheon & Basso Imjin — Gyeonggi-do Settentrionale (90% ROK-UNC / 10% RPDC-PVA a Kaesong)'
+          : 'Gyeonggi-do (90% ROK-UNC / 10% RPDC-PVA Kaesong–Jangdan — Fronte sull\'Estuario Han e Basso Imjin)',
+        "30 Giugno 1951 (90% ROK-UNC / 10% RPDC-PVA): dopo aver arrestato l'Offensiva di Primavera cinese sul fiume Imjin (aprile–maggio 1951), la Linea Kansas/Wyoming corre lungo l'estuario dell'Han e il basso Imjin fino a Yeoncheon: Uijeongbu, Paju (a sud dell'Imjin), Dongducheon, Pocheon, Gapyeong e Yeoncheon sono sotto ROK-UNC; solo Kaesong/Jangdan restano RPDC-PVA.",
+        'Alleati',
+        'Linea Kansas / Wyoming (Gyeonggi-do 90% ROK-UNC · Basso Imjin & Yeoncheon)'
+      );
+    }
+    // Gangwon-do Meridionale (100% ROK-UNC)
+    if (kid === 'KR42_S') {
+      return makeResult(
+        'ROK',
+        'Gangwon-do Meridionale (100% ROK / Comando ONU — Nessuna Presenza Comunista a Sud del 38°)',
+        "30 Giugno 1951 (100% ROK-UNC): con la controffensiva ONU di maggio–giugno 1951 fino alle linee Kansas e Wyoming a nord del 38° parallelo, ogni presenza comunista a sud del 38° parallelo nel Gangwon-do meridionale è stata completamente eliminata.",
+        'Alleati',
+        'Repubblica di Corea & Comando ONU — Gangwon-do Meridionale (100% ROK-UNC)'
+      );
+    }
+    // Gangwon-do Settentrionale fascia avanzata (Cheorwon, Hwacheon, Yanggu, Inje, Sokcho/Goseong) = 20% ROK-UNC oltre il 38°!
+    if (kid === 'KR42_N') {
+      return makeResult(
+        'ROK',
+        'Gangwon Settentrionale — Linea Kansas / Triangolo di Ferro (20% ROK-UNC oltre il 38°: Cheorwon, Hwacheon, Yanggu, Inje, Sokcho/Goseong)',
+        "30 Giugno 1951 (20% ROK-UNC nel Gangwon settentrionale oltre il 38° parallelo): le forze ONU/ROK hanno sfondato il 38° parallelo attestandosi sulla Linea Kansas e sul Triangolo di Ferro, controllando Cheorwon, Hwacheon, Yanggu, Inje e la fascia costiera orientale fino a Sokcho / Goseong (a sud del fiume Nam), mentre il restante 80% settentrionale (Wonsan, Pyonggang, Kumhwa nord) resta RPDC-PVA.",
+        'Alleati',
+        'Linea Kansas & Triangolo di Ferro (Settore ROK-UNC oltre il 38° Parallelo — 20% Gangwon Nord)'
+      );
+    }
+    // Kangwon Settentrionale RPDC-PVA (KP07 = 80% RPDC-PVA / 20% ROK-UNC)
+    if (kid === 'KP07') {
+      return makeResult(
+        'PRK',
+        'Kangwon Settentrionale (80% RPDC-PVA / 20% ROK-UNC oltre il 38° — Wonsan, Pyonggang & Kumhwa Nord)',
+        "30 Giugno 1951 (80% RPDC-PVA / 20% ROK-UNC): la fascia meridionale oltre il 38° parallelo (Cheorwon, Hwacheon, Yanggu, Inje, Sokcho/Goseong) è presidiata dalle forze ONU lungo la Linea Kansas/Wyoming, mentre il restante 80% della provincia (Wonsan, Pyonggang, Kumhwa nord) rimane sotto saldo controllo RPDC-PVA.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Settore Wonsan–Pyonggang — 80% RPDC-PVA)'
+      );
+    }
+    const isOtherNorth38 =
+      meta?.cntrCode === 'KP' || kid.startsWith('KP') || p.CNTR_CODE === 'KP' || p.cntrCode === 'KP';
+    if (isOtherNorth38) {
+      return makeResult(
+        'PRK',
+        `${provLabel} (100% RPDC / Volontari del Popolo Cinese PVA — 30 Giugno 1951)`,
+        "30 Giugno 1951 (100% RPDC / Volontari del Popolo Cinese PVA): la provincia a nord del 38° parallelo rimane interamente sotto controllo della Repubblica Popolare Democratica di Corea e del comando cino-nordcoreano PVA.",
+        'Comintern',
+        'Repubblica Popolare Democratica di Corea / PVA (Pyongyang · Gen. Peng Dehuai & Kim Il-sung)'
+      );
+    }
+    return makeResult(
+      'ROK',
+      `${provLabel} (100% Repubblica di Corea ROK / Comando ONU UNC — 30 Giugno 1951)`,
+      "30 Giugno 1951 (100% ROK / Comando Nazioni Unite UNC): provincia a sud del 38° parallelo stabilmente sotto controllo della Repubblica di Corea e del Comando ONU.",
+      'Alleati',
+      'Repubblica di Corea & Comando Nazioni Unite (UNC · Gen. Matthew Ridgway)'
+    );
+  }
+
   // STEP 26 (31 Dicembre 1950): Controffensiva Cinese PVA (Ott–Dic 1950) — Evacuazione di Hungnam (24 Dic) & Fronte sul Fiume Imjin / 38° Parallelo
   if (s >= 26) {
     const kid = (meta ? meta.id : fidClean).toUpperCase();

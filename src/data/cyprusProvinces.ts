@@ -490,12 +490,35 @@ export function isCyprusProvince(id: string): boolean {
   );
 }
 
+export function getCyprusStep32Dossier(cleanId: string, fallbackName?: string): {
+  name: string;
+  adminTitle: string;
+  note: string;
+} {
+  const up = cleanId.toUpperCase().trim();
+  const dossier = CYPRUS_PROVINCES_META[up];
+  const baseName = dossier?.districtName || dossier?.modernName || fallbackName || (up === 'CY000' ? 'Cyprus' : up);
+  const isMilEnclave = up === 'UK_AKROTIRI' || up === 'UK_DHEKELIA';
+  return {
+    name: isMilEnclave
+      ? `${baseName} (British Military Enclave in Cyprus — Stato d'Emergenza EOKA 26 Nov 1955)`
+      : `${baseName} — Crown Colony of Cyprus (Insurrezione Armata Anticoloniale EOKA dal 1° Aprile & Stato d'Emergenza 26 Novembre 1955)`,
+    adminTitle: "British Empire — Crown Colony of Cyprus (Stato d'Emergenza EOKA 26 Nov 1955 · Gov. Field Marshal Sir John Harding)",
+    note: `31 Dicembre 1955 (Cipro Britannica — Campagna EOKA & Stato d'Emergenza): dal 1° aprile 1955 l'organizzazione clandestina greco-cipriota EOKA (Ethniki Organosis Kyprion Agoniston) guidata dal Col. Georgios Grivas ("Dighenis") con la guida politica dell'Arcivescovo Makarios III lancia la lotta armata anticoloniale per l'unione alla Grecia (Enosis). Fallita la Conferenza Tripartita di Londra tra Regno Unito, Grecia e Turchia (ago–set 1955), il 26 novembre 1955 il nuovo Governatore maresciallo Sir John Harding proclama lo Stato d'Emergenza formale su tutta l'isola (${baseName} resta sotto amministrazione coloniale dell'Impero Britannico).`,
+  };
+}
+
 export function resolveCyprusProvince(ft: any, s: number): ResolvedTerritory {
   const p = ft.properties || {};
   const cleanId = String(ft.id || p.id || p.NUTS_ID || '').toUpperCase().trim();
   const dossier = CYPRUS_PROVINCES_META[cleanId];
 
   const fac: FactionType = s >= 4 ? 'Alleati' : 'Neutrale';
+
+  if (s >= 32) {
+    const info = getCyprusStep32Dossier(cleanId, p.NAME || p.shapeName);
+    return makeResult('UK', info.name, info.note, fac, info.adminTitle);
+  }
 
   if (dossier) {
     return makeResult(

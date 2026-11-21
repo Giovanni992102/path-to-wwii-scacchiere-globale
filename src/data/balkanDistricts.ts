@@ -4734,6 +4734,30 @@ export function resolveBalkansToponym(
 
     // UNGHERIA (HU)
     if (d.country === 'HU') {
+      if (step >= 34) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare Ungherese — Legge Costituzionale II/1957 · Bandiera senza Stemma, Mag 1957)`,
+          adminTitle: 'Magyar Népköztársaság — Governo János Kádár (Legge II del 23 Maggio 1957 · Presidio Sovietico)',
+          note: "23 Maggio – 31 Dicembre 1957 (Repubblica Popolare Ungherese): mentre il regime di János Kádár consolida la normalizzazione post-1956 con truppe sovietiche di stanza (accordo del 27 maggio 1957), la Legge II del 23 maggio 1957 sostituisce lo stemma Kádár nello Stato e consacra costituzionalmente sulla bandiera nazionale il puro tricolore rosso-bianco-verde privo dello stemma staliniano di Rákosi.",
+          owner: 'HUN',
+        };
+      }
+      if (step >= 33) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare Ungherese — Rivoluzione del 23 Ott – 11 Nov 1956 & Governo Kádár)`,
+          adminTitle: 'Magyar Népköztársaság — Governo Rivoluzionario Operaio-Contadino (János Kádár · Presidio Militare Sovietico, Dic 1956)',
+          note: "23 Ottobre – 31 Dicembre 1956 (Rivoluzione Ungherese & Intervento Sovietico): l'insurrezione popolare a Budapest porta al governo riformatore di Imre Nagy (che il 1° novembre annuncia il ritiro dal Patto di Varsavia e la neutralità). Il 4 novembre l'Armata Rossa lancia l'Operazione Turbine reprimendo la rivolta entro l'11 novembre e insediando il governo filo-sovietico di János Kádár; lo stemma staliniano di Rákosi viene abolito definitivamente dalla bandiera.",
+          owner: 'HUN',
+        };
+      }
+      if (step >= 24) {
+        return {
+          name: `${d.capitalOrChefLieu} (Repubblica Popolare Ungherese — Magyar Népköztársaság)`,
+          adminTitle: 'Magyar Népköztársaság (Costituzione Socialista del 20 Agosto 1949)',
+          note: "Repubblica Popolare Ungherese istituita con la Costituzione del 20 agosto 1949 sotto l'egemonia del MDP nel blocco orientale.",
+          owner: 'HUN',
+        };
+      }
       if (step >= 18) {
         return {
           name: `${d.capitalOrChefLieu} (Repubblica d'Ungheria — Governo Nazionale Provvisorio)`,

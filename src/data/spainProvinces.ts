@@ -74,6 +74,24 @@ export function resolveSpanishAfricanTerritory(
   const faction: FactionType = s === 0 ? 'Comintern' : s >= 18 ? 'Neutrale' : 'Asse';
 
   if (zone === 'ES_RIF') {
+    if (s >= 34) {
+      return makeResult(
+        'MAR',
+        'Marocco Settentrionale — Ex Protettorato Spagnolo (Tetuán, Rif, Nador, Larache · Regno del Marocco, Re Mohammed V Ago 1957)',
+        "31 Dicembre 1957 (Regno del Marocco Unificato): le province settentrionali del Rif e di Tetuán (cedute dalla Spagna il 7 aprile 1956) fanno parte integrante del Regno del Marocco sotto Re (Malik) Mohammed V (che nell'agosto 1957 ha sostituito il titolo di Sultano con quello di Re), mentre restano alla Spagna Ceuta, Melilla, Ifni, Capo Juby/Tarfaya e Sahara Spagnolo.",
+        'Neutrale',
+        'Regno del Marocco — Province Settentrionali (Tetuán / Rif · Re Mohammed V)'
+      );
+    }
+    if (s >= 33) {
+      return makeResult(
+        'MAR',
+        'Marocco Settentrionale — Ex Protettorato Spagnolo (Tetuán, Yebala, Lucus, Gomara, Rif, Kert · Ceduto il 7 Apr 1956)',
+        "7 Aprile – 31 Dicembre 1956 (Fine del Protettorato Spagnolo & Riunificazione al Marocco): con la Dichiarazione congiunta ispano-marocchina di Madrid del 7 aprile 1956, la Spagna pone fine al Protettorato Settentrionale (Tetuán, Larache, Xauen, Alhucemas, Nador) trasferendone la sovranità al Marocco sotto il Sultano Mohammed V (restano alla Spagna Ceuta, Melilla, Ifni, Capo Juby/Tarfaya e Sahara Spagnolo).",
+        'Neutrale',
+        'Stato Sovrano del Marocco — Province Settentrionali (Tetuán / Rif — Accordo Ispano-Marocchino 7 Apr 1956)'
+      );
+    }
     const histName =
       s === 0
         ? 'Protectorado Español de Marruecos (Zona Norte: Yebala, Lucus, Rif, Gomara y Kert — Tetuán)'
@@ -205,6 +223,9 @@ export function resolveSpanishAfricanTerritory(
     } else if (s >= 19 && s <= 22) {
       note =
         "1947–1948: durante l'isolamento diplomatico del regime di Franco e le tensioni politiche di Tetuán (febbraio 1948), Ceuta rimane saldamente integrata nello Stato spagnolo come porto franco militare sullo Stretto.";
+    } else if (s >= 33) {
+      note =
+        "2 Marzo – 31 Dicembre 1956 (Plaza de Soberanía Sovrana Spagnola — Post-Indipendenza del Marocco): nonostante la fine del Protettorato spagnolo settentrionale (7 aprile 1956), Ceuta rimane saldamente sotto sovranità metropolitana della Spagna sullo Stretto di Gibilterra.";
     } else {
       note =
         "1949 – Giugno 1950: consolidamento della Comandancia General de Ceuta e rilancio del porto commerciale e militare sullo Stretto di Gibilterra in netta distinzione giuridica dal circostante Protettorato marocchino.";
@@ -265,6 +286,9 @@ export function resolveSpanishAfricanTerritory(
     } else if (s >= 19 && s <= 22) {
       note =
         "1947–1948: Plaza de Soberanía sovrana spagnola al riparo dall'isolamento internazionale di Madrid; in seguito ai moti di Tetuán del febbraio 1948, la piazzaforte rafforza il dispositivo di sicurezza nell'entroterra del Rif orientale.";
+    } else if (s >= 33) {
+      note =
+        "2 Marzo – 31 Dicembre 1956 (Plaza de Soberanía Sovrana Spagnola — Post-Indipendenza del Marocco): dopo l'indipendenza del Marocco (marzo–aprile 1956), Melilla rimane enclave sovrana della Spagna nel Rif orientale insieme a Ceuta.";
     } else {
       note =
         "1949 – Giugno 1950: consolidamento urbano, portuale e minerario di Melilla (Minas del Rif) sotto la Comandancia General, amministrativamente parte della Spagna metropolitana e distinta dal vicino Protettorato.";
@@ -328,6 +352,12 @@ export function resolveSpanishAfricanTerritory(
     } else if (s === 24) {
       note =
         "Dicembre 1949: l'África Occidental Española (istituita con decreto del 20 luglio 1946 unificando Ifni e Sahara Spagnolo) è retta dal 17 agosto 1949 dal nuovo Governatore Col. Francisco Rosaleny Burguet con capitale Sidi Ifni e caposaldi a Villa Cisneros e Cabo Juby.";
+    } else if (s >= 34) {
+      note =
+        "23 Novembre – 31 Dicembre 1957 (Guerra d'Ifni — Assedio di Sidi Ifni): il 23 novembre 1957 le milizie irregolari dell'Esercito di Liberazione Marocchino (ALN) lanciano un'offensiva generale contro l'enclave spagnola. Dopo la resistenza di avamposti accerchiati come Tiluin, Telata e Tiugsa e le colonne di soccorso ispano-canarie (Operación Netol e Operación Pañuelo con paracadutisti e Legione sotto il Gen. Mariano Gómez-Zamalloa), al 31 dicembre 1957 la Spagna mantiene un perimetro difensivo fortificato attorno alla città costiera e all'aeroporto di Sidi Ifni, mentre le zone montuose interne restano contese o in mano alle bande dell'ALN.";
+    } else if (s >= 33) {
+      note =
+        "31 Dicembre 1956 (África Occidental Española — Enclave Sovrana Spagnola di Sidi Ifni): anche dopo l'indipendenza del Marocco (marzo–aprile 1956), Madrid mantiene l'enclave di Ifni sotto governo spagnolo (AOE) mentre crescono le tensioni con l'Esercito di Liberazione Marocchino nell'entroterra (fino alla guerra d'Ifni del 1957–58).";
     } else {
       note =
         "Giugno 1950: sotto il Governatore Col. Francisco Rosaleny Burguet, Sidi Ifni guida l'África Occidental Española potenziando il molo costiero e i servizi civili tra le tribù Aït Baâmrane alla vigilia degli investimenti spagnoli degli anni '50.";
@@ -385,6 +415,12 @@ export function resolveSpanishAfricanTerritory(
     } else if (s === 24) {
       note =
         "Dicembre 1949: sotto il Governatore AOE Col. Francisco Rosaleny Burguet (dall'agosto 1949), El Aaiún in Saguia el-Hamra e Villa Bens (Cabo Juby) vengono potenziati come nodi amministrativi e aeronautici del Sahara settentrionale.";
+    } else if (s >= 34) {
+      note =
+        "23 Novembre – 31 Dicembre 1957 (Guerra d'Ifni-Sahara — Saguia el-Hamra & Capo Juby / Tarfaya ancora Spagnola): dall'autunno 1957 colonne desertiche dell'ALN attaccano posti avanzati attorno a El Aaiún, Smara e Villa Bens (Capo Juby / Tarfaya), scatenando intensi scontri con la Legione Spagnola e i gruppi nomadi nel deserto. Al 31 dicembre 1957 l'intero territorio — inclusa la fascia di Capo Juby / Tarfaya (che verrà ceduta al Marocco solo il 1° aprile 1958) — resta sotto sovranità spagnola (AOE).";
+    } else if (s >= 33) {
+      note =
+        "31 Dicembre 1956 (Capo Juby / Tarfaya & Saguia el-Hamra sotto Sovranità Spagnola): dopo gli accordi ispano-marocchini del 7 aprile 1956, Madrid restituisce soltanto la zona settentrionale del Rif (Tetuán) ma conserva al 31 dicembre 1956 sia la fascia meridionale di Capo Juby / Villa Bens (che verrà ceduta al Marocco solo nell'aprile 1958 con gli Accordi di Angra de Cintra) sia la Saguia el-Hamra (El Aaiún).";
     } else {
       note =
         "Giugno 1950: El Aaiún (Saguia el-Hamra) e il settore di Cabo Juby/Tarfaya formano il perno sahariano settentrionale dell'África Occidental Española sotto l'amministrazione del Col. Rosaleny Burguet.";
@@ -442,6 +478,12 @@ export function resolveSpanishAfricanTerritory(
   } else if (s === 24) {
     note =
       "Dicembre 1949: sotto il Governatore AOE Col. Francisco Rosaleny Burguet (dall'agosto 1949), Villa Cisneros e la penisola di Río de Oro avviano piani di espansione portuale e peschereccia.";
+  } else if (s >= 34) {
+    note =
+      "Novembre – 31 Dicembre 1957 (Guerra d'Ifni-Sahara — Río de Oro / Villa Cisneros): le incursioni sahariane dell'Esercito di Liberazione Marocchino (ALN) raggiungono anche la pista atlantica tra Argoub e Villa Cisneros (Dakhla), fronteggiate dai reparti della Legione Spagnola e dalla marina; Villa Cisneros e La Güera restano saldamente sotto sovranità dell'Estado Español.";
+  } else if (s >= 33) {
+    note =
+      "31 Dicembre 1956 (Sahara Spagnolo / Río de Oro — África Occidental Española): Villa Cisneros e La Güera restano saldamente sotto sovranità spagnola nell'AOE anche dopo l'indipendenza del Marocco (1956).";
   } else {
     note =
       "Giugno 1950: Villa Cisneros e La Güera rimangono gli avamposti meridionali dell'África Occidental Española lungo il banco sahariano-atlantico.";

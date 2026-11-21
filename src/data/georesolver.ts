@@ -1,4 +1,7 @@
 import { toCanonicalCountryCode } from './countryCodes';
+import { resolveLibyaColonyToponym } from './libyaTimeline';
+import { resolveEritreaItalianPhase, resolveSomaliaItalianAndAfisPhase } from './italianEastAfricaTimeline';
+import { resolveFinlandProvince } from './finlandProvinces';
 import {
   resolveSlovakia,
   resolveFelvidek,
@@ -681,6 +684,24 @@ export function makeResult(
 }
 
 function resolveTangierZone(s: number): ResolvedTerritory {
+  if (s >= 34) {
+    return makeResult(
+      'MAR',
+      'Tangeri — Provincia Integrata del Regno del Marocco (Integrazione Giuridica Formale 1° Gen 1957)',
+      "1° Gennaio – 31 Dicembre 1957 (Regno del Marocco — Fine Definitiva dello Statuto Internazionale di Tangeri): in attuazione del Protocollo di Tangeri (29 ottobre 1956), dal 1° gennaio 1957 cessa ogni vestigia dell'amministrazione internazionale e la città entra giuridicamente a pieno titolo nel Marocco sotto Re Mohammed V (titolo regio assunto nell'agosto 1957).",
+      'Neutrale',
+      'Regno del Marocco — Governatorato di Tangeri (Piena Integrazione Giuridica dal 1° Gennaio 1957 · Re Mohammed V)'
+    );
+  }
+  if (s >= 33) {
+    return makeResult(
+      'MAR',
+      'Tangeri — Zona di Tangeri (Protocollo del 29 Ott 1956 · Amministrazione Marocchina)',
+      "29 Ottobre – 31 Dicembre 1956 (Protocollo di Tangeri & Fine dello Statuto Internazionale): con la Conferenza di Fedala e il Protocollo di Tangeri del 29 ottobre 1956, le potenze firmatarie aboliscono il Comitato di Controllo internazionale. Al 31 dicembre 1956 l'amministrazione del Marocco (Sultano Mohammed V) è già subentrata de facto, alla vigilia dell'integrazione giuridica formale del 1° gennaio 1957.",
+      'Neutrale',
+      'Stato Sovrano del Marocco — Governatorato di Tangeri (Protocollo di Tangeri 29 Ott 1956 · Integrazione formale 1° Gen 1957)'
+    );
+  }
   if (s >= 23) {
     return makeResult(
       'TANGER',
@@ -1583,10 +1604,21 @@ export function resolveReunion(s: number): ResolvedTerritory {
 }
 
 export function resolveKoperZoneB(s: number): ResolvedTerritory {
+  if (s >= 31) {
+    return makeResult(
+      'DFJ',
+      'Capodistria / Obalno-kraška — RS di Slovenia, RFP di Jugoslavia (Memorandum di Londra, 26 Ottobre 1954 · Fine Zona B TLT)',
+      "31 Dicembre 1954 (100% RFP di Jugoslavia — RS di Slovenia): in attuazione del Memorandum d'Intesa di Londra del 5 ottobre 1954 (eseguito il 26 ottobre 1954), cessa definitivamente il Territorio Libero di Trieste (TLT) e la VUJA; il settore settentrionale dell'ex Zona B (Capodistria/Koper, Isola/Izola, Pirano/Piran, oltre alle frazioni a sud di Muggia) viene stabilmente integrato nella Repubblica Socialista di Slovenia (Jugoslavia).",
+      'Neutrale',
+      'Repubblica Federativa Popolare di Jugoslavia — RS di Slovenia (Obalno-kraška · Capodistria, dal 26 Ott 1954)'
+    );
+  }
   if (s >= 18) {
     const fac: FactionType = s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati';
     const note =
-      s >= 21
+      s >= 30
+        ? "31 Dicembre 1953 (TLT Formalmente Attivo — Crisi dell'Ottobre–Novembre 1953): dopo la dichiarazione anglo-americana dell'8 ottobre 1953 (che preannuncia la consegna della Zona A all'Italia), la Jugoslavia di Tito respinge il piano, schiera divisioni ai confini della Zona B e consolida l'amministrazione VUJA a Capodistria (Koper), Isola e Pirano; al 31 dicembre 1953 tuttavia il TLT non è ancora stato sciolto (Memorandum di Londra solo 5 ottobre 1954)."
+        : s >= 21
         ? 'Primo semestre 1948: Belgrado e Mosca respingono la Dichiarazione Tripartita occidentale del 20 marzo 1948 sul ritorno del TLT all\'Italia. Nella Zona B (Capodistria, Isola, Pirano) la VUJA del Gen. Mirko Lenac accelera il distacco economico introducendo la Jugo-lira/dinaro; il 28 giugno 1948 la rottura Tito–Stalin spacca il PCTLT e spinge la Jugoslavia fuori dal Cominform, rafforzando il presidio militare jugoslavo lungo il confine di Rabuiese.'
         : s === 20
         ? 'Dicembre 1947: stallo al Consiglio di Sicurezza ONU sulla nomina del Governatore del Territorio Libero di Trieste. Restando inattuato lo Statuto Permanente (Allegato VI), la fascia costiera da Capodistria a Pirano resta sotto il Regime Provvisorio (Allegato VII) amministrato militarmente dalla VUJA jugoslava.'
@@ -1595,12 +1627,16 @@ export function resolveKoperZoneB(s: number): ResolvedTerritory {
         : 'Accordo di Belgrado (9 giugno 1945) e Accordo di Duino (20 giugno 1945 — Linea Morgan): la fascia costiera settentrionale da Capodistria a Pirano e Isola d\'Istria costituisce il settore nord della Zona B amministrato militarmente dall\'Esercito Jugoslavo (VUJA).';
     return makeResult(
       s >= 19 ? 'VUJA' : 'DFJ',
-      s >= 19
+      s >= 30
+        ? 'Territorio Libero di Trieste — Zona B (Capodistria / Slovenska Istra — VUJA · Crisi Ott–Nov 1953, TLT Ancora Attivo)'
+        : s >= 19
         ? 'Territorio Libero di Trieste — Zona B (Capodistria / Slovenska Istra — VUJA)'
         : 'Zona B del Territorio di Trieste (Capodistria / Slovenska Istra — Amministrazione Militare Jugoslava VUJA)',
       note,
       fac,
-      s >= 21
+      s >= 30
+        ? 'Territorio Libero di Trieste — Zona B (VUJA — Col. Miloš Stamatović · Crisi TLT Ott–Nov 1953)'
+        : s >= 21
         ? 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — Gen. Mirko Lenac)'
         : 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
     );
@@ -1624,10 +1660,21 @@ export function resolveKoperZoneB(s: number): ResolvedTerritory {
 }
 
 export function resolveBuieZoneB(s: number): ResolvedTerritory {
+  if (s >= 31) {
+    return makeResult(
+      'DFJ',
+      'Buie e Umago / Istarska županija — RS di Croazia, RFP di Jugoslavia (Memorandum di Londra, 26 Ottobre 1954 · Fine Zona B TLT)',
+      "31 Dicembre 1954 (100% RFP di Jugoslavia — RS di Croazia): in attuazione del Memorandum d'Intesa di Londra del 5 ottobre 1954 (eseguito il 26 ottobre 1954), cessa definitivamente il Territorio Libero di Trieste (TLT) e la VUJA; l'intero Buiese (Buie/Buje, Umago/Umag, Cittanova/Novigrad) passa stabilmente sotto sovranità e amministrazione civile della Repubblica Socialista di Croazia nella FNRJ.",
+      'Neutrale',
+      'Repubblica Federativa Popolare di Jugoslavia — RS di Croazia (Istarska županija · Buie/Umago, dal 26 Ott 1954)'
+    );
+  }
   if (s >= 18) {
     const fac: FactionType = s >= 21 ? 'Neutrale' : s >= 19 ? 'Comintern' : 'Alleati';
     const note =
-      s >= 21
+      s >= 30
+        ? "31 Dicembre 1953 (TLT Formalmente Attivo — Crisi dell'Ottobre–Novembre 1953): dopo la dichiarazione bipartita anglo-americana dell'8 ottobre 1953 e i moti di Trieste del novembre 1953, la Jugoslavia rafforza il presidio militare VUJA nel Buiese (Buie d'Istria, Umago, Cittanova d'Istria), ma il Territorio Libero di Trieste permane formalmente in vigore al 31 dicembre 1953 (Memorandum di Londra solo il 5 ottobre 1954)."
+        : s >= 21
         ? 'Primo semestre 1948: dopo il rigetto della Dichiarazione Tripartita occidentale del 20 marzo 1948, la VUJA consolida il controllo militare ed economico sul Buiese (Buie, Umago, Cittanova d\'Istria), mentre la rottura Tito–Stalin del 28 giugno 1948 isola la Jugoslavia dal Cominform e inasprisce la pressione sui residenti italiani lungo il confine del Quieto.'
         : s === 20
         ? 'Dicembre 1947: il veto al Consiglio di Sicurezza ONU sulla scelta del Governatore blocca l\'entrata in vigore dello Statuto Permanente; nel Buiese vige il Regime Provvisorio (Allegato VII) sotto amministrazione militare jugoslava (VUJA) con crescente esodo verso Trieste.'
@@ -1636,12 +1683,16 @@ export function resolveBuieZoneB(s: number): ResolvedTerritory {
         : 'Accordo di Belgrado (9 giugno 1945) e Accordo di Duino (20 giugno 1945 — Linea Morgan): il Buiese (Buie d\'Istria, Umago, Cittanova d\'Istria, Grisignana e Verteneglio a nord del Quieto) costituisce il settore meridionale della Zona B sotto amministrazione militare jugoslava (VUJA).';
     return makeResult(
       s >= 19 ? 'VUJA' : 'DFJ',
-      s >= 19
+      s >= 30
+        ? 'Territorio Libero di Trieste — Zona B (Buie e Umago / Buiese — VUJA · Crisi Ott–Nov 1953, TLT Ancora Attivo)'
+        : s >= 19
         ? 'Territorio Libero di Trieste — Zona B (Buie e Umago / Buiese — VUJA)'
         : 'Zona B del Territorio di Trieste (Buie e Umago / Buiese — Amministrazione Militare Jugoslava VUJA)',
       note,
       fac,
-      s >= 21
+      s >= 30
+        ? 'Territorio Libero di Trieste — Zona B (VUJA — Col. Miloš Stamatović · Crisi TLT Ott–Nov 1953)'
+        : s >= 21
         ? 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — Gen. Mirko Lenac)'
         : 'Territorio Libero di Trieste — Zona B (Vojna Uprava Jugoslovenske Armije — VUJA)'
     );
@@ -2042,6 +2093,17 @@ export function resolveEcuador(s: number, _rawName?: string): ResolvedTerritory 
  * Step 9 (Dic 1941): Guerra del 1941 — Travolgente vittoria di Zarumilla dell\'Agrupamiento del Norte (Gen. Ureta), carri LTP e lancio paracadutisti a Puerto Bolívar (PRU, Neutrale).
  * Step 10-12 (Ago 1942 - Lug 1943+): Consolidamento del Protocollo di Rio, sgombero di El Oro, rottura con l'Asse e fornitura di materie prime strategiche agli Alleati (PRU, Neutrale).
  */
+function resolveArgentinaStep32(baseName?: string): ResolvedTerritory {
+  const title = baseName || 'República Argentina';
+  return makeResult(
+    'ARG',
+    `${title} (Revolución Libertadora · Governo Militare Gen. Pedro Eugenio Aramburu)`,
+    '31 Dicembre 1955 (República Argentina — Revolución Libertadora, 16–23 Settembre 1955): il golpe militare civico-militare rovescia ed esilia il Presidente Juan Domingo Perón; dopo la breve presidenza del gen. Eduardo Lonardi, dal 13 novembre 1955 il gen. Pedro Eugenio Aramburu guida la giunta militare sciogliendo il Partito Peronista e abrogando le riforme peroniste.',
+    'Neutrale',
+    'República Argentina — Revolución Libertadora (Presidente de facto Gen. Pedro Eugenio Aramburu · Post-Set 1955)'
+  );
+}
+
 export function resolvePeru(s: number, _rawName?: string): ResolvedTerritory {
   if (s >= 22) {
     return makeResult(
@@ -2116,6 +2178,538 @@ export function resolveChinaProvince(
     const isDec1949 = s >= 24;
     const isJune1950 = s >= 25;
     const isDec1950 = s >= 26;
+    const isJune1951 = s >= 27;
+    const isDec1951 = s >= 28;
+    const isDec1952 = s >= 29;
+    const isDec1953 = s >= 30;
+    const isDec1954 = s >= 31;
+    const isDec1955 = s >= 32;
+    const isDec1956 = s >= 33;
+    if (isDec1956) {
+      switch (chnId) {
+        case 'CHN_SICHUAN':
+          return makeResult(
+            'CCP_CHI',
+            'Sichuan & Kham Orientale / Ex-Xikang (100% RPC — Scoppio della Rivolta Khampa Tibetana, Prim.–Estate 1956)',
+            '31 Dicembre 1956 (100% Repubblica Popolare Cinese — Rivolta Tibetana del Kham): incorporata la provincia dello Xikang nello Sichuan nel 1955, l\'avvio delle riforme collettiviste e socialiste nelle aree tibetane orientali (Garzê, Litang, Batang) scatena dalla primavera 1956 la grande insurrezione armata dei guerriglieri Khampa contro i presidi e l\'assedio dei monasteri da parte dell\'Esercito Popolare di Liberazione.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Provincia del Sichuan (Operazioni EPL Contro-Insurrezione Khampa · Dic 1956)'
+          );
+        case 'CHN_QINGHAI':
+          return makeResult(
+            'CCP_CHI',
+            'Qinghai / Amdo (100% RPC — Rivolta Tibetana di Amdo & Golok contro la Collettivizzazione, 1956)',
+            '31 Dicembre 1956 (100% Repubblica Popolare Cinese): sull\'altopiano del Qinghai (regione storica dell\'Amdo e prefetture tibetane Golok/Yushu) esplode nel 1956 la rivolta armata contro la collettivizzazione forzata delle terre e dei monasteri, fronteggiata dalle truppe dell\'EPL di Pechino.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Provincia del Qinghai (Rivolta Amdo/Khampa · 1956)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'CCP_CHI',
+            'Tibet / Xizang (100% RPC — Istituzione Comitato Preparatorio TAR Aprile 1956 · Dalai Lama in India)',
+            '31 Dicembre 1956 (100% RPC): il 22 aprile 1956 viene inaugurato a Lhasa il Comitato Preparatorio per la Regione Autonoma del Tibet (PCART), presieduto dal XIV Dalai Lama (recatosi poi in India a novembre 1956 per il Buddha Jayanti) sotto controllo politico-militare di Pechino mentre divampa la rivolta Khampa nel vicino Sichuan.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Comitato Preparatorio TAR (Lhasa, 22 Apr 1956 · Distretto Militare Tibet)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (100% RPC — Piena Sovranità su Port Arthur / Lüshunkou e Dalian, 1956)',
+            '31 Dicembre 1956 (100% Repubblica Popolare Cinese): dopo la restituzione sovietica di Port Arthur e Dalian nel maggio 1955, l\'intero Liaoning è base industriale pesante della RPC nel Primo Piano Quinquennale.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Provincia del Liaoning (100% RPC · 1956)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — VIII Congresso del PCC, Sett 1956 · Mao Zedong & Zhou Enlai)',
+            '31 Dicembre 1956 (100% RPC): a settembre 1956 Pechino ospita l\'VIII Congresso Nazionale del Partito Comunista Cinese (campagna dei "Cento Fiori" lanciata da Mao Zedong) mentre la diplomazia di Zhou Enlai appoggia Nasser su Suez e sostiene l\'intervento sovietico in Ungheria.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (VIII Congresso PCC Set 1956 · Pres. Mao Zedong · PM Zhou Enlai)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (100% RPC — Yijiangshan & Arcipelago di Dachen Interamente sotto Sovranità RPC)',
+            '31 Dicembre 1956 (100% RPC): consolidato il pieno controllo sulla terraferma e sulle isole costiere di Dachen e Yijiangshan conquistate nel 1955.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (100% RPC · 1956)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma · 1% ROC Kinmen / Quemoy, Matsu e Wuqiu, Dic 1956)',
+            '31 Dicembre 1956 (99% RPC / 1% ROC): lungo lo Stretto di Taiwan la Repubblica Popolare Cinese controlla la terraferma mentre la Repubblica di Cina mantiene le isole costiere fortificate di Kinmen (Quemoy), Matsu e Wuqiu.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · 1% ROC Kinmen / Matsu / Wuqiu)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% ROC — Taipei · Trattato di Mutua Difesa USA–ROC & Presidio Kinmen/Matsu/Wuqiu)',
+            '31 Dicembre 1956 (100% Repubblica di Cina — Taipei): sotto la presidenza di Chiang Kai-shek e la copertura militare del Trattato USA–ROC (in vigore dal 1955), la Repubblica di Cina governa Taiwan, Penghu e i capisaldi costieri di Kinmen, Matsu e Wuqiu nel Fujian.',
+            'Alleati',
+            'Zhōnghuá Mínguó (ROC — Taipei · Pres. Chiang Kai-shek · Dic 1956)'
+          );
+        case 'CHN_XINJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Xinjiang (100% RPC — Regione Autonoma Uyghura dello Xinjiang, Dic 1956)',
+            '31 Dicembre 1956 (100% RPC): consolidamento della Regione Autonoma Uyghura dello Xinjiang (istituita il 1° ottobre 1955; Ürümqi).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Regione Autonoma Uyghura dello Xinjiang'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1956: Colonia della Corona Britannica (Governatore Sir Alexander Grantham · Disordini di Kowloon Ott 1956).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1956: Provincia d\'oltremare portoghese sulla costa del Guangdong.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese · VIII Congresso PCC, Dic 1956)`,
+            '31 Dicembre 1956 (100% RPC): provincia continentale amministrata dalla Repubblica Popolare Cinese nel quarto anno del Primo Piano Quinquennale (VIII Congresso PCC del settembre 1956).',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100% · Dic 1956)'
+          );
+      }
+    }
+    if (isDec1955) {
+      switch (chnId) {
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (100% RPC — Ritiro Completo URSS & Restituzione di Port Arthur / Lüshunkou e Dalian, 24–26 Maggio 1955)',
+            '31 Dicembre 1955 (100% Repubblica Popolare Cinese): il 24–26 maggio 1955 l\'Unione Sovietica completa il ritiro delle proprie truppe e trasferisce alla Repubblica Popolare Cinese la piena sovranità ed esclusiva gestione della base navale di Port Arthur (Lüshunkou) e del porto di Dalian, eliminando l\'ultima enclave sovietica dal Liaoning.',
+            'Comintern',
+            'Repubblica Popolare Cinese (100% Liaoning — Port Arthur / Lüshunkou & Dalian Restituiti dall\'URSS, Mag 1955)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Conferenza di Bandung, Restituzione Port Arthur & Campagna Zhejiang 1955)',
+            '31 Dicembre 1955 (100% RPC): sotto la guida di Mao Zedong e del Premier Zhou Enlai (protagonista alla Conferenza afro-asiatica di Bandung nell\'aprile 1955), Pechino consolida il Primo Piano Quinquennale, recupera Port Arthur/Dalian dall\'URSS e chiude la Prima Crisi dello Stretto di Taiwan con la conquista delle isole dello Zhejiang.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (Pres. Mao Zedong · Premier Zhou Enlai · Post-Bandung 1955)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (100% RPC — Conquista EPL di Yijiangshan 18–20 Gen & Evacuazione ROC dell\'Arcipelago di Dachen 8–26 Feb 1955)',
+            '31 Dicembre 1955 (100% Repubblica Popolare Cinese — Isole Costiere Espugnate): tra il 18 e il 20 gennaio 1955 l\'EPL conquista d\'assalto le isole di Yijiangshan; tra l\'8 e il 26 febbraio 1955 la Marina ROC (con copertura della 7ª Flotta USA) evacua l\'intero Arcipelago di Dachen, seguito dalle isole Yushan, Pishan e Nanji. La ROC è completamente espulsa dalle isole dello Zhejiang.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (100% RPC · Yijiangshan & Dachen Liberate Gen–Feb 1955)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma · 1% ROC Isole Costiere Fortificate di Kinmen / Quemoy, Matsu e Wuqiu, Dic 1955)',
+            '31 Dicembre 1955 (99% RPC / 1% ROC): dopo l\'espulsione nazionalista dallo Zhejiang (feb 1955) e la cessazione dei bombardamenti intensivi della Prima Crisi dello Stretto nel maggio 1955, la Repubblica di Cina (ROC) conserva nel Fujian esclusivamente i capisaldi costieri fortificati di Kinmen (Quemoy), Matsu e Wuqiu.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · 1% ROC Kinmen / Quemoy, Matsu e Wuqiu)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% ROC — Post-Evacuazione Dachen Feb 1955 · Presidio di Kinmen, Matsu e Wuqiu)',
+            '31 Dicembre 1955 (100% Repubblica di Cina — Taipei): evacuato l\'arcipelago di Dachen nello Zhejiang con copertura navale statunitense (febbraio 1955) ed entrato in vigore il Trattato di Mutua Difesa USA–ROC (3 marzo 1955), il governo di Chiang Kai-shek concentra la difesa su Taiwan, Penghu e sulle sole isole costiere del Fujian (Kinmen, Matsu e Wuqiu).',
+            'Alleati',
+            'Zhōnghuá Mínguó (ROC — Taipei · Taiwan, Penghu & Isole Fujian Kinmen/Matsu/Wuqiu · Trattato USA–ROC)'
+          );
+        case 'CHN_XINJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Xinjiang (100% RPC — Istituzione della Regione Autonoma Uyghura dello Xinjiang, 1° Ottobre 1955)',
+            '31 Dicembre 1955 (100% RPC): il 1° ottobre 1955 Pechino trasforma la provincia in Regione Autonoma Uyghura dello Xinjiang (Ürümqi · Saifuddin Azizi) integrata nella Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Regione Autonoma Uyghura dello Xinjiang (1° Ott 1955)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'CCP_CHI',
+            'Tibet / Xizang (100% RPC — Comitato Preparatorio TAR & Consolidamento Autostrade Lhasa, Dic 1955)',
+            '31 Dicembre 1955 (100% RPC): in seguito alle decisioni del Consiglio di Stato di Pechino (marzo 1955), il governo centrale avvia i preparativi per il Comitato Preparatorio della Regione Autonoma del Tibet sotto sovranità RPC (rientro del Dalai Lama a Lhasa a giugno 1955).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Xizang / Tibet (Decisione Consiglio di Stato Mar 1955)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1955: Colonia della Corona Britannica (Governatore Sir Alexander Grantham · Regina Elisabetta II).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1955: Provincia d\'oltremare portoghese sulla costa del Guangdong (Portogallo ammesso all\'ONU il 14 dicembre 1955).', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese, Dic 1955)`,
+            '31 Dicembre 1955 (100% RPC): provincia continentale amministrata dalla Repubblica Popolare Cinese (Primo Piano Quinquennale & Post-Conferenza di Bandung 1955).',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100% · Dic 1955)'
+          );
+      }
+    }
+    if (isDec1954) {
+      switch (chnId) {
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Port Arthur / Lüshunkou e Dalian Ancora Guarnigione Navale URSS fino al Maggio 1955)',
+            '31 Dicembre 1954 (98% RPC / 2% Base Navale URSS a Port Arthur e Dalian): nonostante l\'accordo cino-sovietico del 12 ottobre 1954 per il ritiro sovietico, al 31 dicembre 1954 la base navale di Port Arthur (Lüshunkou) e Dalian rimane ancora presidiata dalla guarnigione dell\'URSS (consegna alla RPC completata solo nel maggio 1955).',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Port Arthur / Dalian Guarnigione URSS fino a Mag 1955)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Costituzione della RPC del 20 Settembre 1954 · Primo Piano Quinquennale)',
+            '31 Dicembre 1954 (100% RPC): il 20 settembre 1954 la I Assemblea Nazionale del Popolo approva la prima Costituzione della Repubblica Popolare Cinese eleggendo Mao Zedong Presidente della RPC e confermando Zhou Enlai Premier del Consiglio di Stato.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (Costituzione 20 Sett 1954 · Pres. Mao Zedong · Premier Zhou Enlai)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (99,5% RPC Terraferma · 0,5% ROC Isole di Dachen e Yijiangshan Ancora Sotto Controllo Nazionalista al 31 Dic 1954)',
+            '31 Dicembre 1954 (99,5% RPC / 0,5% ROC · Prima Crisi dello Stretto di Taiwan): dal novembre 1954 l\'aviazione e l\'artiglieria dell\'EPL bombardano le posizioni nazionaliste dello Zhejiang, ma al 31 dicembre 1954 sia Yijiangshan sia l\'arcipelago di Dachen restano ancora saldamente sotto controllo della Repubblica di Cina (ROC — cadranno/evacueranno solo nel gennaio–febbraio 1955).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (99,5% RPC · Yijiangshan e Dachen Ancora ROC fino a Gen–Feb 1955)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC · Prima Crisi dello Stretto di Taiwan dal 3 Settembre 1954 · Kinmen / Quemoy, Matsu e Wuqiu ROC)',
+            '31 Dicembre 1954 (99% RPC / 1% ROC — Prima Crisi dello Stretto di Taiwan): il 3 settembre 1954 l\'artiglieria dell\'EPL apre un intenso bombardamento su Kinmen (Quemoy) scatenando la Prima Crisi dello Stretto; la Repubblica di Cina respinge i tentativi e mantiene il saldo controllo delle isole fortificate di Kinmen, Matsu e Wuqiu.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (Crisi dello Stretto 3 Sett 1954 · Kinmen, Matsu e Wuqiu ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% ROC — Trattato di Mutua Difesa USA–ROC del 2 Dicembre 1954 · Inclusi Kinmen, Matsu, Wuqiu, Dachen e Yijiangshan)',
+            '31 Dicembre 1954 (100% Repubblica di Cina — Taipei): nel pieno della Prima Crisi dello Stretto di Taiwan (iniziata il 3 settembre 1954 su Kinmen), il 2 dicembre 1954 Stati Uniti e Repubblica di Cina (Pres. Chiang Kai-shek) firmano a Washington il Trattato di Mutua Difesa Sino-Americano; la ROC detiene ancora anche Yijiangshan e le Dachen dello Zhejiang fino a gen–feb 1955.',
+            'Alleati',
+            'Zhōnghuá Mínguó (ROC — Taipei · Trattato di Mutua Difesa USA–ROC 2 Dic 1954)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'CCP_CHI',
+            'Tibet / Xizang (100% RPC — Accordo Sino-Indiano Panchsheel 29 Apr 1954 & Autostrade Qinghai–Tibet / Sichuan–Tibet)',
+            '31 Dicembre 1954 (100% RPC): con l\'Accordo sino-indiano del 29 aprile 1954 (Cinque Principi di Coesistenza Pacifica / Panchsheel), l\'India riconosce la sovranità cinese sul Tibet; il 25 dicembre 1954 vengono inaugurate a Lhasa le autostrade strategiche Qinghai–Tibet e Sichuan–Tibet (visita di Dalai Lama e Panchen Lama a Pechino).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Distretto Militare del Tibet / Xizang (Accordo Panchsheel 1954)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1954: Colonia della Corona Britannica (Governatore Sir Alexander Grantham · Regina Elisabetta II).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1954: Provincia d\'oltremare portoghese sulla costa del Guangdong.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Costituzione della Repubblica Popolare Cinese, Dic 1954)`,
+            '31 Dicembre 1954 (100% RPC): provincia continentale amministrata dalla Repubblica Popolare Cinese (Costituzione del 20 settembre 1954, Primo Piano Quinquennale).',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100% · 1954)'
+          );
+      }
+    }
+    if (isDec1953) {
+      switch (chnId) {
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Ferrovia di Changchun alla RPC · Port Arthur / Lüshunkou e Dalian Ancora Base Navale URSS fino al 1955)',
+            '31 Dicembre 1953 (98% RPC / 2% Base Navale URSS a Port Arthur e Dalian): nessuna variazione territoriale permanente; la RPC amministra il Liaoning e la Ferrovia di Changchun mentre la punta meridionale del Liaodong (Port Arthur / Lüshunkou e Dalian) resta sotto guarnigione militare e base navale sovietica fino al 1955.',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Port Arthur/Lüshunkou e Dalian Base Navale URSS fino al 1955)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Capitale della Repubblica Popolare Cinese · Avvio Primo Piano Quinquennale 1953 & Armistizio Coreano)',
+            '31 Dicembre 1953 (100% RPC): Pechino avvia il Primo Piano Quinquennale (1953–1957) e firma l\'Armistizio di Panmunjom in Corea (27 luglio 1953) consolidando la sovranità su tutta la Cina continentale.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (100% RPC · 1953)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (99,5% RPC · 0,5% ROC Isole Costiere di Dachen e Yijiangshan)',
+            '31 Dicembre 1953 (99,5% RPC / 0,5% ROC): nessuna variazione territoriale permanente rispetto al 1952; la RPC controlla la terraferma e Zhoushan, mentre la ROC mantiene le isole costiere fortificate di Dachen e Yijiangshan.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (99,5% RPC · Dachen e Yijiangshan ROC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma & Isola di Dongshan dopo il Ritiro ROC del Luglio 1953 · 1% ROC Kinmen / Quemoy, Matsu e Wuqiu)',
+            '31 Dicembre 1953 (99% RPC / 1% ROC · Nessuna Variazione Territoriale Permanente): l\'incursione anfibia e aviotrasportata nazionalista sull\'isola di Dongshan (16–18 luglio 1953) si conclude con il reimbarco ROC; la Repubblica di Cina mantiene stabilmente Kinmen (Quemoy), Matsu e Wuqiu.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · Kinmen/Quemoy, Matsu e Wuqiu ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% Repubblica di Cina — Taipei · Taiwan, Penghu, Kinmen, Matsu, Wuqiu, Dachen e Yijiangshan)',
+            '31 Dicembre 1953 (100% ROC): la Repubblica di Cina (Presidente Chiang Kai-shek a Taipei) mantiene Taiwan, Penghu, Kinmen (Quemoy), Matsu, Wuqiu e le isole dello Zhejiang (Dachen e Yijiangshan) dopo il raid su Dongshan (luglio 1953).',
+            'Alleati',
+            'Zhōnghuá Mínguó — Governo Centrale a Taipei (100% ROC · Dic 1953)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'CCP_CHI',
+            'Tibet / Xizang (100% Controllo Politico e Militare Effettivo della RPC — Distretto Militare del Tibet a Lhasa & Kashag)',
+            '31 Dicembre 1953 (100% RPC): consolidata la sovranità cinese e la presenza dell\'EPL a Lhasa nel quadro dell\'Accordo dei 17 Punti (alla vigilia dell\'accordo sino-indiano sul Tibet del 1954).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Distretto Militare del Tibet / Xizang (Lhasa · 100% RPC)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1953: Colonia della Corona Britannica (Governatore Sir Alexander Grantham · Regina Elisabetta II).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1953: Provincia d\'oltremare portoghese sulla costa del Guangdong.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese, 31 Dic 1953)`,
+            '31 Dicembre 1953 (100% RPC): provincia continentale amministrata dalla Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100% · 1953)'
+          );
+      }
+    }
+    if (isDec1952) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Trasferimento Sovietico della Ferrovia Cinese di Changchun, 31 Dicembre 1952 & Retrovia PVA)`,
+            '31 Dicembre 1952 (100% RPC): a seguito dei colloqui sino-sovietici di Mosca (settembre 1952), il 31 dicembre 1952 l\'URSS trasferisce alla Repubblica Popolare Cinese il pieno controllo amministrativo della Ferrovia Cinese di Changchun (Harbin–Changchun–Dalian), consolidando la retrovia industriale della Manciuria a supporto dei PVA in Corea.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Manciuria / Ferrovia Cinese di Changchun Trasferita alla RPC il 31 Dic 1952 (100% RPC)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Ferrovia di Changchun Trasferita alla RPC il 31 Dic 1952 · Port Arthur / Lüshunkou e Dalian Base Navale e Guarnigione URSS fino al 1955)',
+            '31 Dicembre 1952 (98% RPC / 2% Base Navale URSS a Port Arthur e Dalian): a seguito dei colloqui sino-sovietici di Mosca (settembre 1952), il 31 dicembre 1952 l\'Unione Sovietica trasferisce alla RPC il controllo amministrativo completo della Ferrovia Cinese di Changchun, ma mantiene ancora la base navale e la guarnigione militare di Port Arthur (Lüshunkou) e Dalian nella punta meridionale del Liaodong (su richiesta cinese durante la Guerra di Corea, fino al maggio 1955).',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Ferrovia di Changchun alla RPC · Port Arthur/Lüshunkou e Dalian Base Navale URSS fino al 1955)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Capitale della Repubblica Popolare Cinese · Preparazione Primo Piano Quinquennale & Accordi Sino-Sovietici)',
+            '31 Dicembre 1952 (100% RPC): capitale della Repubblica Popolare Cinese (Presidente Mao Zedong, Premier Zhou Enlai); concluso il trasferimento sovietico della Ferrovia di Changchun (31 dicembre 1952) e consolidato il controllo su tutto il continente e sul Tibet.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (100% RPC)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (99,5% RPC · 0,5% ROC Isole Costiere di Dachen e Yijiangshan)',
+            '31 Dicembre 1952 (99,5% RPC / 0,5% ROC): nessuna variazione territoriale permanente; la terraferma e l\'arcipelago di Zhoushan sono interamente sotto la RPC, mentre la Repubblica di Cina (ROC) conserva le isole costiere fortificate dello Zhejiang (Dachen e Yijiangshan).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (99,5% RPC · Isole Dachen e Yijiangshan ROC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma & Isola di Nanri dopo il Ritiro ROC dell\'Ottobre 1952 · 1% ROC Kinmen / Quemoy, Matsu e Wuqiu)',
+            '31 Dicembre 1952 (99% RPC / 1% ROC): nessuna variazione territoriale permanente; il raid anfibio nazionalista sull\'isola di Nanri (11–15 ottobre 1952) si conclude con il ritiro delle truppe ROC, che conservano saldamente le isole costiere fortificate di Kinmen (Quemoy), Matsu e Wuqiu.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · Kinmen/Quemoy, Matsu e Wuqiu ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% Repubblica di Cina — Taipei · Conservazione di Taiwan, Penghu, Kinmen, Matsu, Wuqiu, Dachen e Yijiangshan)',
+            '31 Dicembre 1952 (100% ROC): la Repubblica di Cina (Presidente Chiang Kai-shek a Taipei) conserva Taiwan, Penghu, Kinmen (Quemoy), Matsu, Wuqiu e le isole costiere dello Zhejiang (Dachen e Yijiangshan) dopo il raid temporaneo sull\'isola di Nanri dell\'ottobre 1952.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Governo Centrale a Taipei (100% ROC · Taiwan, Penghu, Kinmen, Matsu, Wuqiu, Dachen, Yijiangshan)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'CCP_CHI',
+            'Tibet / Xizang (100% Controllo Politico e Militare Effettivo della RPC — Distretto Militare del Tibet a Lhasa & Autonomia Locale del Kashag)',
+            '31 Dicembre 1952 (100% Controllo Politico e Militare Effettivo della RPC): consolidata la presenza della 18ª Armata dell\'EPL a Lhasa (istituzione del Distretto Militare del Tibet nel febbraio 1952 sotto il Gen. Zhang Guohua) nel quadro dell\'Accordo dei 17 Punti e dell\'amministrazione autonoma interna del Kashag.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Distretto Militare del Tibet / Xizang (Lhasa · 100% RPC)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1952: Colonia della Corona Britannica (Governatore Sir Alexander Grantham · Regina Elisabetta II).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1952: Provincia d\'oltremare portoghese sulla costa del Guangdong (dopo gli incidenti di frontiera di Porta do Cerco del luglio 1952 risolti a agosto).', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese, 31 Dic 1952)`,
+            '31 Dicembre 1952 (100% RPC): provincia continentale interamente amministrata dalla Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+      }
+    }
+    if (isDec1951) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Base Logistica PVA durante i Negoziati di Panmunjom)`,
+            '31 Dicembre 1951 (100% RPC): retrovia industriale e logistica della Manciuria a sostegno dei Volontari del Popolo Cinese (PVA) impegnati in Corea lungo la Linea di Demarcazione Militare provvisoria concordata a Panmunjom il 27 novembre 1951.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Manciuria / Comando Retrovia PVA (100% RPC)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Port Arthur / Lüshunkou e Dalian Amministrazione Congiunta & Guarnigione URSS)',
+            '31 Dicembre 1951 (98% RPC / 2% URSS): retrovia strategica sullo Yalu per i PVA; la punta meridionale del Liaodong con Port Arthur (Lüshunkou) e Dalian rimane sotto amministrazione militare congiunta sino-sovietica con guarnigione URSS (Trattato del 14 febbraio 1950).',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Escl. Port Arthur/Dalian Guarnigione URSS)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Capitale della Repubblica Popolare Cinese · Integrazione Effettiva del Tibet & Negoziati di Panmunjom)',
+            '31 Dicembre 1951 (100% RPC): capitale della Repubblica Popolare Cinese (Presidente Mao Zedong, Premier Zhou Enlai); dirige l\'ingresso pacifico della 18ª Armata dell\'EPL a Lhasa (settembre–ottobre 1951) in attuazione dell\'Accordo dei 17 Punti e i negoziati d\'armistizio di Panmunjom in Corea.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (100% RPC)'
+          );
+        case 'CHN_SICHUAN':
+        case 'CHN_XIKANG':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Corridoio Logistico della 18ª Armata EPL verso Lhasa & Amministrazione Diretta di Chamdo)`,
+            '31 Dicembre 1951 (100% RPC): da Chamdo e dallo Xikang parte la marcia della 18ª Armata dell\'EPL (Gen. Zhang Guohua) che entra pacificamente a Lhasa tra settembre e ottobre 1951.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Sichuan / Xikang & Chamdo (100% RPC)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (99,5% RPC · 0,5% ROC Isole Dachen e Yijiangshan)',
+            '31 Dicembre 1951 (99,5% RPC / 0,5% ROC): terraferma e arcipelago di Zhoushan interamente RPC; le isole costiere di Dachen e Yijiangshan restano presidiate dalla Repubblica di Cina.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (99,5% RPC · Dachen/Yijiangshan ROC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma · 1% ROC Kinmen / Matsu / Wuqiu)',
+            '31 Dicembre 1951 (99% RPC / 1% ROC): terraferma sotto piena sovranità RPC; le enclave insulari fortificate di Kinmen (Quemoy), Matsu e Wuqiu restano saldamente presidiate dalla Repubblica di Cina.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · Kinmen/Matsu/Wuqiu ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% Repubblica di Cina — Taipei · Difesa ROC & 7ª Flotta USA)',
+            '31 Dicembre 1951 (100% ROC): Taiwan, Penghu, Kinmen (Quemoy), Matsu, Wuqiu e le isole costiere del Zhejiang (Dachen, Yijiangshan) restano sotto saldo controllo della Repubblica di Cina a Taipei con il pattugliamento della 7ª Flotta USA.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Governo Centrale a Taipei (100% ROC)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'CCP_CHI',
+            'Tibet / Xizang (100% Controllo Politico e Militare Effettivo della RPC — Ingresso dell\'EPL a Lhasa Set–Ott 1951 & Autonomia Locale del Kashag)',
+            '31 Dicembre 1951 (100% Controllo Politico e Militare Effettivo della RPC con Autonomia Locale del Kashag): in esecuzione dell\'Accordo dei Diciassette Punti (23 maggio 1951, ratificato dal XIV Dalai Lama con telegramma a Mao Zedong il 24 ottobre 1951), il 9 settembre 1951 l\'avanguardia dell\'Esercito Popolare di Liberazione entra pacificamente a Lhasa, seguita il 26 ottobre 1951 dal grosso della 18ª Armata (Gen. Zhang Guohua e Gen. Tan Guansan). Al 31 dicembre 1951 l\'intero Tibet / Xizang (Lhasa, Shigatse, Nagqu, Ngari, Chamdo) è sotto il controllo politico e militare effettivo della Repubblica Popolare Cinese, pur mantenendo l\'amministrazione autonoma interna del Kashag.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Xizang / Tibet (18ª Armata EPL a Lhasa dal Set–Ott 1951 · Amministrazione Autonoma del Kashag)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '31 Dicembre 1951: Colonia della Corona Britannica (Governatore Sir Alexander Grantham).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '31 Dicembre 1951: Provincia d\'oltremare portoghese enclave sulla costa del Guangdong.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese, 31 Dic 1951)`,
+            '31 Dicembre 1951 (100% RPC): provincia continentale interamente amministrata dalla Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+      }
+    }
+    if (isJune1951) {
+      switch (chnId) {
+        case 'CHN_HEILONGJIANG':
+        case 'CHN_JILIN':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Base Logistica PVA verso la Linea Kansas/Wyoming)`,
+            '30 Giugno 1951 (100% RPC): retrovia industriale e logistica della Manciuria a sostegno dei Volontari del Popolo Cinese (PVA) impegnati in Corea sul fronte della Linea Kansas/Wyoming.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Manciuria / Comando Retrovia PVA (100% RPC)'
+          );
+        case 'CHN_LIAONING':
+          return makeResult(
+            'CCP_CHI',
+            'Liaoning (98% RPC · Port Arthur / Lüshunkou e Dalian Amministrazione Congiunta & Guarnigione URSS)',
+            '30 Giugno 1951 (98% RPC / 2% URSS): retrovia strategica sullo Yalu per i PVA; la punta meridionale del Liaoning con Port Arthur (Lüshunkou) e Dalian rimane sotto amministrazione militare congiunta sino-sovietica con guarnigione URSS (Trattato del 14 febbraio 1950).',
+            'Comintern',
+            'Repubblica Popolare Cinese (98% RPC · Escl. Port Arthur/Dalian Guarnigione URSS)'
+          );
+        case 'CHN_BEIJING':
+          return makeResult(
+            'CCP_CHI',
+            'Beijing / Pechino (100% RPC — Capitale della Repubblica Popolare Cinese · Accordo dei 17 Punti)',
+            '30 Giugno 1951 (100% RPC): capitale della Repubblica Popolare Cinese (Presidente Mao Zedong, Premier Zhou Enlai); sede della firma dell\'Accordo dei Diciassette Punti sul Tibet (23 maggio 1951) e centro politico dello sforzo PVA in Corea.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Capitale Beijing (100% RPC)'
+          );
+        case 'CHN_SICHUAN':
+        case 'CHN_XIKANG':
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Chamdo Amministrazione Diretta Cinese dall\'Ott 1950)`,
+            '30 Giugno 1951 (100% RPC): l\'intera provincia incluso il Chamdo (Kham orientale fino al Salween, conquistato nell\'ottobre 1950) permane sotto amministrazione diretta della RPC, distinta dall\'autonomia locale del governo Kashag a Lhasa sancita dall\'Accordo dei 17 Punti.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Sichuan / Xikang & Chamdo (Amministrazione Diretta RPC)'
+          );
+        case 'CHN_ZHEJIANG':
+          return makeResult(
+            'CCP_CHI',
+            'Zhejiang (99,5% RPC · 0,5% ROC Isole Dachen e Yijiangshan)',
+            '30 Giugno 1951 (99,5% RPC / 0,5% ROC): terraferma interamente RPC; le isole costiere di Dachen e Yijiangshan restano presidiate dalla Repubblica di Cina.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Zhejiang (99,5% RPC · Dachen/Yijiangshan ROC)'
+          );
+        case 'CHN_FUJIAN':
+          return makeResult(
+            'CCP_CHI',
+            'Fujian (99% RPC Terraferma · 1% ROC Kinmen / Matsu / Wuqiu)',
+            '30 Giugno 1951 (99% RPC / 1% ROC): terraferma sotto piena sovranità RPC; le enclave insulari fortificate di Kinmen (Quemoy), Matsu e Wuqiu restano saldamente presidiate dalla Repubblica di Cina.',
+            'Comintern',
+            'Repubblica Popolare Cinese — Fujian (99% RPC · Kinmen/Matsu/Wuqiu ROC)'
+          );
+        case 'CHN_TAIWAN':
+          return makeResult(
+            'CHI',
+            'Taiwan & Penghu (100% Repubblica di Cina — Taipei · Difesa ROC & 7ª Flotta USA)',
+            '30 Giugno 1951 (100% ROC): Taiwan, Penghu, Kinmen (Quemoy), Matsu, Wuqiu e le isole costiere del Zhejiang (Dachen, Yijiangshan) restano sotto saldo controllo della Repubblica di Cina a Taipei con il pattugliamento della 7ª Flotta USA.',
+            'Alleati',
+            'Zhōnghuá Mínguó — Governo Centrale a Taipei (100% ROC)'
+          );
+        case 'CHN_TIBET':
+          return makeResult(
+            'CCP_CHI',
+            'Tibet / Xizang (Sovranità RPC Autonoma — Accordo dei 17 Punti 23 Mag 1951 · Amm. Kashag a Lhasa, EPL Non Ancora Entrato)',
+            '30 Giugno 1951 (Sovranità RPC in Integrazione Autonoma): il 23 maggio 1951 i delegati del XIV Dalai Lama e del Governo Popolare Centrale di Pechino firmano l\'Accordo dei Diciassette Punti per la Liberazione Pacifica del Tibet. L\'intero Xizang (Lhasa, Shigatse, Gyantse, Nagqu, Ngari oltre al Chamdo già in amministrazione diretta cinese dall\'ott 1950) riconosce la sovranità della RPC in cambio dell\'autonomia interna, del sistema del Dalai Lama e della libertà religiosa; la bandiera sovrana nazionale diventa la Bandiera Rossa a Cinque Stelle mentre il Leone delle Nevi resta insegna regionale del Kashag. Nota militare: al 30 giugno 1951 le truppe dell\'EPL non sono ancora entrate a Lhasa (l\'ingresso avverrà solo tra settembre e ottobre 1951).',
+            'Comintern',
+            'Repubblica Popolare Cinese — Xizang / Tibet (Accordo 17 Punti 23 Mag 1951 · Kashag Locale a Lhasa · Chamdo Diretto RPC)'
+          );
+        case 'CHN_HONGKONG':
+          return makeResult('UK', 'Crown Colony of Hong Kong', '30 Giugno 1951: Colonia della Corona Britannica (Governatore Sir Alexander Grantham).', 'Alleati', 'British Empire — Hong Kong');
+        case 'CHN_MACAU':
+          return makeResult('POR', 'Macau Português (Província Ultramarina)', '30 Giugno 1951: Provincia d\'oltremare portoghese enclave sulla costa del Guangdong.', 'Neutrale', 'República Portuguesa — Macau');
+        default:
+          return makeResult(
+            'CCP_CHI',
+            `${histName} (100% RPC — Repubblica Popolare Cinese, 30 Giu 1951)`,
+            '30 Giugno 1951 (100% RPC): provincia continentale interamente amministrata dalla Repubblica Popolare Cinese.',
+            'Comintern',
+            'Repubblica Popolare Cinese (RPC — 100%)'
+          );
+      }
+    }
     if (isDec1950) {
       switch (chnId) {
         case 'CHN_HEILONGJIANG':
@@ -3649,7 +4243,7 @@ export const METRO_FRAG: Record<string, (step: number) => ResolvedTerritory> = {
   Islanda: (s) => resolveIceland(s, undefined, 'Islanda'),
   'Ísland': (s) => resolveIceland(s, undefined, 'Ísland'),
   France: (s) =>
-    s < 6
+    s < 6 || s >= 14
       ? makeResult('FRA', 'France (Territoires d\'outre-mer)')
       : makeResult('VIC', 'État français (Territoires d\'outre-mer)'),
   'Morocco (France)': (s) =>
@@ -4643,6 +5237,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
   // Ungheria basemap
   if (name === 'Hungary') {
+    if (s >= 33) {
+      return makeResult(
+        'HUN',
+        'Magyar Népköztársaság (Rivoluzione Ungherese 23 Ott – 11 Nov 1956 · Operazione Turbine & Governo Kádár)',
+        '23 Ottobre – 31 Dicembre 1956 (Repubblica Popolare Ungherese): la rivolta popolare a Budapest porta al governo Imre Nagy (ritiro dal Patto di Varsavia e neutralità annunciati il 1° novembre), abbattuto il 4–11 novembre dall\'intervento militare sovietico (Operazione Turbine) che insedia il governo János Kádár; abolito definitivamente lo stemma staliniano di Rákosi dalla bandiera nazionale.',
+        'Comintern',
+        'Magyar Népköztársaság (Governo János Kádár · Post-Rivoluzione 1956)'
+      );
+    }
     if (s >= 8) {
       return makeResult(
         'HUN',
@@ -4737,6 +5340,51 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('LBR', getTop('LBR').name || 'Republic of Liberia (Monrovia)', 'Independent African State', 'Neutrale', 'Republic of Liberia — President Edwin Barclay');
   }
   if ((nrm_hb.includes('egypt') || nrm_hb.includes('egitto')) && !nrm_hb.includes('sudan')) {
+    if (s >= 33) {
+      return makeResult(
+        'EGY',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Nazionalizzazione Canale di Suez & Post-Crisi di Suez, Dic 1956)",
+        "26 Luglio – 31 Dicembre 1956 (Crisi di Suez): il 26 luglio Nasser nazionalizza la Compagnia del Canale di Suez. Dopo l'invasione israelo-anglo-francese (29 ott–7 nov), il 22 dicembre 1956 Regno Unito e Francia completano l'evacuazione della Zona del Canale (sostituiti dall'UNEF ONU), ma Israele occupa ancora Gaza e gran parte del Sinai al 31 dicembre 1956.",
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Pres. Gamal Abdel Nasser · Post-Evacuazione Anglo-Francese 22 Dic 1956)"
+      );
+    }
+    if (s >= 31) {
+      return makeResult(
+        'EGY',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Accordo Anglo-Egiziano su Suez 19 Ott 1954 & Leadership Nasser)",
+        "31 Dicembre 1954 (Repubblica d'Egitto): dopo la crisi politica con Muhammad Naguib (rimosso il 14 novembre 1954 agli arresti domiciliari), il Primo Ministro e Presidente del CCR Gamal Abdel Nasser consolida il potere e sigla il 19 ottobre 1954 lo storico Accordo Anglo-Egiziano per il ritiro scaglionato britannico dalla Zona del Canale di Suez entro 20 mesi (bandiera verde 1922–58 con emblema della Liberazione).",
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Primo Ministro & Leader CCR Gamal Abdel Nasser · Accordo Suez 19 Ott 1954)"
+      );
+    }
+    if (s >= 30) {
+      return makeResult(
+        'EGY',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Proclamata il 18 Giugno 1953 · Muhammad Naguib & Gamal Abdel Nasser)",
+        "31 Dicembre 1953 (Repubblica d'Egitto): il 18 giugno 1953 il Consiglio del Comando della Rivoluzione abolisce formalmente la monarchia (deponendo Re Fuad II) e proclama la Repubblica d'Egitto, con il Gen. Muhammad Naguib primo Presidente e Primo Ministro e Gamal Abdel Nasser Vice Primo Ministro (bandiera nazionale verde del 1922–58 affiancata dalla Bandiera della Liberazione; nessuna bandiera RAU prima del 1958).",
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Pres. Gen. Muhammad Naguib & Vice P.M. Gamal Abdel Nasser, 18 Giu 1953)"
+      );
+    }
+    if (s >= 29) {
+      return makeResult(
+        'EGY',
+        "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Rivoluzione degli Ufficiali Liberi del 23–26 Luglio 1952 · Abdicazione di Re Farouk & Re Fuad II sotto Consiglio di Reggenza; Repubblica Proclamata solo nel Giugno 1953)",
+        "31 Dicembre 1952 (Regno d'Egitto sotto il Consiglio del Comando della Rivoluzione): dopo l'Incendio del Cairo (26 gennaio 1952), tra il 23 e il 26 luglio 1952 il Movimento degli Ufficiali Liberi (Muhammad Naguib e Gamal Abdel Nasser) compie il colpo di Stato militare; Re Farouk abdica il 26 luglio in favore del figlio neonato Re Fuad II sotto Consiglio di Reggenza. Al 31 dicembre 1952 lo Stato resta formalmente il Regno d'Egitto con la bandiera verde monarchica del 1923 (la Repubblica d'Egitto sarà proclamata solo il 18 giugno 1953).",
+        'Neutrale',
+        "Al-Mamlakah al-Miṣriyyah — Re Fuad II (Consiglio di Reggenza) · Gen. Muhammad Naguib & Ten. Col. Gamal Abdel Nasser (Consiglio del Comando della Rivoluzione, Lug–Dic 1952)"
+      );
+    }
+    if (s >= 28) {
+      return makeResult(
+        'EGY',
+        "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Abrogazione Trattato 1936 & Guerriglia nel Canale di Suez, Ott–Dic 1951)",
+        "Ottobre – 31 Dicembre 1951: il Parlamento egiziano e il Primo Ministro Mustafa el-Nahhas Pasha abrogano unilateralmente il Trattato Anglo-Egiziano del 1936 e gli accordi di condominio sul Sudan del 1899, proclamando Re Faruq I 'Re d'Egitto e del Sudan' (titolo non riconosciuto da Londra). Nella Zona del Canale di Suez (Ismailia, Suez, Port Said) divampano la guerriglia dei fedayyin e gli scontri armati contro la guarnigione britannica (Re Faruq è ancora sul trono; l'Incendio del Cairo avverrà solo il 26 gennaio 1952).",
+        'Neutrale',
+        "Al-Mamlakah al-Miṣriyyah — Re Faruq I · Primo Ministro Mustafa el-Nahhas Pasha (Crisi del Canale di Suez, Ott–Dic 1951)"
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'EGY',
@@ -4753,6 +5401,37 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   if (resSudanHB) return resSudanHB;
   const resAfgHB = resolveAfghanistanProvince(f.id || P.id || P.shapeISO || name, s);
   if (resAfgHB) return resAfgHB;
+  if (
+    s >= 30 &&
+    (nrm_hb.includes('nyasaland') ||
+      nrm_hb.includes('nyassa') ||
+      nrm_hb.includes('malawi') ||
+      nrm_hb.includes('zambia') ||
+      nrm_hb.includes('zimbabwe') ||
+      (nrm_hb.includes('rhodesia') && !nrm_hb.includes('rhodes ')))
+  ) {
+    const compLabel = nrm_hb.includes('southern rhodesia') || nrm_hb.includes('zimbabwe')
+      ? 'Rhodesia Meridionale'
+      : nrm_hb.includes('northern rhodesia') || nrm_hb.includes('zambia')
+      ? 'Rhodesia Settentrionale'
+      : 'Nyasaland (Malawi)';
+    return makeResult(
+      'FRN',
+      `${compLabel} — Federazione di Rhodesia e Nyasaland (Costituita il 1° Ago / 23 Ott 1953 · Capitale Salisbury)`,
+      `31 Dicembre 1953 (Federazione di Rhodesia e Nyasaland / Federazione Centrafricana — ${compLabel}): istituita con provvedimenti britannici dell'agosto–ottobre 1953 unificando la colonia autonoma della Rhodesia Meridionale e i protettorati della Rhodesia Settentrionale e del Nyasaland sotto un governo federale con capitale Salisbury (PM Sir Godfrey Huggins) e propria bandiera Blue Ensign adottata il 7 settembre 1953.`,
+      'Alleati',
+      'Federation of Rhodesia and Nyasaland (Salisbury · Gov. Gen. Lord Llewellin · PM Sir Godfrey Huggins)'
+    );
+  }
+  if (nrm_hb.includes('kenya') && s >= 30) {
+    return makeResult(
+      'UK',
+      'Colonia del Kenya (Stato di Emergenza Mau Mau · Processo e Condanna di Jomo Kenyatta 1953)',
+      '31 Dicembre 1953 (Stato di Emergenza Mau Mau): dopo la condanna di Jomo Kenyatta a Kapenguria (8 aprile 1953) e il massacro di Lari (marzo), l\'East Africa Command britannico guidato dal Gen. Sir George Erskine intensifica le operazioni militari contro la KLFA negli altipiani Kikuyu, sul Monte Kenya e nella Rift Valley.',
+      'Alleati',
+      'Kenya Colony and Protectorate — Emergenza Mau Mau (Gov. Sir Evelyn Baring · Gen. Sir George Erskine, 1953)'
+    );
+  }
   if (
     nrm_hb.includes('kenya') ||
     nrm_hb.includes('uganda') ||
@@ -4779,6 +5458,30 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   ) {
     const top = getExtendedToponym(name, 'UK', nid, c, s);
     return makeResult('UK', top.name, top.note, s >= 4 ? 'Alleati' : 'Neutrale', top.adminTitle || 'British Protectorate');
+  }
+  if (
+    s >= 34 &&
+    (nrm_hb.includes('gold coast') || nrm_hb.includes('ghana'))
+  ) {
+    return makeResult(
+      'GHA',
+      'Dominion del Ghana (Indipendenza 6 Marzo 1957 — Unione Costa d\'Oro & Togo Britannico · 81° Membro ONU)',
+      "6 Marzo – 31 Dicembre 1957 (Dominion del Ghana Sovrano): con il Ghana Independence Act, la Colonia della Costa d'Oro e il Togo Britannico (dopo il plebiscito ONU del 1956) si fondono nello Stato sovrano del Ghana (capitale Accra, Primo Ministro Kwame Nkrumah, Reame del Commonwealth; ammesso all'ONU come 81° membro l'8 marzo 1957). Sventola il tricolore rosso-oro-verde con stella nera (bandiera di Theodosia Okoh).",
+      'Neutrale',
+      'Dominion of Ghana — Primo Ministro Kwame Nkrumah · Capitale Accra (Indipendenza 6 Marzo 1957)'
+    );
+  }
+  if (
+    s >= 33 &&
+    (nrm_hb.includes('gold coast') || nrm_hb.includes('ghana'))
+  ) {
+    return makeResult(
+      'UK',
+      'Gold Coast & British Togoland (Plebiscito 9 Mag 1956 · Ris. ONU 1044 — Pre-Indipendenza Ghana 1957)',
+      "31 Dicembre 1956 (Colonia Britannica della Costa d'Oro & Togoland Britannico): nel plebiscito ONU del 9 maggio 1956 il Togoland Britannico approva l'unione con la Gold Coast, sanzionata dalla Risoluzione 1044 dell'Assemblea Generale ONU del 13 dicembre 1956 (PM Kwame Nkrumah; Gov. Sir Charles Arden-Clarke). Al 31 dicembre 1956 l'intero territorio resta ancora sotto sovranità britannica (l'indipendenza del Ghana avverrà il 6 marzo 1957).",
+      'Alleati',
+      'British Crown Colony of the Gold Coast & Trust Territory of British Togoland (Gov. Sir Charles Arden-Clarke · PM Kwame Nkrumah)'
+    );
   }
   if (
     nrm_hb.includes('gold coast') ||
@@ -5040,6 +5743,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('ITA', 'Africa Orientale Italiana (AOI — Etiopia)', 'Impero proclamato il 9 maggio 1936');
   }
   if (nrm_hb.includes('libya') || nrm_hb.includes('cyrenaica') || nrm_hb.includes('tripolitania')) {
+    if (s >= 28) {
+      return makeResult(
+        'LBY',
+        'Regno Unito di Libia (Al-Mamlakah al-Lībiyyah al-Muttaḥidah — Indipendenza Sovrana del 24 Dicembre 1951: Tripolitania, Cirenaica e Fezzan)',
+        '24 Dicembre 1951 (100% Regno Unito di Libia): in attuazione della Risoluzione ONU 289 (IV), cessano le amministrazioni transitorie britannica (Tripolitania e Cirenaica) e francese (Fezzan-Ghadamès) e viene proclamato a Bengasi lo Stato sovrano e federale del Regno Unito di Libia sotto Re Idris I al-Senussi (Primo Ministro Mahmud al-Muntasir), strutturato sulle tre province autonome di Tripolitania, Cirenaica e Fezzan con doppia capitale a Tripoli e Bengasi.',
+        'Neutrale',
+        'Al-Mamlakah al-Lībiyyah al-Muttaḥidah — Re Idris I · P.M. Mahmud al-Muntasir (Tripoli & Bengasi)'
+      );
+    }
+    if (s >= 27) {
+      return makeResult(
+        'UK',
+        'Libia (Governo Federale Provvisorio 29 Mar 1951 · Amministrazioni Transitorie UK/FRA Attive al 30 Giu)',
+        '30 Giugno 1951 (Amministrazioni Transitorie Attive): il 29 marzo 1951 viene istituito il Governo Federale Provvisorio del futuro Regno Unito di Libia sotto Idris I (in vista dell\'indipendenza del 24 dicembre 1951), ma al 30 giugno 1951 restano pienamente operative le amministrazioni provvisorie britannica (BMA Tripolitania e Cirenaica) e francese (Fezzan).',
+        'Alleati',
+        'BMA Tripolitania & Cyrenaica (UK) / Fezzan (FRA) · Governo Federale Provvisorio (29 Mar 1951)'
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'UK',
@@ -5094,18 +5815,43 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'British 8th Army — Military Administration of Cyrenaica'
       );
     }
-    if (s >= 8) {
-      return makeResult(
-        'ITA',
-        'Libia Italiana (Controffensiva dell\'Afrikakorps & Assedio di Tobruk)',
-        'Operazione Sonnenblume (febbraio-aprile 1941): sbarco a Tripoli del Deutsches Afrikakorps del Gen. Erwin Rommel; fulminea controffensiva italo-tedesca (24 marzo - aprile 1941) che riconquista El Agheila, Bengasi, Derna e Bardia, stringendo d\'assedio dal 10 aprile la piazzaforte di Tobruk e attestandosi sul confine egiziano di Sollum-Halfaya.',
-        'Asse',
-        'Comando Superiore Forze Armate Africa Settentrionale (Gen. Italo Gariboldi) & Deutsches Afrikakorps (Gen. Erwin Rommel)'
-      );
+    if (s <= 11) {
+      if (s >= 8 && nrm_hb.includes('kufra')) {
+        const kf = resolveLibyaColonyToponym('LYKF', nrm_hb, s);
+        return makeResult('FFL_AEF', kf.name, kf.note, 'Alleati', kf.adminTitle);
+      }
+      const lib = resolveLibyaColonyToponym('', nrm_hb, s);
+      return makeResult('ITA', lib.name, lib.note, undefined, lib.adminTitle);
     }
-    return makeResult('ITA', 'Libia Italiana (Quarta Sponda)', 'Governo Generale della Libia');
   }
   if (nrm_hb.includes('eritrea')) {
+    if (s >= 29) {
+      return makeResult(
+        'ETH',
+        "Regione Autonoma Federata dell'Eritrea — Federazione di Etiopia ed Eritrea (Entrata in Vigore della Risoluzione ONU 390 A(V) il 15 Settembre 1952: Anseba, Debub, Debubawi Keyih Bahri, Gash-Barka, Maekel, Semenawi Keyih Bahri)",
+        "15 Settembre – 31 Dicembre 1952 (100% Federazione di Etiopia ed Eritrea): cessa l'Amministrazione Militare Britannica (BMA) sull'ex colonia italiana dell'Eritrea. In attuazione della Risoluzione ONU 390 A(V), tutte le regioni dell'Eritrea (Anseba, Debub, Debubawi Keyih Bahri, Gash-Barka, Maekel, Semenawi Keyih Bahri) vengono federate al 100% come unità autonoma dotata di proprio parlamento, governo (Capo Esecutivo Tedla Bairu) e bandiera ufficiale (azzurro ONU con ghirlanda d'ulivo verde) sotto la sovranità della corona dell'Impero d'Etiopia (Hailé Selassié I).",
+        'Neutrale',
+        "Federazione di Etiopia ed Eritrea — Regione Autonoma dell'Eritrea (Imperatore Hailé Selassié I · Capo Esecutivo Tedla Bairu, Asmara — dal 15 Set 1952)"
+      );
+    }
+    if (s >= 28) {
+      return makeResult(
+        'UK',
+        'Eritrea (BMA Britannica in Transizione Costituente — Federazione con l\'Etiopia solo dal 15 Settembre 1952)',
+        '31 Dicembre 1951 (100% Amministrazione Militare Britannica BMA): sotto la supervisione del Commissario ONU Eduardo Anze Matienzo prosegue la redazione della Costituzione eritrea in attuazione della Risoluzione ONU 390 A(V), ma al 31 dicembre 1951 l\'Eritrea resta sotto piena Amministrazione Militare Britannica (la federazione con l\'Etiopia diverrà effettiva solo il 15 settembre 1952).',
+        'Alleati',
+        'British Military Administration of Eritrea (BMA — Transizione ONU pre-Federazione Set 1952)'
+      );
+    }
+    if (s >= 27) {
+      return makeResult(
+        'UK',
+        'Eritrea (BMA Britannica — Transizione pre-Federazione Etiopica 1952)',
+        '30 Giugno 1951 (Amministrazione Militare Britannica BMA): prosegue il regime provvisorio britannico (British Military Administration) ad Asmara e Massaua in attuazione della Risoluzione ONU 390 A(V); la federazione con l\'Etiopia non entrerà in vigore prima del 15 settembre 1952.',
+        'Alleati',
+        'British Military Administration of Eritrea (BMA — Federazione Rimandata al Set 1952)'
+      );
+    }
     if (s >= 26) {
       return makeResult(
         'UK',
@@ -5133,9 +5879,19 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'Occupied Enemy Territory Administration (OETA — British Military Administration of Eritrea, Asmara)'
       );
     }
-    return makeResult('ITA', 'Colonia Eritrea (Asmara)', 'Africa Orientale Italiana');
+    const eri = resolveEritreaItalianPhase(s);
+    return makeResult('ITA', eri.name, eri.note, undefined, eri.adminTitle);
   }
   if (nrm_hb === 'nepal' || nrm_hb.includes('kingdom of nepal')) {
+    if (s >= 27) {
+      return makeResult(
+        'NEP',
+        'Regno del Nepal (Compromesso di Delhi Feb 1951 — Governo di Coalizione & Paese Pacificato)',
+        '30 Giugno 1951 (Regno del Nepal — Pacificato): con il Compromesso di Delhi mediato dall\'India (15–18 febbraio 1951), Re Tribhuvan rientra a Kathmandu ponendo fine al regime autocratico ereditario dei primi ministri Rana e istituendo un governo di coalizione con il Congresso Nepalese. Cessa ogni insurrezione armata lungo la fascia meridionale del Terai.',
+        'Neutrale',
+        'Regno del Nepal — Re Tribhuvan & Governo di Coalizione Rana–Congresso Nepalese (Giu 1951)'
+      );
+    }
     if (s >= 26) {
       return makeResult(
         'NEP',
@@ -5190,13 +5946,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
   }
   if (nrm_hb.includes('somali') && (nrm_hb.includes('ital') || subj === 'Italy' || name.includes('(Italy)'))) {
     if (s >= 25) {
-      return makeResult(
-        'AFIS',
-        'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU dal 1° Aprile 1950, Mogadiscio)',
-        'Il 1° aprile 1950 cessa l\'amministrazione militare britannica (BMA) nell\'ex Somalia Italiana e inizia ufficialmente il mandato decennale (1950–1960) dell\'Amministrazione Fiduciaria Italiana della Somalia (AFIS) per conto delle Nazioni Unite (Risoluzione ONU 289 del 21 novembre 1949), con esposizione congiunta della bandiera ONU e del Tricolore della Repubblica Italiana sotto l\'Amministratore Giovanni Fornari a Mogadiscio (il Somaliland Britannico e l\'Ogaden restano rispettivamente a Regno Unito ed Etiopia).',
-        'Alleati',
-        'Amministrazione Fiduciaria Italiana della Somalia — AFIS (ONU / Repubblica Italiana — Amb. Giovanni Fornari, Mogadiscio)'
-      );
+      const afis = resolveSomaliaItalianAndAfisPhase(s);
+      return makeResult('AFIS', afis.name, afis.note, 'Alleati', afis.adminTitle);
     }
     if (s >= 8) {
       if (s >= 19) {
@@ -5216,22 +5967,8 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'Occupied Enemy Territory Administration (OETA — British Military Administration of Somalia, Mogadishu)'
       );
     }
-    const isPostAOI = s >= 1;
-    return isPostAOI
-      ? makeResult(
-          'ITA',
-          'Governo della Somalia',
-          'Africa Orientale Italiana (R.D.L. 1 giugno 1936 n. 1019) — Capoluogo Mogadiscio',
-          undefined,
-          'Governo della Somalia (AOI)'
-        )
-      : makeResult(
-          'ITA',
-          'Colonia della Somalia Italiana',
-          'Colonia del Regno d\'Italia (1908-1936) — Capoluogo Mogadiscio',
-          undefined,
-          'Colonia del Regno d\'Italia'
-        );
+    const som = resolveSomaliaItalianAndAfisPhase(s);
+    return makeResult('ITA', som.name, som.note, undefined, som.adminTitle);
   }
 
   // Spagna Coloniale & Protettorato del Rif
@@ -5435,6 +6172,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
     return makeResult('UK', 'Kingdom of Iraq (Baghdad)', 'British Sphere of Influence (Anglo-Iraqi Treaty of 1930)');
   }
   if (nrm_hb.includes('transjordan')) {
+    if (s >= 28) {
+      return makeResult(
+        'JOR',
+        'Regno Hascemita di Giordania (Ascesa al Trono di Re Talal il 5 Settembre 1951 dopo l\'Assassinio di Re Abdallah I il 20 Luglio 1951)',
+        'Luglio – Settembre 1951: dopo l\'assassinio di Re Abdallah I nella Città Vecchia di Gerusalemme (Moschea di Al-Aqsa, 20 luglio 1951) e la breve reggenza del principe Nayef, il 5 settembre 1951 sale sul trono del Regno Hascemita di Giordania Re Talal ibn Abdallah (Primo Ministro Tawfik Abu al-Huda).',
+        'Neutrale',
+        'Al-Mamlakah al-Urdunniyyah al-Hāshimiyyah — Re Talal (dal 5 Set 1951) · P.M. Tawfik Abu al-Huda'
+      );
+    }
     if (s >= 20) {
       return makeResult(
         'JOR',
@@ -5916,16 +6662,18 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
 
         // Ralliement o amministrazione Colonie Francesi (F_COL)
         if (ov.o === 'F_COL') {
-          const nrmCol = name.toLowerCase();
+          const nrmCol = normStr(name);
 
           // 1. Antille Francesi (Martinica, Guadalupa, Saint-Barthélemy, Saint-Martin) e Guyana
           const isAntillesOrGuiana =
             nrmCol.includes('martinique') ||
             nrmCol.includes('guadeloupe') ||
+            nrmCol.includes('saint martin') ||
             nrmCol.includes('saint-martin') ||
+            nrmCol.includes('saint barthelemy') ||
             nrmCol.includes('saint-barthelemy') ||
-            nrmCol.includes('st-martin') ||
-            nrmCol.includes('st-barthelemy') ||
+            nrmCol.includes('st martin') ||
+            nrmCol.includes('st barthelemy') ||
             nrmCol.includes('guyane') ||
             nrmCol.includes('french guiana') ||
             nrmCol.includes('cayenne');
@@ -6006,6 +6754,16 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             ? 'VIC_IND'
             : 'VIC';
         const vicTop = getExtendedToponym(name, vicKey, nid, c, s);
+        if (vicKey === 'VIC' && s >= 14) {
+          const fraTop = getExtendedToponym(name, 'FRA', nid, c, s);
+          return makeResult(
+            'FRA',
+            fraTop.name || top.name,
+            fraTop.note || 'Territoire rallié à la République Française (GPRF / Union Française).',
+            'Alleati',
+            fraTop.adminTitle || (s >= 19 ? 'Quatrième République Française (Union Française)' : 'Gouvernement Provisoire de la République Française (GPRF)')
+          );
+        }
         if (vicKey === 'VIC_SYR' && s >= 9) {
           return makeResult(
             'F_SYR',
@@ -6098,6 +6856,114 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
           );
         }
         if (vicKey === 'VIC_NAF' && s >= 11) {
+          if (s >= 34) {
+            const isAlg = nid === 'HB_ALGERIA' || nrm_hb.includes('alger');
+            const isTun = nrm_hb.includes('tunis');
+            if (isAlg) {
+              return makeResult(
+                'FRA',
+                'Algérie française — Vittoria Francese nella Battaglia d\'Algeri (Ott 1957) & Linea Morice (Guerra d\'Algeria · Dic 1957)',
+                "31 Dicembre 1957 (Quarta Repubblica Francese · Guerra d'Algeria): tra gennaio e ottobre 1957 la 10ª Divisione Paracadutisti del Gen. Jacques Massu smantella la rete urbana del FLN nella Battaglia di Algeri (cattura di Yacef Saadi a settembre e morte di Ali La Pointe l'8 ottobre), mentre dal settembre 1957 entra in funzione la sbarra elettrificata della Linea Morice al confine tunisino; prosegue però la guerriglia rurale dell'ALN nell'Aurès e in Cabilia.",
+                'Alleati',
+                "Quatrième République (Union Française) — Ministre Résidant Robert Lacoste & Gen. Massu (Post-Battaglia d'Algeri & Linea Morice · Dic 1957)"
+              );
+            }
+            if (isTun) {
+              return makeResult(
+                'TUN',
+                'Repubblica di Tunisia (Proclamata il 25 Luglio 1957 — 1° Presidente Habib Bourguiba)',
+                "25 Luglio – 31 Dicembre 1957 (Repubblica di Tunisia): il 25 luglio 1957 l'Assemblea Nazionale Costituente tunisina vota all'unanimità la deposizione del Bey Muhammad VIII al-Amin, abolisce la monarchia e proclama la Repubblica di Tunisia eleggendo Habib Bourguiba primo Presidente della Repubblica.",
+                'Neutrale',
+                'Repubblica di Tunisia — Presidente Habib Bourguiba (Proclamazione 25 Luglio 1957 · Tunisi)'
+              );
+            }
+            return makeResult(
+              'MAR',
+              'Regno del Marocco (Re Mohammed V dallo Ago 1957 · Tangeri Integrata 1° Gen · Guerra d\'Ifni Nov 1957)',
+              "31 Dicembre 1957 (Regno del Marocco): dal 1° gennaio 1957 Tangeri è integrata giuridicamente nel Marocco e nell'agosto 1957 il Sultano Mohammed V assume formalmente il titolo di Re (Malik) Mohammed V. Dal 23 novembre 1957 reparti irregolari dell'ALN combattono contro la Spagna nella Guerra d'Ifni.",
+              'Neutrale',
+              'Regno del Marocco — Re (Malik) Mohammed V · Rabat (PM Mbarek Bekkai · Dic 1957)'
+            );
+          }
+          if (s >= 33) {
+            const isAlg = nid === 'HB_ALGERIA' || nrm_hb.includes('alger');
+            const isTun = nrm_hb.includes('tunis');
+            if (isAlg) {
+              return makeResult(
+                'FRA',
+                'Algérie française — Congresso della Soummam & Battaglia di Algeri (Guerra d\'Algeria · Dic 1956)',
+                "31 Dicembre 1956 (Quarta Repubblica Francese · Guerra d'Algeria): dopo il Congresso della Soummam (20 agosto 1956, strutturazione politico-militare dell'FLN in 6 Wilayat) e gli attentati urbani della Battaglia di Algeri (autunno 1956), la Francia mobilita oltre 400.000 soldati sotto il Ministro Residente Robert Lacoste (governo Guy Mollet).",
+                'Alleati',
+                "Quatrième République (Union Française) — Ministre Résidant en Algérie (Robert Lacoste · Battaglia di Algeri & Soummam, Dic 1956)"
+              );
+            }
+            if (isTun) {
+              return makeResult(
+                'TUN',
+                'Regno di Tunisia (Indipendenza 20 Marzo 1956 · Bey Muhammad VIII al-Amin)',
+                '20 Marzo – 31 Dicembre 1956 (Regno di Tunisia Sovrano): con il protocollo franco-tunisino del 20 marzo 1956 cessa il Protettorato e nasce la Tunisia indipendente (monarchia sotto il Bey Muhammad VIII al-Amin con Habib Bourguiba Primo Ministro; la repubblica verrà proclamata il 25 luglio 1957).',
+                'Neutrale',
+                'Regno di Tunisia — Bey Muhammad VIII al-Amin & Primo Ministro Habib Bourguiba (Tunisi)'
+              );
+            }
+            return makeResult(
+              'MAR',
+              'Stato Sovrano del Marocco (Indipendenza 2 Mar / 7 Apr 1956 · Sultano Mohammed V)',
+              "2 Marzo – 31 Dicembre 1956 (Stato Sovrano del Marocco): con le dichiarazioni d'indipendenza con Francia (2 marzo) e Spagna (7 aprile) e il Protocollo di Tangeri (29 ottobre 1956), cessa il regime di protettorato e il Marocco si riunifica sotto il Sultano Mohammed V (titolo regio dall'agosto 1957).",
+              'Neutrale',
+              'Stato Sovrano del Marocco — Sultano Mohammed V (Rabat · PM Mbarek Bekkay)'
+            );
+          }
+          if (s >= 32) {
+            const isAlg = nid === 'HB_ALGERIA' || nrm_hb.includes('alger');
+            const isTun = nrm_hb.includes('tunis');
+            if (isAlg) {
+              return makeResult(
+                'FRA',
+                'Algérie française — Estensione della Guerra d\'Algeria (Stato d\'Emergenza & Offensiva del Nord Costantinese 20 Ago 1955)',
+                "31 Dicembre 1955 (Quarta Repubblica Francese · Guerra d'Algeria): dopo lo Stato d'Emergenza (3 aprile 1955), il 20 agosto 1955 l'FLN scatena l'offensiva del Nord Costantinese (Philippeville/Skikda e Costantina), allargando il conflitto mentre Parigi invia rinforzi militari sotto il Governatore Generale Jacques Soustelle.",
+                'Alleati',
+                "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Stato d'Emergenza · Gov. Gen. Jacques Soustelle, Dic 1955)"
+              );
+            }
+            return makeResult(
+              'FRA',
+              isTun
+                ? 'Protectorat français de Tunisie (Convenzioni di Autonomia Interna 3 Giu 1955 — Protettorato Francese)'
+                : 'Protectorat français du Maroc (Ritorno di Mohammed V 16 Nov 1955 — Protettorato Francese)',
+              isTun
+                ? '31 Dicembre 1955: dopo il rientro di Habib Bourguiba (1° giugno) e la firma delle Convenzioni d\'Autonomia Interna (3 giugno 1955), la Tunisia gode di autogoverno interno restando ancora formalmente Protettorato francese (indipendenza il 20 marzo 1956).'
+                : '31 Dicembre 1955: dopo gli accordi di La Celle-Saint-Cloud (6 novembre), il Sultano Mohammed V rientra a Rabat (16 novembre 1955); al 31 dicembre 1955 il Marocco resta tuttavia ancora formalmente Protettorato francese (indipendenza il 2 marzo 1956).',
+              'Alleati',
+              isTun
+                ? 'Quatrième République (Union Française) — Protectorat de Tunisie (Autonomia Interna 1955 · Dic 1955)'
+                : 'Quatrième République (Union Française) — Protectorat du Maroc (Ritorno Sultano Mohammed V · Dic 1955)'
+            );
+          }
+          if (s >= 31) {
+            const isAlg = nid === 'HB_ALGERIA' || nrm_hb.includes('alger');
+            const isTun = nrm_hb.includes('tunis');
+            if (isAlg) {
+              return makeResult(
+                'FRA',
+                'Algérie française — Scoppio della Guerra d\'Algeria (Toussaint Rouge · 1° Novembre 1954 · Aurès & Cabilia)',
+                "31 Dicembre 1954 (Quarta Repubblica Francese · Guerra d'Algeria): nella notte di Ognissanti (Toussaint Rouge, 1° novembre 1954) il Fronte di Liberazione Nazionale (FLN / ALN) lancia una serie coordinata di attentati e azioni armate dall'Aurès alla Cabilia contro guarnigioni e amministrazione coloniale; il governo Pierre Mendès France e il Governatore Generale Roger Léonard inviano rinforzi ribadendo che l'Algeria è parte integrante della Francia.",
+                'Alleati',
+                "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Guerra d'Algeria · Gov. Gen. Roger Léonard)"
+              );
+            }
+            return makeResult(
+              'FRA',
+              isTun
+                ? 'Protectorat français de Tunisie (Dichiarazione di Cartagine 31 Luglio 1954 — Avvio Autonomia Interna)'
+                : 'Protectorat français du Maroc (Crisi Dinastica & Nazionalismo Marocchino, Dic 1954)',
+              isTun
+                ? '31 Dicembre 1954: con la storica Dichiarazione di Cartagine del 31 luglio 1954, il Presidente del Consiglio francese Pierre Mendès France promette alla Tunisia l\'autonomia interna aprendo i negoziati con il Neo-Dustur.'
+                : '31 Dicembre 1954: dopo la deposizione e l\'esilio del Sultano Mohammed V (1953), il protettorato francese in Marocco è attraversato da crescenti agitazioni nazionaliste sotto il governo residente francese.',
+              'Alleati',
+              'Quatrième République (Union Française) — Protettorati Francesi del Nordafrica (Dic 1954)'
+            );
+          }
           if (s >= 19) {
             return makeResult(
               'FRA',
@@ -6462,6 +7328,22 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
             : 'British Western Pacific High Commission — Gilbert & Ellice Islands Colony'
         );
       }
+      if (s >= 34 && (nrm_hb.includes('sarawak') || nrm_hb.includes('brunei'))) {
+        const isBrunei = nrm_hb.includes('brunei');
+        return makeResult(
+          'UK',
+          isBrunei
+            ? 'State of Brunei (Protettorato Britannico — Sultano Omar Ali Saifuddien III)'
+            : 'Sarawak (Colonia della Corona Britannica del Borneo)',
+          isBrunei
+            ? "31 Dicembre 1957: il Sultanato del Brunei (Sultano Omar Ali Saifuddien III) resta protettorato britannico ed è escluso dall'indipendenza della Federazione della Malesia (31 agosto 1957)."
+            : "31 Dicembre 1957: Sarawak resta una Colonia della Corona Britannica del Borneo ed è esclusa dall'indipendenza della Federazione della Malesia (31 agosto 1957).",
+          'Alleati',
+          isBrunei
+            ? 'British Protected State of Brunei (Sultan Omar Ali Saifuddien III / British Resident)'
+            : 'British Empire — Crown Colony of Sarawak (Kuching)'
+        );
+      }
       if (s >= 18 && (nrm_hb.includes('sarawak') || nrm_hb.includes('brunei'))) {
         const isBrunei = nrm_hb.includes('brunei');
         return makeResult(
@@ -6715,6 +7597,15 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.adminTitle || 'United States of America'
       );
     }
+    if (ov.o === 'BRA' && s >= 31) {
+      return makeResult(
+        'BRA',
+        `${top.name || 'Estados Unidos do Brasil'} (Suicidio di Getúlio Vargas 24 Ago 1954 · Pres. Café Filho)`,
+        "31 Dicembre 1954 (Brasile): travolto dalla crisi politico-militare successiva all'attentato della Rua Tonelero, il 24 agosto 1954 il Presidente Getúlio Vargas si toglie la vita al Palazzo del Catete lasciando la celebre Carta Testamento; gli succede costituzionalmente il Vicepresidente João Café Filho.",
+        'Alleati',
+        'Estados Unidos do Brasil — Presidente João Café Filho (Dal 24 Ago 1954 dopo il Suicidio di Vargas)'
+      );
+    }
     if (ov.o === 'BRA' && s >= 10) {
       return makeResult(
         'BRA',
@@ -6731,6 +7622,45 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         'Dichiarazione di guerra del Messico alle Potenze dell\'Asse (22 maggio 1942): in seguito al siluramento delle petroliere messicane Potrero del Llano e Faja de Oro nel Golfo del Messico da parte degli U-Boot tedeschi, il Presidente Manuel Ávila Camacho porta il Messico in guerra al fianco degli Alleati.',
         'Alleati',
         'Estados Unidos Mexicanos — Presidente Gen. Manuel Ávila Camacho (Alleato)'
+      );
+    }
+    if (ov.o === 'CUB' && s >= 34) {
+      return makeResult(
+        'CUB',
+        `${getTop('CUB').name || 'República de Cuba'} (Regime Batista all'Avana · Guerriglia M-26-7 Sierra Maestra — El Uvero, 1957)`,
+        "31 Dicembre 1957 (Crisi del Regime di Fulgencio Batista): il governo del Gen. Fulgencio Batista mantiene il potere all'Avana reprimendo l'assalto al Palazzo Presidenziale (13 marzo) e la rivolta navale di Cienfuegos (5 settembre), mentre nell'Oriente la guerriglia del Movimento del 26 Luglio (M-26-7 di Fidel Castro, Raúl Castro e Che Guevara) si rafforza sulla Sierra Maestra dopo la vittoria di El Uvero (28 maggio 1957).",
+        'Alleati',
+        'República de Cuba — Gen. Fulgencio Batista (Guerriglia M-26-7 sulla Sierra Maestra · Cienfuegos 5 Set 1957)'
+      );
+    }
+    if (ov.o === 'CUB' && s >= 33) {
+      return makeResult(
+        'CUB',
+        `${getTop('CUB').name || 'República de Cuba'} (Sbarco del Granma 2 Dic 1956 · Avvio Guerriglia Sierra Maestra)`,
+        "2 – 31 Dicembre 1956 (Dittatura di Fulgencio Batista & Rivoluzione Cubana): mentre il regime del Gen. Fulgencio Batista mantiene il potere all'Avana (appoggiato dagli USA), il 2 dicembre 1956 gli 82 rivoluzionari dello yacht Granma guidati da Fidel Castro, Raúl Castro e Ernesto Che Guevara sbarcano a Playa Las Coloradas (Oriente), dando avvio alla guerriglia del Movimento del 26 Luglio (M-26-7) sulla Sierra Maestra.",
+        'Alleati',
+        'República de Cuba — Gen. Fulgencio Batista (Guerriglia M-26-7 sulla Sierra Maestra dal 2 Dic 1956)'
+      );
+    }
+    if (ov.o === 'CUB' && s >= 29) {
+      return makeResult(
+        'CUB',
+        `${getTop('CUB').name || 'República de Cuba'} (Colpo di Stato Militare del Gen. Fulgencio Batista — 10 Marzo 1952)`,
+        '10 Marzo – 31 Dicembre 1952: con un colpo di Stato militare a Camp Columbia (L\'Avana) il generale Fulgencio Batista depone il presidente costituzionale Carlos Prío Socarrás, sospende la Costituzione del 1940 e assume la guida del governo provvisorio.',
+        'Alleati',
+        'República de Cuba — Governo Militare del Gen. Fulgencio Batista (dal 10 Marzo 1952)'
+      );
+    }
+    if (ov.o === 'ARG' && s >= 32) {
+      return resolveArgentinaStep32(top.name);
+    }
+    if (ov.o === 'GTM' && s >= 31) {
+      return makeResult(
+        'GTM',
+        `${top.name || 'República de Guatemala'} (Colpo di Stato del Giugno 1954 / Operazione PBSuccess · Col. Carlos Castillo Armas)`,
+        "31 Dicembre 1954 (Guatemala): nel giugno 1954 il golpe anticomunista sostenuto dalla CIA (Operazione PBSuccess) costringe alle dimissioni il Presidente riformista Jacobo Árbenz Guzmán (27 giugno); a Città del Guatemala si insedia la giunta e quindi la presidenza autoritaria del Col. Carlos Castillo Armas, abrogando la riforma agraria del Decreto 900.",
+        'Alleati',
+        'República de Guatemala — Presidente Col. Carlos Castillo Armas (Post-PBSuccess, Giugno 1954)'
       );
     }
     if (['GTM', 'SLV', 'HND', 'NIC', 'CRI', 'PAN', 'CUB', 'DOM', 'HAI'].includes(ov.o) && s >= 9) {
@@ -6827,6 +7757,24 @@ export function resolveHB(f: any, s: number): ResolvedTerritory {
         top.note || (s >= 7 ? 'Stato Nazionale Legionario (Gen. Ion Antonescu — Missione Militare Tedesca)' : 'Regatul României'),
         s >= 7 ? 'Asse' : 'Neutrale',
         top.adminTitle || (s >= 7 ? 'Statul Național-Legionar (Regatul României)' : 'Regatul României')
+      );
+    }
+    if (ov.o === 'COL' && s >= 30) {
+      return makeResult(
+        'COL',
+        `${getTop('COL').name || 'República de Colombia'} (Colpo di Stato del Gen. Gustavo Rojas Pinilla — 13 Giugno 1953)`,
+        '31 Dicembre 1953 (Colpo di Stato del 13 Giugno 1953): il Gen. Gustavo Rojas Pinilla depone Laureano Gómez assumendo la presidenza e avviando la smobilitazione parziale delle guerriglie liberali dei Llanos Orientales e de La Violencia.',
+        'Alleati',
+        'República de Colombia — Governo Militare Gen. Gustavo Rojas Pinilla (dal 13 Giu 1953)'
+      );
+    }
+    if (ov.o === 'BOL' && s >= 29) {
+      return makeResult(
+        'BOL',
+        `${getTop('BOL').name || 'República de Bolivia'} (Rivoluzione Nazionale Boliviana dell'MNR — 9–11 Aprile 1952 · Suffragio Universale & Nazionalizzazione delle Miniere di Stagno COMIBOL del 31 Ottobre 1952)`,
+        '9–11 Aprile – 31 Dicembre 1952: trionfa in Bolivia la Rivoluzione Nazionale guidata dal Movimiento Nacionalista Revolucionario (MNR) di Víctor Paz Estenssoro, Hernán Siles Zuazo e Juan Lechín (COB), che introduce il suffragio universale (21 luglio 1952) e il 31 ottobre 1952 nazionalizza le grandi compagnie minerarie dello stagno (Patiño, Hochschild, Aramayo) creando la COMIBOL.',
+        'Neutrale',
+        'República de Bolivia — Gobierno de la Revolución Nacional (Presidente Víctor Paz Estenssoro · MNR / COMIBOL, 1952)'
       );
     }
     return makeResult(ov.o, top.name, top.note || top.adminTitle, undefined, top.adminTitle);
@@ -8161,7 +9109,141 @@ export function resolvePalestineMandateProvince(ft: any, s: number): ResolvedTer
   const pOrig = String(props.ORIG_ID || '').trim().toUpperCase();
   const pName = String(props.NAME || props.HISTORICAL_NAME || props.name || '').toLowerCase();
 
+  // STEP >= 34 (31 Dicembre 1957): Evacuazione Israeliana da Gaza & Sinai (6–8 Mar 1957) con Dispiegamento UNEF
+  if (s >= 34) {
+    if (pNid === 'PAL_GAZ' || pOrig === 'PSGZA' || pOrig === 'PSGZZ' || pName.includes('gaza') || pName.includes('rafah') || pName.includes('khan')) {
+      return makeResult(
+        'APG',
+        'Striscia di Gaza (Amministrazione Militare Egiziana Ripristinata · Caschi Blu UNEF — Evacuazione Israeliana 6–7 Mar 1957)',
+        "7 Marzo – 31 Dicembre 1957 (Post-Crisi di Suez): in adempimento alle risoluzioni ONU e alle garanzie USA, tra il 6 e il 7 marzo 1957 Israele completa lo sgombero militare della Striscia di Gaza, sostituita inizialmente dai Caschi Blu ONU (UNEF) lungo la linea d'armistizio e dal ripristino dell'amministrazione militare egiziana (con ritorno del governatore generale il 14 marzo 1957 nell'ambito nominale del Governo di Tutto-Palestina; nessuna RAU prima del febbraio 1958).",
+        'Neutrale',
+        'Amministrazione Militare Egiziana & Governo di Tutto-Palestina (APG) · Linea d\'Armistizio vigilata da UNEF (Dal 7–14 Mar 1957)'
+      );
+    }
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme — Gerusalemme Ovest Capitale d\'Israele · Gerusalemme Est Giordana (Dic 1957)',
+        '31 Dicembre 1957: Gerusalemme Ovest è capitale di Israele (governo David Ben-Gurion, dopo il ritiro da Gaza e Sinai nel marzo 1957 con garanzie di navigazione a Tiran), mentre Gerusalemme Est fa parte del Regno Hascemita di Giordania sotto Re Hussein (crisi politica d\'aprile 1957 e sospensione del governo Nabulsi).',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest) / Regno Hascemita di Giordania — Re Hussein (Gerusalemme Est)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Regno Hascemita di Giordania — Cisgiordania / West Bank (Re Hussein · Crisi d\'Aprile 1957 & Legge Marziale)',
+        '31 Dicembre 1957: dopo la crisi politica e il tentato golpe di Zarqa dell\'aprile 1957, Re Hussein licenzia il governo filo-nasseriano di Sulayman al-Nabulsi, proclama la legge marziale e consolida la propria autorità sulla Giordania e sulla Cisgiordania con sostegno economico e militare statunitense (Dottrina Eisenhower).',
+        'Neutrale',
+        'Regno Hascemita di Giordania — Re Hussein · Cisgiordania (Post-Crisi Aprile 1957)'
+      );
+    }
+    if (pNid === 'PAL_BEER' || pOrig === 'ILD' || pName.includes('beersheba') || pName.includes('negev') || pName.includes('ashkelon') || pName.includes('eilat') || pName.includes('aqaba')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Meridionale / Negev & Eilat (Post-Ritiro dal Sinai Mar 1957 · Garanzia Stretti di Tiran UNEF)',
+        '31 Dicembre 1957: dopo il ritiro completo dal Sinai e da Gaza (6–8 marzo 1957), il dispiegamento dei Caschi Blu UNEF lungo il confine internazionale e a Sharm el-Sheikh garantisce per tutto il 1957 l\'apertura del Golfo di Aqaba e degli Stretti di Tiran alla navigazione commerciale diretta al porto israeliano di Eilat.',
+        'Neutrale',
+        'Medinat Yisrael — Distretto Meridionale (Porto di Eilat Aperto via Stretti di Tiran · UNEF 1957)'
+      );
+    }
+    return makeResult(
+      'ISR',
+      `Stato di Israele — ${String(props.NAME || props.HISTORICAL_NAME || props.name || 'Distretto Israeliano')} (Post-Ritiro Sinai & Gaza Mar 1957)`,
+      '31 Dicembre 1957 (Stato d\'Israele — Governo Ben-Gurion): completato l\'8 marzo 1957 il ritiro militare dal Sinai e dalla Striscia di Gaza a seguito delle garanzie internazionali USA/ONU per la libertà di navigazione negli Stretti di Tiran e la sicurezza del confine con l\'Egitto tramite forza di interposizione UNEF.',
+      'Neutrale',
+      'Medinat Yisrael — Governo David Ben-Gurion (Post-Evacuazione Sinai & Gaza, Mar–Dic 1957)'
+    );
+  }
+
+  // STEP >= 33 (31 Dicembre 1956): Guerra del Sinai / Crisi di Suez — Occupazione Israeliana di Gaza e Sinai
+  if (s >= 33) {
+    if (pNid === 'PAL_GAZ' || pOrig === 'PSGZA' || pOrig === 'PSGZZ' || pName.includes('gaza') || pName.includes('rafah') || pName.includes('khan')) {
+      return makeResult(
+        'ISR',
+        'Striscia di Gaza (Occupazione Militare Israeliana — Guerra del Sinai · 2 Nov – 31 Dic 1956)',
+        "2 Novembre – 31 Dicembre 1956 (Crisi di Suez / Operazione Kadesh): durante la Guerra del Sinai, le forze israeliane conquistano la Striscia di Gaza (2–3 novembre 1956) sospendendo di fatto l'amministrazione egiziana e il Governo di Tutto-Palestina. Nonostante il cessate il fuoco ONU e l'evacuazione anglo-francese dal Canale (22 dicembre), al 31 dicembre 1956 Gaza rimane ancora sotto occupazione militare israeliana (evacuazione completata il 7 marzo 1957 con dispiegamento UNEF).",
+        'Neutrale',
+        'Occupazione Militare Israeliana di Gaza (IDF — Post-Operazione Kadesh · Evacuazione 7 Mar 1957)'
+      );
+    }
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme — Gerusalemme Ovest Capitale d\'Israele · Gerusalemme Est Giordana (Crisi di Suez · Dic 1956)',
+        '31 Dicembre 1956: Gerusalemme Ovest è capitale di Israele (governo David Ben-Gurion, Operazione Kadesh nel Sinai e a Gaza), mentre Gerusalemme Est fa parte del Regno Hascemita di Giordania sotto Re Hussein (che nel marzo 1956 ha rimosso John Bagot Glubb / Glubb Pasha dal comando della Legione Araba).',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest · Governo Ben-Gurion) / Regno Hascemita di Giordania (Gerusalemme Est)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Regno Hascemita di Giordania — Cisgiordania / West Bank (Re Hussein · Arabizzazione Legione Araba & Governo Nabulsi, Dic 1956)',
+        '31 Dicembre 1956: la Cisgiordania e Gerusalemme Est restano parte del Regno Hascemita di Giordania; nel 1956 Re Hussein rimuove il comandante britannico Glubb Pasha (1° marzo) e dopo le elezioni dell\'ottobre 1956 si insedia il governo nazionalista filo-nasseriano di Sulayman al-Nabulsi durante la Crisi di Suez.',
+        'Neutrale',
+        'Regno Hascemita di Giordania — Re Hussein & PM Sulayman al-Nabulsi (Cisgiordania · Dic 1956)'
+      );
+    }
+    if (pNid === 'PAL_BEER' || pOrig === 'ILD' || pName.includes('beersheba') || pName.includes('negev') || pName.includes('ashkelon') || pName.includes('eilat') || pName.includes('aqaba')) {
+      return makeResult(
+        'ISR',
+        'Stato di Israele — Distretto Meridionale / Negev (Operazione Kadesh & Occupazione di Gaza/Sinai · Dic 1956)',
+        '31 Dicembre 1956: dal Negev e da Eilat le colonne israeliane hanno lanciato l\'Operazione Kadesh (29 ottobre 1956) occupando al 31 dicembre la Striscia di Gaza e gran parte del Sinai fino a Sharm el-Sheikh/Stretto di Tiran.',
+        'Neutrale',
+        'Medinat Yisrael — Comando Meridionale (Negev & Eilat · Operazione Kadesh, Dic 1956)'
+      );
+    }
+    return makeResult(
+      'ISR',
+      `Stato di Israele — ${String(props.NAME || props.HISTORICAL_NAME || props.name || 'Distretto Israeliano')} (Governo Ben-Gurion · Guerra del Sinai, Dic 1956)`,
+      '31 Dicembre 1956 (Stato d\'Israele — Guerra del Sinai / Crisi di Suez): sotto il governo David Ben-Gurion, Israele conduce l\'Operazione Kadesh (29 ott – 5 nov 1956) insieme all\'intervento anglo-francese a Suez e al 31 dicembre 1956 occupa ancora la Striscia di Gaza e oltre l\'80% del Sinai sotto crescente pressione diplomatica USA/URSS/ONU.',
+      'Neutrale',
+      'Medinat Yisrael — Governo David Ben-Gurion (Gerusalemme Ovest · Post-Operazione Kadesh 1956)'
+    );
+  }
+
   // STEP >= 25 (30 Giugno 1950): Annessione Formale Giordana della Cisgiordania e Gerusalemme Est (Ratifica Parlamentare 24 Aprile 1950)
+  if (s >= 29) {
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme — Gerusalemme Ovest Capitale d\'Israele · Gerusalemme Est Giordana (Ascesa di Re Hussein l\'11 Agosto 1952)',
+        '31 Dicembre 1952: Gerusalemme Ovest è capitale dello Stato d\'Israele (dove dopo la morte di Chaim Weizmann il 9 novembre 1952 viene eletto Presidente Yitzhak Ben-Zvi l\'8 dicembre 1952), mentre Gerusalemme Est fa parte del Regno Hascemita di Giordania dove l\'11 agosto 1952 Re Talal abdica per motivi di salute e viene proclamato Re Hussein (sotto Consiglio di Reggenza).',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest) / Regno Hascemita di Giordania — Re Hussein (Gerusalemme Est, 11 Ago 1952)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Regno Hascemita di Giordania — Cisgiordania / West Bank (Abdicazione di Re Talal e Proclamazione di Re Hussein l\'11 Agosto 1952)',
+        '31 Dicembre 1952: l\'11 agosto 1952 il Parlamento giordano prende atto dell\'abdicazione per motivi di salute di Re Talal e proclama nuovo sovrano il figlio Re Hussein ibn Talal (sotto Consiglio di Reggenza fino alla maggiore età nel maggio 1953), mantenendo l\'unificazione costituzionale tra Cisgiordania e Transgiordania.',
+        'Neutrale',
+        'Regno Hascemita di Giordania — Re Hussein (dall\'11 Ago 1952 · Consiglio di Reggenza) · Cisgiordania'
+      );
+    }
+  }
+  if (s >= 28) {
+    if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
+      return makeResult(
+        'ISR',
+        'Distretto di Gerusalemme — Gerusalemme Ovest Capitale d\'Israele · Gerusalemme Est Giordana (Assassinio di Re Abdallah I il 20 Lug 1951 & Ascesa di Re Talal)',
+        'Al 31 dicembre 1951 Gerusalemme Ovest è capitale dello Stato d\'Israele, mentre Gerusalemme Est (Città Vecchia, dove il 20 luglio 1951 Re Abdallah I viene assassinato alla Moschea di Al-Aqsa) fa parte del Regno Hascemita di Giordania sotto il nuovo sovrano Re Talal (asceso al trono il 5 settembre 1951).',
+        'Neutrale',
+        'Medinat Yisrael (Gerusalemme Ovest) / Regno Hascemita di Giordania — Re Talal (Gerusalemme Est)'
+      );
+    }
+    if (pNid === 'PAL_SAM' || pOrig === 'PSWBK' || pName.includes('samaria') || pName.includes('judea') || pName.includes('giudea') || pName.includes('nablus') || pName.includes('hebron') || pName.includes('west bank')) {
+      return makeResult(
+        'JOR',
+        'Regno Hascemita di Giordania — Cisgiordania / West Bank (Successione Dinastica: Re Talal dal 5 Settembre 1951)',
+        '31 Dicembre 1951: dopo l\'assassinio di Re Abdallah I nella Città Vecchia di Gerusalemme (20 luglio 1951), il 5 settembre 1951 sale al trono del Regno Hascemita di Giordania Re Talal ibn Abdallah, che conferma l\'unione costituzionale delle due rive del Giordano (Cisgiordania e Transgiordania).',
+        'Neutrale',
+        'Regno Hascemita di Giordania — Re Talal (dal 5 Set 1951) · Provincia della Cisgiordania'
+      );
+    }
+  }
   if (s >= 25) {
     if (pNid === 'PAL_JRS' || pOrig === 'ILJM' || pName.includes('jerusalem') || pName.includes('gerusalemme') || pName.includes('al-quds')) {
       return makeResult(
@@ -8954,6 +10036,134 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isAlgeriaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^DZ_/, 'DZ').toUpperCase();
     const dzMeta = (ALGERIA_PROVINCES_META as any)?.[cleanId];
+    if (s >= 34) {
+      const top = getTop('FRA');
+      const isAlgiersBattle = cleanId === 'DZ16' || cleanId === 'DZ42' || cleanId === 'DZ09';
+      const isMoriceBorder = cleanId === 'DZ23' || cleanId === 'DZ41' || cleanId === 'DZ36' || cleanId === 'DZ12';
+      const isKabylieAures =
+        cleanId === 'DZ06' || cleanId === 'DZ15' || cleanId === 'DZ10' || cleanId === 'DZ35' ||
+        cleanId === 'DZ05' || cleanId === 'DZ40' || cleanId === 'DZ07';
+      return makeResult(
+        'FRA',
+        isAlgiersBattle
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Vittoria Francese nella Battaglia di Algeri · Ott 1957)`
+          : isMoriceBorder
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Linea Morice sulla Frontiera Tunisina · Set 1957)`
+          : isKabylieAures
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Guerriglia Rurale ALN / FLN — Cabilia & Aurès · Dic 1957)`
+          : `${dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName} (Algérie française · Guerra d'Algeria — Dic 1957)`,
+        isAlgiersBattle
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algeri'}) · 31 Dicembre 1957 (Conclusione della Battaglia di Algeri): da gennaio a ottobre 1957 la 10ª Divisione Paracadutisti del Gen. Jacques Massu stronca lo sciopero degli otto giorni e smantella la rete clandestina urbana dell'FLN (cattura di Yacef Saadi il 24 settembre e morte di Ali La Pointe l'8 ottobre 1957).`
+          : isMoriceBorder
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Annaba / Souk Ahras / Tébessa'}) · 31 Dicembre 1957 (Linea Morice — Ligne Morice): completata nel settembre 1957 dal ministro della Difesa André Morice, la barriera elettrificata e minata lungo la frontiera tunisina isola le unità ALN interne dalle basi logistiche in Tunisia.`
+          : isKabylieAures
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Tizi Ouzou / Batna'}) · 31 Dicembre 1957: mentre l'esercito francese vince la battaglia urbana ad Algeri e sbarra i confini con la Linea Morice, nei massicci montani della Cabilia e dell'Aurès prosegue intensa la guerriglia rurale dell'ALN contro il dispositivo militare francese (Governo Félix Gaillard / Min. Res. Robert Lacoste).`
+          : `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1957 (Quarta Repubblica Francese · Guerra d'Algeria): vittoria operativa francese ad Algeri (ottobre 1957) e attivazione della Linea Morice al confine orientale, mentre il conflitto politico e rurale permane aperto (ancora Quarta Repubblica fino al 1958).`,
+        'Alleati',
+        isAlgiersBattle
+          ? 'Quatrième République Française — Battaglia di Algeri (10e DP Gen. Jacques Massu · Ott 1957)'
+          : isMoriceBorder
+          ? 'Quatrième République Française — Ligne Morice (Sbarramento Orientale Set 1957)'
+          : "Quatrième République (Union Française) — Ministre Résidant Robert Lacoste (Dic 1957)"
+      );
+    }
+    if (s >= 33) {
+      const top = getTop('FRA');
+      const isAlgiersBattle = cleanId === 'DZ16';
+      const isSoummamKabylie = cleanId === 'DZ06' || cleanId === 'DZ15' || cleanId === 'DZ10' || cleanId === 'DZ35';
+      const isAuresFront = cleanId === 'DZ05' || cleanId === 'DZ40' || cleanId === 'DZ07';
+      const isNordConstantinoisFront =
+        cleanId === 'DZ25' ||
+        cleanId === 'DZ21' ||
+        cleanId === 'DZ23' ||
+        cleanId === 'DZ24' ||
+        cleanId === 'DZ04';
+      const isHotFront = isAlgiersBattle || isSoummamKabylie || isAuresFront || isNordConstantinoisFront;
+      return makeResult(
+        'FRA',
+        isAlgiersBattle
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Battaglia di Algeri — Autunno / Dic 1956 · ZAA)`
+          : isSoummamKabylie
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Congresso della Soummam 20 Ago 1956 · Wilaya III — Cabilia)`
+          : isAuresFront || isNordConstantinoisFront
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Guerra d'Algeria · Operazioni ALN / FLN — Dic 1956)`
+          : `${dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName} (Algérie française · Stato d'Emergenza — Dic 1956)`,
+        isAlgiersBattle
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algeri'}) · 31 Dicembre 1956 (Battaglia di Algeri): dalla fine di settembre 1956 la Zona Autonoma di Algeri dell'FLN (Yacef Saadi, Larbi Ben M'hidi) conduce la campagna di attentati nella capitale; il governo Guy Mollet e il Ministro Residente Robert Lacoste schierano oltre 400.000 uomini in Algeria preparando l'intervento dei paracadutisti.`
+          : isSoummamKabylie
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Béjaïa / Cabilia'}) · 31 Dicembre 1956 (Congresso della Soummam — 20 Agosto 1956): nella valle della Soummam (Wilaya III) i dirigenti dell'FLN (Abane Ramdane, Krim Belkacem) istituiscono il CNRA, il CCE e le sei Wilayat militari dell'ALN contro l'amministrazione francese guidata da Robert Lacoste.`
+          : `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1956 (Quarta Repubblica Francese · Guerra d'Algeria): con la mobilitazione dei richiamati di leva (oltre 400.000 soldati francesi) e sotto la direzione del Ministro Residente Robert Lacoste, l'Algeria rimane parte integrante della Francia nonostante l'intensificarsi dell'insurrezione FLN/ALN (22 ott 1956: dirottamento aereo e cattura di Ben Bella).`,
+        'Alleati',
+        isHotFront
+          ? `Quatrième République Française — Algérie (Guerra d'Algeria · Ministro Residente Robert Lacoste · ${isAlgiersBattle ? 'Battaglia di Algeri' : isSoummamKabylie ? 'Wilaya III / Soummam' : 'Fronte ALN'} · Dic 1956)`
+          : "Quatrième République (Union Française) — Ministre Résidant en Algérie (Robert Lacoste · 400.000+ soldati · Dic 1956)"
+      );
+    }
+    if (s >= 32) {
+      const top = getTop('FRA');
+      const isAuresKabylieFront =
+        cleanId === 'DZ05' ||
+        cleanId === 'DZ40' ||
+        cleanId === 'DZ06' ||
+        cleanId === 'DZ15' ||
+        cleanId === 'DZ07';
+      const isNordConstantinoisFront =
+        cleanId === 'DZ25' ||
+        cleanId === 'DZ21' ||
+        cleanId === 'DZ23' ||
+        cleanId === 'DZ24' ||
+        cleanId === 'DZ04';
+      const isActiveInsurgencyFront = isAuresKabylieFront || isNordConstantinoisFront;
+      return makeResult(
+        'FRA',
+        isNordConstantinoisFront
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Estensione Insurrezione FLN — Offensiva del Nord-Costantinese 20 Ago 1955)`
+          : isAuresKabylieFront
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Bastione Insurrezione FLN / ALN — Aurès & Cabilia · Dic 1955)`
+          : `${dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName} (Algérie française — Stato d'Emergenza · Dic 1955)`,
+        isNordConstantinoisFront
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1955 (Insurrezione del Nord Costantinese — 20 Agosto 1955): la Wilaya II dell'FLN (Zighoud Youcef) estende il conflitto con attacchi su vasta scala tra Costantina, Philippeville (Skikda) e Guelma, seguiti da una dura controffensiva francese e dall'invio di rinforzi sotto il Governatore Generale Jacques Soustelle.`
+          : isActiveInsurgencyFront
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1955 (Fronte Aurès–Cabilia — Guerra d'Algeria): nei massicci dell'Aurès e della Cabilia la guerriglia dell'ALN/FLN prosegue contro i dispositivi militari della Quarta Repubblica (Stato d'Emergenza proclamato il 3 aprile 1955; Gov. Gen. Jacques Soustelle).`
+          : `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1955 (Algérie française — Stato d'Emergenza, Legge del 3 Aprile 1955): mentre l'insurrezione FLN si estende dal nucleo Aurès–Cabilia al Nord Costantinese (20 agosto 1955), l'Algeria resta parte integrante della Quarta Repubblica sotto il Governatore Generale Jacques Soustelle.`,
+        'Alleati',
+        isActiveInsurgencyFront
+          ? `Quatrième République Française — Algérie (Stato d'Emergenza · Teatro ${isNordConstantinoisFront ? 'Nord-Costantinese' : 'Aurès–Cabilia'} vs FLN/ALN · Dic 1955)`
+          : "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Jacques Soustelle · Stato d'Emergenza, Dic 1955)"
+      );
+    }
+    if (s >= 31) {
+      const top = getTop('FRA');
+      const isAuresKabylieFront =
+        cleanId === 'DZ05' ||
+        cleanId === 'DZ40' ||
+        cleanId === 'DZ06' ||
+        cleanId === 'DZ15' ||
+        cleanId === 'DZ07';
+      return makeResult(
+        'FRA',
+        isAuresKabylieFront
+          ? `${dzMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Focolaio dell'Insurrezione — Toussaint Rouge 1° Novembre 1954 · Aurès / Cabilia)`
+          : `${dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName} (Algérie française — Stato d'Emergenza & Guerra d'Algeria dal 1° Novembre 1954)`,
+        isAuresKabylieFront
+          ? `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1954 (Fronte Aurès–Cabilia — Toussaint Rouge, 1° Novembre 1954): nei massicci dell'Aurès (Batna, Khenchela, Arris) e della Cabilia (Tizi Ouzou, Béjaïa) i moudjahidine del neo-costituito FLN / ALN (Mostefa Ben Boulaïd, Krim Belkacem) scatenano i primi combattimenti e attentati della Guerra d'Algeria contro i presidi dell'Esercito Francese.`
+          : `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1954 (Algérie française — Inizio della Guerra d'Algeria): dopo gli attacchi coordinati del 1° novembre 1954 (Toussaint Rouge) rivendicati dal Fronte di Liberazione Nazionale (FLN), Parigi e il Governatore Generale Roger Léonard dichiarano l'Algeria parte indissolubile della Repubblica avviando le prime operazioni militari contro l'insurrezione nell'Aurès e in Cabilia.`,
+        'Alleati',
+        isAuresKabylieFront
+          ? "Quatrième République Française — Algérie (Teatro Aurès–Cabilia vs FLN / ALN · 1° Nov 1954)"
+          : "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Guerra d'Algeria · Gov. Gen. Roger Léonard, Nov–Dic 1954)"
+      );
+    }
+    if (s >= 30) {
+      const top = getTop('FRA');
+      return makeResult(
+        'FRA',
+        dzMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName,
+        `${dzMeta?.name || rawName} (${dzMeta?.capital || 'Algérie'}) · 31 Dicembre 1953: i dipartimenti francesi d'Algeria (Algeri, Orano, Costantina) e i Territori del Sud permangono sotto ordinaria amministrazione civile della Quarta Repubblica (Governatore Generale Roger Léonard — nessuna Guerra d'Algeria prima del 1° novembre 1954).`,
+        'Alleati',
+        "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Ordinaria Amministrazione Civile · Gov. Gen. Roger Léonard, Dic 1953)"
+      );
+    }
     if (s >= 19) {
       const top = getTop('FRA');
       return makeResult(
@@ -8999,6 +10209,34 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isMoroccoFranceProv) {
     const cleanId = String(ft.id || nid || '').replace(/^MA_/, 'MA').toUpperCase();
     const maMeta = (MOROCCO_PROVINCES_META as any)?.[cleanId];
+    if (s >= 34) {
+      return makeResult(
+        'MAR',
+        `${maMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Regno del Marocco · Re Mohammed V Ago 1957)`,
+        `${maMeta?.name || rawName} (${maMeta?.capital || 'Maroc'}) · 31 Dicembre 1957 (Regno del Marocco Sovrano): dopo la formale integrazione giuridica di Tangeri (1° gennaio 1957), nell'agosto 1957 Mohammed V assume ufficialmente il titolo di Re (Malik) del Marocco. Dal 23 novembre 1957 bande irregolari dell'ALN attaccano Sidi Ifni e il Sahara spagnolo (Guerra d'Ifni; Capo Juby ancora alla Spagna al 31 dic 1957).`,
+        'Neutrale',
+        'Regno del Marocco — Re (Malik) Mohammed V · Capitale Rabat (PM Mbarek Bekkai · Dic 1957)'
+      );
+    }
+    if (s >= 33) {
+      return makeResult(
+        'MAR',
+        `${maMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Stato Sovrano del Marocco · Indipendenza 2 Mar / 7 Apr 1956)`,
+        `${maMeta?.name || rawName} (${maMeta?.capital || 'Maroc'}) · 2 Marzo – 31 Dicembre 1956 (Stato Sovrano del Marocco): con la Dichiarazione congiunta franco-marocchina del 2 marzo 1956 (e la fine del protettorato spagnolo settentrionale il 7 aprile 1956, oltre all'amministrazione de facto di Tangeri dal 29 ottobre), il Marocco riacquista la sovranità sotto il Sultano Mohammed V (assumerà il titolo di Re nell'agosto 1957).`,
+        'Neutrale',
+        'Stato Sovrano del Marocco — Sultano Mohammed V (Rabat · PM Mbarek Bekkay · Indipendenza 2 Mar 1956)'
+      );
+    }
+    if (s >= 32) {
+      const top = getTop('FRA');
+      return makeResult(
+        'FRA',
+        `${maMeta?.historicalName || top.name || p.HISTORICAL_NAME || rawName} (Protettorato Francese · Ritorno di Mohammed V, 16 Nov 1955)`,
+        `${maMeta?.name || rawName} (${maMeta?.capital || 'Maroc'}) · 31 Dicembre 1955 (Protettorato Francese del Marocco — Pre-Indipendenza): dopo la Dichiarazione di La Celle-Saint-Cloud (6 novembre 1955), il Sultano Mohammed V rientra dall'esilio a Rabat il 16 novembre 1955 per negoziare la futura indipendenza (che sarà siglata il 2 marzo 1956). Al 31 dicembre 1955 il Marocco resta ancora formalmente protettorato francese.`,
+        'Alleati',
+        'Quatrième République (Union Française) — Protectorat français au Maroc (Sultano Mohammed V & Résident Général André Dubois · Dic 1955)'
+      );
+    }
     if (s >= 19) {
       const top = getTop('FRA');
       return makeResult(
@@ -9041,6 +10279,33 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
   if (isTunisiaProv) {
     const cleanId = String(ft.id || nid || '').replace(/^TN_/, 'TN').toUpperCase();
     const tnMeta = (TUNISIA_PROVINCES_META as any)?.[cleanId];
+    if (s >= 34) {
+      return makeResult(
+        'TUN',
+        `${tnMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Repubblica di Tunisia — 25 Luglio 1957 · Pres. Habib Bourguiba)`,
+        `${tnMeta?.name || rawName} (${tnMeta?.capital || 'Tunisie'}) · 25 Luglio – 31 Dicembre 1957 (Repubblica di Tunisia): il 25 luglio 1957 l'Assemblea Nazionale Costituente depone il Bey Muhammad VIII al-Amin, abolisce la monarchia e proclama la Repubblica di Tunisia sotto la presidenza di Habib Bourguiba (la Francia conserva ancora la base aeronavale di Biserta).`,
+        'Neutrale',
+        'Repubblica di Tunisia — Presidente Habib Bourguiba (Proclamata il 25 Luglio 1957 · Tunisi)'
+      );
+    }
+    if (s >= 33) {
+      return makeResult(
+        'TUN',
+        `${tnMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Regno di Tunisia · Indipendenza 20 Mar 1956)`,
+        `${tnMeta?.name || rawName} (${tnMeta?.capital || 'Tunisie'}) · 20 Marzo – 31 Dicembre 1956 (Regno di Tunisia Sovrano): con il protocollo franco-tunisino del 20 marzo 1956 cessa il Protettorato e la Tunisia diviene Stato sovrano (monarchia sotto il Bey Muhammad VIII al-Amin con Habib Bourguiba Primo Ministro; la repubblica sarà proclamata solo il 25 luglio 1957; la Francia mantiene la base navale di Biserta).`,
+        'Neutrale',
+        'Regno di Tunisia — Bey Muhammad VIII al-Amin & Primo Ministro Habib Bourguiba (Tunisi · Indipendenza 20 Mar 1956)'
+      );
+    }
+    if (s >= 32) {
+      return makeResult(
+        'FRA',
+        `${tnMeta?.historicalName || 'Protectorat français de Tunisie'} (Autonomia Interna 3 Giu 1955 · Protettorato Francese)`,
+        `${tnMeta?.name || rawName} (${tnMeta?.capital || 'Tunisie'}) · 31 Dicembre 1955 (Protettorato Francese di Tunisia — Convenzioni di Autonomia Interna, 3 Giugno 1955): con il rientro di Habib Bourguiba a Tunisi (1° giugno 1955) e la firma delle convenzioni di autonomia interna franco-tunisine (3 giugno 1955), la Tunisia esercita l'autogoverno interno restando ancora formalmente Protettorato della Repubblica Francese (piena indipendenza solo dal 20 marzo 1956).`,
+        'Alleati',
+        'Quatrième République (Union Française) — Protectorat de Tunisie (Lamine Bey · PM Tahar Ben Ammar · Autonomia Interna 1955)'
+      );
+    }
     if (s >= 19) {
       return makeResult(
         'FRA',
@@ -9096,6 +10361,152 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     const cleanId = String(ft.id || nid || '').replace(/^EG_/, 'EG').toUpperCase();
     const egMeta = (EGYPT_DISTRICTS_META as any)?.[cleanId];
     const egTop = getTop('EGY');
+    const isCanalZone = cleanId === 'EGIS' || cleanId === 'EGSUZ' || cleanId === 'EGPTS';
+    const isSinai = cleanId === 'EGSIN' || cleanId === 'EGJS';
+    if (s >= 34) {
+      if (isSinai) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Sinai Restituito all'Egitto · Ritiro Israeliano Completato il 7–8 Mar 1957 & Caschi Blu UNEF)`,
+          `7–8 Marzo – 31 Dicembre 1957 (${egMeta?.name || rawName} — 100% Repubblica d'Egitto): in seguito al ritiro progressivo israeliano da El Arish (gennaio 1957) fino a Sharm el-Sheikh e Ras Nasrani completato il 7–8 marzo 1957, l'intera Penisola del Sinai torna al 100% sotto sovranità della Repubblica d'Egitto, con il dispiegamento della Forza di Emergenza ONU (UNEF) lungo il confine internazionale e a Sharm el-Sheikh/Stretti di Tiran.`,
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Sinai Restituito Mar 1957 · Caschi Blu UNEF agli Stretti di Tiran)"
+        );
+      }
+      if (isCanalZone) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Canale di Suez Riaperto nell'Aprile 1957 sotto Gestione Egiziana)`,
+          `Aprile – 31 Dicembre 1957 (${egMeta?.name || rawName} — Canale di Suez): ultimato lo sgombero dei relitti affondati durante la crisi del 1956, nell'aprile 1957 il Canale di Suez riapre integralmente al traffico marittimo internazionale sotto piena gestione dell'Autorità Egiziana del Canale di Suez (Pres. Gamal Abdel Nasser).`,
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Autorità del Canale di Suez · Riapertura Aprile 1957)"
+        );
+      }
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Repubblica d'Egitto"} (Repubblica d'Egitto — Sinai Restituito & Suez Riaperto, Dic 1957)`,
+        `31 Dicembre 1957 (${egMeta?.name || rawName} — ${egMeta?.capital || 'Egitto'}): con l'evacuazione israeliana da Gaza e dal Sinai (6–8 marzo 1957) presidiata dall'UNEF e la riapertura del Canale di Suez (aprile 1957), il Presidente Gamal Abdel Nasser consolida l'autorità dell'Egitto nel mondo arabo (ancora Repubblica d'Egitto con bandiera verde 1922 + Lib. 1953 — la RAU nascerà solo nel febbraio 1958).`,
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Presidente Gamal Abdel Nasser · Pre-RAU 1958)"
+      );
+    }
+    if (s >= 33) {
+      if (isSinai) {
+        return makeResult(
+          'ISR',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Penisola del Sinai — Occupazione Militare Israeliana · Guerra del Sinai, Dic 1956)`,
+          `29 Ottobre – 31 Dicembre 1956 (${egMeta?.name || rawName} — Occupazione Israeliana del Sinai): con l'Operazione Kadesh (29 ottobre – 5 novembre 1956) le forze israeliane conquistano la Striscia di Gaza e l'intera Penisola del Sinai fino a Sharm el-Sheikh (Stretto di Tiran). Nonostante il cessate il fuoco e il dispiegamento UNEF lungo il Canale, al 31 dicembre 1956 Israele occupa ancora oltre l'80% del Sinai (evacuazione completata solo tra gennaio e marzo 1957).`,
+          'Neutrale',
+          `Occupazione Militare Israeliana del Sinai (IDF — Post-Operazione Kadesh · Evacuazione Gen–Mar 1957)`
+        );
+      }
+      if (isCanalZone) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Zona del Canale di Suez Nazionalizzata · Evacuazione UK/FRA 22 Dic 1956 & UNEF)`,
+          `31 Dicembre 1956 (${egMeta?.name || rawName} — Zona del Canale di Suez): dopo la nazionalizzazione della Compagnia del Canale (26 luglio 1956) e lo sbarco anglo-francese su Port Said / Port Fuad (5–6 novembre, Operazione Musketeer), il 22 dicembre 1956 Regno Unito e Francia completano il ritiro sotto pressione USA/URSS/ONU; i caschi blu UNEF presidiano il cuscinetto mentre la sovranità egiziana è ristabilita sul Canale bloccato dai relitti.`,
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Pres. Gamal Abdel Nasser · Sovranità Ripristinata sul Canale & Forza ONU UNEF, 22 Dic 1956)"
+        );
+      }
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Repubblica d'Egitto"} (Repubblica d'Egitto — Crisi di Suez & Pres. Gamal Abdel Nasser, Dic 1956)`,
+        `31 Dicembre 1956 (${egMeta?.name || rawName} — ${egMeta?.capital || 'Egitto'}): eletto Presidente con la nuova Costituzione (23 giugno 1956), Gamal Abdel Nasser nazionalizza il Canale di Suez (26 luglio) e resiste politicamente all'attacco tripartito israelo-anglo-francese. Al 31 dicembre UK e Francia hanno evacuato il Canale (22 dicembre, sostituiti dall'UNEF), mentre il Sinai e Gaza restano ancora occupati da Israele.`,
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Presidente Gamal Abdel Nasser · Post-Crisi di Suez, Dic 1956)"
+      );
+    }
+    if (s >= 32) {
+      if (isCanalZone) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Zona del Canale di Suez — Evacuazione Britannica in Corso · Bandung 1955)`,
+          `31 Dicembre 1955 (${egMeta?.name || rawName} — Zona del Canale di Suez): prosegue lo sgombero graduale delle truppe britanniche previsto dall'Accordo del 19 ottobre 1954 (scadenza giugno 1956; il Canale rimane ancora gestito dalla Compagnie Universelle fino alla nazionalizzazione del luglio 1956). Nel 1955 Nasser emerge tra i leader di Bandung e sigla l'accordo cecoslovacco-sovietico sugli armamenti (settembre 1955).`,
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Gamal Abdel Nasser · Evacuazione Canale di Suez in Corso · Dic 1955)"
+        );
+      }
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Repubblica d'Egitto"} (Repubblica d'Egitto — Bandung & Non Allineati 1955 · Nasser)`,
+        `31 Dicembre 1955 (${egMeta?.name || rawName} — ${egMeta?.capital || 'Egitto'}): sotto la guida di Gamal Abdel Nasser, la Repubblica d'Egitto partecipa da protagonista alla Conferenza di Bandung (18–24 aprile 1955), respinge il Patto di Baghdad e annuncia lo storico accordo sugli armamenti con il blocco orientale/Cecoslovacchia (27 settembre 1955).`,
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Gamal Abdel Nasser · Bandung & Accordo Armamenti Set 1955)"
+      );
+    }
+    if (s >= 31) {
+      if (isCanalZone) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Zona del Canale di Suez — Accordo Anglo-Egiziano di Evacuazione del 19 Ottobre 1954)`,
+          `31 Dicembre 1954 (${egMeta?.name || rawName} — Zona del Canale di Suez): il 19 ottobre 1954 il Primo Ministro Gamal Abdel Nasser e il Regno Unito firmano lo storico Accordo sul Canale di Suez che sancisce il ritiro completo delle truppe britanniche entro 20 mesi (da completarsi entro giugno 1956), segnando la svolta nazionalista della Repubblica d'Egitto.`,
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Gamal Abdel Nasser · Accordo Anglo-Egiziano sul Canale di Suez, 19 Ott 1954)"
+        );
+      }
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Repubblica d'Egitto"} (Repubblica d'Egitto — Consolidamento di Gamal Abdel Nasser & Accordo di Suez 1954)`,
+        `31 Dicembre 1954 (${egMeta?.name || rawName} — ${egMeta?.capital || 'Egitto'}): dopo l'Accordo anglo-egiziano su Suez del 19 ottobre 1954 e il fallito attentato di Alessandria (26 ottobre), il Primo Ministro e Presidente del CCR Gamal Abdel Nasser destituisce Muhammad Naguib il 14 novembre 1954 assumendo il pieno controllo dell'Egitto repubblicano (bandiera verde 1922–58 affiancata dalla Bandiera della Liberazione).`,
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Primo Ministro & Capo del CCR Gamal Abdel Nasser · Post-Nov 1954)"
+      );
+    }
+    if (s >= 30) {
+      if (isCanalZone) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Zona del Canale di Suez — Repubblica d'Egitto Proclamata il 18 Giugno 1953 · Negoziati Evacuazione)`,
+          `31 Dicembre 1953 (${egMeta?.name || rawName} — Zona del Canale di Suez): dopo la proclamazione della Repubblica d'Egitto (18 giugno 1953, abolizione della monarchia e deposizione di Re Fuad II), il Presidente e Primo Ministro Gen. Muhammad Naguib e il Vice Primo Ministro Gamal Abdel Nasser conducono tesi negoziati con il Regno Unito sullo sgombero della base britannica del Canale (bandiera verde 1922–58 affiancata dalla Bandiera della Liberazione).`,
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Pres. Muhammad Naguib & Gamal Abdel Nasser · Zona del Canale di Suez, Dic 1953)"
+        );
+      }
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Repubblica d'Egitto"} (Repubblica d'Egitto — Proclamazione del 18 Giugno 1953 · Pres. Muhammad Naguib & Gamal Abdel Nasser)`,
+        `31 Dicembre 1953 (${egMeta?.name || rawName} — ${egMeta?.capital || 'Egitto'}): il 18 giugno 1953 il Consiglio del Comando della Rivoluzione abolisce formalmente la monarchia (deponendo il piccolo Re Fuad II) e proclama la Repubblica d'Egitto con il Gen. Muhammad Naguib primo Presidente e Primo Ministro e Gamal Abdel Nasser Vice Primo Ministro (bandiera nazionale verde del 1922–58 affiancata dalla Bandiera della Liberazione — mai la bandiera RAU del 1958).`,
+        'Neutrale',
+        "Jumhūriyyat Miṣr (Repubblica d'Egitto — Pres. Muhammad Naguib & Vice P.M. Gamal Abdel Nasser, 18 Giu 1953)"
+      );
+    }
+    if (s >= 29) {
+      if (isCanalZone) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Zona del Canale di Suez — Rivoluzione degli Ufficiali Liberi Lug 1952 & Regno d'Egitto sotto Re Fuad II)`,
+          `31 Dicembre 1952 (${egMeta?.name || rawName} — Zona del Canale di Suez): dopo gli scontri sanguinosi di Ismailia del 25 gennaio 1952 e l'Incendio del Cairo (26 gennaio), il colpo di Stato del Movimento degli Ufficiali Liberi (Muhammad Naguib e Gamal Abdel Nasser, 23–26 luglio 1952) porta all'abdicazione di Re Farouk in favore del figlio neonato Re Fuad II sotto Consiglio di Reggenza. Al 31 dicembre 1952 lo Stato resta formalmente il Regno d'Egitto (bandiera verde monarchica) fino alla proclamazione della Repubblica nel giugno 1953.`,
+          'Neutrale',
+          "Al-Mamlakah al-Miṣriyyah (Re Fuad II · Consiglio del Comando della Rivoluzione: Naguib & Nasser) — Zona del Canale di Suez (Dic 1952)"
+        );
+      }
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Regno d'Egitto"} (Rivoluzione degli Ufficiali Liberi del 23–26 Luglio 1952 — Re Fuad II sotto Consiglio di Reggenza & Governo Naguib/Nasser; ancora Regno d'Egitto)`,
+        `31 Dicembre 1952 (${egMeta?.name || rawName} — ${egMeta?.capital || 'Egitto'}): il 23–26 luglio 1952 il colpo di Stato del Movimento degli Ufficiali Liberi (guidato da Muhammad Naguib e Gamal Abdel Nasser) costringe Re Farouk ad abdicare in favore del figlio neonato Re Fuad II sotto Consiglio di Reggenza. Al 31 dicembre 1952 l'Egitto resta formalmente una monarchia (Regno d'Egitto con la bandiera verde a mezzaluna e tre stelle bianche) pur essendo governato de facto dal Consiglio del Comando della Rivoluzione (la Repubblica sarà proclamata solo il 18 giugno 1953).`,
+        'Neutrale',
+        "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Fuad II · Gen. Muhammad Naguib & Ten. Col. Gamal Abdel Nasser, Dic. 1952)"
+      );
+    }
+    if (s >= 28) {
+      if (isCanalZone) {
+        return makeResult(
+          'EGY',
+          `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName} (Zona del Canale di Suez — Abrogazione Trattato del 1936 & Guerriglia Armata contro le Basi Britanniche, Ott–Dic 1951)`,
+          `31 Dicembre 1951 (${egMeta?.name || rawName} — Stato di Guerriglia nella Zona del Canale di Suez): nell'ottobre 1951 il governo wafdista del Primo Ministro Mustafa el-Nahhas Pasha abroga unilateralmente il Trattato Anglo-Egiziano del 1936 e il Condominio sul Sudan del 1899 (proclamando Re Faruq I "Re d'Egitto e del Sudan", titolo non riconosciuto da Londra). Nei governatorati del Canale (Ismailia, Suez, Port Said) esplode la guerriglia armata dei battaglioni di liberazione egiziani e della polizia ausiliaria contro i presidi britannici del Gen. Sir George Erskine (Re Faruq è ancora sul trono; l'Incendio del Cairo avverrà solo il 26 gennaio 1952 e il colpo di Stato degli Ufficiali Liberi il 23 luglio 1952).`,
+          'Neutrale',
+          "Al-Mamlakah al-Miṣriyyah (Re Faruq I · P.M. Mustafa el-Nahhas Pasha) — Zona del Canale di Suez in Stato di Guerriglia (Ott–Dic 1951)"
+        );
+      }
+      return makeResult(
+        'EGY',
+        `${egMeta?.historicalName || p.HISTORICAL_NAME || rawName || "Regno d'Egitto"} (Abrogazione Trattato Anglo-Egiziano del 1936 & Crisi del Canale di Suez, Ott–Dic 1951)`,
+        `31 Dicembre 1951 (${egMeta?.name || rawName} — ${egMeta?.capital || 'Egitto'}): nell'ottobre 1951 l'Egitto abroga unilateralmente il Trattato Anglo-Egiziano del 1936 e il condominio sul Sudan, proclamando Re Faruq I "Re d'Egitto e del Sudan" (titolo non riconosciuto dal Regno Unito, che mantiene l'amministrazione effettiva sul Sudan Anglo-Egiziano) e sostenendo la guerriglia armata nella Zona del Canale di Suez (Ismailia, Suez, Port Said). Re Faruq è ancora regnante (nessun Incendio del Cairo prima del 26 gennaio 1952).`,
+        'Neutrale',
+        "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mustafa el-Nahhas Pasha, Dic. 1951)"
+      );
+    }
     if (s >= 20) {
       return makeResult(
         'EGY',
@@ -9961,47 +11372,75 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       const histName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
       const sovName = p.SOV_NAME || (histName + ' (URSS)');
 
-      if (s >= 16) {
+      const isPitk = nid.includes('270') || nrm.includes('pitk');
+      const isSuoj = nid.includes('290') || nrm.includes('suoj');
+      if (s >= 16 || (s >= 14 && isViipuri) || (s >= 15 && (isPitk || isSuoj))) {
+        const ssrLabel = isPetsamo
+          ? 'SSSR — Murmanskaya oblast (Pečenga)'
+          : isViipuri
+          ? 'SSSR — Leningradskaya oblast (RSFSR)'
+          : isSalla
+          ? s >= 33
+            ? "SSSR — Murmanskaya oblast (Alakurtti) / RSFSR — Karel'skaya ASSR (Paanajärvi)"
+            : s >= 30
+            ? 'SSSR — Murmanskaya oblast (Alakurtti) / Karelo-Finskaya SSR (Paanajärvi)'
+            : 'SSSR — Karelo-Finskaya SSR (Alakurtti & Paanajärvi)'
+          : s >= 33
+          ? "SSSR — RSFSR / Karel'skaya ASSR (Declassata da RSS il 16 Lug 1956 · URSS a 15 Repubbliche)"
+          : 'SSSR — Karelo-Finskaya SSR';
         return makeResult(
           'SOV',
           isPetsamo
-            ? s >= 20
+            ? s >= 33
+              ? "Pečenga / Petsamo (Oblast' di Murmansk RSFSR — URSS a 15 Repubbliche, Dic 1956)"
+              : s >= 20
               ? 'Pečenga / Petsamo (Oblast\' di Murmansk — Nichel & Artico, Dic. 1947)'
               : s >= 19
               ? 'Pečenga / Petsamo (Oblast\' di Murmansk — Trattato di Parigi 1947)'
-              : 'Pechenga / Petsamo (Murmanskaya oblast — URSS)'
+              : 'Pečenga / Petsamo (Oblast\' di Murmansk — URSS)'
+            : s >= 33
+            ? `${sovName} (URSS — ${isViipuri ? 'Leningradskaya Oblast RSFSR' : "RSSA Careliana / RSFSR · Declassamento 16 Lug 1956"})`
             : s >= 20
             ? `${sovName} (URSS — Dic. 1947)`
             : `${sovName}`,
-          s >= 20
+          s >= 33
+            ? isPetsamo
+              ? "31 Dicembre 1956: il Kombinat Pechenganikel nell'ex Petsamo opera sotto l'Oblast' di Murmansk (RSFSR) nell'URSS a 15 Repubbliche federate (dopo il declassamento della RSS Carelo-Finlandese del 16 luglio 1956)."
+              : isViipuri
+              ? "31 Dicembre 1956: ex Istmo Careliano integrato nell'Oblast' di Leningrado (RSFS Russa), mentre il 16 luglio 1956 la limitrofa RSS Carelo-Finlandese viene declassata a RSSA Careliana (URSS da 16 a 15 Repubbliche)."
+              : "16 Luglio – 31 Dicembre 1956: con legge del Soviet Supremo dell'URSS (16 luglio 1956), la RSS Carelo-Finlandese è declassata a Repubblica Autonoma di Carelia (Karel'skaya ASSR) all'interno della RSFS Russa, riducendo l'URSS da 16 a 15 Repubbliche federate."
+            : s >= 20
             ? isPetsamo
               ? 'Dicembre 1947: il Kombinat Pechenganikel (Nikel\'-Zapolyarny) nell\'ex Petsamo opera a pieno ritmo sotto l\'Oblast\' di Murmansk (RSFSR) insieme alle difese artiche sul Mare di Barents.'
-              : 'Dicembre 1947: ratificata dal Trattato di Parigi del 1947, l\'ex fascia finlandese (Istmo Careliano nell\'Oblast\' di Leningrado; Ladoga e Salla nella RSS Carelo-Finlandese) accoglie nuovi coloni sovietici e adotta la riforma del rublo.'
+              : 'Dicembre 1947: ratificata dal Trattato di Parigi del 1947, l\'ex fascia finlandese (Istmo Careliano nell\'Oblast\' di Leningrado; Ladoga e Salla-Paanajärvi nella RSS Carelo-Finlandese) accoglie nuovi coloni sovietici e adotta la riforma del rublo.'
             : s >= 19
             ? 'Settembre 1947: Trattato di Pace di Parigi (10 febbraio 1947) conferma de jure le frontiere dell\'Armistizio di Mosca; ricostruzione industriale e forestale di Vyborg, Sortavala e Pečenga.'
-            : 'Armistizio di Mosca (19 settembre 1944): cessione definitiva alla Sovranità Sovietica (Carelia / Salla / Petsamo).',
+            : s >= 16
+            ? 'Armistizio di Mosca (19 settembre 1944): cessione definitiva alla Sovranità Sovietica (Carelia / Salla-Kuusamo / Petsamo).'
+            : isViipuri
+            ? '20 giugno 1944: nell\'offensiva Vyborg-Petrozavodsk l\'Armata Rossa espugna Viipuri (Vyborg) respingendo l\'esercito finlandese sulla linea d\'arresto VKT (Viipuri-Kuparsaari-Taipale).'
+            : 'Luglio-Agosto 1944: nell\'offensiva Svir\'-Petrozavodsk il Fronte Careliano libera Pitkäranta (10 lug) e Suojärvi (13-14 lug) prima dell\'arresto sulla U-linja a Nietjärvi e a Ilomantsi.',
           'Comintern',
-          isPetsamo ? 'SSSR — Murmanskaya oblast (Pečenga)' : 'SSSR — Karelo-Finskaya SSR / Leningradskaya oblast'
-        );
-      }
-
-      if (s >= 14 && isViipuri) {
-        return makeResult(
-          'SOV',
-          `${sovName} — Vyborg (Offensiva di Carelia, 20 Giugno 1944)`,
-          '20 giugno 1944: nell\'offensiva Vyborg-Petrozavodsk l\'Armata Rossa espugna Viipuri (Vyborg) respingendo l\'esercito finlandese sulla linea d\'arresto VKT (Viipuri-Kuparsaari-Taipale).',
-          'Comintern',
-          'SSSR — Karelo-Finskaya SSR'
+          ssrLabel
         );
       }
 
       if (isPetsamo) {
+        if (s >= 6 && s < 9) {
+          return makeResult(
+            'FIN',
+            'Petsamo (Liinahamari & Kolosjoki — Rybačij Ov. Ceduta)',
+            'Trattato di Mosca (12 marzo 1940): la Finlandia conserva Liinahamari e le miniere di nichel di Kolosjoki, cedendo però all\'URSS la parte occidentale della penisola di Kalastajasaarento (Rybačij).',
+            undefined,
+            'Suomen tasavalta — Petsamon lääni (post-1940)'
+          );
+        }
         return makeResult(
           'FIN',
           histName,
           s >= 9
             ? 'Suomen tasavalta — Petsamon lääni (Jatkosota: Operazione Silberfuchs, base artica tedesco-finlandese sul Mar di Barents)'
-            : 'Suomen tasavalta — Petsamon lääni (Jäämeren yhteys, Tarton rauha 1920-1944)',
+            : 'Suomen tasavalta — Petsamon lääni (Jäämeren yhteys, Tarton rauha 1920 — da Korvatunturi a Kalastajasaarento)',
           s >= 9 ? 'Asse' : undefined
         );
       }
@@ -10011,9 +11450,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'FIN',
           histName,
           s >= 9
-            ? 'Suomen tasavalta — Jatkosota (Riconquista finlandese della Carelia e di Salla nell\'estate-autunno 1941; riannessione formale proclamata dal Parlamento finlandese il 6 dicembre 1941)'
+            ? 'Suomen tasavalta — Jatkosota (Riconquista finlandese della Carelia e di Salla-Kuusamo nell\'estate-autunno 1941; riannessione formale proclamata dal Parlamento finlandese il 6 dicembre 1941)'
             : isSalla
-            ? 'Suomen tasavalta — Salla-Kuusamon alue (1920-1940)'
+            ? 'Suomen tasavalta — Salla-Kuusamon alue (Alakurtti, Kuolajärvi & Paanajärvi, Tarton rauha 1920-1940)'
             : 'Suomen tasavalta — Tarton rauhan historialliset rajat (1920-1940)',
           s >= 9 ? 'Asse' : undefined,
           s >= 9 ? 'Suomen tasavalta — Karjalan palautettu alue (Jatkosota 1941)' : undefined
@@ -10022,8 +11461,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult(
         'SOV',
         sovName,
-        'Moskovan rauhansopimus (12. maaliskuuta 1940) — Luovutettu Neuvostoliitolle',
-        'Comintern'
+        'Moskovan rauhansopimus (12 marzo 1940) — Luovutettu Neuvostoliitolle (RSS Carelo-Finlandese, istituita il 31 marzo 1940)',
+        'Comintern',
+        'SSSR — Karelo-Finskaya SSR'
       );
     }
 
@@ -10036,53 +11476,99 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             ? 'Pečenga / Petsamo (Oblast\' di Murmansk RSFSR — Dic. 1947)'
             : s >= 19
             ? 'Pečenga / Petsamo (URSS — Trattato di Parigi 1947)'
-            : 'Pechenga / Petsamo (URSS — Armistizio di Mosca)',
-          s >= 20
+            : 'Pečenga / Petsamo (URSS — Armistizio di Mosca)',
+          s >= 29
+            ? '1952-1954: il distretto di Pečenga (Oblast\' di Murmansk, RSFSR) presidia il confine artico con la Norvegia (NATO dal 1949) ed espande il combinato Pečenganikel\' a Nikel\' (ex Kolosjoki) e lo scalo libero dai ghiacci di Liinahamari.'
+            : s >= 20
             ? 'Dicembre 1947: il distretto di Pečenga (Oblast\' di Murmansk, RSFSR) alimenta la produzione di nichel artico e consolida lo sbocco sovietico sul Mare di Barents libero dai ghiacci.'
             : s >= 19
             ? 'Settembre 1947: il Trattato di Pace di Parigi (1947) sancisce definitivamente la cessione di Petsamo (Pečenga) e del suo giacimento di nichel all\'Unione Sovietica.'
-            : 'Armistizio di Mosca (19 settembre 1944): la Finlandia cede il corridoio artico di Petsamo all\'URSS.',
+            : s >= 18
+            ? 'Luglio-Settembre 1945: l\'area di Petsamo viene formalmente organizzata nel Pečengskij rajon dell\'Oblast\' di Murmansk (RSFSR) avviando la ricostruzione mineraria sovietica di Nikel\'.'
+            : 'Armistizio di Mosca (19 settembre 1944) e Offensiva Petsamo-Kirkenes (ottobre 1944): l\'Armata Rossa libera Liinahamari e Kolosjoki dalla Wehrmacht e annette il corridoio di Petsamo all\'URSS.',
           'Comintern',
-          'SSSR — Murmanskaya oblast (Pečenga)'
+          'SSSR — Murmanskaya oblast (Pečengskij rajon)'
         );
       }
       if (s < 6) {
         return makeResult(
           'FIN',
           histName,
-          'Suomen tasavalta — Petsamon lääni (Jäämeren yhteys, Tarton rauha 1920-1944)'
+          'Suomen tasavalta — Petsamon lääni (Tarton rauha 1920: da Korvatunturi fino alla metà occidentale di Kalastajasaarento, porto di Liinahamari e nichel di Kolosjoki)'
+        );
+      }
+      if (s < 9) {
+        return makeResult(
+          'FIN',
+          'Petsamo (Liinahamari & Kolosjoki — Rybačij Ov. Ceduta)',
+          'Trattato di Mosca (12 marzo 1940): la Finlandia conserva Liinahamari e il bacino di nichel di Kolosjoki, cedendo all\'URSS la metà occidentale della penisola dei Pescatori (Kalastajasaarento / Rybačij).'
         );
       }
       return makeResult(
         'FIN',
         'Petsamo (Liinahamari)',
-        s >= 9
-          ? 'Suomen tasavalta — Petsamon nikkelikaivokset (Jatkosota & Operazione Silberfuchs: base del Gebirgskorps Norwegen del Gen. Eduard Dietl verso Murmansk)'
-          : 'Suomen tasavalta — Petsamon nikkelikaivokset ja Jäämeren käytävä (1940)',
-        s >= 9 ? 'Asse' : undefined
+        s >= 15
+          ? 'Agosto 1944: il corridoio di Petsamo e i giacimenti di nichel di Kolosjoki restano presidiati dal XIX Gebirgskorps della 20ª Armata tedesca (Gen. Lothar Rendulic) alla vigilia dell\'Operazione Birke e del ritiro finno-sovietico.'
+          : 'Suomen tasavalta — Petsamon nikkelikaivokset (Jatkosota & Operazione Silberfuchs: base del Gebirgskorps Norwegen del Gen. Eduard Dietl verso Murmansk; raid aereo britannico su Liinahamari, luglio 1941)',
+        'Asse',
+        'Suomen tasavalta — Petsamon lääni (Jatkosota / 20. Gebirgs-Armee)'
       );
     }
 
     case 'FIN_KARELIA': {
       const finName = p.HISTORICAL_NAME || p.NUTS_NAME || rawName;
-      const sovName = p.SOV_NAME || (finName + ' (SSSR)');
-      if (s >= 16 || (s >= 14 && (nrm.includes('viipuri') || nrm.includes('vyborg')))) {
-        return makeResult(
-          'SOV',
-          sovName,
-          s >= 16
-            ? 'Armistizio di Mosca (19 settembre 1944) e Trattato di Parigi (1947): conferma delle frontiere del 1940 e cessione della Carelia all\'URSS.'
-            : '20 giugno 1944: perdita di Viipuri (Vyborg) nell\'offensiva sovietica sull\'Istmo e arretramento finlandese sulla linea VKT.',
-          'Comintern',
-          'SSSR — Leningradskaya oblast / Karelo-Finskaya SSR'
-        );
+      const isIsthmusLoss14 = nrm.includes('viipuri') || nrm.includes('vyborg') || nrm.includes('kakisalmi') || nrm.includes('käkisalmi') || nrm.includes('priozersk') || nid.includes('259') || nid.includes('274');
+      const isLadogaLoss15 = nid.includes('270') || nid.includes('290') || nrm.includes('pitk') || nrm.includes('suoj');
+      const isSuojarvi = nid.includes('290') || nrm.includes('suoj');
+      const rawSovName = (p.SOV_NAME || (finName + ' (SSSR)')).replace('RSSA di Carelia', 'RSS Carelo-Finlandese');
+      const baseSovName = isIsthmusLoss14
+        ? rawSovName.replace(
+            '(Oblast di Leningrado / Carelia)',
+            s >= 16 ? '(Oblast\' di Leningrado — RSFSR)' : '(RSS Carelo-Finlandese)'
+          )
+        : rawSovName;
+
+      if (s >= 16 || (s >= 14 && isIsthmusLoss14) || (s >= 15 && isLadogaLoss15)) {
+        const postwarIsthmus = isIsthmusLoss14 && s >= 16;
+        const sovTitle = s >= 20
+          ? `${baseSovName} (URSS — Dic. 1947)`
+          : s >= 19
+          ? `${baseSovName} (URSS — Parigi 1947)`
+          : baseSovName;
+        const sovAdmin = postwarIsthmus
+          ? 'SSSR — Leningradskaya oblast (RSFSR — Trasferito nov. 1944)'
+          : s >= 33
+          ? "SSSR — RSFSR / Karel'skaya ASSR (Declassata da RSS il 16 Lug 1956 · URSS a 15 Repubbliche)"
+          : 'SSSR — Karelo-Finskaya SSR';
+        const sovNote = s >= 33
+          ? postwarIsthmus
+            ? "1956 (Istmo Careliano — Oblast' di Leningrado RSFSR): nel frattempo, il 16 luglio 1956 la limitrofa RSS Carelo-Finlandese viene declassata a RSSA Careliana nella RSFSR, portando l'URSS da 16 a 15 Repubbliche."
+            : "16 Luglio – 31 Dicembre 1956: declassamento costituzionale della RSS Carelo-Finlandese a Repubblica Socialista Sovietica Autonoma Careliana (Karel'skaya ASSR) nella RSFS Russa (URSS da 16 a 15 Repubbliche federate)."
+          : s >= 29
+          ? postwarIsthmus
+            ? '1952-1954: distretti ex finlandesi dell\'Istmo di Carelia integrati nell\'Oblast\' di Leningrado (RSFSR): colonizzazione sovietica, industria forestale e cinta fortificata verso la Finlandia.'
+            : '1952-1954: distretti di Carelia Ladogana e Suojärvi nella RSS Carelo-Finlandese (1940-1956): ricostruzione delle cartiere di Pitkäranta, ferrovia di Sortavala e settore forestale.'
+          : s >= 19
+          ? 'Trattato di Pace di Parigi (10 febbraio 1947) e dopoguerra: conferma de jure delle frontiere dell\'Armistizio di Mosca e integrazione economica nell\'URSS (RSS Carelo-Finlandese / Oblast\' di Leningrado).'
+          : s >= 16
+          ? isSuojarvi
+            ? 'Armistizio di Mosca (19 settembre 1944): conferma delle frontiere del Trattato di Mosca (1940); Suojärvi torna alla RSS Carelo-Finlandese mentre Porosozero resta parte della Carelia sovietica fin dal 1920.'
+            : 'Armistizio di Mosca (19 settembre 1944): conferma delle frontiere del 1940 e cessione definitiva all\'URSS (RSS Carelo-Finlandese; Istmo trasferito all\'Oblast\' di Leningrado nel nov. 1944).'
+          : s === 15 && isLadogaLoss15
+          ? isSuojarvi
+            ? '13-14 luglio 1944: nell\'offensiva Svir\'-Petrozavodsk il Fronte Careliano riconquista Suojärvi; il contrattacco finlandese arresta l\'Armata Rossa nella battaglia d\'accerchiamento di Ilomantsi (26 lug-13 ago 1944).'
+            : '10 luglio 1944: l\'Armata Rossa occupa Salmi e Pitkäranta lungo il Lago Ladoga prima di essere arrestata dalle divisioni finlandesi sulla linea fortificata U-linja nella battaglia di Nietjärvi (15-17 luglio 1944).'
+          : '20 giugno 1944: perdita di Viipuri (Vyborg) nell\'offensiva sovietica sull\'Istmo di Carelia e arretramento finlandese sulla linea difensiva VKT (Tali-Ihantala / Vuoksi).';
+        return makeResult('SOV', sovTitle, sovNote, 'Comintern', sovAdmin);
       }
       if (s < 6 || s >= 9) {
         return makeResult(
           'FIN',
           finName,
           s >= 9
-            ? 'Suomen tasavalta — Jatkosota (Luglio-Settembre 1941): le truppe finlandesi del Maresciallo Mannerheim riconquistano Viipuri (29 agosto 1941), Sortavala, Käkisalmi e l\'intero Istmo di Carelia e Ladoga-Carelia ceduti nel 1940; il 6 dicembre 1941 il Parlamento di Helsinki ne proclama la formale riunificazione alla Finlandia.'
+            ? 'Suomen tasavalta — Jatkosota (Luglio-Settembre 1941): le truppe finlandesi del Maresciallo Mannerheim riconquistano Viipuri (29 agosto 1941), Sortavala, Käkisalmi, Pitkäranta e Suojärvi; il 6 dicembre 1941 il Parlamento di Helsinki ne proclama la formale riunificazione alla Finlandia.'
+            : isSuojarvi
+            ? 'Suomen tasavalta — Raja-Karjala / Tarton rauha 1920 (Suojärvi, Korpiselkä e Tolvajärvi in Finlandia fino al 1940; Porosozero restituita alla Carelia sovietica già a Tartu nel 1920)'
             : 'Suomen tasavalta — Tarton rauhan historialliset rajat (1920-1940)',
           s >= 9 ? 'Asse' : undefined,
           s >= 9 ? 'Suomen tasavalta — Viipurin lääni (Palautettu Karjala 1941)' : undefined
@@ -10090,21 +11576,38 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       }
       return makeResult(
         'SOV',
-        sovName,
-        'Moskovan rauhansopimus (12. maaliskuuta 1940) — Luovutettu Neuvostoliitolle'
+        baseSovName,
+        'Moskovan rauhansopimus (12 marzo 1940) — Territorio ceduto all\'URSS e incorporato il 31 marzo 1940 nella nuova RSS Carelo-Finlandese (Karelo-Finskaja SSR)',
+        'Comintern',
+        'SSSR — Karelo-Finskaya SSR'
       );
     }
 
     case 'FIN_SALLA': {
-      const finName = p.HISTORICAL_NAME || p.NUTS_NAME || 'Itä-Salla ja Alakurtti (Kuolajärvi / Märkäjärvi)';
-      const sovName = p.SOV_NAME || 'Alakurtin piiri (SSSR)';
+      const finName = 'Salla–Kuusamo Orientale (Alakurtti, Kuolajärvi & Paanajärvi)';
+      const sovName =
+        s >= 33
+          ? "Alakurtti (Oblast' di Murmansk RSFSR) & Paanajärvi (RSSA Careliana / RSFSR · 16 Lug 1956)"
+          : s >= 30
+          ? 'Alakurtti (Oblast\' di Murmansk) & Paanajärvi (RSS Carelo-Finlandese)'
+          : 'Distretto di Salla–Alakurtti & Paanajärvi (RSS Carelo-Finlandese / URSS)';
       if (s >= 16) {
         return makeResult(
           'SOV',
           sovName,
-          'Armistizio di Mosca (19 settembre 1944): riconferma della cessione del settore di Salla orientale e Alakurtti all\'URSS.',
+          s >= 33
+            ? "16 Luglio – 31 Dicembre 1956: Alakurtti permane nell'Oblast' di Murmansk (RSFSR), mentre Paanajärvi passa con la ex RSS Carelo-Finlandese nella RSSA Careliana (Karel'skaya ASSR — RSFS Russa, URSS a 15 Repubbliche)."
+            : s >= 30
+            ? '1953-1954: riorganizzazione amministrativa del settore di frontiera: l\'area settentrionale di Alakurtti/Kuolajärvi passa al distretto di Kandalakša (Oblast\' di Murmansk, RSFSR), mentre Paanajärvi/Kuusamo Est rimane nella RSS Carelo-Finlandese.'
+            : s >= 19
+            ? 'Trattato di Pace di Parigi (10 febbraio 1947) e dopoguerra: confermata la cessione del saliente di Salla (Alakurtti, Vecchia Salla) e Kuusamo Orientale (Paanajärvi) alla RSS Carelo-Finlandese dell\'URSS.'
+            : 'Armistizio di Mosca (19 settembre 1944): riconferma della cessione di Salla Orientale (Alakurtti) e Kuusamo Orientale (Paanajärvi) all\'URSS; ritirata tedesca del XXXVI Gebirgskorps lungo Kairala.',
           'Comintern',
-          'SSSR — Murmanskaya oblast / Karelo-Finskaya SSR'
+          s >= 33
+            ? "SSSR — Murmanskaya oblast (Alakurtti) / RSFSR — Karel'skaya ASSR (Paanajärvi · 16 Lug 1956)"
+            : s >= 30
+            ? 'SSSR — Murmanskaya oblast (Alakurtti) / Karelo-Finskaya SSR (Paanajärvi)'
+            : 'SSSR — Karelo-Finskaya SSR (Alakurtti & Kesten\'ga)'
         );
       }
       if (s < 6 || s >= 9) {
@@ -10112,16 +11615,133 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           'FIN',
           finName,
           s >= 9
-            ? 'Suomen tasavalta — Jatkosota (Luglio-Settembre 1941): riconquista finlandese-tedesca (Operazione Polarfuchs, XXXVI Corpo tedesco e 6ª Divisione finlandese) di Salla orientale e Alakurtti lungo la direttrice di Kandalaksha.'
-            : 'Suomen tasavalta — Salla-Kuusamon alue (1920-1940)',
+            ? 'Suomen tasavalta — Jatkosota (Luglio-Settembre 1941): riconquista finlandese-tedesca (Operazione Polarfuchs: XXXVI Corpo tedesco e 6ª Divisione finlandese su Vecchia Salla-Alakurtti; III Corpo finlandese su Paanajärvi-Kiestinki); il fronte si arresta sul fiume Verman (Vermanjoki) ad ovest di Kovdor e Kandalakša.'
+            : 'Suomen tasavalta — Salla-Kuusamon alue (Tarton rauha 1920-1940: include Vecchia Salla/Kuolajärvi, Alakurtti e la sponda orientale di Kuusamo fino al lago Paanajärvi)',
           s >= 9 ? 'Asse' : undefined,
-          s >= 9 ? 'Suomen tasavalta — Sallan palautettu alue (Jatkosota 1941)' : undefined
+          s >= 9 ? 'Suomen tasavalta — Salla-Kuusamon palautettu alue (Jatkosota 1941)' : undefined
         );
       }
       return makeResult(
         'SOV',
         sovName,
-        'Moskovan rauhansopimus (12. maaliskuuta 1940) — Luovutettu Neuvostoliitolle'
+        'Moskovan rauhansopimus (12 marzo 1940) — Ceduto all\'URSS e incorporato il 31 marzo 1940 nella RSS Carelo-Finlandese (Alakurtti / Kuolajärvi & Paanajärvi)',
+        'Comintern',
+        'SSSR — Karelo-Finskaya SSR'
+      );
+    }
+
+    case 'FIN_RYBACHY': {
+      if (s < 6) {
+        return makeResult(
+          'FIN',
+          'Kalastajasaarento Ovest (Vaitolahti / Pummanki — Rybačij Occidentale)',
+          'Suomen tasavalta — Petsamon lääni (Tarton rauha 1920): metà occidentale finlandese delle penisole di Srednyj e Kalastajasaarento (Rybačij) fino all\'istmo di Pummanki e capo Nemetsky.',
+          undefined,
+          'Suomen tasavalta — Petsamon lääni'
+        );
+      }
+      return makeResult(
+        'SOV',
+        s >= 19
+          ? 'Poluostrov Rybačij & Srednyj (Oblast\' di Murmansk RSFSR — Parigi 1947)'
+          : 'Poluostrov Rybačij & Srednyj (Oblast\' di Murmansk — URSS)',
+        s >= 19
+          ? '1947–1954: presidio costiero permanente della Flotta del Nord sovietica sulle penisole di Srednyj e Rybačij (Oblast\' di Murmansk, RSFSR) a chiusura del golfo di Motovskij e delle rotte artiche.'
+          : s >= 16
+          ? 'Armistizio di Mosca (19 settembre 1944) e Offensiva Petsamo–Kirkenes (ott. 1944): dalle posizioni inespugnate di Srednyj e Rybačij le brigate navali della Flotta del Nord sbarcano a Maattivuono e Liinahamari.'
+          : s >= 9
+          ? 'Fronte Artico (1941–1944): ceduta all\'URSS già nel marzo 1940, la parte occidentale di Rybačij e Srednyj NON fu mai riconquistata dalle forze tedesco-finlandesi e rimase eroico caposaldo della Flotta del Nord sovietica per tutta la guerra.'
+          : 'Articolo 2 del Trattato di Pace di Mosca (12 marzo 1940): la Finlandia cede all\'URSS la parte occidentale delle penisole dei Pescatori (Kalastajasaarento / Rybačij) e di Srednyj a garanzia navale di Murmansk.',
+        'Comintern',
+        s >= 9 && s < 16
+          ? 'Severnyj Flot (Flotta del Nord URSS) — Zona Difensiva Srednyj-Rybačij'
+          : 'SSSR — Murmanskaya oblast (Pečengskij rajon / Rybačij)'
+      );
+    }
+
+    case 'FIN_HANKO': {
+      if (s >= 6 && s < 9) {
+        return makeResult(
+          'SOV',
+          'Base Navale Sovietica di Hanko (Voenno-morskaja baza Chanko)',
+          'Articolo 4 del Trattato di Mosca (12 marzo 1940): la Finlandia concede in affitto trentennale all\'URSS la penisola di Hanko (Hangö udd) e le isole prospicienti come base militare e aeronavale sovietica sul Baltico (circa 30.000 uomini di guarnigione fino al dicembre 1941).',
+          'Comintern',
+          'SSSR — Voenno-morskaja baza Chanko (Affitto militare 1940–1941)'
+        );
+      }
+      return makeResult(
+        'FIN',
+        s >= 9 && s < 16
+          ? 'Hanko / Hangö (Liberata — Evacuazione Sovietica 2 Dic. 1941)'
+          : 'Penisola di Hanko (Hangö udd)',
+        s >= 16
+          ? 'Dopo l\'Armistizio di Mosca (19 settembre 1944), l\'URSS rinuncia definitivamente all\'affitto di Hanko sostituendolo con la base navale di Porkkala più vicina a Helsinki; Hanko resta pienamente finlandese.'
+          : s >= 9
+          ? 'Il 2 dicembre 1941 la guarnigione sovietica completa l\'evacuazione marittima della base di Hanko assediata verso Kronštadt e Leningrado; la penisola viene reintegrata nella sovranità finlandese.'
+          : 'Suomen tasavalta — Uudenmaan lääni (Hanko / Hangö): porto d\'inverno finlandese e fortezza costiera di Russarö all\'ingresso del Golfo di Finlandia.',
+        s >= 9 && s < 16 ? 'Asse' : s === 16 || s === 17 ? 'Alleati' : undefined,
+        s >= 18
+          ? 'Suomen tasavalta — Uudenmaan lääni (Hanko)'
+          : s >= 9
+          ? 'Suomen tasavalta — Uudenmaan lääni (Hanko Riconquistata 1941)'
+          : 'Suomen tasavalta — Uudenmaan lääni'
+      );
+    }
+
+    case 'FIN_SUURSAARI': {
+      if (s < 6) {
+        return makeResult(
+          'FIN',
+          'Suursaari (Hogland), Tytärsaari, Lavansaari & Seiskari (Isole Esterne)',
+          'Suomen tasavalta — Viipurin lääni (Suomenlahden ulkosaaret): isole esterne del Golfo di Finlandia smilitarizzate dal Trattato di Tartu (1920), vitali per la pesca e le rotte del Golfo.',
+          undefined,
+          'Suomen tasavalta — Viipurin lääni'
+        );
+      }
+      if (s >= 10 && s < 16) {
+        return makeResult(
+          'FIN',
+          'Suursaari (Hogland) & Tytärsaari — Operazione Tytärsaari (FIN/Asse 1942–44)',
+          '27–30 marzo 1942: truppe finlandesi del Gruppo Pajari conquistano Suursaari (Hogland) e Tytärsaari attraverso il Golfo di Finlandia ghiacciato, istituendo sbarramenti navali e mine anti-sommergibile a blocco della Flotta del Baltico sovietica (mentre Lavansaari e Seiskari restano capisaldi avanzati URSS).',
+          'Asse',
+          'Suomen tasavalta — Suomenlahden saaristo (Jatkosota 1942–1944)'
+        );
+      }
+      return makeResult(
+        'SOV',
+        s >= 19
+          ? 'Gogland (Suursaari), Bol\'šoj Tjuters & Lavansaari (Oblast\' di Leningrado — Parigi 1947)'
+          : 'Ostrova Finskogo zaliva (Gogland / Suursaari — URSS)',
+        s >= 16
+          ? 'Armistizio di Mosca (19 settembre 1944) e Trattato di Parigi (1947): dopo il fallito sbarco tedesco Operazione Tanne Ost su Suursaari (15 sett. 1944), le isole esterne del Golfo tornano definitivamente all\'Unione Sovietica (Oblast\' di Leningrado).'
+          : 'Articolo 2 del Trattato di Pace di Mosca (12 marzo 1940): la Finlandia cede all\'URSS tutte le isole esterne del Golfo di Finlandia (Suursaari/Hogland, Tytärsaari, Lavansaari, Peninsaari e Seiskari) a difesa di Kronštadt.',
+        'Comintern',
+        'SSSR — Leningradskaya oblast (Kingiseppskij rajon)'
+      );
+    }
+
+    case 'FIN_PORKKALA': {
+      if (s >= 16) {
+        return makeResult(
+          'SOV',
+          s >= 20
+            ? 'Base Navale di Porkkala-Udd (Affitto Militare URSS 1944–1956)'
+            : 'Porkkala-Udd (Area Militare Sovietica — Armistizio di Mosca 1944)',
+          s >= 19
+            ? '1947–1954: in base all\'Armistizio di Mosca (1944) e al Trattato di Parigi (1947), l\'URSS detiene in affitto cinquantennale la penisola di Porkkala (solo 30 km a SW di Helsinki) come base aeronavale strategica a controllo del Golfo di Finlandia; verrà restituita alla Finlandia solo nel gennaio 1956.'
+            : 'Articolo 8 dell\'Armistizio di Mosca (19 settembre 1944): in sostituzione di Hanko, la Finlandia concede in affitto all\'URSS la penisola di Porkkala per 50 anni; evacuazione dell\'intera popolazione civile finlandese.',
+          'Comintern',
+          'SSSR — Voenno-morskaja baza Porkkala (Affitto 1944–1956)'
+        );
+      }
+      return makeResult(
+        'FIN',
+        'Penisola di Porkkala (Porkkalanniemi — Uusimaa)',
+        s >= 9
+          ? 'Suomen tasavalta — Uudenmaan lääni: costa rurale e arcipelago a sud-ovest di Helsinki lungo la ferrovia costiera Rantarata.'
+          : 'Suomen tasavalta — Uudenmaan lääni (Kirkkonummi / Degerby — Porkkala)',
+        s >= 9 ? 'Asse' : undefined,
+        'Suomen tasavalta — Uudenmaan lääni'
       );
     }
 
@@ -10467,14 +12087,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         if (s >= 17) {
           return makeResult(
             'POL',
-            s >= 18
+            s >= 29
+              ? 'Gdańsk / Danzica (Repubblica Popolare Polacca — PRL, Costituzione 22 Luglio 1952 · Voivodato di Danzica)'
+              : s >= 18
               ? 'Gdańsk / Danzica (Repubblica di Polonia — Voivodato di Danzica)'
               : 'Gdańsk / Danzica Liberata (Amministrazione Polacca — Voivodato di Danzica)',
-            s >= 18
+            s >= 29
+              ? '31 Dicembre 1952: con la Costituzione del 22 luglio 1952 Gdańsk (Voivodato di Danzica) appartiene alla Repubblica Popolare Polacca (Polska Rzeczpospolita Ludowa — PRL).'
+              : s >= 18
               ? 'Conferenza di Potsdam (agosto 1945): l\'ex Città Libera di Danzica (Gdańsk) è pienamente integrata nella Repubblica di Polonia.'
               : 'Il 30 marzo 1945 il 2° Fronte Bielorusso e la 1ª Brigata Corazzata Polacca liberano Danzica; istituito il Voivodato polacco di Gdańsk.',
-            'Alleati',
-            s >= 18 ? 'Rzeczpospolita Polska — Województwo Gdańskie' : 'Polonia — Rząd Tymczasowy Rzeczypospolitej Polskiej'
+            s >= 19 ? 'Comintern' : 'Alleati',
+            s >= 29
+              ? 'Polska Rzeczpospolita Ludowa (PRL) — Województwo Gdańskie (Costituzione 22 Lug 1952)'
+              : s >= 18
+              ? 'Rzeczpospolita Polska — Województwo Gdańskie'
+              : 'Polonia — Rząd Tymczasowy Rzeczypospolitej Polskiej'
           );
         }
         if (s < 5) {
@@ -10503,10 +12131,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         if (s >= 17) {
           return makeResult(
             'POL',
-            'Gdynia / Pomorskie (Corridoio Polacco Liberato)',
-            'Marzo-Aprile 1945: liberazione di Gdynia e del litorale della Pomerania da parte del 2° Fronte Bielorusso e delle forze polacche; ripristino della sovranità nazionale.',
-            'Alleati',
-            'Rzeczpospolita Polska — Województwo Gdańskie / Pomorskie'
+            s >= 33
+              ? 'Gdynia / Pomorskie (PRL — Ottobre Polacco 1956 · Governo Władysław Gomułka)'
+              : s >= 29
+              ? 'Gdynia / Pomorskie (Repubblica Popolare Polacca — PRL, Costituzione 22 Luglio 1952)'
+              : 'Gdynia / Pomorskie (Corridoio Polacco Liberato)',
+            s >= 33
+              ? '19–21 Ottobre – 31 Dicembre 1956 (Ottobre Polacco): dopo i moti operai di Poznań (giugno 1956), Władysław Gomułka torna alla guida del PZPR avviando la destalinizzazione interna e l\'allontanamento del maresciallo sovietico Rokossovskij, pur restando nel Patto di Varsavia.'
+              : s >= 29
+              ? '31 Dicembre 1952: Gdynia e la Pomerania polacca fanno parte della Repubblica Popolare Polacca (Polska Rzeczpospolita Ludowa — PRL, Costituzione del 22 luglio 1952).'
+              : 'Marzo-Aprile 1945: liberazione di Gdynia e del litorale della Pomerania da parte del 2° Fronte Bielorusso e delle forze polacche; ripristino della sovranità nazionale.',
+            s >= 19 ? 'Comintern' : 'Alleati',
+            s >= 33
+              ? 'Polska Rzeczpospolita Ludowa (PRL · Gomułka — Ottobre Polacco 1956 · Patto di Varsavia)'
+              : s >= 29
+              ? 'Polska Rzeczpospolita Ludowa (PRL) — Województwo Gdańskie'
+              : 'Rzeczpospolita Polska — Województwo Gdańskie / Pomorskie'
           );
         }
         if (s < 5) {
@@ -10532,17 +12172,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
       // Territori tedeschi pre-1939 (Bassa Slesia, Alta Slesia tedesca, Pomerania occidentale, Grenzmark, Prussia Orientale)
       const isPreWarGerman = (
-        nid.startsWith('PL51') ||          // Breslau / Niederschlesien
-        nid.startsWith('PL52') ||          // Oppeln / Oberschlesien
-        nid === 'PL228' ||                 // Beuthen O.S.
-        nid === 'PL229' ||                 // Gleiwitz O.S.
-        nid.startsWith('PL42') ||          // Stettin / Pommern
-        nid === 'PL636' ||                 // Stolp / Pommern
-        nid.startsWith('PL43') ||          // Landsberg / Grünberg / Brandenburg
-        nid === 'PL411' ||                 // Schneidemühl / Grenzmark
+        nid.startsWith('PL51') ||           // Breslau / Niederschlesien
+        nid.startsWith('PL52') ||           // Oppeln / Oberschlesien
+        nid === 'PL228' ||                  // Beuthen O.S.
+        nid === 'PL229' ||                  // Gleiwitz O.S.
+        nid === 'DE_RATIBOR_OBERSCHLESIEN' || // Ratibor / Racibórz (Oberschlesien)
+        nid.startsWith('PL42') ||           // Stettin / Pommern
+        nid === 'PL636' ||                  // Stolp / Pommern
+        nid.startsWith('PL43') ||           // Landsberg / Grünberg / Brandenburg
+        nid === 'PL411' ||                  // Schneidemühl / Grenzmark
         nid === 'DE_SCHLOCHAU_GRENZMARK' || // Schlochau / Grenzmark
-        nid === 'DE_HIST_MARIENWERDER' ||  // Marienwerder & Marienburg / Ostpreußen Westpreußen
-        nid.startsWith('PL62')             // Allenstein, Elbing, Lyck / Ostpreußen
+        nid === 'DE_HIST_MARIENWERDER' ||   // Marienwerder & Marienburg / Ostpreußen Westpreußen
+        nid.startsWith('PL62')              // Allenstein, Elbing, Lyck / Ostpreußen
       );
 
       if (isPreWarGerman) {
@@ -10550,10 +12191,22 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           const cleanPl = rawName || 'Ziemie Odzyskane';
           return makeResult(
             'POL',
-            `${cleanPl} (Ziemie Odzyskane — Linea Oder-Neisse / Polonia)`,
-            'Conferenza di Potsdam (agosto 1945): territori ad est della Linea Oder-Neisse amministrati e ripopolati dalla Repubblica di Polonia (Ziemie Odzyskane).',
-            'Alleati',
-            'Rzeczpospolita Polska — Ministerstwo Ziem Odzyskanych'
+            s >= 33
+              ? `${cleanPl} (PRL — Ottobre Polacco 1956 · Governo Władysław Gomułka · Linea Oder-Neisse)`
+              : s >= 29
+              ? `${cleanPl} (Repubblica Popolare Polacca — PRL, Costituzione 22 Luglio 1952 · Linea Oder-Neisse)`
+              : `${cleanPl} (Ziemie Odzyskane — Linea Oder-Neisse / Polonia)`,
+            s >= 33
+              ? '19–21 Ottobre – 31 Dicembre 1956 (Ottobre Polacco): dopo la morte di Bierut e i moti di Poznań (giugno 1956), Władysław Gomułka torna Segretario del PZPR avviando la destalinizzazione e il rimpatrio dei consiglieri militari sovietici (maresciallo Rokossovskij), consolidando i territori occidentali sulla Linea Oder-Neisse all\'interno del Patto di Varsavia.'
+              : s >= 29
+              ? '31 Dicembre 1952: territori ad est della Linea Oder-Neisse integrati nella Repubblica Popolare Polacca (Polska Rzeczpospolita Ludowa — PRL, Costituzione del 22 luglio 1952; confine Oder-Neisse riconosciuto dalla RDT nel Trattato di Zgorzelec del 1950).'
+              : 'Conferenza di Potsdam (agosto 1945): territori ad est della Linea Oder-Neisse amministrati e ripopolati dalla Repubblica di Polonia (Ziemie Odzyskane).',
+            s >= 19 ? 'Comintern' : 'Alleati',
+            s >= 33
+              ? 'Polska Rzeczpospolita Ludowa (PRL · 1° Segr. Władysław Gomułka — Ottobre Polacco 1956)'
+              : s >= 29
+              ? 'Polska Rzeczpospolita Ludowa (PRL — Costituzione del 22 Luglio 1952 · Bolesław Bierut)'
+              : 'Rzeczpospolita Polska — Ministerstwo Ziem Odzyskanych'
           );
         }
         if (s === 17) {
@@ -10578,7 +12231,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           }
           const isPomWest = nid === 'PL424' || nid.startsWith('PL42') || nid === 'PL636' || nid === 'DE_SCHLOCHAU_GRENZMARK' || nrm.includes('szczecin') || nrm.includes('stettin') || nrm.includes('koszalin') || nrm.includes('slupsk') || nrm.includes('kolobrzeg') || nrm.includes('schlochau');
           const isEastPrussiaSouth = nid.startsWith('PL62') || nid === 'DE_HIST_MARIENWERDER' || nrm.includes('olsztyn') || nrm.includes('elblag') || nrm.includes('elk') || nrm.includes('allenstein') || nrm.includes('marienwerder') || nrm.includes('marienburg');
-          const isSilesiaCore = nid.startsWith('PL5') || nid === 'PL228' || nid === 'PL229' || nrm.includes('opole') || nrm.includes('legnic') || nrm.includes('gliwic') || nrm.includes('bytom');
+          const isSilesiaCore = nid.startsWith('PL5') || nid === 'PL228' || nid === 'PL229' || nid === 'DE_RATIBOR_OBERSCHLESIEN' || nrm.includes('opole') || nrm.includes('legnic') || nrm.includes('gliwic') || nrm.includes('bytom') || nrm.includes('ratibor') || nrm.includes('raciborz');
           const sectorDesc = isEastPrussiaSouth
             ? 'Gennaio-Marzo 1945: la Masuria e la Prussia Orientale meridionale (Olsztyn/Allenstein, Elbląg, Ełk) vengono conquistate dal 2° e 3° Fronte Bielorusso dell\'Armata Rossa.'
             : isPomWest
@@ -10644,7 +12297,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             nid.startsWith('PL82') ||
             nid.startsWith('PL84') ||
             nrm.includes('lubel') ||
-            nrm.includes('lublin') ||
+            /\blublin\b/.test(nrm) ||
             nrm.includes('bialystok') ||
             nrm.includes('rzeszow')
           ) {
@@ -10675,7 +12328,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             nid.startsWith('PL84') ||
             nrm === 'praga' ||
             nrm.includes('praga') ||
-            nrm.includes('lublin') ||
+            /\blublin\b/.test(nrm) ||
             nrm.includes('lubel') ||
             nrm.includes('rzeszow') ||
             nrm.includes('bialystok')
@@ -10708,14 +12361,18 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         }
         return makeResult(
           'POL',
-          `${rawName || 'Polska'} (${s >= 19 ? 'Repubblica di Polonia' : s === 18 ? 'Repubblica di Polonia — Rząd Jedności Narodowej' : 'Polonia Liberata'})`,
-          s >= 19
+          `${rawName || 'Polska'} (${s >= 33 ? 'PRL — Ottobre Polacco 1956 · Władysław Gomułka & Fine Stalinismo' : s >= 29 ? 'Repubblica Popolare Polacca — Polska Rzeczpospolita Ludowa / PRL, Costituzione del 22 Luglio 1952' : s >= 19 ? 'Repubblica di Polonia' : s === 18 ? 'Repubblica di Polonia — Rząd Jedności Narodowej' : 'Polonia Liberata'})`,
+          s >= 33
+            ? '19–21 Ottobre – 31 Dicembre 1956 (Ottobre Polacco): dopo la rivolta operaia di Poznań (28–30 giugno 1956), Władysław Gomułka torna alla guida del PZPR (VIII Plenum) ottenendo l\'allontanamento del maresciallo sovietico Konstantin Rokossovskij e la fine dello stalinismo interno, mantenendo la PRL nel Patto di Varsavia.'
+            : s >= 29
+            ? '31 Dicembre 1952: con l\'adozione della nuova Costituzione socialista del 22 luglio 1952, lo Stato polacco cambia denominazione ufficiale da Repubblica di Polonia a Repubblica Popolare Polacca (Polska Rzeczpospolita Ludowa — PRL) sotto Bolesław Bierut e il Consiglio di Stato presieduto da Aleksander Zawadzki.'
+            : s >= 19
             ? 'Settembre 1947: territorio della Repubblica di Polonia entro i nuovi confini postbellici sull\'Oder-Neisse.'
             : s === 18
             ? 'Settembre 1945: Repubblica di Polonia restaurata sotto il Governo Provvisorio di Unità Nazionale.'
             : 'Primavera 1945: liberazione del territorio polacco nell\'Offensiva Vistola-Oder e insediamento del governo provvisorio polacco.',
-          'Alleati',
-          'Rzeczpospolita Polska'
+          s >= 19 ? 'Comintern' : 'Alleati',
+          s >= 33 ? 'Polska Rzeczpospolita Ludowa (PRL · 1° Segr. Władysław Gomułka — Ottobre Polacco 1956 · Patto di Varsavia)' : s >= 29 ? 'Polska Rzeczpospolita Ludowa (PRL — Costituzione del 22 Luglio 1952 · Bolesław Bierut)' : 'Rzeczpospolita Polska'
         );
       }
 
@@ -10767,6 +12424,21 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           topAus.adminTitle || 'Bundesstaat Österreich (Ständestaat)'
         );
       }
+      if (s >= 32) {
+        const topAus32 = resolveSwissAustrianToponym(nid, rawName, nrm, 'AUS', s);
+        const isWien32 = nid === 'AT130' || nrm.includes('wien') || nrm.includes('vienna');
+        return makeResult(
+          'AUS',
+          isWien32
+            ? "Wien — Vienna (Capitale della Repubblica d'Austria Sovrana e Neutrale · Fine Settori Quadripartiti, 1955)"
+            : `${topAus32?.name || rawName || 'Österreich'} (Repubblica d'Austria Sovrana e Neutrale — Staatsvertrag 15 Mag / 27 Lug & Neutralità Permanente 26 Ott 1955)`,
+          topAus32?.note ||
+            "31 Dicembre 1955 (100% Repubblica d'Austria Sovrana e Neutrale): con l'entrata in vigore del Trattato di Stato Austriaco il 27 luglio 1955 (firmato il 15 maggio al Belvedere di Vienna), cessano le quattro zone d'occupazione alleate (USA, Regno Unito, Francia, URSS) e i quattro settori di Vienna; entro ottobre 1955 tutte le truppe straniere lasciano il Paese, il 26 ottobre il Parlamento approva la Legge Costituzionale sulla Neutralità Permanente e il 14 dicembre l'Austria entra all'ONU.",
+          'Neutrale',
+          topAus32?.adminTitle ||
+            'Republik Österreich — Souveräne und Immerwährend Neutrale Republik (Staatsvertrag 1955 · Pres. Theodor Körner · Canc. Julius Raab)'
+        );
+      }
       if (s >= 18) {
         const isSovietZone =
           nid === 'AT313' ||
@@ -10807,7 +12479,10 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           ausZone,
           `${topAusPost?.name || rawName || 'Österreich'} (${zoneLabel})`,
-          topAusPost?.note || `Repubblica d'Austria — ${zoneLabel} sotto il controllo della Commissione Alleata per l'Austria (ACA).`,
+          (topAusPost?.note || `Repubblica d'Austria — ${zoneLabel} sotto il controllo della Commissione Alleata per l'Austria (ACA).`) +
+            (s >= 31
+              ? ' Al 31 dicembre 1954 l\'Austria e Vienna permangono sotto occupazione quadripartita alleata (il Trattato di Stato Austriaco verrà firmato solo il 15 maggio 1955).'
+              : ''),
           'Alleati',
           topAusPost?.adminTitle || `Republik Österreich — ${zoneLabel}`
         );
@@ -11077,6 +12752,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           bTop.owner === 'SOV' ? 'Comintern' : s >= 19 ? 'Comintern' : s >= 18 ? 'Alleati' : 'Asse';
         return makeResult(bTop.owner, bTop.name, bTop.note, hFac, bTop.adminTitle);
       }
+      if (s >= 34) {
+        return makeResult(
+          'HUN',
+          'Magyar Népköztársaság (Governo János Kádár · Legge Costituzionale II del 23 Maggio 1957)',
+          "23 Maggio – 31 Dicembre 1957 (Repubblica Popolare Ungherese): consolidato il governo Kádár con la presenza militare sovietica (accordo del 27 maggio 1957), la Legge II/1957 formalizza costituzionalmente sulla bandiera nazionale il puro tricolore rosso-bianco-verde privo di emblema centrale.",
+          'Comintern',
+          'Magyar Népköztársaság — Governo János Kádár (Legge II/1957 · Bandiera Tricolore Pura)'
+        );
+      }
+      if (s >= 33) {
+        return makeResult(
+          'HUN',
+          'Magyar Népköztársaság (Rivoluzione Ungherese 23 Ott – 11 Nov 1956 · Operazione Turbine & Governo Kádár)',
+          "23 Ottobre – 31 Dicembre 1956 (Repubblica Popolare Ungherese): la rivolta popolare a Budapest porta al governo Imre Nagy (ritiro dal Patto di Varsavia annunciato il 1° novembre), represso il 4–11 novembre dall'intervento militare sovietico (Operazione Turbine) con insediamento del governo János Kádár; abolito definitivamente lo stemma staliniano di Rákosi dalla bandiera.",
+          'Comintern',
+          'Magyar Népköztársaság — Governo János Kádár (Post-Rivoluzione 1956)'
+        );
+      }
       const top = bTop || getTop('HUN');
       return makeResult(
         'HUN',
@@ -11095,6 +12788,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       const bTop = resolveBalkansToponym(nid, rawName, nrm, 'ROM', s);
       const roOwner = bTop?.owner || 'ROM';
       const top = bTop || getTop(roOwner);
+      if (s >= 29) {
+        return makeResult(
+          'ROM',
+          `${(bTop?.name || 'Republica Populară Română').replace('Regatul României', 'Republica Populară Română').replace(/\s*\([^)]*30 Dicembre 1947[^)]*\)/, '')} (Repubblica Popolare Rumena — Nuova Costituzione Socialista e Stemma con Stella Rossa del 24 Settembre 1952)`,
+          '24 Settembre – 31 Dicembre 1952: la Grande Assemblea Nazionale adotta la nuova Costituzione socialista della Repubblica Popolare Rumena (RPR) del 24 settembre 1952 (sotto il Primo Ministro Gheorghe Gheorghiu-Dej e il Presidente del Presidium Petru Groza), aggiornando lo stemma sulla bandiera nazionale con l\'aggiunta della stella rossa a cinque punte bordata d\'oro tra le spighe di grano.',
+          'Comintern',
+          'Republica Populară Română (Costituzione del 24 Settembre 1952 · Gheorghe Gheorghiu-Dej & Petru Groza)'
+        );
+      }
       if (s >= 21) {
         return makeResult(
           'ROM',
@@ -11267,49 +12969,30 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'FIN':
     case 'FI': {
-      if (
-        nid === 'FI200' ||
-        nrm.includes('aland') ||
-        nrm.includes('a…land') ||
-        nrm.includes('ahvenanmaa') ||
-        rawName.includes('Åland') ||
-        rawName.includes('Ã…land')
-      ) {
+      const finRes = resolveFinlandProvince(nid || ft.id || '', rawName, s);
+      if (finRes) {
         return makeResult(
-          'FIN',
-          'Ahvenanmaa / Åland (Demilitarisoitu alue)',
-          'Suomen tasavalta — Ahvenanmaan itsehallintoalue. Zona demilitarizzata e neutrale garantita dalla Convenzione di Ginevra della Società delle Nazioni (1921). Divieto assoluto di installazioni militari e fortificazioni.',
-          'Neutrale',
-          'Ahvenanmaan itsehallintoalue / Landskapet Åland (1921)'
+          finRes.o,
+          finRes.name,
+          finRes.note,
+          finRes.fac,
+          finRes.adminEntity
         );
       }
-      if (nid === 'FI1B1' && s >= 6 && s < 9) {
+      if (s >= 18) {
         return makeResult(
           'FIN',
-          getTop('FIN').name + ' (Hangon vuokra-alue)',
-          'Suomen tasavalta — Hangon vuokra-alue Neuvostoliitolle (Moskovan rauha 1940)'
-        );
-      }
-      if (s >= 17) {
-        const finLabel =
-          rawName || (nid === 'FI1B1' ? 'Uusimaa / Helsinki' : 'Suomen tasavalta');
-        return makeResult(
-          'FIN',
-          s >= 19
-            ? `${finLabel} (Repubblica di Finlandia — Trattato di Pace di Parigi)`
-            : getTop('FIN').name || `${finLabel} (Repubblica di Finlandia)`,
-          s >= 19
-            ? 'Suomen tasavalta — Trattato di Pace di Parigi (10 febbraio / 15 settembre 1947): neutralità sovrana sotto il Presidente Juho Kusti Paasikivi, scioglimento della Commissione di Controllo Alleata, ratifica delle cessioni territoriali (Carelia, Salla, Petsamo) e affitto quinquennale della base navale di Porkkala all\'URSS.'
-            : 'Suomen tasavalta — Conclusione della Guerra di Lapponia (aprile 1945) e ricostruzione postbellica sotto la Presidenza Mannerheim / Paasikivi.',
+          getTop('FIN').name || `${rawName || 'Suomen tasavalta'}`,
+          'Suomen tasavalta — Ricostruzione postbellica e neutralità nella Linea Paasikivi.',
           'Neutrale',
           'Suomen tasavalta (Helsinki)'
         );
       }
-      if (s === 16) {
+      if (s >= 16) {
         return makeResult(
           'FIN',
           getTop('FIN').name,
-          'Suomen tasavalta — Armistizio di Mosca (19 settembre 1944) e Guerra di Lapponia (Lapin sota): la Finlandia rompe con il Terzo Reich e combatte per espellere la Wehrmacht dalla Lapponia.',
+          'Suomen tasavalta — Armistizio di Mosca (19 settembre 1944) e Guerra di Lapponia (Lapin sota).',
           'Alleati',
           'Suomen tasavalta — Päämaja (Sotamarsalkka C.G.E. Mannerheim)'
         );
@@ -11318,9 +13001,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         return makeResult(
           'FIN',
           getTop('FIN').name,
-          nid === 'FI1B1'
-            ? 'Suomen tasavalta — Jatkosota: riconquista finlandese della base navale di Hanko (evacuata dalla Flotta sovietica del Baltico il 2-4 dicembre 1941).'
-            : 'Suomen tasavalta — Jatkosota (Guerra di Continuazione: cobelligeranza con l\'Asse, riconquista della Carelia e occupazione della Carelia Orientale sovietica).',
+          'Suomen tasavalta — Jatkosota (Guerra di Continuazione).',
           'Asse',
           'Suomen tasavalta — Päämaja (Sotamarsalkka C.G.E. Mannerheim)'
         );
@@ -11444,6 +13125,39 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     }
 
     case 'BY':
+      if (nid === 'SOV_BYAHOML_BSSR') {
+        if (s >= 15) {
+          return makeResult(
+            'SOV',
+            s >= 20
+              ? "Begoml' / Byahoml' — RSS Bielorussa (URSS, Dic. 1947)"
+              : s >= 19
+              ? "Begoml' / Byahoml' — Belorusskaya SSR (URSS, 1947)"
+              : "Begoml' / Byahoml' — RSS Bielorussa (Liberata Luglio 1944)",
+            s >= 18
+              ? "Settembre 1945 – 1947: territorio bielorusso orientale (Oblast' di Minsk / Borisov) ad est del vecchio confine di Riga, stabilmente integrato nella RSS Bielorussa sovietica."
+              : "Luglio 1944 (Operazione Bagration): liberazione di Begoml' e della Bielorussia centrale ad opera dell'Armata Rossa e dei reparti partigiani sovietici.",
+            'Comintern',
+            'SSSR — Belorusskaya SSR'
+          );
+        }
+        if (s >= 9) {
+          return makeResult(
+            'GER',
+            "Begoml (Generalbezirk Weißruthenien — Reichskommissariat Ostland)",
+            "Giugno 1941 – Giugno 1944: occupazione tedesca della Bielorussia sovietica centrale (Begoml' / Minsk-Nord) nel Generalbezirk Weißruthenien (Reichskommissariat Ostland), teatro di intensa guerra partigiana sovietica.",
+            'Asse',
+            'Reichskommissariat Ostland — Generalbezirk Weißruthenien'
+          );
+        }
+        return makeResult(
+          'SOV',
+          "Begoml' / Byahoml' (Belorusskaya SSR — URSS)",
+          "Territorio della Repubblica Socialista Sovietica Bielorussa ad est della frontiera del Trattato di Riga (1921) con la Seconda Repubblica di Polonia (Dokszyce).",
+          'Comintern',
+          'SSSR — Belorusskaya SSR'
+        );
+      }
     case 'UA':
     case 'GE':
     case 'AM':
@@ -12317,6 +14031,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         if (s >= 18) {
           const bTop = resolveBalkansToponym('EL421', rawName, nrm, 'UK', s);
           const owner = bTop?.owner || (s >= 19 ? 'GRE' : 'UK');
+          if (s >= 29 && owner === 'GRE') {
+            return makeResult(
+              'GRE',
+              `${bTop?.name || 'Rodi e Dodecaneso'} (Regno di Grecia — Membro NATO dal 18 Febbraio 1952)`,
+              `${bTop?.note || 'Dodecaneso nel Regno di Grecia.'} — Il 18 febbraio 1952 il Regno di Grecia aderisce ufficialmente al Patto Atlantico (NATO) nel primo allargamento dell'Alleanza.`,
+              'Alleati',
+              'Vasileion tis Ellados — Regno di Grecia (Dodecaneso · Membro NATO dal 18 Febbraio 1952)'
+            );
+          }
           return makeResult(
             owner,
             bTop?.name || (s >= 19 ? 'Rodi e Dodecaneso (Regno di Grecia — Trattato di Pace di Parigi)' : 'Rodi e Dodecaneso (Amministrazione Militare Britannica — BMA Dodecanese)'),
@@ -12358,6 +14081,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const greOwner = bTop?.owner || 'GRE';
         const greCivilFac: FactionType =
           greOwner === 'GER' ? 'Asse' : greOwner === 'DSE' ? 'Comintern' : 'Alleati';
+        if (s >= 29 && greOwner === 'GRE') {
+          return makeResult(
+            'GRE',
+            `${bTop?.name || `${rawName || 'Ellas'}`} (Regno di Grecia — Membro NATO dal 18 Febbraio 1952)`,
+            `${bTop?.note || 'Regno di Grecia.'} — Il 18 febbraio 1952 il Regno di Grecia (sotto Re Paolo I e dal novembre 1952 con il Governo del Maresciallo Alexandros Papagos) aderisce ufficialmente al Patto Atlantico (NATO) insieme alla Turchia nel primo allargamento dell'Alleanza.`,
+            'Alleati',
+            'Vasileion tis Ellados — Regno di Grecia (Membro NATO dal 18 Febbraio 1952 · Re Paolo I · Maresciallo Papagos)'
+          );
+        }
         return makeResult(
           greOwner,
           bTop?.name || `${rawName || 'Ellas'} (Regno di Grecia Liberato)`,
@@ -12646,7 +14378,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (nid === 'FRY40' || nrm.includes('reunion')) {
-            if (s >= 19) {
+          if (s >= 19) {
               return makeResult(
                 'FRA',
                 'La Réunion (Département d\'Outre-Mer — Quatrième République)',
@@ -12664,7 +14396,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (nid === 'FRY50' || nrm.includes('mayotte')) {
-            if (s >= 19) {
+          if (s >= 19) {
               return makeResult(
                 'FRA',
                 'Mayotte — Territoire d\'Outre-Mer des Comores (Dzaoudzi)',
@@ -13282,6 +15014,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'BEL':
     case 'BE':
+      if (s >= 28) {
+        return makeResult(
+          'BEL',
+          `${rawName || 'Belgique'} (Regno del Belgio — Abdicazione di Leopoldo III 16 Lug 1951 & Ascesa di Re Baldovino 17 Lug 1951 · NATO & CECA)`,
+          '31 Dicembre 1951: si chiude la Questione Reale belga con l\'abdicazione formale di Re Leopoldo III (16 luglio 1951) e il giuramento costituzionale del figlio Re Baldovino (Baudouin I / Boudewijn I) il 17 luglio 1951; governo Joseph Pholien impegnato nella NATO/SHAPE e nella ratifica del Trattato CECA.',
+          'Alleati',
+          'Royaume de Belgique / Koninkrijk België — Re Baldovino (dal 17 Lug 1951) · PM Joseph Pholien'
+        );
+      }
+      if (s >= 27) {
+        return makeResult(
+          'BEL',
+          `${rawName || 'Belgique'} (Regno del Belgio — Principe Reale Baldovino · Trattato CECA 18 Apr 1951 & SHAPE)`,
+          '30 Giugno 1951: firmatario del Trattato istitutivo della CECA (Parigi, 18 aprile 1951) e membro NATO con comando SHAPE operativo (2 aprile). Permane la delega dei poteri costituzionali al Principe Reale Baldovino (11 agosto 1950): Re Leopoldo III non ha ancora abdicato (avverrà il 16 luglio 1951).',
+          'Alleati',
+          'Royaume de Belgique — Principe Reale Baldovino (Leopoldo III non ancora abdicato) · PM Joseph Pholien'
+        );
+      }
       if (s >= 26) {
         return makeResult(
           'BEL',
@@ -13641,6 +15391,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       ) {
         return resolveHatay(s, rawName);
       }
+      if (s >= 32) {
+        return makeResult(
+          'TUR',
+          `${getTop('TUR').name || rawName || 'Repubblica di Turchia'} (Membro NATO & Fondatore del Patto di Baghdad — Febbraio 1955)`,
+          '31 Dicembre 1955: la Repubblica di Turchia (Presidente Celâl Bayar, Primo Ministro Adnan Menderes), già membro NATO dal 1952, stipula con l\'Iraq il 24 febbraio 1955 il Patto di Baghdad (CENTO), perno difensivo occidentale in Medio Oriente insieme a Regno Unito, Pakistan e Iran.',
+          'Alleati',
+          'Türkiye Cumhuriyeti — Membro NATO & Co-Fondatore Patto di Baghdad (Pres. Celâl Bayar · P.M. Adnan Menderes · Dic 1955)'
+        );
+      }
+      if (s >= 29) {
+        return makeResult(
+          'TUR',
+          `${getTop('TUR').name || rawName || 'Repubblica di Turchia'} (Adesione Ufficiale alla NATO — 18 Febbraio 1952)`,
+          '18 Febbraio – 31 Dicembre 1952: la Repubblica di Turchia (Presidente Celâl Bayar, Primo Ministro Adnan Menderes) aderisce ufficialmente al Patto Atlantico insieme al Regno di Grecia (primo allargamento della NATO).',
+          'Alleati',
+          'Türkiye Cumhuriyeti — Membro NATO dal 18 Febbraio 1952 (Pres. Celâl Bayar · P.M. Adnan Menderes)'
+        );
+      }
       return makeResult('TUR', getTop('TUR').name || rawName || 'Repubblica di Turchia', 'Repubblica di Turchia');
     }
 
@@ -13693,6 +15461,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'BRA':
     case '076':
     case 'XBR':
+      if (s >= 31) {
+        return makeResult(
+          'BRA',
+          `${getTop('BRA').name || 'Estados Unidos do Brasil'} (Suicidio di Getúlio Vargas 24 Ago 1954 · Pres. João Café Filho)`,
+          '31 Dicembre 1954 (Brasile): travolto dalla crisi politico-militare successiva all\'attentato della Rua Tonelero, il 24 agosto 1954 il Presidente Getúlio Vargas si toglie la vita al Palazzo del Catete lasciando la celebre Carta Testamento; assume la presidenza costituzionale il Vicepresidente João Café Filho.',
+          'Alleati',
+          'Estados Unidos do Brasil — Presidente João Café Filho (Dal 24 Agosto 1954)'
+        );
+      }
       if (s >= 10) {
         return makeResult(
           'BRA',
@@ -13707,6 +15484,9 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'ARG':
     case '032':
     case 'XAR':
+      if (s >= 32) {
+        return resolveArgentinaStep32(getTop('ARG').name || rawName);
+      }
       return makeResult('ARG', getTop('ARG').name, 'Repubblica Argentina');
     case 'CL':
     case 'CHL':
@@ -13723,6 +15503,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'COL':
     case '170':
     case 'XCO':
+      if (s >= 30) {
+        return makeResult(
+          'COL',
+          `${getTop('COL').name || 'Repubblica di Colombia'} (Colpo di Stato del Gen. Gustavo Rojas Pinilla — 13 Giugno 1953 & Smobilitazione Parziale de La Violencia)`,
+          '31 Dicembre 1953 (Colpo di Stato del 13 Giugno 1953): il Gen. Gustavo Rojas Pinilla depone il presidente conservatore Laureano Gómez con il sostegno dell\'opinione pubblica moderata, promuovendo l\'amnistia e la smobilitazione parziale delle guerriglie liberali dei Llanos Orientales (Guadalupe Salcedo).',
+          'Alleati',
+          'República de Colombia — Governo Militare Gen. Gustavo Rojas Pinilla (dal 13 Giu 1953)'
+        );
+      }
       if (s >= 21) {
         const isViolenciaDept =
           nrm.includes('tolima') ||
@@ -13771,6 +15560,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'BOL':
     case '068':
     case 'XBO':
+      if (s >= 29) {
+        return makeResult(
+          'BOL',
+          `${getTop('BOL').name || 'República de Bolivia'} (Rivoluzione Nazionale Boliviana dell'MNR — 9–11 Aprile 1952 · Suffragio Universale & Nazionalizzazione delle Miniere di Stagno del 31 Ottobre 1952)`,
+          '9–11 Aprile – 31 Dicembre 1952: trionfa in Bolivia la Rivoluzione Nazionale guidata dal Movimiento Nacionalista Revolucionario (MNR) di Víctor Paz Estenssoro, Hernán Siles Zuazo e Juan Lechín (COB), che introduce il suffragio universale (21 luglio 1952) e il 31 ottobre 1952 nazionalizza le grandi compagnie minerarie dello stagno (Patiño, Hochschild, Aramayo) creando la COMIBOL.',
+          'Neutrale',
+          'República de Bolivia — Gobierno de la Revolución Nacional (Presidente Víctor Paz Estenssoro · MNR / COMIBOL, 1952)'
+        );
+      }
       return makeResult('BOL', getTop('BOL').name, 'Repubblica di Bolivia');
     case 'PAR':
     case 'PY':
@@ -13811,6 +15609,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'GTM':
     case '320':
     case 'XGT':
+      if (s >= 31) {
+        return makeResult(
+          'GTM',
+          `${getTop('GTM').name || 'República de Guatemala'} (Colpo di Stato del Giugno 1954 / Operazione PBSuccess · Col. Carlos Castillo Armas)`,
+          '31 Dicembre 1954 (Guatemala): nel giugno 1954 il golpe anticomunista sostenuto dalla CIA (Operazione PBSuccess) provoca le dimissioni del Presidente riformista Jacobo Árbenz Guzmán (27 giugno); a Città del Guatemala assume il potere il Col. Carlos Castillo Armas instaurando un regime militare autoritario e abrogando la riforma agraria del Decreto 900.',
+          'Alleati',
+          'República de Guatemala — Presidente Col. Carlos Castillo Armas (Post-PBSuccess, Giugno 1954)'
+        );
+      }
       return makeResult('GTM', getTop('GTM').name || 'Repubblica del Guatemala', getTop('GTM').note || 'Presidenza del Gen. Jorge Ubico', s >= 9 ? 'Alleati' : 'Neutrale', getTop('GTM').adminTitle);
 
     case 'SV':
@@ -13890,6 +15697,33 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Base navale permanente di 116 km² affittata in perpetuità dagli Stati Uniti sulla baia di Guantánamo nel sud-est di Cuba in virtù del trattato cubano-statunitense del 1903 (confermato dal trattato del 1934). Base navale operativa primaria per il controllo del Paso de los Vientos (Windward Passage) tra Cuba e Haiti e la sorveglianza delle rotte dei Caraibi.',
           'Alleati',
           topG.adminTitle || 'U.S. Naval Operating Base Guantanamo Bay (Treaty of 1934)'
+        );
+      }
+      if (s >= 34) {
+        return makeResult(
+          'CUB',
+          `${getTop('CUB').name || 'República de Cuba'} (Regime Batista all'Avana · Guerriglia M-26-7 Sierra Maestra, Dic 1957)`,
+          "31 Dicembre 1957 (Dittatura di Fulgencio Batista & Guerriglia dell'M-26-7): il regime di Fulgencio Batista conserva il controllo dell'Avana e delle basi navali dopo aver schiacciato l'assalto al Palazzo Presidenziale (13 marzo) e l'insurrezione navale di Cienfuegos (5 settembre), ma nell'Oriente l'Esercito Ribelle di Fidel Castro e Che Guevara consolida il fronte della Sierra Maestra dopo la battaglia di El Uvero (28 maggio 1957).",
+          'Alleati',
+          'República de Cuba — Gen. Fulgencio Batista (Fronte Sierra Maestra M-26-7 · El Uvero 28 Mag 1957)'
+        );
+      }
+      if (s >= 33) {
+        return makeResult(
+          'CUB',
+          `${getTop('CUB').name || 'Repubblica di Cuba'} (Sbarco del Granma 2 Dic 1956 · Avvio Guerriglia Sierra Maestra)`,
+          "2 – 31 Dicembre 1956 (Dittatura di Fulgencio Batista & Rivoluzione Cubana): mentre il regime del Gen. Fulgencio Batista mantiene il potere all'Avana (appoggiato dagli USA), il 2 dicembre 1956 gli 82 rivoluzionari dello yacht Granma guidati da Fidel Castro, Raúl Castro e Ernesto Che Guevara sbarcano a Playa Las Coloradas (Oriente), dando avvio alla guerriglia del Movimento del 26 Luglio (M-26-7) sulla Sierra Maestra.",
+          'Alleati',
+          'República de Cuba — Gen. Fulgencio Batista (Guerriglia M-26-7 sulla Sierra Maestra dal 2 Dic 1956)'
+        );
+      }
+      if (s >= 29) {
+        return makeResult(
+          'CUB',
+          `${getTop('CUB').name || 'Repubblica di Cuba'} (Colpo di Stato Militare del Gen. Fulgencio Batista — 10 Marzo 1952)`,
+          '10 Marzo – 31 Dicembre 1952: con un colpo di Stato militare a Camp Columbia (L\'Avana) il generale Fulgencio Batista depone il presidente costituzionale Carlos Prío Socarrás, sospende la Costituzione del 1940 e assume la guida del governo provvisorio.',
+          'Alleati',
+          'República de Cuba — Governo Militare del Gen. Fulgencio Batista (dal 10 Marzo 1952)'
         );
       }
       return makeResult('CUB', getTop('CUB').name || 'Repubblica di Cuba', getTop('CUB').note || 'Repubblica di Cuba', s >= 9 ? 'Alleati' : 'Neutrale', getTop('CUB').adminTitle);
@@ -14042,6 +15876,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '524':
     case 'XNP':
     case 'NEP':
+      if (s >= 27) {
+        return makeResult(
+          'NEP',
+          'Regno del Nepal (Compromesso di Delhi 15–18 Feb 1951 — Fine Regime Rana & Pacificazione del Terai)',
+          '30 Giugno 1951 (Regno del Nepal): in seguito al Compromesso di Delhi mediato dall\'India (15–18 febbraio 1951), Re Tribhuvan rientra a Kathmandu ponendo fine al potere ereditario dei Rana e formando un governo di coalizione con il Congresso Nepalese. Tutte le province (Koshi, Madhesh, Bagmati, Gandaki, Lumbini, Karnali, Sudurpashchim e il Terai) risultano pacificate.',
+          'Neutrale',
+          'Regno del Nepal — Re Tribhuvan & Coalizione Rana–Congresso Nepalese (Compromesso di Delhi 1951)'
+        );
+      }
       if (s >= 26) {
         return makeResult(
           'NEP',
@@ -14348,6 +16191,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'IRQ':
     case '368':
     case 'XIQ':
+      if (s >= 32) {
+        return makeResult(
+          'IRQ',
+          "Al-Mamlakah al-‘Irāqiyyah (Regno dell'Iraq — Patto di Baghdad del 24 Febbraio 1955)",
+          "31 Dicembre 1955 (Regno dell'Iraq — Patto di Baghdad / CENTO): il 24 febbraio 1955 il Primo Ministro iracheno Nuri al-Sa'id firma a Baghdad con la Turchia il patto di difesa reciproca (Patto di Baghdad), cui aderiscono nel 1955 Regno Unito, Pakistan e Iran, suscitando la dura opposizione dell'Egitto nasseriano.",
+          'Alleati',
+          "Al-Mamlakah al-'Irāqiyyah — Re Faysal II · P.M. Nuri al-Sa'id (Sede & Co-Fondatore del Patto di Baghdad, 24 Feb 1955)"
+        );
+      }
       if (s >= 21) {
         return makeResult(
           'IRQ',
@@ -14407,6 +16259,42 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'EG':
     case 'EGY':
     case '818':
+      if (s >= 34) {
+        return makeResult(
+          'EGY',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Sinai Restituito Mar 1957 · Riapertura Suez Apr 1957)",
+          "31 Dicembre 1957 (Repubblica d'Egitto): completato l'8 marzo 1957 il ritiro israeliano da Gaza e dal Sinai (presidiati dall'UNEF) e riaperto il Canale di Suez nell'aprile 1957 sotto piena gestione egiziana (nessuna RAU prima del febbraio 1958).",
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Pres. Gamal Abdel Nasser · Dic 1957)"
+        );
+      }
+      if (s >= 33) {
+        return makeResult(
+          'EGY',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Nazionalizzazione & Evacuazione Anglo-Francese di Suez 22 Dic 1956)",
+          "31 Dicembre 1956 (Repubblica d'Egitto): dopo la nazionalizzazione del Canale di Suez (26 luglio 1956) e la guerra di Suez, Regno Unito e Francia completano l'evacuazione della Zona del Canale il 22 dicembre 1956 sotto egida ONU (UNEF), mentre Israele occupa ancora la Striscia di Gaza e gran parte del Sinai.",
+          'Neutrale',
+          "Jumhūriyyat Miṣr (Repubblica d'Egitto — Pres. Gamal Abdel Nasser · Dic 1956)"
+        );
+      }
+      if (s >= 29) {
+        return makeResult(
+          'EGY',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Rivoluzione degli Ufficiali Liberi del 23–26 Luglio 1952 · Re Fuad II sotto Consiglio di Reggenza & Governo Naguib/Nasser; ancora Regno d'Egitto)",
+          "23–26 Luglio – 31 Dicembre 1952: il colpo di Stato del Movimento degli Ufficiali Liberi (Muhammad Naguib e Gamal Abdel Nasser) costringe Re Farouk ad abdicare il 26 luglio 1952 in favore del figlio neonato Re Fuad II sotto Consiglio di Reggenza. Fino al 18 giugno 1953 lo Stato resta formalmente il Regno d'Egitto (bandiera verde monarchica) governato de facto dal Consiglio del Comando della Rivoluzione.",
+          'Neutrale',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Fuad II · Gen. Muhammad Naguib & Ten. Col. Gamal Abdel Nasser, Dic. 1952)"
+        );
+      }
+      if (s >= 28) {
+        return makeResult(
+          'EGY',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Abrogazione Trattato del 1936 & Guerriglia nel Canale di Suez, Ott–Dic 1951)",
+          "Ottobre – 31 Dicembre 1951: il Regno d'Egitto (Re Faruq I, P.M. Mustafa el-Nahhas Pasha) abroga unilateralmente il Trattato Anglo-Egiziano del 1936 e il Condominio sul Sudan (proclamando Faruq 'Re d'Egitto e del Sudan', non riconosciuto da Londra) e avvia la guerriglia armata nella Zona del Canale di Suez (Ismailia, Suez, Port Said).",
+          'Neutrale',
+          "Al-Mamlakah al-Miṣriyyah (Regno d'Egitto — Re Faruq I · P.M. Mustafa el-Nahhas Pasha, Dic. 1951)"
+        );
+      }
       if (s >= 21) {
         return makeResult(
           'EGY',
@@ -14438,6 +16326,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case 'JO':
     case 'JOR':
     case '400':
+      if (s >= 29) {
+        return makeResult(
+          'JOR',
+          'Regno Hascemita di Giordania (Abdicazione di Re Talal e Proclamazione di Re Hussein l\'11 Agosto 1952 sotto Consiglio di Reggenza)',
+          '11 Agosto – 31 Dicembre 1952: a seguito dell\'abdicazione per motivi di salute di Re Talal, il Parlamento di Amman proclama l\'11 agosto 1952 nuovo sovrano del Regno Hascemita di Giordania il figlio Re Hussein ibn Talal (sotto Consiglio di Reggenza fino alla maggiore età nel maggio 1953 · Primo Ministro Tawfik Abu al-Huda).',
+          'Neutrale',
+          'Regno Hascemita di Giordania (Re Hussein dall\'11 Ago 1952 · Consiglio di Reggenza & Glubb Pasha)'
+        );
+      }
+      if (s >= 28) {
+        return makeResult(
+          'JOR',
+          'Regno Hascemita di Giordania (Ascesa al Trono di Re Talal il 5 Settembre 1951 dopo l\'Assassinio di Re Abdallah I il 20 Luglio 1951)',
+          'Luglio – Settembre 1951: dopo l\'assassinio di Re Abdallah I nella Città Vecchia di Gerusalemme (20 luglio 1951), il 5 settembre 1951 sale al trono del Regno Hascemita di Giordania Re Talal ibn Abdallah (Primo Ministro Tawfik Abu al-Huda).',
+          'Neutrale',
+          'Regno Hascemita di Giordania (Re Talal dal 5 Set 1951 · P.M. Tawfik Abu al-Huda & Glubb Pasha)'
+        );
+      }
       if (s >= 21) {
         return makeResult(
           'JOR',
@@ -14530,6 +16436,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       return makeResult('LBR', getTop('LBR').name || 'Repubblica di Liberia', 'Stato Indipendente Africano', 'Neutrale', 'Repubblica di Liberia (Presidente Edwin Barclay)');
     case 'ETH':
     case 'ET':
+      if (s >= 29) {
+        return makeResult(
+          'ETH',
+          "Impero d'Etiopia — Federazione di Etiopia ed Eritrea (Addis Abeba — Entrata in Vigore della Risoluzione ONU 390 A(V) il 15 Settembre 1952)",
+          "15 Settembre – 31 Dicembre 1952: con la fine dell'Amministrazione Militare Britannica in Eritrea ed l'entrata in vigore della Risoluzione ONU 390 A(V) il 15 settembre 1952, l'Eritrea viene federata come unità autonoma sotto la sovranità della corona dell'Impero d'Etiopia (Imperatore Hailé Selassié I).",
+          'Neutrale',
+          "Ye’Ityōṗṗyā Nigūsa Negest Mengist — Federazione di Etiopia ed Eritrea (Imperatore Hailé Selassié I, Addis Abeba)"
+        );
+      }
       if (s >= 19) {
         return makeResult(
           'ETH',
@@ -14609,6 +16524,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
     case '504':
     case 'XMA':
     case 'FR_MOROCCO': {
+      if (s >= 34) {
+        return makeResult(
+          'MAR',
+          'Regno del Marocco (Re Mohammed V Ago 1957 · Tangeri Integrata 1° Gen · Guerra d\'Ifni Nov 1957)',
+          "31 Dicembre 1957 (Regno del Marocco): dal 1° gennaio 1957 Tangeri è integrata formalmente nel Marocco e nell'agosto 1957 Mohammed V assume il titolo di Re (Malik). Dal 23 novembre 1957 l'ALN marocchina avvia la Guerra d'Ifni contro i presidi spagnoli.",
+          'Neutrale',
+          'Regno del Marocco — Re (Malik) Mohammed V (Rabat · Dic 1957)'
+        );
+      }
+      if (s >= 33) {
+        return makeResult(
+          'MAR',
+          'Stato Sovrano del Marocco (Indipendenza 2 Mar / 7 Apr 1956 — Sultano Mohammed V)',
+          '2 Marzo – 31 Dicembre 1956: cessano il Protettorato francese (2 marzo) e quello spagnolo settentrionale (7 aprile); con il Protocollo di Tangeri (29 ottobre 1956) l\'amministrazione marocchina subentra de facto anche a Tangeri sotto il Sultano Mohammed V (Re dall\'agosto 1957).',
+          'Neutrale',
+          'Stato Sovrano del Marocco — Sultano Mohammed V (Rabat)'
+        );
+      }
       if (s >= 19) {
         return makeResult(
           'FRA',
@@ -14647,6 +16580,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
     case 'TANGER':
     case 'TANGIER': {
+      if (s >= 34) {
+        return makeResult(
+          'MAR',
+          'Tangeri — Provincia Integrata del Regno del Marocco (1° Gennaio 1957 · Re Mohammed V)',
+          "1° Gennaio – 31 Dicembre 1957 (Regno del Marocco): dal 1° gennaio 1957 è perfezionata l'integrazione giuridica formale di Tangeri nel Regno del Marocco (Re Mohammed V dall'agosto 1957).",
+          'Neutrale',
+          'Regno del Marocco — Governatorato di Tangeri (Integrazione Giuridica Formale 1° Gen 1957)'
+        );
+      }
+      if (s >= 33) {
+        return makeResult(
+          'MAR',
+          'Tangeri — Zona di Tangeri (Protocollo del 29 Ott 1956 · Amministrazione Marocchina)',
+          "29 Ottobre – 31 Dicembre 1956 (Protocollo di Tangeri): abolito lo statuto internazionale con la Conferenza di Fedala/Tangeri (29 ottobre 1956); al 31 dicembre 1956 subentra de facto l'amministrazione del Marocco (integrazione giuridica formale il 1° gennaio 1957).",
+          'Neutrale',
+          'Stato Sovrano del Marocco — Governatorato di Tangeri (Protocollo di Tangeri 29 Ott 1956)'
+        );
+      }
       if (s >= 18) {
         return makeResult(
           'TANGER',
@@ -14863,6 +16814,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('porto rico') ||
         nid.startsWith('PR')
       ) {
+        if (s >= 29) {
+          return makeResult(
+            'USA',
+            'Estado Libre Asociado de Puerto Rico (Stato Libero Associato / Commonwealth di Porto Rico — Costituzione e Bandiera del 25 Luglio 1952 · San Juan)',
+            '25 Luglio – 31 Dicembre 1952: entra in vigore la Costituzione di Porto Rico proclamata dal Governatore Luis Muñoz Marín; il territorio assume lo status di Estado Libre Asociado de Puerto Rico (Commonwealth non incorporato degli Stati Uniti con autogoverno interno) e adotta ufficialmente la propria bandiera nazionale (cinque strisce rosse e bianche con triangolo blu intenso #0050F0 e stella bianca, issata accanto alla bandiera USA).',
+            'Alleati',
+            'Estado Libre Asociado de Puerto Rico / Commonwealth of Puerto Rico (Gov. Luis Muñoz Marín — USA, 25 Lug 1952)'
+          );
+        }
         const top = getTop('USA');
         return makeResult('USA', top.name || 'Puerto Rico (USA)', top.note || 'Territorio insulare non incorporato degli Stati Uniti', 'Alleati', top.adminTitle || 'Territory of Puerto Rico');
       }
@@ -15191,6 +17151,31 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
       if (resSudanFt) return resSudanFt;
 
       if (
+        s >= 30 &&
+        (nrm.includes('malawi') ||
+          nrm.includes('nyasaland') ||
+          nrm.includes('nyassa') ||
+          nrm.includes('zambia') ||
+          nrm.includes('northern rhodesia') ||
+          nrm.includes('zimbabwe') ||
+          nrm.includes('southern rhodesia') ||
+          (nrm.includes('rhodesia') && !nrm.includes('rhodes ')))
+      ) {
+        const compLabel = nrm.includes('southern rhodesia') || nrm.includes('zimbabwe')
+          ? 'Rhodesia Meridionale'
+          : nrm.includes('northern rhodesia') || nrm.includes('zambia')
+          ? 'Rhodesia Settentrionale'
+          : 'Nyasaland (Malawi)';
+        return makeResult(
+          'FRN',
+          `${compLabel} — Federazione di Rhodesia e Nyasaland (Costituita il 1° Ago / 23 Ott 1953 · Capitale Salisbury)`,
+          `31 Dicembre 1953 (Federazione di Rhodesia e Nyasaland / Federazione Centrafricana — ${compLabel}): istituita nell'agosto–ottobre 1953 dal Regno Unito unificando Rhodesia Meridionale, Rhodesia Settentrionale e Nyasaland sotto capitale federale Salisbury (PM Sir Godfrey Huggins) e bandiera Blue Ensign del 7 settembre 1953.`,
+          'Alleati',
+          'Federation of Rhodesia and Nyasaland (Salisbury · Gov. Gen. Lord Llewellin · PM Sir Godfrey Huggins)'
+        );
+      }
+
+      if (
         nrm.includes('malawi') ||
         nrm.includes('nyasaland') ||
         nrm.includes('nyassa') ||
@@ -15237,6 +17222,42 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'British Somaliland Military Administration (Brig. Arthur Chater)'
           );
         }
+        if (nrm.includes('kenya') && s >= 30) {
+          return makeResult(
+            'UK',
+            'Colonia del Kenya (Stato di Emergenza Mau Mau · Processo e Condanna di Jomo Kenyatta 1953)',
+            '31 Dicembre 1953 (Stato di Emergenza Mau Mau): condanna di Jomo Kenyatta (8 aprile 1953) e intensificazione delle operazioni militari britanniche (Gen. Sir George Erskine) contro i Mau Mau negli altipiani Kikuyu e nella Rift Valley.',
+            'Alleati',
+            'Kenya Colony and Protectorate — Emergenza Mau Mau (Gov. Sir Evelyn Baring · Gen. Sir George Erskine, 1953)'
+          );
+        }
+        if (nrm.includes('kenya') && s >= 29) {
+          return makeResult(
+            'UK',
+            'Colonia del Kenya (Stato di Emergenza / Insurrezione Armata Mau Mau nelle Regioni Centrali Kikuyu, Rift Valley Orientale e Nairobi — 20 Ottobre 1952)',
+            '20 Ottobre – 31 Dicembre 1952 (Stato di Emergenza / Rivolta Mau Mau): il 20 ottobre 1952 il governatore britannico Sir Evelyn Baring proclama lo stato di Emergenza nella Colonia del Kenya (Operazione Jock Scott e arresto di Jomo Kenyatta) per fronteggiare l\'insurrezione armata Mau Mau (Kenya Land and Freedom Army) nella Central Province (Altipiani Kikuyu attorno al Monte Kenya e ai monti Aberdare), nella Rift Valley orientale e a Nairobi.',
+            'Alleati',
+            'Kenya Colony and Protectorate — Stato di Emergenza Mau Mau (Gov. Sir Evelyn Baring · 20 Ott 1952)'
+          );
+        }
+        if ((nrm.includes('gold coast') || nrm.includes('ghana')) && s >= 34) {
+          return makeResult(
+            'GHA',
+            'Dominion del Ghana (Indipendenza 6 Marzo 1957 — Unione Costa d\'Oro & Togo Britannico · 81° Membro ONU)',
+            "6 Marzo – 31 Dicembre 1957 (Dominion del Ghana Sovrano): con il Ghana Independence Act, la Colonia della Costa d'Oro e il Togo Britannico (plebiscito ONU 1956) si fondono nello Stato sovrano del Ghana (capitale Accra, Primo Ministro Kwame Nkrumah, 81° membro ONU l'8 marzo 1957; tricolore rosso-oro-verde con stella nera).",
+            'Neutrale',
+            'Dominion of Ghana — Primo Ministro Kwame Nkrumah · Capitale Accra (Indipendenza 6 Marzo 1957)'
+          );
+        }
+        if ((nrm.includes('gold coast') || nrm.includes('ghana')) && s >= 33) {
+          return makeResult(
+            'UK',
+            'Gold Coast & British Togoland (Plebiscito 9 Mag 1956 · Ris. ONU 1044 — Pre-Indipendenza Ghana 1957)',
+            "31 Dicembre 1956 (Colonia della Costa d'Oro & Togoland Britannico): con il plebiscito del 9 maggio e la Risoluzione ONU 1044 (13 dicembre 1956) viene sancita l'unione del Togoland Britannico con la Gold Coast (PM Kwame Nkrumah) ancora sotto sovranità britannica fino all'indipendenza del Ghana (6 marzo 1957).",
+            'Alleati',
+            'British Crown Colony of the Gold Coast & Trust Territory of British Togoland (Gov. Sir Charles Arden-Clarke · PM Kwame Nkrumah)'
+          );
+        }
         return makeResult('UK', getTop('UK').name || rawName, 'Impero Britannico in Africa');
       }
 
@@ -15254,6 +17275,60 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         nrm.includes('tunisie') ||
         nrm.includes('bizerte')
       ) {
+        if (s >= 34) {
+          if (nrm.includes('alger') || nrm.includes('oran') || nrm.includes('constantine')) {
+            return makeResult(
+              'FRA',
+              'Algérie française — Vittoria Francese nella Battaglia di Algeri (Ott 1957) & Linea Morice (Guerra d\'Algeria · Dic 1957)',
+              "31 Dicembre 1957 (Quarta Repubblica Francese · Guerra d'Algeria): la 10ª Divisione Paracadutisti del Gen. Jacques Massu vince la Battaglia di Algeri (gen–ott 1957) e dal settembre 1957 la Linea Morice sbarra il confine tunisino, mentre continua la guerriglia rurale dell'ALN.",
+              'Alleati',
+              "Quatrième République (Union Française) — Ministre Résidant Robert Lacoste & Gen. Massu (Dic 1957)"
+            );
+          }
+          if (nrm.includes('tunisi') || nrm.includes('bizerte')) {
+            return makeResult(
+              'TUN',
+              'Repubblica di Tunisia (Proclamata il 25 Luglio 1957 · Pres. Habib Bourguiba)',
+              '25 Luglio – 31 Dicembre 1957: l\'Assemblea Costituente abolisce la monarchia del Bey e proclama la Repubblica di Tunisia sotto il primo Presidente Habib Bourguiba.',
+              'Neutrale',
+              'Repubblica di Tunisia — Presidente Habib Bourguiba (Tunisi)'
+            );
+          }
+          return makeResult(
+            'MAR',
+            'Regno del Marocco (Re Mohammed V Ago 1957 · Tangeri Integrata 1° Gen · Guerra d\'Ifni Nov 1957)',
+            '31 Dicembre 1957: integrata formalmente Tangeri dal 1° gennaio e assunto il titolo di Re Mohammed V nell\'agosto 1957, il Regno del Marocco fronteggia l\'apertura della Guerra d\'Ifni nel sud (23 novembre 1957).',
+            'Neutrale',
+            'Regno del Marocco — Re (Malik) Mohammed V (Rabat)'
+          );
+        }
+        if (s >= 33) {
+          if (nrm.includes('alger') || nrm.includes('oran') || nrm.includes('constantine')) {
+            return makeResult(
+              'FRA',
+              'Algérie française — Congresso della Soummam & Battaglia di Algeri (Guerra d\'Algeria · Dic 1956)',
+              "31 Dicembre 1956 (Quarta Repubblica Francese · Guerra d'Algeria): dopo il Congresso della Soummam (20 agosto 1956) e gli attentati della Battaglia di Algeri, oltre 400.000 soldati francesi operano sotto il Ministro Residente Robert Lacoste.",
+              'Alleati',
+              "Quatrième République (Union Française) — Ministre Résidant en Algérie (Robert Lacoste · Dic 1956)"
+            );
+          }
+          if (nrm.includes('tunisi') || nrm.includes('bizerte')) {
+            return makeResult(
+              'TUN',
+              'Regno di Tunisia (Indipendenza 20 Marzo 1956 · Bey Muhammad VIII al-Amin)',
+              '20 Marzo – 31 Dicembre 1956: cessa il Protettorato francese e nasce il Regno di Tunisia (Bey Muhammad VIII al-Amin con Habib Bourguiba Primo Ministro; repubblica dal 25 luglio 1957).',
+              'Neutrale',
+              'Regno di Tunisia — Bey Muhammad VIII al-Amin & PM Habib Bourguiba (Tunisi)'
+            );
+          }
+          return makeResult(
+            'MAR',
+            'Stato Sovrano del Marocco (Indipendenza 2 Mar / 7 Apr 1956 · Sultano Mohammed V)',
+            '2 Marzo – 31 Dicembre 1956: cessano il Protettorato francese (2 mar) e spagnolo settentrionale (7 apr); amministrazione de facto marocchina anche su Tangeri (29 ott 1956) sotto il Sultano Mohammed V.',
+            'Neutrale',
+            'Stato Sovrano del Marocco — Sultano Mohammed V (Rabat)'
+          );
+        }
         if (s >= 19) {
           return makeResult(
             'FRA',
@@ -15569,6 +17644,24 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
 
       if (ITA_COL[cntr] || cntr === 'LY' || cntr === 'LBY' || nid.startsWith('LY') || nrm.includes('italian somaliland')) {
         if (s >= 8 && (cntr === 'ER' || cntr === 'ERI' || nrm.includes('eritrea') || nid.startsWith('ER'))) {
+          if (s >= 29) {
+            return makeResult(
+              'ETH',
+              "Regione Autonoma Federata dell'Eritrea — Federazione di Etiopia ed Eritrea (Entrata in Vigore della Risoluzione ONU 390 A(V) il 15 Settembre 1952: Anseba, Debub, Debubawi Keyih Bahri, Gash-Barka, Maekel, Semenawi Keyih Bahri)",
+              "15 Settembre – 31 Dicembre 1952 (100% Federazione di Etiopia ed Eritrea): cessa l'Amministrazione Militare Britannica (BMA) sull'ex colonia italiana dell'Eritrea. In attuazione della Risoluzione ONU 390 A(V), tutte le regioni dell'Eritrea (Anseba, Debub, Debubawi Keyih Bahri, Gash-Barka, Maekel, Semenawi Keyih Bahri) vengono federate al 100% come unità autonoma dotata di proprio parlamento, governo (Capo Esecutivo Tedla Bairu) e bandiera ufficiale (azzurro ONU con ghirlanda d'ulivo verde) sotto la sovranità della corona dell'Impero d'Etiopia (Hailé Selassié I).",
+              'Neutrale',
+              "Federazione di Etiopia ed Eritrea — Regione Autonoma dell'Eritrea (Imperatore Hailé Selassié I · Capo Esecutivo Tedla Bairu, Asmara — dal 15 Set 1952)"
+            );
+          }
+          if (s >= 28) {
+            return makeResult(
+              'UK',
+              'Eritrea (Amministrazione Militare Britannica BMA in Transizione Costituente — Federazione con l\'Etiopia solo nel Settembre 1952)',
+              '31 Dicembre 1951 (100% Amministrazione Militare Britannica BMA): prosegue ad Asmara il lavoro del Commissario ONU Eduardo Anze Matienzo per l\'attuazione della Risoluzione ONU 390 A(V), ma al 31 dicembre 1951 l\'Eritrea rimane ancora sotto l\'Amministrazione Militare Britannica (la federazione con l\'Etiopia entrerà in vigore solo il 15 settembre 1952).',
+              'Alleati',
+              'British Military Administration of Eritrea (BMA — Asmara, Transizione ONU pre-Set 1952)'
+            );
+          }
           if (s >= 19) {
             return makeResult(
               'UK',
@@ -15588,13 +17681,8 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         }
         if (s >= 8 && (cntr === 'SO' || cntr === 'SOM' || nrm.includes('somal') || nid.startsWith('SO'))) {
           if (s >= 25) {
-            return makeResult(
-              'AFIS',
-              'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU dal 1° Aprile 1950, Mogadiscio)',
-              'Il 1° aprile 1950 cessa l\'amministrazione militare britannica (BMA) nell\'ex Somalia Italiana e inizia ufficialmente il mandato decennale (1950–1960) dell\'Amministrazione Fiduciaria Italiana della Somalia (AFIS) per conto delle Nazioni Unite (Risoluzione ONU 289 del 21 novembre 1949), con esposizione congiunta della bandiera ONU e del Tricolore della Repubblica Italiana sotto l\'Amministratore Giovanni Fornari a Mogadiscio (il Somaliland Britannico e l\'Ogaden restano rispettivamente a Regno Unito ed Etiopia).',
-              'Alleati',
-              'Amministrazione Fiduciaria Italiana della Somalia — AFIS (ONU / Repubblica Italiana — Amb. Giovanni Fornari, Mogadiscio)'
-            );
+            const afis = resolveSomaliaItalianAndAfisPhase(s);
+            return makeResult('AFIS', afis.name, afis.note, 'Alleati', afis.adminTitle);
           }
           if (s >= 19) {
             return makeResult(
@@ -15617,6 +17705,60 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
           const isFezzan = nid === 'LYSB' || nid === 'LYGT' || nid === 'LYMQ' || nid === 'LYWS' || nid === 'LYWD' || nrm.includes('fezzan') || nrm.includes('ghadames') || nrm.includes('gadames') || nrm.includes('sebha') || nrm.includes('murzuch') || nrm.includes('murzuk') || nrm.includes('ghat') || nrm.includes('uadi sciati') || nrm.includes('uadi el-agial');
           const isCyrenaica = nid === 'LYBA' || nid === 'LYBU' || nid === 'LYDR' || nid === 'LYJA' || nid === 'LYMJ' || nid === 'LYWA' || nid === 'LYKF' || nrm.includes('cyrenaic') || nrm.includes('cirenaic') || nrm.includes('bengasi') || nrm.includes('benghazi') || nrm.includes('tobruk') || nrm.includes('derna') || nrm.includes('bardia') || nrm.includes('cufra') || nrm.includes('barce');
 
+          if (s >= 28) {
+            if (isFezzan) {
+              return makeResult(
+                'LBY',
+                'Regno Unito di Libia — Provincia Federata del Fezzan (Sebha · Indipendenza del 24 Dicembre 1951)',
+                '24 Dicembre 1951 (100% Regno Unito di Libia): cessa l\'amministrazione militare transitoria francese sul Fezzan-Ghadamès e il territorio si unisce come Provincia Federata autonoma del Fezzan (capoluogo Sebha, Wali Ahmed Seif el-Nasr) nel nuovo Stato sovrano del Regno Unito di Libia proclamato da Re Idris I (doppia capitale Tripoli e Bengasi).',
+                'Neutrale',
+                'Al-Mamlakah al-Lībiyyah al-Muttaḥidah — Wilāyat Fazzān / Provincia Federata del Fezzan (Re Idris I · Sebha)'
+              );
+            }
+            if (isCyrenaica) {
+              return makeResult(
+                'LBY',
+                'Regno Unito di Libia — Provincia Federata della Cirenaica (Bengasi Co-Capitale · Indipendenza del 24 Dicembre 1951)',
+                '24 Dicembre 1951 (100% Regno Unito di Libia): dal Palazzo al-Manar di Bengasi Re Idris I al-Senussi proclama l\'indipendenza del Regno Unito di Libia; cessa l\'amministrazione transitoria britannica e la Cirenaica diviene una delle tre province federate autonome (con Bengasi co-capitale federale insieme a Tripoli).',
+                'Neutrale',
+                'Al-Mamlakah al-Lībiyyah al-Muttaḥidah — Wilāyat Barqah / Provincia Federata della Cirenaica (Re Idris I · Bengasi Co-Capitale)'
+              );
+            }
+            return makeResult(
+              'LBY',
+              'Regno Unito di Libia — Provincia Federata della Tripolitania (Tripoli Co-Capitale · Indipendenza del 24 Dicembre 1951)',
+              '24 Dicembre 1951 (100% Regno Unito di Libia): cessa l\'amministrazione militare transitoria britannica in Tripolitania e l\'intero territorio entra a far parte del nuovo Stato sovrano e federale del Regno Unito di Libia sotto Re Idris I (Primo Ministro federale Mahmud al-Muntasir, con Tripoli e Bengasi doppia capitale).',
+              'Neutrale',
+              'Al-Mamlakah al-Lībiyyah al-Muttaḥidah — Wilāyat Ṭarābulus / Provincia Federata della Tripolitania (Re Idris I · Tripoli Co-Capitale)'
+            );
+          }
+          if (s >= 27) {
+            if (isFezzan) {
+              return makeResult(
+                'FRA',
+                'Fezzan-Ghadamès (Amministrazione Transitoria Francese Attiva · Governo Provvisorio Libico 29 Mar 1951)',
+                '30 Giugno 1951: nonostante l\'istituzione del Governo Federale Provvisorio del futuro Regno Unito di Libia sotto Idris I (29 marzo 1951, in preparazione dell\'indipendenza del 24 dicembre 1951), nel Fezzan rimane pienamente attiva al 30 giugno 1951 l\'amministrazione transitoria militare francese con sede a Sebha.',
+                'Alleati',
+                'Territoire Militaire du Fezzan-Ghadamès (FRA) · Transizione Federale Libica (29 Mar 1951)'
+              );
+            }
+            if (isCyrenaica) {
+              return makeResult(
+                'UK',
+                'Cirenaica (Amministrazione Transitoria Britannica Attiva · Governo Provvisorio Libico 29 Mar 1951)',
+                '30 Giugno 1951: istituito il Governo Federale Provvisorio della Libia sotto Idris I (29 marzo 1951) in vista dell\'indipendenza del dicembre 1951, ma al 30 giugno 1951 resta ancora attiva l\'amministrazione transitoria britannica in Cirenaica (Bengasi).',
+                'Alleati',
+                'British Administration of Cyrenaica (UK) · Governo Federale Provvisorio (Idris I)'
+              );
+            }
+            return makeResult(
+              'UK',
+              'Tripolitania (Amministrazione Transitoria Britannica Attiva · Governo Provvisorio Libico 29 Mar 1951)',
+              '30 Giugno 1951: istituito il Governo Federale Provvisorio della Libia sotto Idris I (29 marzo 1951) in preparazione dell\'indipendenza di dicembre 1951, ma al 30 giugno 1951 la Tripolitania resta ancora sotto amministrazione transitoria britannica a Tripoli.',
+              'Alleati',
+              'British Administration of Tripolitania (UK) · Governo Federale Provvisorio (29 Mar 1951)'
+            );
+          }
           if (s >= 19) {
             if (isFezzan) {
               return makeResult(
@@ -15662,6 +17804,14 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Alleati',
             'British Military Administration (Tripolitania & Cyrenaica) / Territoire Militaire du Fezzan (France)'
           );
+        }
+        if (
+          s >= 8 &&
+          s <= 11 &&
+          (nid === 'LYKF' || nrm.includes('kufra') || nrm.includes('cufra'))
+        ) {
+          const kf = resolveLibyaColonyToponym('LYKF', nrm, s);
+          return makeResult('FFL_AEF', kf.name, kf.note, 'Alleati', kf.adminTitle);
         }
         if (
           s >= 11 &&
@@ -15742,7 +17892,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
         const [lbl, t] = FRA_COL[cntr];
         if (s >= 6) {
           if (t === 'F_AEF') {
-            if (s >= 19) {
+          if (s >= 19) {
               return makeResult(
                 'FRA',
                 `${lbl} (Territoire d'Outre-Mer de l'AEF — Union Française)`,
@@ -15775,9 +17925,16 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               cntr === 'BL' ||
               nrm.includes('martinique') ||
               nrm.includes('guadeloupe') ||
+              nrm.includes('saint martin') ||
+              nrm.includes('saint-martin') ||
+              nrm.includes('saint barthelemy') ||
+              nrm.includes('saint-barthelemy') ||
               nrm.includes('guyane') ||
               nrm.includes('french guiana') ||
               nrm.includes('cayenne');
+            if ((nrm.includes('reunion') || nid === 'RE_REUNION' || nid === 'FRY40') && s >= 11) {
+              return resolveReunion(s);
+            }
             if (isAntillesOrGuiana && s >= 12) {
               const cflnTop = getExtendedToponym(lbl, 'FRA', nid, c, s);
               return makeResult(
@@ -15843,6 +18000,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
               ? 'VIC_IND'
               : 'VIC';
           const vicTop = getTop(vicKey);
+          if (vicKey === 'VIC' && s >= 14) {
+            return makeResult(
+              'FRA',
+              `${lbl} (Territoire de la République Française)`,
+              'Territoire d\'outre-mer réintégré sous l\'autorité du GPRF puis de l\'Union Française.',
+              'Alleati',
+              s >= 19 ? 'Quatrième République Française (Union Française)' : 'Gouvernement Provisoire de la République Française (GPRF)'
+            );
+          }
           if (vicKey === 'VIC_MAD' && s >= 11) {
             return makeResult(
               'UK',
@@ -15853,7 +18019,7 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (vicKey === 'VIC_AOF' && s >= 11) {
-            if (s >= 19) {
+          if (s >= 19) {
               return makeResult(
                 'FRA',
                 `${lbl} (AOF — Territoire d'Outre-Mer, Union Française)`,
@@ -15871,6 +18037,106 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             );
           }
           if (vicKey === 'VIC_NAF' && s >= 11) {
+            if (s >= 34) {
+              const lowLbl = lbl.toLowerCase();
+              const isAlg = nid === 'HB_ALGERIA' || lowLbl.includes('algér') || lowLbl.includes('alger');
+              const isTun = lowLbl.includes('tunis');
+              if (isAlg) {
+                return makeResult(
+                  'FRA',
+                  `${lbl} (Algérie française — Vittoria Battaglia d'Algeri Ott 1957 & Linea Morice · Dic 1957)`,
+                  "31 Dicembre 1957 (Quarta Repubblica Francese · Guerra d'Algeria): conclusione vittoriosa per i paracadutisti del Gen. Massu della Battaglia di Algeri (ottobre 1957) e attivazione della Linea Morice al confine tunisino (settembre 1957), mentre prosegue la guerriglia ALN.",
+                  'Alleati',
+                  "Quatrième République (Union Française) — Battaglia d'Algeri & Linea Morice (Robert Lacoste · Dic 1957)"
+                );
+              }
+              if (isTun) {
+                return makeResult(
+                  'TUN',
+                  `${lbl} (Repubblica di Tunisia — Proclamata il 25 Luglio 1957 · Pres. Habib Bourguiba)`,
+                  '25 Luglio – 31 Dicembre 1957: abolita la monarchia beylicale, la Tunisia è Repubblica sovrana sotto il primo Presidente Habib Bourguiba.',
+                  'Neutrale',
+                  'Repubblica di Tunisia — Presidente Habib Bourguiba (Tunisi)'
+                );
+              }
+              return makeResult(
+                'MAR',
+                `${lbl} (Regno del Marocco — Re Mohammed V Ago 1957 · Tangeri Integrata 1° Gen 1957)`,
+                '31 Dicembre 1957: Tangeri integrata formalmente dal 1° gennaio e Mohammed V proclamato Re nell\'agosto 1957; scoppio della Guerra d\'Ifni contro la Spagna nel novembre 1957.',
+                'Neutrale',
+                'Regno del Marocco — Re (Malik) Mohammed V (Rabat)'
+              );
+            }
+            if (s >= 33) {
+              const lowLbl = lbl.toLowerCase();
+              const isAlg = nid === 'HB_ALGERIA' || lowLbl.includes('algér') || lowLbl.includes('alger');
+              const isTun = lowLbl.includes('tunis');
+              if (isAlg) {
+                return makeResult(
+                  'FRA',
+                  `${lbl} (Algérie française — Congresso della Soummam & Battaglia di Algeri · Dic 1956)`,
+                  "31 Dicembre 1956 (Quarta Repubblica Francese · Guerra d'Algeria): dopo il Congresso della Soummam (20 agosto 1956) e l'inizio della Battaglia di Algeri, oltre 400.000 soldati francesi presidiano l'Algeria sotto il Ministro Residente Robert Lacoste.",
+                  'Alleati',
+                  "Quatrième République (Union Française) — Ministre Résidant en Algérie (Robert Lacoste · Dic 1956)"
+                );
+              }
+              if (isTun) {
+                return makeResult(
+                  'TUN',
+                  `${lbl} (Regno di Tunisia Sovrano — Indipendenza 20 Mar 1956)`,
+                  '20 Marzo – 31 Dicembre 1956: cessato il Protettorato francese, la Tunisia è Stato sovrano sotto il Bey Muhammad VIII al-Amin con Habib Bourguiba Primo Ministro (Repubblica dal 25 luglio 1957).',
+                  'Neutrale',
+                  'Regno di Tunisia — Bey Muhammad VIII al-Amin & PM Habib Bourguiba (Tunisi)'
+                );
+              }
+              return makeResult(
+                'MAR',
+                `${lbl} (Stato Sovrano del Marocco — Indipendenza 2 Mar / 7 Apr 1956)`,
+                '2 Marzo – 31 Dicembre 1956: riunificazione del Marocco ex francese, ex spagnolo settentrionale e amministrazione de facto di Tangeri (Protocollo 29 ott 1956) sotto il Sultano Mohammed V.',
+                'Neutrale',
+                'Stato Sovrano del Marocco — Sultano Mohammed V (Rabat)'
+              );
+            }
+            if (s >= 32) {
+              const lowLbl = lbl.toLowerCase();
+              const isAlg = nid === 'HB_ALGERIA' || lowLbl.includes('algér') || lowLbl.includes('alger');
+              if (isAlg) {
+                return makeResult(
+                  'FRA',
+                  `${lbl} (Algérie française — Estensione Guerra d'Algeria & Nord Costantinese 20 Ago 1955)`,
+                  "31 Dicembre 1955 (Quarta Repubblica Francese · Guerra d'Algeria): con la legge sullo Stato d'Emergenza (aprile 1955) e l'offensiva FLN del Nord Costantinese (20 agosto 1955), la guerra d'Algeria entra in una fase ad alta intensità sotto il Governatore Generale Jacques Soustelle.",
+                  'Alleati',
+                  "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Stato d'Emergenza · Dic 1955)"
+                );
+              }
+              return makeResult(
+                'FRA',
+                `${lbl} (Afrique du Nord Française — Protettorati in Transizione, Dic 1955)`,
+                '31 Dicembre 1955: Protettorato di Tunisia (Convenzioni d\'autonomia interna del 3 giugno 1955) e Protettorato del Marocco (rientro del Sultano Mohammed V il 16 novembre 1955) ancora giuridicamente nell\'Union Française alla vigilia delle indipendenze del 1956.',
+                'Alleati',
+                'Quatrième République (Union Française) — Afrique du Nord Française (Dic 1955)'
+              );
+            }
+            if (s >= 31) {
+              const lowLbl = lbl.toLowerCase();
+              const isAlg = nid === 'HB_ALGERIA' || lowLbl.includes('algér') || lowLbl.includes('alger');
+              if (isAlg) {
+                return makeResult(
+                  'FRA',
+                  `${lbl} (Algérie française — Scoppio Guerra d'Algeria 1° Nov 1954 / Toussaint Rouge)`,
+                  "31 Dicembre 1954 (Quarta Repubblica Francese · Guerra d'Algeria): nella notte di Ognissanti (1° novembre 1954) il Fronte di Liberazione Nazionale (FLN / ALN) dà inizio all'insurrezione armata nell'Aurès e in Cabilia (Gov. Gen. Roger Léonard).",
+                  'Alleati',
+                  "Quatrième République (Union Française) — Gouvernement Général de l'Algérie (Guerra d'Algeria · Nov 1954)"
+                );
+              }
+              return makeResult(
+                'FRA',
+                `${lbl} (Afrique du Nord Française — Protettorati 1954)`,
+                '31 Dicembre 1954: protettorati francesi di Tunisia (Dichiarazione di Cartagine del 31 luglio 1954 verso l\'autonomia interna) e Marocco nell\'Union Française.',
+                'Alleati',
+                'Quatrième République (Union Française) — Afrique du Nord Française (1954)'
+              );
+            }
             if (s >= 19) {
               return makeResult(
                 'FRA',
@@ -16116,6 +18382,15 @@ export function resolveFeature(ft: any, s: number): ResolvedTerritory {
             'Battaglia di Hong Kong (8-25 dicembre 1941): dopo 18 giorni di combattimenti nei Nuovi Territori, a Kowloon e sull\'isola di Hong Kong contro la 38ª Divisione giapponese, il Governatore Sir Mark Young si arrende nel "Black Christmas" del 25 dicembre 1941.',
             'Asse',
             'Dai Nippon Teikoku — Honkon Senryōchi Sōtokubu (Ten. Gen. Rensuke Isogai)'
+          );
+        }
+        if (s >= 34 && (cntr === 'BN' || cntr === 'BRN' || nrm.includes('brunei'))) {
+          return makeResult(
+            'UK',
+            'State of Brunei (Protettorato Britannico — Sultano Omar Ali Saifuddien III)',
+            "31 Dicembre 1957: il Sultanato del Brunei (Sultano Omar Ali Saifuddien III) rimane protettorato britannico ed è escluso dall'indipendenza della Federazione della Malesia (31 agosto 1957).",
+            'Alleati',
+            'British Protected State of Brunei (Sultan Omar Ali Saifuddien III / British Resident)'
           );
         }
         if (s >= 18 && (cntr === 'BN' || cntr === 'BRN' || nrm.includes('brunei'))) {

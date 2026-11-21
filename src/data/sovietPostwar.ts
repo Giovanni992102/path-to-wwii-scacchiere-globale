@@ -619,6 +619,16 @@ const SPECIFIC_POSTWAR: Record<string, CustomPostwarDef> = {
     note19: 'Settembre 1947: negli istituti segreti di Sinop e Agudzeri presso Suchumi fisici tedeschi (Manfred von Ardenne, Gustav Hertz) lavorano al processo di separazione isotopica per l\'atomica sovietica.',
     note20: 'Dicembre 1947: continuazione delle ricerche fisiche classificate sulla costa di Suchumi e integrazione economica della RSSA Abcasa.',
   },
+  SOV_NW_RUS_309_Kovdor_District: {
+    adm18: 'Kovdorskij Rajispolkom — Oblast\' di Murmansk / RSFSR (URSS)',
+    adm19: 'Kovdorskij Rajispolkom — Sovet Ministrov RSFSR (URSS)',
+    name18: 'Kovdor (Sfruttamento Mica & Confine Postbellico, 1945)',
+    name19: 'Kovdor (Prospezioni Magnetite & Apatite — Piano Quinquennale 1947)',
+    name20: 'Kovdor (Avvio Progetto Combinato Ferrifero & Confine Alakurtti, 1947–54)',
+    note18: 'Settembre 1945: il settore di frontiera sovietico di Kovdor (ex Žen\'va/Koutero, rimasto sempre sotto controllo dell\'URSS lungo la linea difensiva di Kandalakša) riprende l\'estrazione di mica flogopite e vermiculite.',
+    note19: 'Settembre 1947: nel Quarto Piano Quinquennale l\'Istituto Minerario di Leningrado progetta lo sfruttamento industriale dei grandi giacimenti di magnetite e apatite scoperti nel 1933 da K.M. Košic a Kovdor.',
+    note20: '1947–1954: applicazione della riforma monetaria (dic. 1947) e avvio dal 1953 della costruzione del grande Combinato Minerario di Ferro di Kovdor (Kovdorskij GOK) e della diramazione ferroviaria Pinozero–Kovdor per rifornire le acciaierie di Čerepovec.',
+  },
 };
 
 // Profili tematici concisi e specifici per ciascuna delle restanti province (1945-1947)
@@ -850,6 +860,7 @@ function getRepublicLabel(pid: string, step: number): string {
     pid.startsWith('SOV_NW_RUS_288') ||
     pid.startsWith('SOV_NW_RUS_298')
   ) {
+    if (step >= 33) return "RSFSR — RSSA Careliana (Karel'skaya ASSR · Declassata da RSS il 16 Lug 1956 · URSS a 15 Repubbliche)";
     return step >= 19 ? 'RSS Carelo-Finlandese (Sovet Ministrov — URSS)' : 'RSS Carelo-Finlandese (URSS)';
   }
   return 'RSFSR (URSS)';
@@ -862,32 +873,69 @@ export function getSovietPostwarData(
   origAdmin8: string
 ): SovietPostwarResolved {
   const custom = SPECIFIC_POSTWAR[pid];
+  const repLabel = getRepublicLabel(pid, step);
+  if (step >= 34) {
+    if (pid === 'SOV_ADM1_KAZ_135_Kyzylorda_Region') {
+      return {
+        adminTitle: "Kzyl-Ordinskij Oblispolkom — RSS Kazaka (URSS · Poligono di Tjuratam / Bajkonur)",
+        historicalName: "Kzyl-Orda & Tjuratam / Bajkonur (RSS Kazaka — Lancio Sputnik 1, 4 Ott 1957 · Sputnik 2, 3 Nov 1957)",
+        note: "4 Ottobre & 3 Novembre 1957 (Inizio dell'Era Spaziale — Poligono di Tjuratam / Bajkonur, Oblast' di Kzyl-Orda): dal sito missilistico segreto NIIP-5 di Tjuratam nella RSS Kazaka il vettore R-7 Semërka diretto da Sergej Korolëv lancia in orbita lo Sputnik 1 (4 ottobre 1957, primo satellite artificiale terrestre) e lo Sputnik 2 (3 novembre 1957 con la cagnolina Lajka).",
+      };
+    }
+    if (pid === 'SOV_ADM1_RUS_42_Moscow') {
+      return {
+        adminTitle: "Moskovskij Gorsovet & Sovet Ministrov SSSR — Capitale dell'URSS (Chruščëv · Dic 1957)",
+        historicalName: "Moskva (Capitale dell'URSS — Sconfitta Gruppo Anti-Partito Giu 1957 & Era Sputnik, Dic 1957)",
+        note: "Giugno – Dicembre 1957 (Mosca — Cremlino): al Plenum del Comitato Centrale del PCUS (22–29 giugno 1957) Nikita Chruščëv sconfigge il Gruppo Anti-Partito (Molotov, Malenkov, Kaganovič) e ad ottobre rimuove il maresciallo Žukov, consolidando la leadership sull'URSS nell'anno del lancio di Sputnik 1 (4 ottobre) e Sputnik 2 (3 novembre).",
+      };
+    }
+  }
+  const isKarelianAssr33 = step >= 33 && repLabel.includes('RSSA Careliana');
   if (custom) {
-    const adminTitle = step >= 19 ? (custom.adm19 || custom.adm18 || origAdmin8) : (custom.adm18 || origAdmin8);
-    const historicalName =
-      step >= 20
-        ? (custom.name20 || custom.name19)
-        : step >= 19
-        ? custom.name19
-        : custom.name18;
-    const note = step >= 20 ? custom.note20 : step >= 19 ? custom.note19 : custom.note18;
+    const adminTitle = isKarelianAssr33
+      ? "Sovet Ministrov Karel'skoj ASSR — RSFSR (URSS a 15 Repubbliche · 16 Lug 1956)"
+      : step >= 19
+      ? (custom.adm19 || custom.adm18 || origAdmin8)
+      : (custom.adm18 || origAdmin8);
+    const historicalName = isKarelianAssr33
+      ? `${spec.histBase || spec.capital} (${spec.modernName} — RSSA Careliana / RSFSR, Declassamento del 16 Luglio 1956)`
+      : step >= 20
+      ? (custom.name20 || custom.name19)
+      : step >= 19
+      ? custom.name19
+      : custom.name18;
+    const note = isKarelianAssr33
+      ? `16 Luglio – 31 Dicembre 1956 (${spec.modernName} — RSSA Careliana): con legge costituzionale del Soviet Supremo dell'URSS (16 luglio 1956, dopo il XX Congresso del PCUS del febbraio 1956 e l'evacuazione della base di Porkkala), la RSS Carelo-Finlandese viene declassata a Repubblica Socialista Sovietica Autonoma Careliana (Karel'skaya ASSR) all'interno della RSFS Russa, riducendo da 16 a 15 le Repubbliche federate dell'URSS.`
+      : step >= 20
+      ? custom.note20
+      : step >= 19
+      ? custom.note19
+      : custom.note18;
     return { adminTitle, historicalName, note };
   }
 
   const prof = REGION_PROFILES[pid];
-  const repLabel = getRepublicLabel(pid, step);
-  const shortTitle = origAdmin8 && !/Wehrmacht|Reich|Heeresgebiet|Kommissariat/i.test(origAdmin8)
+  const rawShort = origAdmin8 && !/Wehrmacht|Reich|Heeresgebiet|Kommissariat/i.test(origAdmin8)
     ? origAdmin8
     : `Ispolkom Regionale — ${repLabel}`;
+  const shortTitle = isKarelianAssr33
+    ? `Sovet Ministrov Karel'skoj ASSR — RSFSR (URSS a 15 Repubbliche, 16 Lug 1956)`
+    : repLabel.includes('Carelo-Finlandese')
+    ? rawShort.replace('RSFSR (URSS)', repLabel)
+    : rawShort;
 
   const adminTitle =
-    step >= 19
+    isKarelianAssr33
+      ? shortTitle
+      : step >= 19
       ? `${shortTitle.replace(/Sovet Narodnykh Komissarov|SNK/g, 'Sovet Ministrov')}`
       : shortTitle;
 
   const baseName = spec.histBase || spec.capital;
   const historicalName =
-    step >= 20
+    isKarelianAssr33
+      ? `${baseName} (${spec.modernName} — RSSA Careliana / RSFSR · 16 Luglio 1956)`
+      : step >= 20
       ? `${baseName} (${spec.modernName} — Piano Quinquennale & Riforma Dic. 1947)`
       : step >= 19
       ? `${baseName} (${spec.modernName} — Ricostruzione 1947, ${repLabel.replace(' (URSS)', '')})`
@@ -895,7 +943,9 @@ export function getSovietPostwarData(
 
   if (prof) {
     const note =
-      step >= 20
+      isKarelianAssr33
+        ? `16 Luglio – 31 Dicembre 1956 (${spec.modernName} — RSSA Careliana nella RSFSR): declassamento della ex RSS Carelo-Finlandese a Repubblica Autonoma nella RSFS Russa (URSS da 16 a 15 Repubbliche federate) nel clima post-XX Congresso del PCUS (25 febbraio 1956); attività centrata su ${prof.theme}.`
+        : step >= 20
         ? `Dicembre 1947 (${spec.modernName}): entra in vigore la riforma monetaria (cambio 10:1) con fine del razionamento bellico; prosegue il consolidamento su ${prof.theme}.`
         : step >= 19
         ? `Settembre 1947 (${spec.modernName}): secondo anno del Quarto Piano Quinquennale (1946-1950)${prof.famine46_47 ? ', segnato dai gravi effetti della siccità e carestia del 1946-47' : ''}; attività centrata su ${prof.theme}.`

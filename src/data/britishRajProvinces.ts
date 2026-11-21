@@ -1694,6 +1694,32 @@ export const BRITISH_RAJ_PROVINCES_META: Record<string, BritishRajProvinceInfo> 
       return 'Damão e Diu · Sentinelle di pietra fortificate sul litorale gujarati testimoni della secolare presenza lusitana in Asia.';
     },
   },
+  'IN_DNH': {
+    id: 'IN_DNH',
+    origId: 'INDH_INLAND',
+    cntrCode: 'IN',
+    cntrName: 'India',
+    name: 'Dadra and Nagar Haveli',
+    nutsName: 'Dadra e Nagar Haveli (Silvassa)',
+    nameLatn: 'Dādrā va Nagar Havelī',
+    nameEngl: 'Dadra and Nagar Haveli',
+    modernName: 'Territorio di Dadra e Nagar Haveli (India)',
+    historicalName: 'Enclave Portoghese di Dadra e Nagar Haveli (Silvassa)',
+    adminTitle: 'Estado Português da Índia · Distrito de Damão — Concelho de Nagar Aveli e Enclave de Dadrá',
+    sovereign: 'POR',
+    overlord: 'POR',
+    faction: 'Neutrale',
+    s0_1: "Enclavi interne portoghesi di Dadrá e Nagar Haveli (Silvassa), interamente circondate dalla Presidenza britannica di Bombay sin dal trattato maratha del 1779; territorio neutrale dell'Estado da Índia.",
+    s2_4: 'Dadrá e Nagar Haveli · Pacifica amministrazione forestale e rurale nella valle del fiume Daman Ganga; neutralità salazarista.',
+    s5_7: 'Dadrá e Nagar Haveli · Enclave neutrale lusitana circondata dall\'India britannica.',
+    s8: 'Dadrá e Nagar Haveli · Exclave interna portoghese nell\'entroterra del Gujarat.',
+    getNote: (s: number) => {
+      if (s <= 1) return "Enclavi interne portoghesi di Dadrá e Nagar Haveli (Silvassa), interamente circondate dalla Presidenza britannica di Bombay sin dal trattato maratha del 1779; territorio neutrale dell'Estado da Índia.";
+      if (s <= 4) return 'Dadrá e Nagar Haveli · Pacifica amministrazione forestale e rurale nella valle del fiume Daman Ganga; neutralità salazarista.';
+      if (s <= 7) return 'Dadrá e Nagar Haveli · Enclave neutrale lusitana circondata dall\'India britannica.';
+      return 'Dadrá e Nagar Haveli · Exclave interna portoghese nell\'entroterra del Gujarat.';
+    },
+  },
   'IN_SIK': {
     id: 'IN_SIK',
     origId: 'INSK',
@@ -2244,6 +2270,7 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 
   const isJune1949 = s >= 23;
   const isDec1949 = s >= 24;
   const isJune1950 = s >= 25;
+  const isDec1956 = s >= 33;
 
   // 0. Ceylon (LK_) — Dominion of Ceylon from 4 February 1948 (s >= 21)
   if (fid.startsWith('LK_') || fid === 'LK' || fid === 'LKA' || (meta && meta.cntrCode === 'LK')) {
@@ -2301,6 +2328,38 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 
 
   // 2. Disputed Princely State: Jammu & Kashmir (IN_JK, IN_LAD, PK_AJK, PK_GB)
   if (fid === 'IN_JK' || fid === 'IN_LAD' || fid === 'PK_AJK' || fid === 'PK_GB') {
+    if (isDec1956) {
+      if (fid === 'IN_JK' || fid === 'IN_LAD') {
+        const isLadakh = fid === 'IN_LAD';
+        return makeResult(
+          'IND',
+          isLadakh
+            ? "Repubblica dell'India — Stato di Jammu e Kashmir · Settore del Ladakh (States Reorganisation Act 1° Nov 1956)"
+            : "Repubblica dell'India — Stato di Jammu e Kashmir (Costituzione J&K Nov 1956 · States Reorganisation Act)",
+          isLadakh
+            ? "31 Dicembre 1956: con l'abolizione delle categorie A/B/C/D (1° novembre 1956), Jammu e Kashmir è uno dei 14 Stati della Repubblica dell'India; il Ladakh (Leh, Dras, Kargil) resta sotto amministrazione indiana lungo la Linea del Cessate il Fuoco ONU."
+            : "31 Dicembre 1956 (States Reorganisation Act, 1° Novembre 1956): abolite le categorie A/B/C/D, Jammu e Kashmir è uno dei 14 Stati dell'Unione Indiana; il 17 novembre 1956 l'Assemblea Costituente statale (governo Bakshi Ghulam Mohammad) adotta la Costituzione statale che sancisce l'adesione all'India.",
+          'Neutrale',
+          isLadakh
+            ? 'Republic of India · State of Jammu & Kashmir — Ladakh Sector (14 States Reorganization 1956)'
+            : 'Republic of India · State of Jammu & Kashmir (PM Bakshi Ghulam Mohammad · J&K Constitution Nov 1956)'
+        );
+      }
+      const isGilgit = fid === 'PK_GB';
+      return makeResult(
+        'PAK',
+        isGilgit
+          ? 'Repubblica Islamica del Pakistan — Gilgit-Baltistan (Costituzione 23 Mar 1956)'
+          : 'Repubblica Islamica del Pakistan — Azad Jammu e Kashmir (Costituzione 23 Mar 1956)',
+        isGilgit
+          ? '31 Dicembre 1956: Gilgit e il Baltistan (Skardu) restano sotto amministrazione della neonata Repubblica Islamica del Pakistan (proclamata il 23 marzo 1956 con la prima Costituzione; Presidente Iskander Mirza) a nord della Ceasefire Line ONU.'
+          : '31 Dicembre 1956: l\'Azad Jammu e Kashmir (Muzaffarabad, Mirpur) permane sotto protezione della Repubblica Islamica del Pakistan (proclamata il 23 marzo 1956 · Membro del Commonwealth, SEATO e Patto di Baghdad) lungo la Linea del Cessate il Fuoco ONU.',
+        'Alleati',
+        isGilgit
+          ? 'Islamic Republic of Pakistan · Gilgit Agency & Baltistan (Const. 23 Mar 1956)'
+          : 'Islamic Republic of Pakistan · Azad Jammu & Kashmir (UN Ceasefire Line · Const. 23 Mar 1956)'
+      );
+    }
     if (isJune1949) {
       if (fid === 'IN_JK' || fid === 'IN_LAD') {
         const isLadakh = fid === 'IN_LAD';
@@ -2451,6 +2510,15 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 
 
   // 3. Disputed Princely State: Hyderabad (IN_HYD)
   if (fid === 'IN_HYD') {
+    if (isDec1956) {
+      return makeResult(
+        'IND',
+        "Repubblica dell'India — Stato dell'Andhra Pradesh (Scioglimento di Hyderabad · States Reorganisation Act 1° Nov 1956)",
+        "1° Novembre – 31 Dicembre 1956 (States Reorganisation Act): cessa di esistere l'ex Stato di Categoria B di Hyderabad, ripartito su base linguistica: la regione telugu del Telangana (con capitale Hyderabad) si fonde con lo Stato dell'Andhra formando il nuovo Stato dell'Andhra Pradesh (PM Neelam Sanjiva Reddy), mentre Marathwada passa a Bombay e Hyderabad-Karnataka a Mysore.",
+        'Neutrale',
+        'Republic of India · State of Andhra Pradesh (Hyderabad Capital · States Reorganisation Act 1 Nov 1956)'
+      );
+    }
     if (isJune1950) {
       return makeResult(
         'IND',
@@ -2491,7 +2559,52 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 
   }
 
   // 4. European Enclaves: Portuguese India (Goa, Daman, Diu, Dadra & Nagar Haveli)
+  if (fid === 'IN_DNH') {
+    if (s >= 33) {
+      return makeResult(
+        'IND',
+        'Dadra e Nagar Haveli — "Free Dadra & Nagar Haveli" (Amministrazione Pro-Indiana · Vertenza CIG, Dic 1956)',
+        "31 Dicembre 1956 (Controllo de facto Indiano / Free Dadra & Nagar Haveli): le enclavi interne di Dadra e Nagar Haveli (Silvassa), sottratte al controllo portoghese nel luglio–agosto 1954, restano sotto amministrazione autonoma del Varishta Panchayat strettamente allineata all'Unione Indiana mentre pende alla Corte Internazionale di Giustizia il ricorso portoghese sul diritto di transito (Goa, Damão e Diu restano al Portogallo).",
+        'Neutrale',
+        'Varishta Panchayat of Free Dadra and Nagar Haveli (Controllo de facto Indiano · Causa Portogallo vs India alla CIG)'
+      );
+    }
+    if (s >= 31) {
+      return makeResult(
+        'IND',
+        'Dadra e Nagar Haveli — Amministrazione Autonoma Pro-Indiana ("Free Dadra & Nagar Haveli", 2 Agosto 1954)',
+        "31 Dicembre 1954 (Controllo de facto Indiano / Free Dadra and Nagar Haveli): tra il 22 luglio e il 2 agosto 1954 forze nazionaliste e volontari dell'Azad Gomantak Dal e del RSS occupano le enclavi interne di Dadra e di Nagar Haveli (Silvassa) espellendo la guarnigione portoghese; la Corte Internazionale dell'Aia rifiuterà in seguito il diritto di transito armato portoghese attraverso il territorio indiano (Goa, Damão e Diu restano portoghesi).",
+        'Neutrale',
+        'Varishta Panchayat of Free Dadra and Nagar Haveli (Amministrazione de facto Integrata nell\'Unione Indiana, 2 Ago 1954)'
+      );
+    }
+    return makeResult(
+      'POR',
+      'Stato Portoghese dell\'India — Enclavi di Dadra e Nagar Haveli (Silvassa)',
+      "Enclavi portoghesi nell'entroterra del Gujarat dipendenti amministrativamente dal Distretto di Damão (Estado Português da Índia).",
+      'Neutrale',
+      'Estado Portugu\u00eas da \u00cdndia · Concelho de Nagar Aveli e Dadr\u00e1 (Silvassa)'
+    );
+  }
   if (fid === 'IN_GOA' || fid === 'IN_DNH_DAM') {
+    if (s >= 33) {
+      return makeResult(
+        'POR',
+        'Stato Portoghese dell\'India — Goa, Damão e Diu (Provincia Oltremare Portoghese · Dic 1956)',
+        "31 Dicembre 1956: nonostante la perdita de facto delle enclavi interne di Dadra e Nagar Haveli (1954) e il blocco economico-doganale di Nuova Delhi, Goa, Damão e Diu restano saldamente sotto sovranità portoghese come Provincia Ultramarina del regime dell'Estado Novo di Salazar (Governatore Generale Paulo Bénard Guedes).",
+        'Neutrale',
+        'Estado Português da Índia · Província Ultramarina de Goa, Damão e Diu (Gov. Paulo Bénard Guedes, Dic 1956)'
+      );
+    }
+    if (s >= 31) {
+      return makeResult(
+        'POR',
+        'Stato Portoghese dell\'India — Goa, Damão e Diu (Escl. Dadra & Nagar Haveli, Persa Ago 1954)',
+        "31 Dicembre 1954 (Ancora Provincia Oltremare Portoghese): nonostante la perdita de facto delle enclavi interne di Dadra e Nagar Haveli (luglio–agosto 1954) e il fallimento dei primi cortei satyagraha del 15 agosto 1954, il governo di António de Oliveira Salazar mantiene saldamente sotto sovranità portoghese i territori costieri di Goa, Damão e Diu (respingendo ogni richiesta di cessione avanzata da Nuova Delhi).",
+        'Neutrale',
+        'Estado Português da Índia · Província Ultramarina de Goa, Damão e Diu (Gov. Paulo Bénard Guedes, Dic 1954)'
+      );
+    }
     return makeResult(
       'POR',
       'Stato Portoghese dell\'India — Governo di Goa (Nova Goa)',
@@ -2503,6 +2616,33 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 
 
   // 5. European Enclaves: French India (Pondicherry, Karikal, Yanaon, Mahé, Chandernagore)
   if (fid === 'IN_PON') {
+    if (s >= 33) {
+      return makeResult(
+        'IND',
+        "Pondichéry, Karikal, Mahé & Yanam — Trattato di Cessione Franco-Indiano (28 Maggio 1956 · Unione Indiana)",
+        "28 Maggio – 31 Dicembre 1956 (Unione Indiana): dopo il trasferimento de facto del 1° novembre 1954, Francia e India firmano a Nuova Delhi il 28 maggio 1956 il Trattato di Cessione formale dei quattro comptoir (Pondichéry, Karikal, Mahé e Yanam — che sarà ratificato dal Parlamento francese nel 1962), amministrati dallo Stato di Pondicherry dell'Unione Indiana.",
+        'Neutrale',
+        'Republic of India — State of Pondicherry (Trattato di Cessione Franco-Indiano del 28 Maggio 1956)'
+      );
+    }
+    if (s >= 31) {
+      return makeResult(
+        'IND',
+        "Pondichéry, Karikal, Mahé & Yanam — Trasferimento de facto all'India (1° Novembre 1954)",
+        "31 Dicembre 1954 (Unione Indiana — Controllo de facto dal 1° Novembre 1954): in attuazione dell'Accordo franco-indiano di Nuova Delhi del 21 ottobre 1954 (preceduto dal voto favorevole del congresso di Kizhoor del 18 ottobre), il 1° novembre 1954 la Francia trasferisce pacificamente all'India l'amministrazione de facto dei quattro ultimi comptoir di Pondichéry, Karikal, Mahé e Yanam.",
+        'Neutrale',
+        'Republic of India — State of Pondicherry (Trasferimento Franco-Indiano de facto del 1° Novembre 1954)'
+      );
+    }
+    if (s >= 30) {
+      return makeResult(
+        'FRA',
+        "Stabilimenti Francesi dell'India — Pondichéry, Karikal, Mahé e Yanam (Ancora Sotto Sovranità Francese al 31 Dicembre 1953)",
+        "31 Dicembre 1953 (Quarta Repubblica Francese · Esclusa Chandernagore ceduta il 2 maggio 1950): i quattro comptoir francesi di Pondichéry, Karikal, Mahé e Yanam restano ancora sotto amministrazione della Francia al 31 dicembre 1953 nonostante le crescenti tensioni con Nuova Delhi e il movimento pro-integrazione (il trasferimento de facto all'India avverrà solo il 1° novembre 1954).",
+        'Alleati',
+        "Établissements français dans l'Inde (Pondichéry, Karikal, Mahé, Yanam — Commissario André Ménard, Dic 1953)"
+      );
+    }
     if (isJune1950) {
       return makeResult(
         'FRA',
@@ -2523,6 +2663,34 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 
 
   // 6. Pakistan — West Pakistan (PK_) and East Pakistan / East Bengal (BD_)
   if (fid.startsWith('PK_') || fid.startsWith('BD_') || (meta && (meta.cntrCode === 'PK' || meta.cntrCode === 'BD'))) {
+    if (isDec1956) {
+      const divName = (meta && meta.nutsName) || rawName || fid;
+      if (fid.startsWith('BD_')) {
+        return makeResult(
+          'PAK',
+          `Repubblica Islamica del Pakistan — Pakistan Orientale: ${divName} (Costituzione 23 Marzo 1956)`,
+          "23 Marzo – 31 Dicembre 1956 (Repubblica Islamica del Pakistan): con l'entrata in vigore della prima Costituzione del 23 marzo 1956 (Presidente Iskander Mirza; PM Huseyn Shaheed Suhrawardy dal settembre 1956), cessa lo status di Dominion britannico e nasce la Repubblica Islamica del Pakistan (restando membro del Commonwealth, SEATO e Patto di Baghdad). L'ex Bengala Orientale forma la provincia del Pakistan Orientale (capitale Dacca).",
+          'Alleati',
+          'Islamic Republic of Pakistan · Province of East Pakistan (Dacca · Costituzione 23 Mar 1956)'
+        );
+      }
+      if (fid === 'PK_SIN') {
+        return makeResult(
+          'PAK',
+          'Repubblica Islamica del Pakistan — Karachi Capitale Federale & Sindh (Pakistan Occidentale · 23 Mar 1956)',
+          "23 Marzo – 31 Dicembre 1956: il 23 marzo 1956 entra in vigore la prima Costituzione che trasforma il Pakistan in Repubblica Islamica del Pakistan con capitale federale a Karachi (Presidente Iskander Mirza, già ultimo Governatore Generale; Primo Ministro Chaudhry Muhammad Ali poi H.S. Suhrawardy). Le province occidentali formano l'unica provincia del West Pakistan (schema 'One Unit').",
+          'Alleati',
+          'Islamic Republic of Pakistan · Federal Capital Territory Karachi & West Pakistan (Pres. Iskander Mirza · 23 Mar 1956)'
+        );
+      }
+      return makeResult(
+        'PAK',
+        `Repubblica Islamica del Pakistan — Pakistan Occidentale: ${divName} (Costituzione 23 Marzo 1956 · One Unit)`,
+        "23 Marzo – 31 Dicembre 1956 (Repubblica Islamica del Pakistan): con la Costituzione del 23 marzo 1956 il Pakistan cessa di essere un Dominion della Corona britannica e diviene Repubblica Islamica del Pakistan all'interno del Commonwealth (Presidente Iskander Mirza, membro di SEATO e Patto di Baghdad). Dal 14 ottobre 1955 le regioni occidentali (Punjab, Sindh, NWFP, Baluchistan) sono unite nella provincia unica del West Pakistan (capitale Lahore).",
+        'Alleati',
+        'Islamic Republic of Pakistan · Province of West Pakistan (Lahore · One Unit · Costituzione 23 Mar 1956)'
+      );
+    }
     // Sylhet Transfer Referendum
     if (fid === 'BD_SYL') {
       return makeResult(
@@ -2596,6 +2764,70 @@ function resolveBritishRajPartition(fid: string, meta: any, p: any, s: number = 
       "Territorio sovrano del Dominion del Pakistan istituito il 14 agosto 1947 con la partizione dell'India Britannica sotto il Governatore Generale Muhammad Ali Jinnah.",
       'Alleati',
       'Dominion of Pakistan · Government of Pakistan (Karachi)'
+    );
+  }
+
+  // 7b. Repubblica dell'India — States Reorganisation Act (1° Novembre 1956: 14 Stati Linguistici & 6 Territori dell'Unione; Abolite Cat. A/B/C/D)
+  if (isDec1956) {
+    if (s >= 34 && fid === 'IN_NAG') {
+      return makeResult(
+        'IND',
+        "Repubblica dell'India — Naga Hills–Tuensang Area (NHTA · Dal 1° Dicembre 1957)",
+        "1° – 31 Dicembre 1957 (Naga Hills–Tuensang Area Act, 1° Dicembre 1957): il Parlamento di Nuova Delhi stacca il distretto delle Naga Hills dallo Stato dell'Assam e la Tuensang Frontier Division dalla NEFA, riunendoli nella nuova unità amministrativa centrale della Naga Hills–Tuensang Area (NHTA, capoluogo Kohima) sotto il Governatore dell'Assam quale agente del Presidente e del Ministero degli Esteri (precursore dello Stato del Nagaland nel 1963).",
+        'Neutrale',
+        "Republic of India · Naga Hills–Tuensang Area (NHTA — Est. 1 Dec 1957 · Centrally Administered)"
+      );
+    }
+
+    const sraMap: Record<string, { kind: 'Stato' | 'Territorio dell’Unione' | 'Protettorato'; title: string; note: string }> = {
+      IN_ASS: { kind: 'Stato', title: 'Assam', note: s >= 34 ? "Uno dei 14 Stati dell'Unione Indiana (capitale Shillong): dal 1° dicembre 1957 il distretto delle Naga Hills viene staccato per confluire nella nuova unità centrale della Naga Hills–Tuensang Area (NHTA), mentre restano in Assam Khasi–Jaintia–Garo e Mizo Hills." : "Uno dei 14 Stati dell'Unione Indiana dopo il riordino del 1° novembre 1956 (capitale Shillong; include le regioni collinari NEFA, Khasi, Jaintia, Lushai/Mizo e Naga)." },
+      IN_ARU: { kind: 'Stato', title: 'Assam (NEFA — North-East Frontier Agency)', note: s >= 34 ? "Settore himalayano della North-East Frontier Agency (NEFA): il 1° dicembre 1957 la Tuensang Frontier Division viene trasferita dalla NEFA alla nuova Naga Hills–Tuensang Area (NHTA), mentre le restanti cinque divisioni restano collegate all'Assam." : "Settore himalayano della North-East Frontier Agency (NEFA) amministrato costituzionalmente in collegamento con lo Stato dell'Assam (Arunachal Pradesh sorgerà solo nel 1972/1987)." },
+      IN_MEG: { kind: 'Stato', title: 'Assam (Distretti Autonomi Khasi–Jaintia e Garo)', note: "Nel novembre 1956 le colline Khasi, Jaintia e Garo restano distretti autonomi nello Stato dell'Assam (il Meghalaya sarà staccato solo nel 1972)." },
+      IN_MIZ: { kind: 'Stato', title: 'Assam (Distretto Autonomo Mizo Hills)', note: "Nel novembre 1956 il distretto di Mizo Hills (ex Lushai Hills) permane parte dello Stato dell'Assam." },
+      IN_NAG: { kind: 'Stato', title: 'Assam (Naga Hills — Rivolta Indipendentista Naga)', note: "Nel 1956 il distretto delle Naga Hills resta nello Stato dell'Assam mentre infuria l'insurrezione armata del Naga National Council (NNC di Phizo) e l'esercito indiano presidia Kohima (lo Stato del Nagaland nascerà nel 1963)." },
+      IN_BIH: { kind: 'Stato', title: 'Bihar', note: "Uno dei 14 Stati della Repubblica dell'India (States Reorganisation Act, 1° novembre 1956): con il Bihar and West Bengal (Transfer of Territories) Act cede al West Bengal le aree bengalofone di Purulia/Manbhum e Islampur." },
+      IN_JHA: { kind: 'Stato', title: 'Bihar (Altopiano Industriale del Chota Nagpur)', note: "Regione industriale di Ranchi–Jamshedpur parte dello Stato del Bihar nel riordino del 1° novembre 1956 (il Jharkhand nascerà solo nel 2000)." },
+      IN_BOM: { kind: 'Stato', title: 'Bombay (Stato Bilingue Marathi–Gujarati Allargato)', note: "1° Novembre 1956 (States Reorganisation Act): abolite le categorie A/B/C, lo Stato bilingue di Bombay è notevolmente ampliato incorporando Saurashtra, Kutch, Marathwada (dall'ex Hyderabad) e Vidarbha/Nagpur (dal Madhya Pradesh), suscitando forti campagne del Samyukta Maharashtra e Mahagujarat (scissione solo nel 1960)." },
+      IN_GUJ: { kind: 'Stato', title: 'Bombay (Settore Gujarat, Saurashtra e Kutch)', note: "1° Novembre 1956 (States Reorganisation Act): vengono sciolti lo Stato di Cat. B di Saurashtra e quello di Cat. C di Kutch, entrambi fusi nel grande Stato bilingue di Bombay (il separato Stato del Gujarat verrà creato solo nel 1960)." },
+      IN_MP: { kind: 'Stato', title: 'Madhya Pradesh (Capitale Bhopal · Fusione con Madhya Bharat e Vindhya Pradesh)', note: "1° Novembre 1956 (States Reorganisation Act): il nuovo Stato ampliato del Madhya Pradesh (capitale Bhopal) unifica il nucleo hindi di Mahakoshal con gli ex Stati di Madhya Bharat, Vindhya Pradesh e Bhopal, cedendo gli 8 distretti marathi di Vidarbha allo Stato di Bombay." },
+      IN_CHH: { kind: 'Stato', title: 'Madhya Pradesh (Settore Orientale del Chhattisgarh)', note: "Fascia orientale (Raipur–Bilaspur–Bastar) confermata nello Stato ristrutturato del Madhya Pradesh il 1° novembre 1956 (il Chhattisgarh nascerà solo nel 2000)." },
+      IN_MAD: { kind: 'Stato', title: 'Madras', note: "Uno dei 14 Stati dell'India dopo il 1° novembre 1956 (States Reorganisation Act): lo Stato di Madras assume profilo prettamente tamilofono cedendo il distretto del Malabar allo Stato del Kerala, South Kanara a Mysore e trasferendo le Laccadive in Territorio dell'Unione (assumerà il nome Tamil Nadu solo nel 1969)." },
+      IN_AND: { kind: 'Stato', title: 'Andhra Pradesh (Unito al Telangana il 1° Novembre 1956)', note: "1° Novembre 1956 (States Reorganisation Act): primo grande Stato linguistico dell'India unificata, l'Andhra Pradesh nasce dalla fusione dello Stato dell'Andhra (1953) con il Telangana dell'ex Stato di Hyderabad (capitale Hyderabad; primo governatore B. Ramakrishna Rao / CM Neelam Sanjiva Reddy)." },
+      IN_ORI: { kind: 'Stato', title: 'Orissa', note: "Uno dei 14 Stati della Repubblica dell'India confermato dal States Reorganisation Act (1° novembre 1956; capitale Bhubaneswar/Cuttack)." },
+      IN_PUN: { kind: 'Stato', title: 'Punjab (Fusione con il PEPSU il 1° Novembre 1956)', note: "1° Novembre 1956 (States Reorganisation Act): lo Stato del Punjab assorbe l'ex unione principesca del PEPSU (Patiala and East Punjab States Union, Cat. B) comprendendo sia le aree punjabi sia Haryana e Chandigarh (divisione solo nel 1966)." },
+      IN_HAR: { kind: 'Stato', title: 'Punjab (Divisione di Ambala / Haryana)', note: "Nel riordino del 1° novembre 1956 i distretti meridionali hindi di Ambala/Rohtak/Hisar fanno parte dello Stato unificato del Punjab (Haryana separato solo nel 1966)." },
+      IN_CHA: { kind: 'Stato', title: 'Punjab (Nuova Capitale Chandigarh & Ex-PEPSU)', note: "Sede della nuova capitale modernista del Punjab progettata da Le Corbusier dopo l'assorbimento del PEPSU nel 1° novembre 1956 (Territorio dell'Unione solo dal 1966)." },
+      IN_UP: { kind: 'Stato', title: 'Uttar Pradesh', note: "Uno dei 14 Stati della Repubblica dell'India confermato dal States Reorganisation Act (1° novembre 1956; capitale Lucknow)." },
+      IN_UTT: { kind: 'Stato', title: 'Uttar Pradesh (Settore Himalayano Garhwal & Kumaon)', note: "Distretti montani himalayani integrati nello Stato dell'Uttar Pradesh nel riordino del 1° novembre 1956." },
+      IN_BEN: { kind: 'Stato', title: 'West Bengal (Annessione di Purulia & Islampur dal Bihar, 1° Nov 1956)', note: "1° Novembre 1956: confermato tra i 14 Stati della Repubblica dell'India, il West Bengal (capitale Calcutta) riceve dal Bihar i territori bengalofoni di Purulia e Islampur creando il corridoio territoriale tra Bengala meridionale e settentrionale." },
+      IN_MYS: { kind: 'Stato', title: 'Mysore (Stato Unificato di Lingua Kannada — 1° Novembre 1956)', note: "1° Novembre 1956 (States Reorganisation Act): lo Stato di Mysore (ribattezzato Karnataka solo nel 1973) viene ampliato fondendo l'ex Mysore con i distretti di lingua kannada ceduti da Bombay, Hyderabad, Madras (South Kanara/Bellary) e l'ex Stato Coorg." },
+      IN_RAJ: { kind: 'Stato', title: 'Rajasthan (Fusione di Ajmer · Abu Road, 1° Novembre 1956)', note: "1° Novembre 1956 (States Reorganisation Act): uno dei 14 Stati della Repubblica dell'India (capitale Jaipur), allargato con l'assorbimento dell'ex Stato di Cat. C di Ajmer, Abu Road (da Bombay) e Sunel Tappa (da Madhya Bharat)." },
+      IN_KER: { kind: 'Stato', title: 'Kerala (Nascita dello Stato Linguistico il 1° Novembre 1956)', note: "1° Novembre 1956 (States Reorganisation Act): nasce lo Stato del Kerala (lingua malayalam) dalla fusione di Travancore–Cochin con il distretto del Malabar e Kasaragod staccati da Madras (cedendo i taluk tamil meridionali di Kanyakumari allo Stato di Madras)." },
+      IN_LAK: { kind: 'Territorio dell’Unione', title: 'Laccadive, Minicoy e Amindivi (Nuovo Territorio dell\'Unione, 1° Nov 1956)', note: "1° Novembre 1956 (States Reorganisation Act): le isole Laccadive, Minicoy e Amindivi vengono staccate dallo Stato di Madras e istituite come uno dei 6 nuovi Territori dell'Unione (Union Territories) amministrati direttamente dal governo centrale di Nuova Delhi." },
+      IN_DEL: { kind: 'Territorio dell’Unione', title: 'Delhi (Capitale Federale & Territorio dell\'Unione · 1° Nov 1956)', note: "1° Novembre 1956 (States Reorganisation Act & VII Emendamento Costituzionale): Delhi cessa di essere Stato di Categoria C e diviene Territorio dell'Unione e capitale federale della Repubblica dell'India (Presidente Rajendra Prasad, Primo Ministro Jawaharlal Nehru)." },
+      IN_HP: { kind: 'Territorio dell’Unione', title: 'Himachal Pradesh (Territorio dell\'Unione · 1° Nov 1956)', note: "1° Novembre 1956 (States Reorganisation Act): Himachal Pradesh (che ha già assorbito Bilaspur nel 1954) è convertito da Stato di Categoria C in uno dei 6 Territori dell'Unione della Repubblica dell'India." },
+      IN_MAN: { kind: 'Territorio dell’Unione', title: 'Manipur (Territorio dell\'Unione · 1° Nov 1956)', note: "1° Novembre 1956 (States Reorganisation Act): il Manipur diviene uno dei 6 Territori dell'Unione (Union Territories) sotto amministrazione centrale (Stato federato solo nel 1972)." },
+      IN_TRI: { kind: 'Territorio dell’Unione', title: 'Tripura (Territorio dell\'Unione · 1° Nov 1956)', note: "1° Novembre 1956 (States Reorganisation Act): il Tripura diviene uno dei 6 Territori dell'Unione (Union Territories) sotto amministrazione centrale (Stato federato solo nel 1972)." },
+      IN_ANI: { kind: 'Territorio dell’Unione', title: 'Isole Andamane e Nicobare (Territorio dell\'Unione · 1° Nov 1956)', note: "1° Novembre 1956 (VII Emendamento Costituzionale): abolita la Categoria D, le Isole Andamane e Nicobare (Port Blair) divengono uno dei 6 nuovi Territori dell'Unione della Repubblica dell'India." },
+      IN_SIK: { kind: 'Protettorato', title: 'Regno del Sikkim (Protettorato Speciale dell\'India)', note: "31 Dicembre 1956: monarchia himalayana dei Chogyal (Tashi Namgyal) legata all'India dal Trattato del 1950 come protettorato speciale (non compresa nei 14 Stati fino all'annessione del 1975)." },
+    };
+
+    const sraEntry = sraMap[fid] || {
+      kind: 'Stato' as const,
+      title: (meta && meta.nutsName) || (meta && meta.name) || rawName || fid,
+      note: "31 Dicembre 1956 (States Reorganisation Act, 1° Novembre 1956): entità territoriale della Repubblica dell'India nel nuovo assetto federale a 14 Stati linguistici e 6 Territori dell'Unione.",
+    };
+    const isUT = sraEntry.kind === 'Territorio dell’Unione';
+    return makeResult(
+      'IND',
+      `Repubblica dell'India — ${sraEntry.kind} di ${sraEntry.title}`,
+      sraEntry.note,
+      'Neutrale',
+      isUT
+        ? `Republic of India · Union Territory (1 Nov 1956 · Pres. Rajendra Prasad · PM Jawaharlal Nehru)`
+        : sraEntry.kind === 'Protettorato'
+        ? `Kingdom of Sikkim (Special Protectorate of the Republic of India — Treaty of 1950)`
+        : `Republic of India · ${sraEntry.title} (States Reorganisation Act 1 Nov 1956 · 14 States & 6 UTs)`
     );
   }
 

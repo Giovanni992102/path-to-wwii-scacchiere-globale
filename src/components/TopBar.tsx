@@ -1,7 +1,8 @@
 import React from 'react';
-import { Search, Info, Volume2, VolumeX, Crosshair } from 'lucide-react';
+import { Search, Info, Volume2, VolumeX, Crosshair, Landmark } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';
+import { countActiveOrgsAtStep } from '../data/internationalOrganizations';
 import { tacticalAudio } from '../data/audioSynthesizer';
 
 interface TopBarProps {
@@ -9,6 +10,7 @@ interface TopBarProps {
   isMuted: boolean;
   onToggleAudio: () => void;
   onOpenSearch: () => void;
+  onOpenOrgs?: () => void;
   onToggleInfo: () => void;
   onExportMap?: () => void;
 }
@@ -18,11 +20,13 @@ export const TopBar: React.FC<TopBarProps> = ({
   isMuted,
   onToggleAudio,
   onOpenSearch,
+  onOpenOrgs,
   onToggleInfo,
   onExportMap,
 }) => {
   const step = STEPS[currentStep] || STEPS[0];
   const stepBattlesCount = HISTORICAL_BATTLES.filter((b) => b.step === currentStep).length;
+  const activeOrgsCount = countActiveOrgsAtStep(currentStep);
 
   return (
     <header className="absolute top-3.5 left-1/2 -translate-x-1/2 z-30 flex items-stretch gap-2.5 pointer-events-none max-w-[calc(100vw-28px)]">
@@ -34,7 +38,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           </div>
           <span className="hidden sm:inline-block h-3.5 w-[1px] bg-[#6a5a2f]" />
           <div className="hidden sm:block text-[11.5px] tracking-[2px] text-[#8b9298] uppercase font-semibold">
-            Scacchiere Globale · 1936–1940
+            Scacchiere Globale · 1936–1951
           </div>
         </div>
       </div>
@@ -63,6 +67,26 @@ export const TopBar: React.FC<TopBarProps> = ({
 
       {/* Action Buttons Toolbar */}
       <div className="tactical-panel pointer-events-auto px-2 flex items-center gap-1.5 shadow-2xl">
+        {/* International Organizations */}
+        {onOpenOrgs && (
+          <button
+            onClick={() => {
+              tacticalAudio.playClick();
+              onOpenOrgs();
+            }}
+            title="Organizzazioni Internazionali: SdN, ONU, CECA, NATO, OECE... (Tasto O)"
+            className="px-2 py-1.5 text-[#e8c979] hover:text-white hover:bg-[#c9a557]/20 border border-[#6a5a2f]/70 rounded transition-colors flex items-center gap-1.5"
+          >
+            <Landmark className="h-4 w-4 flex-none" />
+            <span className="hidden lg:inline font-oswald text-[11px] font-bold tracking-[1.2px] uppercase">
+              ORG. INT.
+            </span>
+            <span className="px-1 py-0.2 bg-[#c9a557]/25 border border-[#8a7440]/80 text-[10px] font-mono-tech text-[#f0e6c8] rounded-sm leading-tight">
+              {activeOrgsCount}
+            </span>
+          </button>
+        )}
+
         {/* Search */}
         <button
           onClick={() => {

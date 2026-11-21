@@ -1043,9 +1043,61 @@ export const SCANDINAVIAN_DISTRICTS_CATALOG: ScandinavianDistrictDef[] = [
     keys: ['fin_hist_262_petsamo_district', 'petsamo', 'liinahamari', 'kolosjoki', 'pechenga', 'jaameri'],
     preAdminTitle: 'Suomen tasavalta — Petsamon lääni (Tarton rauha 1920 / Jäämeren satama)',
     preNote: 'Unico sbocco artico della Finlandia sul Mare di Barents, ottenuto col Trattato di Tartu del 1920. Il porto di Liinahamari era perennemente libero dai ghiacci e collegato alle ricchissime miniere di nichel di Kolosjoki, gestite dalla consociata canadese-britannica Mond Nickel / Inco.',
-    postName: 'Petsamo (Liinahamari — Il Porto del Nichel Rimasto Finlandese)',
-    postAdminTitle: 'Suomen tasavalta — Petsamon nikkelikaivokset (1940)',
-    postNote: 'Nonostante la sconfitta nella Guerra d\'Inverno, il Trattato di Mosca del 1940 lasciò Petsamo e Liinahamari alla Finlandia (cedendo solo la punta settentrionale di Kalastajansaarento / Rybačij), garantendo la continuità dell\'estrazione del nichel vitale.',
+    postName: 'Petsamo (Liinahamari & Kolosjoki — Rybačij Ov. Ceduta)',
+    postAdminTitle: 'Suomen tasavalta — Petsamon lääni (Post–Mosca 1940)',
+    postNote: 'Trattato di Mosca (12 marzo 1940): la Finlandia conserva Liinahamari e il bacino di nichel di Kolosjoki, cedendo all\'URSS la metà occidentale della penisola dei Pescatori (Kalastajasaarento / Rybačij).',
+    phase3Step: 9,
+    phase3Name: 'Petsamo (Liinahamari — Zona Operativa Silberfuchs)',
+    phase3AdminTitle: 'Suomen tasavalta — Petsamon lääni (Jatkosota / 20. Gebirgs-Armee)',
+    phase3Note: 'Jatkosota (1941–1944): corridoio strategico del nichel di Kolosjoki presidiato dall\'Armata di Lapponia tedesca (Gebirgskorps Norwegen di Eduard Dietl / Lothar Rendulic) verso la linea della Zapadnaja Lica.',
+    transitionStep: 6,
+  },
+  {
+    nuts: 'FIN_HIST_262_KALASTAJASAARENTO',
+    country: 'FIN',
+    name: 'Kalastajasaarento Ovest (Vaitolahti / Pummanki — Rybačij Occidentale)',
+    nativeName: 'Kalastajasaarento / Länsi-Rybačij',
+    capitalOrCenter: 'Vaitolahti / Pummanki',
+    historicalRegion: 'Jäämeri / Petsamon lääni',
+    keys: ['fin_hist_262_kalastajasaarento', 'kalastajasaarento', 'vaitolahti', 'pummanki', 'kervanto', 'fin_rybachy'],
+    preAdminTitle: 'Suomen tasavalta — Petsamon lääni (Tarton rauha 1920)',
+    preNote: 'Metà occidentale della Penisola dei Pescatori (Kalastajasaarento / Rybačij) e penisola di Srednyj fino al confine geodetico del Trattato di Tartu (1920), con i villaggi pescherecci di Vaitolahti, Kervanto e Pummanki.',
+    transitionStep: 99,
+  },
+  {
+    nuts: 'FIN_HIST_HANKO',
+    country: 'FIN',
+    name: 'Penisola di Hanko (Hangö udd — Costa Occidentale dell\'Uusimaa)',
+    nativeName: 'Hanko / Hangö',
+    capitalOrCenter: 'Hanko',
+    historicalRegion: 'Uusimaa / Nyland',
+    keys: ['fin_hist_hanko', 'hanko', 'hango', 'hango_udd', 'fin_hanko'],
+    preAdminTitle: 'Suomen tasavalta — Uudenmaan lääni (Hanko)',
+    preNote: 'Città portuale e fortezza costiera di Russarö all\'imbocco del Golfo di Finlandia; ceduta in affitto trentennale all\'URSS nel marzo 1940 e recuperata dalla Finlandia con l\'evacuazione sovietica del 2 dicembre 1941.',
+    transitionStep: 99,
+  },
+  {
+    nuts: 'FIN_HIST_SUURSAARI',
+    country: 'FIN',
+    name: 'Suursaari (Hogland), Tytärsaari, Lavansaari & Seiskari (Isole Esterne)',
+    nativeName: 'Suursaari / Tytärsaari / Lavansaari',
+    capitalOrCenter: 'Suurkylä (Suursaari)',
+    historicalRegion: 'Suomenlahden ulkosaaret / Viipurin lääni',
+    keys: ['fin_hist_suursaari', 'suursaari', 'hogland', 'tytarsaari', 'lavansaari', 'seiskari', 'fin_suursaari'],
+    preAdminTitle: 'Suomen tasavalta — Viipurin lääni (Suomenlahden ulkosaaret)',
+    preNote: 'Arcipelago delle isole esterne del Golfo di Finlandia (Suursaari/Hogland, Tytärsaari, Lavansaari, Seiskari e Peninsaari), smilitarizzate dal Trattato di Tartu (1920) sotto sovranità finlandese.',
+    transitionStep: 99,
+  },
+  {
+    nuts: 'FIN_HIST_PORKKALA',
+    country: 'FIN',
+    name: 'Penisola di Porkkala (Porkkalanniemi — Degerby & Kirkkonummi)',
+    nativeName: 'Porkkala / Porkala',
+    capitalOrCenter: 'Kirkkonummi / Degerby',
+    historicalRegion: 'Uusimaa / Nyland',
+    keys: ['fin_hist_porkkala', 'porkkala', 'porkkalanniemi', 'degerby', 'fin_porkkala'],
+    preAdminTitle: 'Suomen tasavalta — Uudenmaan lääni (Porkkala)',
+    preNote: 'Promontorio agricolo e costiero a 30 km a sud-ovest di Helsinki, parte integrante della provincia finlandese di Uusimaa fino all\'Armistizio di Mosca del settembre 1944.',
     transitionStep: 99,
   },
   {
@@ -1083,16 +1135,16 @@ export const SCANDINAVIAN_DISTRICTS_CATALOG: ScandinavianDistrictDef[] = [
   {
     nuts: 'FIN_HIST_282_Koutero_District',
     country: 'FIN',
-    name: 'Salla Orientale e Alakurtti (Kuolajärvi — Saliente di Frontiera)',
-    nativeName: 'Itä-Salla ja Alakurtti',
-    capitalOrCenter: 'Märkäjärvi / Alakurtti',
-    historicalRegion: 'Salla-Kuusamo / Lappi',
-    keys: ['fin_hist_282_koutero_district', 'salla', 'alakurtti', 'kuolajarvi', 'markajarvi', 'koutero'],
-    preAdminTitle: 'Suomen tasavalta — Lapin lääni (Sallan rintamalohko)',
-    preNote: 'Saliente territoriale montuoso e boschivo al confine tra la Lapponia finlandese e la penisola di Kola. Teatro di intensi combattimenti invernali condotti dal corpo volontari svedese (Svenska Frivilligkåren) che rilevò le truppe finlandesi a Salla nel febbraio 1940.',
-    postName: 'Alakurtti e Salla Orientale (Ceduta all\'URSS)',
-    postAdminTitle: 'Murmanskaya oblast / Karelo-Finskaya SSR (URSS)',
-    postNote: 'Territorio di oltre 6.000 km² ceduto all\'URSS col Trattato di Mosca del marzo 1940.',
+    name: 'Salla–Kuusamo Orientale (Alakurtti, Kuolajärvi & Paanajärvi)',
+    nativeName: 'Itä-Salla, Alakurtti ja Paanajärvi',
+    capitalOrCenter: 'Märkäjärvi / Alakurtti / Paanajärvi',
+    historicalRegion: 'Salla-Kuusamo / Lappi & Koillismaa',
+    keys: ['fin_hist_282_koutero_district', 'salla', 'alakurtti', 'kuolajarvi', 'markajarvi', 'paanajarvi', 'kuusamo_east', 'koutero'],
+    preAdminTitle: 'Suomen tasavalta — Lapin ja Oulun lääni (Salla-Kuusamo)',
+    preNote: 'Saliente montuoso e forestale comprendente Salla orientale (Kuolajärvi, Alakurtti, Vuorijärvi) e l\'estremità orientale di Kuusamo fino al lago Paanajärvi. Teatro di aspri combattimenti invernali (Svenska Frivilligkåren, febbraio 1940) contro l\'offensiva sovietica verso Kemijärvi.',
+    postName: 'Alakurtti e Paanajärvi (Ceduta all\'URSS — RSS Carelo-Finlandese)',
+    postAdminTitle: 'Karelo-Finskaya SSR / Murmanskaya oblast (dal 1953)',
+    postNote: 'Territorio ceduto all\'URSS col Trattato di Mosca (marzo 1940) e riconfermato nel 1944; incorporato nella RSS Carelo-Finlandese (settore Alakurtti trasferito poi all\'Oblast\' di Murmansk nel 1953).',
     postOwner: 'SOV',
     transitionStep: 6,
   },
@@ -1137,10 +1189,10 @@ export const SCANDINAVIAN_DISTRICTS_CATALOG: ScandinavianDistrictDef[] = [
     historicalRegion: 'Raja-Karjala',
     keys: ['fin_hist_290_suoj_rvi_district', 'suojarvi', 'korpiselka', 'tolvajarvi', 'raja_karjala', 'suojarven_rata'],
     preAdminTitle: 'Suomen tasavalta — Viipurin lääni (Tolvajärven taistelualue)',
-    preNote: 'Carelia di Frontiera (Raja-Karjala), a maggioranza ortodossa e ricca di foreste e laghi. A Tolvajärvi (dicembre 1939) il colonnello Paavo Talvela ottenne la prima grande controffensiva vittoriosa della Guerra d\'Inverno contro la 139ª Divisione sovietica.',
-    postName: 'Suojärvi (Karelo-Finskaya SSR)',
+    preNote: 'Carelia di Frontiera (Raja-Karjala) dai laghi e foreste di Suojärvi e Korpiselkä (confine storico di Tartu 1920 con la sola Porosozero/Porajärvi rimasta sovietica). A Tolvajärvi (dicembre 1939) il col. Paavo Talvela ottenne la prima grande controffensiva vittoriosa della Guerra d\'Inverno.',
+    postName: 'Suojärvi (RSS Carelo-Finlandese — Karelo-Finskaya SSR)',
     postAdminTitle: 'Karelo-Finskaya SSR — Distretto di Suojärvi',
-    postNote: 'Ceduta all\'URSS nel marzo 1940 col Trattato di pace di Mosca.',
+    postNote: 'Ceduta all\'URSS nel marzo 1940 col Trattato di Mosca e riconfermata nel settembre 1944.',
     postOwner: 'SOV',
     transitionStep: 6,
   },
@@ -1160,17 +1212,41 @@ export function resolveScandinavianToponym(
   const rawLower = String(rawName || '').toLowerCase();
   const nKey = normKey || rawLower.replace(/[^a-z0-9]/g, '_');
 
-  // Ricerca prioritaria per codice NUTS esatto
-  let def = SCANDINAVIAN_DISTRICTS_CATALOG.find(d => d.nuts === normId);
+  // Ricerca prioritaria per codice NUTS / ID esatto (case-insensitive per includere FIN_HIST_*)
+  let def = SCANDINAVIAN_DISTRICTS_CATALOG.find(d => d.nuts.toUpperCase() === normId);
 
-  // Ricerca secondaria per chiavi toponomastiche
+  // Ricerca secondaria per chiavi toponomastiche con isolamento per paese e confini di parola (evita es. 'hamar' dentro 'liinahamari')
   if (!def) {
-    def = SCANDINAVIAN_DISTRICTS_CATALOG.find(d => 
-      d.keys.some(k => nKey === k || nKey.includes(k) || rawLower.includes(k))
-    );
+    const inferredCountry =
+      normId.startsWith('FI') || owner === 'FIN'
+        ? 'FIN'
+        : normId.startsWith('NO') || owner === 'NOR'
+        ? 'NOR'
+        : normId.startsWith('SE') || owner === 'SWE'
+        ? 'SWE'
+        : normId.startsWith('DK') || owner === 'DEN'
+        ? 'DEN'
+        : normId.startsWith('IS') || owner === 'ICE'
+        ? 'ICE'
+        : null;
+    const escapeRx = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    def = SCANDINAVIAN_DISTRICTS_CATALOG.find(d => {
+      if (inferredCountry && d.country !== inferredCountry) return false;
+      return d.keys.some(k => {
+        if (nKey === k || rawLower === k) return true;
+        if (k.length < 4) return false;
+        const rx = new RegExp(`(?:^|[^a-z0-9äöåæøé])${escapeRx(k)}(?:$|[^a-z0-9äöåæøé])`, 'i');
+        return rx.test(rawLower) || rx.test(nKey);
+      });
+    });
   }
 
   if (!def) return null;
+
+  // Se il territorio è passato sotto controllo sovietico (SOV), lascia che prevalgano le descrizioni cronologiche di georesolver.ts (1940-1954)
+  if (owner === 'SOV' && def.country === 'FIN') {
+    return null;
+  }
 
   // Post-WWII (Step >= 18): elimina ogni residuo di occupazione nazista/Wehrmacht in Danimarca e Norvegia
   if (yearStep >= 18 && (def.country === 'DEN' || def.country === 'NOR')) {

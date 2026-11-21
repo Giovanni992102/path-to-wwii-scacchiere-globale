@@ -1438,7 +1438,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Settore di Wagah (Amritsar–Lahore)', coords: [74.57, 31.60], desc: 'Asse ferroviario e stradale centrale del Punjab diviso nell\'agosto 1947.' },
       { name: 'Corridoio di Gurdaspur–Pathankot', coords: [75.40, 32.15], desc: 'Unico collegamento terrestre assegnato all\'India verso il principato di Jammu e Kashmir.' },
     ],
-    activeSteps: [19, 20, 21, 22, 23, 24, 25, 26],
+    activeSteps: [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
   },
   {
     id: 'dekemvriana_athens_perimeter_1944',
@@ -1618,7 +1618,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Gerusalemme Divisa (Ovest Capitale Israele · Est Giordania)', coords: [35.22, 31.78], desc: 'Israele proclama Gerusalemme Ovest capitale nel dicembre 1949 mentre la Giordania amministra Gerusalemme Est.' },
       { name: 'DMZ di Auja / Nitzana & Striscia di Gaza', coords: [34.42, 30.88], desc: 'Zona smilitarizzata al confine meridionale egiziano-israeliano e perimetro di Gaza.' },
     ],
-    activeSteps: [24, 25, 26],
+    activeSteps: [24, 25, 26, 27, 28, 29, 30, 31],
   },
   {
     id: 'taiwan_strait_front_1949',
@@ -1665,7 +1665,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Corridoio Ferroviario & Autostradale Helmstedt–Marienborn', coords: [11.06, 52.21], desc: 'Principale valico tra RFT e RDT verso il ponte terrestre di Berlino Ovest.' },
       { name: 'Settore di Eisenach / Wartha–Herleshausen', coords: [10.18, 50.99], desc: 'Passaggio strategico tra Assia (Zona USA/RFT) e Turingia (RDT).' },
     ],
-    activeSteps: [24, 25, 26],
+    activeSteps: [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
   },
   {
     id: 'korean_war_han_river_front_june1950',
@@ -1710,7 +1710,7 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Isole Dachen & Yijiangshan (Zhejiang 0,5% ROC)', coords: [121.90, 28.45], desc: 'Uniche isole residue alla ROC nel Zhejiang dopo l\'evacuazione di Zhoushan.' },
       { name: 'Kinmen / Quemoy, Matsu & Wuqiu (Fujian 1% ROC)', coords: [118.38, 24.45], desc: 'Enclave insulari fortificate difese dalla Repubblica di Cina.' },
     ],
-    activeSteps: [25, 26],
+    activeSteps: [25, 26, 27, 28, 29, 30, 31],
   },
   {
     id: 'korean_war_imjin_38th_front_dec1950',
@@ -1776,6 +1776,321 @@ export const HISTORICAL_FORTIFICATION_LINES: FortificationLine[] = [
       { name: 'Qamdo / Chamdo (Sede della Battaglia del 6–19 Ott 1950)', coords: [97.17, 31.14], desc: 'Capoluogo del Kham orientale conquistato dalla 18ª Armata EPL.' },
     ],
     activeSteps: [26],
+  },
+  {
+    id: 'korean_war_kansas_wyoming_line_jun1951',
+    name: 'Linea Fortificata Kansas / Wyoming oltre il 38° Parallelo (30 Giugno 1951)',
+    nation: 'Comando ONU (UNC — Gen. Ridgway) & Corea del Sud (ROK) vs PVA & Corea del Nord (RPDC)',
+    builder: '8ª Armata USA / ROK dopo le Controffensive Thunderbolt, Killer, Ripper & Arresto Offensiva di Primavera (Giu 1951)',
+    description:
+      'Al 30 giugno 1951 (giorno dell\'offerta radiofonica di negoziati di Ridgway, prima dei colloqui di Kaesong del 10 luglio), il fronte coreano è attestato lungo la Linea Kansas/Wyoming: estuario dell\'Han e basso Imjin (Incheon/Ganghwa ROK-UNC, Ongjin RPDC-PVA, Kaesong/Jangdan RPDC-PVA), Yeoncheon ROK-UNC, Triangolo di Ferro (Cheorwon), Hwacheon, Yanggu, Inje e Sokcho/Goseong oltre il 38° parallelo.',
+    type: 'heavy',
+    color: '#2b7bb9',
+    coordinates: [
+      [126.48, 37.75], // Canale Nord Ganghwa / Estuario Han (ROK-UNC vs Ongjin RPDC-PVA)
+      [126.72, 37.86], // Basso Imjin a sud di Kaesong/Jangdan (RPDC-PVA)
+      [127.07, 38.10], // Yeoncheon (ROK-UNC)
+      [127.21, 38.24], // Triangolo di Ferro — Cheorwon (ROK-UNC)
+      [127.71, 38.18], // Bacino di Hwacheon (ROK-UNC)
+      [128.10, 38.22], // Yanggu & Inje (ROK-UNC)
+      [128.48, 38.45], // Sokcho / Goseong a sud del fiume Nam (20% Gangwon Nord ROK-UNC)
+    ],
+    keyForts: [
+      { name: 'Triangolo di Ferro (Cheorwon — Linea Wyoming / Kansas)', coords: [127.21, 38.24], desc: 'Saliente strategico a nord del 38° parallelo conquistato dalle forze ONU a giugno 1951.' },
+      { name: 'Fiume Imjin & Kaesong (Offerta Radiofonica 30 Giu)', coords: [126.68, 37.94], desc: 'Kaesong resta RPDC-PVA a sud del 38°; negoziati ancora non aperti fino al 10 luglio.' },
+      { name: 'Settore Hwacheon – Yanggu – Sokcho/Goseong', coords: [128.15, 38.24], desc: 'Fascia montana e costiera orientale a nord del 38° parallelo presidiata da ROK-UNC.' },
+    ],
+    activeSteps: [27],
+  },
+  {
+    id: 'indochina_de_lattre_line_jun1951',
+    name: 'Linea Fortificata de Lattre Consolidata attorno al Delta del Fiume Rosso (Giugno 1951)',
+    nation: 'Unione Francese (CEFEO — Gen. de Lattre) & Stato del Vietnam vs RDV (Việt Minh)',
+    builder: 'Gén. Jean de Lattre de Tassigny (Dopo le Battaglie di Vĩnh Yên, Mạo Khê & Fiume Đáy, Gen–Giu 1951)',
+    description:
+      'Dopo aver respinto tra gennaio e giugno 1951 le tre grandi offensive convenzionali di Võ Nguyên Giáp a Vĩnh Yên, Mạo Khê e sul Fiume Đáy / Ninh Bình, la cinta di oltre 900 fortini in calcestruzzo protegge stabilmente il Delta del Fiume Rosso (Hà Nội, Hải Phòng, Bắc Ninh, Hải Dương, Hưng Yên, Thái Bình, Nam Định, Ninh Bình, Vĩnh Phúc), mentre Việt Bắc e Annam Nord restano 100% Việt Minh.',
+    type: 'heavy',
+    color: '#3498db',
+    coordinates: [
+      [105.50, 21.14], // Sơn Tây
+      [105.60, 21.31], // Vĩnh Yên (Vittoria gen 1951)
+      [106.07, 21.19], // Bắc Ninh
+      [106.58, 21.06], // Mạo Khê / Đông Triều (Vittoria mar 1951)
+      [106.68, 20.84], // Hải Phòng
+      [105.97, 20.25], // Ninh Bình / Fiume Đáy (Vittoria mag–giu 1951)
+    ],
+    keyForts: [
+      { name: 'Vĩnh Yên & Mạo Khê (Settori Nord Delta)', coords: [105.60, 21.31], desc: 'Perni settentrionali dove le divisioni regolari Việt Minh vengono respinte nel gen–mar 1951.' },
+      { name: 'Fiume Đáy & Ninh Bình (Settore Sud Delta)', coords: [105.97, 20.25], desc: 'Teatro dell\'offensiva di maggio–giugno 1951 contenuta dalle forze franco-vietnamite.' },
+    ],
+    activeSteps: [27],
+  },
+  {
+    id: 'korean_war_panmunjom_mdl_dec1951',
+    name: 'Linea di Demarcazione Militare (MDL) di Panmunjom & Guerra di Trincea 1951–1952 (Old Baldy, White Horse, Triangle Hill)',
+    nation: 'Comando ONU (UNC — Ridgway / Clark / Van Fleet) & Corea del Sud (ROK) vs PVA & Corea del Nord (RPDC)',
+    builder: 'Accordo di Panmunjom sulla MDL Provvisoria (27 Novembre 1951 — Trincee fino al 31 Dicembre 1952)',
+    description:
+      'Tra il 27 novembre 1951 e il 31 dicembre 1952 il fronte coreano rimane congelato in una dura guerra di trincea lungo la Linea di Demarcazione Militare (MDL) di Panmunjom: aspri combattimenti locali su Old Baldy, White Horse e Triangle Hill nell\'autunno 1952 non producono alcun mutamento provinciale ADM1 (Kaesong e Ongjin restano RPDC-PVA, il 90% del Gyeonggi-do e il 25% del Gangwon settentrionale restano ROK-UNC). I negoziati restano bloccati sui prigionieri di guerra e nessun armistizio sarà firmato fino al 27 luglio 1953.',
+    type: 'heavy',
+    color: '#2b7bb9',
+    coordinates: [
+      [126.48, 37.75], // Canale Nord Ganghwa / Estuario Han (ROK-UNC vs Ongjin RPDC-PVA)
+      [126.68, 37.96], // Panmunjom / Sud-est di Kaesong (RPDC-PVA)
+      [127.05, 38.16], // Linea Jamestown a nord di Yeoncheon (Old Baldy / White Horse)
+      [127.23, 38.28], // Triangolo di Ferro — Cheorwon / Kimhwa / Triangle Hill
+      [128.00, 38.31], // Bloody Ridge & Heartbreak Ridge a nord di Yanggu
+      [128.14, 38.29], // Conca del Punchbowl (Haean) a nord di Inje
+      [128.46, 38.52], // Fascia costiera orientale fino a Goseong / Kosong (25% Gangwon Nord ROK-UNC)
+    ],
+    keyForts: [
+      { name: 'Panmunjom & Settore di Kaesong (Colloqui Sospesi / Nessun Armistizio 1952)', coords: [126.68, 37.96], desc: 'Sede dei negoziati d\'armistizio bloccati sulla questione del rimpatrio dei prigionieri fino al 1953.' },
+      { name: 'Quote Old Baldy, White Horse & Triangle Hill (Settore Ovest/Centro)', coords: [127.21, 38.24], desc: 'Caposaldi collinari contesi in sanguinose battaglie di posizione nell\'autunno 1952 lungo la MDL.' },
+      { name: 'Saliente di Punchbowl (Haean), Heartbreak Ridge & Goseong', coords: [128.10, 38.30], desc: 'Saliente ROK-UNC nel Gangwon settentrionale oltre il 38° parallelo senza variazioni ADM1 nel 1952.' },
+    ],
+    activeSteps: [28, 29],
+  },
+  {
+    id: 'indochina_hoa_binh_salient_dec1951',
+    name: 'Saliente Fortificato di Hòa Bình, Corridoio del Fiume Nero & Linea de Lattre (14 Novembre – 31 Dicembre 1951)',
+    nation: 'Unione Francese (CEFEO — Gen. de Lattre / Gen. Salan) & Stato del Vietnam vs RDV (Việt Minh — Giáp)',
+    builder: 'Operazione Lotus (14 Novembre 1951 — Gén. Jean de Lattre de Tassigny & Gén. Raoul Salan)',
+    description:
+      'Il 14 novembre 1951 le forze dell\'Unione Francese avanzano oltre la Linea de Lattre riconquistando Hòa Bình, il corridoio del Fiume Nero (Đà) da Trung Hà/Ba Vì e la Route Coloniale 6. Al 31 dicembre 1951 le divisioni 304, 308 e 312 di Võ Nguyên Giáp investono i capisaldi lungo il Fiume Nero e la RC6, ma Hòa Bình resta presidiata dalle truppe franco-vietnamite (verrà evacuata solo nel febbraio 1952).',
+    type: 'heavy',
+    color: '#3498db',
+    coordinates: [
+      [105.34, 20.81], // Hòa Bình (Saliente avanzato CEFEO/SVN sul Fiume Nero)
+      [105.38, 21.08], // Massiccio del Ba Vì / Tu Vũ sul Fiume Nero
+      [105.50, 21.14], // Sơn Tây / Linea de Lattre
+      [105.85, 21.03], // Hà Nội
+      [106.68, 20.84], // Hải Phòng
+      [105.97, 20.25], // Ninh Bình / Fiume Đáy
+    ],
+    keyForts: [
+      { name: 'Campo Trincerato di Hòa Bình (14 Nov – 31 Dic 1951)', coords: [105.34, 20.81], desc: 'Città del Paese Mường riconquistata e presidiata da CEFEO/SVN al 31 dicembre 1951 sotto contrattacco Việt Minh.' },
+      { name: 'Corridoio del Fiume Nero (Đà), Ba Vì & RC6', coords: [105.38, 21.08], desc: 'Arteria fluviale e stradale difesa dai capisaldi francesi contro le divisioni 308 e 312 di Giáp.' },
+    ],
+    activeSteps: [28],
+  },
+  {
+    id: 'indochina_na_san_airhead_de_lattre_dec1952',
+    name: 'Linea de Lattre, Campo Trincerato Aerotrasportato di Nà Sản & Sacca di Lai Châu (Dicembre 1952)',
+    nation: 'Unione Francese (CEFEO — Gen. Salan) & Stato del Vietnam vs RDV (Việt Minh — Campagna del Nord-Ovest)',
+    builder: 'CEFEO — Campo Trincerato di Nà Sản (Ott–Dic 1952) & Difesa del Delta dopo Evacuazione Hòa Bình',
+    description:
+      'Al 31 dicembre 1952 il Việt Minh controlla Hòa Bình (evacuata dai francesi il 22–24 febbraio 1952), Nghĩa Lộ (18 ott), Sơn La (22 nov) ed espugna la conca di Điện Biên Phủ (30 novembre 1952) senza però aver invaso il Laos. L\'Unione Francese e lo Stato del Vietnam presidiano la cintura fortificata de Lattre attorno al Delta del Fiume Rosso (Hà Nội – Hải Phòng – Fiume Đáy) insieme alle due sacche aerotrasportate isolate nel Nord-Ovest: il campo trincerato di Nà Sản nel Sơn La (5% francese dopo la vittoriosa difesa del 30 nov – 2 dic 1952) e la fascia settentrionale di Lai Châu – Phong Thổ (25% francese).',
+    type: 'heavy',
+    color: '#3498db',
+    coordinates: [
+      [103.15, 22.06], // Lai Châu / Phong Thổ (25% CEFEO/Fédération Taï isolato a nord)
+      [104.04, 21.22], // Campo trincerato aerotrasportato di Nà Sản (5% CEFEO nel Sơn La)
+      [105.50, 21.14], // Sơn Tây (Linea de Lattre dopo sgombero Hòa Bình & Operazione Lorraine)
+      [105.85, 21.03], // Hà Nội (Cuore del Delta)
+      [106.68, 20.84], // Hải Phòng
+      [105.97, 20.25], // Ninh Bình / Fiume Đáy
+    ],
+    keyForts: [
+      { name: 'Campo Trincerato Aerotrasportato di Nà Sản (Sơn La · 5% CEFEO)', coords: [104.04, 21.22], desc: 'Riccio aerotrasportato tenuto dai francesi (Col. Jean Gilles) dopo la vittoria difensiva del 30 nov – 2 dic 1952 contro il Việt Minh.' },
+      { name: 'Ridotto Settentrionale di Lai Châu & Phong Thổ (25% CEFEO/Taï)', coords: [103.15, 22.06], desc: 'Ultima fascia settentrionale franco-tai dopo la conquista Việt Minh di Điện Biên Phủ (30 nov 1952).' },
+      { name: 'Cintura Fortificata del Delta del Fiume Rosso (Linea de Lattre)', coords: [105.85, 21.03], desc: 'Perimetro difensivo tra Hà Nội, Hải Phòng e il Fiume Đáy dopo l\'evacuazione di Hòa Bình (feb) e l\'Operazione Lorraine (ott–nov 1952).' },
+    ],
+    activeSteps: [29],
+  },
+  {
+    id: 'korean_dmz_armistice_1953',
+    name: 'Zona Demilitarizzata Coreana (DMZ · Armistizio di Panmunjom)',
+    nation: 'Corea (DMZ ONU / RPDC)',
+    builder: 'Comando ONU (UNC), Corea del Nord (KPA) & Volontari Popolari Cinesi (PVA) — 27 Luglio 1953',
+    description:
+      'Sancita dall\'Armistizio di Panmunjom firmato il 27 luglio 1953 dopo la battaglia finale sul saliente di Kumsong, la Zona Demilitarizzata (DMZ) larga 4 km stabilizza la divisione tra Repubblica di Corea (ROK) e Repubblica Popolare Democratica di Corea (PRK): partendo dall\'estuario del Fiume Imjin lascia Kaesong, Ongjin, Haeju e Sariwon a nord (PRK) e attraversa in diagonale verso nord-est Chorwon, l\'area a sud di Kumsong e le alture oltre il 38° parallelo fino a Sokcho/Kosong sul Mar del Giappone.',
+    type: 'heavy',
+    color: '#f59e0b',
+    coordinates: [
+      [126.58, 37.78], // Estuario Fiume Imjin / Baia di Ganghwa
+      [126.68, 37.95], // Panmunjom (a sud-est di Kaesong)
+      [127.18, 38.24], // Settore di Chorwon / Triangolo di Ferro
+      [127.60, 38.30], // Saliente di Kumsong (rettificato nel lug 1953)
+      [128.14, 38.34], // Punchbowl / Settore di Inje–Yanggu
+      [128.36, 38.62], // Goseong / Costa orientale oltre il 38° parallelo
+    ],
+    keyForts: [
+      { name: 'Panmunjom · Joint Security Area (JSA)', coords: [126.68, 37.95], desc: 'Sede della firma dell\'Armistizio di Corea il 27 luglio 1953 e della Commissione Militare di Armistizio (MAC).' },
+      { name: 'Settore di Kumsong & Chorwon (DMZ Centrale)', coords: [127.60, 38.30], desc: 'Teatro dell\'ultima offensiva cinese del luglio 1953 prima del congelamento nella DMZ.' },
+      { name: 'Settore Orientale oltre il 38° Parallelo (Kosong)', coords: [128.36, 38.62], desc: 'Territori settentrionali del Gangwon sudcoreano inclusi a sud della DMZ armistiziale.' },
+    ],
+    activeSteps: [30, 31, 32, 33, 34],
+  },
+  {
+    id: 'indochina_dien_bien_phu_castor_laos_dec1953',
+    name: 'Campo Trincerato di Điện Biên Phủ (Op. Castor) & Offensiva Laos',
+    nation: 'Unione Francese / Việt Minh',
+    builder: 'CEFEO (Piano Navarre — Gen. Gilles / Col. de Castries) vs. Việt Minh & Pathet Lao (Gen. Giáp)',
+    description:
+      'Al 31 dicembre 1953, sgomberati dai francesi sia Nà Sản nel Sơn La (agosto) sia Lai Châu (dicembre), il Việt Minh domina quasi tutto il Nord-Ovest vietnamita e insieme al Pathet Lao ha invaso Phongsaly, Houaphanh e Khammouane (Thakhek) in Laos. Il 20 novembre 1953 l\'Operazione Castor ha tuttavia rioccupato la conca di Điện Biên Phủ trasformandola in campo trincerato aerotrasportato francese ancora pienamente attivo e non ancora caduto (la battaglia decisiva inizierà solo nel marzo 1954), mentre la Linea de Lattre difende il Delta del Fiume Rosso.',
+    type: 'heavy',
+    color: '#3498db',
+    coordinates: [
+      [103.02, 21.39], // Campo trincerato di Điện Biên Phủ (Operazione Castor, attivo)
+      [104.05, 20.42], // Sam Neua / Houaphanh (Việt Minh & Pathet Lao in Laos)
+      [105.00, 17.40], // Thakhek / Khammouane (Incursione sul Medio Laos, dic 1953)
+      [105.50, 21.14], // Sơn Tây / Linea de Lattre
+      [105.85, 21.03], // Hà Nội (Delta del Fiume Rosso)
+      [106.68, 20.84], // Hải Phòng
+    ],
+    keyForts: [
+      { name: 'Campo Trincerato di Điện Biên Phủ (Op. Castor, 20 Nov 1953)', coords: [103.02, 21.39], desc: 'Base aerotrasportata CEFEO/Col. de Castries rioccupata il 20 nov 1953: al 31 dicembre 1953 è ancora attiva e non caduta.' },
+      { name: 'Fronte Laos (Houaphanh · Phongsaly · Thakhek)', coords: [104.05, 20.42], desc: 'Settore orientale e settentrionale del Laos penetrato da Việt Minh e Pathet Lao nel 1953.' },
+      { name: 'Perimetro Fortificato del Delta (Linea de Lattre)', coords: [105.85, 21.03], desc: 'Ridotto principale franco-vietnamita tra Hà Nội, Hải Phòng e il Fiume Đáy.' },
+    ],
+    activeSteps: [30],
+  },
+  {
+    id: 'vietnam_17th_parallel_dmz_1954',
+    name: 'Linea di Demarcazione al 17° Parallelo (Bến Hải DMZ) & Enclave 300 Giorni di Hải Phòng',
+    nation: 'Repubblica Democratica del Vietnam (RDV) vs Stato del Vietnam (SVN) & Unione Francese',
+    builder: 'Accordi di Ginevra (20–21 Luglio 1954) & ICSC (India–Canada–Polonia)',
+    description:
+      'Dopo la caduta di Điện Biên Phủ (7 maggio 1954), gli Accordi di Ginevra dividono provvisoriamente il Vietnam lungo il fiume Bến Hải al 17° parallelo (Vĩnh Linh a nord RDV, Đông Hà a sud SVN) separando i territori con una DMZ presidiata dall\'ICSC. Al 31 dicembre 1954 il perimetro portuaria di Hải Phòng e Hồng Gai permane ancora sotto raggruppamento franco-vietnamita (SVN) per la clausola dei 300 giorni fino al 16 maggio 1955.',
+    type: 'heavy',
+    color: '#e67e22',
+    coordinates: [
+      [106.56, 17.00], // Confine Laos / Distretto di Vĩnh Linh (17° Parallelo)
+      [107.05, 16.95], // Ponte Hiền Lương sul fiume Bến Hải (DMZ)
+      [107.18, 17.02], // Sbocco Cửa Tùng al Mar Cinese Meridionale
+      [106.68, 20.84], // Perimetro 300 giorni di Hải Phòng (SVN / CEFEO)
+      [107.08, 20.95], // Corridoio costiero di Hồng Gai / Quảng Ninh
+    ],
+    keyForts: [
+      { name: 'DMZ del Fiume Bến Hải (17° Parallelo · Vĩnh Linh vs Đông Hà)', coords: [107.05, 16.95], desc: 'Linea di partizione militare sancita dagli Accordi di Ginevra (20–21 lug 1954).' },
+      { name: 'Enclave dei 300 Giorni di Hải Phòng–Hồng Gai (SVN / CEFEO)', coords: [106.68, 20.84], desc: 'Testa di ponte d\'evacuazione Operazione Passage to Freedom attiva sino al 16 mag 1955.' },
+    ],
+    activeSteps: [31],
+  },
+  {
+    id: 'algeria_aures_kabylie_insurgency_1954',
+    name: 'Fronte Insurrezionale Aurès–Cabilia ("Toussaint Rouge", 1° Novembre 1954)',
+    nation: 'Francia (Quarta Repubblica · Algérie française) vs FLN / ALN',
+    builder: 'Primi Maquis del FLN (Aurès & Cabilia) · Operazioni dell\'Esercito Francese (Nov–Dic 1954)',
+    description:
+      'Attivato nella notte del 1° novembre 1954 ("Toussaint Rouge") dall\'Aurès (Batna, Khenchela, Arris) alla Cabilia (Tizi Ouzou, Béjaïa), segna lo scoppio della Guerra d\'Algeria con il rafforzamento delle colonne militari francesi inviate dal governo Mendès France.',
+    type: 'field',
+    color: '#d97706',
+    coordinates: [
+      [4.05, 36.71], // Tizi Ouzou (Grande Cabilia)
+      [5.08, 36.75], // Béjaïa / Valle del Soummam
+      [6.17, 35.55], // Batna / Massiccio dell'Aurès
+      [7.14, 35.43], // Khenchela (Frontiera orientale algerina)
+    ],
+    keyForts: [
+      { name: 'Massiccio dell\'Aurès (Batna · Khenchela — Zona I FLN)', coords: [6.17, 35.55], desc: 'Focolaio principale dell\'insurrezione armata del 1° novembre 1954.' },
+      { name: 'Cabilia (Tizi Ouzou · Béjaïa — Zona III FLN)', coords: [4.05, 36.71], desc: 'Settore montuoso cabile di resistenza anticoloniale dal novembre 1954.' },
+    ],
+    activeSteps: [31, 32, 33, 34],
+  },
+  {
+    id: 'vietnam_17th_parallel_dmz_1955',
+    name: 'Linea di Partizione del 17° Parallelo (Fiume Bến Hải — DMZ Nord/Sud Vietnam)',
+    nation: 'Repubblica Democratica del Vietnam (RDV) vs Repubblica del Vietnam (SVN)',
+    builder: 'Accordi di Ginevra · Sgombero di Hải Phòng Completato il 16 Maggio 1955',
+    description:
+      'Completato il ritiro delle ultime truppe francesi da Hải Phòng il 16 maggio 1955, la Repubblica Democratica del Vietnam controlla il 100% del territorio a nord del 17° parallelo, mentre a sud del fiume Bến Hải Ngô Đình Diệm proclama la Repubblica del Vietnam il 26 ottobre 1955.',
+    type: 'heavy',
+    color: '#e67e22',
+    coordinates: [
+      [106.56, 17.00], // Confine Laos / Distretto di Vĩnh Linh (17° Parallelo)
+      [107.05, 16.95], // Ponte Hiền Lương sul fiume Bến Hải (DMZ)
+      [107.18, 17.02], // Sbocco Cửa Tùng al Mar Cinese Meridionale
+    ],
+    keyForts: [
+      { name: 'DMZ del Fiume Bến Hải (17° Parallelo · Vĩnh Linh vs Đông Hà)', coords: [107.05, 16.95], desc: 'Confine di fatto tra RDV (100% Nord dopo sgombero Hải Phòng) e nuova Repubblica del Vietnam (26 ott 1955).' },
+    ],
+    activeSteps: [32, 33, 34],
+  },
+  {
+    id: 'cyprus_eoka_insurgency_1955',
+    name: 'Insurrezione Anti-Coloniale EOKA a Cipro (1° Apr 1955 · Emergenza 26 Nov)',
+    nation: 'Impero Britannico (Colonia della Corona di Cipro) vs EOKA',
+    builder: 'Campagna Armata EOKA (Georgios Grivas) · Operazioni Militari Britanniche (Sir John Harding)',
+    description:
+      'Dal 1° aprile 1955 la guerriglia greco-cipriota dell\'EOKA conduce sabotaggi e imboscate contro basi e presidi britannici per l\'Enosis (unione con la Grecia), spingendo il governatore Sir John Harding a proclamare lo stato d\'emergenza il 26 novembre 1955.',
+    type: 'field',
+    color: '#e11d48',
+    coordinates: [
+      [33.38, 35.19], // Nicosia
+      [32.88, 34.93], // Monti Troodos (roccaforte EOKA)
+      [33.04, 34.68], // Limassol
+      [33.94, 35.12], // Famagosta
+    ],
+    keyForts: [
+      { name: 'Nicosia (Comando Emergenza Sir John Harding)', coords: [33.38, 35.19], desc: 'Stato d\'emergenza proclamato il 26 novembre 1955.' },
+      { name: 'Massiccio del Troodos (Basi Guerriglia EOKA)', coords: [32.88, 34.93], desc: 'Rifugio montuoso dei combattenti di Georgios Grivas ("Digenis").' },
+    ],
+    activeSteps: [32, 33, 34],
+  },
+  {
+    id: 'sudan_torit_civil_war_1955',
+    name: 'Insurrezione del Sudan Meridionale (Ammutinamento di Torit, 18 Agosto 1955)',
+    nation: 'Condominio Anglo-Egiziano / Governo di Khartoum vs Insorti del Sud Sudan',
+    builder: 'Ammutinamento dell\'Equatorial Corps (Torit) · Inizio Prima Guerra Civile Sudanese',
+    description:
+      'Il 18 agosto 1955 l\'ammutinamento delle unità meridionali dell\'Equatorial Corps a Torit incendia Equatoria, Bahr el Ghazal e Upper Nile, aprendo la Prima Guerra Civile Sudanese alla vigilia dell\'indipendenza del 1° gennaio 1956.',
+    type: 'field',
+    color: '#d97706',
+    coordinates: [
+      [32.57, 4.41],  // Torit (Equatoria Orientale)
+      [31.58, 4.85],  // Juba
+      [28.00, 7.70],  // Wau (Bahr el Ghazal)
+      [31.65, 9.53],  // Malakal (Upper Nile)
+    ],
+    keyForts: [
+      { name: 'Torit (Focolaio Ammutinamento 18 Ago 1955)', coords: [32.57, 4.41], desc: 'Casermaggio dell\'Equatorial Corps dove ha inizio la Prima Guerra Civile Sudanese.' },
+      { name: 'Juba (Capoluogo di Equatoria)', coords: [31.58, 4.85], desc: 'Principale snodo fluviale e amministrativo del Sudan meridionale.' },
+    ],
+    activeSteps: [32, 33, 34],
+  },
+  {
+    id: 'suez_sinai_unef_occupation_line_1956',
+    name: 'Crisi di Suez — Fascia Cuscinetto UNEF & Occupazione Israeliana di Sinai/Gaza (Dic 1956)',
+    nation: 'Egitto / Caschi Blu ONU (UNEF) vs Israele (Occupazione Sinai & Gaza)',
+    builder: 'Operazione Kadesh (IDF) · Forza di Pace ONU (UNEF dopo Evacuazione UK/FRA 22 Dic 1956)',
+    description:
+      'Dopo l\'evacuazione anglo-francese di Port Said (22 dicembre 1956) sotto la vigilanza dei Caschi Blu dell\'UNEF, Israele mantiene al 31 dicembre 1956 l\'occupazione militare della Striscia di Gaza e di oltre l\'80% della Penisola del Sinai fino al Passo del Mitla, al Sinai centro-orientale e a Sharm el-Sheikh (evacuazione completata tra gennaio e marzo 1957).',
+    type: 'field',
+    color: '#dc2626',
+    coordinates: [
+      [34.46, 31.50], // Striscia di Gaza
+      [33.80, 31.13], // El Arish (Nord Sinai)
+      [32.95, 30.00], // Zona cuscinetto Passo del Mitla / Est Canale
+      [34.33, 27.91], // Sharm el-Sheikh (Stretto di Tiran)
+    ],
+    keyForts: [
+      { name: 'Port Said & Zona del Canale (UNEF ONU)', coords: [32.30, 31.26], desc: 'Evacuata da UK/Francia il 22 dic 1956; presidio ONU UNEF.' },
+      { name: 'El Arish & Passo del Mitla (Fronte IDF nel Sinai)', coords: [33.80, 31.13], desc: 'Oltre l\'80% del Sinai ancora sotto occupazione israeliana al 31 dic 1956.' },
+      { name: 'Sharm el-Sheikh / Stretto di Tiran', coords: [34.33, 27.91], desc: 'Caposaldo meridionale israeliano sul Mar Rosso fino al marzo 1957.' },
+    ],
+    activeSteps: [33],
+  },
+  {
+    id: 'algeria_morice_line_1957',
+    name: 'Linea Morice (Barrage Elettrificato Algero-Tunisino, Set 1957) & Assedio di Sidi Ifni',
+    nation: 'Francia (Algeria) · Spagna (AOS) vs. FLN / ALN',
+    builder: 'Ministro André Morice (Genio Militare Francese, Set 1957) & Esercito di Liberazione Marocchino (Nov–Dic 1957)',
+    description:
+      'Completata nel settembre 1957 tra Bône (Annaba), Souk Ahras, Tébessa e Negrine, la Linea Morice (reticolati elettrificati, campi minati e radar da 320 km) isola l\'ALN algerina dalle retrovie nella neonata Repubblica di Tunisia. Sulla sponda atlantica, dal 23 novembre 1957 Sidi Ifni resiste assediata lungo un perimetro difensivo spagnolo.',
+    type: 'heavy',
+    color: '#2563eb',
+    coordinates: [
+      [7.76, 36.90], // Bône / Annaba (estremo nord Linea Morice)
+      [7.95, 36.28], // Souk Ahras
+      [8.12, 35.40], // Tébessa
+      [7.52, 34.49], // Negrine / Chott el-Gharsa (sud Barrage Est)
+    ],
+    keyForts: [
+      { name: 'Bône / Annaba (Caposaldo Nord Linea Morice)', coords: [7.76, 36.90], desc: 'Sbarramento elettrificato costiero e radar lungo la frontiera tunisina.' },
+      { name: 'Souk Ahras — Tébessa (Settore Centrale Barrage Est)', coords: [8.12, 35.40], desc: 'Fascia minata ed elettrificata che blocca i convogli ALN dalla Tunisia.' },
+    ],
+    activeSteps: [34],
   },
 ];
 
@@ -3153,7 +3468,9 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
           : step >= 21
           ? 'Unione Francese (Marine Nationale / FNEO & CEFEO)'
           : 'Francia (Marine Nationale / CEFEO)';
-        historicalName = step >= 26
+        historicalName = step >= 27
+          ? 'Arsenal de Saïgon (Capitale Stato del Vietnam · Consolidamento Linea de Lattre & MAAG — Giu 1951)'
+          : step >= 26
           ? 'Arsenal de Saïgon (Capitale Stato del Vietnam · Accordi di Pau, MAAG USA & Gen. de Lattre — Dic 1950)'
           : step >= 25
           ? 'Arsenal de Saïgon (Capitale Stato del Vietnam · Aiuti USA MAAG & Conferenza di Pau — Giu 1950)'
@@ -3168,7 +3485,9 @@ export function getDynamicNavalBaseStatus(base: NavalBase, step: number): Dynami
           : 'Base Navale di Saigon (Ritorno Francese & Resa Giapponese — Settembre 1945)';
         strokeColor = '#3a82c4';
         fillColor = '#152438';
-        description = step >= 26
+        description = step >= 27
+          ? 'Al 30 giugno 1951 Saigon e la Marina CEFEO sostengono con gli aiuti USA MAAG la difesa del Delta del Fiume Rosso (Linea de Lattre) dopo aver respinto le offensive Việt Minh a Vĩnh Yên, Mạo Khê e sul Fiume Đáy.'
+          : step >= 26
           ? 'Al 31 dicembre 1950 Saigon consolida gli Accordi di Pau (nov-dic 1950) sotto il Primo Ministro Trần Văn Hữu e il nuovo Alto Commissario e Comandante Gen. Jean de Lattre de Tassigny (giunto il 17 dicembre): l\'Arsenale alimenta con gli aiuti USA MAAG le flottiglie Dinassaut nel Delta del Mekong e nel Tonchino.'
           : step >= 25
           ? 'Al 30 giugno 1950 Saigon è capitale dello Stato del Vietnam riconosciuto da USA e Regno Unito (PM Trần Văn Hữu): l\'Arsenale riceve i primi rifornimenti militari americani MAAG per le flottiglie fluviali Dinassaut impegnate nel delta contro Đồng Tháp Mười e U Minh.'

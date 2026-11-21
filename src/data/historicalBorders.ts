@@ -467,6 +467,20 @@ export const ZARA_ENCLAVE_FEATURE: any = {
   __layer: 'prov',
   __kind: 'ZARA_ENCLAVE',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 19) {
+      const fac = s >= 21 ? ('Neutrale' as const) : ('Comintern' as const);
+      return makeResult(
+        'DFJ',
+        s >= 29
+          ? 'Zadar / Zara — RS di Croazia (RFP di Jugoslavia, 1952–54)'
+          : 'Zadar / Zara — RS di Croazia (Trattato di Parigi 1947)',
+        s >= 21
+          ? '1948–1954: ratificata dal Trattato di Parigi (1947) la cessione alla Jugoslavia federale (RS di Croazia), Zadar ricostruisce il centro bombardato nel 1943–44 mentre si compie l\'esodo quasi integrale della comunità italiana zaratina.'
+          : 'Trattato di Pace di Parigi (10 febbraio / 15 settembre 1947): l\'enclave dalmata di Zara e le isole di Lagosta e Pelagosa sono cedute de jure alla Repubblica Federativa Popolare di Jugoslavia (RS di Croazia).',
+        fac,
+        'FNRJ / RFP di Jugoslavia — Narodna Republika Hrvatska (Zadar)'
+      );
+    }
     if (s >= 16) {
       return makeResult(
         'DFJ',
@@ -520,6 +534,22 @@ export const FIUME_CARNARO_FEATURE: any = {
   __layer: 'prov',
   __kind: 'FIUME_CARNARO',
   __resolve: (s: number): ResolvedTerritory => {
+    if (s >= 19) {
+      const fac = s >= 21 ? ('Neutrale' as const) : ('Comintern' as const);
+      return makeResult(
+        'DFJ',
+        s >= 29
+          ? 'Rijeka (ex Fiume), Cherso & Lussino — RS di Croazia (RFP di Jugoslavia, 1952–54)'
+          : 'Rijeka (ex Fiume) & Isole Quarnarine — RS di Croazia (Trattato di Parigi 1947)',
+        s >= 29
+          ? '1952–1954: porto industriale e cantieristico ("3. Maj") di punta della Repubblica Socialista di Croazia nella Jugoslavia titina non allineata; dopo la cessione del 1947 quasi tutta la storica comunità italiana fiumana lascia la città nell\'Esodo giuliano-dalmata.'
+          : s >= 21
+          ? '1948–1951: unificata amministrativamente con Sušak nella città di Rijeka (RS di Croazia) dopo il Trattato di Parigi e la rottura Tito–Stalin (1948), mentre prosegue l\'esodo degli italiani di Fiume e del Quarnero.'
+          : 'Trattato di Pace di Parigi (10 febbraio / 15 settembre 1947): l\'intera Provincia italiana del Carnaro (Fiume, Abbazia, Laurana, Cherso e Lussino) è ceduta de jure alla Repubblica Federativa Popolare di Jugoslavia (RS di Croazia).',
+        fac,
+        'FNRJ / RFP di Jugoslavia — Narodna Republika Hrvatska (Rijeka)'
+      );
+    }
     if (s >= 17) {
       return makeResult(
         'DFJ',

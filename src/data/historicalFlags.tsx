@@ -2,8 +2,6 @@ import React from 'react';
 
 import { GER_FLAG_DATA_URL } from './flags/gerFlag';
 
-import { SOV_FLAG_DATA_URL } from './flags/sovFlag';
-
 import { ITA_FLAG_DATA_URL } from './flags/itaFlag';
 
 import { BOL_FLAG_DATA_URL } from './flags/bolFlag';
@@ -121,6 +119,8 @@ import { WJ_CHI_FLAG_DATA_URL } from './flags/wjChiFlag';
 
 import { TANGER_FLAG_DATA_URL } from './flags/tangerFlag';
 
+import { DANZIG_FLAG_DATA_URL } from './flags/danzigFlag';
+
 import { CRO_FLAG_DATA_URL } from './flags/croFlag';
 
 import { RSI_FLAG_DATA_URL } from './flags/rsiFlag';
@@ -133,7 +133,11 @@ import { ACC_FLAG_DATA_URL } from './flags/accFlag';
 
 import { POSTWAR_OFFICIAL_FLAGS } from './flags/postwarFlags';
 
+import { FLAGS_1936 } from './flags/flags1936';
+
 import { canonicalizeOwnerCode } from './owners';
+import { PNG_PROVINCES_META } from './papuaNewGuineaProvinces';
+import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 
 import {
 
@@ -183,23 +187,25 @@ export {
 
 // Helper to wrap SVG in standard viewBox
 
-function svgWrap(content: string, vb = '0 0 600 400'): string {
+function svgWrap(content: string, vb = '0 0 600 400', par = 'none'): string {
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vb}" width="100%" height="100%" preserveAspectRatio="none" class="flag-svg">${content}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vb}" width="100%" height="100%" preserveAspectRatio="${par}" class="flag-svg">${content}</svg>`;
 
 }
 
-function officialSvgFlag(key: string, extraTitle = ''): string {
+function officialSvgFlag(key: string, extraTitle = '', par = 'none'): string {
 
-  const asset = POSTWAR_OFFICIAL_FLAGS[key];
+  const asset = POSTWAR_OFFICIAL_FLAGS[key] || FLAGS_1936[key];
 
   if (!asset) return '';
 
   return svgWrap(
 
-    `${extraTitle ? `<title>${extraTitle}</title>` : ''}<image href="${asset.dataUrl}" xlink:href="${asset.dataUrl}" width="${asset.width}" height="${asset.height}" preserveAspectRatio="none" />`,
+    `${extraTitle ? `<title>${extraTitle}</title>` : ''}<image href="${asset.dataUrl}" xlink:href="${asset.dataUrl}" width="${asset.width}" height="${asset.height}" preserveAspectRatio="${par}" />`,
 
-    `0 0 ${asset.width} ${asset.height}`
+    `0 0 ${asset.width} ${asset.height}`,
+
+    par
 
   );
 
@@ -265,31 +271,27 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // PRINCIPATO DEL LIECHTENSTEIN (Fürstentum Liechtenstein) — Bandiera ufficiale con Fürstenhut fornita dall'utente (1024x614)
+  // PRINCIPATO DEL LIECHTENSTEIN (Fürstentum Liechtenstein) — Bicolore 1921-1937 (senza corona) vs Dal 24 Giu 1937 (con Fürstenhut)
 
-  LIE: () =>
+  LIE: (step?: number) =>
 
-    svgWrap(
+    typeof step === 'number' && step === 0
 
-      `<image href="${LIE_FLAG_DATA_URL}" xlink:href="${LIE_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
+      ? officialSvgFlag('LIE_1921', 'Principato del Liechtenstein (Bicolore 1921–1937, senza corona)')
 
-      '0 0 1024 614'
+      : svgWrap(
 
-    ),
+          `<image href="${LIE_FLAG_DATA_URL}" xlink:href="${LIE_FLAG_DATA_URL}" width="1024" height="614" preserveAspectRatio="none" />`,
+
+          '0 0 1024 614'
+
+        ),
 
 
 
-  // PRINCIPATO DI MONACO — Bandiera bicolore rossa e bianca dei Grimaldi (proporzioni 4:5)
+  // PRINCIPATO DI MONACO — Bandiera bicolore rossa e bianca dei Grimaldi (proporzioni ufficiali 4:5 Wikimedia Commons)
 
-  MCO: () =>
-
-    svgWrap(
-
-      `<rect width="500" height="200" fill="#ce1126"/><rect y="200" width="500" height="200" fill="#ffffff"/>`,
-
-      '0 0 500 400'
-
-    ),
+  MCO: () => officialSvgFlag('MCO_1881', 'Principato di Monaco (Proporzioni ufficiali 4:5)'),
 
 
 
@@ -355,27 +357,28 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // REPUBBLICA DEMOCRATICA DEL VIETNAM (Việt Minh / Ho Chi Minh — Proclamazione 2 Settembre 1945, bandiera fornita dall'utente)
-
-  VIE: () =>
-
-    svgWrap(
-
+  // REPUBBLICA DEMOCRATICA DEL VIETNAM (Việt Minh / Hồ Chí Minh — 1945–1955 stella larga -> 30 Novembre 1955 stella geometrica a bordi dritti Flag_of_Vietnam.svg)
+  VIE: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 32) {
+      return officialSvgFlag('VIE_1955', 'Repubblica Democratica del Vietnam (Riforma Stella 30 Novembre 1955)');
+    }
+    return svgWrap(
       `<image href="${DRV_FLAG_DATA_URL}" xlink:href="${DRV_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
-
       '0 0 1024 682'
+    );
+  },
 
-    ),
-
-  DRV: () =>
-
-    svgWrap(
-
+  DRV: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 32) {
+      return officialSvgFlag('VIE_1955', 'Repubblica Democratica del Vietnam (Riforma Stella 30 Novembre 1955)');
+    }
+    return svgWrap(
       `<image href="${DRV_FLAG_DATA_URL}" xlink:href="${DRV_FLAG_DATA_URL}" width="1024" height="682" preserveAspectRatio="none" />`,
-
       '0 0 1024 682'
-
-    ),
+    );
+  },
 
 
 
@@ -423,17 +426,33 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // UNIONE SOVIETICA (1936-1955) — Bandiera ufficiale fornita dall'utente
+  // UNIONE SOVIETICA (1936–1955: Costituzione 1936; dal 19 ago 1955 / Step >= 32: Statuto 19 agosto 1955)
 
-  SOV: () =>
+  SOV: (step?: number) => {
 
-    svgWrap(
+    const s = typeof step === 'number' ? step : 0;
 
-      `<image href="${SOV_FLAG_DATA_URL}" xlink:href="${SOV_FLAG_DATA_URL}" width="1024" height="512" preserveAspectRatio="none" />`,
+    if (s >= 32) {
 
-      '0 0 1024 512'
+      return officialSvgFlag('SOV_1955', 'Unione Sovietica (Statuto del 19 agosto 1955)');
 
-    ),
+    }
+
+    if (s >= 1) {
+
+      return officialSvgFlag('SOV_1936', 'Unione Sovietica (Costituzione 1936)');
+
+    }
+
+    return officialSvgFlag('SOV_1924', 'Unione Sovietica (Costituzione 1924 — fino al 5 Dic 1936)');
+
+  },
+
+  SOV_1924: () => officialSvgFlag('SOV_1924', 'Unione Sovietica (Costituzione 1924 — fino al 5 Dic 1936)'),
+
+  SOV_1936: () => officialSvgFlag('SOV_1936', 'Unione Sovietica (Costituzione 1936)'),
+
+  SOV_1955: () => officialSvgFlag('SOV_1955', 'Unione Sovietica (Statuto del 19 agosto 1955)'),
 
 
 
@@ -531,17 +550,7 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // REPUBBLICA FRANCESE — Terza Repubblica (Tricolore)
 
-  FRA: () =>
-
-    svgWrap(`
-
-      <rect width="200" height="400" fill="#002395"/>
-
-      <rect x="200" width="200" height="400" fill="#ffffff"/>
-
-      <rect x="400" width="200" height="400" fill="#ed2939"/>
-
-    `),
+  FRA: () => officialSvgFlag('FRA_1870', 'Repubblica Francese (Tricolore 1870–1940 / 1944–1976)'),
 
 
 
@@ -567,15 +576,7 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
     if (s >= 16) {
 
-      return svgWrap(`
-
-        <rect width="200" height="400" fill="#002395"/>
-
-        <rect x="200" width="200" height="400" fill="#ffffff"/>
-
-        <rect x="400" width="200" height="400" fill="#ed2939"/>
-
-      `);
+      return officialSvgFlag('FRA_1870', 'GPRF / Repubblica Francese');
 
     }
 
@@ -603,38 +604,26 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // IMPERO DEL GIAPPONE — Hinomaru / Sole Nascente
 
-  JAP: () =>
+  JAP: (s) =>
 
-    svgWrap(`
+    s !== undefined && s >= 29
 
-      <rect width="600" height="400" fill="#ffffff"/>
+      ? officialSvgFlag('JAP_1952')
 
-      <circle cx="300" cy="200" r="120" fill="#bc002d"/>
-
-    `),
+      : officialSvgFlag('JAP_1870', 'Impero del Giappone (Hinomaru 1870–1999)'),
 
 
 
-  // POLONIA — Seconda Repubblica (1919-1939 Aquila Incoronata) vs Dopoguerra (1945-1980 Aquila Senza Corona ufficiale Wikimedia Commons)
-
+  // POLONIA — Seconda Repubblica (1928-1944 Aquila Incoronata, SVG verbatim 1280x800) vs Dopoguerra / RTRP / TRJN / PRL (1945-1980 Aquila Senza Corona)
   POL: (step?: number) => {
-
     const s = typeof step === 'number' ? step : 0;
-
-    if (s >= 18) {
-
+    if (s >= 17) {
       return officialSvgFlag('POL_1945');
-
     }
-
     return svgWrap(
-
-      `<image href="${POL_FLAG_DATA_URL}" xlink:href="${POL_FLAG_DATA_URL}" width="1024" height="640" preserveAspectRatio="none" />`,
-
-      '0 0 1024 640'
-
+      `<title>Seconda Repubblica di Polonia (1928–1944)</title><image href="${POL_FLAG_DATA_URL}" xlink:href="${POL_FLAG_DATA_URL}" width="1280" height="800" preserveAspectRatio="none" />`,
+      '0 0 1280 800'
     );
-
   },
 
 
@@ -671,39 +660,27 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // MANCIUKUÒ (IMPERO DEL MANCHUKUO) — Giallo imperiale con 4 colori
 
-  MAN: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#ffde00"/>
-
-      <g transform="translate(0, 0)">
-
-        <rect width="300" height="50" fill="#c8102e"/>
-
-        <rect y="50" width="300" height="50" fill="#002b7f"/>
-
-        <rect y="100" width="300" height="50" fill="#ffffff"/>
-
-        <rect y="150" width="300" height="50" fill="#000000"/>
-
-      </g>
-
-    `),
+  MAN: () => officialSvgFlag('MAN_1932', 'Impero del Grande Manciukuò (1932–1945)'),
 
 
 
-  // MENGJIANG (GOVERNO AUTONOMO UNITO DEL MENGJIANG / MENKYO — PRINCIPE DEMCHUGDONGRUB)
+  // MENGJIANG (GOVERNO MILITARE MONGOLO MAG 1936–NOV 1937 -> GOVERNO AUTONOMO DEL MENGJIANG)
 
-  MEJ: () =>
+  MEJ: (step?: number) =>
 
-    svgWrap(
+    typeof step === 'number' && step === 0
 
-      `<image href="${MEJ_FLAG_DATA_URL}" xlink:href="${MEJ_FLAG_DATA_URL}" width="1024" height="683" preserveAspectRatio="none" />`,
+      ? officialSvgFlag('MEJ_1936', 'Governo Militare Mongolo (Mengjiang, 12 Mag 1936 – 22 Nov 1937)')
 
-      '0 0 1024 683'
+      : svgWrap(
 
-    ),
+          `<image href="${MEJ_FLAG_DATA_URL}" xlink:href="${MEJ_FLAG_DATA_URL}" width="1024" height="683" preserveAspectRatio="none" />`,
+
+          '0 0 1024 683'
+
+        ),
+
+  MEJ_1936: () => officialSvgFlag('MEJ_1936', 'Governo Militare Mongolo (Mengjiang, 12 Mag 1936 – 22 Nov 1937)'),
 
 
 
@@ -849,17 +826,7 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // CECOSLOVACCHIA
 
-  CZE: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="200" fill="#ffffff"/>
-
-      <rect y="200" width="600" height="200" fill="#d7141a"/>
-
-      <polygon points="0,0 280,200 0,400" fill="#11457e"/>
-
-    `),
+  CZE: () => officialSvgFlag('CZE_1920', 'Repubblica Cecoslovacca (1920–1992)'),
 
 
 
@@ -877,9 +844,13 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // UNGHERIA — Regno d'Ungheria con Corona di S. Stefano (fino al 31 gen 1946) vs Seconda Repubblica Ungherese con Stemma di Kossuth (dal 1° feb 1946)
+  // UNGHERIA — Regno d'Ungheria (fino al 31 gen 1946) -> Stemma Kossuth (1946-1949) -> Stemma Rákosi (1949-ott 1956) -> Tricolore senza stemma Rákosi (da ott-nov 1956)
   HUN: (step?: number) => {
     const s = typeof step === 'number' ? step : 0;
+    if (s >= 33) {
+      // 23 Ottobre / Novembre 1956: Tricolore ungherese privo dello stemma Rákosi (Wikimedia Commons Flag_of_Hungary.svg)
+      return officialSvgFlag('HUN_1956', "Repubblica Popolare Ungherese (Tricolore post-Rivoluzione d'Ottobre 1956 — Senza stemma Rákosi)");
+    }
     if (s >= 24) {
       // 20 Agosto 1949: Repubblica Popolare Ungherese — File ufficiale Wikimedia Commons Flag_of_Hungary_(1949-1956).svg (Stemma di Rákosi)
       return officialSvgFlag('HUN_1949');
@@ -894,9 +865,13 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
     );
   },
 
-  // REGNO DI ROMANIA (fino al 29 dic 1947) & REPUBBLICA POPOLARE ROMENA (RPR dal 30 dic 1947 — Step >= 20; Costituzione 13 apr 1948 — Step >= 21)
+  // REGNO DI ROMANIA (fino al 29 dic 1947) & REPUBBLICA POPOLARE ROMENA (RPR dal 30 dic 1947 — Step >= 20; Costituzione 13 apr 1948 — Step >= 21; Costituzione 24 set 1952 — Step >= 29)
   ROM: (step?: number) => {
     const s = typeof step === 'number' ? step : 0;
+    if (s >= 29) {
+      // Costituzione RPR del 24 Settembre 1952: Tricolore romeno con stemma socialista del 1948 sormontato dalla stella rossa a cinque punte bordata d'oro (Wikimedia Commons Flag_of_Romania_(1952–1965).svg)
+      return officialSvgFlag('ROM_1952');
+    }
     if (s >= 21) {
       // Costituzione RPR del 13 Aprile 1948: Tricolore romeno con emblema RPR (Wikimedia Commons Flag_of_Romania_(1948–1952).svg)
       return officialSvgFlag('ROM_1948');
@@ -967,12 +942,12 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
   UNION_OF_BURMA: () => HISTORICAL_FLAGS['BUR'](),
   MYANMAR: () => HISTORICAL_FLAGS['BUR'](),
 
-  // DOMINION DI CEYLON (4 febbraio 1948 – 1951: file ufficiale Wikimedia Commons Flag_of_Ceylon_(1948–1951).svg senza strisce verde/arancio)
-  CEY: () => officialSvgFlag('CEY_1948'),
-  CEYLON: () => HISTORICAL_FLAGS['CEY'](),
-  DOMINION_OF_CEYLON: () => HISTORICAL_FLAGS['CEY'](),
-  DOMINION_DI_CEYLON: () => HISTORICAL_FLAGS['CEY'](),
-  SRI_LANKA: () => HISTORICAL_FLAGS['CEY'](),
+  // DOMINION DI CEYLON (4 feb 1948 – 1 mar 1951: CEY_1948; dal 2 mar 1951: CEY_1951 con bande verde #00534E e zafferano #EB7400 — Wikimedia Commons)
+  CEY: (s) => (s !== undefined && s >= 27 ? officialSvgFlag('CEY_1951') : officialSvgFlag('CEY_1948')),
+  CEYLON: (s) => HISTORICAL_FLAGS['CEY'](s),
+  DOMINION_OF_CEYLON: (s) => HISTORICAL_FLAGS['CEY'](s),
+  DOMINION_DI_CEYLON: (s) => HISTORICAL_FLAGS['CEY'](s),
+  SRI_LANKA: (s) => HISTORICAL_FLAGS['CEY'](s),
   LK: (s) => (s !== undefined && s >= 21 ? HISTORICAL_FLAGS['CEY'](s) : HISTORICAL_FLAGS['UK'](s)),
   LKA: (s) => (s !== undefined && s >= 21 ? HISTORICAL_FLAGS['CEY'](s) : HISTORICAL_FLAGS['UK'](s)),
 
@@ -1008,22 +983,16 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
   FEDERAZIONE_DELLA_MALESIA: (s?: number) => HISTORICAL_FLAGS['MAL'](s),
   PERSEKUTUAN_TANAH_MELAYU: (s?: number) => HISTORICAL_FLAGS['MAL'](s),
 
-  // REPUBBLICA DI COREA — COREA DEL SUD (15 agosto 1948: ROK_1948; 15 ottobre 1949: ROK_1949; 7 luglio 1950 / Step 26+: Taegeukgi affiancato alla bandiera ONU del Comando UNC)
+  // REPUBBLICA DI COREA — COREA DEL SUD (15 agosto 1948: ROK_1948; 15 ottobre 1949+: Taegeukgi autentico singolo; bandiera ONU UNC in riquadro separato)
   ROK: (step?: number) => {
     const s = typeof step === 'number' ? step : 22;
-    if (s >= 26) {
-      const rok = POSTWAR_OFFICIAL_FLAGS['ROK_1949'];
-      const un = POSTWAR_OFFICIAL_FLAGS['UN_1947'];
-      return svgWrap(
-        `<image href="${rok.dataUrl}" xlink:href="${rok.dataUrl}" x="0" y="0" width="300" height="400" preserveAspectRatio="none" />` +
-          `<image href="${un.dataUrl}" xlink:href="${un.dataUrl}" x="300" y="0" width="300" height="400" preserveAspectRatio="none" />`,
-        '0 0 600 400'
-      );
-    }
     return officialSvgFlag(s >= 24 ? 'ROK_1949' : 'ROK_1948');
   },
-  UNC: () => HISTORICAL_FLAGS['ROK'](26),
-  ROK_UNC: () => HISTORICAL_FLAGS['ROK'](26),
+  UN: () => officialSvgFlag('UN_1947', 'Nazioni Unite (ONU)'),
+  ONU: () => officialSvgFlag('UN_1947', 'Nazioni Unite (ONU)'),
+  UN_1947: () => officialSvgFlag('UN_1947', 'Nazioni Unite (ONU)'),
+  UNC: () => officialSvgFlag('UN_1947', 'Comando delle Nazioni Unite in Corea (UNC — Risoluzione ONU 84, 7 Luglio 1950)'),
+  ROK_UNC: () => HISTORICAL_FLAGS['UNC'](),
   SOUTH_KOREA: () => HISTORICAL_FLAGS['ROK'](),
   COREA_DEL_SUD: () => HISTORICAL_FLAGS['ROK'](),
   KR: (s) => (s !== undefined && s >= 22 ? HISTORICAL_FLAGS['ROK'](s) : s !== undefined && s >= 18 ? HISTORICAL_FLAGS['USA'](s) : HISTORICAL_FLAGS['JAP'](s)),
@@ -1068,6 +1037,11 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
   STATO_DEL_VIETNAM: () => HISTORICAL_FLAGS['SVN'](),
   QUOC_GIA_VIET_NAM: () => HISTORICAL_FLAGS['SVN'](),
   BAO_DAI_VIETNAM: () => HISTORICAL_FLAGS['SVN'](),
+  RVN: () => HISTORICAL_FLAGS['SVN'](),
+  REPUBLIC_OF_VIETNAM: () => HISTORICAL_FLAGS['SVN'](),
+  VNCH: () => HISTORICAL_FLAGS['SVN'](),
+  VIE_1955: () => officialSvgFlag('VIE_1955', 'Repubblica Democratica del Vietnam (Riforma Stella 30 Novembre 1955)'),
+  DRV_1955: () => HISTORICAL_FLAGS['VIE_1955'](),
 
   // REPUBBLICA DEMOCRATICA TEDESCA — GERMANIA EST (7 ottobre 1949: Costituzione RDT — file ufficiale Wikimedia Commons Flag_of_Germany.svg, tricolore nero-rosso-oro senza emblema 1949–1959)
   DDR: () => officialSvgFlag('DDR_1949'),
@@ -1094,18 +1068,8 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
   RIS: () => officialSvgFlag('RIS_1949'),
   REPUBLIK_INDONESIA_SERIKAT: () => officialSvgFlag('RIS_1949'),
 
-  // AMMINISTRAZIONE FIDUCIARIA ITALIANA DELLA SOMALIA (AFIS, 1° aprile 1950): Bandiera ONU & Tricolore Italiano congiunti (file ufficiali verbatim)
-  AFIS: () => {
-    const un = POSTWAR_OFFICIAL_FLAGS['UN_1947'];
-    const it = POSTWAR_OFFICIAL_FLAGS['IT_1947'];
-    return svgWrap(
-      `<image href="${un.dataUrl}" xlink:href="${un.dataUrl}" x="0" y="0" width="300" height="400" preserveAspectRatio="none" />` +
-        `<svg x="300" y="0" width="300" height="400" viewBox="0 0 900 600" preserveAspectRatio="none">` +
-        `<image href="${it.dataUrl}" xlink:href="${it.dataUrl}" width="900" height="600" preserveAspectRatio="none" />` +
-        `</svg>`,
-      '0 0 600 400'
-    );
-  },
+  // AMMINISTRAZIONE FIDUCIARIA ITALIANA DELLA SOMALIA (AFIS, 1° aprile 1950): bandiera ONU singola nel riquadro primario (Tricolore Italiano in riquadro separato)
+  AFIS: () => officialSvgFlag('UN_1947', 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Bandiera ONU)'),
   SOM_AFIS: () => HISTORICAL_FLAGS['AFIS'](),
 
   // REPUBBLICA DELLE MOLUCCHE MERIDIONALI (RMS — Benang Raja, 25 aprile 1950: file ufficiale Wikimedia Commons)
@@ -1117,6 +1081,16 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
   NIT: () => officialSvgFlag('NIT_1946'),
   NEGARA_INDONESIA_TIMUR: () => HISTORICAL_FLAGS['NIT'](),
 
+  // REGNO UNITO DI LIBIA (Indipendenza 24 dicembre 1951 – 1969: file ufficiale Wikimedia Commons Flag_of_Libya_(1951–1969).svg)
+  LBY: () => officialSvgFlag('LBY_1951', 'Regno Unito di Libia (24 Dicembre 1951)'),
+  LIBYA: () => HISTORICAL_FLAGS['LBY'](),
+  LIBIA: () => HISTORICAL_FLAGS['LBY'](),
+  UNITED_KINGDOM_OF_LIBYA: () => HISTORICAL_FLAGS['LBY'](),
+  REGNO_UNITO_DI_LIBIA: () => HISTORICAL_FLAGS['LBY'](),
+  KINGDOM_OF_LIBYA: () => HISTORICAL_FLAGS['LBY'](),
+  REGNO_DI_LIBIA: () => HISTORICAL_FLAGS['LBY'](),
+  LY: (s) => (s !== undefined && s >= 28 ? HISTORICAL_FLAGS['LBY'](s) : HISTORICAL_FLAGS['ITA'](s)),
+
   // TERRITORIO LIBERO DI TRIESTE (TLT / FTT — Alabarda bianca di San Sergio in campo rosso)
   TLT: () => HISTORICAL_FLAGS['AMG'](19),
 
@@ -1124,99 +1098,46 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // TURCHIA — Mezzaluna e stella
+  // TURCHIA — Pre-Legge 2994 (29 Maggio 1936: TUR_1923) & Legge sulla Bandiera 1936 (TUR_1936)
 
-  TUR: () =>
+  TUR: (step?: number) =>
 
-    svgWrap(`
+    typeof step === 'number' && step === 0
 
-      <rect width="600" height="400" fill="#e30a17"/>
+      ? officialSvgFlag('TUR_1923', 'Repubblica di Turchia (1923–29 Maggio 1936)')
 
-      <circle cx="240" cy="200" r="85" fill="#ffffff"/>
+      : officialSvgFlag('TUR_1936', 'Repubblica di Turchia (Türk Bayrağı Kanunu, 29 Maggio 1936)'),
 
-      <circle cx="262" cy="200" r="68" fill="#e30a17"/>
+  TUR_1923: () => officialSvgFlag('TUR_1923', 'Repubblica di Turchia (1923–29 Maggio 1936)'),
 
-      <polygon points="330,200 348,212 342,192 358,180 338,180 330,162 322,180 302,180 318,192 312,212" fill="#ffffff"/>
-
-    `),
+  TUR_1936: () => officialSvgFlag('TUR_1936', 'Repubblica di Turchia (Türk Bayrağı Kanunu, 29 Maggio 1936)'),
 
 
 
-  // LITUANIA (1918-1940)
+  // LITUANIA (1918-1940) — Proporzioni ufficiali interbelliche 2:3 (Wikimedia Commons verbatim)
 
-  LIT: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="133.3" fill="#fdb913"/>
-
-      <rect y="133.3" width="600" height="133.4" fill="#006a44"/>
-
-      <rect y="266.7" width="600" height="133.3" fill="#c1272d"/>
-
-    `),
+  LIT: () => officialSvgFlag('LIT_1918', 'Repubblica di Lituania (1918–1940, proporzioni ufficiali 2:3)'),
 
 
 
   // LETTONIA (1918-1940)
 
-  LAT: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="160" fill="#9e3039"/>
-
-      <rect y="160" width="600" height="80" fill="#ffffff"/>
-
-      <rect y="240" width="600" height="160" fill="#9e3039"/>
-
-    `),
+  LAT: () => officialSvgFlag('LAT_1918', 'Repubblica di Lettonia (1918–1940)'),
 
 
 
   // ESTONIA (1918-1940)
 
-  EST: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="133.3" fill="#0072ce"/>
-
-      <rect y="133.3" width="600" height="133.4" fill="#000000"/>
-
-      <rect y="266.7" width="600" height="133.3" fill="#ffffff"/>
-
-    `),
+  EST: () => officialSvgFlag('EST_1918', 'Repubblica di Estonia (1918–1940)'),
 
 
 
-  // CITTÀ LIBERA DI DANZICA (1920-1939)
-
+  // CITTÀ LIBERA DI DANZICA (Freie Stadt Danzig, 1920-1939) — Staats- und Handelsflagge verbatim (Art. 2 Costituzione, 591x397)
   DANZIG: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#dc143c"/>
-
-      <!-- Corona d'Oro -->
-
-      <polygon points="180,130 200,115 220,130 216,138 184,138" fill="#ffd700" stroke="#8a6526" stroke-width="1.5"/>
-
-      <!-- Due Croci d'Argento -->
-
-      <g fill="#ffffff">
-
-        <rect x="193" y="150" width="14" height="45"/>
-
-        <rect x="178" y="165" width="44" height="14"/>
-
-        <rect x="193" y="210" width="14" height="45"/>
-
-        <rect x="178" y="225" width="44" height="14"/>
-
-      </g>
-
-    `),
+    svgWrap(
+      `<title>Freie Stadt Danzig (Città Libera di Danzica, 1920–1939)</title><image href="${DANZIG_FLAG_DATA_URL}" xlink:href="${DANZIG_FLAG_DATA_URL}" width="591" height="397" preserveAspectRatio="none" />`,
+      '0 0 591 397'
+    ),
 
 
 
@@ -1294,65 +1215,25 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // SVEZIA
 
-  SWE: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#006aa7"/>
-
-      <rect x="180" width="80" height="400" fill="#fecc00"/>
-
-      <rect y="160" width="600" height="80" fill="#fecc00"/>
-
-    `),
+  SWE: () => officialSvgFlag('SWE_1906', 'Regno di Svezia (Legge sulla Bandiera 1906)'),
 
 
 
-  // SVIZZERA
+  // SVIZZERA — Bandiera quadrata ufficiale 1:1 (Wikimedia Commons verbatim Flag_of_Switzerland.svg)
 
-  SWI: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#d52b1e"/>
-
-      <rect x="260" y="100" width="80" height="200" fill="#ffffff"/>
-
-      <rect x="200" y="160" width="200" height="80" fill="#ffffff"/>
-
-    `),
+  SWI: () => officialSvgFlag('SWI', '', 'xMidYMid meet'),
 
 
 
-  // REGNO DEI PAESI BASSI
+  // REGNO DEI PAESI BASSI (Decreto Reale del 19 Febbraio 1937 stabilisce "helder vermiljoen, wit, kobaltblauw")
 
-  HOL: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="133.3" fill="#ae1c28"/>
-
-      <rect y="133.3" width="600" height="133.4" fill="#ffffff"/>
-
-      <rect y="266.7" width="600" height="133.3" fill="#21468b"/>
-
-    `),
+  HOL: () => officialSvgFlag('HOL_1815', 'Regno dei Paesi Bassi'),
 
 
 
-  // BELGIO
+  // BELGIO — Proporzioni ufficiali 13:15 (Wikimedia Commons verbatim)
 
-  BEL: () =>
-
-    svgWrap(`
-
-      <rect width="200" height="400" fill="#000000"/>
-
-      <rect x="200" width="200" height="400" fill="#ffd90c"/>
-
-      <rect x="400" width="200" height="400" fill="#ed2939"/>
-
-    `),
+  BEL: () => officialSvgFlag('BEL_1831', 'Regno del Belgio (Proporzioni ufficiali 13:15)'),
 
 
 
@@ -1372,37 +1253,13 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // DANIMARCA (DANNEBROG)
 
-  DEN: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#c60c30"/>
-
-      <rect x="180" width="60" height="400" fill="#ffffff"/>
-
-      <rect y="170" width="600" height="60" fill="#ffffff"/>
-
-    `),
+  DEN: () => officialSvgFlag('DEN_1748', 'Regno di Danimarca (Dannebrog)'),
 
 
 
   // NORVEGIA
 
-  NOR: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#ba0c2f"/>
-
-      <rect x="160" width="100" height="400" fill="#ffffff"/>
-
-      <rect y="150" width="600" height="100" fill="#ffffff"/>
-
-      <rect x="180" width="60" height="400" fill="#00205b"/>
-
-      <rect y="170" width="600" height="60" fill="#00205b"/>
-
-    `),
+  NOR: () => officialSvgFlag('NOR_1899', 'Regno di Norvegia'),
 
 
 
@@ -1422,17 +1279,15 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // CANADA — Red Ensign Canadese (1921-1957)
+  // CANADA — Red Ensign Canadese (1921-1957 foglie d'acero verdi; dall'8 ottobre 1957 foglie d'acero rosse Flag_of_Canada_(1957–1965).svg)
 
-  CAN: () =>
-
-    svgWrap(
-
-      `<image href="${CAN_FLAG_DATA_URL}" xlink:href="${CAN_FLAG_DATA_URL}" width="1024" height="512" preserveAspectRatio="none" />`,
-
-      '0 0 1024 512'
-
-    ),
+  CAN: (s = 0) =>
+    s >= 34
+      ? officialSvgFlag('CAN_1957', "Canadian Red Ensign (8 Ottobre 1957 – 1965 · Foglie d'Acero Rosse)")
+      : svgWrap(
+          `<image href="${CAN_FLAG_DATA_URL}" xlink:href="${CAN_FLAG_DATA_URL}" width="1200" height="600" preserveAspectRatio="none" />`,
+          '0 0 1200 600'
+        ),
 
 
 
@@ -1450,53 +1305,8 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // AUSTRALIA — Blue Ensign
-
-  AST: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="400" fill="#00247d"/>
-
-      <g transform="scale(0.5)">
-
-        <rect width="600" height="400" fill="#012169"/>
-
-        <line x1="0" y1="0" x2="600" y2="400" stroke="#ffffff" stroke-width="80"/>
-
-        <line x1="600" y1="0" x2="0" y2="400" stroke="#ffffff" stroke-width="80"/>
-
-        <line x1="0" y1="0" x2="600" y2="400" stroke="#c8102e" stroke-width="26"/>
-
-        <line x1="600" y1="0" x2="0" y2="400" stroke="#c8102e" stroke-width="26"/>
-
-        <rect x="250" width="100" height="400" fill="#ffffff"/>
-
-        <rect y="150" width="600" height="100" fill="#ffffff"/>
-
-        <rect x="270" width="60" height="400" fill="#c8102e"/>
-
-        <rect y="170" width="600" height="60" fill="#c8102e"/>
-
-      </g>
-
-      <!-- Commonwealth Star -->
-
-      <circle cx="150" cy="300" r="28" fill="#ffffff"/>
-
-      <!-- Southern Cross -->
-
-      <circle cx="450" cy="80" r="14" fill="#ffffff"/>
-
-      <circle cx="520" cy="160" r="14" fill="#ffffff"/>
-
-      <circle cx="450" cy="320" r="14" fill="#ffffff"/>
-
-      <circle cx="380" cy="200" r="14" fill="#ffffff"/>
-
-      <circle cx="480" cy="240" r="9" fill="#ffffff"/>
-
-    `),
+  // AUSTRALIA — Australian Blue Ensign (Wikimedia Commons verbatim / Flags Act 1953)
+  AST: () => officialSvgFlag('AST_1954'),
 
 
 
@@ -1618,9 +1428,12 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // DOMINION DEL PAKISTAN (1947 — file ufficiale Wikimedia Commons)
+  // DOMINION DEL PAKISTAN (1947–1956) & REPUBBLICA ISLAMICA DEL PAKISTAN (dal 23 marzo 1956)
 
-  PAK: () => officialSvgFlag('PAK_1947'),
+  PAK: (step?: number) =>
+    typeof step === 'number' && step >= 33
+      ? officialSvgFlag('PAK_1947', 'Repubblica Islamica del Pakistan (Costituzione del 23 Marzo 1956)')
+      : officialSvgFlag('PAK_1947'),
 
   // DOMINION DELL'INDIA (1947 — Tiranga ufficiale Wikimedia Commons)
 
@@ -1780,17 +1593,18 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
 
 
-  // TIBET — Bandiera ufficiale con Leoni delle Nevi fornita dall'utente
+  // TIBET — Bandiera dei Leoni delle Nevi (insegna regionale Kashag) fino al 22 mag 1951; dal 23 mag 1951 (Accordo 17 Punti) bandiera sovrana nazionale RPC
 
-  TIB: () =>
-
-    svgWrap(
-
+  TIB: (step?: number) => {
+    const s = typeof step === 'number' ? step : 0;
+    if (s >= 27) {
+      return officialSvgFlag('PRC_1949');
+    }
+    return svgWrap(
       `<image href="${TIB_FLAG_DATA_URL}" xlink:href="${TIB_FLAG_DATA_URL}" width="1024" height="640" preserveAspectRatio="none" />`,
-
       '0 0 1024 640'
-
-    ),
+    );
+  },
 
 
 
@@ -1902,55 +1716,55 @@ export const HISTORICAL_FLAGS: Record<string, (step?: number) => string> = {
 
   // CILE
 
-  CHL: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="200" fill="#ffffff"/>
-
-      <rect y="200" width="600" height="200" fill="#d52b1e"/>
-
-      <rect width="200" height="200" fill="#0039a6"/>
-
-      <polygon points="100,55 112,85 142,85 118,105 127,135 100,118 73,135 82,105 58,85 88,85" fill="#ffffff"/>
-
-    `),
+  CHL: () => officialSvgFlag('CHL_1817', 'Repubblica del Cile'),
 
 
 
   // COLOMBIA
 
-  COL: () =>
-
-    svgWrap(`
-
-      <rect width="600" height="200" fill="#fcd116"/>
-
-      <rect y="200" width="600" height="100" fill="#003893"/>
-
-      <rect y="300" width="600" height="100" fill="#ce1126"/>
-
-    `),
+  COL: () => officialSvgFlag('COL_1861', 'Repubblica di Colombia'),
 
 
 
-  // REPUBBLICA PERUVIANA — Bandiera ufficiale fornita dall'utente con stemma di Stato (1024x683)
+  // REPUBBLICA PERUVIANA — 1825–31 Marzo 1950 (Escudo de Armas) & Post-31 Marzo 1950 (Decreto Ley N.º 11323: Bandera Nacional senza stemma)
 
-  PRU: () =>
+  PRU: (step?: number) => {
 
-    svgWrap(
+    const s = typeof step === 'number' ? step : 0;
 
-      `<image href="${PRU_FLAG_DATA_URL}" xlink:href="${PRU_FLAG_DATA_URL}" width="1024" height="683" preserveAspectRatio="none" />`,
+    if (s >= 25) {
 
-      '0 0 1024 683'
+      return officialSvgFlag('PRU_1950', 'Repubblica del Perù (Bandera Nacional — Decreto Ley N.º 11323, 31 Marzo 1950)');
 
-    ),
+    }
+
+    return svgWrap(
+
+      `<image href="${PRU_FLAG_DATA_URL}" xlink:href="${PRU_FLAG_DATA_URL}" width="900" height="600" preserveAspectRatio="none" />`,
+
+      '0 0 900 600'
+
+    );
+
+  },
 
 
 
-  // VENEZUELA (Legge sulla Bandiera del 15 Luglio 1930: 7 stelle bianche ad arco — file ufficiale Wikimedia Commons)
+  // VENEZUELA — Pre-1954 (Legge 15 Luglio 1930: 7 stelle ad arco) & Post-17 Febbraio 1954 (Ley de Bandera 1954: con Escudo della República de Venezuela)
 
-  VEN: () => officialSvgFlag('VEN_1930'),
+  VEN: (step?: number) => {
+
+    const s = typeof step === 'number' ? step : 0;
+
+    if (s >= 31) {
+
+      return officialSvgFlag('VEN_1954', 'República de Venezuela (Ley de Bandera — 17 Febbraio 1954)');
+
+    }
+
+    return officialSvgFlag('VEN_1930', 'Estados Unidos de Venezuela (15 Luglio 1930)');
+
+  },
 
 
 
@@ -2270,9 +2084,23 @@ HISTORICAL_FLAGS['BOL'] = () =>
 
   );
 
-// PARAGUAY (1842-1954): Tricolore rosso-bianco-blu con stemma nazionale — file ufficiale Wikimedia Commons
+// PARAGUAY (1842-1954: stemma 1842; dal 15 luglio 1954 / Step >= 31: stemma 1954-1988 — file ufficiali Wikimedia Commons)
 
-HISTORICAL_FLAGS['PAR'] = () => officialSvgFlag('PAR_1842');
+HISTORICAL_FLAGS['PAR'] = (step?: number) => {
+
+  const s = typeof step === 'number' ? step : 0;
+
+  return s >= 31
+
+    ? officialSvgFlag('PAR_1954', 'Repubblica del Paraguay (1954–1988)')
+
+    : officialSvgFlag('PAR_1842');
+
+};
+
+HISTORICAL_FLAGS['PAR_1842'] = () => officialSvgFlag('PAR_1842');
+
+HISTORICAL_FLAGS['PAR_1954'] = () => officialSvgFlag('PAR_1954', 'Repubblica del Paraguay (1954–1988)');
 
 HISTORICAL_FLAGS['URU'] = () =>
 
@@ -2368,27 +2196,29 @@ HISTORICAL_FLAGS['LUX'] = () =>
 
   );
 
-HISTORICAL_FLAGS['ICE'] = () =>
+HISTORICAL_FLAGS['ICE'] = (step?: number) => {
 
-  svgWrap(
+  const s = typeof step === 'number' ? step : 0;
 
-    `<rect width="25" height="18" fill="#02529c"/>` +
+  if (s >= 15) {
 
-      `<path d="M0,7h25v4H0z M7,0h4v18H7z" fill="#ffffff"/>` +
+    return officialSvgFlag('ICE_1944', "Repubblica d'Islanda (17 Giugno 1944 — Legge n. 34/1944)");
 
-      `<path d="M0,8h25v2H0z M8,0h2v18H8z" fill="#dc1e35"/>`,
+  }
 
-    '0 0 25 18'
+  return officialSvgFlag('ICE_1918', "Regno d'Islanda (1918–1944)");
 
-  );
+};
 
 HISTORICAL_FLAGS['NEP'] = () =>
 
   svgWrap(
 
-    `<image href="${NEP_FLAG_DATA_URL}" xlink:href="${NEP_FLAG_DATA_URL}" width="692" height="1024" preserveAspectRatio="none" />`,
+    `<image href="${NEP_FLAG_DATA_URL}" xlink:href="${NEP_FLAG_DATA_URL}" width="294" height="435" preserveAspectRatio="xMidYMid meet" />`,
 
-    '0 0 692 1024'
+    '0 0 294 435',
+
+    'xMidYMid meet'
 
   );
 
@@ -2444,15 +2274,23 @@ HISTORICAL_FLAGS['AL'] = HISTORICAL_FLAGS['ALB'];
 
 
 
-HISTORICAL_FLAGS['SAU'] = () =>
+HISTORICAL_FLAGS['SAU'] = (step?: number) =>
 
-  svgWrap(
+  typeof step === 'number' && step === 0
 
-    `<image href="${SAU_FLAG_DATA_URL}" xlink:href="${SAU_FLAG_DATA_URL}" width="1024" height="792" preserveAspectRatio="none" />`,
+    ? officialSvgFlag('SAU_1934', "Regno dell'Arabia Saudita (Versione 1934–1938 con bordo bianco)")
 
-    '0 0 1024 792'
+    : svgWrap(
 
-  );
+        `<image href="${SAU_FLAG_DATA_URL}" xlink:href="${SAU_FLAG_DATA_URL}" width="1024" height="792" preserveAspectRatio="none" />`,
+
+        '0 0 1024 792'
+
+      );
+
+HISTORICAL_FLAGS['SAU_1934'] = () =>
+
+  officialSvgFlag('SAU_1934', "Regno dell'Arabia Saudita (Versione 1934–1938 con bordo bianco)");
 
 HISTORICAL_FLAGS['SAUDI_ARABIA'] = HISTORICAL_FLAGS['SAU'];
 
@@ -2662,6 +2500,22 @@ HISTORICAL_FLAGS['TANGIER INTERNATIONAL ZONE'] = HISTORICAL_FLAGS['TANGER'];
 
 HISTORICAL_FLAGS['INT_TANGER'] = HISTORICAL_FLAGS['TANGER'];
 
+HISTORICAL_FLAGS['DANZIG_1920'] = HISTORICAL_FLAGS['DANZIG'];
+HISTORICAL_FLAGS['FREIE_STADT_DANZIG'] = HISTORICAL_FLAGS['DANZIG'];
+HISTORICAL_FLAGS['FREIE STADT DANZIG'] = HISTORICAL_FLAGS['DANZIG'];
+HISTORICAL_FLAGS['FREE_CITY_OF_DANZIG'] = HISTORICAL_FLAGS['DANZIG'];
+HISTORICAL_FLAGS['CITTA_LIBERA_DI_DANZICA'] = HISTORICAL_FLAGS['DANZIG'];
+HISTORICAL_FLAGS['WOLNE_MIASTO_GDANSK'] = HISTORICAL_FLAGS['DANZIG'];
+HISTORICAL_FLAGS['DANZICA'] = HISTORICAL_FLAGS['DANZIG'];
+
+HISTORICAL_FLAGS['POL_SECOND_REP'] = () => HISTORICAL_FLAGS['POL'](0);
+HISTORICAL_FLAGS['DRUGA_RZECZPOSPOLITA'] = HISTORICAL_FLAGS['POL_SECOND_REP'];
+HISTORICAL_FLAGS['POL_POSTWAR'] = () => officialSvgFlag('POL_1945');
+HISTORICAL_FLAGS['POL_1945'] = HISTORICAL_FLAGS['POL_POSTWAR'];
+HISTORICAL_FLAGS['POL_PRL'] = HISTORICAL_FLAGS['POL_POSTWAR'];
+HISTORICAL_FLAGS['PRL'] = HISTORICAL_FLAGS['POL_POSTWAR'];
+HISTORICAL_FLAGS['POLSKA_RZECZPOSPOLITA_LUDOWA'] = HISTORICAL_FLAGS['POL_POSTWAR'];
+
 
 
 HISTORICAL_FLAGS['MEXICO'] = HISTORICAL_FLAGS['MEX'];
@@ -2783,6 +2637,135 @@ HISTORICAL_FLAGS['REPUBBLICA SOCIALE ITALIANA (RSI)'] = HISTORICAL_FLAGS['RSI'];
 HISTORICAL_FLAGS['RSI (SALÒ)'] = HISTORICAL_FLAGS['RSI'];
 
 HISTORICAL_FLAGS['RSI (SALO\')'] = HISTORICAL_FLAGS['RSI'];
+HISTORICAL_FLAGS['REGNO UNITO DI LIBIA'] = HISTORICAL_FLAGS['LBY'];
+HISTORICAL_FLAGS['REGNO DI LIBIA'] = HISTORICAL_FLAGS['LBY'];
+HISTORICAL_FLAGS['UNITED KINGDOM OF LIBYA'] = HISTORICAL_FLAGS['LBY'];
+HISTORICAL_FLAGS['KINGDOM OF LIBYA'] = HISTORICAL_FLAGS['LBY'];
+HISTORICAL_FLAGS['ERI'] = (step?: number) => {
+  const s = typeof step === 'number' ? step : 29;
+  if (s >= 29) {
+    return officialSvgFlag('ERI_1952');
+  }
+  return HISTORICAL_FLAGS['UK'](s);
+};
+HISTORICAL_FLAGS['ERITREA'] = HISTORICAL_FLAGS['ERI'];
+HISTORICAL_FLAGS['ERITREA_AUTONOMA'] = HISTORICAL_FLAGS['ERI'];
+HISTORICAL_FLAGS['ERI_1952'] = () => officialSvgFlag('ERI_1952');
+HISTORICAL_FLAGS['PRI'] = (step?: number) => {
+  const s = typeof step === 'number' ? step : 29;
+  if (s >= 29) {
+    return officialSvgFlag('PRI_1952');
+  }
+  return HISTORICAL_FLAGS['USA'](s);
+};
+HISTORICAL_FLAGS['PR'] = HISTORICAL_FLAGS['PRI'];
+HISTORICAL_FLAGS['PUERTO_RICO'] = HISTORICAL_FLAGS['PRI'];
+HISTORICAL_FLAGS['PUERTO RICO'] = HISTORICAL_FLAGS['PRI'];
+HISTORICAL_FLAGS['PORTO_RICO'] = HISTORICAL_FLAGS['PRI'];
+HISTORICAL_FLAGS['PORTO RICO'] = HISTORICAL_FLAGS['PRI'];
+HISTORICAL_FLAGS['PRI_1952'] = () => officialSvgFlag('PRI_1952');
+HISTORICAL_FLAGS['ROM_1952'] = () => officialSvgFlag('ROM_1952');
+HISTORICAL_FLAGS['JAP_1952'] = () => officialSvgFlag('JAP_1952');
+HISTORICAL_FLAGS['FRN'] = () =>
+  officialSvgFlag('FRN_1953', 'Federazione di Rhodesia e Nyasaland (7 Settembre 1953)');
+HISTORICAL_FLAGS['FRN_1953'] = HISTORICAL_FLAGS['FRN'];
+HISTORICAL_FLAGS['RHODESIA_NYASALAND'] = HISTORICAL_FLAGS['FRN'];
+HISTORICAL_FLAGS['FEDERATION_OF_RHODESIA_AND_NYASALAND'] = HISTORICAL_FLAGS['FRN'];
+HISTORICAL_FLAGS['CENTRAL_AFRICAN_FEDERATION'] = HISTORICAL_FLAGS['FRN'];
+HISTORICAL_FLAGS['EGY_LIB_1953'] = () =>
+  officialSvgFlag(
+    'EGY_LIB_1953',
+    "Bandiera della Liberazione (Alam al-Tahrir — Repubblica d'Egitto, 18 Giugno 1953)"
+  );
+HISTORICAL_FLAGS['AX_1954'] = () =>
+  officialSvgFlag('AX_1954', 'Landskapet Åland — Bandiera Ufficiale delle Isole Åland (3 Aprile 1954)');
+HISTORICAL_FLAGS['AX'] = HISTORICAL_FLAGS['AX_1954'];
+HISTORICAL_FLAGS['ALAND'] = HISTORICAL_FLAGS['AX_1954'];
+HISTORICAL_FLAGS['FO_1940'] = () =>
+  officialSvgFlag('FO_1940', 'Merkið — Bandiera delle Isole Fær Øer (25 Aprile 1940)');
+HISTORICAL_FLAGS['FO'] = HISTORICAL_FLAGS['FO_1940'];
+HISTORICAL_FLAGS['FAROE'] = HISTORICAL_FLAGS['FO_1940'];
+HISTORICAL_FLAGS['MERKID'] = HISTORICAL_FLAGS['FO_1940'];
+HISTORICAL_FLAGS['HUN_1956'] = () =>
+  officialSvgFlag('HUN_1956', "Repubblica Popolare Ungherese (Tricolore post-Rivoluzione d'Ottobre 1956 — Senza stemma Rákosi)");
+HISTORICAL_FLAGS['PAK_1956'] = () =>
+  officialSvgFlag('PAK_1947', 'Repubblica Islamica del Pakistan (Costituzione del 23 Marzo 1956)');
+HISTORICAL_FLAGS['SUD_1956'] = () =>
+  officialSvgFlag('SUD_1956', 'Repubblica del Sudan (1° Gennaio 1956 – 19 Maggio 1970)');
+HISTORICAL_FLAGS['SUD'] = (step?: number) =>
+  typeof step === 'number' && step >= 33
+    ? officialSvgFlag('SUD_1956', 'Repubblica del Sudan (1° Gennaio 1956 – 19 Maggio 1970)')
+    : HISTORICAL_FLAGS['UK'](step);
+HISTORICAL_FLAGS['SDN'] = HISTORICAL_FLAGS['SUD'];
+HISTORICAL_FLAGS['MAR_1956'] = () =>
+  officialSvgFlag('MAR_1956', 'Impero Sceriffiano del Marocco (Sovranità Ripristinata 1956)');
+HISTORICAL_FLAGS['MAR'] = (step?: number) =>
+  typeof step === 'number' && step >= 33
+    ? officialSvgFlag('MAR_1956', 'Impero Sceriffiano del Marocco (Sovranità Ripristinata 1956)')
+    : HISTORICAL_FLAGS['FRA'](step);
+HISTORICAL_FLAGS['MOR'] = HISTORICAL_FLAGS['MAR'];
+HISTORICAL_FLAGS['TUN_1956'] = () =>
+  officialSvgFlag('TUN_1956', 'Regno di Tunisia (Indipendenza del 20 Marzo 1956)');
+HISTORICAL_FLAGS['TUN'] = (step?: number) =>
+  typeof step === 'number' && step >= 33
+    ? officialSvgFlag(
+        'TUN_1956',
+        step >= 34
+          ? 'Repubblica di Tunisia (Proclamata il 25 Luglio 1957 · Pres. Habib Bourguiba)'
+          : 'Regno di Tunisia (Indipendenza del 20 Marzo 1956)'
+      )
+    : HISTORICAL_FLAGS['FRA'](step);
+HISTORICAL_FLAGS['GHA_1957'] = () =>
+  officialSvgFlag('GHA_1957', 'Dominion del Ghana (Indipendenza 6 Marzo 1957 — Bandiera di Theodosia Okoh)');
+HISTORICAL_FLAGS['GHA'] = (step?: number) =>
+  typeof step === 'number' && step >= 34
+    ? officialSvgFlag('GHA_1957', 'Dominion del Ghana (Indipendenza 6 Marzo 1957)')
+    : HISTORICAL_FLAGS['UK'](step);
+HISTORICAL_FLAGS['GHANA'] = HISTORICAL_FLAGS['GHA'];
+HISTORICAL_FLAGS['DOMINION_OF_GHANA'] = HISTORICAL_FLAGS['GHA'];
+HISTORICAL_FLAGS['CAN_1957'] = () =>
+  officialSvgFlag('CAN_1957', "Dominion del Canada — Canadian Red Ensign con Foglie d'Acero Rosse (8 Ott 1957)");
+HISTORICAL_FLAGS['LIE_1921'] = () =>
+  officialSvgFlag('LIE_1921', 'Principato del Liechtenstein (Bicolore 1921–24 Giu 1937, senza corona)');
+HISTORICAL_FLAGS['SPA_1936'] = () =>
+  officialSvgFlag('SPA_1936', 'Spagna Nazionalista — Bando Nacional (29 Ago 1936 – 1° Feb 1938)');
+HISTORICAL_FLAGS['TUV_1935'] = () =>
+  officialSvgFlag('TUV_1935', 'Repubblica Popolare di Tannu Tuva (1935–1941)');
+HISTORICAL_FLAGS['SYR_1932'] = () =>
+  officialSvgFlag('SYR_1932', 'Repubblica di Siria sotto Mandato Francese (1932–1946)');
+HISTORICAL_FLAGS['SYR_MANDATE_1932'] = HISTORICAL_FLAGS['SYR_1932'];
+HISTORICAL_FLAGS['JOR_1928'] = () =>
+  officialSvgFlag('JOR_1928', 'Emirato di Transgiordania (1928–1946)');
+HISTORICAL_FLAGS['LEB_MANDATE_1920'] = () =>
+  officialSvgFlag('LEB_MANDATE_1920', 'Stato del Grande Libano / Repubblica Libanese sotto Mandato Francese (1920–1943)');
+HISTORICAL_FLAGS['MAR_1915'] = () =>
+  officialSvgFlag('MAR_1915', 'Protettorato Francese del Marocco — Bandiera del Sultano / Marina (1915–1956)');
+HISTORICAL_FLAGS['TUN_1831'] = () =>
+  officialSvgFlag('TUN_1831', 'Reggenza di Tunisi / Protettorato Francese di Tunisia (Beylik)');
+HISTORICAL_FLAGS['CAM_1863'] = () =>
+  officialSvgFlag('CAM_1863', 'Protettorato Francese di Cambogia (1863–1953)');
+HISTORICAL_FLAGS['LAO_1893'] = () =>
+  officialSvgFlag('LAO_1893', 'Protettorato Francese del Laos / Regno di Luang Prabang (1893–1953)');
+HISTORICAL_FLAGS['ANNAM_1920'] = () =>
+  officialSvgFlag('ANNAM_1920', "Protettorato dell'Annam / Impero di Đại Nam — Long Tinh Kỳ (1920–1945)");
+HISTORICAL_FLAGS['PAL_MANDATE_1927'] = () =>
+  officialSvgFlag('PAL_MANDATE_1927', 'Palestina sotto Mandato Britannico — Red Ensign (1927–1948)');
+HISTORICAL_FLAGS['CYP_1922'] = () =>
+  officialSvgFlag('CYP_1922', 'Colonia della Corona di Cipro — Blue Ensign (1922–1960)');
+HISTORICAL_FLAGS['MLT_1923'] = () =>
+  officialSvgFlag('MLT_1923', 'Colonia della Corona di Malta (1923–1943)');
+HISTORICAL_FLAGS['HKG_1876'] = () =>
+  officialSvgFlag('HKG_1876', 'Colonia della Corona di Hong Kong (1876–1955)');
+HISTORICAL_FLAGS['STRAITS_1925'] = () =>
+  officialSvgFlag('STRAITS_1925', 'Insediamenti dello Stretto — Straits Settlements (1925–1946)');
+HISTORICAL_FLAGS['SARAWAK_1870'] = () =>
+  officialSvgFlag('SARAWAK_1870', 'Regno di Sarawak (Protettorato Britannico, Raja Brooke)');
+HISTORICAL_FLAGS['NORTH_BORNEO_1902'] = () =>
+  officialSvgFlag('NORTH_BORNEO_1902', 'Borneo Settentrionale Britannico — BNBC (1902–1946)');
+HISTORICAL_FLAGS['SRHOD_1924'] = () =>
+  officialSvgFlag('SRHOD_1924', 'Colonia Autonoma della Rhodesia Meridionale (1924–1953)');
+HISTORICAL_FLAGS['NFLD_1904'] = () =>
+  officialSvgFlag('NFLD_1904', 'Dominion di Terranova — Red Ensign (1904–1949)');
 
 
 
@@ -2818,6 +2801,389 @@ export function getCountryFlagSvg(ownerKey: string, step: number = 0): string {
 
   return fn(step);
 
+}
+
+/**
+ * Restituisce un eventuale secondo vessillo co-esistente da rendere sempre
+ * in un riquadro separato (mai fuso nello stesso SVG del vessillo primario).
+ */
+export function getSecondaryCoFlag(
+  ownerCode: string,
+  step: number,
+  context?: { fidUpper?: string; resNameLower?: string; displayFlagCode?: string }
+): { code: string; title: string; openTarget?: string } | null {
+  const code = String(ownerCode || '').trim().toUpperCase();
+  const display = String(context?.displayFlagCode || '').trim().toUpperCase();
+  const fidUpper = String(context?.fidUpper || '').trim().toUpperCase();
+  const resNameLower = String(context?.resNameLower || '').trim().toLowerCase();
+
+  // Insegne autonome aperte in Country Viz -> mostra la bandiera dello Stato sovrano nel 2° riquadro
+  if (display === 'ERI_1952') {
+    return {
+      code: 'ETH',
+      title: "Bandiera dell'Impero d'Etiopia (Sovranità della Federazione Etiopia–Eritrea)",
+      openTarget: 'ETH',
+    };
+  }
+  if (display === 'PRI_1952') {
+    return {
+      code: 'USA',
+      title: "Bandiera degli Stati Uniti d'America (Sovranità Federale)",
+      openTarget: 'USA',
+    };
+  }
+  if (display === 'AX_1954') {
+    return {
+      code: 'FIN',
+      title: 'Bandiera della Repubblica di Finlandia (Sovranità Nazionale sulle Isole Åland)',
+      openTarget: 'FIN',
+    };
+  }
+  if (display === 'FO_1940') {
+    return {
+      code: step >= 6 ? 'UK' : 'DEN',
+      title:
+        step >= 6
+          ? 'Union Jack (Occupazione / Protettorato Britannico sulle Fær Øer — Operazione Valentine)'
+          : 'Dannebrog — Regno di Danimarca',
+      openTarget: step >= 6 ? 'UK' : 'DEN',
+    };
+  }
+  if (display === 'SYR_MANDATE_1932' || display === 'LEB_MANDATE_1920') {
+    const sov = step >= 6 && step < 9 ? 'VIC_SYR' : 'F_SYR';
+    return {
+      code: sov,
+      title:
+        step >= 6 && step < 9
+          ? 'Bandiera dello Stato Francese / Alto Commissariato di Vichy nel Levante'
+          : 'Tricolore Francese — Potenza Mandataria nel Levante (SdN)',
+      openTarget: sov,
+    };
+  }
+  if (display === 'MAR_1915' || display === 'TUN_1831') {
+    const sov = step >= 6 && step < 12 ? 'VIC_NAF' : step >= 12 ? 'FRA' : 'F_NAF';
+    return {
+      code: sov,
+      title:
+        step >= 6 && step < 12
+          ? 'Bandiera dello Stato Francese (Regime di Vichy in Nord Africa)'
+          : 'Tricolore della Repubblica Francese — Potenza Protettrice (Trattati di Bardo / Fès)',
+      openTarget: sov,
+    };
+  }
+  if (display === 'CAM_1863' || display === 'LAO_1893' || display === 'ANNAM_1920') {
+    const sov = step >= 6 && step < 18 ? 'VIC_IND' : 'F_IND';
+    return {
+      code: sov,
+      title:
+        step >= 6 && step < 18
+          ? "Bandiera dello Stato Francese — Governo Generale dell'Indocina (Amm. Decoux)"
+          : "Tricolore Francese — Union Indochinoise",
+      openTarget: sov,
+    };
+  }
+  if (
+    display === 'PAL_MANDATE_1927' ||
+    display === 'JOR_1928' ||
+    display === 'CYP_1922' ||
+    display === 'MLT_1923' ||
+    display === 'HKG_1876' ||
+    display === 'STRAITS_1925' ||
+    display === 'SARAWAK_1870' ||
+    display === 'NORTH_BORNEO_1902' ||
+    display === 'SRHOD_1924' ||
+    display === 'NFLD_1904'
+  ) {
+    return {
+      code: 'UK',
+      title: 'Union Jack — Impero Britannico (Corona / Mandato / Protettorato)',
+      openTarget: 'UK',
+    };
+  }
+
+  // Co-esposizioni ufficiali a livello di entità (2 riquadri separati, 1 bandiera per riquadro)
+  if ((code === 'AFIS' || code === 'SOM_AFIS') && step >= 25) {
+    return {
+      code: 'IT_1947',
+      title: 'Tricolore della Repubblica Italiana (Potenza Amministratrice AFIS — dal 1° Apr 1950)',
+      openTarget: 'ITA',
+    };
+  }
+  if ((code === 'ROK' || code === 'KR' || code === 'KOR') && step >= 26) {
+    return {
+      code: 'UNC',
+      title: 'Bandiera delle Nazioni Unite — Comando Unificato ONU in Corea (UNC, dal 7 Lug 1950)',
+      openTarget: 'ROK',
+    };
+  }
+
+  // Condomini storici reali a doppia bandiera (Convenzioni 1899/1906)
+  if (
+    fidUpper === 'NH_HEBRIDES' ||
+    resNameLower.includes('nouvelles-hébrides') ||
+    resNameLower.includes('nuove ebridi') ||
+    resNameLower.includes('new hebrides')
+  ) {
+    return {
+      code: 'UK',
+      title: 'Union Jack — Condominio Franco-Britannico delle Nuove Ebridi (Convenzione del 1906)',
+      openTarget: 'UK',
+    };
+  }
+  if (
+    code === 'UK' &&
+    (fidUpper === 'SUD' ||
+      fidUpper === 'SSD' ||
+      fidUpper.startsWith('SUD_') ||
+      ((resNameLower.includes('anglo-egyptian sudan') ||
+        resNameLower.includes('sudan anglo-egiziano') ||
+        resNameLower.includes('southern provinces')) &&
+        !resNameLower.includes('frances'))) &&
+    step < 33 &&
+    (step <= 27 || step >= 30)
+  ) {
+    return {
+      code: 'EGY',
+      title:
+        step >= 32
+          ? "Bandiera della Repubblica d'Egitto — Ultimo Giorno del Condominio Anglo-Egiziano sul Sudan (31 Dicembre 1955 · Indipendenza il 1° Gennaio 1956)"
+          : step >= 30
+          ? "Bandiera d'Egitto — Condominio Anglo-Egiziano in Transizione all'Autogoverno (Accordo 12 Febbraio 1953)"
+          : "Bandiera del Regno d'Egitto — Condominio Anglo-Egiziano del Sudan (Convenzione 1899 / Trattato 1936)",
+      openTarget: 'EGY',
+    };
+  }
+
+  // Territori autonomi o occupati con vessillo ufficiale proprio coesistente
+  if (
+    step >= 31 &&
+    code === 'FIN' &&
+    (fidUpper === 'FI200' || resNameLower.includes('åland') || resNameLower.includes('aland') || resNameLower.includes('ahvenanmaa'))
+  ) {
+    return {
+      code: 'AX_1954',
+      title: 'Bandiera Ufficiale della Provincia Autonoma delle Isole Åland (Adottata il 3 Aprile 1954)',
+      openTarget: 'AX_1954',
+    };
+  }
+  if (
+    step >= 6 &&
+    (fidUpper === 'FO_FAROE_HIST' || resNameLower.includes('fær øer') || resNameLower.includes('faroe'))
+  ) {
+    return {
+      code: 'FO_1940',
+      title:
+        step >= 21
+          ? 'Merkið — Bandiera Ufficiale delle Isole Fær Øer (Riconosciuta 25 Apr 1940 · Home Rule Act 23 Mar 1948)'
+          : 'Merkið — Bandiera Marittima delle Isole Fær Øer (Autorizzata dall\'Ammiragliato Britannico il 25 Apr 1940)',
+      openTarget: 'FO_1940',
+    };
+  }
+
+  // Territori Fiduciari ONU (UN Trust Territories — post Ris. ONU 325 (IV) del 15 Nov 1949 -> 1950+ / Step 25+)
+  const isPngTrustProvince = PNG_PROVINCES_META[fidUpper]?.territoryGroup === 'Mandated Territory of New Guinea';
+  const isUnTrustTerritory =
+    step >= 25 &&
+    ((code === 'FRA' &&
+      (fidUpper === 'AEF_CM' ||
+        fidUpper === 'HIST_XX_TOGO' ||
+        resNameLower.includes('cameroun') ||
+        resNameLower.includes('cameroon') ||
+        resNameLower.includes('togo'))) ||
+      (code === 'BEL' &&
+        (fidUpper === 'HIST_XX_RWANDA_BELGIUM' ||
+          fidUpper === 'HIST_XX_BURUNDI' ||
+          resNameLower.includes('ruanda') ||
+          resNameLower.includes('rwanda') ||
+          resNameLower.includes('burundi') ||
+          resNameLower.includes('urundi'))) ||
+      (code === 'UK' && (fidUpper === 'HIST_XX_TANZANIA_UNITED_REPUBLIC_OF' || resNameLower.includes('tanganyika'))) ||
+      (code === 'NZL' && (fidUpper === 'HIST_XX_SAMOA' || resNameLower.includes('samoa'))) ||
+      (code === 'AST' && (fidUpper === 'NR_NAURU' || resNameLower.includes('nauru') || isPngTrustProvince)) ||
+      (code === 'USA' &&
+        (fidUpper.startsWith('HIST_XX_SOUTH_SEAS_MANDATE_JAPAN') ||
+          resNameLower.includes('south seas') ||
+          resNameLower.includes('trust territory of the pacific'))));
+  if (isUnTrustTerritory) {
+    return {
+      code: 'UN',
+      title: 'Bandiera delle Nazioni Unite (ONU — Amministrazione Fiduciaria ONU, Ris. 325 (IV) / 1950+)',
+      openTarget: code,
+    };
+  }
+
+  // Entità autonome/repubblicane contestuali al territorio selezionato
+  if (
+    step >= 29 &&
+    code === 'ETH' &&
+    (fidUpper === 'HIST_XX_ERITREA_ITALY' || fidUpper.startsWith('ER') || resNameLower.includes('eritrea'))
+  ) {
+    return {
+      code: 'ERI_1952',
+      title: "Bandiera della Regione Autonoma Federata dell'Eritrea (15 Set 1952)",
+      openTarget: 'ERI_1952',
+    };
+  }
+  if (
+    step >= 29 &&
+    code === 'USA' &&
+    (fidUpper === 'HIST_XX_PUERTO_RICO' ||
+      fidUpper === 'PR' ||
+      fidUpper === 'PRI' ||
+      resNameLower.includes('puerto rico') ||
+      resNameLower.includes('porto rico'))
+  ) {
+    return {
+      code: 'PRI_1952',
+      title: 'Bandiera dello Stato Libero Associato di Porto Rico (25 Lug 1952)',
+      openTarget: 'PRI_1952',
+    };
+  }
+  if (step >= 30 && code === 'EGY') {
+    return {
+      code: 'EGY_LIB_1953',
+      title: "Bandiera della Liberazione (Alam al-Tahrir — Insegna Rivoluzionaria della Repubblica d'Egitto, 18 Giu 1953)",
+      openTarget: 'EGY_LIB_1953',
+    };
+  }
+
+  // Mandati e Protettorati Francesi (1936+) — 2 riquadri separati: Tricolore/Vichy + Bandiera locale ufficiale
+  if ((code === 'F_SYR' || code === 'VIC_SYR') && step < 18) {
+    if (fidUpper.startsWith('LB')) {
+      return {
+        code: 'LEB_MANDATE_1920',
+        title: 'Stato del Grande Libano — Tricolore Francese con Cedro del Libano (Mandato SdN, 1920–1943)',
+        openTarget: 'LEB_MANDATE_1920',
+      };
+    }
+    return {
+      code: 'SYR_MANDATE_1932',
+      title: 'Repubblica di Siria — Bandiera Nazionale Siriana sotto Mandato Francese (1932–1946)',
+      openTarget: 'SYR_MANDATE_1932',
+    };
+  }
+  if ((code === 'F_NAF' || code === 'VIC_NAF' || code === 'FRA') && step < 33) {
+    if (/^MA\d+$/.test(fidUpper) || resNameLower.includes('protectorat français du maroc')) {
+      return {
+        code: 'MAR_1915',
+        title: 'Protettorato Francese del Marocco — Bandiera del Sultano / Marina (Dahir 17 Nov 1915)',
+        openTarget: 'MAR_1915',
+      };
+    }
+    if (/^TN\d+$/.test(fidUpper) || fidUpper === 'HB_TUNISIA' || resNameLower.includes('protectorat français de tunisie')) {
+      return {
+        code: 'TUN_1831',
+        title: 'Protettorato Francese di Tunisia — Insegna della Reggenza di Tunisi (Beylik)',
+        openTarget: 'TUN_1831',
+      };
+    }
+  }
+  if ((code === 'F_IND' || code === 'VIC_IND' || code === 'FRA') && step < 24) {
+    if (/^KH\d+$/.test(fidUpper)) {
+      return {
+        code: 'CAM_1863',
+        title: 'Protettorato Francese di Cambogia — Insegna Reale di Angkor Wat (1863–1953)',
+        openTarget: 'CAM_1863',
+      };
+    }
+    if (/^LA\d+$/.test(fidUpper)) {
+      return {
+        code: 'LAO_1893',
+        title: 'Protettorato Francese del Laos / Regno di Luang Prabang — Elefante Bianco a Tre Teste (1893–1953)',
+        openTarget: 'LAO_1893',
+      };
+    }
+    if (step < 19 && FRENCH_INDOCHINA_PROVINCES_META[fidUpper]?.subRegion === 'Annam') {
+      return {
+        code: 'ANNAM_1920',
+        title: "Protettorato dell'Annam / Impero di Đại Nam — Long Tinh Kỳ (1920–1945)",
+        openTarget: 'ANNAM_1920',
+      };
+    }
+  }
+
+  // Mandati, Protettorati e Colonie della Corona Britannica (1936+) — Union Jack + Insegna Coloniale Blue/Red Ensign
+  if (code === 'UK') {
+    if (step < 21 && fidUpper.startsWith('PAL_')) {
+      return {
+        code: 'PAL_MANDATE_1927',
+        title: 'Mandato Britannico di Palestina — Palestine Red Ensign (1927–1948)',
+        openTarget: 'PAL_MANDATE_1927',
+      };
+    }
+    if (step < 19 && fidUpper === 'HB_TRANSJORDAN') {
+      return {
+        code: 'JOR_1928',
+        title: 'Emirato di Transgiordania — Mandato Britannico (Costituzione 1928–1946)',
+        openTarget: 'JOR_1928',
+      };
+    }
+    if (step < 35 && fidUpper.startsWith('CY_')) {
+      return {
+        code: 'CYP_1922',
+        title: 'Colonia della Corona di Cipro — Cyprus Blue Ensign (1922–1960)',
+        openTarget: 'CYP_1922',
+      };
+    }
+    if (step < 14 && fidUpper.startsWith('MT')) {
+      return {
+        code: 'MLT_1923',
+        title: 'Colonia della Corona di Malta — Blue Ensign (1923–1943, pre-George Cross)',
+        openTarget: 'MLT_1923',
+      };
+    }
+    if (step < 32 && fidUpper === 'CHN_HONGKONG') {
+      return {
+        code: 'HKG_1876',
+        title: 'Colonia della Corona di Hong Kong — Colonial Blue Ensign (1876–1955)',
+        openTarget: 'HKG_1876',
+      };
+    }
+    if (step < 19 && ['SG01', 'MY04', 'MY07', 'MY15'].includes(fidUpper)) {
+      return {
+        code: 'STRAITS_1925',
+        title: 'Straits Settlements (Singapore, Penang, Malacca, Labuan) — Blue Ensign (1925–1946)',
+        openTarget: 'STRAITS_1925',
+      };
+    }
+    if (step < 19 && ['MY05', 'MY06', 'MY08', 'MY10', 'MY14', 'MY16'].includes(fidUpper)) {
+      return {
+        code: 'MAL_FED_1948',
+        title: 'Federated Malay States — Bandiera Federale (Perak, Selangor, Negeri Sembilan, Pahang)',
+        openTarget: 'UK',
+      };
+    }
+    if (step < 19 && fidUpper === 'MY13') {
+      return {
+        code: 'SARAWAK_1870',
+        title: 'Regno di Sarawak — Protettorato Britannico (Raja Bianco Charles Vyner Brooke)',
+        openTarget: 'SARAWAK_1870',
+      };
+    }
+    if (step < 19 && fidUpper === 'MY12') {
+      return {
+        code: 'NORTH_BORNEO_1902',
+        title: 'Borneo Settentrionale Britannico (British North Borneo Chartered Company, 1902–1946)',
+        openTarget: 'NORTH_BORNEO_1902',
+      };
+    }
+    if (step < 30 && fidUpper === 'HIST_XX_SOUTHERN_RHODESIA') {
+      return {
+        code: 'SRHOD_1924',
+        title: 'Colonia Autonoma della Rhodesia Meridionale — Blue Ensign (1924–1953)',
+        openTarget: 'SRHOD_1924',
+      };
+    }
+    if (step < 23 && fidUpper === 'CA_NL') {
+      return {
+        code: 'NFLD_1904',
+        title: 'Dominion di Terranova — Newfoundland Red Ensign (Commission of Government, 1904–1949)',
+        openTarget: 'NFLD_1904',
+      };
+    }
+  }
+
+  return null;
 }
 
 

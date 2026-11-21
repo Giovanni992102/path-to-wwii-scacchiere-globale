@@ -1,4 +1,6 @@
-import { CYPRUS_PROVINCES_META } from './cyprusProvinces';
+import { CYPRUS_PROVINCES_META, getCyprusStep32Dossier } from './cyprusProvinces';
+import { resolveLibyaColonyToponym } from './libyaTimeline';
+import { resolveEritreaItalianPhase, resolveSomaliaItalianAndAfisPhase } from './italianEastAfricaTimeline';
 import { FRENCH_INDOCHINA_PROVINCES_META } from './frenchIndochinaProvinces';
 import { USA_PROVINCES_META, populateUSAToponyms } from './usaProvinces';
 import { CANADA_PROVINCES_META, populateCanadaToponyms } from './canadaProvinces';
@@ -5947,7 +5949,9 @@ export function resolveAfricanToponym(
 
   // 1. QUARTA SPONDA & LIBIA ITALIANA (22 Province e Circondari 1936-1941: Tripoli, Bengasi, Derna, Misurata, Tobruk, Fezzan, Cufra, ecc.)
   if (
-    id.startsWith('LY') ||
+    step < 12 &&
+    owner === 'ITA' &&
+    (id.startsWith('LY') ||
     normKey.includes('libya') ||
     normKey.includes('libia') ||
     normKey.includes('tripoli') ||
@@ -5996,266 +6000,34 @@ export function resolveAfricanToponym(
     normKey.includes('sebha') ||
     normKey.includes('hayaa') ||
     normKey.includes('agial') ||
-    normKey.includes('ubari')
+    normKey.includes('ubari'))
   ) {
-    // Exact ID matching for the 22 Libyan districts
-    if (id === 'LYTB') {
-      if (step >= 8) {
-        return {
-          name: 'Tripoli (Sbarco del Deutsches Afrikakorps — Operazione Sonnenblume)',
-          adminTitle: "Regno d'Italia — Comando Superiore FF.AA. Africa Settentrionale (Gen. Italo Gariboldi & Gen. Erwin Rommel)",
-          note: "OPERAZIONE SONNENBLUME (febbraio-aprile 1941): Nel porto di Tripoli sbarcano i reparti corazzati del Deutsches Afrikakorps (5ª Divisione Leggera e 15ª Divisione Panzer) guidati dal generale Erwin Rommel, affiancati dalle divisioni italiane Ariete, Trento e Brescia. Il generale Italo Gariboldi subentra a Rodolfo Graziani quale Governatore Generale e Comandante Superiore in Africa Settentrionale.",
-        };
-      }
-      return {
-        name: 'Tripoli (Tripolitania Italiana)',
-        adminTitle: step >= 6
-          ? "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo Rodolfo Graziani)"
-          : "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo dell'Aria Italo Balbo)",
-        note: "Capoluogo della Tripolitania e sede del Governatore Generale della Libia. Con il R.D.L. 9 gennaio 1939 n. 70, la provincia fu formalmente annessa al territorio metropolitano nazionale italiano (Quarta Sponda); capolinea occidentale della litoranea Via Balbia e aeroscalo di Castel Benito.",
-      };
-    }
-    if (id === 'LYBA') {
-      if (step >= 8) {
-        return {
-          name: 'Bengasi (Riconquista Italo-Tedesca — Controffensiva di Rommel)',
-          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Piazzaforte di Bengasi (Riconquistata il 4 aprile 1941)",
-          note: "Occupata dagli australiani di Wavell il 6 febbraio 1941 dopo l'Operazione Compass, Bengasi viene riconquistata il 4 aprile 1941 dalle colonne corazzate di Erwin Rommel e del Regio Esercito scattate da El Agheila il 24 marzo, riaprendo il porto avanzato della Cirenaica per i rifornimenti dell'Asse.",
-        };
-      }
-      return {
-        name: 'Bengasi (Cirenaica Italiana)',
-        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Bengasi (Quarta Sponda)",
-        note: "Capoluogo storico della Cirenaica e porto strategico sul Golfo della Sirte; incorporata nel territorio metropolitano del Regno d'Italia nel 1939. Base aerea di Berka e piazzaforte dell'Armata della Libia a presidio della costa orientale.",
-      };
-    }
-    if (id === 'LYDR' || normKey.includes('derna')) {
-      if (step >= 8) {
-        return {
-          name: "Derna e Mechili (Riconquista dell'Asse — Cattura dei Comandi Britannici)",
-          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Commissariato di Derna (Riconquistata il 7-8 aprile 1941)",
-          note: "Attraverso un'audace manovra a tenaglia sulle piste desertiche interne del Gebel fino a Mechili e Derna (7-8 aprile 1941), le forze italo-tedesche di Rommel e della Divisione Corazzata Ariete travolgono la 2ª Divisione Corazzata britannica catturando i generali Richard O'Connor e Philip Neame.",
-        };
-      }
-      return {
-        name: 'Derna (Cirenaica Orientale)',
-        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Derna (Quarta Sponda)",
-        note: "Porto costiero e capoluogo della Cirenaica nord-orientale lungo la Via Balbia, base navale secondaria e perno logistico per le operazioni verso il confine egiziano.",
-      };
-    }
-    if (id === 'LYMI' || normKey.includes('misrata') || normKey.includes('misurata')) {
-      return {
-        name: 'Misurata (Tripolitania Orientale)',
-        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Misurata (Quarta Sponda)",
-        note: "Commissariato costiero della Libia metropolitana tra la Tripolitania e la Sirtica; polo dei villaggi agricoli di colonizzazione demografica fascista (Crispi e Gioda) e porto d'appoggio mercantile.",
-      };
-    }
-    if (id === 'LYBU' || normKey.includes('tobruk') || normKey.includes('butnan') || normKey.includes('bardia')) {
-      if (step >= 8) {
-        return {
-          name: 'Tobruk (Assedio Italo-Tedesco della Piazzaforte) & Bardia',
-          adminTitle: "Fronte d'Assedio di Tobruk (DAK Gen. Erwin Rommel & Regio Esercito vs 9ª Divisione Australiana Gen. Leslie Morshead)",
-          note: "ASSEDIO DI TOBRUK (dal 10-11 aprile 1941): Mentre Bardia e Sollum cadono in mano all'Asse, la piazzaforte costiera di Tobruk resta tenacemente difesa dai 'Ratti di Tobruk' della 9ª Divisione australiana del generale Leslie Morshead, riforniti via mare dalla Royal Navy. Gli assalti corazzati di Rommel del 14 aprile (Battaglia di Pasqua) e del 30 aprile (Quota 209 / Ras el-Medauar) vengono respinti, dando inizio a un assedio di 241 giorni che blocca l'avanzata dell'Asse verso Alessandria.",
-        };
-      }
-      return {
-        name: 'Tobruch e Bardia (Piazzaforte di Tobruk)',
-        adminTitle: "Regno d'Italia — Comando Piazza Marittima di Tobruk / Settore Difensivo di Bardia",
-        note: "Piazzaforte marittima fortificata della Regia Marina e del Regio Esercito con opere d'arresto a ridosso del confine egiziano (Ridotta Capuzzo, Bardia, Ridotta Maddalena). Teatro dell'abbattimento per fuoco amico del Governatore Generale Italo Balbo il 28 giugno 1940.",
-      };
-    }
-    if (id === 'LYKF' || normKey.includes('kufra') || normKey.includes('cufra')) {
-      if (step >= 8) {
-        return {
-          name: 'Cufra (Oasi di Cufra — Conquistata dalla Colonna Leclerc / Francia Libera)',
-          adminTitle: "Forces Françaises Libres — Colonna del Colonnello Philippe Leclerc (Giuramento di Cufra, 1-2 marzo 1941)",
-          note: "Partita da Fort-Lamy nel Ciad, la colonna motorizzata delle Forze Francesi Libere guidata dal colonnello Philippe Leclerc de Hauteclocque espugna il Forte El Tag nell'oasi di Cufra il 1° marzo 1941. Il 2 marzo Leclerc pronuncia il celebre 'Giuramento di Cufra' (Serment de Koufra), giurando di non deporre le armi finché il tricolore francese non sventolerà sulla cattedrale di Strasburgo.",
-        };
-      }
-      return {
-        name: 'Cufra (Oasi di Cufra / El Tag)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Settore Sahariano di Cufra)",
-        note: "Vasto comprensorio desertico sahariano comprendente l'oasi di Cufra, il santuario senussita espugnato nel 1931, Forte El Tag e aeroscalo per le rotte transahariane verso l'AOI.",
-      };
-    }
-    if (id === 'LYMQ' || normKey.includes('murzuq') || normKey.includes('murzuch')) {
-      return {
-        name: 'Murzuch (Fezzan Meridionale)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Circondario del Fezzan Meridionale — Murzuch)",
-        note: "Antica capitale carovaniera del Fezzan meridionale; piazzaforte sahariana del Regio Esercito a sbarramento delle piste verso il massiccio del Tibesti e il confine con l'Africa Equatoriale Francese (Ciad).",
-      };
-    }
-    if (id === 'LYSB' || normKey.includes('sabha') || normKey.includes('sebha')) {
-      return {
-        name: 'Sebha (Forte Elena — Capoluogo del Fezzan)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Militare del Fezzan — Forte Elena)",
-        note: "Cuore politico e militare del Fezzan centrale dominato dal Forte Elena; perno operativo delle truppe mehariste cammellate e delle camionette sahariane armate.",
-      };
-    }
-    if (id === 'LYWS' || normKey.includes('shati') || normKey.includes('sciati') || normKey.includes('brak')) {
-      return {
-        name: 'Uadi Sciati (Oasi di Brak)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Presidio Sahariano di Brak)",
-        note: "Valle di oasi fossili nel nord del Fezzan con centro a Brak; fondamentale cerniera di approvvigionamento carovaniero tra la Tripolitania interna e Sebha.",
-      };
-    }
-    if (id === 'LYWD' || normKey.includes('hayaa') || normKey.includes('agial') || normKey.includes('ubari')) {
-      return {
-        name: 'Uadi el-Agial (Ubari e Valle dei Garamanti)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Presidio Sahariano di Ubari)",
-        note: "Valle storica dei Garamanti (antica capitale Germa / Garama) nel Fezzan occidentale; presidio sahariano di Ubari lungo la carovaniera che unisce Sebha all'oasi di Ghat al confine con l'Algeria.",
-      };
-    }
-    if (id === 'LYGT' || normKey.includes('ghat')) {
-      return {
-        name: 'Ghat (Sahara Sud-Occidentale / Tassili)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Presidio di Frontiera di Ghat)",
-        note: "Oasi fortezza all'estremità sud-occidentale della Libia, al triplice confine con Algeria (F_NAF) e Niger (F_AOF); presidiata dalla Compagnia Sahariana di Ghat nel Forte Saraceno a controllo delle rotte del Tassili n'Ajjer.",
-      };
-    }
-    if (id === 'LYJU' || normKey.includes('jufrah') || normKey.includes('jufra') || normKey.includes('giofra') || normKey.includes('hon') || normKey.includes('socna') || normKey.includes('uaddan')) {
-      return {
-        name: 'Giofra (Hon, Socna e Uaddan)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Superiore Sahariano — Hon)",
-        note: "Oasi strategiche della Giofra nel cuore della Libia; capoluogo a Hon e sede del Quartier Generale del Comando Militare del Territorio del Sud; campo d'aviazione del deserto per le Compagnie Sahariane.",
-      };
-    }
-    if (id === 'LYSR' || normKey.includes('surt') || normKey.includes('sirte') || normKey.includes('fileni') || normKey.includes('nofilia') || normKey.includes('agheila')) {
-      if (step >= 8) {
-        return {
-          name: 'Sirte ed El Agheila (Trampolino della Controffensiva di Rommel)',
-          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Stretta di El Agheila e Arco dei Fileni",
-          note: "Il 24 marzo 1941 dalla stretta di El Agheila e dall'Arco dei Fileni il generale Erwin Rommel lancia la prima fulminea offensiva italo-tedesca riconquistando Mersa El Brega, Agedabia e l'intera Cirenaica in meno di due settimane.",
-        };
-      }
-      return {
-        name: 'Sirte (Sirtica e Arco dei Fileni)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Misurata (Circondario della Sirtica)",
-        note: "Snodo costiero lungo il Golfo della Sirte, cerniera tra Tripolitania e Cirenaica attraversata dalla Via Balbia; a Ras Lanuf sorgeva l'Arco dei Fileni (1937) al confine storico delle due regioni; basi di Nofilia ed El Agheila.",
-      };
-    }
-    if (id === 'LYWA' || normKey.includes('oases') || normKey.includes('wahat') || normKey.includes('gialo') || normKey.includes('augila') || normKey.includes('giarabub')) {
-      if (step >= 8) {
-        return {
-          name: 'Al Wahat — Giarabub (Eroica Resistenza del Magg. Castagna) e Gialo',
-          adminTitle: "Regno d'Italia — Settore Sahariano di Gialo e Sacca di Giarabub (Dicembre 1940 – 21 Marzo 1941)",
-          note: "L'oasi fortificata di Giarabub, completamente isolata nel deserto per oltre tre mesi dopo il crollo della 10ª Armata, fu difesa fino all'ultima cartuccia dal presidio italiano del maggiore Salvatore Castagna contro la 6ª Divisione australiana fino all'assalto finale del 21 marzo 1941.",
-        };
-      }
-      return {
-        name: 'Al Wahat (Oasi di Gialo, Augila e Giarabub)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud / Cirenaica (Oasi di Gialo e Giarabub)",
-        note: "Arcipelago di oasi sahariane nel deserto cirenaico comprendente Gialo, Augila, Marada e la città santa di Giarabub; sede della confraternita senussita e della piazzaforte di Giarabub presidiata dal Regio Esercito.",
-      };
-    }
-    if (id === 'LYJA' || normKey.includes('akhdar') || normKey.includes('cirene') || normKey.includes('cyrene') || normKey.includes('apollonia')) {
-      return {
-        name: 'Gebel el-Achdar (Cirene / Beda Littoria)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Derna (Circondario del Gebel — Cirene)",
-        note: "Altopiano fertile della Cirenaica settentrionale (Montagna Verde); culla archeologica di Cirene e Apollonia; sede di intensi insediamenti agricoli dell'Ente di Colonizzazione ('Beda Littoria', 'Luigi Razza', 'D'Annunzio').",
-      };
-    }
-    if (id === 'LYMJ' || normKey.includes('marj') || normKey.includes('barce')) {
-      return {
-        name: 'Barce (Al Marj — Piana di Barce)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Bengasi (Circondario di Barce)",
-        note: "Conca cerealicola della Cirenaica occidentale servita dalla ferrovia per Bengasi; sede del villaggio coloniale 'Maddalena' e perno difensivo montano tra Bengasi e il Gebel.",
-      };
-    }
-    if (id === 'LYMB' || normKey.includes('marqab') || normKey.includes('homs') || normKey.includes('leptis') || normKey.includes('tarhuna') || normKey.includes('cussabat')) {
-      return {
-        name: 'Homs e Leptis Magna (Tripolitania Settentrionale)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Homs)",
-        note: "Provincia litoranea della Tripolitania settentrionale comprendente il porto di Homs, le grandiose rovine di Leptis Magna riscoperte dall'archeologia italiana e i villaggi olivicoli di Tarhuna e Cussabat.",
-      };
-    }
-    if (id === 'LYZA' || normKey.includes('zawiyah') || normKey.includes('zawia') || normKey.includes('sabratha') || normKey.includes('sorman')) {
-      return {
-        name: 'Zawiya e Sabratha (Tripolitania Costiera)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Zawiya)",
-        note: "Distretto agricolo e costiero a ovest di Tripoli comprendente le oasi di Zawiya, Sorman e gli scavi romani di Sabratha; attraversato dalla litoranea verso Zuara e sede del villaggio rurale 'Oliveti'.",
-      };
-    }
-    if (id === 'LYNQ' || normKey.includes('nuqat') || normKey.includes('zuara') || normKey.includes('zuwarah') || normKey.includes('pisida')) {
-      return {
-        name: 'Zuara e Frontiera Tunisina (Pisida)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Frontiera di Zuara)",
-        note: "Distretto costiero della Tripolitania all'estremo confine con la Tunisia francese (Ligne Mareth); comprende il porto berbero di Zuara, la laguna di Farwa, il caposaldo di Pisida e il capolinea della ferrovia per Tripoli.",
-      };
-    }
-    if (id === 'LYNL' || normKey.includes('nalut') || normKey.includes('cabao') || normKey.includes('giado')) {
-      return {
-        name: 'Nalut e Gebel Nefusa Occidentale (Cabao / Giado)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Nalut)",
-        note: "Bastione montano fortificato all'estremità occidentale del Gebel Nefusa a ridosso del confine tunisino; borgo berbero arroccato con il celebre Qasr fortificato; presidio di frontiera e nodo delle piste verso Gadames.",
-      };
-    }
-    if (id === 'LYJG' || normKey.includes('gharbi') || normKey.includes('garian') || normKey.includes('nefusa') || normKey.includes('iefren') || normKey.includes('mizda')) {
-      return {
-        name: 'Gebel Nefusa (Garian, Mizda e Iefren)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario di Garian)",
-        note: "Altopiano della Tripolitania interna con capoluogo a Garian (abitazioni trogloditiche); distretto delle coltivazioni olivicole, comando militare d'altura e via d'accesso alle oasi di Mizda e dell'Uadi Sofeggin.",
-      };
-    }
-    if (id === 'LYJI' || normKey.includes('jifarah') || normKey.includes('jifara') || normKey.includes('gefara') || normKey.includes('azizia')) {
-      return {
-        name: 'Piana della Gefara (El-Azizia / Suani Ben Adem)',
-        adminTitle: "Regno d'Italia — Commissariato Generale di Tripoli (Circondario della Gefara)",
-        note: "Piana alluvionale suburbana immediatamente a sud di Tripoli; polo agricolo delle concessioni rurali e sede di El-Azizia (nota per i record mondiali di temperatura); snodo viario e ferroviario verso l'interno.",
-      };
-    }
-    if (normKey.includes('tripoli') || normKey.includes('tripolitania')) {
-      if (step >= 8) {
-        return {
-          name: 'Tripoli (Sbarco del Deutsches Afrikakorps — Operazione Sonnenblume)',
-          adminTitle: "Regno d'Italia — Comando Superiore FF.AA. Africa Settentrionale (Gen. Italo Gariboldi & Gen. Erwin Rommel)",
-          note: "OPERAZIONE SONNENBLUME (febbraio-aprile 1941): Nel porto di Tripoli sbarcano i reparti corazzati del Deutsches Afrikakorps guidati dal generale Erwin Rommel, avviando la riconquista della Cirenaica e l'assedio di Tobruk.",
-        };
-      }
-      return {
-        name: 'Tripoli (Tripolitania Italiana)',
-        adminTitle: step >= 6
-          ? "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo Rodolfo Graziani)"
-          : "Regno d'Italia — Commissariato Generale di Tripoli (Maresciallo dell'Aria Italo Balbo)",
-        note: "Capoluogo della Tripolitania e sede del Governatore Generale della Libia. Con il R.D.L. 9 gennaio 1939 n. 70, la provincia fu formalmente annessa al territorio metropolitano nazionale italiano (Quarta Sponda); capolinea occidentale della litoranea Via Balbia e aeroscalo di Castel Benito.",
-      };
-    }
-    if (normKey.includes('benghazi') || normKey.includes('bengasi') || normKey.includes('cyrenaica') || normKey.includes('cirenaica')) {
-      if (step >= 8) {
-        return {
-          name: 'Bengasi (Riconquista Italo-Tedesca — Controffensiva di Rommel)',
-          adminTitle: "Regno d'Italia / Deutsches Afrikakorps — Piazzaforte di Bengasi (Riconquistata il 4 aprile 1941)",
-          note: "Riconquistata il 4 aprile 1941 dalle colonne corazzate del generale Erwin Rommel e del Regio Esercito durante la fulminea controffensiva in Cirenaica.",
-        };
-      }
-      return {
-        name: 'Bengasi (Cirenaica Italiana)',
-        adminTitle: "Regno d'Italia — Commissariato Generale Provinciale di Bengasi (Quarta Sponda)",
-        note: "Capoluogo storico della Cirenaica e porto strategico sul Golfo della Sirte; incorporata nel territorio metropolitano del Regno d'Italia nel 1939. Base aerea di Berka e piazzaforte dell'Armata della Libia a presidio della costa orientale.",
-      };
-    }
-    if (normKey.includes('fezzan')) {
-      return {
-        name: 'Territorio Militare del Sud (Fezzan / Sahara Libico)',
-        adminTitle: "Regno d'Italia — Territorio Militare del Sud (Comando Militare Sahariano, Hon / Cufra)",
-        note: "Vasto comprensorio desertico sahariano comprendente il Fezzan e le oasi di Murzuch, Sebha, Hon, Ghat e Cufra. Presidiato dalle Compagnie Sahariane per il pattugliamento delle piste transahariane verso il Ciad e il Niger.",
-      };
-    }
-    return {
-      name: step >= 8 ? 'Libia Italiana (Controffensiva dell\'Afrikakorps & Assedio di Tobruk)' : 'Libia Italiana (Quarta Sponda)',
-      adminTitle: step >= 8
-        ? "Regno d'Italia — Governo Generale della Libia (Gen. Italo Gariboldi & DAK Gen. Erwin Rommel)"
-        : step >= 6
-          ? "Regno d'Italia — Governo Generale della Libia (Maresciallo Rodolfo Graziani)"
-          : "Regno d'Italia — Governo Generale della Libia (Maresciallo dell'Aria Italo Balbo)",
-      note: step >= 8
-        ? "In seguito allo sbarco a Tripoli del Deutsches Afrikakorps di Erwin Rommel (Operazione Sonnenblume, febbraio-marzo 1941), le forze dell'Asse riconquistano l'intera Cirenaica e stringono d'assedio la guarnigione australiana di Tobruk (10 aprile 1941)."
-        : "Possedimento nordafricano unificato nel 1934 sotto Italo Balbo. Con il R.D.L. 9 gennaio 1939 n. 70, le quattro province costiere (Tripoli, Misurata, Bengasi, Derna) vennero incorporate come 19ª regione del territorio metropolitano del Regno d'Italia (Quarta Sponda), mantenendo il Territorio Militare del Sud a regime speciale.",
-    };
+    return resolveLibyaColonyToponym(id, normKey, step);
   }
 
   // 2. AFRICA ORIENTALE ITALIANA (Eritrea, Etiopia, Somalia, AOI)
-  if (normKey.includes('eritrea') && (owner === 'ITA' || owner === 'UK' || !normKey.includes('british'))) {
+  if (normKey.includes('eritrea') && (owner === 'ITA' || owner === 'UK' || owner === 'ETH' || !normKey.includes('british'))) {
+    if (step >= 29) {
+      return {
+        name: "Regione Autonoma Federata dell'Eritrea — Federazione di Etiopia ed Eritrea (Entrata in Vigore della Risoluzione ONU 390 A(V) il 15 Settembre 1952: Anseba, Debub, Debubawi Keyih Bahri, Gash-Barka, Maekel, Semenawi Keyih Bahri)",
+        adminTitle: "Federazione di Etiopia ed Eritrea — Regione Autonoma dell'Eritrea (Imperatore Hailé Selassié I · Capo Esecutivo Tedla Bairu, Asmara — dal 15 Set 1952)",
+        note: "15 Settembre – 31 Dicembre 1952 (100% Federazione di Etiopia ed Eritrea): cessa l'Amministrazione Militare Britannica (BMA) sull'ex colonia italiana dell'Eritrea. In attuazione della Risoluzione ONU 390 A(V), tutte le regioni dell'Eritrea (Anseba, Debub, Debubawi Keyih Bahri, Gash-Barka, Maekel, Semenawi Keyih Bahri) vengono federate al 100% come unità autonoma dotata di proprio parlamento, governo (Capo Esecutivo Tedla Bairu) e bandiera ufficiale (azzurro ONU con ghirlanda d'ulivo verde) sotto la sovranità della corona dell'Impero d'Etiopia.",
+      };
+    }
+    if (step >= 28) {
+      return {
+        name: 'Eritrea (Amministrazione Militare Britannica BMA in Transizione Costituente — Federazione con l\'Etiopia solo nel Settembre 1952)',
+        adminTitle: 'British Military Administration of Eritrea (BMA — Asmara, Transizione ONU pre-Set 1952)',
+        note: "31 Dicembre 1951 (100% Amministrazione Militare Britannica BMA): prosegue ad Asmara il lavoro del Commissario ONU Eduardo Anze Matienzo per l'attuazione della Risoluzione ONU 390 A(V), ma al 31 dicembre 1951 l'Eritrea rimane ancora sotto l'Amministrazione Militare Britannica (la federazione con l'Etiopia entrerà in vigore solo il 15 settembre 1952).",
+      };
+    }
+    if (step >= 27) {
+      return {
+        name: 'Eritrea (Amministrazione Militare Britannica BMA — Pre-Federazione 1952)',
+        adminTitle: 'British Military Administration of Eritrea (Federazione Etiopica Effettiva dal Set 1952)',
+        note: "30 Giugno 1951 (BMA Britannica): prosegue l'amministrazione transitoria britannica ad Asmara e Massaua in attesa dell'attuazione della Risoluzione ONU 390 A(V) (la federazione con l'Etiopia entrerà in vigore solo il 15 settembre 1952).",
+      };
+    }
     if (step >= 26) {
       return {
         name: 'Eritrea (Amministrazione Militare Britannica BMA — Risoluzione ONU 390 A(V) 2 Dic 1950)',
@@ -6277,15 +6049,7 @@ export function resolveAfricanToponym(
         note: "Al termine della sanguinosa Battaglia di Cheren (5 febbraio – 27 marzo 1941), dove le truppe coloniali e i granatieri italiani del generale Nicolangelo Carnimeo resistettero per 53 giorni contro la 4ª e 5ª Divisione indiana del generale William Platt, le forze britanniche occupano Asmara (1 aprile) e la base navale di Massaua (8 aprile 1941), ponendo l'Eritrea sotto amministrazione militare britannica (OETA).",
       };
     }
-    return {
-      name: step >= 1
-        ? "Governo dell'Eritrea (Africa Orientale Italiana — Asmara / Massaua)"
-        : "Colonia Eritrea (Regno d'Italia — Asmara / Massaua)",
-      adminTitle: step >= 1
-        ? "Governo Generale dell'AOI — Governo dell'Eritrea"
-        : "Colonia del Regno d'Italia (Governatore Emilio De Bono / Pietro Badoglio)",
-      note: "Colonia primogenita italiana fondata nel 1890. Capoluogo Asmara ('Piccola Roma') e base navale di Massaua sul Mar Rosso, sede del Comando Navale AOI e della flottiglia della Regia Marina (cacciatorpediniere e sommergibili); base logistica fondamentale per la campagna d'Etiopia del 1935-36.",
-    };
+    return resolveEritreaItalianPhase(step);
   }
 
   if (
@@ -6306,6 +6070,13 @@ export function resolveAfricanToponym(
         name: "Impero d'Etiopia (Addis Abeba — Sovranità Restaurata, Negus Hailé Selassié I)",
         adminTitle: "Ye’Ityōṗṗyā Nigūsa Negest Mengist — Imperatore Hailé Selassié I (Addis Abeba)",
         note: "Impero d'Etiopia pienamente indipendente sotto il Negus Hailé Selassié I e il Primo Ministro Makonnen Endelkachew, membro fondatore delle Nazioni Unite; il Trattato di Pace di Parigi (15 settembre 1947) sancisce la definitiva rinuncia italiana.",
+      };
+    }
+    if (step >= 9 && owner === 'ETH') {
+      return {
+        name: "Impero d'Etiopia Restaurato (Addis Abeba — Negus Hailé Selassié I)",
+        adminTitle: "Ye’Ityōṗṗyā Nigūsa Negest Mengist — Imperatore Hailé Selassié I",
+        note: "Dopo la resa dell'ultimo ridotto italiano a Gondar (27 novembre 1941), l'Impero d'Etiopia è interamente restaurato sotto il Negus Hailé Selassié I, firmatario del Primo (1942) e Secondo Accordo Anglo-Etiopico (1944) e membro fondatore delle Nazioni Unite.",
       };
     }
     if (step >= 8 || (step >= 1 && owner === 'ETH')) {
@@ -6329,28 +6100,28 @@ export function resolveAfricanToponym(
         note: "CADUTA DI ADDIS ABEBA (6 aprile 1941): Dopo aver percorso oltre 2.700 km da Mogadiscio attraverso l'Ogaden, Jijiga, Harar (25 marzo) e Dire Dawa (29 marzo), l'11ª Divisione Africana del generale Alan Cunningham entra ad Addis Abeba il 6 aprile 1941. L'Imperatore Haile Selassie I fa ritorno sul trono salomonico (ingresso solenne il 5 maggio 1941), mentre il Viceré Amedeo di Savoia Duca d'Aosta si trincera con 7.000 uomini sull'Amba Alagi.",
       };
     }
-    if (normKey.includes('amhara') || normKey.includes('gondar')) {
+    if (step >= 1 && (normKey.includes('amhara') || normKey.includes('gondar'))) {
       return {
         name: "Governo dell'Amhara (AOI — Gondar)",
         adminTitle: "Africa Orientale Italiana — Governo dell'Amhara",
         note: "Regione montuosa settentrionale dell'AOI attorno al Lago Tana con capoluogo a Gondar, presidiata contro la guerriglia dei patrioti Arbegnoch.",
       };
     }
-    if (normKey.includes('harar')) {
+    if (step >= 1 && normKey.includes('harar')) {
       return {
         name: "Governo dell'Harar (AOI — Harar)",
         adminTitle: "Africa Orientale Italiana — Governo dell'Harar",
         note: "Provincia orientale dell'altopiano etiope e nodo ferroviario di Dire Dawa sulla linea ferrata strategica Gibuti-Addis Abeba.",
       };
     }
-    if (normKey.includes('galla_sidama') || normKey.includes('jimma')) {
+    if (step >= 1 && (normKey.includes('galla_sidama') || normKey.includes('jimma'))) {
       return {
         name: "Governo dei Galla e Sidama (AOI — Gimma)",
         adminTitle: "Africa Orientale Italiana — Governo dei Galla e Sidama",
         note: "Vasto governo meridionale dell'AOI solcato dai bacini del Nilo Azzurro e dell'Omo, ricco di risorse agricole e forestali.",
       };
     }
-    if (normKey.includes('addis_ababa') || normKey.includes('scioa')) {
+    if (step >= 1 && (normKey.includes('addis_ababa') || normKey.includes('scioa'))) {
       return {
         name: "Governo dello Scioa (AOI — Addis Abeba)",
         adminTitle: "Africa Orientale Italiana — Capitale e Sede Vicereale",
@@ -6387,11 +6158,7 @@ export function resolveAfricanToponym(
     id !== 'BR_SOMALILAND'
   ) {
     if (step >= 25) {
-      return {
-        name: 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU dal 1° Aprile 1950, Mogadiscio)',
-        adminTitle: 'Amministrazione Fiduciaria Italiana della Somalia — AFIS (ONU / Repubblica Italiana — Amb. Giovanni Fornari, Mogadiscio)',
-        note: "Il 1° aprile 1950 cessa l'amministrazione militare britannica (BMA) nell'ex Somalia Italiana e inizia ufficialmente il mandato decennale (1950–1960) dell'Amministrazione Fiduciaria Italiana della Somalia (AFIS) per conto delle Nazioni Unite (Risoluzione ONU 289 del 21 novembre 1949), con esposizione congiunta della bandiera ONU e del Tricolore della Repubblica Italiana sotto l'Amministratore Giovanni Fornari a Mogadiscio (il Somaliland Britannico e l'Ogaden restano rispettivamente a Regno Unito ed Etiopia).",
-      };
+      return resolveSomaliaItalianAndAfisPhase(step);
     }
     if (step >= 19) {
       return {
@@ -6407,15 +6174,7 @@ export function resolveAfricanToponym(
         note: "Partite dal Kenya nel gennaio-febbraio 1941, le forze del Commonwealth britannico guidate dal generale Alan Cunningham forzano la linea del fiume Giuba, occupano il porto di Chisimaio (14 febbraio) ed entrano a Mogadiscio il 25 febbraio 1941, ponendo l'intera Somalia italiana sotto amministrazione militare britannica.",
       };
     }
-    return {
-      name: step >= 1
-        ? "Governo della Somalia (Africa Orientale Italiana — Mogadiscio)"
-        : "Colonia della Somalia Italiana (Mogadiscio)",
-      adminTitle: step >= 1
-        ? "Governo Generale dell'AOI — Governo della Somalia"
-        : "Colonia del Regno d'Italia (Capoluogo Mogadiscio)",
-      note: "Possedimento italiano sull'Oceano Indiano unificato nel 1908 con l'incorporazione dell'Oltregiuba (Chisimaio) ceduto dalla Gran Bretagna nel 1924; organizzato come Governo della Somalia dell'AOI dal R.D.L. 1 giugno 1936.",
-    };
+    return resolveSomaliaItalianAndAfisPhase(step);
   }
 
   // 3. SOMALIA BRITANNICA (British Somaliland)
@@ -6438,7 +6197,7 @@ export function resolveAfricanToponym(
       return {
         name: 'Somalia Britannica Occupata (Conquista Italiana — Berbera e Passo di Tug Argan)',
         adminTitle: 'Africa Orientale Italiana — Territorio Occupato della Somalia Britannica (Gen. Guglielmo Nasi)',
-        note: "Conquistata dalle truppe coloniali e nazionali italiane del generale Guglielmo Nasi tra il 3 e il 19 agosto 1940 dopo lo sfondamento del Passo di Tug Argan e l'evacuazione navale britannica da Berbera; unica campagna vittoriosa dell'Asse contro un possedimento britannico senza supporto tedesco.",
+        note: "Conquistata dalle colonne italiane del generale Guglielmo Nasi (Divisione Harar, Brigate Coloniali, Reggimento Savoia e reparti Camicie Nere) tra il 3 e il 19 agosto 1940 con la presa di Zeila, Odweina, Hargeisa, lo sfondamento di Tug Argan e l'evacuazione navale britannica da Berbera; incorporata temporaneamente nel Governatorato di Harar dell'AOI, fu l'unica campagna vittoriosa dell'Asse contro un possedimento britannico senza supporto tedesco.",
       };
     }
     return {
@@ -9197,9 +8956,16 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
   {
     nuts: 'PL228',
     name: 'Beuthen O.S.',
-    keys: ['bytomski', 'bytom', 'beuthen', 'piekary', 'piekary_slaskie'],
+    keys: ['bytomski', 'bytom', 'beuthen'],
     adminTitle: 'Deutsches Reich — Stadtkreis Beuthen (Provinz Oberschlesien)',
-    note: 'Città mineraria e polo dell\'industria pesante dell\'Alta Slesia tedesca a ridosso del confine polacco.',
+    note: 'Città mineraria e polo dell\'industria pesante dell\'Alta Slesia tedesca incuneata nel triangolo di confine polacco tra Tarnowskie Góry, Piekary e Chorzów.',
+  },
+  {
+    nuts: 'DE_RATIBOR_OBERSCHLESIEN',
+    name: 'Ratibor O.S. (Racibórz)',
+    keys: ['de_ratibor_oberschlesien', 'ratibor', 'raciborz'],
+    adminTitle: 'Deutsches Reich — Stadt- und Landkreis Ratibor (Provinz Oberschlesien)',
+    note: 'Circondario tedesco di Ratibor (Racibórz) nell\'Alta Slesia lungo l\'alto corso dell\'Oder, rimasto alla Germania fino al 1945 di fronte a Hlučínsko e Rybnik.',
   },
   {
     nuts: 'PL229',
@@ -9651,10 +9417,10 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
   },
   {
     nuts: 'PL227',
-    name: 'Rybnik e Wodzisław (Autonomiczne Województwo Śląskie)',
-    keys: ['rybnicki', 'rybnik', 'wodzislaw', 'wodzislaw_slaski', 'zory', 'jastrzebie', 'jastrzebie_zdroj', 'raciborz'],
+    name: 'Rybnik, Wodzisław & Knurów (Autonomiczne Województwo Śląskie)',
+    keys: ['rybnicki', 'rybnik', 'wodzislaw', 'wodzislaw_slaski', 'zory', 'jastrzebie', 'jastrzebie_zdroj', 'knurow'],
     dynamicName: (s: number) =>
-      s < 5 ? 'Rybnik e Wodzisław (Autonomiczne Województwo Śląskie)' : 'Rybnik (Regierungsbezirk Kattowitz — Gau Oberschlesien)',
+      s < 5 ? 'Rybnik, Wodzisław & Knurów (Autonomiczne Województwo Śląskie)' : 'Rybnik (Regierungsbezirk Kattowitz — Gau Oberschlesien)',
     dynamicAdminTitle: (s: number) =>
       s < 5
         ? 'Rzeczpospolita Polska — Autonomiczne Województwo Śląskie'
@@ -9663,6 +9429,21 @@ export const POLAND_PROVINCES_CATALOG: PolandProvDef[] = [
       s < 5
         ? 'Distretto minerario dell\'Alta Slesia polacca meridionale lungo la frontiera dell\'Oder con Ratibor.'
         : 'Annesso direttamente al Terzo Reich come Landkreis Rybnik nel Regierungsbezirk Kattowitz.',
+  },
+  {
+    nuts: 'PL_TARNOWSKIE_GORY_LUBLINIEC',
+    name: 'Tarnowskie Góry, Piekary Śląskie & Lubliniec (Województwo Śląskie)',
+    keys: ['pl_tarnowskie_gory_lubliniec', 'tarnowskie_gory', 'tarnowitz', 'piekary', 'piekary_slaskie', 'lubliniec', 'lublinitz'],
+    dynamicName: (s: number) =>
+      s < 5 ? 'Tarnowskie Góry & Lubliniec (Autonomiczne Województwo Śląskie)' : 'Tarnowitz und Lublinitz (Regierungsbezirk Kattowitz)',
+    dynamicAdminTitle: (s: number) =>
+      s < 5
+        ? 'Rzeczpospolita Polska — Autonomiczne Województwo Śląskie'
+        : 'Deutsches Reich — Provinz Oberschlesien (Regierungsbezirk Kattowitz)',
+    dynamicNote: (s: number) =>
+      s < 5
+        ? 'Settore settentrionale del Voivodato autonomo della Slesia (Tarnowskie Góry, Piekary e Lubliniec) assegnato alla Polonia dopo i plebisciti slesiani del 1921–1922.'
+        : 'Annesso direttamente al Terzo Reich nell\'ottobre 1939 nei Landkreise Tarnowitz-Beuthen e Lublinitz (Loben).',
   },
   {
     nuts: 'PL22C',
@@ -11361,16 +11142,28 @@ function resolvePostWarChinaProvince(
   }
   if (provId === 'CHN_LIAONING' && step >= 26 && owner === 'CCP_CHI') {
     return {
-      name: 'Liaoning (98% RPC · Port Arthur e Dalian Presenza URSS)',
+      name:
+        step >= 27
+          ? 'Liaoning (98% RPC · Port Arthur e Dalian Guarnigione URSS)'
+          : 'Liaoning (98% RPC · Port Arthur e Dalian Presenza URSS)',
       adminTitle: 'Repubblica Popolare Cinese — Liaoning (Escl. Port Arthur/Dalian URSS)',
-      note: 'Dicembre 1950: base logistica sullo Yalu per i PVA diretti in Corea; Port Arthur e Dalian restano sotto presidio sovietico fino al 1952.',
+      note:
+        step >= 27
+          ? '30 Giugno 1951: retrovia logistica sullo Yalu per i PVA; Port Arthur (Lüshunkou) e Dalian restano sotto amministrazione militare congiunta sino-sovietica con guarnigione URSS.'
+          : 'Dicembre 1950: base logistica sullo Yalu per i PVA diretti in Corea; Port Arthur e Dalian restano sotto presidio sovietico fino al 1952.',
     };
   }
   if ((provId === 'CHN_SICHUAN' || provId === 'CHN_XIKANG') && step >= 26 && owner === 'CCP_CHI') {
     return {
-      name: `${entry.label} (100% RPC — Battaglia di Chamdo Ott 1950)`,
+      name:
+        step >= 27
+          ? `${entry.label} (100% RPC · Chamdo Amm. Diretta Cinese)`
+          : `${entry.label} (100% RPC — Battaglia di Chamdo Ott 1950)`,
       adminTitle: 'Repubblica Popolare Cinese — Sichuan / Xikang & Chamdo Orientale',
-      note: '6–19 ottobre 1950: l\'EPL conquista Chamdo e il Kham orientale fino al Salween, arrestandosi prima di Lhasa.',
+      note:
+        step >= 27
+          ? "30 Giugno 1951: il Chamdo resta sotto amministrazione diretta cinese dall'ottobre 1950, distinta dall'autonomia locale del Kashag a Lhasa prevista dall'Accordo dei 17 Punti."
+          : "6–19 ottobre 1950: l'EPL conquista Chamdo e il Kham orientale fino al Salween, arrestandosi prima di Lhasa.",
     };
   }
   if (provId === 'CHN_HAINAN' && step >= 25 && owner === 'CCP_CHI') {
@@ -12330,6 +12123,13 @@ export function resolveBritishColonialToponym(
     nid === '404' ||
     n.includes('kenya')
   ) {
+    if (step >= 29) {
+      return {
+        name: 'Colonia del Kenya (Stato di Emergenza / Insurrezione Armata Mau Mau nelle Regioni Centrali Kikuyu, Rift Valley Orientale e Nairobi — 20 Ottobre 1952)',
+        adminTitle: 'Kenya Colony and Protectorate — Stato di Emergenza Mau Mau (Gov. Sir Evelyn Baring · 20 Ott 1952)',
+        note: '20 Ottobre – 31 Dicembre 1952 (Stato di Emergenza / Rivolta Mau Mau): dal 20 ottobre 1952 il governatore britannico Sir Evelyn Baring attiva lo stato di Emergenza (Operazione Jock Scott e arresto di Jomo Kenyatta) contro l\'insurrezione armata Mau Mau nelle regioni centrali del Kenya (Central Province / Altipiani Kikuyu attorno al Monte Kenya e ai monti Aberdare, Rift Valley orientale e Nairobi) contro l\'amministrazione coloniale dell\'Impero Britannico.',
+      };
+    }
     return {
       name: 'Kenya Colony and Protectorate (Nairobi & Mombasa)',
       adminTitle: 'British Crown Colony & Protectorate',
@@ -13154,6 +12954,9 @@ export function resolveUKToponym(
     normKey.includes('akrotiri') ||
     normKey.includes('dhekelia')
   ) {
+    if (typeof yearStep === 'number' && yearStep >= 32) {
+      return getCyprusStep32Dossier(id || '', rawName);
+    }
     if (CYPRUS_PROVINCES_META[id]) {
       const step = typeof yearStep === 'number' ? yearStep : 0;
       const d = CYPRUS_PROVINCES_META[id];
@@ -15304,6 +15107,18 @@ function getBeneluxDistrictPostwarDetail(d: BeneluxDistrictDef): string {
 
 function getBeneluxPostwarContext(country: 'BE' | 'NL' | 'LU', step: number): { nameSuffix?: string; adminTitle: string; eraNote: string } {
   if (country === 'BE') {
+    if (step >= 28) {
+      return {
+        adminTitle: 'Royaume de Belgique / Koninkrijk België — Re Baldovino (dal 17 Lug 1951) · PM Joseph Pholien · NATO & CECA',
+        eraNote: '31 Dicembre 1951: si chiude la Questione Reale belga con l\'abdicazione formale di Re Leopoldo III (16 luglio 1951) e il giuramento costituzionale del figlio Re Baldovino (17 luglio 1951); governo Joseph Pholien impegnato nella NATO/SHAPE e nella ratifica del Trattato CECA.',
+      };
+    }
+    if (step >= 27) {
+      return {
+        adminTitle: 'Royaume de Belgique — Principe Reale Baldovino · Trattato CECA (18 Apr 1951) & SHAPE NATO',
+        eraNote: '30 Giugno 1951: firmatario del Trattato istitutivo della CECA (Parigi, 18 aprile 1951) e partecipe al comando NATO SHAPE (operativo dal 2 aprile). Continua la delega dei poteri al Principe Reale Baldovino: Re Leopoldo III non ha ancora abdicato (abdicherà il 16 luglio 1951).',
+      };
+    }
     if (step >= 26) {
       return {
         adminTitle: 'Royaume de Belgique — Principe Reale Baldovino (Delega 11 Ago 1950 · NATO & Benelux)',
@@ -15341,6 +15156,12 @@ function getBeneluxPostwarContext(country: 'BE' | 'NL' | 'LU', step: number): { 
   }
 
   if (country === 'NL') {
+    if (step >= 27) {
+      return {
+        adminTitle: 'Koninkrijk der Nederlanden — Koningin Juliana · Trattato CECA (18 Apr 1951) & SHAPE NATO',
+        eraNote: '30 Giugno 1951: i Paesi Bassi (Regina Giuliana, PM Willem Drees) firmano il 18 aprile 1951 il Trattato istitutivo della CECA a Parigi e partecipano a SHAPE (2 aprile); la Nuova Guinea Olandese rimane sotto sovranità di L\'Aia dopo la rottura dei colloqui con Giacarta.',
+      };
+    }
     if (step >= 23) {
       return {
         adminTitle: 'Koninkrijk der Nederlanden — Koningin Juliana · Membre Fondateur OTAN / NATO (1949)',
@@ -15372,6 +15193,12 @@ function getBeneluxPostwarContext(country: 'BE' | 'NL' | 'LU', step: number): { 
   }
 
   // country === 'LU'
+  if (step >= 27) {
+    return {
+      adminTitle: 'Grand-Duché de Luxembourg — Trattato CECA (18 Apr 1951) & SHAPE NATO',
+      eraNote: '30 Giugno 1951: il Lussemburgo firma il Trattato istitutivo della CECA a Parigi (18 aprile 1951) divenendo la futura sede dell\'Alta Autorità (entrata in vigore luglio 1952) e partecipa al comando NATO SHAPE (operativo dal 2 aprile).',
+    };
+  }
   if (step >= 23) {
     return {
       adminTitle: 'Grand-Duché de Luxembourg — Membre Fondateur OTAN / NATO & Conseil de l\'Europe (1949)',
@@ -16539,6 +16366,14 @@ export function resolveSwissAustrianToponym(
     const d = found;
     // Austria post-Anschluss (Step >= 1: März 1938 - Juni 1940) / Zone di Occupazione Alleata (Step >= 18)
     if (d.country === 'AT') {
+      if (step >= 32) {
+        return {
+          name: d.name,
+          adminTitle:
+            'Republik Österreich — Souveräner & Immerwährend Neutraler Bundesstaat (Staatsvertrag 15. Mai / 27. Juli & Neutralitätsgesetz 26. Okt. 1955)',
+          note: "31 Dicembre 1955 (100% Repubblica d'Austria Sovrana e Neutrale): con il Trattato di Stato Austriaco firmato il 15 maggio ed entrato in vigore il 27 luglio 1955, cessano le quattro zone d'occupazione alleate (USA, Regno Unito, Francia, URSS) e i quattro settori di Vienna; completato il ritiro delle truppe straniere entro ottobre, il 26 ottobre 1955 il Parlamento austriaco sancisce la Neutralità Permanente sotto la bandiera statale Rot-Weiß-Rot (Presidente Theodor Körner, Cancelliere Julius Raab).",
+        };
+      }
       if (step >= 18) {
         return {
           name: d.name,
@@ -16674,6 +16509,13 @@ export function resolveUSAToponym(
 
   // 4. Caraibi: Puerto Rico & Isole Vergini Americane
   if (normKey.includes('puerto_rico') || normKey.includes('porto_rico') || id.includes('PR') || id.includes('PRI') || id === '630') {
+    if (step >= 29) {
+      return {
+        name: 'Estado Libre Asociado de Puerto Rico (Stato Libero Associato / Commonwealth di Porto Rico — Costituzione e Bandiera del 25 Luglio 1952 · San Juan)',
+        adminTitle: 'Estado Libre Asociado de Puerto Rico / Commonwealth of Puerto Rico (Gov. Luis Muñoz Marín — USA, 25 Lug 1952)',
+        note: '25 Luglio – 31 Dicembre 1952: entra in vigore la Costituzione di Porto Rico; il territorio assume lo status di Estado Libre Asociado de Puerto Rico (territorio non incorporato degli Stati Uniti con autogoverno interno sotto il Governatore Luis Muñoz Marín) e adotta ufficialmente la propria bandiera nazionale (cinque strisce rosse e bianche con triangolo blu intenso #0050F0 e stella bianca, issata accanto alla bandiera USA).',
+      };
+    }
     return {
       name: 'Puerto Rico (Unincorporated U.S. Territory — San Juan)',
       adminTitle: 'Territory of Puerto Rico — U.S. Caribbean Gibraltar (Gov. Blanton Winship / Adm. William D. Leahy)',
@@ -19171,6 +19013,13 @@ export function getExtendedToponym(
     (owner === 'USA' || owner === 'US') &&
     (normKey.includes('puerto_rico') || normKey.includes('puerto rico') || normKey.includes('porto_rico') || normKey.includes('porto rico') || normKey.includes('puerto') || id.includes('PR') || id.includes('PRI'))
   ) {
+    if ((yearStep ?? 0) >= 29) {
+      return {
+        name: 'Estado Libre Asociado de Puerto Rico (Stato Libero Associato / Commonwealth di Porto Rico — Costituzione e Bandiera del 25 Luglio 1952 · San Juan)',
+        adminTitle: 'Estado Libre Asociado de Puerto Rico / Commonwealth of Puerto Rico (Gov. Luis Muñoz Marín — USA, 25 Lug 1952)',
+        note: '25 Luglio – 31 Dicembre 1952: entra in vigore la Costituzione di Porto Rico; il territorio assume lo status di Estado Libre Asociado de Puerto Rico (territorio non incorporato degli Stati Uniti con autogoverno interno sotto il Governatore Luis Muñoz Marín) e adotta ufficialmente la propria bandiera nazionale (cinque strisce rosse e bianche con triangolo blu intenso #0050F0 e stella bianca, issata accanto alla bandiera USA).',
+      };
+    }
     return {
       name: 'Puerto Rico (Unincorporated U.S. Territory — San Juan)',
       adminTitle: 'Territory of Puerto Rico — U.S. Caribbean Gibraltar (Gov. Blanton Winship / Adm. William D. Leahy)',

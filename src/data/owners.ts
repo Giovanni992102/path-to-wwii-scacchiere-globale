@@ -1998,9 +1998,14 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     id: 'AFIS',
     c: '#4a90bc',
     f: 'Alleati',
-    l: () => 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU 1950–1960)',
+    l: (s) =>
+      s >= 31
+        ? 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Elezioni Municipali & Bandiera Somala 12 Ott 1954)'
+        : s >= 30
+        ? 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Amministratore Enrico Martino, Mandato ONU 1950–1960)'
+        : 'Amministrazione Fiduciaria Italiana della Somalia (AFIS — Mandato ONU 1950–1960)',
     shortName: 'Somalia (AFIS / Italia-ONU)',
-    leader: 'Amministratore Giovanni Fornari (dal 1° apr 1950) · Tutela ONU & Repubblica Italiana',
+    leader: 'Amministratore Giovanni Fornari (dal 1° apr 1950 – 1953) / Enrico Martino (dal set 1953) · Tutela ONU & Repubblica Italiana',
     capital: 'Mogadiscio',
     tier: 'colony',
     overlordCode: 'ITA',
@@ -2162,6 +2167,84 @@ export const CANONICAL_OWNERS: Record<string, OwnerConfig> = {
     overlordCode: 'FRA',
     aliases: ['CAM', 'KHM', 'KH', 'CAMBODIA', 'CAMBOGIA', 'KINGDOM_OF_CAMBODIA'],
     isSubject: true,
+  },
+  LBY: {
+    id: 'LBY',
+    c: '#239e46',
+    f: 'Neutrale',
+    l: () => 'Regno Unito di Libia (Al-Mamlakah al-Lībiyyah al-Muttaḥidah — Stato Sovrano Federale proclamato il 24 Dicembre 1951: Tripolitania, Cirenaica e Fezzan)',
+    shortName: 'Regno Unito di Libia',
+    leader: 'Re Idris I al-Senussi · Primo Ministro Mahmud al-Muntasir',
+    capital: 'Tripoli & Bengasi (Doppia Capitale Federale)',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['LBY', 'LY', 'LIBYA', 'LIBIA', 'UNITED_KINGDOM_OF_LIBYA', 'REGNO_UNITO_DI_LIBIA', 'KINGDOM_OF_LIBYA', 'REGNO_DI_LIBIA'],
+    isSubject: false,
+  },
+  FRN: {
+    id: 'FRN',
+    c: '#3d7699',
+    f: 'Alleati',
+    l: () => 'Federazione di Rhodesia e Nyasaland (Federazione Centrafricana Britannica — 1° Agosto / 23 Ottobre 1953)',
+    shortName: 'Rhodesia e Nyasaland',
+    leader: 'Governatore Generale Lord Llewellin · Primo Ministro Federale Sir Godfrey Huggins',
+    capital: 'Salisbury (Harare)',
+    tier: 'colony',
+    overlordCode: 'UK',
+    aliases: ['FRN', 'FRN_1953', 'RHODESIA_NYASALAND', 'FEDERATION_OF_RHODESIA_AND_NYASALAND', 'CENTRAL_AFRICAN_FEDERATION'],
+    isSubject: true,
+  },
+  SUD: {
+    id: 'SUD',
+    c: '#1f8a4c',
+    f: 'Neutrale',
+    l: () => 'Repubblica del Sudan (Jumhūriyyat as-Sūdān — Indipendenza del 1° Gennaio 1956)',
+    shortName: 'Sudan',
+    leader: 'Commissione Suprema di Sovranità · Primo Ministro Ismail al-Azhari (Gen–Lug 1956) / Abdallah Khalil (dal 5 Lug 1956)',
+    capital: 'Khartoum',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['SUD', 'SDN', 'SUDAN', 'REPUBLIC_OF_SUDAN', 'REPUBLIC OF SUDAN', 'REPUBBLICA DEL SUDAN'],
+    isSubject: false,
+  },
+  MAR: {
+    id: 'MAR',
+    c: '#c1272d',
+    f: 'Neutrale',
+    l: () => 'Impero Sceriffiano del Marocco (Sovranità Ripristinata — 2 Marzo / 7 Aprile / Tangeri 29 Ottobre 1956)',
+    shortName: 'Marocco',
+    leader: 'Sultano Mohammed V (Sidi Mohammed ben Youssef) · Primo Ministro Mbarek Bekkai',
+    capital: 'Rabat',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['MAR', 'MA', 'MOR', 'MOROCCO', 'MAROCCO', 'KINGDOM_OF_MOROCCO', 'SHERIFFIAN_EMPIRE'],
+    isSubject: false,
+  },
+  TUN: {
+    id: 'TUN',
+    c: '#d62828',
+    f: 'Neutrale',
+    l: () => 'Regno di Tunisia (Al-Mamlakah at-Tūnisiyyah — Indipendenza del 20 Marzo 1956)',
+    shortName: 'Tunisia',
+    leader: 'Re / Bey Muhammad VIII al-Amin (Lamine Bey) · Primo Ministro Habib Bourguiba',
+    capital: 'Tunisi (Tunis)',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['TUN', 'TN', 'TUNISIA', 'KINGDOM_OF_TUNISIA', 'REGNO_DI_TUNISIA'],
+    isSubject: false,
+  },
+  GHA: {
+    id: 'GHA',
+    c: '#006b3f',
+    f: 'Neutrale',
+    l: () => 'Dominion del Ghana (Indipendenza e Unione con il Togo Britannico — 6 Marzo 1957)',
+    shortName: 'Ghana',
+    leader: 'Regina Elisabetta II · Gov.-Gen. Sir Charles Arden-Clarke / Conte di Listowel · Primo Ministro Kwame Nkrumah',
+    capital: 'Accra',
+    tier: 'sovereign',
+    overlordCode: null,
+    aliases: ['GHA', 'GH', 'GHANA', 'DOMINION_OF_GHANA', 'DOMINION OF GHANA', 'DOMINION_DEL_GHANA', 'DOMINION DEL GHANA'],
+    isSubject: false,
   },
 
   // ==========================================
@@ -2476,6 +2559,37 @@ export const OWNER_ALIASES: Record<string, string> = {
   CAM: 'CAM',
   KHM: 'CAM',
   CAMBODIA: 'CAM',
+  LBY: 'LBY',
+  LY: 'LBY',
+  LIBYA: 'LBY',
+  LIBIA: 'LBY',
+  REGNO_UNITO_DI_LIBIA: 'LBY',
+  UNITED_KINGDOM_OF_LIBYA: 'LBY',
+  'REGNO UNITO DI LIBIA': 'LBY',
+  'UNITED KINGDOM OF LIBYA': 'LBY',
+  KINGDOM_OF_LIBYA: 'LBY',
+  REGNO_DI_LIBIA: 'LBY',
+  FRN: 'FRN',
+  FRN_1953: 'FRN',
+  RHODESIA_NYASALAND: 'FRN',
+  FEDERATION_OF_RHODESIA_AND_NYASALAND: 'FRN',
+  CENTRAL_AFRICAN_FEDERATION: 'FRN',
+  SUD: 'SUD',
+  SDN: 'SUD',
+  REPUBLIC_OF_SUDAN: 'SUD',
+  'REPUBBLICA DEL SUDAN': 'SUD',
+  MAR: 'MAR',
+  MOR: 'MAR',
+  MOROCCO: 'MAR',
+  MAROCCO: 'MAR',
+  TUN: 'TUN',
+  TUNISIA: 'TUN',
+  KINGDOM_OF_TUNISIA: 'TUN',
+  GHA: 'GHA',
+  GHANA: 'GHA',
+  DOMINION_OF_GHANA: 'GHA',
+  'DOMINION OF GHANA': 'GHA',
+  'DOMINION DEL GHANA': 'GHA',
 };
 
 /**
@@ -2557,6 +2671,45 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
   const direct = OWNERS[cleanKey] || OWNERS[o];
   const meta = direct || CANONICAL_OWNERS[canonicalizeOwnerCode(cleanKey, _step)] || OWN_FALLBACK;
   if (_step !== undefined && _step >= 19 && (meta.id === 'CCP_CHI' || meta.id === 'CCP')) {
+    if (_step >= 29) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        l: () => 'Repubblica Popolare Cinese (RPC — Trasferimento Sovietico della Ferrovia Cinese di Changchun 31 Dic 1952 · Port Arthur e Dalian Base URSS fino al 1955 · Stallo sulla MDL in Corea)',
+        shortName: 'Repubblica Popolare Cinese (RPC)',
+        leader: 'Presidente Mao Zedong · Premier Zhou Enlai · Comandante PVA Peng Dehuai · Comandante EPL Zhu De · Gen. Zhang Guohua (Lhasa)',
+        capital: 'Beijing (Pechino)',
+        tier: 'autonomous',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 28) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        l: () => 'Repubblica Popolare Cinese (RPC — Ingresso Pacifico dell\'EPL a Lhasa Set–Ott 1951 & Negoziati di Panmunjom / Linea MDL in Corea)',
+        shortName: 'Repubblica Popolare Cinese (RPC)',
+        leader: 'Presidente Mao Zedong · Premier Zhou Enlai · Comandante PVA Peng Dehuai · Comandante EPL Zhu De · Gen. Zhang Guohua (18ª Armata EPL a Lhasa)',
+        capital: 'Beijing (Pechino)',
+        tier: 'autonomous',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
+    if (_step >= 27) {
+      return {
+        ...meta,
+        f: 'Comintern',
+        l: () => 'Repubblica Popolare Cinese (RPC — Accordo dei 17 Punti sul Tibet 23 Mag 1951 & Fronte PVA sulla Linea Kansas/Wyoming in Corea)',
+        shortName: 'Repubblica Popolare Cinese (RPC)',
+        leader: 'Presidente Mao Zedong · Premier Zhou Enlai · Comandante PVA Peng Dehuai · Comandante EPL Zhu De',
+        capital: 'Beijing (Pechino)',
+        tier: 'autonomous',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     if (_step >= 26) {
       return {
         ...meta,
@@ -2675,7 +2828,9 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
         ...meta,
         f: 'Alleati',
         l: () =>
-          _step >= 23
+          _step >= 29
+            ? 'Repubblica Italiana (Presidenza Einaudi · Governo De Gasperi VII · Entrata in Vigore della CECA 23 Luglio 1952 & NATO)'
+            : _step >= 23
             ? 'Repubblica Italiana (Presidenza Einaudi · Governo De Gasperi V & Fondatore NATO)'
             : 'Repubblica Italiana (Costituzione del 1948 — Presidenza Einaudi)',
         shortName: 'Repubblica Italiana',
@@ -2859,9 +3014,12 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Alleati',
-      l: () => 'Repubblica Federale Tedesca (RFT / BRD — Primo Governo Adenauer & Accordi del Petersberg, Nov 1949)',
+      l: () =>
+        _step >= 29
+          ? 'Repubblica Federale Tedesca (RFT / BRD — Entrata in Vigore della CECA 23 Luglio 1952 & Trattato Generale di Bonn 26 Maggio 1952)'
+          : 'Repubblica Federale Tedesca (RFT / BRD — Primo Governo Adenauer & Accordi del Petersberg, Nov 1949)',
       shortName: 'Germania Ovest (RFT)',
-      leader: 'Presidente Theodor Heuss (dal 12 sett) · Cancelliere Konrad Adenauer (dal 15 sett) · Alta Commissione Alleata AHK (McCloy, Robertson, François-Poncet)',
+      leader: 'Presidente Theodor Heuss · Cancelliere Konrad Adenauer · Alta Commissione Alleata AHK (McCloy/Donnelly, Kirkpatrick, François-Poncet)',
       capital: 'Bonn (Capitale Provvisoria Federale dal 3 Novembre 1949)',
       tier: 'autonomous',
       isSubject: false,
@@ -2900,6 +3058,20 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 18 && meta.id === 'JAP') {
+    if (_step >= 29) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        shortName: 'Giappone',
+        l: () =>
+          'Giappone (Nihon-koku — Fine dell\'Occupazione Alleata SCAP e Ripristino della Piena Sovranità Nazionale il 28 Aprile 1952 · Trattato di Sicurezza USA–Giappone)',
+        leader: 'Imperatore Hirohito · Primo Ministro Shigeru Yoshida (Piena Sovranità Ripristinata il 28 Aprile 1952)',
+        capital: 'Tokyo',
+        tier: 'sovereign',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     const japPm =
       _step >= 22
         ? 'Shigeru Yoshida'
@@ -2908,21 +3080,41 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
         : _step >= 19
         ? 'Tetsu Katayama'
         : 'Naruhiko Higashikuni / Kijūrō Shidehara';
+    const scapCmd =
+      _step >= 27
+        ? "Gen. Matthew Ridgway (SCAP dall'11 Apr 1951)"
+        : 'General of the Army Douglas MacArthur (SCAP)';
     return {
       ...meta,
       f: 'Alleati',
       shortName: 'Giappone (SCAP)',
       l: () =>
-        _step >= 22
+        _step >= 28
+          ? 'Giappone (Firma del Trattato di Pace di San Francisco 8 Set 1951 — Ancora Sotto Occupazione Alleata SCAP fino all\'Entrata in Vigore del 28 Aprile 1952)'
+          : _step >= 27
+          ? 'Giappone (Occupazione Alleata SCAP — Nessun Trattato di Pace di San Francisco fino a Set 1951)'
+          : _step >= 22
           ? 'Giappone (Costituzione del 1947 — Occupazione SCAP & Linea Dodge)'
           : _step >= 19
           ? 'Giappone (Costituzione Democratica del 3 Maggio 1947 — Occupazione SCAP)'
           : 'Giappone (Occupazione Alleata SCAP — Generale Douglas MacArthur)',
-      leader: `General of the Army Douglas MacArthur (SCAP) / Imperatore Hirohito · P.M. ${japPm}`,
+      leader: `${scapCmd} / Imperatore Hirohito · P.M. ${japPm}`,
       overlordCode: null,
     };
   }
   if (_step !== undefined && _step >= 18 && (meta.id === 'AUS' || meta.id === 'AUT')) {
+    if (_step >= 32) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        shortName: 'Austria',
+        l: () => "Repubblica d'Austria (Trattato di Stato 15 Mag / 27 Lug 1955 & Neutralità Permanente 26 Ott 1955 · Membro ONU 14 Dic 1955)",
+        leader: 'Presidente Theodor Körner · Cancelliere Julius Raab · Min. Esteri Leopold Figl',
+        capital: 'Vienna (Wien)',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Alleati',
@@ -2943,36 +3135,77 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       ...meta,
       f: 'Alleati',
       l: () =>
-        _step >= 23
+        _step >= 32
+          ? "Regno Unito di Gran Bretagna e Irlanda del Nord (Regina Elisabetta II · Governo Anthony Eden dal 6 Apr 1955 · Patto di Baghdad & Stato d'Emergenza a Cipro)"
+          : _step >= 29
+          ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Ascesa al Trono della Regina Elisabetta II il 6 Febbraio 1952 · Governo Churchill · Emergenza Mau Mau in Kenya & Rottura Diplomatica con l\'Iran)'
+          : _step >= 28
+          ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Churchill dal 26 Ott 1951 · Re Giorgio VI · Guerriglia nel Canale di Suez & Embargo su Abadan)'
+          : _step >= 27
+          ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Attlee · NATO/SHAPE & Crisi di Abadan)'
+          : _step >= 23
           ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Attlee & Fondatore NATO)'
           : _step >= 19
           ? 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Attlee & Decolonizzazione)'
           : 'Regno Unito di Gran Bretagna e Irlanda del Nord (Governo Laburista Attlee)',
       shortName: 'Regno Unito',
-      leader: 'Re Giorgio VI · Primo Ministro Clement Attlee (Labour) · Segretario agli Esteri Ernest Bevin',
+      leader:
+        _step >= 32
+          ? 'Regina Elisabetta II · Primo Ministro Sir Anthony Eden (Conservatore, dal 6 Apr 1955) · Segretario agli Esteri Selwyn Lloyd (dal Dic 1955)'
+          : _step >= 29
+          ? 'Regina Elisabetta II (ascesa al trono il 6 Febbraio 1952 dopo la morte di Re Giorgio VI) · Primo Ministro Winston Churchill · Segretario agli Esteri Anthony Eden'
+          : _step >= 28
+          ? 'Re Giorgio VI (ancora regnante al 31 Dic 1951) · Primo Ministro Winston Churchill (Conservatore, dal 26 Ott 1951) · Segretario agli Esteri Anthony Eden'
+          : _step >= 27
+          ? 'Re Giorgio VI · Primo Ministro Clement Attlee (Labour) · Segretario agli Esteri Herbert Morrison (dal Mar 1951)'
+          : 'Re Giorgio VI · Primo Ministro Clement Attlee (Labour) · Segretario agli Esteri Ernest Bevin',
       capital: 'Londra',
       isSubject: false,
       overlordCode: null,
     };
   }
   if (_step !== undefined && _step >= 19 && (meta.id === 'FRA' || meta.id === 'F_COL' || meta.id === 'F_AOF' || meta.id === 'FFL_AEF' || meta.id === 'F_AEF')) {
-    const fraPm = _step >= 24 ? 'Georges Bidault' : _step >= 22 ? 'Henri Queuille' : _step >= 20 ? 'Robert Schuman' : 'Paul Ramadier';
-    const fraTag = _step >= 23 && meta.id === 'FRA' ? 'Fondatore NATO · ' : '';
+    const fraPm = _step >= 32 ? 'Edgar Faure' : _step >= 29 ? 'Antoine Pinay' : _step >= 28 ? 'René Pleven' : _step >= 27 ? 'Henri Queuille' : _step >= 24 ? 'Georges Bidault' : _step >= 22 ? 'Henri Queuille' : _step >= 20 ? 'Robert Schuman' : 'Paul Ramadier';
+    const fraPres = _step >= 30 ? 'René Coty' : 'Vincent Auriol';
+    const fraTag =
+      _step >= 32 && meta.id === 'FRA'
+        ? "NATO · UEO · Evacuazione Hải Phòng (16 Mag) · Guerra d'Algeria & Protettorati Nordafrica · "
+        : _step >= 29 && meta.id === 'FRA'
+        ? 'NATO/SHAPE · Entrata in Vigore della CECA (23 Lug 1952) · Evacuazione di Hòa Bình & Difesa di Nà Sản · '
+        : _step >= 28 && meta.id === 'FRA'
+        ? 'NATO/SHAPE · Ratifica Trattato CECA (in vigore Lug 1952) · Offensiva di Hòa Bình · '
+        : _step >= 27 && meta.id === 'FRA'
+        ? 'NATO/SHAPE · Trattato CECA (18 Apr 1951) · '
+        : _step >= 23 && meta.id === 'FRA'
+        ? 'Fondatore NATO · '
+        : '';
     return {
       ...meta,
       f: 'Alleati',
       l: () =>
         _step === 19
           ? 'Quatrième République Française (Unione Francese — Presidente Vincent Auriol · P.M. Paul Ramadier)'
-          : `Quatrième République Française (Unione Francese — ${fraTag}Presidente Vincent Auriol · P.M. ${fraPm})`,
+          : `Quatrième République Française (Unione Francese — ${fraTag}Presidente ${fraPres} · P.M. ${fraPm})`,
       shortName: 'Francia (IVe République)',
-      leader: `Presidente Vincent Auriol · Presidente del Consiglio ${fraPm}`,
+      leader: `Presidente ${fraPres} · Presidente del Consiglio ${fraPm}`,
       capital: 'Parigi',
       isSubject: false,
       overlordCode: null,
     };
   }
   if (_step !== undefined && _step >= 18 && (meta.id === 'IRN' || meta.id === 'IR')) {
+    if (_step >= 32) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        l: () => "Stato Imperiale dell'Iran (Adesione al Patto di Baghdad / CENTO il 3 Novembre 1955 · Conferenza di Bandung)",
+        shortName: 'Iran',
+        leader: "Shahanshah Mohammad Reza Pahlavi · Primo Ministro Hossein Ala' (Patto di Baghdad 3 Nov 1955)",
+        capital: 'Teheran',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Neutrale',
@@ -2985,6 +3218,18 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 18 && (meta.id === 'IRQ' || meta.id === 'IQ')) {
+    if (_step >= 32) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        l: () => "Regno dell'Iraq (Co-Fondatore e Sede del Patto di Baghdad — 24 Febbraio 1955)",
+        shortName: 'Iraq',
+        leader: "Re Faysal II · Primo Ministro Nuri al-Sa'id (Patto di Baghdad 24 Feb 1955)",
+        capital: 'Baghdad',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Neutrale',
@@ -3090,9 +3335,15 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Alleati',
-      l: () => 'Dominion del Canada (10 Province con Terranova dal 31 Marzo 1949 · Membro Fondatore NATO)',
+      l: () =>
+        _step >= 29
+          ? 'Dominion del Canada (Regina Elisabetta II dal 6 Feb 1952 · 10 Province & NATO)'
+          : 'Dominion del Canada (10 Province con Terranova dal 31 Marzo 1949 · Membro Fondatore NATO)',
       shortName: 'Canada',
-      leader: 'Primo Ministro Louis St. Laurent · Re Giorgio VI',
+      leader:
+        _step >= 29
+          ? 'Primo Ministro Louis St. Laurent · Regina Elisabetta II (dal 6 Feb 1952) · Gov.-Gen. Vincent Massey'
+          : 'Primo Ministro Louis St. Laurent · Re Giorgio VI',
       capital: 'Ottawa',
       isSubject: false,
       overlordCode: null,
@@ -3235,7 +3486,13 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       f: 'Alleati',
       shortName: 'Belgio',
       l: () =>
-        _step >= 26
+        _step >= 29
+          ? 'Regno del Belgio (Re Baldovino · Entrata in Vigore della CECA il 23 Luglio 1952 & NATO)'
+          : _step >= 28
+          ? 'Regno del Belgio (Abdicazione di Re Leopoldo III il 16 Luglio 1951 & Ascesa al Trono di Re Baldovino il 17 Luglio 1951 · NATO & CECA)'
+          : _step >= 27
+          ? 'Regno del Belgio (Delega al Principe Reale Baldovino · Trattato CECA 18 Apr 1951 & NATO/SHAPE)'
+          : _step >= 26
           ? 'Regno del Belgio (Crisi della Questione Reale — Poteri Delegati al Principe Reale Baldovino, 11 Ago 1950 · NATO & Benelux)'
           : _step >= 23
           ? 'Regno del Belgio (Unione Doganale Benelux & Fondatore NATO 1949)'
@@ -3245,7 +3502,13 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
           ? 'Regno del Belgio (Governo Spaak III · Piano Marshall & Benelux)'
           : 'Regno del Belgio',
       leader:
-        _step >= 26
+        _step >= 29
+          ? 'Re Baldovino · P.M. Jean Van Houtte (dal 15 Gen 1952)'
+          : _step >= 28
+          ? 'Re Baldovino (asceso al trono il 17 Luglio 1951 dopo l\'abdicazione di Leopoldo III del 16 Luglio) · P.M. Joseph Pholien'
+          : _step >= 27
+          ? 'Principe Reale Baldovino (delega 11 Ago 1950; Re Leopoldo III ancora titolare fino al 16 Lug 1951) · P.M. Joseph Pholien'
+          : _step >= 26
           ? 'Principe Reale Baldovino (delega dell\'11 Ago 1950; Re Leopoldo III ancora titolare) · P.M. Joseph Pholien'
           : _step >= 19
           ? 'Reggente Principe Carlo · P.M. Paul-Henri Spaak'
@@ -3262,13 +3525,17 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       f: 'Alleati',
       shortName: 'Lussemburgo',
       l: () =>
-        _step >= 23
+        _step >= 29
+          ? 'Granducato di Lussemburgo (Sede dell\'Alta Autorità della CECA dal 10 Agosto 1952 · Benelux & NATO)'
+          : _step >= 23
           ? 'Granducato di Lussemburgo (Benelux & Fondatore NATO 1949)'
           : _step >= 21
           ? 'Granducato di Lussemburgo (Benelux & Patto di Bruxelles 1948)'
           : 'Granducato di Lussemburgo',
       leader:
-        _step >= 21
+        _step >= 29
+          ? 'Granduchessa Carlotta · P.M. Pierre Dupong · Min. Esteri Joseph Bech · Sede Alta Autorità CECA (Jean Monnet)'
+          : _step >= 21
           ? 'Granduchessa Carlotta · P.M. Pierre Dupong · Min. Esteri Joseph Bech'
           : 'Granduchessa Carlotta / Pierre Dupong',
       isSubject: false,
@@ -3349,7 +3616,9 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       f: 'Alleati',
       shortName: 'Paesi Bassi',
       l: () =>
-        _step >= 23
+        _step >= 29
+          ? 'Regno dei Paesi Bassi (Regina Giuliana · Governo Drees · Entrata in Vigore della CECA 23 Luglio 1952 & NATO)'
+          : _step >= 23
           ? 'Regno dei Paesi Bassi (Regina Giuliana · Governo Drees · Fondatore NATO 1949)'
           : 'Regno dei Paesi Bassi (Regina Giuliana · Governo Willem Drees)',
       leader: 'Regina Giuliana · P.M. Willem Drees · Alto Rappr. Louis Beel',
@@ -3428,8 +3697,14 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Neutrale',
-      l: () => "Impero d'Etiopia (Sovranità Restaurata — Hailé Selassié I)",
-      leader: 'Imperatore Hailé Selassié I · Primo Ministro Makonnen Endelkachew',
+      l: () =>
+        _step >= 29
+          ? "Impero d'Etiopia — Federazione di Etiopia ed Eritrea (Entrata in Vigore della Risoluzione ONU 390 A(V) il 15 Settembre 1952 · Regione Autonoma Federata dell'Eritrea)"
+          : "Impero d'Etiopia (Sovranità Restaurata — Hailé Selassié I)",
+      leader:
+        _step >= 29
+          ? 'Imperatore Hailé Selassié I · Primo Ministro Makonnen Endelkachew · Capo Esecutivo dell\'Eritrea Tedla Bairu (dal 15 Set 1952)'
+          : 'Imperatore Hailé Selassié I · Primo Ministro Makonnen Endelkachew',
       tier: 'sovereign',
       isSubject: false,
       overlordCode: null,
@@ -3457,15 +3732,26 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       overlordCode: null,
     };
   }
-  if (_step !== undefined && _step >= 18 && meta.id === 'POL') {
+  if (_step !== undefined && _step >= 17 && meta.id === 'POL') {
     return {
       ...meta,
-      l: () => _step >= 19
-        ? 'Repubblica di Polonia (Rzeczpospolita Polska — Confini Oder-Neisse)'
-        : 'Repubblica di Polonia (Governo Provvisorio di Unità Nazionale — TRJN)',
-      leader: _step >= 19
-        ? 'Bolesław Bierut · Józef Cyrankiewicz'
-        : 'Bolesław Bierut (KRN) · Edward Osóbka-Morawski (TRJN)',
+      shortName: _step >= 29 ? 'Repubblica Popolare Polacca (PRL)' : meta.shortName,
+      l: () =>
+        _step >= 29
+          ? 'Repubblica Popolare Polacca (Polska Rzeczpospolita Ludowa / PRL — Costituzione Socialista del 22 Luglio 1952)'
+          : _step >= 19
+          ? 'Repubblica di Polonia (Rzeczpospolita Polska — Confini Oder-Neisse)'
+          : _step >= 18
+          ? 'Repubblica di Polonia (Governo Provvisorio di Unità Nazionale — TRJN)'
+          : 'Repubblica di Polonia (Governo Provvisorio — RTRP / KRN)',
+      leader:
+        _step >= 29
+          ? 'Primo Ministro e Segr. Gen. PZPR Bolesław Bierut · Presidente del Consiglio di Stato Aleksander Zawadzki (Costituzione PRL del 22 Lug 1952)'
+          : _step >= 19
+          ? 'Bolesław Bierut · Józef Cyrankiewicz'
+          : _step >= 18
+          ? 'Bolesław Bierut (KRN) · Edward Osóbka-Morawski (TRJN)'
+          : 'Bolesław Bierut (Pres. KRN) · Edward Osóbka-Morawski (Pres. RTRP)',
     };
   }
   if (_step !== undefined && _step >= 21 && (meta.id === 'CZE' || meta.id === 'SLO')) {
@@ -3494,16 +3780,22 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     return {
       ...meta,
       f: 'Comintern',
-      l: () => _step >= 21
-        ? 'Repubblica Popolare Romena (RPR — Costituzione del 13 Aprile 1948 & Nazionalizzazione dell\'11 Giugno)'
-        : _step >= 20
-        ? 'Repubblica Popolare Romena (RPR — Abdicazione di Re Michele I, 30 Dicembre 1947)'
-        : _step >= 19
-        ? 'Regno di Romania (Trattato di Pace di Parigi 1947 · Governo Petru Groza)'
-        : 'Regno di Romania (Re Michele I · Governo Petru Groza)',
-      leader: _step >= 20
-        ? 'Constantin Ion Parhon (Presidium RPR) · P.M. Petru Groza · Gheorghe Gheorghiu-Dej'
-        : 'Re Michele I · P.M. Petru Groza',
+      l: () =>
+        _step >= 29
+          ? 'Repubblica Popolare Rumena (Republica Populară Română / RPR — Nuova Costituzione Socialista e Stemma con Stella Rossa del 24 Settembre 1952)'
+          : _step >= 21
+          ? 'Repubblica Popolare Romena (RPR — Costituzione del 13 Aprile 1948 & Nazionalizzazione dell\'11 Giugno)'
+          : _step >= 20
+          ? 'Repubblica Popolare Romena (RPR — Abdicazione di Re Michele I, 30 Dicembre 1947)'
+          : _step >= 19
+          ? 'Regno di Romania (Trattato di Pace di Parigi 1947 · Governo Petru Groza)'
+          : 'Regno di Romania (Re Michele I · Governo Petru Groza)',
+      leader:
+        _step >= 29
+          ? 'Primo Ministro e Segr. Gen. PMR Gheorghe Gheorghiu-Dej (dal 2 Giu 1952) · Presidente del Presidium Petru Groza (Costituzione del 24 Set 1952)'
+          : _step >= 20
+          ? 'Constantin Ion Parhon (Presidium RPR) · P.M. Petru Groza · Gheorghe Gheorghiu-Dej'
+          : 'Re Michele I · P.M. Petru Groza',
     };
   }
   if (_step !== undefined && _step >= 21 && meta.id === 'SAF') {
@@ -3512,7 +3804,10 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       f: 'Alleati',
       l: () => 'Unione Sudafricana (Vittoria del Partito Nazionale di D.F. Malan & Inizio dell\'Apartheid, Maggio–Giugno 1948)',
       shortName: 'Sudafrica',
-      leader: 'Re Giorgio VI · Gov.-Gen. Gideon Brand van Zyl · Primo Ministro Daniel François Malan (National Party, dal 4 giu 1948)',
+      leader:
+        _step >= 29
+          ? 'Regina Elisabetta II (dal 6 Feb 1952) · Gov.-Gen. Ernest George Jansen · Primo Ministro Daniel François Malan (National Party)'
+          : 'Re Giorgio VI · Gov.-Gen. Gideon Brand van Zyl · Primo Ministro Daniel François Malan (National Party, dal 4 giu 1948)',
       capital: 'Pretoria / Città del Capo',
     };
   }
@@ -3537,6 +3832,19 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 22 && meta.id === 'IDN') {
+    if (_step >= 27) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => "Repubblica d'Indonesia (Stato Unitario — Ambon e Buru Consolidate; Guerriglia RMS Confinata nell'Interno di Seram)",
+        shortName: "Repubblica d'Indonesia",
+        leader: 'Presidente Sukarno · Primo Ministro Sukiman Wirjosandjojo (dal 27 Apr 1951) · Stato Unitario (Republik Indonesia)',
+        capital: 'Jakarta (Capitale dello Stato Unitario)',
+        tier: 'sovereign',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     if (_step >= 26) {
       return {
         ...meta,
@@ -3596,6 +3904,26 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 22 && meta.id === 'JOR') {
+    if (_step >= 29) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Regno Hascemita di Giordania (Abdicazione di Re Talal e Proclamazione di Re Hussein l\'11 Agosto 1952 sotto Consiglio di Reggenza)',
+        shortName: 'Giordania',
+        leader: 'Re Hussein ibn Talal (proclamato l\'11 Agosto 1952 sotto Consiglio di Reggenza fino al Maggio 1953) · P.M. Tawfik Abu al-Huda · Legione Araba (Glubb Pasha)',
+        capital: 'Amman',
+      };
+    }
+    if (_step >= 28) {
+      return {
+        ...meta,
+        f: 'Neutrale',
+        l: () => 'Regno Hascemita di Giordania (Ascesa al Trono di Re Talal il 5 Settembre 1951 dopo l\'Assassinio di Re Abdallah I a Gerusalemme il 20 Luglio 1951)',
+        shortName: 'Giordania',
+        leader: 'Re Talal ibn Abdallah (asceso il 5 Settembre 1951 dopo l\'assassinio di Re Abdallah I a Gerusalemme il 20 Luglio 1951) · P.M. Tawfik Abu al-Huda · Legione Araba (Glubb Pasha)',
+        capital: 'Amman',
+      };
+    }
     if (_step >= 25) {
       return {
         ...meta,
@@ -3708,6 +4036,15 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
     };
   }
   if (_step !== undefined && _step >= 23 && meta.id === 'GRE') {
+    if (_step >= 29) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        l: () => 'Regno di Grecia (Adesione Ufficiale alla NATO il 18 Febbraio 1952 — Primo Allargamento del Patto Atlantico · Governo Papagos)',
+        leader: 'Re Paolo I · Primo Ministro Nikolaos Plastiras / Maresciallo Alexandros Papagos (dal 19 Nov 1952) · Membro NATO dal 18 Feb 1952',
+        capital: 'Atene',
+      };
+    }
     if (_step >= 24) {
       return {
         ...meta,
@@ -3744,6 +4081,45 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       overlordCode: null,
     };
   }
+  if (_step !== undefined && _step >= 29 && meta.id === 'ROK') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di Corea & Comando Nazioni Unite (UNC — Guerra di Trincea lungo la MDL: Old Baldy, White Horse & Triangle Hill, Autunno 1952; Armistizio di Panmunjom Non Ancora Firmato)',
+      shortName: 'Corea del Sud (ROK / Comando ONU)',
+      leader: 'Presidente Syngman Rhee · Gen. Mark W. Clark (Comandante ONU/UNC dal 12 Mag 1952) · Gen. James Van Fleet (8ª Armata USA)',
+      capital: 'Seoul (100% ROK-UNC · Guerra Attiva lungo la MDL senza DMZ Formalizzata)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 28 && meta.id === 'ROK') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di Corea & Comando Nazioni Unite (UNC — Negoziati di Panmunjom & Linea di Demarcazione Militare Provvisoria del 27 Novembre 1951: Saliente Punchbowl/Heartbreak Ridge & Linea Jamestown)',
+      shortName: 'Corea del Sud (ROK / Comando ONU)',
+      leader: 'Presidente Syngman Rhee · Gen. Matthew Ridgway (Comandante ONU/UNC) · Gen. James Van Fleet (8ª Armata USA) · Viceamm. C. Turner Joy (Capo Delegazione UNC a Panmunjom)',
+      capital: 'Seoul (100% ROK-UNC · Colloqui d\'Armistizio a Panmunjom dal 25 Ott 1951)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 27 && meta.id === 'ROK') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica di Corea & Comando Nazioni Unite (UNC — Seul Liberata 15 Mar 1951 & Linea Kansas/Wyoming oltre il 38° Parallelo)',
+      shortName: 'Corea del Sud (ROK / Comando ONU)',
+      leader: "Presidente Syngman Rhee · Gen. Matthew Ridgway (Comandante ONU/UNC dall'11 Apr 1951) · Gen. James Van Fleet (8ª Armata USA) · Gen. Chung Il-kwon",
+      capital: 'Seoul (100% ROK-UNC dal 15 Mar 1951 · Offerta Armistizio Ridgway 30 Giu 1951)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
   if (_step !== undefined && _step >= 26 && meta.id === 'ROK') {
     return {
       ...meta,
@@ -3765,6 +4141,45 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       shortName: 'Corea del Sud (ROK)',
       leader: 'Presidente Syngman Rhee · Gen. Chung Il-kwon · Supporto ONU/USA (Gen. Douglas MacArthur)',
       capital: 'Daejeon (Capitale Provvisoria dal 27 Giugno 1950)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 29 && meta.id === 'PRK') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Popolare Democratica di Corea / Volontari del Popolo Cinese (RPDC-PVA — Guerra di Trincea lungo la MDL: White Horse & Triangle Hill, Autunno 1952; Armistizio di Panmunjom Non Ancora Firmato)',
+      shortName: 'Corea del Nord (RPDC / PVA)',
+      leader: 'Premier Kim Il-sung · Comandante PVA/Cino-Coreano Peng Dehuai · Gen. Nam Il (Delegazione KPA-PVA a Panmunjom)',
+      capital: 'Pyongyang',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 28 && meta.id === 'PRK') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Popolare Democratica di Corea / Volontari del Popolo Cinese (RPDC-PVA — Negoziati di Panmunjom & Linea di Demarcazione Militare Provvisoria del 27 Novembre 1951: Kaesong Base Negoziale Comunista & Ongjin)',
+      shortName: 'Corea del Nord (RPDC / PVA)',
+      leader: 'Premier Kim Il-sung · Comandante PVA/Cino-Coreano Peng Dehuai · Gen. Nam Il (Capo Delegazione KPA-PVA a Kaesong/Panmunjom)',
+      capital: 'Pyongyang',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 27 && meta.id === 'PRK') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Popolare Democratica di Corea / Volontari del Popolo Cinese (RPDC-PVA — Fronte Stabilizzato sulla Linea Kansas/Wyoming · Kaesong & Ongjin RPDC-PVA)',
+      shortName: 'Corea del Nord (RPDC / PVA)',
+      leader: 'Premier Kim Il-sung · Comandante PVA/Cino-Coreano Peng Dehuai · Maresciallo Choe Yong-gun',
+      capital: 'Pyongyang',
       tier: 'sovereign',
       isSubject: false,
       overlordCode: null,
@@ -3796,6 +4211,58 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       overlordCode: null,
     };
   }
+  if (_step !== undefined && _step >= 32 && (meta.id === 'VIE' || meta.id === 'DRV')) {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Democratica del Vietnam (Vietnam del Nord — 100% Nord del 17° Parallelo dopo Sgombero Hải Phòng 16 Mag 1955 & Bandiera 30 Nov 1955)',
+      shortName: 'Vietnam del Nord (RDV)',
+      leader: 'Presidente Hồ Chí Minh · Primo Ministro Phạm Văn Đồng (dal 20 Set 1955) · Gen. Võ Nguyên Giáp',
+      capital: 'Hà Nội',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 29 && (meta.id === 'VIE' || meta.id === 'DRV')) {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Democratica del Vietnam (Việt Minh — Riconquista di Hòa Bình Feb 1952 & Campagna del Nord-Ovest Ott–Dic 1952: Presa di Sơn La e Điện Biên Phủ, 30 Novembre 1952)',
+      shortName: 'Vietnam (DRV / Việt Minh)',
+      leader: 'Presidente Hồ Chí Minh · Gen. Võ Nguyên Giáp (Campagna del Nord-Ovest / Chiến dịch Tây Bắc) · PM Phạm Văn Đồng',
+      capital: 'Việt Bắc (Cao Bằng – Lạng Sơn – Thái Nguyên) · Hòa Bình, Sơn La & Điện Biên Phủ',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 28 && (meta.id === 'VIE' || meta.id === 'DRV')) {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Democratica del Vietnam (Việt Minh — Contrattacchi sul Fiume Nero durante la Battaglia di Hòa Bình & Controllo Integrale di Việt Bắc e Annam Settentrionale, Dic 1951)',
+      shortName: 'Vietnam (DRV / Việt Minh)',
+      leader: 'Presidente Hồ Chí Minh · Gen. Võ Nguyên Giáp (Divisioni 304, 308, 312 sul Fiume Nero / Hòa Bình) · PM Phạm Văn Đồng',
+      capital: 'Việt Bắc (Cao Bằng – Lạng Sơn – Thái Nguyên) · Liên khu IV–V & Nam Bộ',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 27 && (meta.id === 'VIE' || meta.id === 'DRV')) {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Repubblica Democratica del Vietnam (Việt Minh — Arresto delle Tre Offensive sul Delta & Controllo Việt Bắc / Liên khu IV, Giu 1951)',
+      shortName: 'Vietnam (DRV / Việt Minh)',
+      leader: 'Presidente Hồ Chí Minh · Gen. Võ Nguyên Giáp · PM Phạm Văn Đồng · Logistica Việt Bắc / RPC',
+      capital: 'Việt Bắc (Cao Bằng – Lạng Sơn – Thái Nguyên) · Liên khu IV–V & Nam Bộ',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
   if (_step !== undefined && _step >= 26 && (meta.id === 'VIE' || meta.id === 'DRV')) {
     return {
       ...meta,
@@ -3820,6 +4287,58 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       tier: 'sovereign',
       isSubject: false,
       overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 32 && meta.id === 'SVN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Repubblica del Vietnam (Vietnam del Sud / Việt Nam Cộng hòa — Proclamata il 26 Ottobre 1955 dopo Referendum · Pres. Ngô Đình Diệm)',
+      shortName: 'Repubblica del Vietnam (Sud)',
+      leader: 'Presidente Ngô Đình Diệm (Repubblica proclamata il 26 Ott 1955 dopo sconfitta Bình Xuyên & deposizione di Bảo Đại)',
+      capital: 'Saigon (Sài Gòn)',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 29 && meta.id === 'SVN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Stato del Vietnam (Quốc gia Việt Nam — Evacuazione di Hòa Bình Feb 1952, Operazione Lorraine & Difesa del Campo Trincerato Aerotrasportato di Nà Sản e Lai Châu contro l\'Offensiva Việt Minh, Dic 1952)',
+      shortName: 'Stato del Vietnam',
+      leader: 'Capo di Stato Bảo Đại · PM Nguyễn Văn Tâm (dal Giu 1952) · Gen. Raoul Salan (Comandante in Capo CEFEO) · Col. Jean Gilles (Difesa di Nà Sản)',
+      capital: 'Saigon (Sài Gòn)',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 28 && meta.id === 'SVN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Stato del Vietnam (Quốc gia Việt Nam — Offensiva Franco-Vietnamita su Hòa Bình del 14 Novembre 1951 & Presidio del Corridoio del Fiume Nero al 31 Dicembre 1951)',
+      shortName: 'Stato del Vietnam',
+      leader: 'Capo di Stato Bảo Đại · PM Trần Văn Hữu · Gen. Jean de Lattre de Tassigny / Gen. Raoul Salan (Comandante Operativo CEFEO a Hòa Bình)',
+      capital: 'Saigon (Sài Gòn)',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
+    };
+  }
+  if (_step !== undefined && _step >= 27 && meta.id === 'SVN') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Stato del Vietnam (Quốc gia Việt Nam — Consolidamento Linea de Lattre dopo Vĩnh Yên, Mạo Khê & Fiume Đáy, Giu 1951)',
+      shortName: 'Stato del Vietnam',
+      leader: 'Capo di Stato Bảo Đại · PM Trần Văn Hữu · Alto Comm. e Comandante Gen. Jean de Lattre de Tassigny',
+      capital: 'Saigon (Sài Gòn)',
+      tier: 'protectorate',
+      isSubject: true,
+      overlordCode: 'FRA',
     };
   }
   if (_step !== undefined && _step >= 26 && meta.id === 'SVN') {
@@ -3900,6 +4419,32 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       overlordCode: 'FRA',
     };
   }
+  if (_step !== undefined && _step >= 28 && meta.id === 'TIB') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Tibet / Xizang (Controllo Politico e Militare Effettivo della RPC — Ingresso Pacifico della 18ª Armata dell\'EPL a Lhasa 9 Set / 26 Ott 1951 & Autonomia Locale del Kashag)',
+      shortName: 'Tibet (Xizang / RPC)',
+      leader: 'Governo Centrale RPC (Beijing) · Gen. Zhang Guohua & Gen. Tan Guansan (18ª Armata EPL a Lhasa) · 14° Dalai Lama Tenzin Gyatso & Kashag Locale (Ratifica 24 Ott 1951)',
+      capital: 'Lhasa (Guarnigione EPL & Amministrazione Regionale Autonoma del Kashag)',
+      tier: 'autonomous',
+      isSubject: true,
+      overlordCode: 'CCP_CHI',
+    };
+  }
+  if (_step !== undefined && _step >= 27 && meta.id === 'TIB') {
+    return {
+      ...meta,
+      f: 'Comintern',
+      l: () => 'Tibet / Xizang (Amministrazione Autonoma del Kashag sotto Sovranità RPC — Accordo 17 Punti 23 Mag 1951; EPL Non Ancora a Lhasa)',
+      shortName: 'Tibet (Xizang / RPC)',
+      leader: 'Governo Centrale RPC (Beijing) · 14° Dalai Lama Tenzin Gyatso & Kashag Locale (Lhasa)',
+      capital: 'Lhasa (Amministrazione Regionale del Kashag)',
+      tier: 'autonomous',
+      isSubject: true,
+      overlordCode: 'CCP_CHI',
+    };
+  }
   if (_step !== undefined && _step >= 26 && meta.id === 'TIB') {
     return {
       ...meta,
@@ -3908,6 +4453,19 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       shortName: 'Tibet',
       leader: '14° Dalai Lama Tenzin Gyatso (Pieni Poteri dal 17 Novembre 1950) · Kashag',
       capital: 'Lhasa',
+      tier: 'sovereign',
+      isSubject: false,
+      overlordCode: null,
+    };
+  }
+  if (_step !== undefined && _step >= 27 && meta.id === 'NEP') {
+    return {
+      ...meta,
+      f: 'Neutrale',
+      l: () => 'Regno del Nepal (Compromesso di Delhi 15–18 Feb 1951 — Rientro Re Tribhuvan & Governo di Coalizione Rana–Congresso)',
+      shortName: 'Nepal',
+      leader: 'Re Tribhuvan (restaurato 15 Feb 1951) · Governo di Coalizione (PM Mohan Shumsher Rana & Congresso Nepalese)',
+      capital: 'Kathmandu',
       tier: 'sovereign',
       isSubject: false,
       overlordCode: null,
@@ -3939,7 +4497,37 @@ function resolveOwnerMetaBase(o: string, _step?: number): OwnerConfig {
       overlordCode: null,
     };
   }
+  if (_step !== undefined && _step >= 27 && meta.id === 'CEY') {
+    return {
+      ...meta,
+      f: 'Alleati',
+      l: () => 'Dominion di Ceylon (Nuova Bandiera del Leone con Bande Verde e Zafferano — 2 Marzo 1951)',
+      shortName: 'Ceylon',
+      leader:
+        _step >= 29
+          ? 'Regina Elisabetta II (dal 6 Feb 1952) · Gov.-Gen. Lord Soulbury · Primo Ministro Dudley Senanayake (dal 26 Mar 1952)'
+          : 'Re Giorgio VI · Gov.-Gen. Lord Soulbury · Primo Ministro D.S. Senanayake',
+      capital: 'Colombo',
+      tier: 'dominion',
+      isSubject: true,
+      overlordCode: 'UK',
+    };
+  }
   if (_step !== undefined && _step >= 25 && meta.id === 'MAL') {
+    if (_step >= 34) {
+      return {
+        ...meta,
+        f: 'Alleati',
+        c: '#b85d55',
+        l: () => 'Federazione della Malesia (Persekutuan Tanah Melayu — Indipendenza Sovrana Hari Merdeka, 31 Agosto 1957)',
+        shortName: 'Federazione della Malesia',
+        leader: 'Yang di-Pertuan Agong Tuanku Abdul Rahman · Primo Ministro Tunku Abdul Rahman (Hari Merdeka, 31 Ago 1957)',
+        capital: 'Kuala Lumpur',
+        tier: 'sovereign',
+        isSubject: false,
+        overlordCode: null,
+      };
+    }
     return {
       ...meta,
       f: 'Alleati',
@@ -3992,6 +4580,10 @@ export function getOverlord(o: string, step: number = 0): OwnerConfig | null {
   if (canon === 'PHL' || canon === 'PHI') {
     // Indipendenza delle Filippine proclamata il 4 luglio 1946 (step >= 19)
     return step >= 19 ? null : getOwnerMeta('USA', step);
+  }
+  if (canon === 'MAL') {
+    // Indipendenza della Federazione della Malesia proclamata il 31 agosto 1957 (Hari Merdeka, step >= 34)
+    return step >= 34 ? null : getOwnerMeta('UK', step);
   }
 
   if (meta.overlordCode) {

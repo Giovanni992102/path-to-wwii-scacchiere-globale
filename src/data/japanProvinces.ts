@@ -1386,6 +1386,33 @@ export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
       );
     }
     if (fidClean === 'JP47' || fidClean.includes('OKINAWA') || nrm.includes('okinawa') || nrm.includes('ryukyu')) {
+      if (s >= 30) {
+        return makeResult(
+          'USA',
+          'Okinawa / Isole Ryūkyū a Sud del 27° Parallelo & Isole Bonin (100% Amministrazione Militare degli Stati Uniti — USCAR · Isole Amami Restituite al Giappone il 25 Dic 1953)',
+          "31 Dicembre 1953 (100% Amministrazione Militare Statunitense USCAR): mentre il 25 dicembre 1953 gli Stati Uniti restituiscono al Giappone le isole Amami (tra 27°N e 29°N, reintegrate nella prefettura di Kagoshima), l'arcipelago di Okinawa/Ryūkyū a sud del 27° parallelo Nord e le Isole Bonin/Ogasawara restano al 100% sotto amministrazione militare diretta USA (USCAR) ai sensi dell'Art. 3 del Trattato di San Francisco.",
+          'Alleati',
+          'United States Civil Administration of the Ryukyu Islands (USCAR — Ryūkyū a Sud del 27°N & Bonin, Dic 1953)'
+        );
+      }
+      if (s >= 29) {
+        return makeResult(
+          'USA',
+          'Okinawa / Isole Ryūkyū, Amami & Bonin (100% Amministrazione Militare degli Stati Uniti — USCAR · Art. 3 del Trattato di San Francisco in Vigore dal 28 Aprile 1952)',
+          "31 Dicembre 1952 (100% Amministrazione Militare degli Stati Uniti USCAR): con l'entrata in vigore del Trattato di Pace di San Francisco il 28 aprile 1952, mentre le 46 prefetture metropolitane del Giappone riacquistano la piena sovranità, la prefettura di Okinawa (Isole Ryūkyū), le Isole Amami nel sud di Kagoshima (restituite al Giappone solo nel dicembre 1953) e le Isole Bonin/Ogasawara restano al 100% sotto amministrazione militare diretta degli Stati Uniti (USCAR).",
+          'Alleati',
+          'United States Civil Administration of the Ryukyu Islands (USCAR — 100% Amministrazione Militare USA)'
+        );
+      }
+      if (s >= 28) {
+        return makeResult(
+          'USA',
+          'Okinawa / Isole Ryūkyū & Bonin (Amministrazione Militare Diretta USA — Art. 3 del Trattato di San Francisco, 8 Settembre 1951)',
+          "31 Dicembre 1951 (100% Amministrazione Militare Statunitense USCAR): ai sensi dell'Articolo 3 del Trattato di Pace di San Francisco (firmato l'8 settembre 1951, in vigore dal 28 aprile 1952), le Isole Ryūkyū (Okinawa) e le Isole Bonin restano sotto amministrazione civile e militare diretta degli Stati Uniti (USCAR).",
+          'Alleati',
+          'United States Civil Administration of the Ryukyu Islands (USCAR — Art. 3 Trattato di San Francisco)'
+        );
+      }
       return makeResult(
         'USA',
         'Okinawa / Isole Ryūkyū (Governo Militare Statunitense — USCAR)',
@@ -1412,8 +1439,48 @@ export function resolveJapanProvince(ft: any, s: number): ResolvedTerritory {
         'United States Army Military Government in Korea (USAMGIK) / Soviet Civil Administration'
       );
     }
-    // Tutte le prefetture metropolitane (Naichi): Occupazione Alleata unitaria SCAP (Gen. Douglas MacArthur)
+    // Tutte le prefetture metropolitane (Naichi): Occupazione Alleata unitaria SCAP (Step 18-28) -> Piena Sovranità del Giappone (Step 29+)
     const basePrefName = meta ? meta.historicalName : rawName;
+    if (s >= 30) {
+      const post1953Name = basePrefName.replace(/^Dai Nippon Teikoku\s*[—-]\s*/i, 'Nihon-koku (Giappone) — ');
+      const isKagoshima = fidClean === 'JP46' || (meta && meta.id === 'JP46') || nrm.includes('kagoshima');
+      return makeResult(
+        'JAP',
+        isKagoshima
+          ? `${post1953Name} (100% Piena Sovranità del Giappone — Restituzione USA delle Isole Amami alla Prefettura di Kagoshima il 25 Dicembre 1953)`
+          : `${post1953Name} (100% Piena Sovranità Nazionale del Giappone — Restituzione delle Isole Amami il 25 Dicembre 1953)`,
+        isKagoshima
+          ? "31 Dicembre 1953 (100% Sovranità Giapponese su Kagoshima & Isole Amami): con l'Accordo USA–Giappone firmato il 24 dicembre ed entrato in vigore il 25 dicembre 1953, gli Stati Uniti restituiscono al Giappone la piena sovranità sull'arcipelago delle Isole Amami (Amami Ōshima, tra 27°N e 29°N), subito reintegrato nella Prefettura di Kagoshima (Okinawa a sud del 27°N resta invece sotto USCAR)."
+          : "31 Dicembre 1953 (100% Piena Sovranità Nazionale del Giappone): sotto il governo del Primo Ministro Shigeru Yoshida (consolidato alle elezioni dell'aprile 1953), il Giappone celebra il 25 dicembre 1953 la restituzione da parte statunitense delle Isole Amami alla Prefettura di Kagoshima, mentre Okinawa/Ryūkyū a sud del 27°N e le Bonin permangono sotto USCAR.",
+        'Alleati',
+        isKagoshima
+          ? 'Nihon-koku — Prefettura di Kagoshima & Isole Amami Reintegrate (Restituzione USA del 25 Dic 1953)'
+          : 'Nihon-koku (Stato Sovrano del Giappone — Imperatore Hirohito · PM Shigeru Yoshida · Restituzione Amami 25 Dic 1953)'
+      );
+    }
+    if (s >= 29) {
+      const post1952Name = basePrefName.replace(/^Dai Nippon Teikoku\s*[—-]\s*/i, 'Nihon-koku (Giappone) — ');
+      const isKagoshima = fidClean === 'JP46' || (meta && meta.id === 'JP46') || nrm.includes('kagoshima');
+      return makeResult(
+        'JAP',
+        `${post1952Name} (100% Piena Sovranità Nazionale del Giappone — Entrata in Vigore del Trattato di San Francisco, 28 Aprile 1952${isKagoshima ? ' · Isole Amami sotto USCAR fino a Dic 1953' : ''})`,
+        isKagoshima
+          ? "31 Dicembre 1952 (100% Sovranità del Giappone su Kagoshima Continentale · Isole Amami sotto USCAR): con l'entrata in vigore del Trattato di Pace di San Francisco il 28 aprile 1952 cessa l'occupazione militare alleata e il Giappone riacquista il 100% della piena sovranità nazionale (con le Isole Amami nel sud di Kagoshima ancora sotto amministrazione militare USA USCAR fino alla restituzione del dicembre 1953)."
+          : "31 Dicembre 1952 (100% Piena Sovranità Nazionale del Giappone): con l'entrata in vigore del Trattato di Pace di San Francisco il 28 aprile 1952 cessa l'amministrazione militare alleata e tutte le 46 prefetture metropolitane da Hokkaidō a Kagoshima riacquistano il 100% della piena sovranità e indipendenza nazionale sotto il governo del Primo Ministro Shigeru Yoshida (mantenendo le basi militari USA regolamentate dal Trattato di Sicurezza USA–Giappone).",
+        'Alleati',
+        'Nihon-koku (Stato Sovrano del Giappone — Imperatore Hirohito · Primo Ministro Shigeru Yoshida · Sovranità Ripristinata il 28 Aprile 1952)'
+      );
+    }
+    if (s >= 28) {
+      const post1951Name = basePrefName.replace(/^Dai Nippon Teikoku\s*[—-]\s*/i, 'Nihon-koku (Giappone) — ');
+      return makeResult(
+        'JAP',
+        `${post1951Name} (Firma del Trattato di Pace di San Francisco 8 Set 1951 — Ancora Sotto Occupazione Alleata SCAP fino al 28 Aprile 1952)`,
+        "31 Dicembre 1951 (Occupazione Alleata SCAP in Fase di Transizione alla Sovranità): l'8 settembre 1951 a San Francisco il Primo Ministro Shigeru Yoshida e 48 nazioni alleate firmano il Trattato di Pace di San Francisco e il Trattato di Sicurezza USA–Giappone. Tuttavia il Trattato entrerà formalmente in vigore solo il 28 aprile 1952: al 31 dicembre 1951 il Giappone resta pertanto ancora sotto Occupazione Alleata (SCAP — Gen. Matthew Ridgway), mentre Okinawa/Ryūkyū e Bonin restano sotto amministrazione militare diretta USA.",
+        'Alleati',
+        'Nihon-koku / Supreme Commander for the Allied Powers (SCAP — Gen. Matthew Ridgway · P.M. Shigeru Yoshida · Trattato di San Francisco firmato l\'8 Set 1951, in vigore dal 28 Apr 1952)'
+      );
+    }
     if (s >= 19) {
       const post1947Name = basePrefName.replace(/^Dai Nippon Teikoku\s*[—-]\s*/i, 'Nihon-koku (Stato del Giappone) — ');
       return makeResult(

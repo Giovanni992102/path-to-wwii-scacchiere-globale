@@ -389,6 +389,8 @@ export const AOF_PROVINCES_META: Record<string, AOFProvinceInfo> = {
     s7: "Territorio del Togo (autunno 1940 - marzo 1941). Conseguenze della battaglia di Dakar: irrigidimento dell'amministrazione pétainista a Lomé, giuramento di fedeltà al Maresciallo Pétain e rigida sorveglianza poliziesca sui simpatizzanti gollisti e sui commercianti locali. La Royal Navy britannica sigilla il litorale impedendo l'approdo delle navi da carico; penuria di manufatti importati e sviluppo del contrabbando lungo il confine del fiume Volta.",
     s8: "Territorio del Togo (aprile 1941 - 1942). Fase di massima pressione di Vichy sotto la direzione del governatore Jean-François Saliceti: applicazione della 'Révolution Nationale', requisizioni obbligatorie di mais, olio di palma e cotone per rifornire la piazzaforte di Dakar soggetta al blocco alleato; lavoro forzato coatto e divieto di espatrio. Centinaia di giovani togolesi fuggono nella Gold Coast per arruolarsi nelle Forze della Francia Libera (FFL).",
     getNote: (s: number) => {
+      if (s >= 33)
+        return "30 Agosto – 31 Dicembre 1956 (Repubblica Autonoma del Togo · Union Française): in attuazione della Loi-Cadre Defferre e con decreto del 24/30 agosto 1956, nasce la République autonome du Togo sotto amministrazione associata della Francia (confermata dal referendum del 28 ottobre 1956 a favore dell'autonomia nell'Unione Francese, pur contestato dal CUT e dall'ONU); Primo Ministro è Nicolas Grunitzky (PTP) a Lomé.";
       if (s >= 19)
         return "Dal 13 dicembre 1946 il Togo francese è posto sotto Amministrazione Fiduciaria delle Nazioni Unite (Territoire sous Tutelle de l'ONU) affidata alla Francia e integrato come Territoire Associé dell'Union Française, con Assemblea Rappresentativa del Togo guidata da Sylvanus Olympio.";
       if (s >= 17)
@@ -407,6 +409,7 @@ export const AOF_PROVINCES_META: Record<string, AOFProvinceInfo> = {
       return AOF_PROVINCES_META['AOF_TG'].s0_1;
     },
     getHistoricalName: (s: number) => {
+      if (s >= 33) return 'République Autonome du Togo (Tutelle ONU · Associato all\'Union Française, 30 Ago 1956)';
       if (s >= 19) return "Togo Français (Territoire sous Tutelle de l'ONU — Union Française, Lomé)";
       if (s >= 17) return 'Togo Français (GPRF — Mandat SDN & Verso la Tutela ONU)';
       if (s >= 15) return 'Togo Français (GPRF — Armée de la Libération)';
@@ -418,6 +421,7 @@ export const AOF_PROVINCES_META: Record<string, AOFProvinceInfo> = {
       return 'Togo Français (Mandat de la Société des Nations — Lomé)';
     },
     getAdminTitle: (s: number) => {
+      if (s >= 33) return 'République Autonome du Togo (PM Nicolas Grunitzky · Alto Commissariato Francese — Union Française, Lomé)';
       if (s >= 19) return 'Quatrième République (Union Française) — Commissariat de la République au Togo (Lomé)';
       if (s >= 15) return 'Gouvernement Provisoire de la République Française (GPRF) — Commissariat de la République au Togo';
       if (s >= 12) return 'Comité Français de Libération Nationale (CFLN) — Territoire du Togo (Lomé)';

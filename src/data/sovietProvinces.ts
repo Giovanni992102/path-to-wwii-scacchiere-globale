@@ -8159,14 +8159,14 @@ export const SOVIET_PROVINCES_META: Record<string, SovietProvinceInfo> = {
     capital: "Kovdor",
     keys: ["kovdor", "kovdorskij", "murmanskaya", "nw_rus_309_kovdor_district", "oblast", "rajon", "sov nw rus 309 kovdor district", "sov_nw_rus_309_kovdor_district"],
     notes: {
-      s0: "Cuore minerario ed energetico della penisola di Kola oltre il Circolo Polare Artico; comprende il massiccio montuoso dei Chibiny con i colossali giacimenti di apatite di Kirovsk (Chibinogorsk) e Apatity, e lo stabilimento Severonikel' a Mončegorsk per l'estrazione e raffinazione di nichel e rame essenziali per la corazzatura dei carri.",
-      s1: "Il lavoro forzato di decine di migliaia di detenuti del Gulag (Mončegorlag e Belbaltlag) costruisce la ferrovia elettrificata e gli altiforni di Severonikel' nella tundra subartica.",
-      s2: "Inaugurazione della prima colata di nichel a Mončegorsk nel 1938; l'apatite di Kirovsk fertilizza l'intera agricoltura pianificata dell'Unione Sovietica.",
-      s3_4: "Kandalakša sul Mar Bianco funge da snodo ferroviario strategico che unisce la penisola di Kola alla Carelia e a Leningrado; costruzione delle centrali idroelettriche sul fiume Niva.",
-      s5: "Durante la Guerra d'Inverno, la ferrovia di Kandalakša è l'arteria su cui si muovono le armate sovietiche per l'offensiva di Salla verso il Golfo di Botnia.",
-      s6: "Nel 1940 Severonikel' tocca la produzione di migliaia di tonnellate di nichel puro, materia prima vitale per le corazze del carro T-34 e del bombardiere Il-4.",
-      s7: "Militarizzazione totale dei distretti minerari e allestimento di difese antiaeree attorno alle centrali idroelettriche della Niva e ai combinati chimici.",
-      s8: "Questi distretti artici costituiscono il tesoro minerario e industriale della penisola di Kola, obiettivo primario dell'Operazione Silberfuchs tedesco-finlandese.",
+      s0: "Settore forestale e subartico della penisola di Kola sud-occidentale (ex borgo di Žen'va/Koutero), ad est del confine finlandese di Salla; nel 1933 il geologo K.M. Košic vi scopre imponenti giacimenti di magnetite, apatite e mica flogopite attorno al lago Kovdozero.",
+      s1: "Campagne di rilevamento geologico sovietiche del bacino di Kovdor (Koutero) tra la taiga artica e lo snodo di Pinozero sulla ferrovia di Murmansk.",
+      s2: "Valorizzazione estrattiva preliminare di mica flogopite e vermiculite lungo la pista forestale collegata all'asse Kandalakša–Murmansk.",
+      s3_4: "Pianificazione della ferrovia industriale da Pinozero verso i futuri giacimenti ferriferi di Kovdor e presidio della fascia confinaria con la Lapponia finlandese.",
+      s5: "Durante la Guerra d'Inverno (novembre 1939 – marzo 1940), le retrovie di Kovdor e Kandalakša sostengono l'avanzata della 122ª Divisione fucilieri sovietica lungo la direttrice di Salla verso Kemijärvi.",
+      s6: "Dopo il Trattato di Mosca (marzo 1940), il confine sovietico avanza a ovest incorporando Vecchia Salla e Alakurtti: il settore di Kovdor cessa di essere frontiera esterna e avvia l'estrazione regolare della mica.",
+      s7: "Allestimento di sbarramenti campali avanzati lungo la linea Verman–Kandalakša a protezione della ferrovia artica di Murmansk e delle miniere della penisola di Kola.",
+      s8: "Alla vigilia del 22 giugno 1941, Kovdor costituisce il caposaldo arretrato sovietico tra Alakurtti e la linea del fiume Verman (Vermanjoki), su cui la 19ª Armata fermerà l'offensiva tedesco-finlandese Polarfuchs nell'autunno 1941.",
     },
     getOwner: (_step: number) => 'SOV',
     getFaction: (_step: number) => 'Comintern',
@@ -8254,6 +8254,25 @@ const SOVIET_FIN_EAST_KARELIA_IDS = new Set<string>([
   'SOV_NW_RUS_287_Pr__s__District',
   'SOV_NW_RUS_257_Mujej_rvi_District',
   'SOV_NW_RUS_267_Koskenala_District',
+]);
+
+// Distretti appartenenti alla Karelo-Finskaja SSR (istituita il 31 marzo 1940, step >= 6)
+const SOVIET_KARELOFINN_SSR_IDS = new Set<string>([
+  'SOV_NW_RUS_257_Mujej_rvi_District',
+  'SOV_NW_RUS_261_Petroskoi_District',
+  'SOV_NW_RUS_265___nisenranta_District',
+  'SOV_NW_RUS_267_Koskenala_District',
+  'SOV_NW_RUS_269_Kemsky_District',
+  'SOV_NW_RUS_276_Puutoisten_District',
+  'SOV_NW_RUS_277_Aunus_District',
+  'SOV_NW_RUS_278_Kalevala_District',
+  'SOV_NW_RUS_279_Kontupohja_District',
+  'SOV_NW_RUS_281_Kostamus_City_District',
+  'SOV_NW_RUS_284_Louhi_District',
+  'SOV_NW_RUS_285_Medvezhyegorsky_District',
+  'SOV_NW_RUS_287_Pr__s__District',
+  'SOV_NW_RUS_288_Sorokka_District',
+  'SOV_NW_RUS_298_Segezhsky_District',
 ]);
 
 const SOVIET_GER_HEERESGEBIET_NORD_IDS = new Set<string>([
@@ -8430,9 +8449,25 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
   };
 
   item.getAdminTitle = (step: number): string => {
-    if (step < 9) return origGetAdmin(step);
+    if (step < 9) {
+      const adm = origGetAdmin(step);
+      return step >= 6 && SOVIET_KARELOFINN_SSR_IDS.has(pid)
+        ? adm.replace('RSFSR (URSS)', 'Karelo-Finskaja SSR (URSS)')
+        : adm;
+    }
     if (step >= 18) {
       return getSovietPostwarData(item.id, item, step, origGetAdmin(8)).adminTitle;
+    }
+    if (pid === 'SOV_NW_RUS_264_Kuola_District') {
+      return step >= 16
+        ? '14ª Armata & Flotta del Nord — Oblast\' di Murmansk (Vittoria Petsamo–Kirkenes, Ott. 1944)'
+        : '14ª Armata Sovietica & Flotta del Nord — Fronte Litsa–Rybačij (Oblast\' di Murmansk)';
+    }
+    if (pid === 'SOV_NW_RUS_309_Kovdor_District' || pid === 'SOV_NW_RUS_308_Kantalahti_District') {
+      return '19ª Armata — Fronte Careliano (Linea del Fiume Verman & Ferrovia di Kandalakša — URSS)';
+    }
+    if (pid === 'SOV_NW_RUS_284_Louhi_District') {
+      return '26ª Armata — Fronte Careliano (Settore Kestenga–Louhi & Ferrovia Kirov — Karelo-Finskaja SSR)';
     }
     if (step >= 14) {
       if (step >= 16 && pid === 'SOV_ADM1_RUS_55_Tuva') {
@@ -8486,7 +8521,9 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
           : 'Generalkommissar Weißruthenien — Reichskommissariat Ostland (Accerchiamento Sovietico Imminente, Giugno 1944)';
       }
       if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
-        return 'Karelo-Finskaja SSR (URSS) — Fronte Careliano (Gen. Mereckov — Petrozavodsk Liberata il 28 Giugno 1944)';
+        return pid === 'SOV_NW_RUS_257_Mujej_rvi_District'
+          ? 'Karelo-Finskaja SSR (URSS) — Settore Porosozero–Rukajärvi (Fronte Careliano)'
+          : 'Karelo-Finskaja SSR (URSS) — Fronte Careliano (Gen. Mereckov — Petrozavodsk Liberata il 28 Giugno 1944)';
       }
       if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast') {
         return step >= 15
@@ -8632,6 +8669,20 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
     if (step >= 18) {
       return getSovietPostwarData(item.id, item, step, origGetAdmin(8)).historicalName;
     }
+    if (pid === 'SOV_NW_RUS_264_Kuola_District') {
+      return step >= 16
+        ? 'Kola & Rybačij (Offensiva Petsamo–Kirkenes, Ott. 1944 — URSS)'
+        : 'Kola, Zapadnaja Lica & Rybačij (Fronte Artico della Flotta del Nord)';
+    }
+    if (pid === 'SOV_NW_RUS_309_Kovdor_District') {
+      return 'Kovdor (Settore Sovietico di Frontiera — Linea del Fiume Verman)';
+    }
+    if (pid === 'SOV_NW_RUS_308_Kantalahti_District') {
+      return 'Kandalakša (Snodo Ferroviario Artico — Difesa della 19ª Armata)';
+    }
+    if (pid === 'SOV_NW_RUS_284_Louhi_District') {
+      return 'Louhi & Kestenga (Fronte della Ferrovia di Murmansk — RSS Carelo-Finlandese)';
+    }
     if (step >= 16 && pid === 'SOV_ADM1_RUS_55_Tuva') {
       return "Oblast' Autonoma di Tuva (RSFSR / URSS — Annessione 11 Ottobre 1944)";
     }
@@ -8670,6 +8721,11 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
           : 'Minsk (RKO Weißruthenien — Accerchiamento Imminente Operazione Bagration)';
       }
       if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+        if (pid === 'SOV_NW_RUS_257_Mujej_rvi_District') {
+          return step >= 16
+            ? 'Mujejärvi e Porosozero (Armistizio di Mosca — RSS Carelo-Finlandese)'
+            : 'Porosozero & Settore di Rukajärvi (Offensiva Estiva 1944)';
+        }
         return 'Carelia Orientale (Petrozavodsk Liberata il 28 Giugno 1944 — Fronte Careliano)';
       }
       if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast' && step >= 15) {
@@ -8884,7 +8940,27 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
         return 'Al 30 giugno 1944 le colonne corazzate sovietiche di Černjachovskij da nord e di Rokossovskij da sud-est convergono a tenaglia verso Minsk dopo aver annientato i fianchi dell\'Heeresgruppe Mitte a Vitebsk e Bobrujsk; la capitale bielorussa cadrà il 3 luglio 1944 chiudendo in trappola l\'intera 4ª Armata tedesca a est della città.';
       }
       if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
+        if (pid === 'SOV_NW_RUS_257_Mujej_rvi_District') {
+          return step >= 16
+            ? 'Dopo l\'Armistizio di Mosca (19 settembre 1944), l\'intero settore di Mujejärvi, Repola e Porosozero (restituito alla Carelia sovietica già a Tartu nel 1920) viene reintegrato nella RSS Carelo-Finlandese avviando il ripristino forestale e ferroviario.'
+            : 'Estate 1944: la fascia meridionale di Porosozero torna sotto controllo sovietico durante l\'offensiva estiva sul Fronte Careliano, mentre la 14ª Divisione finlandese (Gen. Raappana) ripiega dal settore settentrionale di Rukajärvi solo con il cessate il fuoco di settembre.';
+        }
         return 'Offensiva sovietica Vyborg-Petrozavodsk: lanciata il 10 giugno 1944, l\'operazione travolge le difese finlandesi sull\'istmo (Viipuri cade il 20 giugno) e costringe le truppe di Mannerheim a evacuare la Carelia orientale; il 28 giugno 1944 il Fronte Careliano del generale Mereckov libera la capitale Petrozavodsk.';
+      }
+      if (pid === 'SOV_NW_RUS_264_Kuola_District') {
+        return step >= 16
+          ? 'Offensiva Petsamo–Kirkenes (7–29 ottobre 1944): la 14ª Armata sovietica (Gen. Ščerbakov) e la Flotta del Nord sbarcano alla baia di Mala Volokovaja e sfondano le difese tedesche dalla Zapadnaja Lica oltre Rybačij, liberando Petsamo e il Finnmark orientale norvegese.'
+          : 'Estate 1944: la 14ª Armata sovietica e le brigate di fanteria navale della Flotta del Nord mantengono salde le linee sulla Zapadnaja Lica ("Valle della Morte") e sulla penisola di Rybačij-Srednyj proteggendo il porto di Murmansk e i convogli artici alleati.';
+      }
+      if (pid === 'SOV_NW_RUS_309_Kovdor_District' || pid === 'SOV_NW_RUS_308_Kantalahti_District') {
+        return step >= 16
+          ? 'Settembre–Ottobre 1944: la 19ª Armata del Fronte Careliano avanza dal fiume Verman inseguendo la ritirata tedesca lungo la direttrice Alakurtti–Kairala verso il confine finlandese prebellico; Kovdor e il nodo ferroviario di Kandalakša restano baluardi sovietici inviolati.'
+          : 'Estate 1944: lungo il settore di Kandalakša e la linea fortificata del fiume Verman (ad ovest di Kovdor), la 19ª Armata sovietica contiene il XXXVI Corpo tedesco salvaguardando la ferrovia artica di Murmansk.';
+      }
+      if (pid === 'SOV_NW_RUS_284_Louhi_District') {
+        return step >= 16
+          ? 'Settembre 1944: la 26ª Armata sovietica riconquista le posizioni di frontiera oltre Kestenga verso Paanajärvi dopo l\'Armistizio di Mosca, proteggendo definitivamente la ferrovia Kirov–Murmansk a Louhi.'
+          : 'Estate 1944: il settore di Kestenga (Louhi Occidentale, subito ad est del lago Paanajärvi) resta presidiato dalla 26ª Armata del Fronte Careliano a difesa dell\'arteria ferroviaria di Kirov per Murmansk.';
       }
       if (pid === 'SOV_ADM1_RUS_16_Pskov_Oblast') {
         if (step >= 15) {
@@ -9026,8 +9102,19 @@ for (const item of Object.values(SOVIET_PROVINCES_META)) {
     if (SOVIET_RKU_UKRAINE_IDS.has(pid)) {
       return 'A seguito del gigantesco accerchiamento della Battaglia di Kiev (caduta il 19 settembre 1941) e dell\'avanzata del Gruppo d\'Armate Sud oltre il Dnepr, la provincia è parte integrante del Reichskommissariat Ukraine (RKU), istituito per decreto di Hitler il 1° settembre 1941 con capitale a Rovno sotto la spietata amministrazione civile del Reichskommissar Erich Koch. Il regime d\'occupazione attua lo sfruttamento sistematico del grano del Černozëm, del ferro di Krivoj Rog e del carbone per il Reich, accompagnato dalla Shoah dei proiettili (eccidio di Babij Jar a Kiev del 29-30 settembre 1941).';
     }
+    if (pid === 'SOV_NW_RUS_264_Kuola_District') {
+      return 'Fronte artico inespugnato (1941–1944): dopo aver fermato l\'assalto tedesco-montano (Operazione Silberfuchs / Platinfuchs del Gebirgskorps Norwegen) lungo le alture rocciose del fiume Zapadnaja Lica e sull\'istmo di Rybačij–Srednyj, la 14ª Armata sovietica e la Flotta del Nord proteggono il porto di Murmansk e l\'approdo dei convogli alleati PQ/JW sul Mare di Barents.';
+    }
+    if (pid === 'SOV_NW_RUS_309_Kovdor_District' || pid === 'SOV_NW_RUS_308_Kantalahti_District') {
+      return 'Direttrice artica di Kandalakša (1941–1943): dopo la caduta di Vecchia Salla e Alakurtti nell\'estate 1941, la 19ª Armata del Fronte Careliano arresta definitivamente il XXXVI Corpo tedesco (Operazione Polarfuchs) lungo i laghi e la linea fortificata del fiume Verman (Vermanjoki), salvando Kovdor e la cruciale ferrovia di Murmansk a Kandalakša.';
+    }
+    if (pid === 'SOV_NW_RUS_284_Louhi_District') {
+      return 'Fronte della Carelia Settentrionale (1941–1943): ad est di Paanajärvi/Kuusamo, la 26ª Armata sovietica arresta le truppe tedesco-finlandesi (Operazione Silberfuchs Sud / III Corpo e Div. SS Nord) nella zona boschiva di Kestenga–Louhi, mantenendo aperta la vitale ferrovia Kirov–Murmansk lungo l\'intero conflitto.';
+    }
     if (SOVIET_FIN_EAST_KARELIA_IDS.has(pid)) {
-      return 'Durante la Guerra di Continuazione (Jatkosota), l\'Armata di Carelia finlandese del Gen. Erik Heinrichs ha oltrepassato il vecchio confine del 1939 occupando la Carelia orientale sovietica: dopo la presa di Olonec (5 settembre), il 1° ottobre 1941 le truppe finlandesi hanno conquistato la capitale Petrozavodsk (ribattezzata Äänislinna, "Castello dell\'Onega") e a inizio dicembre Medvež\'egorsk (Karhumäki) sul Canale Mar Bianco-Baltico, istituendo l\'Amministrazione Militare della Carelia Orientale (Itä-Karjalan sotilashallinto) e attestandosi sulla linea difensiva del fiume Svir\'.';
+      return pid === 'SOV_NW_RUS_257_Mujej_rvi_District'
+        ? 'Durante la Guerra di Continuazione (Jatkosota), la 14ª Divisione finlandese del Gen. Erkki Raappana conquista Repola, Rugozero/Rukajärvi e il settore meridionale di Porosozero (autunno 1941), mantenendo una guerra di posizione nelle foreste sul fiume Ontajoki sotto l\'Itä-Karjalan sotilashallinto fino al 1944.'
+        : 'Durante la Guerra di Continuazione (Jatkosota), l\'Armata di Carelia finlandese del Gen. Erik Heinrichs ha oltrepassato il vecchio confine del 1939 occupando la Carelia orientale sovietica: dopo la presa di Olonec (5 settembre), il 1° ottobre 1941 le truppe finlandesi hanno conquistato la capitale Petrozavodsk (ribattezzata Äänislinna, "Castello dell\'Onega") e a inizio dicembre Medvež\'egorsk (Karhumäki) sul Canale Mar Bianco-Baltico, istituendo l\'Amministrazione Militare della Carelia Orientale (Itä-Karjalan sotilashallinto) e attestandosi sulla linea difensiva del fiume Svir\'.';
     }
     if (SOVIET_GER_HEERESGEBIET_NORD_IDS.has(pid)) {
       return 'Occupata nell\'estate-autunno 1941 dalle divisioni del Gruppo d\'Armate Nord della Wehrmacht (Generalfeldmarschall Wilhelm Ritter von Leeb), la provincia è sottoposta all\'amministrazione militare tedesca delle retrovie (Heeresgebiet Nord). Con la presa di Šlissel\'burg e Mga (8 settembre 1941), la 16ª e la 18ª Armata tedesca hanno serrato da sud il blocco terrestre attorno a Leningrado assediata.';

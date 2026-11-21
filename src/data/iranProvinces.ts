@@ -553,6 +553,141 @@ const IRAN_UK_SOUTH_ZONE = new Set([
 ]);
 
 function resolveIranMetaAtStep(meta: IranProvinceInfo, s: number): ResolvedTerritory {
+  if (s >= 32) {
+    if (meta.id === 'IRN_KHZ' || meta.id === 'IRN_KHU') {
+      return makeResult(
+        'IRN',
+        'Khuzestan / Abadan (Stato Imperiale dell\'Iran — Consorzio Petrolifero & Adesione al Patto di Baghdad, 3 Nov 1955)',
+        "31 Dicembre 1955 (Stato Imperiale dell'Iran · Patto di Baghdad): consolidata l'attività del Consorzio Petrolifero dell'Iran in Khuzestan dopo gli accordi del 1954, il 3 novembre 1955 Teheran aderisce formalmente al Patto di Baghdad (CENTO) schierandosi nel sistema difensivo filoccidentale mediorientale.",
+        'Alleati',
+        'Ostān-e Khūzestān · Consorzio Petrolifero di Abadan (Iran · Patto di Baghdad / CENTO, 3 Nov 1955)'
+      );
+    }
+    if (meta.id === 'IRN_TEH') {
+      return makeResult(
+        'IRN',
+        'Tehran (Stato Imperiale dell\'Iran — Ingresso nel Patto di Baghdad 3 Nov 1955 · Scià Pahlavi & PM Hossein Ala)',
+        "31 Dicembre 1955 (Stato Imperiale dell'Iran): sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Hossein Ala' (succeduto a Zahedi nell'aprile 1955), il 3 novembre 1955 l'Iran entra ufficialmente nel Patto di Baghdad accanto a Iraq, Turchia, Regno Unito e Pakistan (e partecipa alla Conferenza di Bandung in aprile).",
+        'Alleati',
+        "Ostān-e Tehrān · Capitale Imperiale — Scià Mohammad Reza Pahlavi · PM Hossein Ala' (Patto di Baghdad 3 Nov 1955)"
+      );
+    }
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Adesione al Patto di Baghdad, 3 Nov 1955)`,
+      `${meta.nutsName} · 31 Dicembre 1955: con l'adesione ufficiale del 3 novembre 1955 al Patto di Baghdad (CENTO) sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Hossein Ala', l'Impero dell'Iran si integra nello schieramento difensivo filo-occidentale mediorientale.`,
+      'Alleati',
+      `${meta.adminTitle} — Scià Mohammad Reza Pahlavi · PM Hossein Ala' (Patto di Baghdad, Nov 1955)`
+    );
+  }
+  if (s >= 30) {
+    if (meta.id === 'IRN_KHZ' || meta.id === 'IRN_KHU') {
+      return makeResult(
+        'IRN',
+        'Khuzestan / Abadan (Post-Operazione Ajax — Governo Gen. Fazlollah Zahedi · Avvio Negoziati sul Consorzio Petrolifero, 1953)',
+        "31 Dicembre 1953 (Colpo di Stato del 19 Agosto 1953 — Operazione Ajax): dopo il rovesciamento di Mohammad Mossadegh e il rientro dello Scià Mohammad Reza Pahlavi, il nuovo Primo Ministro Gen. Fazlollah Zahedi riapre i negoziati petroliferi con le potenze occidentali sulla raffineria di Abadan e il Khuzestan e ristabilisce il 5 dicembre 1953 le relazioni diplomatiche con il Regno Unito.",
+        'Neutrale',
+        'Ostān-e Khūzestān · Raffineria di Abadan (Governo Gen. Fazlollah Zahedi · Post-Operazione Ajax, Ago–Dic 1953)'
+      );
+    }
+    if (meta.id === 'IRN_TEH') {
+      return makeResult(
+        'IRN',
+        'Tehran (Stato Imperiale dell\'Iran — Colpo di Stato del 19 Agosto 1953 / Operazione Ajax · Scià Pahlavi & Gen. Zahedi)',
+        "31 Dicembre 1953: il 19 agosto 1953 il colpo di Stato militare sostenuto da Regno Unito e Stati Uniti (Operazione Ajax, Gen. Fazlollah Zahedi) rovescia e arresta il Primo Ministro Mohammad Mossadegh, restaurando l'autorità esecutiva dello Scià Mohammad Reza Pahlavi e ristabilendo i legami diplomatici con Londra (5 dicembre 1953).",
+        'Neutrale',
+        'Ostān-e Tehrān · Capitale Imperiale — Scià Mohammad Reza Pahlavi & PM Gen. Fazlollah Zahedi (Operazione Ajax 19 Ago 1953)'
+      );
+    }
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Operazione Ajax 19 Agosto 1953 · Governo Gen. Fazlollah Zahedi)`,
+      `${meta.nutsName} · 31 Dicembre 1953: con il colpo di Stato del 19 agosto 1953 (Operazione Ajax) viene deposto Mohammad Mossadegh, rientra a Teheran lo Scià Mohammad Reza Pahlavi e il governo del Gen. Fazlollah Zahedi ripristina le relazioni con il Regno Unito (5 dicembre 1953).`,
+      'Neutrale',
+      `${meta.adminTitle} — Scià Mohammad Reza Pahlavi · PM Gen. Fazlollah Zahedi (Dic 1953)`
+    );
+  }
+  if (s >= 29) {
+    if (meta.id === 'IRN_KHZ' || meta.id === 'IRN_KHU') {
+      return makeResult(
+        'IRN',
+        'Khuzestan / Abadan (Raffineria di Abadan Nazionalizzata NIOC & Rottura Ufficiale delle Relazioni Diplomatiche Iran–Regno Unito — 22 Ottobre 1952)',
+        '31 Dicembre 1952 (Rottura Diplomatica Iran–Regno Unito per la Crisi di Abadan): dopo aver difeso la nazionalizzazione della Anglo-Iranian Oil Company davanti alla Corte Internazionale di Giustizia dell\'Aia (che il 22 luglio 1952 si dichiara incompetente dando ragione a Teheran), il 22 ottobre 1952 il governo di Mohammad Mossadegh rompe ufficialmente le relazioni diplomatiche con il Regno Unito e chiude l\'ambasciata e i consolati britannici, mentre perdura il blocco navale sulle esportazioni da Abadan (Mossadegh è saldamente al potere al 31 dicembre 1952; il colpo di Stato Operazione Ajax avverrà solo il 19 agosto 1953).',
+        'Neutrale',
+        'Ostān-e Khūzestān · Raffineria di Abadan NIOC (Governo Mohammad Mossadegh · Rottura Diplomatica con il Regno Unito, 22 Ott 1952)'
+      );
+    }
+    if (meta.id === 'IRN_TEH') {
+      return makeResult(
+        'IRN',
+        'Tehran (Stato Imperiale dell\'Iran — Governo Mohammad Mossadegh · Vittoria all\'Aia & Rottura delle Relazioni Diplomatiche con il Regno Unito, 22 Ottobre 1952)',
+        '31 Dicembre 1952: dopo la crisi di luglio 1952 (rivolta del 30 Tir che riporta Mohammad Mossadegh al governo con pieni poteri) e la sentenza favorevole della Corte Internazionale di Giustizia (22 luglio), il 22 ottobre 1952 Teheran rompe ufficialmente le relazioni diplomatiche con il Regno Unito ed espelle la missione diplomatica britannica.',
+        'Neutrale',
+        'Ostān-e Tehrān · Capitale Imperiale — Governo Mohammad Mossadegh (Rottura Diplomatica con il Regno Unito, 22 Ott 1952)'
+      );
+    }
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Governo Mossadegh & Rottura Diplomatica con il Regno Unito del 22 Ottobre 1952)`,
+      `${meta.nutsName} · 31 Dicembre 1952: il governo del Primo Ministro Mohammad Mossadegh (sotto lo Scià Mohammad Reza Pahlavi) rompe ufficialmente le relazioni diplomatiche con il Regno Unito il 22 ottobre 1952 in seguito alla crisi petrolifera di Abadan (Mossadegh resta Primo Ministro per tutto il 1952).`,
+      'Neutrale',
+      `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi · PM Mohammad Mossadegh (Dic 1952)`
+    );
+  }
+  if (s >= 28) {
+    if (meta.id === 'IRN_KHZ' || meta.id === 'IRN_KHU') {
+      return makeResult(
+        'IRN',
+        'Khuzestan / Abadan (Controllo Fisico Completo Iraniano della Raffineria di Abadan ed Espulsione Tecnici Britannici AIOC — Ott–Dic 1951)',
+        '31 Dicembre 1951 (Nazionalizzazione Effettiva di Abadan): tra settembre e ottobre 1951 le forze e i tecnici iraniani della NIOC assumono il controllo fisico completo della grande raffineria di Abadan nel Khuzestan, espellendo gli ultimi tecnici britannici della Anglo-Iranian Oil Company (4 ottobre 1951), mentre la Royal Navy e il Regno Unito mantengono l\'embargo e il blocco navale sulle esportazioni petrolifere iraniane.',
+        'Neutrale',
+        'Ostān-e Khūzestān · Raffineria di Abadan sotto Controllo Fisico NIOC (Espulsione Tecnici AIOC, Ott 1951 · Blocco Navale UK)'
+      );
+    }
+    if (meta.id === 'IRN_TEH') {
+      return makeResult(
+        'IRN',
+        'Tehran (Stato Imperiale dell\'Iran — Governo Mohammad Mossadegh · Espulsione AIOC da Abadan & Difesa all\'ONU)',
+        '31 Dicembre 1951: dopo l\'espulsione degli ultimi tecnici britannici da Abadan (ottobre 1951), il Primo Ministro Mohammad Mossadegh difende personalmente davanti al Consiglio di Sicurezza dell\'ONU a New York la sovranità iraniana sulle risorse petrolifere nazionalizzate.',
+        'Neutrale',
+        'Ostān-e Tehrān · Capitale Imperiale — Governo Mohammad Mossadegh (Dic 1951)'
+      );
+    }
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Presa Effettiva di Abadan & Blocco Petrolifero UK, Dic 1951)`,
+      `${meta.nutsName} · 31 Dicembre 1951: sotto il Primo Ministro Mohammad Mossadegh e lo Scià Mohammad Reza Pahlavi, l'Iran completa l'assunzione del controllo fisico della raffineria di Abadan espellendo gli ultimi tecnici britannici AIOC (ottobre 1951) e fronteggiando l'embargo navale britannico.`,
+      'Neutrale',
+      `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi · PM Mohammad Mossadegh (Dic 1951)`
+    );
+  }
+  if (s >= 27) {
+    if (meta.id === 'IRN_KHZ' || meta.id === 'IRN_KHU') {
+      return makeResult(
+        'IRN',
+        'Khuzestan / Abadan (Nazionalizzazione Petrolifera AIOC & Crisi di Abadan — Mag–Giu 1951)',
+        '30 Giugno 1951 (Crisi di Abadan): dopo l\'approvazione parlamentare iraniana della legge di nazionalizzazione della Anglo-Iranian Oil Company (15–20 marzo 1951), l\'insediamento di Mohammad Mossadegh come Primo Ministro (28 aprile) e la promulgazione del decreto esecutivo (1° maggio), la raffineria di Abadan e i campi petroliferi del Khuzestan vengono nazionalizzati nella NIOC aprendo un grave scontro diplomatico con il Regno Unito e il blocco delle esportazioni petrolifere britanniche.',
+        'Neutrale',
+        'Ostān-e Khūzestān · Raffineria di Abadan Nazionalizzata (NIOC — Governo Mohammad Mossadegh, Giu 1951)'
+      );
+    }
+    if (meta.id === 'IRN_TEH') {
+      return makeResult(
+        'IRN',
+        'Tehran (Stato Imperiale dell\'Iran — Governo Mohammad Mossadegh & Nazionalizzazione Petrolifera)',
+        '30 Giugno 1951: a Teheran il Majlis vota la nazionalizzazione dell\'industria petrolifera (AIOC, 15–20 marzo 1951) e il 28 aprile 1951 il leader del Fronte Nazionale Mohammad Mossadegh diventa Primo Ministro promulgando il decreto esecutivo del 1° maggio sotto lo Scià Mohammad Reza Pahlavi.',
+        'Neutrale',
+        'Ostān-e Tehrān · Capitale Imperiale — Governo Nazionalista Mohammad Mossadegh (Giu 1951)'
+      );
+    }
+    return makeResult(
+      'IRN',
+      `${meta.historicalName} (Stato Imperiale dell'Iran — Nazionalizzazione AIOC & Governo Mossadegh, Giu 1951)`,
+      `${meta.nutsName} · 30 Giugno 1951: sotto la guida del Primo Ministro Mohammad Mossadegh (in carica dal 28 aprile 1951) e lo Scià Mohammad Reza Pahlavi, l'Iran applica la legge di nazionalizzazione della Anglo-Iranian Oil Company (15–20 marzo / 1° maggio 1951) fronteggiando la crisi diplomatica con Londra e l'embargo sulle esportazioni petrolifere dal Khuzestan.`,
+      'Neutrale',
+      `${meta.adminTitle} — Regno di Mohammad Reza Pahlavi · PM Mohammad Mossadegh (Giu 1951)`
+    );
+  }
   if (s >= 20) {
     return makeResult(
       'IRN',
@@ -656,7 +791,15 @@ export function resolveIranProvince(ft: any, s: number): ResolvedTerritory {
 
   const fallbackName = p.NAME || p.HISTORICAL_NAME || "Impero dell'Iran (Persia)";
   const fallbackAdmin =
-    s >= 20
+    s >= 30
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Scià Mohammad Reza Pahlavi & PM Gen. Fazlollah Zahedi (Operazione Ajax, 19 Ago 1953)"
+      : s >= 29
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Governo Mohammad Mossadegh (Rottura Relazioni Diplomatiche con il Regno Unito, 22 Ott 1952)"
+      : s >= 28
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Governo Mohammad Mossadegh (Presa Fisica di Abadan ed Espulsione Tecnici AIOC, Ott–Dic 1951)"
+      : s >= 27
+      ? "Keshvar-e Shāhanshāhi-ye Irān — Governo Mohammad Mossadegh (Nazionalizzazione Petrolifera AIOC, Giu 1951)"
+      : s >= 20
       ? "Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell'Iran (Mohammad Reza Pahlavi · Post-Rigetto Petrolifero Dic. 1947)"
       : s >= 19
       ? "Keshvar-e Shāhanshāhi-ye Irān — Stato Imperiale dell'Iran (Mohammad Reza Pahlavi · Ahmad Qavam)"
@@ -666,7 +809,15 @@ export function resolveIranProvince(ft: any, s: number): ResolvedTerritory {
       ? "Keshvar-e Shāhanshāhi-ye Irān — Corridoio Persiano Anglo-Sovietico (Mohammad Reza Pahlavi)"
       : (p.ADMIN || "Keshvar-e Shāhanshāhi-ye Irān (Impero dell'Iran)");
   const fallbackNote =
-    s >= 20
+    s >= 30
+      ? "31 Dicembre 1953: il colpo di Stato del 19 agosto 1953 (Operazione Ajax) rovescia Mohammad Mossadegh, restaura l'autorità dello Scià Mohammad Reza Pahlavi e insedia il Gen. Fazlollah Zahedi alla guida del governo, riprendendo le relazioni con Londra (5 dicembre 1953) e i negoziati petroliferi occidentali."
+      : s >= 29
+      ? "22 Ottobre – 31 Dicembre 1952: il governo di Mohammad Mossadegh rompe ufficialmente le relazioni diplomatiche con il Regno Unito in seguito alla crisi petrolifera di Abadan (Khuzestan) e al blocco britannico sulle esportazioni (al 31 dicembre 1952 Mossadegh è ancora Primo Ministro; l'Operazione Ajax avverrà solo nell'agosto 1953)."
+      : s >= 28
+      ? "31 Dicembre 1951: le forze iraniane del governo di Mohammad Mossadegh assumono il controllo fisico completo della raffineria di Abadan espellendo gli ultimi tecnici britannici della AIOC (ottobre 1951), mentre il Regno Unito mantiene l'embargo e il blocco navale sulle esportazioni petrolifere."
+      : s >= 27
+      ? "30 Giugno 1951: governo del Primo Ministro Mohammad Mossadegh (dal 28 aprile) dopo la legge di nazionalizzazione dell'Anglo-Iranian Oil Company (marzo-maggio 1951) e l'esplosione della crisi di Abadan nel Khuzestan."
+      : s >= 20
       ? "Dicembre 1947: Stato Imperiale dell'Iran pienamente sovrano dopo il voto del Majlis del 22 ottobre 1947 che respinge la concessione petrolifera sovietica del nord e le dimissioni del governo Qavam."
       : s >= 19
       ? "Stato Imperiale dell'Iran pienamente sovrano dopo il ritiro delle forze anglo-sovietiche nel 1946 e il ristabilimento dell'autorità di Teheran su tutto il territorio nazionale sotto lo Scià Mohammad Reza Pahlavi e il Primo Ministro Ahmad Qavam."

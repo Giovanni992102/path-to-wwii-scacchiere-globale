@@ -1,10 +1,11 @@
 import React from 'react';
-import { X, Crosshair, User, Landmark, Crown } from 'lucide-react';
+import { X, Crosshair, User, Landmark, Crown, Globe } from 'lucide-react';
 import { STEPS } from '../data/historySteps';
 import { getOwnerMeta, FACTION_COLORS, formatHierarchyBadge } from '../data/owners';
 import { HISTORICAL_BATTLES } from '../data/historicalBattles';
+import { getOwnerMembershipsAtStep } from '../data/internationalOrganizations';
 import { tacticalAudio } from '../data/audioSynthesizer';
-import { CountryFlag } from '../data/historicalFlags';
+import { CountryFlag, getSecondaryCoFlag } from '../data/historicalFlags';
 import * as d3 from 'd3';
 
 interface OperationalFocusPanelProps {
@@ -13,6 +14,8 @@ interface OperationalFocusPanelProps {
   onClose: () => void;
   onZoomTo: () => void;
   onSelectStep: (step: number) => void;
+  onOpenOrg?: (orgId: string) => void;
+  onOpenCountry?: (ownerCode: string) => void;
 }
 
 export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
@@ -21,6 +24,8 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
   onClose,
   onZoomTo,
   onSelectStep,
+  onOpenOrg,
+  onOpenCountry,
 }) => {
   if (!feature) return null;
 
@@ -36,6 +41,9 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
     ? `${rawModern} (${p.CNTR_NAME})`
     : rawModern;
   const nutsId = p.NUTS_ID || p.CNTR_ID || '';
+  const fidUpper = String(feature?.id || p.id || nutsId || '').toUpperCase();
+  const resNameLower = String(res.name || '').toLowerCase();
+  const secondaryFlag = getSecondaryCoFlag(res.o, currentStep, { fidUpper, resNameLower });
 
   // Approximate area in km²
   let km2 = 0;
@@ -125,17 +133,59 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
           </div>
 
           <div className="flex items-center gap-3 p-2 bg-black/60 border border-[#3a3420] rounded-[2px] shadow-inner">
-            <div className="w-13 h-8 rounded-[2px] overflow-hidden border border-[#c9a557]/60 shadow-[0_2px_6px_rgba(0,0,0,0.8)] flex-none relative bg-black/70 flex items-center justify-center">
-              <CountryFlag owner={res.o} step={currentStep} className="w-full h-full" />
+            <div className="flex items-center gap-1.5 flex-none">
+              <button
+                type="button"
+                onClick={() => {
+                  if (!onOpenCountry) return;
+                  tacticalAudio.playClick();
+                  onOpenCountry(res.o);
+                }}
+                title={`Apri Country Viz di ${meta.shortName || res.o} (${res.o})`}
+                className={`w-13 h-8 rounded-[2px] overflow-hidden border border-[#c9a557]/70 shadow-[0_2px_6px_rgba(0,0,0,0.8)] flex-none relative bg-black/70 flex items-center justify-center transition-all ${
+                  onOpenCountry
+                    ? 'cursor-pointer hover:border-[#e8c979] hover:shadow-[0_0_12px_rgba(232,201,121,0.45)] hover:scale-[1.04]'
+                    : ''
+                }`}
+              >
+                <CountryFlag owner={res.o} step={currentStep} className="w-full h-full" />
+              </button>
+              {secondaryFlag && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!onOpenCountry) return;
+                    tacticalAudio.playClick();
+                    onOpenCountry(secondaryFlag.openTarget || secondaryFlag.code);
+                  }}
+                  className={`w-13 h-8 rounded-[2px] overflow-hidden border border-[#c9a557]/60 shadow-[0_2px_6px_rgba(0,0,0,0.8)] flex-none relative bg-black/70 flex items-center justify-center transition-all ${
+                    onOpenCountry ? 'cursor-pointer hover:border-[#e8c979] hover:scale-[1.04]' : ''
+                  }`}
+                  title={`${secondaryFlag.title} — Clicca per aprire Country Viz`}
+                >
+                  <CountryFlag owner={secondaryFlag.code} step={currentStep} className="w-full h-full" />
+                </button>
+              )}
             </div>
             <div className="flex flex-col min-w-0 flex-1">
               <span className="font-semibold text-[#f0e6c8] text-[13px] leading-tight truncate">
                 {res.o === 'NEU' ? 'Indipendente / Neutrale' : meta.l(currentStep)}
               </span>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="font-mono-tech text-[10px] px-1 py-0.2 bg-[#222a30] text-[#c9a557] border border-[#3d4852] rounded">
-                  {res.o}
-                </span>
+              <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!onOpenCountry) return;
+                    tacticalAudio.playClick();
+                    onOpenCountry(res.o);
+                  }}
+                  title={`Apri Country Viz (${res.o})`}
+                  className={`font-mono-tech text-[10px] px-1.5 py-0.2 bg-[#222a30] text-[#c9a557] border border-[#3d4852] rounded transition-colors ${
+                    onOpenCountry ? 'cursor-pointer hover:border-[#e8c979] hover:text-white hover:bg-[#c9a557]/20' : ''
+                  }`}
+                >
+                  {res.o}{onOpenCountry ? ' · Country Viz ↗' : ''}
+                </button>
                 <span
                   className="font-oswald font-semibold text-[10.5px] tracking-[1px] uppercase"
                   style={{ color: FACTION_COLORS[fac] || '#ccc' }}
@@ -179,6 +229,42 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
           )}
         </div>
 
+        {/* International Organization Memberships for Current Step */}
+        {(() => {
+          const memberships = getOwnerMembershipsAtStep(res.o, currentStep);
+          if (memberships.length === 0) return null;
+          return (
+            <div className="border border-[#3a3420] bg-black/25 p-2 space-y-1.5">
+              <div className="font-oswald text-[10.5px] font-bold text-[#c9a557] uppercase tracking-wider flex items-center gap-1.5">
+                <Globe className="h-3 w-3 text-[#e8c979]" />
+                <span>Organizzazioni Internazionali ({STEPS[currentStep]?.d})</span>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {memberships.map(({ org, state, role }) => (
+                  <button
+                    key={org.id}
+                    onClick={() => {
+                      tacticalAudio.playClick();
+                      onOpenOrg?.(org.id);
+                    }}
+                    title={`${org.name} — ${state.statusLabel} (${role})`}
+                    className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] border border-[#473c22] bg-black/45 hover:bg-[#c9a557]/20 hover:border-[#c9a557] text-[#e6d9ae] transition-colors"
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full flex-none"
+                      style={{ backgroundColor: org.accentColor }}
+                    />
+                    <span className="font-oswald font-semibold">{org.acronym}</span>
+                    {role !== 'Membro' && (
+                      <span className="text-[9px] text-[#8b9298] font-mono-tech">· {role}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Nearby Battle Hotspots in Current Step */}
         {nearbyBattles.length > 0 && (
           <div className="border border-[#b04540]/60 bg-[#b04540]/10 p-2 space-y-1">
@@ -218,9 +304,22 @@ export const OperationalFocusPanel: React.FC<OperationalFocusPanelProps> = ({
                     isCur ? 'bg-[#c9a557]/20 outline outline-1 outline-[#8a7440]' : ''
                   }`}
                 >
-                  <div className="w-5 h-3.5 rounded-[1px] overflow-hidden border border-[#554d33] flex-none shadow-sm bg-black/40">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      if (!onOpenCountry) return;
+                      e.stopPropagation();
+                      tacticalAudio.playClick();
+                      onSelectStep(i);
+                      onOpenCountry(stepRes.o);
+                    }}
+                    title={`Apri Country Viz di ${stepRes.o} (${st.d})`}
+                    className={`w-5 h-3.5 rounded-[1px] overflow-hidden border border-[#554d33] flex-none shadow-sm bg-black/40 ${
+                      onOpenCountry ? 'cursor-pointer hover:border-[#e8c979] hover:scale-110 transition-transform' : ''
+                    }`}
+                  >
                     <CountryFlag owner={stepRes.o} step={i} className="w-full h-full" />
-                  </div>
+                  </button>
                   <span
                     className={`w-[60px] flex-none font-oswald font-semibold text-[11px] tracking-[0.5px] ${
                       isCur ? 'text-[#e8c979]' : 'text-[#8b9298]'

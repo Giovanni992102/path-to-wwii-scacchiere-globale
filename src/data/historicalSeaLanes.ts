@@ -41,7 +41,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [-3.00, 53.40],  // Liverpool
     ],
     description: 'La fondamentale linea di rifornimento vitale per la sopravvivenza della Gran Bretagna (armi, petrolio, cibo) e successiva arteria postbellica.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
   },
   {
     id: 'mediterranean_suez_lifeline',
@@ -63,7 +63,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [45.00, 12.80],  // Aden (Oceano Indiano)
     ],
     description: 'Il corridoio imperiale britannico più rapido per collegare la madrepatria con l\'India Britannica, il Medio Oriente e l\'Estremo Oriente.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
   },
   {
     id: 'cape_route',
@@ -85,7 +85,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       [72.85, 18.95],  // Bombay (India)
     ],
     description: 'Rotta strategica oceanica dell\'Atlantico meridionale e dell\'Oceano Indiano lungo il Capo di Buona Speranza.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
   },
   {
     id: 'pacific_singapore_tokyo',
@@ -128,7 +128,7 @@ export const HISTORICAL_SEA_LANES: SeaLane[] = [
       ],
     ],
     description: 'La fondamentale linea di comunicazione aeronavale e mercantile che unisce la costa pacifica statunitense a Pearl Harbor, Guam e alle Filippine attraverso l\'Oceano Pacifico.',
-    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+    activeSteps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
   },
 
   // Nuove rotte strategiche per il conflitto bellico (1940-1945)
@@ -199,7 +199,47 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
 
   switch (lane.id) {
     case 'north_atlantic_convoy':
-      if (step >= 26) {
+      if (step >= 34) {
+        statusNote = 'Corridoio Atlantico NATO (15 Membri · Vertice di Parigi Dic 1957) — Trattati di Roma (25 Mar) & Saarland in RFT (1° Gen)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1957 l\'asse euro-atlantico riflette la distensione inter-alleata dopo la Crisi di Suez (Harold Macmillan Premier UK), la reintegrazione del Saarland nella RFT (1° gennaio), la firma dei Trattati di Roma CEE/Euratom (25 marzo) e la nuova Red Ensign canadese con foglie d\'acero rosse (8 ottobre 1957).';
+      } else if (step >= 33) {
+        statusNote = 'Corridoio Atlantico NATO (15 Membri · Frattura su Suez) — Vigilia Trattati di Roma (CECA attiva · NO CEE)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1956 l\'arteria atlantica attraversa la grave crisi diplomatica tra Washington e Londra/Parigi dopo l\'intervento anglo-francese a Suez e l\'evacuazione del 22 dicembre, mentre in Europa i Sei della CECA elaborano i progetti del Rapporto Spaak (i Trattati di Roma CEE/Euratom verranno firmati solo il 25 marzo 1957).';
+      } else if (step >= 32) {
+        statusNote = 'Corridoio Atlantico NATO (15 Membri: RFT Ammessa il 9 Maggio 1955) — UEO Operativa & Post-Staatsvertrag Austriaco';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1955 l\'arteria euro-atlantica collega una NATO allargata a 15 membri: entrati in vigore gli Accordi di Parigi (5 mag 1955), la Repubblica Federale Tedesca riacquista la sovranità ed entra nella NATO (9 mag) e nella nuova UEO a Sette con l\'Italia, fronteggiando la nascita del Patto di Varsavia (14 mag) e il ritorno della piena sovranità/neutralità austriaca (27 lug / 26 ott 1955).';
+      } else if (step >= 31) {
+        statusNote = 'Corridoio Atlantico NATO (14 Membri · Accordi Parigi 23 Ott 1954 Non Ratificati) — Post-CED & Ritorno di Trieste';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1954 l\'arteria euro-atlantica collega la NATO a 14 membri dopo il rigetto francese della CED (30 ago) e la firma degli Accordi di Parigi del 23 ottobre 1954 (ratifica e ingresso RFT previsti solo per maggio 1955; nessun Patto di Varsavia prima di maggio 1955). Sul fianco europeo prosegue la CECA dei Sei e Trieste torna all\'Italia dal 26 ottobre.';
+      } else if (step >= 30) {
+        statusNote = 'Corridoio Atlantico NATO (14 Membri · RFT Esclusa) — Mercato Comune CECA & Incoronazione Elisabetta II (Dic 1953)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1953 la dorsale euro-atlantica collega la Presidenza Eisenhower a Washington, l\'incoronazione di Elisabetta II a Londra (2 giu) e il mercato comune CECA tra i Sei (carbone/ferro feb, acciaio mag). La NATO resta a 14 membri (senza la RFT fino al 1955) mentre i Patti di Madrid (26 set) aprono basi bilaterali USA in Spagna.';
+      } else if (step >= 29) {
+        statusNote = 'Corridoio Atlantico NATO (14 Membri: Grecia & Turchia) — CECA in Vigore & Regina Elisabetta II (Dic 1952)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1952 la dorsale euro-atlantica riflette il regno della Regina Elisabetta II nel Regno Unito e nel Commonwealth (dal 6 feb 1952), il primo allargamento della NATO a Grecia e Turchia (18 feb 1952) e l\'entrata in vigore della CECA (23 lug 1952 · Alta Autorità a Lussemburgo dal 10 ago), oltre al nuovo Stato Libero Associato di Porto Rico (25 lug 1952) nei Caraibi.';
+      } else if (step >= 28) {
+        statusNote = 'Corridoio Atlantico NATO — SHAPE Operativo, Mutual Security Act & Ratifiche CECA (Dic 1951)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 31 dicembre 1951 l\'asse Atlantico sostiene il dispositivo integrato NATO SHAPE, il Mutual Security Act statunitense (ottobre 1951) e il ritorno di Winston Churchill a Londra (26 ottobre), mentre procedono le ratifiche parlamentari della CECA (in vigore dal luglio 1952).';
+      } else if (step >= 27) {
+        statusNote = 'Corridoio Atlantico NATO — SHAPE Operativo (2 Apr 1951) & Trattato CECA (18 Apr 1951)';
+        isContested = false;
+        color = '#5f87c0';
+        description = 'Al 30 giugno 1951 l\'asse Atlantico alimenta il comando integrato NATO SHAPE (operativo dal 2 aprile sotto il Gen. Eisenhower) e accompagna la firma del Trattato di Parigi istitutivo della CECA tra i Sei (18 aprile 1951).';
+      } else if (step >= 26) {
         statusNote = 'Corridoio Atlantico NATO — Comando Supremo Alleato in Europa (Eisenhower SACEUR, Dic 1950)';
         isContested = false;
         color = '#5f87c0';
@@ -259,7 +299,47 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'mediterranean_suez_lifeline':
-      if (step >= 26) {
+      if (step >= 34) {
+        statusNote = 'CANALE DI SUEZ RIAPERTO (Apr 1957) — Ritiro Israeliano da Gaza/Sinai (Mar 1957), UNEF a Sharm el-Sheikh & Linea Morice';
+        isContested = true;
+        color = '#e8c979';
+        description = 'Al 31 dicembre 1957 il Canale di Suez è nuovamente aperto al traffico mercantile mondiale dall\'aprile 1957 sotto controllo dell\'Autorità egiziana dopo lo sgombero dei relitti e il completo ritiro israeliano dal Sinai e da Gaza (6–8 marzo 1957), con i Caschi Blu UNEF dispiegati sullo Stretto di Tiran. Nel Maghreb Tangeri è integrata nel Marocco (1° gen), la Tunisia diviene Repubblica (25 lug), in Algeria opera la Linea Morice e all\'estremo Atlantico infuria la Guerra d\'Ifni (nov–dic).';
+      } else if (step >= 33) {
+        statusNote = 'CANALE DI SUEZ BLOCCATO (Crisi di Suez Ott–Dic 1956) — Evacuazione UK/FRA 22 Dic, UNEF & Occupazione Israeliana di Sinai/Gaza';
+        isContested = true;
+        color = '#dc2626';
+        description = 'Al 31 dicembre 1956 il Canale di Suez (nazionalizzato da Nasser il 26 luglio) è ancora ostruito dalle navi affondate durante la guerra di ottobre–novembre: Regno Unito e Francia hanno completato l\'evacuazione della Zona del Canale il 22 dicembre sotto presidio UNEF dell\'ONU, ma Israele occupa ancora la Striscia di Gaza e oltre l\'80% del Sinai (fino a Sharm el-Sheikh). Tutto il traffico petrolifero verso l\'Europa è deviato attorno al Capo di Buona Speranza, mentre sul fianco maghrebino Marocco e Tunisia sono indipendenti e infuria la Battaglia di Algeri.';
+      } else if (step >= 32) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Emergenza EOKA a Cipro (1° Apr), Nord Costantinese (20 Ago) & Patto di Baghdad';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Al 31 dicembre 1955 il corridoio attraversa l\'Egeo e il Levante toccando Cipro scossa dall\'insurrezione EOKA (1° apr; emergenza 26 nov 1955), costeggia il Nord Costantinese in piena Guerra d\'Algeria (20 ago) e il Canale di Suez (ancora gestito dalla Compagnie Universelle mentre procede lo sgombero militare UK 1954–56), con il Sudan ormai alla vigilia dell\'indipendenza (1° gen 1956) mentre infuria l\'ammutinamento di Torit e mentre la rotta prosegue verso l\'Asia sud-orientale dopo la fine dell\'enclave francese di Hải Phòng (16 mag).';
+      } else if (step >= 31) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Accordo di Suez (19 Ott), Ritorno Trieste, Guerra d\'Algeria (1° Nov) & Ritiro da Hải Phòng';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Al 31 dicembre 1954 la linea attraversa l\'Adriatico dopo la chiusura del TLT (Trieste all\'Italia dal 26 ott), costeggia l\'Algeria scossa dal Toussaint Rouge (1° nov 1954) e il Canale di Suez dopo l\'accordo anglo-egiziano di sgombero in 20 mesi (19 ott, Nasser al Cairo), oltrepassa Pondichéry trasferita all\'India (1° nov) e alimenta lo Stato del Vietnam a sud del 17° parallelo nonché il ponte marittimo dei 300 giorni da Hải Phòng (Passage to Freedom).';
+      } else if (step >= 30) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Repubblica d\'Egitto (18 Giu 1953), Iran Post-Ajax (Zahedi) & Crisi Trieste TLT (Dic 1953)';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Al 31 dicembre 1953 la rotta attraversa la crisi adriatica del Territorio Libero di Trieste (ancora AMG/VUJA dopo gli scontri di novembre), costeggia la Libia entrata nella Lega Araba (28 mar) e la neo-proclamata Repubblica d\'Egitto (18 giu, Naguib/Nasser), collega il Golfo Persico dopo il colpo di Stato pro-Scià in Iran (Operazione Ajax, 19 ago) e sostiene nell\'Oceano Indiano la Federazione coloniale di Rhodesia-Nyasaland (FRN), il Kenya e l\'Unione Francese verso Laos, Cambogia e Điện Biên Phủ.';
+      } else if (step >= 29) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Egitto Rivoluzionario (Fuad II), Rottura Iran–UK, Federazione Eritrea & Mau Mau Kenya (Dic 1952)';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Al 31 dicembre 1952 il corridoio collega l\'area NATO mediterranea (estesa a Grecia e Turchia dal 18 feb) con tre fronti caldi: l\'Egitto governato de facto dagli Ufficiali Liberi sotto Re Fuad II (ancora Regno d\'Egitto con bandiera del 1923 fino al giu 1953), il Golfo Persico dopo la rottura diplomatica iraniana con Londra (22 ott 1952), la neonata Federazione di Etiopia ed Eritrea sul Mar Rosso (15 set 1952) e l\'Oceano Indiano verso il Kenya in Stato d\'Emergenza Mau Mau (20 ott 1952) e il Vietnam di Nà Sản e Điện Biên Phủ.';
+      } else if (step >= 28) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Guerriglia nel Canale di Suez (Ott 1951), Blocco di Abadan & Indipendenza del Regno Unito di Libia (24 Dic 1951)';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Al 31 dicembre 1951 il corridoio attraversa tre snodi cruciali: nel Mediterraneo centrale nasce il 24 dicembre 1951 lo Stato sovrano del Regno Unito di Libia (Tripoli e Bengasi); nella Zona del Canale di Suez (Ismailia, Suez, Port Said) infuria la guerriglia armata egiziana dopo l\'abrogazione unilaterale del Trattato del 1936 (ottobre 1951); nel Golfo Persico la Royal Navy mantiene l\'embargo sul petrolio iraniano dopo l\'espulsione dei tecnici AIOC da Abadan.';
+      } else if (step >= 27) {
+        statusNote = 'Corridoio Mediterraneo–Suez — Crisi Petrolifera di Abadan (Mag–Giu 1951) & Libia Provvisoria';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Al 30 giugno 1951 la nazionalizzazione iraniana dell\'AIOC ad Abadan nel Khuzestan (governo Mossadegh) blocca le esportazioni petrolifere britanniche verso Suez; in Libia permane la BMA britannica/Fezzan francese accanto al Governo Federale Provvisorio (29 marzo), mentre prosegue la Linea de Lattre in Indocina.';
+      } else if (step >= 26) {
         statusNote = 'Corridoio Mediterraneo–Suez — Ris. ONU Eritrea, AFIS Somalia, Repubblica d\'Indonesia & Convogli Suez (Dic 1950)';
         isContested = false;
         color = '#5aa0c2';
@@ -313,7 +393,17 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'cape_route':
-      if (step >= 18) {
+      if (step >= 34) {
+        statusNote = 'Rotta del Capo Rientrata alla Normalità Post-Suez (Apr 1957) — Indipendenza del Ghana (6 Mar 1957)';
+        isContested = false;
+        color = '#ad7e64';
+        description = 'Dall\'aprile 1957, con la riapertura del Canale di Suez al traffico mondiale, le superpetroliere europee riprendono la via mediterranea riducendo il sovraccarico emergenziale intorno al Capo di Buona Speranza; lungo la costa occidentale africana il nuovo Stato indipendente del Ghana (6 marzo 1957) presidia il Golfo di Guinea.';
+      } else if (step >= 33) {
+        statusNote = 'ARTERIA PETROLIFERA D\'EMERGENZA — Chiusura Canale di Suez (Nov–Dic 1956)';
+        isContested = true;
+        color = '#e07a5f';
+        description = 'Nel novembre–dicembre 1956, a seguito dell\'ostruzione del Canale di Suez durante la Crisi di Suez, l\'intera flotta di superpetroliere e mercantili tra Golfo Persico, Asia ed Europa occidentale viene nuovamente dirottata attorno al Capo di Buona Speranza (Sudafrica).';
+      } else if (step >= 18) {
         statusNote = 'Rotta Commerciale Sudafrica–Oceano Indiano';
         description = 'Linea oceanica pacifica del dopoguerra tra l\'Europa, il Sudafrica e i nuovi Dominion dell\'Asia meridionale (India e Pakistan al 1947).';
       } else if (step >= 14) {
@@ -356,7 +446,47 @@ export function getDynamicSeaLaneStatus(lane: SeaLane, step: number): DynamicSea
       break;
 
     case 'transpacific_us_hawaii':
-      if (step >= 26) {
+      if (step >= 34) {
+        statusNote = 'Rotta Transpacifica USA — Malesia Indipendente (Hari Merdeka 31 Ago), Laos Vientiane (Nov) & Era Sputnik (4 Ott 1957)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1957 la dorsale transpacifica sostiene la difesa USA in Giappone/Okinawa, Corea e Taiwan nell\'anno dello shock strategico dello Sputnik 1 sovietico (4 ottobre). Nel Sud-Est Asiatico nasce il 31 agosto 1957 la Federazione della Malesia indipendente (restano britannici Singapore, Sarawak, Sabah/Labuan e Brunei), in Laos gli Accordi di Vientiane riunificano il Paese e in Indonesia la legge marziale e la Carta di Permesta preludono alla crisi del 1958.';
+      } else if (step >= 33) {
+        statusNote = 'Rotta Transpacifica USA — Giappone All\'ONU (18 Dic 1956), Cina/Tibet (Rivolta Khampa) & Golfo del Messico/Cuba (Granma 2 Dic)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1956 la dorsale pacifica consolida l\'asse USA–Giappone (ammesso all\'ONU il 18 dicembre 1956 come 80° membro sotto il patto di sicurezza bilaterale e Dichiarazione sovietico-giapponese del 19 ottobre) e la difesa di Taiwan/Kinmen/Matsu e della Repubblica del Vietnam (Ngô Đình Diệm), mentre nell\'emisfero occidentale Cuba entra nella fase rivoluzionaria con lo sbarco del Granma sulla Sierra Maestra (2 dicembre 1956).';
+      } else if (step >= 32) {
+        statusNote = 'Rotta Transpacifica USA — Caduta Dachen (Feb 1955), Evacuazione Hải Phòng (16 Mag) & Proclamazione Rep. Vietnam (26 Ott)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1955 la dorsale transpacifica tutela Taiwan, Kinmen e Matsu dopo che la 7ª Flotta USA ha coperto l\'evacuazione ROC di Dachen (feb 1955, mentre Yijiangshan e le isole dello Zhejiang passano al 100% alla RPC) e rifornisce la neonata Repubblica del Vietnam di Ngô Đình Diệm (proclamata il 26 ott 1955 a Saigon), completato lo sgombero francese da Hải Phòng il 16 maggio 1955.';
+      } else if (step >= 31) {
+        statusNote = 'Rotta Transpacifica USA — SEATO (8 Set 1954), Prima Crisi Stretto di Taiwan & Trattato USA–ROC (2 Dic 1954)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1954 la dorsale transpacifica rifornisce il Giappone sovrano e Okinawa (USCAR), sostiene la DMZ coreana e proietta verso sud la neonata SEATO (Patto di Manila, 8 settembre 1954) e l\'Operazione Passage to Freedom da Hải Phòng (enclave SVN/CEFEO fino a mag 1955); nello Stretto di Taiwan la 7ª Flotta affianca il Trattato di Mutua Difesa USA–ROC (2 dicembre 1954) durante i bombardamenti EPL su Kinmen e mentre Yijiangshan e Dachen restano ancora ROC.';
+      } else if (step >= 30) {
+        statusNote = 'Rotta Transpacifica USA — Armistizio di Panmunjom & DMZ Coreana (27 Lug 1953) · Isole Amami Restituite al Giappone (25 Dic 1953)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1953 la dorsale transpacifica rifornisce il presidio post-armistiziale nella Corea del Sud lungo la nuova DMZ (Armistizio di Panmunjom 27 lug & Trattato di difesa USA–ROK 1° ott), accompagna la restituzione al Giappone delle isole Amami (25 dic 1953, restando Okinawa a sud del 27°N e Bonin sotto USCAR) e tutela Taiwan, Kinmen, Matsu e Dachen dopo il raid ROC su Dongshan (lug 1953).';
+      } else if (step >= 29) {
+        statusNote = 'Rotta Transpacifica USA — Giappone Pienamente Sovrano (28 Apr 1952), Okinawa USCAR & Stallo MDL in Corea (Dic 1952)';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1952, entrato in vigore il Trattato di Pace di San Francisco (28 aprile 1952), il Giappone ha riacquistato la piena sovranità sulle 46 prefetture metropolitane pur mantenendo le basi del Trattato di Sicurezza USA–Giappone, mentre Okinawa (Ryūkyū), le isole Amami (restituite dic 1953) e le Bonin restano sotto USCAR; la linea sostiene il Comando ONU nella guerra di trincea lungo la MDL coreana (Old Baldy, White Horse, Triangle Hill) e lo Stato della Repubblica di Cina a Taiwan, Kinmen, Matsu e Dachen.';
+      } else if (step >= 28) {
+        statusNote = 'Rotta Transpacifica USA — Trattato di San Francisco (8 Set 1951, Giappone ancora SCAP), Patto ANZUS & Panmunjom MDL in Corea';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 31 dicembre 1951 la dorsale transpacifica riflette la firma del Patto ANZUS (1° settembre) e del Trattato di Pace di San Francisco con il Giappone (8 settembre 1951 — Giappone ancora formalmente sotto occupazione SCAP fino al 28 aprile 1952, con Okinawa e Bonin sotto amministrazione militare USA), rifornendo l\'8ª Armata e il Comando ONU lungo la Linea di Demarcazione Militare di Panmunjom (27 novembre 1951).';
+      } else if (step >= 27) {
+        statusNote = 'Rotta Transpacifica USA — Linea Kansas/Wyoming in Corea (Ridgway, Offerta 30 Giu) & Giappone SCAP';
+        isContested = true;
+        color = '#3d6c96';
+        description = 'Al 30 giugno 1951 la dorsale USA–Giappone SCAP (Gen. Matthew Ridgway dall\'11 aprile, senza alcun trattato di San Francisco fino a settembre)–Incheon/Busan sostiene le linee fortificate ONU Kansas e Wyoming oltre il 38° parallelo alla data dell\'offerta radiofonica di armistizio (negoziati di Kaesong non ancora aperti).';
+      } else if (step >= 26) {
         statusNote = 'Rotta Transpacifica USA — Evacuazione di Hungnam (24 Dic), Rifornimenti Comando ONU Corea & 7ª Flotta (Dic 1950)';
         isContested = true;
         color = '#3d6c96';

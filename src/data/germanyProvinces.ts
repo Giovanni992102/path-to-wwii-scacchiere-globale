@@ -8545,6 +8545,11 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     const isStep22 = step >= 22;
     const isStep23 = step >= 23;
     const isStep24 = step >= 24;
+    const isStep30 = step >= 30;
+    const isStep31 = step >= 31;
+    const isStep32 = step >= 32;
+    const isStep33 = step >= 33;
+    const isStep34 = step >= 34;
 
     // 1. Königsberg & Gumbinnen / Kaliningrad (annessa all'URSS — RSFSR)
     if (cleanId === 'DE_HIST_KONIGSBERG' || cleanId === 'DE_HIST_GUMBINNEN' || nrm.includes('konigsberg') || nrm.includes('kaliningrad') || nrm.includes('gumbinnen')) {
@@ -8571,7 +8576,11 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE300_WEST' || nrm.includes('west-berlin') || nrm.includes('berlino ovest')) {
       return makeResult(
         isStep23 ? 'BRD' : 'USA',
-        isStep24
+        isStep32
+          ? 'West-Berlin (Associata alla RFT Sovrana & NATO — Riserve Quadripartite Alleate su Berlino, Dic 1955)'
+          : isStep31
+          ? 'West-Berlin (Associata alla RFT — Accordi di Parigi 23 Ott 1954 · Status Quadripartito, pre-NATO 1955)'
+          : isStep24
           ? 'West-Berlin (Associata alla RFT di Adenauer · Status Quadripartito & AHK, Dicembre 1949)'
           : isStep23
           ? 'West-Berlin (Fine del Blocco Sovietico, 12 Maggio 1949 — Associata alla RFT sotto Status Quadripartito)'
@@ -8582,7 +8591,11 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           : isStep19
           ? 'West-Berlin (Settori Occidentali — USA, Regno Unito, Francia)'
           : 'West-Berlin (Settori Occidentali Alleati — Kommandatura Tripartita)',
-        isStep24
+        isStep32
+          ? 'Al 31 dicembre 1955: con l\'entrata in vigore degli Accordi di Parigi (5 maggio 1955) la RFT ha riacquistato la piena sovranità aderendo alla UEO (6 maggio) e alla NATO (9 maggio); Berlino Ovest (sindaco Otto Suhr) resta associata alla Repubblica Federale Tedesca sotto salvaguardia dei diritti quadripartiti alleati su Berlino.'
+          : isStep31
+          ? 'Al 31 dicembre 1954: Berlino Ovest (sindaco Otto Suhr eletto il 5 dicembre 1954) resta associata alla Repubblica Federale Tedesca sotto tutela quadripartita della Kommandatura Tripartita (la firma degli Accordi di Parigi del 23 ottobre 1954 attende ratifica: la fine dello Statuto d\'Occupazione AHK e l\'ingresso della BRD nella NATO avverranno solo nel maggio 1955).'
+          : isStep24
           ? 'Al 31 dicembre 1949: Berlino Ovest (sindaco Ernst Reuter) invia deputati senza diritto di voto al Bundestag di Bonn e si coordina economicamente con la Repubblica Federale Tedesca di Konrad Adenauer (Accordi del Petersberg), pur rimanendo sotto l\'autorità di riserva dell\'Alta Commissione Alleata (AHK) dopo la conclusione ufficiale del Ponte Aereo Alleato il 30 settembre 1949.'
           : isStep23
           ? 'Al 30 giugno 1949: il 12 maggio 1949 l\'URSS ha revocato il Blocco terrestre di Berlino (il Ponte Aereo Alleato resta attivo per accumulo di scorte fino a settembre). Sotto il sindaco Ernst Reuter, Berlino Ovest è associata alla neonata Repubblica Federale Tedesca (inviando osservatori non votanti a Bonn), ma la clausola alleata di riserva del 12 maggio (Berlin-Vorbehalt) ne sospende la piena adesione federale mantenendo lo status speciale sotto la Kommandatura Tripartita.'
@@ -8594,7 +8607,9 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? 'Settori americano, britannico e francese di Berlino presidiati dalle potenze occidentali al centro della Zona Sovietica.'
           : 'Dall\'estate 1945 i settori occidentali di Berlino sono presidiati congiuntamente da USA, Regno Unito e Francia sotto l\'Alliierte Kommandantur.',
         'Alleati',
-        isStep24
+        isStep32
+          ? 'Senato West-Berlin (Otto Suhr) · Associata RFT Sovrana & NATO (Riserve Quadripartite su Berlino, Mag 1955)'
+          : isStep24
           ? 'Senato West-Berlin (Ernst Reuter) · Associata RFT (AHK · Fine Luftbrücke 30 Sett 1949)'
           : isStep23
           ? 'Senato/Magistrat West-Berlin (Ernst Reuter) · Associata RFT (Berlin-Vorbehalt 12 Mag 1949 · Alliierte Kommandantur Tripartita)'
@@ -8609,7 +8624,13 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE300_EAST' || nrm.includes('hauptstadt der ddr') || nrm.includes('ost-berlin') || nrm.includes('berlino est')) {
       return makeResult(
         isStep24 ? 'DDR' : 'SOV',
-        isStep24
+        isStep32
+          ? 'Ost-Berlin (Capitale della RDT / DDR — Patto di Varsavia 14 Mag & Trattato Sovranità URSS 20 Set 1955)'
+          : isStep31
+          ? 'Ost-Berlin (Capitale della RDT / DDR — Dichiarazione di Sovranità URSS 1954, pre-Patto di Varsavia 1955)'
+          : isStep30
+          ? 'Ost-Berlin (Capitale della RDT / DDR — Rivolta Operaia del 17 Giugno 1953 & Carri Sovietici, Dic 1953)'
+          : isStep24
           ? 'Ost-Berlin (Capitale della Repubblica Democratica Tedesca — RDT / DDR, 7 Ottobre 1949)'
           : isStep23
           ? 'Ost-Berlin (Fine Blocco di Berlino 12 Maggio 1949 — Settore Sovietico SMAD & Magistrat SED, Pre-RDT)'
@@ -8620,7 +8641,13 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           : isStep19
           ? 'Ost-Berlin (Settore di Occupazione Sovietico — SMAD)'
           : 'Ost-Berlin (Settore Sovietico — Kommandatura Interalleata)',
-        isStep24
+        isStep32
+          ? '31 Dicembre 1955 (RDT / DDR · Patto di Varsavia & Trattato URSS–RDT): il 14 maggio 1955 la Repubblica Democratica Tedesca firma come membro fondatore il Patto di Varsavia; il 20 settembre 1955 URSS e RDT sottoscrivono a Mosca il Trattato sulle relazioni reciproche che abolisce l\'Alta Commissione Sovietica e riconosce formalmente la piena sovranità della Germania Est (capitale Ost-Berlin).'
+          : isStep31
+          ? "31 Dicembre 1954 (RDT / DDR · Nessun Patto di Varsavia prima del 14 Maggio 1955): dal 1° gennaio 1954 cessano le riparazioni di guerra verso l'URSS e il 25 marzo 1954 Mosca proclama la sovranità della Repubblica Democratica Tedesca (Walter Ulbricht, Otto Grotewohl), pur mantenendo il Gruppo delle Truppe Sovietiche in Germania."
+          : isStep30
+          ? '31 Dicembre 1953 (RDT / DDR · Nessun Patto di Varsavia prima del 1955): il 16–17 giugno 1953 gli operai edili della Stalinallee a Berlino Est scatenano lo sciopero generale contro il rialzo delle quote produttive e il regime di Walter Ulbricht, represso con la legge marziale e i carri armati delle truppe sovietiche in Germania; il 22 agosto l\'URSS annuncia la rinuncia alle riparazioni di guerra tedesche residue dal 1° gennaio 1954.'
+          : isStep24
           ? 'Al 31 dicembre 1949: il 7 ottobre 1949 viene proclamata a Berlino Est la Repubblica Democratica Tedesca (RDT / DDR) con Ost-Berlin designata capitale dello Stato socialista (Presidente Wilhelm Pieck, Primo Ministro Otto Grotewohl, Segretario SED Walter Ulbricht e sindaco Friedrich Ebert Jr.), mentre l\'URSS istituisce la Commissione di Controllo Sovietica (SKK) guidata dal gen. Vasilij Čujkov.'
           : isStep23
           ? 'Al 30 giugno 1949, revocato il Blocco terrestre di Berlino (12 maggio 1949), Berlino Est resta sotto amministrazione militare sovietica (SMAD del Gen. Vasilij Čujkov / SBZ) e Magistrat SED di Friedrich Ebert Jr., mentre il 3° Congresso Popolare (maggio 1949) approva il progetto costituzionale della futura RDT (che sarà proclamata solo il 7 ottobre 1949).'
@@ -8632,7 +8659,13 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? 'Settore orientale di Berlino sotto Amministrazione Militare Sovietica (SMAD).'
           : 'Settore orientale di Berlino sotto controllo sovietico della SMAD nella Kommandatura quadrigemina.',
         isStep19 ? 'Comintern' : 'Alleati',
-        isStep24
+        isStep32
+          ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (Patto di Varsavia 14 Mag & Trattato Sovranità URSS 20 Set 1955)'
+          : isStep31
+          ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (Sovranità URSS Mar 1954 · Pre-Patto di Varsavia Mag 1955)'
+          : isStep30
+          ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (Rivolta 17 Giu 1953 · Alto Comm. URSS V. Semënov)'
+          : isStep24
           ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (Wilhelm Pieck · Otto Grotewohl · SKK, 7 Ott 1949)'
           : isStep23
           ? 'Sowjetische Militäradministration (SMAD / SBZ) & Magistrat Ost-Berlin (Giugno 1949 · Pre-RDT)'
@@ -8645,14 +8678,30 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE300' || nrm.includes('berlin')) {
       return makeResult(
         isStep24 ? 'DDR' : 'SOV',
-        isStep24
+        isStep32
+          ? 'Berlin (Capitale RDT a Est · West-Berlin Associata RFT Sovrana — Patto di Varsavia & NATO, Dic 1955)'
+          : isStep31
+          ? 'Berlin (Capitale RDT a Est · West-Berlin Associata RFT — Pre-NATO & Pre-Varsavia, Dic 1954)'
+          : isStep30
+          ? 'Berlin (Capitale RDT a Est — Rivolta del 17 Giugno 1953 · Quadripartita)'
+          : isStep24
           ? 'Berlin (Capitale della Repubblica Democratica Tedesca a Est · Quadripartita, Dicembre 1949)'
           : 'Groß-Berlin (Settore di Occupazione Sovietica & Autorità Quadripartita Kommandatura)',
-        isStep24
+        isStep32
+          ? 'Al 31 dicembre 1955 Berlino Est è capitale della RDT sovrana (Trattato URSS–RDT del 20 settembre 1955 & Patto di Varsavia 14 maggio), mentre Berlino Ovest resta associata alla RFT sovrana (in NATO dal 9 maggio) sotto status quadripartito alleato.'
+          : isStep31
+          ? 'Al 31 dicembre 1954 Berlino Est è capitale della RDT dopo la dichiarazione di sovranità sovietica del 25 marzo 1954 (nessun Patto di Varsavia prima di maggio 1955), mentre Berlino Ovest resta associata alla RFT sotto status quadripartito (Accordi di Parigi del 23 ott 1954 non ancora entrati in vigore; nessuna adesione NATO della BRD prima di maggio 1955).'
+          : isStep30
+          ? 'Al 31 dicembre 1953 Berlino Est è capitale della RDT segnata dalla repressione sovietica della rivolta operaia del 17 giugno 1953, mentre Berlino Ovest resta associata alla RFT sotto tutela quadripartita.'
+          : isStep24
           ? 'Al 31 dicembre 1949 Ost-Berlin è capitale della neonata Repubblica Democratica Tedesca (RDT / DDR, 7 ottobre 1949), mentre Berlino Ovest è associata alla RFT sotto status quadripartito.'
           : 'Berlino quadripartita retta dalla Kommandatura interalleata.',
         isStep24 ? 'Comintern' : 'Alleati',
-        isStep24
+        isStep32
+          ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (Patto di Varsavia & Trattato Sovranità 1955)'
+          : isStep30
+          ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (Post-17 Giu 1953)'
+          : isStep24
           ? 'Deutsche Demokratische Republik — Hauptstadt Ost-Berlin (RDT / SKK, Dic 1949)'
           : 'Amministrazione Militare Sovietica in Germania (SMAD / Kommandatura)'
       );
@@ -8665,19 +8714,38 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
       !nrm.includes('trier-saarburg');
 
     if (isSaarDistrict) {
+      if (isStep34) {
+        const isSaarlouis = cleanId === 'DEC04' || nrm.includes('saarlouis');
+        const saarLabel = isSaarlouis ? 'Saarlouis' : cleanId === 'DEC01' || nrm.includes('saarbrucken') ? 'Saarbrücken' : label;
+        return makeResult(
+          'BRD',
+          `${saarLabel} (Saarland — 10° Land della Repubblica Federale Tedesca RFT dal 1° Gennaio 1957)`,
+          "1° Gennaio – 31 Dicembre 1957 (10° Land della RFT): in esecuzione del Trattato del Lussemburgo del 27 ottobre 1956, alle ore 00:00 del 1° gennaio 1957 cessa il Protettorato autonomo della Saar e l'intero Saarland viene reintegrato politicamente come decimo stato federato (Land) della Repubblica Federale Tedesca (sotto il tricolore nero-rosso-oro RFT e i Ministri-Presidenti Hubert Ney fino al giugno 1957 ed Egon Reinert dal 4 giugno 1957). L'unione doganale e monetaria con la Francia resta transitoriamente attiva fino al 5 luglio 1959.",
+          'Alleati',
+          `Bundesrepublik Deutschland — Land Saarland (10° Land RFT dal 1° Gen 1957 · MP ${cleanId === 'DEC01' ? 'Hubert Ney / ' : ''}Egon Reinert)`
+        );
+      }
       if (isStep19) {
         const isSaarlouis = cleanId === 'DEC04' || nrm.includes('saarlouis');
         const saarLabel = isSaarlouis ? 'Saarlouis' : cleanId === 'DEC01' || nrm.includes('saarbrucken') ? 'Saarbrücken' : label;
         return makeResult(
           'SAAR',
-          isStep23
+          isStep33
+            ? `${saarLabel} (Protettorato della Saar — Trattato del Lussemburgo 27 Ott 1956 · Ultimo Giorno da Protettorato Autonomo)`
+            : isStep32
+            ? `${saarLabel} (Protettorato della Saar — Referendum 23 Ott 1955 Respinge lo Statuto Europeo · Ancora Protettorato Autonomo Unito alla Francia al 31 Dic 1955)`
+            : isStep23
             ? `${saarLabel} (Protettorato della Saar — Separata dalla RFT · Unione Economica con la Francia, Giugno 1949)`
             : isStep21
             ? `${saarLabel} (Protettorato della Saar — Unione Doganale & Monetaria con la Francia, 1948)`
             : isStep20
             ? `${saarLabel} (Protettorato della Saar — Costituzione Autonoma del 15 Dicembre 1947 & Unione Economica Francese)`
             : `${saarLabel} (Protettorato della Saar — Unione Economica con la Francia)`,
-          isStep23
+          isStep33
+            ? "31 Dicembre 1956 (Ultimo Giorno del Protettorato Autonomo della Saar): il 27 ottobre 1956 Francia e RFT firmano gli Accordi/Trattato del Lussemburgo per la riunificazione politica della Saar alla Germania Ovest. Al 31 dicembre 1956 la Saar vive il suo ultimo giorno come protettorato autonomo (governo Hubert Ney, bandiera della Saar); alla mezzanotte del 1° gennaio 1957 diventerà il 10° Land della RFT (con integrazione economica differita fino al 1959)."
+            : isStep32
+            ? 'Al 31 dicembre 1955: nel referendum del 23 ottobre 1955 la popolazione della Saar respinge al 67,7% lo Statuto europeo proposto da Parigi e Bonn, provocando le dimissioni del Ministro-Presidente Johannes Hoffmann e l\'avvio dei negoziati franco-tedeschi sotto il governo tecnico di Heinrich Welsch; al 31 dicembre 1955 la Saar resta tuttavia ancora un protettorato autonomo in unione economica, doganale e monetaria con la Francia (rientrerà nella RFT solo il 1° gennaio 1957).'
+            : isStep23
             ? 'Al 30 giugno 1949 il Protettorato autonomo della Saar (Ministro-Presidente Johannes Hoffmann, CVP · Alto Commissario francese Gilbert Grandval) resta formalmente escluso dalla Repubblica Federale Tedesca e non sottoscrive la Legge Fondamentale del 23 maggio 1949, conservando l\'unione economica, doganale e monetaria con la Francia.'
             : isStep21
             ? 'Dal 1° aprile 1948 si perfeziona l\'unione doganale ed economica completa con la Francia sotto l\'Alto Commissario Gilbert Grandval e il governo autonomo del Ministro-Presidente Johannes Hoffmann (CVP), mentre nella Saar circola il Franco francese.'
@@ -8685,7 +8753,11 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
             ? 'Il 15 dicembre 1947 entra in vigore la Costituzione del Saarland (Verfassung des Saarlandes), che sancisce l\'autonomia politica del Protettorato sotto Johannes Hoffmann (CVP), l\'unione economica e monetaria con la Francia (Franco della Saar) e la bandiera a croce nordica.'
             : 'Il Protettorato della Saar è formalmente distaccato dalla Germania occupata con l\'unione economica e doganale con la Francia.',
           'Neutrale',
-          isStep23
+          isStep33
+            ? 'Saarland (Protectorat de la Sarre — Trattato del Lussemburgo 27 Ott 1956 · MP Hubert Ney · Adesione politica BRD il 1° Gen 1957)'
+            : isStep32
+            ? 'Saarland (Protectorat de la Sarre — Post-Referendum 23 Ott 1955 · MP Tecnico Heinrich Welsch · Ancora Unione Economica con la Francia)'
+            : isStep23
             ? 'Saarland (Protectorat de la Sarre — Autonoma dalla RFT · MP Johannes Hoffmann & Haut-Commissaire Gilbert Grandval, Giu 1949)'
             : isStep20
             ? 'Saarland (Protectorat de la Sarre — Ministerpräsident Johannes Hoffmann & Haut-Commissaire Gilbert Grandval)'
@@ -8704,14 +8776,20 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DEB25' || nrm.includes('trier-saarburg')) {
       return makeResult(
         isStep23 ? 'BRD' : 'FRA',
-        isStep23
+        isStep32
+          ? 'Trier-Saarburg (Rheinland-Pfalz — Repubblica Federale Tedesca RFT Sovrana · NATO & UEO, Maggio 1955)'
+          : isStep23
           ? 'Trier-Saarburg (Rheinland-Pfalz — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)'
           : 'Trier-Saarburg (Rheinland-Pfalz — Zona di Occupazione Francese GMZFO)',
-        isStep23
+        isStep32
+          ? 'Con l\'entrata in vigore degli Accordi di Parigi (5 maggio 1955), la Repubblica Federale Tedesca riacquista la piena sovranità aderendo a UEO (6 maggio) e NATO (9 maggio); Trier-Saarburg resta distinto dall\'adiacente Protettorato autonomo della Saar (ancora in unione economica francese dopo il referendum del 23 ottobre 1955).'
+          : isStep23
           ? 'Con la promulgazione della Legge Fondamentale (23 maggio 1949), Trier-Saarburg entra nella Repubblica Federale Tedesca (RFT) restando distinto dal vicino Protettorato autonomo della Saar (che rimane separato in unione economica con la Francia).'
           : 'Distretto della Renania-Palatinato nella zona francese (GMZFO), mantenuto separato dal vicino Protettorato della Saar.',
         'Alleati',
-        isStep23
+        isStep32
+          ? 'Bundesrepublik Deutschland (Rheinland-Pfalz · Piena Sovranità 5 Mag 1955 & 15° Membro NATO 9 Mag 1955)'
+          : isStep23
           ? 'Bundesrepublik Deutschland (Rheinland-Pfalz · RFT · Governatori Militari Alleati / Pre-Elezioni 14 Ago 1949)'
           : 'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Rheinland-Pfalz)'
       );
@@ -8721,14 +8799,20 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE27A' || nrm.includes('lindau')) {
       return makeResult(
         isStep23 ? 'BRD' : 'FRA',
-        isStep23
+        isStep32
+          ? 'Lindau (Bodensee — Repubblica Federale Tedesca RFT / BRD, Piena Sovranità · In Via di Pieno Reintegro in Baviera 1955–56)'
+          : isStep23
           ? 'Lindau (Bodensee — Repubblica Federale Tedesca RFT / BRD, Amministrazione Speciale Francese)'
           : 'Lindau (Bodensee — Corridoio Francese di Collegamento con il Vorarlberg)',
-        isStep23
+        isStep32
+          ? '31 Dicembre 1955 (Repubblica Federale Tedesca Sovrana · Membro NATO dal 9 Maggio 1955): cessata l\'occupazione austriaca nel Vorarlberg (27 luglio) e terminato lo Statuto d\'Occupazione alleato (5 maggio), il Kreis Lindau avvia il formale reintegro amministrativo pieno nello Stato Libero di Baviera (RFT).'
+          : isStep23
           ? 'Dal 23 maggio 1949 il distretto bavarese di Lindau entra nell\'ambito costituzionale della Repubblica Federale Tedesca (Legge Fondamentale di Bonn) pur conservando transitoriamente uno statuto amministrativo speciale sotto controllo francese lungo il corridoio verso il Vorarlberg austriaco.'
           : 'Distretto bavarese di Lindau assegnato alla Zona Francese per garantire continuità territoriale fra Württemberg-Hohenzollern e Vorarlberg austriaco.',
         'Alleati',
-        isStep23
+        isStep32
+          ? 'Bundesrepublik Deutschland (Kreis Lindau · RFT · Piena Sovranità 5 Mag 1955 & 15° Membro NATO 9 Mag 1955)'
+          : isStep23
           ? 'Bundesrepublik Deutschland (Kreis Lindau · RFT · Amministrazione Transitoria GMZFO)'
           : 'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Kreis Lindau)'
       );
@@ -8737,18 +8821,24 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE121' || nrm.includes('baden-baden')) {
       return makeResult(
         isStep23 ? 'BRD' : 'FRA',
-        isStep23
+        isStep32
+          ? 'Baden-Baden (Baden-Württemberg — Repubblica Federale Tedesca RFT / BRD, Piena Sovranità · Membro NATO)'
+          : isStep23
           ? 'Baden-Baden (Baden — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)'
           : isStep21
           ? 'Baden-Baden (HQ GMZFO — Trizona Economica & Riforma del Deutsche Mark)'
           : 'Baden-Baden (Quartier Generale della Zona di Occupazione Francese GMZFO)',
-        isStep23
+        isStep32
+          ? '31 Dicembre 1955 (Repubblica Federale Tedesca Sovrana · Membro NATO dal 9 Maggio 1955): con l\'entrata in vigore degli Accordi di Parigi (5 maggio 1955), cessa lo Statuto d\'Occupazione e il Comando Supremo francese trasferisce i pieni poteri sovrani alla RFT (Baden-Württemberg costituito dal 1952).'
+          : isStep23
           ? 'Con la Legge Fondamentale di Bonn (23 maggio 1949), Baden-Baden entra nella Repubblica Federale Tedesca (Land Baden), continuando a ospitare il comando GMZFO del generale Pierre Kœnig fino alla formazione del governo federale dopo le elezioni del 14 agosto 1949 (quando entrerà in funzione l\'Alta Commissione Alleata a settembre).'
           : isStep21
           ? 'Sede del Governatore Militare francese gen. Pierre Kœnig: con gli Accordi di Londra del giugno 1948 e il Deutsche Mark (20 giugno), la GMZFO si integra economicamente nella Trizona.'
           : 'Sede centrale del Governatore Militare francese generale Pierre Kœnig a Baden-Baden (Baden / Südbaden).',
         'Alleati',
-        isStep23
+        isStep32
+          ? 'Bundesrepublik Deutschland (Baden-Württemberg · RFT · Piena Sovranità 5 Mag 1955 & 15° Membro NATO 9 Mag 1955)'
+          : isStep23
           ? 'Bundesrepublik Deutschland (Baden · RFT · Governatori Militari Alleati / Pre-Elezioni Ago 1949)'
           : 'Gouvernement Militaire de la Zone Française d\'Occupation (GMZFO — Gen. Pierre Kœnig)'
       );
@@ -8757,14 +8847,18 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE144' || nrm.includes('ulm, stadtkreis')) {
       return makeResult(
         isStep23 ? 'BRD' : 'USA',
-        isStep23
+        isStep32
+          ? 'Ulm (Baden-Württemberg — Repubblica Federale Tedesca RFT / BRD, Piena Sovranità · Membro NATO)'
+          : isStep23
           ? 'Ulm (Württemberg-Baden — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)'
           : isStep21
           ? 'Ulm (Württemberg-Baden — Zona OMGUS / Trizona & Deutsche Mark)'
           : isStep19
           ? 'Ulm (Zona Statunitense OMGUS — Bizona / Württemberg-Baden)'
           : 'Ulm (Zona di Occupazione Statunitense — Württemberg-Baden)',
-        isStep23
+        isStep32
+          ? '31 Dicembre 1955 (Repubblica Federale Tedesca Sovrana · Membro NATO dal 9 Maggio 1955): abolito lo Statuto d\'Occupazione alleato con gli Accordi di Parigi (5 maggio), Ulm (Land Baden-Württemberg) è pienamente integrata nella Repubblica Federale Tedesca sovrana e nell\'Alleanza Atlantica.'
+          : isStep23
           ? 'Dal 23 maggio 1949 Ulm (Württemberg-Baden, ex zona statunitense OMGUS) entra nella Repubblica Federale Tedesca con la Legge Fondamentale di Bonn, in attesa delle prime elezioni del Bundestag (14 agosto 1949) sotto tutela dei Governatori Militari Alleati.'
           : isStep21
           ? 'Città strategica lungo l\'Autobahn A8 nel Land Württemberg-Baden integrata nella Trizona e nel Consiglio Parlamentare di Bonn.'
@@ -8772,7 +8866,9 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? 'Distretto strategico lungo l\'autostrada A8 nel Württemberg-Baden statunitense integrato nella Bizona economica (Vereinigtes Wirtschaftsgebiet).'
           : 'Distretto a sud dell\'autostrada A8 assegnato alla Zona di Occupazione USA.',
         'Alleati',
-        isStep23
+        isStep32
+          ? 'Bundesrepublik Deutschland (Baden-Württemberg · RFT · Piena Sovranità 5 Mag 1955 & 15° Membro NATO 9 Mag 1955)'
+          : isStep23
           ? 'Bundesrepublik Deutschland (Württemberg-Baden · RFT · Governatori Militari Alleati / Pre-Elezioni Ago 1949)'
           : 'Office of Military Government, United States (OMGUS — Württemberg-Baden)'
       );
@@ -8781,14 +8877,18 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE501' || cleanId === 'DE502' || cleanId.startsWith('DE5') || nrm.includes('bremen') || nrm.includes('bremerhaven')) {
       return makeResult(
         isStep23 ? 'BRD' : 'USA',
-        isStep23
+        isStep32
+          ? `Brema — ${label} (Land Bremen · Repubblica Federale Tedesca RFT / BRD, Piena Sovranità · Membro NATO)`
+          : isStep23
           ? `Brema — ${label} (Land Bremen · Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
           : isStep21
           ? `Brema — ${label} (Land Bremen · Enclave OMGUS nella Trizona)`
           : isStep19
           ? `Brema — ${label} (Enclave Portuale Statunitense OMGUS — Bizona)`
           : 'Brema (Bremen — Enclave Portuale della Zona di Occupazione Statunitense)',
-        isStep23
+        isStep32
+          ? '31 Dicembre 1955 (Repubblica Federale Tedesca Sovrana · Membro NATO dal 9 Maggio 1955): con gli Accordi di Parigi (5 maggio 1955) e l\'adesione alla NATO (9 maggio 1955), la Città Libera Anseatica di Brema (Land Bremen) fa parte della RFT pienamente sovrana come principale porto atlantico.'
+          : isStep23
           ? 'Con la Legge Fondamentale di Bonn (23 maggio 1949), la Città Libera Anseatica di Brema (Land Bremen) entra come Land costituente nella Repubblica Federale Tedesca, principale scalo atlantico del Piano Marshall sotto tutela dei Governatori Militari Alleati in attesa delle elezioni federali del 14 agosto 1949.'
           : isStep21
           ? 'Free Hanseatic City of Bremen (Land Bremen costituito il 23 gennaio 1947): sbocco marittimo strategico USA per il Piano Marshall (ERP) e i rifornimenti verso la Trizona.'
@@ -8796,7 +8896,9 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? 'Enclave portuale di Brema e Bremerhaven costituita in Land Bremen nel gennaio 1947 sotto amministrazione OMGUS nella Bizona anglo-americana.'
           : 'Enclave portuale strategica di Brema e Bremerhaven assegnata all\'amministrazione USA come sbocco marittimo sul Mare del Nord.',
         'Alleati',
-        isStep23
+        isStep32
+          ? 'Bundesrepublik Deutschland (Freie Hansestadt Bremen · RFT · Piena Sovranità 5 Mag 1955 & 15° Membro NATO 9 Mag 1955)'
+          : isStep23
           ? 'Bundesrepublik Deutschland (Freie Hansestadt Bremen · RFT · Governatori Militari Alleati)'
           : 'Office of Military Government, United States (OMGUS — Land Bremen)'
       );
@@ -8813,7 +8915,9 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (!isUsBadenWurtt && (cleanId.startsWith('DEB') || cleanId.startsWith('DE1'))) {
       return makeResult(
         isStep23 ? 'BRD' : 'FRA',
-        isStep23
+        isStep32
+          ? `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT Sovrana · NATO & UEO, Maggio 1955)`
+          : isStep23
           ? `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
           : isStep22
           ? `${label} (${landInfo.land} — Zone Française / Trizona & Consiglio di Bonn, Dicembre 1948)`
@@ -8822,7 +8926,9 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           : isStep19
           ? `${label} (${landInfo.land} — Zone d'Occupation Française GMZFO, fuori dalla Bizona)`
           : `${label} (${landInfo.land} — Zone d'Occupation Française GMZFO)`,
-        isStep23
+        isStep32
+          ? `${landInfo.detail} Con l'entrata in vigore degli Accordi di Parigi il 5 maggio 1955 cessa lo Statuto d'Occupazione alleato (AHK) e la Repubblica Federale Tedesca riacquista la piena sovranità statale, aderendo all'UEO (6 maggio) e alla NATO come 15° membro (9 maggio; costituzione della Bundeswehr il 12 novembre 1955).`
+          : isStep23
           ? `${landInfo.detail} Con la promulgazione della Legge Fondamentale di Bonn (23 maggio 1949), i Länder dell'ex zona francese confluiscono con le zone britannica e americana nella Repubblica Federale Tedesca (RFT / BRD), preparandosi alle prime elezioni del Bundestag (14 agosto 1949) sotto tutela transitoria dei Governatori Militari Alleati (il Protettorato della Saar resta separato).`
           : isStep22
           ? `${landInfo.detail} Al 31 dicembre 1948 i rappresentanti del Land partecipano al Consiglio Parlamentare di Bonn (Parlamentarischer Rat sotto Konrad Adenauer) nella Trizona (nessuna RFT prima del maggio 1949).`
@@ -8832,7 +8938,11 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? `${landInfo.detail} Territorio nella Zona di Occupazione Francese (Gen. Kœnig), ancora esterna alla Bizona anglo-americana al settembre 1947.`
           : `${landInfo.detail} Zona di occupazione militare francese in Germania (GMZFO).`,
         'Alleati',
-        isStep23
+        isStep32
+          ? `Bundesrepublik Deutschland (${landInfo.land} · Piena Sovranità 5 Mag & 15° Membro NATO 9 Mag 1955)`
+          : isStep31
+          ? `Bundesrepublik Deutschland (${landInfo.land} · Accordi di Parigi 23 Ott 1954 — AHK Ancora Attiva, Pre-NATO 1955)`
+          : isStep23
           ? `Bundesrepublik Deutschland (${landInfo.land} · RFT · Governatori Militari / Pre-Elezioni 14 Ago 1949)`
           : isStep22
           ? `GMZFO (${landInfo.land}) · Trizona & Parlamentarischer Rat di Bonn (Dic 1948)`
@@ -8854,7 +8964,15 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
       const isBonnCapital = cleanId === 'DEA22' || nrm.includes('bonn');
       return makeResult(
         isStep23 ? 'BRD' : 'UK',
-        isStep23
+        isStep34
+          ? isBonnCapital
+            ? `Bonn (${landInfo.land} — Capitale RFT · Reintegrazione Saar 1° Gen, Trattati di Roma 25 Mar & Trionfo Elettorale Adenauer 15 Set 1957)`
+            : `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT · Reintegrazione Saarland & CEE 1957)`
+          : isStep32
+          ? isBonnCapital
+            ? `Bonn (${landInfo.land} — Capitale RFT Sovrana · Accordi di Parigi 5 Mag & NATO 9 Mag 1955)`
+            : `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT Sovrana · NATO & UEO, Maggio 1955)`
+          : isStep23
           ? isBonnCapital
             ? `Bonn (${landInfo.land} — Capitale Provvisoria della Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
             : `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
@@ -8865,7 +8983,15 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           : isStep19
           ? `${label} (${landInfo.land} — British Occupation Zone CCG/BE / Bizona)`
           : `${label} (${landInfo.land} — British Occupation Zone CCG/BE)`,
-        isStep24
+        isStep34
+          ? isBonnCapital
+            ? `${landInfo.detail} Nel 1957 la Repubblica Federale Tedesca integra il Saarland come 10° Land (1° gennaio 1957), sottoscrive i Trattati di Roma istitutivi di CEE ed Euratom (25 marzo 1957) e riconferma il Cancelliere Konrad Adenauer con la storica maggioranza assoluta CDU/CSU alle elezioni del 15 settembre 1957.`
+            : `${landInfo.detail} Nel 1957 la Repubblica Federale Tedesca accoglie il Saarland come 10° Land (1° gennaio), co-fonda CEE ed Euratom con i Trattati di Roma (25 marzo) e riconferma Konrad Adenauer alle elezioni federali del 15 settembre 1957.`
+          : isStep32
+          ? isBonnCapital
+            ? `${landInfo.detail} Con l'entrata in vigore degli Accordi di Parigi (5 maggio 1955) cessa lo Statuto d'Occupazione alleato (AHK) e Bonn è capitale della Repubblica Federale Tedesca pienamente sovrana (Cancelliere Konrad Adenauer), accolta nella UEO (6 maggio) e nella NATO (9 maggio 1955; Bundeswehr istituita il 12 novembre).`
+            : `${landInfo.detail} Con l'entrata in vigore degli Accordi di Parigi il 5 maggio 1955 cessa lo Statuto d'Occupazione (AHK) e la Repubblica Federale Tedesca riacquista la piena sovranità, entrando nella UEO (6 maggio) e nella NATO come 15° membro (9 maggio 1955; Bundeswehr 12 novembre).`
+          : isStep24
           ? isBonnCapital
             ? `${landInfo.detail} Il 12 settembre Theodor Heuss è eletto Presidente Federale, il 15 settembre Konrad Adenauer diventa Cancelliere e il 3 novembre 1949 il Bundestag conferma definitivamente Bonn capitale provvisoria della Repubblica Federale Tedesca (Accordi del Petersberg con l'Alta Commissione Alleata AHK il 22 novembre 1949).`
             : `${landInfo.detail} Al 31 dicembre 1949 il Land fa parte della Repubblica Federale Tedesca sotto il primo governo Adenauer (eletto dopo il voto del 14 agosto 1949) e l'Alta Commissione Alleata AHK (Statuto d'Occupazione del 21 settembre e Accordi del Petersberg del 22 novembre 1949).`
@@ -8881,7 +9007,11 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? `${landInfo.detail} Integrata dal 1° gennaio 1947 con la zona statunitense nella Bizona economica (Vereinigtes Wirtschaftsgebiet).`
           : `${landInfo.detail} Zona di occupazione britannica in Germania (Control Commission for Germany — British Element).`,
         'Alleati',
-        isStep23
+        isStep32
+          ? `Bundesrepublik Deutschland (${landInfo.land}${isBonnCapital ? ' · Capitale Bonn' : ''} · Piena Sovranità 5 Mag & 15° Membro NATO 9 Mag 1955)`
+          : isStep31
+          ? `Bundesrepublik Deutschland (${landInfo.land}${isBonnCapital ? ' · Capitale Provvisoria Bonn' : ''} · Accordi di Parigi 23 Ott 1954 — AHK Ancora Attiva, Pre-NATO 1955)`
+          : isStep23
           ? `Bundesrepublik Deutschland (${landInfo.land}${isBonnCapital ? ' · Capitale Provvisoria Bonn' : ''} · Governatori Militari / Pre-Elezioni 14 Ago 1949)`
           : isStep22
           ? `Control Commission for Germany — British Element (${landInfo.land} · Trizona & Bonn, Dic 1948)`
@@ -8897,7 +9027,9 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     if (cleanId === 'DE212' || cleanId.startsWith('DE2') || cleanId.startsWith('DE7') || isUsBadenWurtt) {
       return makeResult(
         isStep23 ? 'BRD' : 'USA',
-        isStep23
+        isStep32
+          ? `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT Sovrana · NATO & UEO, Maggio 1955)`
+          : isStep23
           ? `${label} (${landInfo.land} — Repubblica Federale Tedesca RFT / BRD, 23 Maggio 1949)`
           : isStep22
           ? `${label} (${landInfo.land} — US Zone OMGUS / Trizona, Bonn & Ponte Aereo, Dicembre 1948)`
@@ -8906,7 +9038,9 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           : isStep19
           ? `${label} (${landInfo.land} — US Occupation Zone OMGUS / Bizona)`
           : `${label} (${landInfo.land} — US Occupation Zone OMGUS)`,
-        isStep23
+        isStep32
+          ? `${landInfo.detail} Con l'entrata in vigore degli Accordi di Parigi il 5 maggio 1955 cessa lo Statuto d'Occupazione alleato (AHK) e la Repubblica Federale Tedesca riacquista la piena sovranità, entrando nell'UEO (6 maggio) e nella NATO come 15° membro (9 maggio 1955; costituzione della Bundeswehr il 12 novembre).`
+          : isStep23
           ? `${landInfo.detail} Con la promulgazione della Legge Fondamentale (Grundgesetz) il 23 maggio 1949, i Länder dell'ex zona statunitense si fondono con le zone britannica e francese nella Repubblica Federale Tedesca (capitale provvisoria Bonn), preparando le elezioni federali del 14 agosto 1949 sotto i Governatori Militari Alleati in attesa dell'entrata in vigore dello Statuto d'Occupazione a settembre.`
           : isStep22
           ? `${landInfo.detail} Al 31 dicembre 1948 gli aeroporti dell'OMGUS alimentano il Ponte Aereo invernale verso Berlino Ovest mentre i Länder redigono a Bonn la Legge Fondamentale nella Trizona (nessuna RFT ancora istituita).`
@@ -8916,7 +9050,11 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? `${landInfo.detail} Parte del Consiglio Economico di Francoforte (Wirtschaftsrat) nella Bizona anglo-americana istituita il 1° gennaio 1947.`
           : `${landInfo.detail} Zona di occupazione statunitense in Germania (OMGUS).`,
         'Alleati',
-        isStep24
+        isStep32
+          ? `Bundesrepublik Deutschland (${landInfo.land} · Piena Sovranità 5 Mag & 15° Membro NATO 9 Mag 1955)`
+          : isStep31
+          ? `Bundesrepublik Deutschland (${landInfo.land} · Accordi di Parigi 23 Ott 1954 — AHK Ancora Attiva, Pre-NATO 1955)`
+          : isStep24
           ? `Bundesrepublik Deutschland (${landInfo.land} · Governo Adenauer & AHK · Accordi Petersberg, Dic 1949)`
           : isStep23
           ? `Bundesrepublik Deutschland (${landInfo.land} · Governatori Militari / Pre-Elezioni 14 Ago 1949)`
@@ -8941,7 +9079,13 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
     ) {
       return makeResult(
         isStep24 ? 'DDR' : 'SOV',
-        isStep24
+        isStep32
+          ? `${label} (${landInfo.land} — Repubblica Democratica Tedesca RDT / DDR · Patto di Varsavia 14 Mag & Trattato Sovranità URSS 20 Set 1955)`
+          : isStep31
+          ? `${label} (${landInfo.land} — Repubblica Democratica Tedesca RDT / DDR · Dichiarazione Sovranità URSS 1954, Pre-Varsavia 1955)`
+          : isStep30
+          ? `${label} (${landInfo.land} — Repubblica Democratica Tedesca RDT / DDR · Rivolta del 17 Giugno 1953 & Rinuncia Riparazioni URSS)`
+          : isStep24
           ? `${label} (${landInfo.land} — Repubblica Democratica Tedesca RDT / DDR, 7 Ottobre 1949)`
           : isStep23
           ? `${label} (${landInfo.land} — Zona d'Occupazione Sovietica SBZ · SMAD & DWK, Giugno 1949)`
@@ -8950,7 +9094,13 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           : isStep19
           ? `${label} (${landInfo.land} — Sowjetische Besatzungszone SBZ · SMAD / DWK)`
           : `${label} (${landInfo.land} — Sowjetische Besatzungszone SBZ)`,
-        isStep24
+        isStep32
+          ? `${landInfo.detail} Il 14 maggio 1955 la RDT è cofondatrice del Patto di Varsavia; il 20 settembre 1955 URSS e RDT firmano a Mosca il Trattato sulle relazioni reciproche che sopprime l'Alta Commissione Sovietica e riconosce formalmente la piena sovranità della Germania Est (mantenendo le truppe sovietiche in RDT su base pattizia).`
+          : isStep31
+          ? `${landInfo.detail} Dal 1° gennaio 1954 cessano le riparazioni di guerra verso l'URSS e il 25 marzo 1954 Mosca dichiara formalmente la sovranità della RDT, restando però stazionate le truppe sovietiche (nessun Patto di Varsavia prima del 14 maggio 1955).`
+          : isStep30
+          ? `${landInfo.detail} Il 17 giugno 1953 l'insurrezione operaia di Berlino Est si propaga ai centri industriali della RDT (Halle, Lipsia, Magdeburgo, Jena, Görlitz), venendo repressa dall'Armata Sovietica; il 22 agosto 1953 Mosca annuncia la cessazione delle riparazioni di guerra dal 1° gennaio 1954.`
+          : isStep24
           ? `${landInfo.detail} Il 7 ottobre 1949 cessa la Zona d'Occupazione Sovietica (SBZ) con la proclamazione a Berlino Est della Repubblica Democratica Tedesca (RDT / DDR; Presidente Wilhelm Pieck, Primo Ministro Otto Grotewohl, SED Walter Ulbricht), con trasferimento delle funzioni civili dalla SMAD alla Repubblica sotto supervisione della Commissione di Controllo Sovietica (SKK, gen. Vasilij Čujkov).`
           : isStep23
           ? `${landInfo.detail} Al 30 giugno 1949, dopo la nascita della RFT ad ovest e la fine del Blocco di Berlino (12 maggio), la Germania orientale resta ancora Zona d'Occupazione Sovietica (SBZ) amministrata dalla SMAD del Gen. Vasilij Čujkov, dalla DWK e dal 3° Congresso Popolare/Volksrat guidato dalla SED (la RDT verrà proclamata solo il 7 ottobre 1949).`
@@ -8960,7 +9110,13 @@ export function resolveGermanyProvince(feature: any, step: number): ResolvedTerr
           ? `${landInfo.detail} Zona Sovietica sotto SMAD e Deutsche Wirtschaftskommission (DWK, giugno 1947): nazionalizzazioni industriali e consolidamento del potere della SED.`
           : `${landInfo.detail} Zona di occupazione sovietica in Germania (Sowjetische Militäradministration in Deutschland — SMAD).`,
         'Comintern',
-        isStep24
+        isStep32
+          ? `Deutsche Demokratische Republik (${landInfo.land} · Patto di Varsavia 14 Mag & Piena Sovranità 20 Set 1955)`
+          : isStep31
+          ? `Deutsche Demokratische Republik (${landInfo.land} · Sovranità Dichiarata URSS Mar 1954 · Pre-Patto di Varsavia Mag 1955)`
+          : isStep30
+          ? `Deutsche Demokratische Republik (${landInfo.land} · Rivolta 17 Giu & Alto Comm. URSS V. Semënov, Dic 1953)`
+          : isStep24
           ? `Deutsche Demokratische Republik (${landInfo.land} · RDT / DDR · SKK, Dic 1949)`
           : isStep23
           ? `Sowjetische Besatzungszone SBZ (SMAD / DWK · ${landInfo.land} — Giugno 1949 · Pre-RDT)`
